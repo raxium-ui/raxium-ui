@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "packageManager": "pnpm@10.13.1",
-  "description": "Shared utilities for Raxium UI",
+  "description": "Shared utilities for Raxium",
   "author": {
     "name": "Hwacc",
     "email": "mshcccck@gmail.com",

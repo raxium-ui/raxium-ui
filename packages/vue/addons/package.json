@@ -2,7 +2,7 @@
   "name": "@raxium/vue-addons",
   "private": true,
   "packageManager": "pnpm@10.13.1",
-  "description": "Vue addons for Raxium UI",
+  "description": "Vue addons for Raxium",
   "author": {
     "name": "Hwacc",
     "email": "mshcccck@gmail.com",

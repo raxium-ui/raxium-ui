@@ -2,7 +2,7 @@
   "name": "@raxium/vue-addons-u-murri",
   "version": "0.1.0",
   "packageManager": "pnpm@10.13.1",
-  "description": "Murri composable for Raxium UI",
+  "description": "Murri composable for Raxium",
   "author": {
     "name": "Hwacc",
     "email": "mshcccck@gmail.com",

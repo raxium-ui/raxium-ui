@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@10.28.2",
-  "description": "Bun + Fastify API server for Raxium UI MCP-compatible endpoints",
+  "description": "Bun + Fastify API server for Raxium MCP-compatible endpoints",
   "engines": {
     "bun": ">=1.1.0"
   },

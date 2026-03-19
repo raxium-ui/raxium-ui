@@ -1,7 +1,7 @@
 {
   "name": "root",
   "packageManager": "pnpm@10.28.2",
-  "description": "Raxium UI is a UI library built on top of Ark UI and Tailwind CSS. It inherits all the modern, flexible, and accessible features of Ark UI, while further simplifying the complexity of building components. On top of that, it introduces additional practical features to enhance the development experience. With the power of Tailwind CSS, you can easily implement any design system you envision.",
+  "description": "Raxium is a UI library built on top of Ark UI and Tailwind CSS. It inherits all the modern, flexible, and accessible features of Ark UI, while further simplifying the complexity of building components. On top of that, it introduces additional practical features to enhance the development experience. With the power of Tailwind CSS, you can easily implement any design system you envision.",
   "author": "Hwacc(mshcccck@gmail.com)",
   "license": "MIT",
   "url": "https://github.com/raxium-ui/raxium-ui",

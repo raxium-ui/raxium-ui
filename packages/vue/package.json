@@ -2,7 +2,7 @@
   "name": "@raxium/vue-storybook",
   "type": "module",
   "private": true,
-  "description": "Vue stories for Raxium UI",
+  "description": "Vue stories for Raxium",
   "author": {
     "name": "Hwacc",
     "email": "mshcccck@gmail.com",

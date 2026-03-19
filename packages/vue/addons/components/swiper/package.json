@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "packageManager": "pnpm@10.13.1",
-  "description": "Swiper components for Raxium UI",
+  "description": "Swiper components for Raxium",
   "author": {
     "name": "Hwacc",
     "email": "mshcccck@gmail.com",
