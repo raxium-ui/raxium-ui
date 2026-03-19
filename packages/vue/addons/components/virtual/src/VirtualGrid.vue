@@ -1,5 +1,5 @@
 <script lang="ts" generic="T" setup>
-import type { HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
 import type { VirtualGridProps } from '.'
 import { VirtualRoot } from '.'
 import VirtualGridImpl from './VirtualGridImpl.vue'
@@ -8,10 +8,10 @@ const props = defineProps<
   VirtualGridProps<T> & {
     ui?: {
       viewport?: {
-        class?: HTMLAttributes['class']
+        class?: ClassNameValue
       }
       scroll?: {
-        class?: HTMLAttributes['class']
+        class?: ClassNameValue
       }
     }
   }
@@ -21,7 +21,7 @@ defineSlots<{ default: () => any }>()
 
 <template>
   <VirtualRoot>
-    <VirtualGridImpl v-bind="{ ...props, ...$attrs }">
+    <VirtualGridImpl v-bind="{ ...props, ...$attrs as any }">
       <slot />
     </VirtualGridImpl>
   </VirtualRoot>

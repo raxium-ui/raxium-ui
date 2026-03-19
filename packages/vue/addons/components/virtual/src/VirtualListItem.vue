@@ -1,5 +1,5 @@
 <script lang="ts" generic="T" setup>
-import type { HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
 import { twMerge } from 'tailwind-merge'
 import { useTemplateRef, watch } from 'vue'
 import { injectVirtualContext } from './VirtualRoot'
@@ -8,7 +8,7 @@ defineOptions({
   name: 'VirtualListItem',
 })
 const { class: propsClass, data, dynamic, index } = defineProps<{
-  class?: HTMLAttributes['class']
+  class?: ClassNameValue
   data?: T
   dynamic?: boolean
   index?: number

@@ -17,6 +17,7 @@ export default defineConfig({
         './src/*',
         '!./src/examples/**',
         '!./src/virtual.stories.ts',
+        '!./src/virtual.doc.mdx',
       ],
     },
   },

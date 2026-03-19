@@ -6,6 +6,7 @@ import type {
   SwiperEvents,
   SwiperOptions,
 } from 'swiper/types'
+import type { ClassNameValue } from 'tailwind-merge'
 import type { HTMLAttributes } from 'vue'
 
 export type { Swiper, SwiperEvents, SwiperOptions } from 'swiper/types'
@@ -46,17 +47,17 @@ export interface SwiperSlots {
 
 export interface SwiperNavigationProps
   extends Omit<NavigationOptions, 'enabled' | 'nextEl' | 'prevEl'> {
-  class?: HTMLAttributes['class']
+  class?: ClassNameValue
   swiper?: Swiper
 }
 
 export interface SwiperPaginationProps extends Omit<PaginationOptions, 'type' | 'enabled' | 'el'> {
   type: PaginationOptions['type'] | 'autoplay-bullets'
-  class?: HTMLAttributes['class']
+  class?: ClassNameValue
   swiper?: Swiper
 }
 
 export interface SwiperScrollbarProps extends Omit<ScrollbarOptions, 'enabled' | 'el'> {
-  class?: HTMLAttributes['class']
+  class?: ClassNameValue
   swiper?: Swiper
 }

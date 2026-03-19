@@ -1,6 +1,6 @@
 <script lang="ts" generic="T" setup>
 import type { Virtualizer } from '@tanstack/vue-virtual'
-import type { HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
 import type { VirtualListProps } from '.'
 import { useForwardExpose } from '@raxium/vue-addons-shared'
 import { ref } from 'vue'
@@ -12,10 +12,10 @@ const props = defineProps<
     unstyled?: boolean
     ui?: {
       viewport?: {
-        class?: HTMLAttributes['class']
+        class?: ClassNameValue
       }
       scroll?: {
-        class?: HTMLAttributes['class']
+        class?: ClassNameValue
       }
     }
   }
@@ -35,7 +35,7 @@ const { forwardRef } = useForwardExpose()
 <template>
   <VirtualRoot>
     <VirtualListImpl
-      v-bind="{ ...props, ...$attrs }"
+      v-bind="{ ...props, ...$attrs as any }"
       :ref="
         (innerExpose) => {
           virtualizer = (innerExpose as any)?.virtualizer ?? null

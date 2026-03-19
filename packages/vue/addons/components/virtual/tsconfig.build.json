@@ -3,14 +3,12 @@
   "compilerOptions": {
     "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
     "rootDir": "./src",
+    "paths": {},
     "declaration": true,
     "declarationMap": false,
     "emitDeclarationOnly": true,
     "noEmit": false,
     "outDir": "./dist"
-  },
-  "paths": {
-    "@raxium/vue-addons-shared": ["../../shared/src"]
   },
   "include": [
     "src/**/*.ts",

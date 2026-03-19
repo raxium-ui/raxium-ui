@@ -46,6 +46,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.0",
     "tailwind-variants": "^3.2.2",
     "tailwindcss-animated": "^2.0.0",

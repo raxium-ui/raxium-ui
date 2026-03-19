@@ -1,5 +1,5 @@
 <script lang="ts" generic="T" setup>
-import type { HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
 import type { VirtualListProps } from '.'
 import { useForwardProps } from '@raxium/vue-addons-shared'
 import { useVirtualizer } from '@tanstack/vue-virtual'
@@ -16,10 +16,10 @@ const {
   ...props
 } = defineProps<
   VirtualListProps<T> & {
-    class?: HTMLAttributes['class']
+    class?: ClassNameValue
     ui?: {
-      root?: HTMLAttributes['class']
-      scroll?: HTMLAttributes['class']
+      root?: ClassNameValue
+      scroll?: ClassNameValue
     }
   }
 >()

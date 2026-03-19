@@ -1,5 +1,6 @@
 <script setup generic="T" lang="ts">
-import type { ComponentPublicInstance, HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
+import type { ComponentPublicInstance } from 'vue'
 import type { VirtualGridProps } from '.'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { merge } from 'es-toolkit/compat'
@@ -18,10 +19,10 @@ const {
   columnVirtualizerOptions,
 } = defineProps<
   VirtualGridProps<T> & {
-    class?: HTMLAttributes['class']
+    class?: ClassNameValue
     ui?: {
-      root?: HTMLAttributes['class']
-      scroll?: HTMLAttributes['class']
+      root?: ClassNameValue
+      scroll?: ClassNameValue
     }
   }
 >()

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { HTMLAttributes } from 'vue'
+import type { ClassNameValue } from 'tailwind-merge'
 import type { LoadingStateHandler } from '.'
 import { useForwardExpose } from '@raxium/vue-addons-shared'
 import { LoaderCircle } from 'lucide-vue-next'
@@ -16,16 +16,16 @@ const {
   enableRetry = true,
   size = 'base',
 } = defineProps<{
-  class?: HTMLAttributes['class']
+  class?: ClassNameValue
   enableFirstLoad?: boolean
   enableRetry?: boolean
   size?: 'xs' | 'sm' | 'base' | 'lg'
   ui?: {
-    root?: HTMLAttributes['class']
-    loading?: HTMLAttributes['class']
-    spinner?: HTMLAttributes['class']
-    complete?: HTMLAttributes['class']
-    error?: HTMLAttributes['class']
+    root?: ClassNameValue
+    loading?: ClassNameValue
+    spinner?: ClassNameValue
+    complete?: ClassNameValue
+    error?: ClassNameValue
   }
 }>()
 

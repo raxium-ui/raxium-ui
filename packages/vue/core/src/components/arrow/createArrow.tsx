@@ -17,10 +17,10 @@ export function createArrow(
   ArrowTipNode: DefineComponent<any, any, any>,
 ) {
   return defineComponent<ArrowProps>({
-    name: ArrowNode.__name,
+    name: ArrowNode.__name ?? 'Arrow',
     props: {
       class: {
-        type: String as HTMLAttributes['class'],
+        type: [String, Array, Object] as PropType<HTMLAttributes['class']>,
       },
       ui: {
         type: Object as PropType<{
@@ -32,7 +32,7 @@ export function createArrow(
         type: Object as PropType<ThemeProps>,
       },
     },
-    setup(props) {
+    setup(props: ArrowProps) {
       const theme = useTheme(() => props.theme)
       const arrowSize = computed(() => {
         switch (theme.value.size) {
