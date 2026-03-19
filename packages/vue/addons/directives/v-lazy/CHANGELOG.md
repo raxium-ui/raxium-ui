@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.1
+
+### Patch Changes
+
+- 60e8345: PUBLISH FIRST VERSION
+
 ## 1.1.1
 
 ### Patch Changes
