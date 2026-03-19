@@ -3,6 +3,7 @@ import type { CheckboxRootEmits, UseCheckboxProps, UseCheckboxReturn } from '@ar
 import type { CheckboxProps, CheckedState } from './props'
 import { Checkbox, useCheckbox } from '@ark-ui/vue/checkbox'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Check, Minus } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -29,32 +30,26 @@ useForwardExpose()
 <template>
   <Checkbox.RootProvider
     :value="checkbox"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
   >
-    <Checkbox.Control :class="crafts.control({ class: ui?.control, ...theme })">
-      <Checkbox.Indicator :class="crafts.indicator({ class: ui?.indicator, ...theme })">
-        <slot
-          name="indicator"
-          v-bind="{ checkedState: checkbox.checkedState }"
-        >
+    <Checkbox.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
+      <Checkbox.Indicator :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })">
+        <slot name="indicator" v-bind="{ checkedState: checkbox.checkedState }">
           <Check :class="crafts.indicatorChecked({ ...theme })" />
         </slot>
       </Checkbox.Indicator>
       <Checkbox.Indicator
-        :class="crafts.indicator({ class: ui?.indicator, ...theme })"
+        :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })"
         indeterminate
       >
-        <slot
-          name="indicator"
-          v-bind="{ checkedState: checkbox.checkedState }"
-        >
+        <slot name="indicator" v-bind="{ checkedState: checkbox.checkedState }">
           <Minus :class="crafts.indicatorMinus({ ...theme })" />
         </slot>
       </Checkbox.Indicator>
     </Checkbox.Control>
     <Checkbox.Label
       v-if="label || slots.label?.()"
-      :class="crafts.label({ class: ui?.label, ...theme })"
+      :class="crafts.label({ class: clsx(ui?.label), ...theme })"
       :as-child="!!label"
     >
       <slot name="label">

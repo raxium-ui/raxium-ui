@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ClassNameValue } from 'tailwind-merge'
+import type { HTMLAttributes } from 'vue'
 import type { LoadingStateHandler } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useForwardExpose } from '@raxium/vue-addons-shared'
 import { LoaderCircle } from 'lucide-vue-next'
-import { twMerge } from 'tailwind-merge'
 import { onMounted, onUnmounted, shallowRef } from 'vue'
 import { injectVirtualContext, LOADING_STATE } from '.'
 
@@ -16,16 +16,16 @@ const {
   enableRetry = true,
   size = 'base',
 } = defineProps<{
-  class?: ClassNameValue
+  class?: HTMLAttributes['class']
   enableFirstLoad?: boolean
   enableRetry?: boolean
   size?: 'xs' | 'sm' | 'base' | 'lg'
   ui?: {
-    root?: ClassNameValue
-    loading?: ClassNameValue
-    spinner?: ClassNameValue
-    complete?: ClassNameValue
-    error?: ClassNameValue
+    root?: HTMLAttributes['class']
+    loading?: HTMLAttributes['class']
+    spinner?: HTMLAttributes['class']
+    complete?: HTMLAttributes['class']
+    error?: HTMLAttributes['class']
   }
 }>()
 
@@ -96,24 +96,21 @@ onUnmounted(() => {
         forwardRef(el)
       }
     "
-    :class="twMerge('rui-virtual-infinite', ui?.root, propsClass)"
+    :class="cn('rui-virtual-infinite', ui?.root, propsClass)"
     data-scope="virtual-infinite"
     data-part="root"
     :data-size="size"
   >
-    <slot
-      v-if="state === 'loading'"
-      name="loading"
-    >
+    <slot v-if="state === 'loading'" name="loading">
       <div
-        :class="twMerge('rui-virtual-infinite_loading', ui?.loading)"
+        :class="cn('rui-virtual-infinite_loading', ui?.loading)"
         data-scope="virtual-infinite"
         data-part="loading"
         :data-size="size"
       >
         <slot name="spinner">
           <LoaderCircle
-            :class="twMerge('rui-virtual-infinite_spinner', ui?.spinner)"
+            :class="cn('rui-virtual-infinite_spinner', ui?.spinner)"
             data-scope="virtual-infinite"
             data-part="spinner"
             :data-size="size"
@@ -121,12 +118,9 @@ onUnmounted(() => {
         </slot>
       </div>
     </slot>
-    <slot
-      v-else-if="state === 'complete'"
-      name="complete"
-    >
+    <slot v-else-if="state === 'complete'" name="complete">
       <div
-        :class="twMerge('rui-virtual-infinite_complete', ui?.complete)"
+        :class="cn('rui-virtual-infinite_complete', ui?.complete)"
         data-scope="virtual-infinite"
         data-part="complete"
         :data-size="size"
@@ -134,23 +128,15 @@ onUnmounted(() => {
         No more results!
       </div>
     </slot>
-    <slot
-      v-else-if="state === 'error'"
-      name="error"
-      :retry="doInfinite"
-    >
+    <slot v-else-if="state === 'error'" name="error" :retry="doInfinite">
       <div
-        :class="twMerge('rui-virtual-infinite_error', ui?.error)"
+        :class="cn('rui-virtual-infinite_error', ui?.error)"
         data-scope="virtual-infinite"
         data-part="error"
         :data-size="size"
       >
         <span>Oops something went wrong!</span>
-        <button
-          v-if="enableRetry"
-          class="retry"
-          @click="doInfinite"
-        >
+        <button v-if="enableRetry" class="retry" @click="doInfinite">
           retry
         </button>
       </div>

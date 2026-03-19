@@ -2,6 +2,7 @@
 import type { TabsContentProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Tabs } from '@ark-ui/vue/tabs'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, ref, watch } from 'vue'
 import { injectTabsContextEx } from './TabsProviderEx.vue'
@@ -23,7 +24,7 @@ const crafts = computed(() => theme.value.crafts.tvTabs())
   <Tabs.Content
     v-bind="forwarded"
     :class="crafts.content({
-      class: [propsClass],
+      class: clsx(propsClass),
       prev: direction < 0,
       next: direction > 0,
       ...theme,

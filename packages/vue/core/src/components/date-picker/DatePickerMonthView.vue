@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DatePickerContentProvide, DatePickerMonthViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
@@ -34,7 +35,7 @@ const crafts = computed(() => theme.value.crafts.tvDatePickerView())
 <template>
   <DatePicker.View
     view="month"
-    :class="crafts.view({ class: propsClass, ...theme })"
+    :class="crafts.view({ class: clsx(propsClass), ...theme })"
   >
     <DatePicker.ViewControl :class="crafts.viewControl({ ...theme })">
       <DatePicker.PrevTrigger

@@ -2,6 +2,7 @@
 import type { PaginationPageSizeProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
 import { createListCollection } from '@ark-ui/vue/collection'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { uniq } from 'es-toolkit'
 import { computed, ref, watch } from 'vue'
@@ -32,7 +33,7 @@ const crafts = computed(() => theme.value.crafts.tvPaginationPageSize())
 
 <template>
   <div
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
     data-scope="pagination"
     data-part="page-size"
   >
@@ -41,20 +42,20 @@ const crafts = computed(() => theme.value.crafts.tvPaginationPageSize())
       v-bind="theme"
       v-model="modelValue"
       :collection="collection"
-      :class="crafts.control({ class: ui?.control, ...theme })"
+      :class="crafts.control({ class: clsx(ui?.control), ...theme })"
     >
-      <SelectTrigger :class="crafts.trigger({ class: ui?.trigger, ...theme })">
+      <SelectTrigger :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })">
         <SelectValue
-          :class="crafts.value({ class: ui?.value, ...theme })"
+          :class="crafts.value({ class: clsx(ui?.value), ...theme })"
           :placeholder="placeholder ?? 'Page size'"
         />
       </SelectTrigger>
-      <SelectContent :class="crafts.content({ class: ui?.content, ...theme })">
+      <SelectContent :class="crafts.content({ class: clsx(ui?.content), ...theme })">
         <SelectItem
           v-for="item in collection.items"
           :key="item.value"
           :item="item"
-          :class="crafts.item({ class: ui?.item, ...theme })"
+          :class="crafts.item({ class: clsx(ui?.item), ...theme })"
         >
           {{ item.label }}
           <template #indicator>

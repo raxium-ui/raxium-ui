@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { InputProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useVModel } from '@vueuse/core'
 import { CircleX } from 'lucide-vue-next'
@@ -63,7 +64,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
 <template>
   <ark.div
     :as-child="false"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
     :data-state="inputState"
   >
     <slot name="prefix" />
@@ -71,7 +72,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
       :id="id ?? inputId"
       ref="input"
       v-model="modelValue"
-      :class="crafts.input({ class: [ui?.input], ...theme })"
+      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
       :placeholder="placeholder"
       :data-state="inputState"
       :disabled="disabled ? true : undefined"
@@ -89,7 +90,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
     >
     <ark.div
       v-if="inputState === 'focused' && clearable && modelValue"
-      :class="crafts.clearable({ class: ui?.clearable, ...theme })"
+      :class="crafts.clearable({ class: clsx(ui?.clearable), ...theme })"
       @mousedown.stop="
         () => {
           rejectBlur = true

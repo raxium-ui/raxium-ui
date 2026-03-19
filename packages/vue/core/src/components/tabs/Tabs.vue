@@ -3,6 +3,7 @@ import type { TabsRootEmits } from '@ark-ui/vue/tabs'
 import type { TabsProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Tabs, useTabs } from '@ark-ui/vue/tabs'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed, useTemplateRef } from 'vue'
@@ -43,7 +44,7 @@ useForwardExpose()
     :value="tabs"
     :lazy-mount="forwarded.lazyMount"
     :unmount-on-exit="forwarded.unmountOnExit"
-    :class="crafts.root({ class: [propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(propsClass), ...theme })"
   >
     <TabsProviderEx
       :value="{

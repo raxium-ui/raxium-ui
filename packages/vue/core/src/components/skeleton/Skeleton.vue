@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SkeletonProps } from '.'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -17,7 +18,7 @@ const crafts = computed(() => theme.value.crafts)
 
 <template>
   <div
-    :class="crafts.tvSkeleton({ class: [propsClass], variant, shape, ...theme })"
+    :class="crafts.tvSkeleton({ class: clsx(propsClass), variant, shape, ...theme })"
     :data-shape="shape"
     :data-variant="variant"
   >

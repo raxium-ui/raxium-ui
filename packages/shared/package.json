@@ -42,6 +42,9 @@
   "files": [
     "dist"
   ],
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"

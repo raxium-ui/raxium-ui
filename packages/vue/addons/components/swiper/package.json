@@ -38,17 +38,17 @@
   },
   "dependencies": {
     "@raxium/shared": "workspace:*",
+    "@raxium/themes": "workspace:*",
     "@raxium/vue-addons-shared": "workspace:*",
     "es-toolkit": "^1.44.0",
     "lucide-vue-next": "^0.563.0",
-    "swiper": "^12.1.2",
-    "tailwind-merge": "^3.4.0"
+    "swiper": "^12.1.2"
   },
   "devDependencies": {
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
-    "@rslib/core": "0.19.4",
-    "rsbuild-plugin-unplugin-vue": "^0.1.0",
+    "@rslib/core": "0.20.0",
+    "rsbuild-plugin-unplugin-vue": "^0.2.0",
     "tsc-alias": "^1.8.16",
     "vue-tsc": "^3.2.5"
   },

@@ -3,6 +3,7 @@ import type { UseRadioGroupProps } from '@ark-ui/vue/radio-group'
 import type { RadioGroupProps, RadioGroupRootEmits } from '.'
 import { RadioGroup, useRadioGroup } from '@ark-ui/vue/radio-group'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -23,7 +24,7 @@ useForwardExpose()
 <template>
   <RadioGroup.RootProvider
     :value="radioGroup"
-    :class="crafts.root({ class: [propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(propsClass), ...theme })"
   >
     <ThemeProvider :value="theme">
       <slot name="label" />

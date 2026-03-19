@@ -4,6 +4,7 @@ import type { EditableProps } from '.'
 import { EditableArea, EditableRootProvider, useEditable } from '@ark-ui/vue/editable'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { findUp } from '@raxium/shared/dom'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -73,14 +74,14 @@ useForwardExpose()
 <template>
   <EditableRootProvider
     :value="editable"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <ThemeProvider :value="theme">
       <slot
         name="prefix"
         v-bind="slotProps"
       />
-      <EditableArea :class="crafts.area({ class: [ui?.area, propsClass], ...theme })">
+      <EditableArea :class="crafts.area({ class: clsx(ui?.area, propsClass), ...theme })">
         <slot v-bind="slotProps" />
       </EditableArea>
       <slot

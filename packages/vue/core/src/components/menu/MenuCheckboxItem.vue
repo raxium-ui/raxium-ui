@@ -3,6 +3,7 @@ import type { MenuCheckboxItemEmits } from '@ark-ui/vue/menu'
 import type { MenuCheckboxItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardPropsEmits } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { Checkbox } from '@raxium/vue/components/checkbox'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
@@ -23,14 +24,14 @@ const crafts = computed(() => theme.value.crafts.tvMenu())
 <template>
   <Menu.CheckboxItem
     v-bind="forwarded"
-    :class="crafts.item({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.item({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <slot
       name="indicator"
       v-bind="{ checked: forwarded.checked }"
     >
       <Checkbox
-        :class="ui?.checkbox"
+        :class="clsx(ui?.checkbox)"
         :checked="forwarded.checked"
         :theme="theme"
       />

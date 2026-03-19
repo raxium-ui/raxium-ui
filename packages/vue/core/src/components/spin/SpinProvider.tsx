@@ -1,6 +1,7 @@
 import type { SlotsType, VNode } from 'vue'
 import type { SpinRenderProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { LoaderCircle } from 'lucide-vue-next'
 import { computed, defineComponent, provide } from 'vue'
 
@@ -23,7 +24,7 @@ export default defineComponent({
         return (
           <ark.span
             class={crafts.value?.icon({
-              class: props.class,
+              class: clsx(props.class),
               ...props.theme,
             })}
             as-child
@@ -36,7 +37,7 @@ export default defineComponent({
       return (
         <LoaderCircle
           class={crafts.value?.icon({
-            class: ['animate-spin', props.class],
+            class: clsx('animate-spin', props.class),
             ...props.theme,
           })}
           data-variant="default"

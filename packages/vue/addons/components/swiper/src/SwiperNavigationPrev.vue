@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { NavigationEvents } from 'swiper/types'
 import type { SwiperNavigationProps } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
 import { ChevronLeft } from 'lucide-vue-next'
 import { useSwiper } from 'swiper/vue'
-import { twMerge } from 'tailwind-merge'
 import { computed, useTemplateRef, watch } from 'vue'
 import { useRegistSwiperEmits, useSwiperModule, useSwiperToggleEnabled } from './utils'
 
@@ -65,7 +65,7 @@ watch(
 <template>
   <div
     ref="navigation"
-    :class="twMerge('rui-swiper-navigation_prev', propsClass)"
+    :class="cn('rui-swiper-navigation_prev', propsClass)"
     :data-disabled="isCanPrev ? undefined : ''"
     data-scope="swiper"
     data-part="navigation-prev"

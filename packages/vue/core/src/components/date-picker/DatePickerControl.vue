@@ -2,6 +2,7 @@
 import type { DatePickerControlProps } from '.'
 import { DatePicker } from '@ark-ui/vue'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -14,7 +15,10 @@ const crafts = computed(() => theme.value.crafts.tvDatePicker())
 </script>
 
 <template>
-  <DatePicker.Control v-bind="forwarded" :class="crafts.control({ class: propsClass, ...theme })">
+  <DatePicker.Control
+    v-bind="forwarded"
+    :class="crafts.control({ class: clsx(propsClass), ...theme })"
+  >
     <slot />
   </DatePicker.Control>
 </template>

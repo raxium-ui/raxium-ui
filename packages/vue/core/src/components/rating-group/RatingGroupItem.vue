@@ -2,6 +2,7 @@
 import type { RatingGroupItemProps } from '.'
 import { RatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Star } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -13,17 +14,17 @@ const forwarded = useForwardProps(props)
 const theme = useTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvRatingGroup())
 const indicatorClx = computed(() => {
-  return crafts.value.itemIndicator({ class: ui?.indicator, ...theme.value })
+  return crafts.value.itemIndicator({ class: clsx(ui?.indicator), ...theme.value })
 })
 const iconClx = computed(() => {
-  return crafts.value.itemIndicatorIcon({ class: ui?.icon, ...theme.value })
+  return crafts.value.itemIndicatorIcon({ class: clsx(ui?.icon), ...theme.value })
 })
 </script>
 
 <template>
   <RatingGroup.Item
     v-bind="forwarded"
-    :class="crafts.item({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.item({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <RatingGroup.ItemContext v-slot="{ highlighted, half, checked }">
       <slot

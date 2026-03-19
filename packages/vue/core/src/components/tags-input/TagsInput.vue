@@ -3,6 +3,7 @@ import type { TagsInputRootEmits } from '@ark-ui/vue/tags-input'
 import type { TagsInputProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { TagsInput, useTagsInput } from '@ark-ui/vue/tags-input'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed, nextTick, provide, useTemplateRef, watch } from 'vue'
@@ -54,14 +55,14 @@ useForwardExpose()
 <template>
   <TagsInput.RootProvider
     :value="tagsInput"
-    :class="crafts.root({ class: [ui?.root, propsClass], inline, ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), inline, ...theme })"
   >
     <ThemeProvider :value="theme">
       <slot name="prefix" />
       <TagsInput.Control
         :class="
           inputCrafts.root({
-            class: [crafts.control({ inline, ...theme }), ui?.control],
+            class: clsx(crafts.control({ inline, ...theme }), ui?.control),
             ...theme,
           })
         "
@@ -84,7 +85,7 @@ useForwardExpose()
         />
         <TagsInput.Input
           :class="
-            inputCrafts.input({ class: [crafts.input({ inline, ...theme }), ui?.input], ...theme })
+            inputCrafts.input({ class: clsx(crafts.input({ inline, ...theme }), ui?.input), ...theme })
           "
         />
       </TagsInput.Control>

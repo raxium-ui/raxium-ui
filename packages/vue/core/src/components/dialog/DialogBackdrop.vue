@@ -3,6 +3,7 @@ import type { DialogBackdropProps } from '.'
 import { useForwardExpose, usePresenceContext } from '@ark-ui/vue'
 import { useDialogContext } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { merge, omit } from 'es-toolkit'
 import { computed } from 'vue'
@@ -35,7 +36,7 @@ useForwardExpose()
   <ark.div
     v-if="!presence.unmounted"
     v-bind="mergedProps"
-    :class="crafts.backdrop({ class: propsClass, ...theme })"
+    :class="crafts.backdrop({ class: clsx(propsClass), ...theme })"
     :as-child="asChild"
   >
     <slot />

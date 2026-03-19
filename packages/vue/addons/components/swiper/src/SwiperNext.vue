@@ -21,7 +21,7 @@ function onClick() {
 
 <template>
   <div
-    class="w-fit"
+    class="rui-swiper-next"
     :data-disabled="isCanNext ? undefined : ''"
     data-scope="swiper"
     data-part="next"

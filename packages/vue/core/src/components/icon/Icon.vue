@@ -2,6 +2,7 @@
 import type { IconProps } from '.'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { Icon } from '@iconify/vue'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables'
 
 const { class: propsClass, theme: propsTheme, icon, ...props } = defineProps<IconProps>()
@@ -14,7 +15,7 @@ const theme = useTheme(() => propsTheme)
 <template>
   <Icon
     v-bind="forwarded"
-    :class="theme.crafts.tvIcon({ class: [propsClass], ...theme })"
+    :class="theme.crafts.tvIcon({ class: clsx(propsClass), ...theme })"
     :icon="icon"
   />
 </template>

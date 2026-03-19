@@ -2,6 +2,7 @@
 import type { SelectItemProps } from '.'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Check } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -17,7 +18,7 @@ const crafts = computed(() => theme.value.crafts.tvSelect())
 <template>
   <Select.Item
     v-bind="forwarded"
-    :class="crafts.item({ class: [propsClass], ...theme })"
+    :class="crafts.item({ class: clsx(propsClass), ...theme })"
   >
     <Select.ItemText>
       <slot />

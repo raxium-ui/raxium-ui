@@ -3,6 +3,7 @@ import type { DatePickerContentProps, DatePickerContentProvide } from '.'
 import { DatePicker } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { findVNodeByName, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { compact, isNil } from 'es-toolkit'
@@ -44,7 +45,7 @@ provide<DatePickerContentProvide>(DATE_PICKER_CONTENT_PROVIDE_KEY, { viewsState 
   <DatePicker.Positioner>
     <DatePicker.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: [propsClass], ...theme })"
+      :class="crafts.content({ class: clsx(propsClass), ...theme })"
     >
       <slot name="prefix" />
       <ark.div

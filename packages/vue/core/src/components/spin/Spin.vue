@@ -2,6 +2,7 @@
 import type { VNode } from 'vue'
 import type { SpinProps, SpinRenderProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
@@ -78,15 +79,15 @@ const crafts = computed(() => theme.value.crafts.tvSpin())
 <template>
   <div
     v-show="isVisible"
-    :class="crafts.root({ class: [ui?.root, propsClass], mode, ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), mode, ...theme })"
   >
-    <div :class="crafts.mask({ class: ui?.mask, ...theme })" />
-    <div :class="crafts.indicator({ class: ui?.indicator, mode, ...theme })">
+    <div :class="crafts.mask({ class: clsx(ui?.mask), ...theme })" />
+    <div :class="crafts.indicator({ class: clsx(ui?.indicator), mode, ...theme })">
       <slot v-bind="{ mode, theme }">
         <component :is="renderIcon?.({ mode, theme })" />
       </slot>
       <ark.span
-        :class="crafts.text({ class: ui?.text, ...theme })"
+        :class="crafts.text({ class: clsx(ui?.text), ...theme })"
         as-child
       >
         <slot name="text" />

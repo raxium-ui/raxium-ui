@@ -1,10 +1,10 @@
 <script lang="ts" generic="T" setup>
-import type { ClassNameValue } from 'tailwind-merge'
+import type { HTMLAttributes } from 'vue'
 import type { VirtualListProps } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useForwardProps } from '@raxium/vue-addons-shared'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { merge } from 'es-toolkit/compat'
-import { twMerge } from 'tailwind-merge'
 import { cloneVNode, computed, h, useTemplateRef } from 'vue'
 import { injectVirtualContext } from '.'
 import { useDetectSlotNode } from './useDetectSlotNode'
@@ -16,10 +16,10 @@ const {
   ...props
 } = defineProps<
   VirtualListProps<T> & {
-    class?: ClassNameValue
+    class?: HTMLAttributes['class']
     ui?: {
-      root?: ClassNameValue
-      scroll?: ClassNameValue
+      root?: HTMLAttributes['class']
+      scroll?: HTMLAttributes['class']
     }
   }
 >()
@@ -105,14 +105,14 @@ defineExpose({
 <template>
   <div
     ref="parentEl"
-    :class="twMerge('rui-virtual-list', ui?.root, propsClass)"
+    :class="cn('rui-virtual-list', ui?.root, propsClass)"
     :data-horizontal="forwarded.horizontal ? true : undefined"
     data-scope="virtual-list"
     data-part="root"
   >
     <!-- scroll area -->
     <div
-      :class="twMerge('rui-virtual-list_scroll', ui?.scroll)"
+      :class="cn('rui-virtual-list_scroll', ui?.scroll)"
       :style="scrollAreaStyle"
       data-scope="virtual-list"
       data-part="scroll"

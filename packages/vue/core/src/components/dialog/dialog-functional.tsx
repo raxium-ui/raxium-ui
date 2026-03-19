@@ -86,15 +86,15 @@ export function dialog(options: DialogOptions) {
               default: (context: UseDialogContext) => {
                 if (render) {
                   return (
-                    <DialogContent {...widget?.content}>
+                    <DialogContent {...(widget?.content as Record<string, unknown>)}>
                       {render(context)}
                     </DialogContent>
                   )
                 }
                 return (
-                  <DialogContent {...widget?.content}>
+                  <DialogContent {...(widget?.content as Record<string, unknown>)}>
                     {title && (
-                      <DialogHeader {...widget?.header}>
+                      <DialogHeader {...(widget?.header as Record<string, unknown>)}>
                         {{
                           default: () => {
                             return typeof title === 'function'
@@ -105,7 +105,7 @@ export function dialog(options: DialogOptions) {
                       </DialogHeader>
                     )}
                     {content && (
-                      <DialogBody {...widget?.body}>
+                      <DialogBody {...(widget?.body as Record<string, unknown>)}>
                         {{
                           default: () => {
                             return typeof content === 'function'
@@ -117,7 +117,7 @@ export function dialog(options: DialogOptions) {
                     )}
                     {footer && (
                       <DialogFooter
-                        {...widget?.footer}
+                        {...(widget?.footer as Record<string, unknown>)}
                         onOk={onOk}
                         onCancel={onCancel}
                       >

@@ -2,6 +2,7 @@
 import type { HotkeyProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardExpose } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { isEmpty, without } from 'es-toolkit/compat'
 import { computed, nextTick, reactive, ref, watch, watchEffect } from 'vue'
@@ -263,13 +264,13 @@ const crafts = computed(() => theme.value.crafts.tvHotkey())
 
 <template>
   <ark.div
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
     :data-placeholder="placeholder"
     :data-state="inputState"
   >
     <ark.input
       :ref="forwardRef"
-      :class="crafts.input({ class: ui?.input, ...theme })"
+      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
       :disabled="disabled ? true : undefined"
       :spellcheck="false"
       :data-state="inputState"

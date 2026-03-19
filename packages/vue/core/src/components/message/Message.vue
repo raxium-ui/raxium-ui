@@ -25,6 +25,7 @@ import type { MessageProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Toast, useToastContext } from '@ark-ui/vue/toast'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { CircleAlert, CircleCheck, CircleX, Info, LoaderCircle, X } from 'lucide-vue-next'
 import { computed, h } from 'vue'
@@ -46,7 +47,7 @@ const slotBindings = computed(() => ({
 const theme = useTheme(() => Object.assign({}, propsTheme, options?.theme))
 const crafts = computed(() => theme.value.crafts.tvMessage())
 const iconVNode = computed(() => {
-  const className = crafts.value.icon({ class: ui?.icon, ...theme.value })
+  const className = crafts.value.icon({ class: clsx(ui?.icon), ...theme.value })
   switch (messageContext.value.type) {
     case 'info':
       return h(Info, {
@@ -85,10 +86,10 @@ const iconVNode = computed(() => {
 <template>
   <Toast.Root
     v-bind="forwarded"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <ark.div
-      :class="crafts.content({ class: ui?.content, ...theme })"
+      :class="crafts.content({ class: clsx(ui?.content), ...theme })"
       data-scope="toast"
       data-part="content"
       :data-placement="messageContext.placement"
@@ -117,7 +118,7 @@ const iconVNode = computed(() => {
             <component :is="options?.description(messageContext)" />
           </template>
           <template v-else>
-            <Toast.Description :class="crafts.description({ class: ui?.description, ...theme })">
+            <Toast.Description :class="crafts.description({ class: clsx(ui?.description), ...theme })">
               {{ options?.description }}
             </Toast.Description>
           </template>
@@ -129,7 +130,7 @@ const iconVNode = computed(() => {
         >
           <Toast.CloseTrigger
             v-if="messageContext.type !== 'loading'"
-            :class="crafts.close({ class: ui?.close, ...theme })"
+            :class="crafts.close({ class: clsx(ui?.close), ...theme })"
           >
             <X class="size-[1lh]" />
           </Toast.CloseTrigger>

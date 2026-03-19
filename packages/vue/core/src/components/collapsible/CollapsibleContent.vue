@@ -2,6 +2,7 @@
 import type { CollapsibleContentProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Collapsible } from '@ark-ui/vue/collapsible'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -20,7 +21,7 @@ const crafts = computed(() => theme.value.crafts.tvCollapsible())
 <template>
   <Collapsible.Content
     v-bind="forwarded"
-    :class="crafts.content({ class: [propsClass], ...theme })"
+    :class="crafts.content({ class: clsx(propsClass), ...theme })"
   >
     <slot />
   </Collapsible.Content>

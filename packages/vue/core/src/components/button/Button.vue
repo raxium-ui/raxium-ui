@@ -4,6 +4,7 @@ import type { ButtonProps } from '.'
 import { useForwardExpose } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { getNodeCssVar } from '@raxium/shared/css'
+import { clsx } from '@raxium/themes/utils'
 import { useRipple } from '@raxium/vue/composables/useRipple'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { LoaderCircle } from 'lucide-vue-next'
@@ -54,7 +55,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
     :class="crafts.root({
       variant: variant as ButtonVariants['variant'],
       loading,
-      class: [ui?.root?.class, propsClass],
+      class: clsx(ui?.root?.class, propsClass),
       ...theme,
     })"
     :disabled="disabled"
@@ -73,7 +74,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
         :class="crafts.loading({
           variant: variant as ButtonVariants['variant'],
           loading,
-          class: [ui?.loading?.class],
+          class: clsx(ui?.loading?.class),
           ...theme,
         })"
       />

@@ -2,10 +2,10 @@
 import type { PaginationEvents, Swiper } from 'swiper/types'
 import type { SwiperPaginationProps } from '.'
 import { getNodeCssVar, rem2px } from '@raxium/shared'
+import { cn } from '@raxium/themes/utils'
 import { useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
 import { useSwiper } from 'swiper/vue'
-import { twMerge } from 'tailwind-merge'
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
 import { useRegistSwiperEmits, useSwiperModule } from './utils'
 
@@ -117,7 +117,7 @@ useRegistSwiperEmits({
   <div
     ref="pagination"
     role="pagination-container"
-    :class="twMerge('rui-swiper-pagination', propsClass)"
+    :class="cn('rui-swiper-pagination', propsClass)"
     :data-type="forwared.type"
     data-scope="swiper"
     data-part="pagination"

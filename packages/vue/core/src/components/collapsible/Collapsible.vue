@@ -3,6 +3,7 @@ import type { CollapsibleRootEmits } from '@ark-ui/vue/collapsible'
 import type { CollapsibleProps } from '.'
 import { Collapsible, useCollapsible } from '@ark-ui/vue/collapsible'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -24,7 +25,7 @@ useForwardExpose()
 <template>
   <Collapsible.RootProvider
     :value="collapsiable"
-    :class="crafts.root({ class: [propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(propsClass), ...theme })"
   >
     <ThemeProvider :value="theme">
       <slot v-bind="collapsiable" />

@@ -3,6 +3,7 @@ import type { ProgressRootEmits } from '@ark-ui/vue/progress'
 import type { ProgressProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Progress, useProgress } from '@ark-ui/vue/progress'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -25,7 +26,7 @@ useForwardExpose()
   <Progress.RootProvider
     :value="progress"
     :class="
-      crafts.root({ class: propsClass, orientation: forwarded.orientation ?? 'horizontal', ...theme })
+      crafts.root({ class: clsx(propsClass), orientation: forwarded.orientation ?? 'horizontal', ...theme })
     "
   >
     <ThemeProvider :value="theme">

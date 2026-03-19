@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FloatingPanelHeaderProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -21,12 +22,12 @@ const crafts = computed(() => theme.value.crafts.tvFloatingPanel())
   <FloatingPanel.DragTrigger>
     <FloatingPanel.Header
       v-bind="forwarded"
-      :class="crafts.header({ class: [ui?.root, propsClass], ...theme })"
+      :class="crafts.header({ class: clsx(ui?.root, propsClass), ...theme })"
     >
-      <FloatingPanel.Title :class="crafts.title({ class: ui?.title, ...theme })">
+      <FloatingPanel.Title :class="crafts.title({ class: clsx(ui?.title), ...theme })">
         <slot />
       </FloatingPanel.Title>
-      <FloatingPanel.Control :class="crafts.control({ class: ui?.control, ...theme })">
+      <FloatingPanel.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
         <slot name="control" />
       </FloatingPanel.Control>
     </FloatingPanel.Header>

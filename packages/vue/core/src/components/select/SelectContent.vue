@@ -3,6 +3,7 @@ import type { SelectContentProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -17,12 +18,12 @@ const crafts = computed(() => theme.value.crafts.tvSelect())
   <Select.Positioner>
     <Select.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: [ui?.root, propsClass], ...theme })"
+      :class="crafts.content({ class: clsx(ui?.root, propsClass), ...theme })"
     >
       <ark.div
         data-scope="select"
         data-part="content-inner"
-        :class="crafts.contentInner({ class: [ui?.inner], ...theme })"
+        :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })"
       >
         <slot />
       </ark.div>

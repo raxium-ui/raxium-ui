@@ -1,6 +1,6 @@
 <script lang="ts" generic="T" setup>
-import type { ClassNameValue } from 'tailwind-merge'
-import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@raxium/themes/utils'
 import { useTemplateRef, watch } from 'vue'
 import { injectVirtualContext } from './VirtualRoot'
 
@@ -8,7 +8,7 @@ defineOptions({
   name: 'VirtualListItem',
 })
 const { class: propsClass, data, dynamic, index } = defineProps<{
-  class?: ClassNameValue
+  class?: HTMLAttributes['class']
   data?: T
   dynamic?: boolean
   index?: number
@@ -28,7 +28,7 @@ watch(el, (el) => {
     v-bind="$attrs"
     ref="el"
     :data-index="index"
-    :class="twMerge('rui-virtual-list-item', propsClass)"
+    :class="cn('rui-virtual-list-item', propsClass)"
     data-scope="virtual-list"
     data-part="item"
   >

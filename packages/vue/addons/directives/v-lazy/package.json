@@ -38,7 +38,7 @@
     "es-toolkit": "^1.44.0"
   },
   "devDependencies": {
-    "@rslib/core": "0.19.4"
+    "@rslib/core": "0.20.0"
   },
   "publishConfig": {
     "access": "public"

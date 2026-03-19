@@ -2,7 +2,7 @@
 import type { DialogContentProps } from '.'
 import { Dialog } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
-import { cn } from '@raxium/themes/utils'
+import { clsx, cn } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { hasChildVNodeByName } from '@raxium/vue/utils/vnode'
 import { X } from 'lucide-vue-next'
@@ -33,11 +33,11 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
 
 <template>
   <Teleport to="body">
-    <DialogBackdrop :class="ui?.backdrop" :theme="theme" />
-    <Dialog.Positioner :class="crafts.positioner({ class: ui?.positioner, ...theme })">
+    <DialogBackdrop :class="clsx(ui?.backdrop)" :theme="theme" />
+    <Dialog.Positioner :class="crafts.positioner({ class: clsx(ui?.positioner), ...theme })">
       <Dialog.Content
         v-bind="attrs"
-        :class="crafts.content({ class: [ui?.content, propsClass], ...theme })"
+        :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
       >
         <slot />
         <slot name="close">
@@ -47,7 +47,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
           >
             <ark.button
               :class="
-                cn(['absolute', 'top-0', 'right-0'], crafts.close({ class: ui?.close, ...theme }))
+                cn(['absolute', 'top-0', 'right-0'], crafts.close({ class: clsx(ui?.close), ...theme }))
               "
               data-variant="content-close"
             >

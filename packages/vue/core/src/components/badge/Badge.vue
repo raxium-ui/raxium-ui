@@ -2,6 +2,7 @@
 import type { BadgeProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 
 const {
@@ -22,7 +23,7 @@ const theme = useTheme(() => propsTheme)
   <component
     :is="as === 'div' ? ark.div : ark.sup"
     v-bind="forwarded"
-    :class="theme.crafts.tvBadge({ variant, class: propsClass, ...theme })"
+    :class="theme.crafts.tvBadge({ variant, class: clsx(propsClass), ...theme })"
     :data-variant="variant"
     :as-child="asChild"
   >

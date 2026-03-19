@@ -2,6 +2,7 @@
 import type { ReadMoreProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { rem2px } from '@raxium/shared/css'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useElementSize } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
@@ -39,16 +40,16 @@ const crafts = computed(() => theme.value.crafts.tvReadMore())
   <Collapsible
     v-slot="{ open }"
     v-bind="forwarded"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
   >
-    <CollapsibleContent :class="crafts.content({ class: [ui?.content], ...theme })">
+    <CollapsibleContent :class="crafts.content({ class: clsx(ui?.content), ...theme })">
       <div ref="content-measure">
         <slot />
       </div>
     </CollapsibleContent>
     <CollapsibleTrigger
       v-if="isShowTrigger"
-      :class="crafts.trigger({ class: [ui?.trigger], ...theme })"
+      :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })"
     >
       <div>{{ open ? text.less : text.more }}</div>
     </CollapsibleTrigger>

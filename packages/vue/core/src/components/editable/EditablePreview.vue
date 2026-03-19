@@ -2,6 +2,7 @@
 import type { EditablePreviewProps } from '.'
 import { EditablePreview } from '@ark-ui/vue/editable'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -17,7 +18,7 @@ const crafts = computed(() => theme.value.crafts.tvEditable())
     v-bind="forwarded"
     :class="
       crafts.preview({
-        class: [propsClass],
+        class: clsx(propsClass),
         ...theme,
       })
     "

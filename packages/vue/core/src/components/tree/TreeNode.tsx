@@ -4,6 +4,7 @@ import type { TreeKeyMap, TreeNodeData } from './props'
 import { TreeView } from '@ark-ui/vue'
 import { Icon } from '@raxium/vue/components/icon'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { clsx } from '@raxium/themes/utils'
 import { ChevronRight } from 'lucide-vue-next'
 import { cloneVNode, computed, defineComponent, isVNode, toRefs, unref } from 'vue'
 import { TreeNode } from '.'
@@ -126,31 +127,31 @@ export default defineComponent({
     const branchClx = computed(() => {
       return {
         root: branchCrafts.value.root({
-          class: [ui.value?.branch, attrs.class],
+          class: clsx(ui.value?.branch, attrs.class),
           ...theme.value,
         }),
         control: branchCrafts.value.control({
-          class: ui.value?.branchControl,
+          class: clsx(ui.value?.branchControl),
           ...theme.value,
         }),
         title: branchCrafts.value.title({
-          class: ui.value?.branchTitle,
+          class: clsx(ui.value?.branchTitle),
           ...theme.value,
         }),
         text: branchCrafts.value.text({
-          class: ui.value?.branchText,
+          class: clsx(ui.value?.branchText),
           ...theme.value,
         }),
         indicator: branchCrafts.value.indicator({
-          class: ui.value?.branchIndicator,
+          class: clsx(ui.value?.branchIndicator),
           ...theme.value,
         }),
         content: branchCrafts.value.content({
-          class: ui.value?.branchContent,
+          class: clsx(ui.value?.branchContent),
           ...theme.value,
         }),
         icon: branchCrafts.value.icon({
-          class: ui.value?.branchIcon,
+          class: clsx(ui.value?.branchIcon),
           ...theme.value,
         }),
       }
@@ -159,19 +160,19 @@ export default defineComponent({
     const itemClx = computed(() => {
       return {
         root: itemCrafts.value.root({
-          class: [ui.value?.item, attrs.class],
+          class: clsx(ui.value?.item, attrs.class),
           ...theme.value,
         }),
         title: itemCrafts.value.title({
-          class: ui.value?.itemTitle,
+          class: clsx(ui.value?.itemTitle),
           ...theme.value,
         }),
         text: itemCrafts.value.text({
-          class: ui.value?.itemText,
+          class: clsx(ui.value?.itemText),
           ...theme.value,
         }),
         icon: itemCrafts.value.icon({
-          class: ui.value?.itemIcon,
+          class: clsx(ui.value?.itemIcon),
           ...theme.value,
         }),
       }

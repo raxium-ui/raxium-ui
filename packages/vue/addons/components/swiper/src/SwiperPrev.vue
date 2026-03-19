@@ -21,7 +21,7 @@ function onClick() {
 
 <template>
   <div
-    class="w-fit"
+    class="rui-swiper-prev"
     :data-disabled="isCanPrev ? undefined : ''"
     data-scope="swiper"
     data-part="prev"

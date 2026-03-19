@@ -2,6 +2,7 @@
 import type { MenuItemProps } from '.'
 import { MenuItem } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -18,7 +19,7 @@ const crafts = computed(() => theme.value.crafts.tvMenu())
 </script>
 
 <template>
-  <MenuItem v-bind="forwarded" :class="crafts.item({ class: [propsClass], ...theme })">
+  <MenuItem v-bind="forwarded" :class="crafts.item({ class: clsx(propsClass), ...theme })">
     <slot />
   </MenuItem>
 </template>

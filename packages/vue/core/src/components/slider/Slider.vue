@@ -3,6 +3,7 @@ import type { SliderRootEmits } from '@ark-ui/vue/slider'
 import type { SliderProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSlider } from '@ark-ui/vue/slider'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed, useTemplateRef } from 'vue'
@@ -28,7 +29,7 @@ useForwardExpose()
     :value="slider"
     :class="
       crafts.root({
-        class: [ui?.root, propsClass],
+        class: clsx(ui?.root, propsClass),
         orientation: forwarded.orientation ?? 'horizontal',
         ...theme,
       })
@@ -41,7 +42,7 @@ useForwardExpose()
           ref="control"
           :class="
             crafts.control({
-              class: ui?.control,
+              class: clsx(ui?.control),
               orientation: forwarded.orientation ?? 'horizontal',
               ...theme,
             })
@@ -50,7 +51,7 @@ useForwardExpose()
           <Slider.Track
             :class="
               crafts.track({
-                class: ui?.track,
+                class: clsx(ui?.track),
                 orientation: forwarded.orientation ?? 'horizontal',
                 ...theme,
               })
@@ -59,7 +60,7 @@ useForwardExpose()
             <Slider.Range
               :class="
                 crafts.range({
-                  class: ui?.range,
+                  class: clsx(ui?.range),
                   orientation: forwarded.orientation ?? 'horizontal',
                   ...theme,
                 })

@@ -2,6 +2,7 @@
 import type { SelectTriggerProps } from '.'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ChevronDown, CircleX } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -22,7 +23,7 @@ const crafts = computed(() => theme.value.crafts.tvSelect())
   <Select.Control>
     <Select.Trigger
       v-bind="forwarded"
-      :class="crafts.trigger({ class: [propsClass], ...theme })"
+      :class="crafts.trigger({ class: clsx(propsClass), ...theme })"
     >
       <slot />
       <Select.ClearTrigger

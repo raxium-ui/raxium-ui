@@ -3,6 +3,7 @@ import type { ToggleRootEmits } from '@ark-ui/vue/toggle'
 import type { ToggleProps } from '.'
 import { useForwardPropsEmits } from '@ark-ui/vue'
 import { Toggle } from '@ark-ui/vue/toggle'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -15,7 +16,7 @@ const crafts = computed(() => theme.value.crafts)
 </script>
 
 <template>
-  <Toggle.Root v-bind="forwarded" :class="crafts.tvToggle({ class: [propsClass], ...theme })">
+  <Toggle.Root v-bind="forwarded" :class="crafts.tvToggle({ class: clsx(propsClass), ...theme })">
     <slot />
   </Toggle.Root>
 </template>

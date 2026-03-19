@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ScrollbarEvents } from 'swiper/types'
 import type { SwiperScrollbarProps } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
 import { useSwiper } from 'swiper/vue'
-import { twMerge } from 'tailwind-merge'
 import { computed, useTemplateRef, watch } from 'vue'
 import { useRegistSwiperEmits, useSwiperModule } from './utils'
 
@@ -53,7 +53,7 @@ useRegistSwiperEmits({
   <div
     ref="scrollbar"
     role="scrollbar-container"
-    :class="twMerge('rui-swiper-scrollbar', propsClass)"
+    :class="cn('rui-swiper-scrollbar', propsClass)"
     data-scope="swiper"
     data-part="scrollbar"
   />

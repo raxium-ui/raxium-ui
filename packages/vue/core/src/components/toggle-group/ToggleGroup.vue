@@ -3,6 +3,7 @@ import type { ToggleGroupRootEmits } from '@ark-ui/vue/toggle-group'
 import type { ToggleGroupProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ToggleGroup, useToggleGroup } from '@ark-ui/vue/toggle-group'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -26,7 +27,7 @@ useForwardExpose()
     :value="toggleGroup"
     :class="
       crafts.root({
-        class: propsClass,
+        class: clsx(propsClass),
         orientation: forwarded.orientation ?? 'horizontal',
         ...theme,
       })

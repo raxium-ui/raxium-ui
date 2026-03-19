@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FloatingPanelCloseTriggerProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { X } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -20,7 +21,7 @@ const crafts = computed(() => theme.value.crafts.tvFloatingPanel())
 <template>
   <FloatingPanel.CloseTrigger
     v-bind="forwarded"
-    :class="crafts.trigger({ class: propsClass, ...theme })"
+    :class="crafts.trigger({ class: clsx(propsClass), ...theme })"
   >
     <slot>
       <X :style="{ width: '1lh', height: '1lh' }" />

@@ -2,6 +2,7 @@
 import type { MenuContentProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import {
   checkContextVNodePosition,
@@ -33,18 +34,18 @@ const crafts = computed(() => theme.value.crafts.tvMenu())
 
 <template>
   <Menu.Positioner
-    :class="ui?.positioner"
+    :class="clsx(ui?.positioner)"
     :style="{ zIndex: `var(--z-dropdown, --z-index)` }"
   >
     <Menu.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: [ui?.content, propsClass], ...theme })"
+      :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
       :data-theme-bordered="theme.bordered ? '' : undefined"
     >
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div :class="crafts.contentInner({ class: [ui?.inner], ...theme })">
+      <div :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })">
         <template v-for="node in otherNodes" :key="node.key">
           <component :is="node" />
         </template>

@@ -38,6 +38,9 @@
   "dependencies": {
     "@floating-ui/vue": "^1.1.10"
   },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
   "publishConfig": {
     "access": "public"
   }

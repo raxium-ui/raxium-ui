@@ -3,6 +3,7 @@ import type { h, HTMLAttributes, PropType, SlotsType, UnwrapRef, VNode } from 'v
 import type { TreeKeyMap, TreeNodeData } from './props'
 import { TreeView, useTreeViewContext } from '@ark-ui/vue'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { clsx } from '@raxium/themes/utils'
 import { Check, ChevronRight, Minus } from 'lucide-vue-next'
 import { cloneVNode, computed, defineComponent, isVNode, toRefs, unref } from 'vue'
 import { TreeCheckboxNode } from '.'
@@ -132,31 +133,31 @@ export default defineComponent({
     const branchClx = computed(() => {
       return {
         root: branchCrafts.value.root({
-          class: [ui.value?.branch, attrs.class],
+          class: clsx(ui.value?.branch, attrs.class),
           ...theme.value,
         }),
         control: branchCrafts.value.control({
-          class: ui.value?.branchControl,
+          class: clsx(ui.value?.branchControl),
           ...theme.value,
         }),
         title: branchCrafts.value.title({
-          class: ui.value?.branchTitle,
+          class: clsx(ui.value?.branchTitle),
           ...theme.value,
         }),
         icon: branchCrafts.value.icon({
-          class: ui.value?.branchIcon,
+          class: clsx(ui.value?.branchIcon),
           ...theme.value,
         }),
         text: branchCrafts.value.text({
-          class: ui.value?.branchText,
+          class: clsx(ui.value?.branchText),
           ...theme.value,
         }),
         content: branchCrafts.value.content({
-          class: ui.value?.branchContent,
+          class: clsx(ui.value?.branchContent),
           ...theme.value,
         }),
         indicator: branchCrafts.value.indicator({
-          class: ui.value?.branchIndicator,
+          class: clsx(ui.value?.branchIndicator),
           ...theme.value,
         }),
       }
@@ -166,14 +167,14 @@ export default defineComponent({
       return {
         control: checkboxCrafts.value.control({
           class: branchCrafts.value.checkbox({
-            class: ui.value?.branchCheckbox,
+            class: clsx(ui.value?.branchCheckbox),
             ...theme.value,
           }),
           ...theme.value,
         }),
         indicator: checkboxCrafts.value.indicator({
           class: branchCrafts.value.checkboxIndicator({
-            class: ui.value?.branchCheckboxIndicator,
+            class: clsx(ui.value?.branchCheckboxIndicator),
             ...theme.value,
           }),
           ...theme.value,
@@ -190,19 +191,19 @@ export default defineComponent({
     const itemClx = computed(() => {
       return {
         root: itemCrafts.value.root({
-          class: [ui.value?.item, attrs.class],
+          class: clsx(ui.value?.item, attrs.class),
           ...theme.value,
         }),
         title: itemCrafts.value.title({
-          class: ui.value?.itemTitle,
+          class: clsx(ui.value?.itemTitle),
           ...theme.value,
         }),
         text: itemCrafts.value.text({
-          class: ui.value?.itemText,
+          class: clsx(ui.value?.itemText),
           ...theme.value,
         }),
         icon: itemCrafts.value.icon({
-          class: ui.value?.itemIcon,
+          class: clsx(ui.value?.itemIcon),
           ...theme.value,
         }),
       }
@@ -212,14 +213,14 @@ export default defineComponent({
       return {
         control: checkboxCrafts.value.control({
           class: itemCrafts.value.checkbox({
-            class: ui.value?.itemCheckbox,
+            class: clsx(ui.value?.itemCheckbox),
             ...theme.value,
           }),
           ...theme.value,
         }),
         indicator: checkboxCrafts.value.indicator({
           class: itemCrafts.value.checkboxIndicator({
-            class: ui.value?.itemCheckboxIndicator,
+            class: clsx(ui.value?.itemCheckboxIndicator),
             ...theme.value,
           }),
           ...theme.value,

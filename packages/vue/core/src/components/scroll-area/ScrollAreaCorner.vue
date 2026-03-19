@@ -2,6 +2,7 @@
 import type { ScrollAreaCornerProps, ScrollAreaTheme } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ScrollArea } from '@ark-ui/vue/scroll-area'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -18,5 +19,5 @@ const crafts = computed(() => theme.value.crafts.tvScrollArea())
 </script>
 
 <template>
-  <ScrollArea.Corner v-bind="forwarded" :class="crafts.corner({ class: propsClass, ...theme })" />
+  <ScrollArea.Corner v-bind="forwarded" :class="crafts.corner({ class: clsx(propsClass), ...theme })" />
 </template>

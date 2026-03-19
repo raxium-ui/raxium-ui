@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DialogFooterProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { Button } from '@raxium/vue/components/button'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, useId } from 'vue'
@@ -23,7 +24,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
     :id="`dialog:${id}:footer`"
     data-scope="dialog"
     data-part="footer"
-    :class="crafts.footer({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.footer({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <slot>
       <DialogCloseTrigger
@@ -33,7 +34,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
         <Button
           variant="text"
           v-bind="widget?.cancel"
-          :class="ui?.cancel"
+          :class="clsx(ui?.cancel)"
           :theme="theme"
           @click="emits('cancel', $event)"
         >
@@ -46,7 +47,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
       >
         <Button
           v-bind="widget?.ok"
-          :class="ui?.ok"
+          :class="clsx(ui?.ok)"
           :theme="theme"
           @click="emits('ok', $event)"
         >

@@ -2,6 +2,7 @@
 import type { ToggleGroupItemProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ToggleGroup, useToggleGroupContext } from '@ark-ui/vue/toggle-group'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
@@ -24,7 +25,7 @@ const crafts = computed(() => theme.value.crafts.tvToggleGroup())
     v-bind="forwarded"
     :class="
       crafts.item({
-        class: propsClass,
+        class: clsx(propsClass),
         orientation: itemProps['data-orientation'] ?? 'horizontal',
         ...theme,
       })

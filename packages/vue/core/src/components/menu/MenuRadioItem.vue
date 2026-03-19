@@ -4,7 +4,7 @@ import type { UnwrapRef } from 'vue'
 import type { MenuRadioItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { cn } from '@raxium/themes/utils'
+import { cn, clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Check, Circle } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -32,7 +32,7 @@ const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
   <Menu.RadioItem
     v-bind="forwarded"
     :class="
-      cn(crafts.item({ ...theme }), crafts.radioItem({ class: [ui?.root, propsClass], ...theme }))
+      cn(crafts.item({ ...theme }), crafts.radioItem({ class: clsx(ui?.root, propsClass), ...theme }))
     "
   >
     <Menu.ItemContext v-slot="context">
@@ -46,7 +46,7 @@ const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
       >
         <Circle
           v-if="variant === 'default'"
-          :class="radioCrafts.itemIndicator({ class: [ui?.indicator], variant, ...theme })"
+          :class="radioCrafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
           data-part="indicator"
           :data-state="context.checked ? 'checked' : 'unchecked'"
           :data-variant="variant"
@@ -54,7 +54,7 @@ const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
         />
         <Check
           v-if="variant === 'checkbox'"
-          :class="radioCrafts.itemIndicator({ class: ui?.indicator, variant, ...theme })"
+          :class="radioCrafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
           data-part="indicator"
           :data-state="context.checked ? 'checked' : 'unchecked'"
           :data-variant="variant"

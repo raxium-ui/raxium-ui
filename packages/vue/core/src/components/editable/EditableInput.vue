@@ -3,6 +3,7 @@ import type { EditableInputProps } from '.'
 import { Editable, useEditableContext } from '@ark-ui/vue/editable'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { CircleX } from 'lucide-vue-next'
 import { computed, ref } from 'vue'
@@ -43,7 +44,7 @@ const crafts = computed(() => theme.value.crafts.tvEditableInput())
   <ark.div
     :class="
       crafts.root({
-        class: [!context.editing && 'hidden', propsClass],
+        class: clsx(!context.editing && 'hidden', propsClass),
         ...theme,
       })
     "
@@ -54,7 +55,7 @@ const crafts = computed(() => theme.value.crafts.tvEditableInput())
     <Editable.Input
       v-bind="forwarded"
       ref="inputRef"
-      :class="crafts.input({ class: [propsClass], ...theme })"
+      :class="crafts.input({ class: clsx(propsClass), ...theme })"
       :data-state="isFocus ? 'focused' : 'idle'"
       @focus="onFocus"
       @blur="onBlur"
@@ -64,7 +65,7 @@ const crafts = computed(() => theme.value.crafts.tvEditableInput())
         v-if="clearable && context.editing && !context.empty"
         data-scope="editable"
         data-part="clear-button"
-        :class="crafts.clearable({ class: [propsClass], ...theme })"
+        :class="crafts.clearable({ class: clsx(propsClass), ...theme })"
         @pointerdown.stop="onClear"
       />
     </slot>

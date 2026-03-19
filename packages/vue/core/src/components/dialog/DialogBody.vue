@@ -2,6 +2,7 @@
 import type { DialogBodyProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, useId } from 'vue'
 
@@ -19,7 +20,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
     :id="`dialog:${id}:body`"
     data-scope="dialog"
     data-part="body"
-    :class="crafts.body({ class: propsClass, ...theme })"
+    :class="crafts.body({ class: clsx(propsClass), ...theme })"
   >
     <slot />
   </ark.div>

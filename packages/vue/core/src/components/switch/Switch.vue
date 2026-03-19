@@ -2,6 +2,7 @@
 import type { SwitchRootEmits } from '@ark-ui/vue'
 import type { SwitchProps } from '.'
 import { Switch, useForwardExpose, useForwardProps, useSwitch } from '@ark-ui/vue'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -22,11 +23,11 @@ useForwardExpose()
 <template>
   <Switch.RootProvider
     :value="switchRoot"
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
   >
     <ThemeProvider :value="theme">
-      <Switch.Control :class="crafts.control({ class: ui?.control, ...theme })">
-        <Switch.Thumb :class="crafts.thumb({ class: ui?.thumb, ...theme })" />
+      <Switch.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
+        <Switch.Thumb :class="crafts.thumb({ class: clsx(ui?.thumb), ...theme })" />
       </Switch.Control>
       <Switch.HiddenInput class="hidden" />
       <slot />

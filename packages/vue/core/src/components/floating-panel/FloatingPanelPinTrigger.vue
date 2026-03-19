@@ -2,6 +2,7 @@
 import type { FloatingPanelPinTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Pin, PinOff } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -32,7 +33,7 @@ const crafts = computed(() => theme.value.crafts.tvFloatingPanel())
 <template>
   <ark.button
     v-bind="forwarded"
-    :class="crafts.trigger({ class: [propsClass], ...theme })"
+    :class="crafts.trigger({ class: clsx(propsClass), ...theme })"
     @click="handleClick"
   >
     <slot v-bind="{ pinned, setPinned }">

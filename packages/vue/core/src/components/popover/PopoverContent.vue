@@ -2,6 +2,7 @@
 import type { PopoverContentProps } from '.'
 import { Popover } from '@ark-ui/vue/popover'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import {
   checkContextVNodePosition,
@@ -30,12 +31,12 @@ const crafts = computed(() => theme.value.crafts.tvPopover())
 
 <template>
   <Popover.Positioner
-    :class="ui?.positioner"
+    :class="clsx(ui?.positioner)"
     :style="{ zIndex: `var(--z-popover, --z-index)` }"
   >
     <Popover.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: [ui?.content, propsClass], ...theme })"
+      :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
       :data-theme-bordered="theme.bordered ? '' : undefined"
       :data-theme-skin="theme.skin"
       :data-theme-surface="theme.surface"
@@ -44,7 +45,7 @@ const crafts = computed(() => theme.value.crafts.tvPopover())
         <component :is="arrowNode" />
       </template>
       <div
-        :class="crafts.contentInner({ class: [ui?.inner], ...theme })"
+        :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })"
         :data-theme-skin="theme.skin"
         :data-theme-surface="theme.surface"
       >

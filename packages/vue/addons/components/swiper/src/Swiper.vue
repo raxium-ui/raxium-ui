@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperInstance } from 'swiper/types'
 import type { SwiperEmits, SwiperProps, SwiperSlots } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useForwardPropsEmits } from '@raxium/vue-addons-shared'
 import { Swiper } from 'swiper/vue'
-import { twMerge } from 'tailwind-merge'
 import { ref, shallowRef } from 'vue'
 import { useSwiperModule } from './utils'
 
@@ -70,7 +70,7 @@ defineExpose({ swiper: swiperInstance, $el: swiperEl })
     <!-- @vue-expect-error -->
     <Swiper
       v-bind="{ ...forwarded, ...$attrs }"
-      :class="twMerge('rui-swiper', propsClass)"
+      :class="cn('rui-swiper', propsClass)"
       :direction="direction"
       data-scope="swiper"
       data-part="root"

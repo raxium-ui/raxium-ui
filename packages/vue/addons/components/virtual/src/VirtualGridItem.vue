@@ -1,6 +1,6 @@
 <script lang="ts" generic="T" setup>
-import type { ClassNameValue } from 'tailwind-merge'
-import { twMerge } from 'tailwind-merge'
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@raxium/themes/utils'
 import { useTemplateRef, watch } from 'vue'
 import { injectVirtualContext } from '.'
 
@@ -15,7 +15,7 @@ const {
   class: propsClass,
 } = defineProps<{
   data?: T
-  class?: ClassNameValue
+  class?: HTMLAttributes['class']
   index?: number
   rowIndex?: number
   colIndex?: number
@@ -41,16 +41,11 @@ watch(el, (el) => {
   <div
     v-bind="$attrs"
     ref="el"
-    :class="twMerge('rui-virtual-grid-item', propsClass)"
+    :class="cn('rui-virtual-grid-item', propsClass)"
     :data-index="index"
     data-scope="virtual-grid"
     data-part="item"
   >
-    <slot
-      :data="data"
-      :index="index"
-      :row-index="rowIndex"
-      :col-index="colIndex"
-    />
+    <slot :data="data" :index="index" :row-index="rowIndex" :col-index="colIndex" />
   </div>
 </template>

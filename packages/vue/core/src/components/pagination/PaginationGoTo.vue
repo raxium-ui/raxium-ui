@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PaginationGoToProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
+import { clsx } from '@raxium/themes/utils'
 import { NumberInput } from '@raxium/vue/components/number-input'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, provide, ref, watch } from 'vue'
@@ -40,7 +41,7 @@ provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })
 
 <template>
   <div
-    :class="crafts.root({ class: [ui?.root, propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
     data-scope="pagination"
     data-part="goto"
   >
@@ -48,8 +49,8 @@ provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })
     <NumberInput
       v-bind="theme"
       v-model="innerValue"
-      :class="crafts.input({ class: ui?.input, ...theme })"
-      :ui="ui?.input"
+      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
+      :ui="ui ? { input: ui.input } : undefined"
       :min="1"
       :max="context.totalPages"
       clamp-value-on-blur

@@ -2,6 +2,7 @@
 import type { TabsTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Tabs } from '@ark-ui/vue/tabs'
+import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 import { injectTabsContextEx } from './TabsProviderEx.vue'
@@ -18,7 +19,7 @@ const crafts = computed(() => theme.value.crafts.tvTabs())
 <template>
   <Tabs.Trigger
     v-bind="forwarded"
-    :class="crafts.trigger({ class: [propsClass], orientation: contextEx.orientation, ...theme })"
+    :class="crafts.trigger({ class: clsx(propsClass), orientation: contextEx.orientation, ...theme })"
   >
     <slot />
   </Tabs.Trigger>

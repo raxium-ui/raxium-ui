@@ -107,4 +107,9 @@
     --swiper-scrollbar-drag-bg-color: oklch(76.87% 0.2343 141.32);
     --swiper-scrollbar-size: 0.25rem;
   }
+
+  .rui-swiper-next,
+  .rui-swiper-prev {
+    width: fit-content;
+  }
 }

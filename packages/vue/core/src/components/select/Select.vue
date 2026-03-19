@@ -3,6 +3,7 @@ import type { CollectionItem, UseSelectProps } from '@ark-ui/vue/select'
 import type { SelectEmits, SelectProps } from '.'
 import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
+import { clsx } from '@raxium/themes/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
@@ -34,7 +35,7 @@ useForwardExpose()
     :value="selectRoot"
     :lazy-mount="selectConfig?.lazyMount"
     :unmount-on-exit="selectConfig?.unmountOnExit"
-    :class="crafts.root({ class: [propsClass], ...theme })"
+    :class="crafts.root({ class: clsx(propsClass), ...theme })"
   >
     <ThemeProvider :value="theme">
       <slot />

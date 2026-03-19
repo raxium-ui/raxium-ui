@@ -1,10 +1,9 @@
 <script setup generic="T" lang="ts">
-import type { ClassNameValue } from 'tailwind-merge'
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, HTMLAttributes } from 'vue'
 import type { VirtualGridProps } from '.'
+import { cn } from '@raxium/themes/utils'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { merge } from 'es-toolkit/compat'
-import { twMerge } from 'tailwind-merge'
 import { cloneVNode, computed, h, useTemplateRef } from 'vue'
 import { injectVirtualContext } from '.'
 import { useDetectSlotNode } from './useDetectSlotNode'
@@ -19,10 +18,10 @@ const {
   columnVirtualizerOptions,
 } = defineProps<
   VirtualGridProps<T> & {
-    class?: ClassNameValue
+    class?: HTMLAttributes['class']
     ui?: {
-      root?: ClassNameValue
-      scroll?: ClassNameValue
+      root?: HTMLAttributes['class']
+      scroll?: HTMLAttributes['class']
     }
   }
 >()
@@ -158,13 +157,13 @@ function measureElement(el: Element | ComponentPublicInstance) {
 <template>
   <div
     ref="parentEl"
-    :class="twMerge('rui-virtual-grid', ui?.root, propsClass)"
+    :class="cn('rui-virtual-grid', ui?.root, propsClass)"
     data-scope="virtual-grid"
     data-part="root"
   >
     <!-- scroll area -->
     <div
-      :class="twMerge('rui-virtual-grid_scroll', ui?.scroll)"
+      :class="cn('rui-virtual-grid_scroll', ui?.scroll)"
       :style="{
         width: `${totalSizeColumns}px`,
         height: `${totalSizeRows}px`,

@@ -4,6 +4,7 @@ import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Progress, useProgressContext } from '@ark-ui/vue/progress'
 import { getNodeCssVar } from '@raxium/shared/css'
+import { clsx } from '@raxium/themes/utils'
 import { useCustomTheme } from '@raxium/vue/composables/useTheme'
 import { omit } from 'es-toolkit'
 import { computed, useTemplateRef } from 'vue'
@@ -63,7 +64,7 @@ const crafts = computed(() => theme.value.crafts.tvProgress())
     v-bind="forwarded"
     :class="
       crafts.circle({
-        class: [ui?.circle, propsClass],
+        class: clsx(ui?.circle, propsClass),
         size: typeof theme.size === 'string' ? theme.size : 'base',
         ...themeRest,
       })
@@ -81,7 +82,7 @@ const crafts = computed(() => theme.value.crafts.tvProgress())
       <ark.circle
         v-bind="trackProps"
         ref="track"
-        :class="crafts.circleTrack({ class: ui?.circleTrack, ...themeRest })"
+        :class="crafts.circleTrack({ class: clsx(ui?.circleTrack), ...themeRest })"
         :data-variant="variant"
         :stroke-dasharray="`${arc} 1000`"
         stroke-dashoffset="0"
@@ -89,7 +90,7 @@ const crafts = computed(() => theme.value.crafts.tvProgress())
       <ark.circle
         v-bind="rangeProps"
         ref="range"
-        :class="crafts.circleRange({ class: ui?.circleRange, ...themeRest })"
+        :class="crafts.circleRange({ class: clsx(ui?.circleRange), ...themeRest })"
         :data-variant="variant"
         :stroke-dasharray="`${arc} 1000`"
         :stroke-dashoffset="progress"
