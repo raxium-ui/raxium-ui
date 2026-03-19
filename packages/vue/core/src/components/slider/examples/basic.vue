@@ -16,4 +16,3 @@ const value = ref([30])
     </Slider>
   </div>
 </template>
-
