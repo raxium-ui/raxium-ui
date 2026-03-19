@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+    "target": "ES2020",
+
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "vue",
+
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleDetection": "force",
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@raxium/addons/*": ["./*"],
+      "@raxium/vue-addons-shared": ["./shared/src"],
+      "@raxium/vue-addons-shared/*": ["./shared/src/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "context/**/*.ts",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "components/**/*.vue",
+    "composables/**/*.ts",
+    "composables/**/*.tsx",
+    "composables/**/*.vue",
+    "directives/**/*.ts",
+    "directives/**/*.tsx",
+    "directives/**/*.vue",
+    "shared/**/*.ts",
+    "shared/**/*.tsx",
+    "shared/**/*.vue"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,459 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TabsStories from './tabs.stories'
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+`Tabs` 用于在同一上下文中切换多个内容面板，适合设置页分组、信息分区与多视图切换。组件基于 Ark UI Tabs 构建，支持受控/非受控值、可滚动标签列表、方向切换等 Root 能力，并在 Raxium UI 中扩展 `theme` 主题配置与统一样式输出。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={TabsStories.Basic} />
+
+### 受控模式
+
+<Canvas of={TabsStories.Controlled} />
+
+### 可滚动标签列表
+
+<Canvas of={TabsStories.ScrollableList} />
+
+### 尺寸变体
+
+<Canvas of={TabsStories.Sizes} />
+
+### 禁用项与无指示器
+
+<Canvas of={TabsStories.DisabledAndNoIndicator} />
+
+---
+
+## ARK UI Link
+
+`Tabs` 组件族（`Tabs`、`TabsList`、`TabsTrigger`、`TabsIndicator`、`TabsContent`）基于 Ark UI Tabs 原语封装，根组件通过 `useForwardProps` 透传 Ark UI Root 常用能力。
+
+- **相关文档**: [Ark UI Tabs (Vue)](https://ark-ui.com/vue/docs/components/tabs)
+- **透传边界**: Root 层能力（如值管理、方向、懒加载等）由 `Tabs` 透传；Raxium UI 额外提供 `theme` 与默认 crafts 样式。子组件不额外定义业务状态逻辑，主要负责结构与样式落位。
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明。为避免与 Ark UI 文档重复，仅列项目内常用与扩展项；Ark UI 完整参数请参考官方文档。
+
+#### Tabs
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控当前值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>非受控初始值（示例见 Basic / Sizes）</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>标签方向；会影响 Trigger/Indicator 的样式计算</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>延迟挂载面板内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>切换后卸载非激活面板</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvTabs'&gt;</code></td>
+      <td>-</td>
+      <td>根组件主题参数与 <code>tvTabs</code> crafts 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TabsList
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆盖通用主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>标签列表容器 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>TabListBaseProps</code></td>
+      <td>-</td>
+      <td>支持 Ark UI Tabs List 原生属性透传</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TabsTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>触发项标识，需与对应 <code>TabsContent.value</code> 对齐</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用当前触发项（示例见 DisabledAndNoIndicator）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆盖通用主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>标签触发项 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>TabTriggerBaseProps</code></td>
+      <td>-</td>
+      <td>支持 Ark UI Tabs Trigger 原生属性透传</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TabsIndicator
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆盖通用主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>指示器 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>TabIndicatorBaseProps</code></td>
+      <td>-</td>
+      <td>支持 Ark UI Tabs Indicator 原生属性透传</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TabsContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>面板标识，需与对应 <code>TabsTrigger.value</code> 对齐</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆盖通用主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容区 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>TabContentBaseProps</code></td>
+      <td>-</td>
+      <td>支持 Ark UI Tabs Content 原生属性透传</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Tabs emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string)</code></td>
+      <td>受控当前值同步（对应 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>TabsRootEmits</code></td>
+      <td>其余 Root 事件与 Ark UI Tabs 保持一致（如值变化、焦点变化等）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 其他子组件事件
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>TabsList / TabsTrigger / TabsIndicator / TabsContent</code></td>
+      <td>-</td>
+      <td>不额外定义 Rark 自定义 emits，事件行为遵循 Ark UI 对应原语</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tabs</code></td>
+      <td><code>default</code></td>
+      <td>根插槽，放置 <code>TabsList</code> 与多个 <code>TabsContent</code></td>
+    </tr>
+    <tr>
+      <td><code>TabsList</code></td>
+      <td><code>default</code></td>
+      <td>标签列表内容，通常组合多个 <code>TabsTrigger</code> 与可选 <code>TabsIndicator</code></td>
+    </tr>
+    <tr>
+      <td><code>TabsTrigger</code></td>
+      <td><code>default</code></td>
+      <td>标签文本或自定义触发内容</td>
+    </tr>
+    <tr>
+      <td><code>TabsIndicator</code></td>
+      <td><code>default</code></td>
+      <td>自定义指示器内容（可选）</td>
+    </tr>
+    <tr>
+      <td><code>TabsContent</code></td>
+      <td><code>default</code></td>
+      <td>当前标签对应的内容区域</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Tabs` 的主题入口在根组件 `theme`，通过 `tvTabs` crafts 统一驱动 `root/list/trigger/indicator/content` 等部位。其余子组件可通过 `theme` 继承或局部覆盖通用主题参数（`ThemeNoCrafts`）。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸变体（示例见 Sizes）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | string</code></td>
+      <td>-</td>
+      <td>表面语义</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框风格</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | (() =&gt; tv)</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvTabs</code> crafts</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TabsStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Tabs` 组件族当前不提供 `ui` 或 `ui.*` 配置入口。样式覆盖建议使用以下方式：
+
+<table>
+  <thead>
+    <tr>
+      <th>路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tabs.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TabsList.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>标签列表样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TabsTrigger.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>触发项样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TabsIndicator.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>指示器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TabsContent.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容区样式覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TabsStories.DisabledAndNoIndicator} />
+
+---
+
+## 最佳实践
+
+- 触发项与内容项始终使用同一套 `value` 命名，避免出现可点击但无对应面板的状态。
+- 页面状态需要外部驱动时使用 `v-model` 受控模式；仅本地切换场景优先 `defaultValue` 简化状态管理。
+- 标签数量较多时优先使用可横向滚动的 `TabsList`（参考 ScrollableList），并保留当前项可见性。
+- 指示器是“可选增强层”，如需极简样式可不渲染 `TabsIndicator`，但建议通过选中态样式保留可识别反馈。
+- 内容较重时结合 `lazyMount` 与 `unmountOnExit` 控制挂载策略，减少首次渲染与非激活面板开销。
+- 样式定制遵循“先 theme 后 class”：全局风格走 `theme`，局部结构差异再用各子组件 `class` 做覆盖。

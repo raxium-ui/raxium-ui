@@ -1,0 +1,14 @@
+@layer components {
+  .rui-scroll-area-scrollbar {
+    @apply bg-h00/30;
+  }
+
+  .rui-scroll-area-thumb {
+    @apply bg-h58/40;
+    &[data-hover],
+    &[data-scrolling],
+    &[data-dragging] {
+      @apply bg-rz-green/80;
+    }
+  }
+}

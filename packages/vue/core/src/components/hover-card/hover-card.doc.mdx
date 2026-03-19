@@ -1,0 +1,405 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as HoverCardStories from './hover-card.stories'
+
+<Meta of={HoverCardStories} />
+
+# HoverCard
+
+`HoverCard` 是一个“可交互的悬停浮层”组件，常用于展示用户摘要、快捷说明或次级操作入口。组件基于 Ark UI Hover Card 构建：根组件承接 Ark UI Root 状态机能力，`HoverCardContent` 负责内容结构与样式扩展，同时支持 Raxium UI 的 `theme` 与局部 `ui` 覆盖。
+
+---
+
+## Examples
+
+展示组件的常见使用方式。
+
+### 基础用法
+
+<Canvas of={HoverCardStories.Basic} />
+
+### 延迟与定位
+
+<Canvas of={HoverCardStories.DelaysAndPositioning} />
+
+### 受控模式与上下文
+
+<Canvas of={HoverCardStories.ControlledAndContext} />
+
+### 主题尺寸与外观变体
+
+<Canvas of={HoverCardStories.ThemesAndVariants} />
+
+### 内容与 UI 自定义
+
+<Canvas of={HoverCardStories.CustomContent} />
+
+---
+
+## ARK UI Link
+
+`HoverCard` 组件族与 Ark UI Hover Card 对应，属于「部分透传 + Raxium UI 扩展」：
+
+- **相关文档**：[Ark UI Hover Card (Vue)](https://ark-ui.com/vue/docs/components/hover-card)
+- **说明**：`HoverCard` 根组件基于 Ark UI Root，透传 Root 常用参数（如 `open/defaultOpen`、`positioning`、`openDelay/closeDelay`、`lazyMount/unmountOnExit` 等），并扩展 `theme`；`HoverCardTrigger` 直接导出自 Ark UI 原语；`HoverCardContent` 在 Ark UI Content/Positioner 上增加结构化包裹与 `ui` 覆盖；`HoverCardArrow` 在 Ark UI Arrow 上增加 `theme/ui` 覆盖。
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组列出常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### HoverCard
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控打开状态（配合 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控模式下的初始打开状态</td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>PositioningOptions</code></td>
+      <td>-</td>
+      <td>浮层定位配置（如 <code>placement</code>、<code>offset</code> 等）</td>
+    </tr>
+    <tr>
+      <td><code>openDelay</code></td>
+      <td><code>number</code></td>
+      <td>取配置项（默认 <code>0</code>）</td>
+      <td>鼠标悬停到触发器后，浮层延迟打开时间（ms）</td>
+    </tr>
+    <tr>
+      <td><code>closeDelay</code></td>
+      <td><code>number</code></td>
+      <td>取配置项（默认 <code>300</code>）</td>
+      <td>鼠标移出后，浮层延迟关闭时间（ms）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>是否延迟挂载内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>关闭后是否卸载内容</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvHoverCard'&gt;</code></td>
+      <td>-</td>
+      <td>根组件主题参数与 crafts 覆盖入口</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Root 参数</td>
+      <td><code>HoverCardRootBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Hover Card 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### HoverCardTrigger（Ark UI 原语导出）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将触发行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Trigger 参数</td>
+      <td><code>HoverCardTriggerBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Hover Card 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### HoverCardContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>内容节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根组件主题，也可局部覆盖（不含 crafts）</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Content 参数</td>
+      <td><code>HoverCardContentBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Hover Card 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### HoverCardArrow
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>箭头根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### HoverCard
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: OpenChangeDetails) =&gt; void</code></td>
+      <td>打开状态变化时触发（Ark UI Root 事件）</td>
+    </tr>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean) =&gt; void</code></td>
+      <td>用于 <code>v-model:open</code> 双向绑定</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Root 事件</td>
+      <td><code>HoverCardRootEmits</code></td>
+      <td>完整事件列表请参考 Ark UI Hover Card 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### HoverCardTrigger / HoverCardContent / HoverCardArrow
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>子组件未额外声明 emits，DOM 事件可按原生方式监听</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>HoverCard</code></td>
+      <td><code>default</code></td>
+      <td>承载触发器与内容区域（通常组合 <code>HoverCardTrigger</code> + <code>HoverCardContent</code>）</td>
+    </tr>
+    <tr>
+      <td><code>HoverCardTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发节点内容；配合 <code>asChild</code> 可直接复用已有按钮或链接</td>
+    </tr>
+    <tr>
+      <td><code>HoverCardContent</code></td>
+      <td><code>default</code></td>
+      <td>浮层内容；可放置 <code>HoverCardArrow</code> 与任意业务节点</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`HoverCard` 的主题入口在根组件 `theme`（类型为 `ThemeCrafts<'tvHoverCard'>`），会通过上下文影响内容与箭头样式；`HoverCardContent` 与 `HoverCardArrow` 也支持局部 `theme` 覆盖（`ThemeNoCrafts`）。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题参数</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>影响范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>影响浮层尺寸节奏与箭头尺寸</td>
+    </tr>
+    <tr>
+      <td><code>theme.skin</code></td>
+      <td><code>'razer' | 'shadcn' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>影响组件视觉皮肤标识</td>
+    </tr>
+    <tr>
+      <td><code>theme.surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>影响明暗表面样式</td>
+    </tr>
+    <tr>
+      <td><code>theme.bordered</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>控制内容与箭头边框表现</td>
+    </tr>
+    <tr>
+      <td><code>theme.unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用默认样式，便于完全自定义</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts</code>（仅根组件）</td>
+      <td><code>ThemeCrafts&lt;'tvHoverCard'&gt;['theme']['crafts']</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvHoverCard</code> 的样式工艺配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={HoverCardStories.ThemesAndVariants} />
+
+---
+
+## UI Configuration
+
+`HoverCard` 根组件不提供 `ui` 入口；UI 覆盖主要在 `HoverCardContent` 与 `HoverCardArrow`。
+
+<table>
+  <thead>
+    <tr>
+      <th>可配置路径</th>
+      <th>组件</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.positioner</code></td>
+      <td><code>HoverCardContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖定位层容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.content</code></td>
+      <td><code>HoverCardContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖内容容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.inner</code></td>
+      <td><code>HoverCardContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖内容内层容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrow</code></td>
+      <td><code>HoverCardArrow</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖箭头容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrowTip</code></td>
+      <td><code>HoverCardArrow</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖箭头尖端节点 class</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={HoverCardStories.CustomContent} />
+
+---
+
+## 最佳实践
+
+- 优先使用 `HoverCard` + `HoverCardTrigger asChild` + `HoverCardContent` 的标准组合，保证交互语义与可访问性一致。
+- 内容区域建议保持“短信息 + 轻操作”，重交互场景改用 `Dialog/Drawer`，避免悬停态承载复杂流程。
+- 需要外部状态联动时使用 `v-model:open` 与 `openChange`，并在业务层统一记录打开来源与行为埋点。
+- 对于密集列表中的 HoverCard，建议调整 `openDelay/closeDelay`，减少误触和抖动感。
+- 大幅定制样式时优先用 `theme` 控制整体视觉，再用 `ui.content/ui.inner/ui.arrowTip` 做局部覆盖，避免样式分散。
+- 依赖异步数据时建议结合 `lazyMount` 与 `unmountOnExit`，减少首屏渲染开销并避免隐藏内容长期驻留 DOM。

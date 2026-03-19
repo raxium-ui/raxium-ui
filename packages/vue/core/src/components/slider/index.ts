@@ -1,0 +1,7 @@
+export * from './props'
+export { default as Slider } from './Slider.vue'
+export { default as SliderMarker } from './SliderMarker.vue'
+export { default as SliderThumb } from './SliderThumb.vue'
+export { default as SliderTooltipMarker } from './SliderTooltipMarker.vue'
+export { default as SliderTooltipThumb } from './SliderTooltipThumb.vue'
+export { SliderMarkerGroup } from '@ark-ui/vue/slider'

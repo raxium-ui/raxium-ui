@@ -1,0 +1,29 @@
+@layer components {
+  .rui-dialog-backdrop {
+    @apply bg-h00/80 data-[variant=scroll]:webkit-scrollbar-self;
+  }
+
+  .rui-dialog-content {
+    @apply bg-h1a border-h11 webkit-small-scrollbar
+  }
+
+  .rui-dialog-close{
+    @apply text-rui-close hover:text-rui-close-hover;
+  }
+
+  .rui-dialog-header{
+    @apply bg-h22 font-rob-bold;
+  }
+
+  .rui-dialog-footer{
+    @apply bg-h16;
+  }
+
+  .rui-dialog-body{
+    @apply -outline-offset-2;
+  }
+
+  .rui-dialog-content-close{
+    @apply text-rui-close hover:text-rui-close-hover;
+  }
+}

@@ -1,0 +1,423 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.switch",
+  "component": {
+    "name": "Switch",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Switch",
+    "category": "core",
+    "description": "用于表达单一布尔开关状态（开/关），适合用于功能启停、偏好配置等场景。基于 Ark UI Switch 构建，支持受控/非受控状态、表单语义透传，并扩展 theme 与 ui 样式入口。由 Switch（根）与 SwitchLabel（子组件）组成。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue",
+      "primitive": "Switch.RootProvider",
+      "nativeElement": "button"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "checked",
+        "disabled",
+        "readOnly",
+        "required",
+        "name",
+        "value",
+        "aria-*",
+        "data-*"
+      ],
+      "notes": "组件基于 Ark UI Switch 原语封装，透传 checked/defaultChecked、disabled、readOnly、required、name、value 等。"
+    },
+    "capabilities": [
+      "checked",
+      "theme",
+      "ui-override",
+      "form-semantics"
+    ],
+    "subComponents": ["SwitchLabel"]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "checked",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["defaultChecked"],
+        "description": "受控选中状态（可配合 v-model:checked）"
+      },
+      {
+        "name": "defaultChecked",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["checked"],
+        "description": "非受控模式下的初始状态"
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否禁用交互"
+      },
+      {
+        "name": "readOnly",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否只读"
+      },
+      {
+        "name": "required",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否必填（表单语义）"
+      },
+      {
+        "name": "invalid",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否错误态"
+      },
+      {
+        "name": "name",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "表单字段名"
+      },
+      {
+        "name": "value",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "表单提交值"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根容器自定义 class"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvSwitch'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 crafts 覆写"
+      },
+      {
+        "name": "ui",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "{ root?: HTMLAttributes['class']; control?: HTMLAttributes['class']; thumb?: HTMLAttributes['class']; label?: HTMLAttributes['class'] }",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "root": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "control": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "thumb": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "label": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }
+          },
+          "additionalProperties": true
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "局部样式覆盖（root/control/thumb/label）；ui.label 当前版本未在模板中消费，建议使用 SwitchLabel.class 覆盖标签样式"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:checked",
+        "payload": {
+          "typeText": "(checked: boolean)",
+          "typeSchema": { "type": "object", "properties": { "checked": { "type": "boolean" } } }
+        },
+        "emitWhen": [{ "expr": "checked_change_emit", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:checked"],
+        "description": "受控状态同步事件（用于 v-model:checked）"
+      },
+      {
+        "name": "checkedChange",
+        "payload": {
+          "typeText": "Ark UI checked change details",
+          "typeSchema": { "type": "object" }
+        },
+        "emitWhen": [{ "expr": "ark_ui_checked_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:checkedChange"],
+        "description": "底层 Ark UI 状态变化事件"
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "默认插槽；通常放置 SwitchLabel 或自定义描述内容"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "控制开关轨道、滑块和标签字号"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆写 tvSwitch 的 crafts 配置（如 root/control/thumb/label）"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": [
+        { "name": "ui.root", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "根容器 class 覆盖" },
+        { "name": "ui.control", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "控制区 class 覆盖" },
+        { "name": "ui.thumb", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "滑块 class 覆盖" },
+        { "name": "ui.label", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "当前版本未在模板中消费；建议使用 SwitchLabel.class 覆盖标签样式" }
+      ]
+    }
+  },
+  "subComponents": {
+    "SwitchLabel": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "标签节点自定义 class"
+        },
+        {
+          "name": "asChild",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": false,
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "将标签能力合并到子元素"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "从上下文继承主题参数，也可局部覆盖主题参数"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "标签文本或自定义标签结构"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": {
+        "fields": []
+      },
+      "uiConfiguration": {
+        "fields": []
+      }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "checked": "boolean",
+      "disabled": "boolean | undefined",
+      "readOnly": "boolean | undefined"
+    },
+    "derived": {
+      "isInteractive": "disabled !== true && readOnly !== true"
+    },
+    "transitions": [
+      {
+        "on": "click",
+        "guard": "isInteractive",
+        "effects": [
+          "setChecked(!checked)",
+          "emit:update:checked",
+          "emit:checkedChange"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    { "id": "basic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Switch" }, "exampleId": "basic" }, "description": "基础用法" },
+    { "id": "sizes", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Switch" }, "exampleId": "sizes" }, "description": "尺寸变体" },
+    { "id": "states", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Switch" }, "exampleId": "states" }, "description": "状态示例" },
+    { "id": "with-label", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Switch" }, "exampleId": "with-label" }, "description": "标签组合" },
+    { "id": "controlled", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Switch" }, "exampleId": "controlled" }, "description": "受控模式" }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": ["checked", "defaultChecked", "theme.size", "disabled"],
+    "safeDefaults": {
+      "defaultChecked": false,
+      "theme.size": "base"
+    },
+    "a11yChecklist": [
+      "标签内容建议放在 SwitchLabel 中",
+      "禁用与只读要区分：禁止交互用 disabled，仅阻止编辑用 readOnly",
+      "表单使用时补齐 name、value、required"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Switch v-model:checked=\"enabled\" />",
+      "withLabel": "<Switch v-model:checked=\"enabled\"><SwitchLabel>启用</SwitchLabel></Switch>"
+    },
+    "antiPatterns": [
+      "<Switch :checked=\"enabled\" :default-checked=\"true\" /> — 同时使用 checked 与 defaultChecked 导致冲突",
+      "<Switch><span>启用</span></Switch> — 说明文本直接塞进 Switch 根节点，应使用 SwitchLabel",
+      "<Switch disabled><SwitchLabel>禁用</SwitchLabel></Switch> 仅通过视觉样式模拟只读（应使用 readOnly 区分）"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./switch.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Switch.vue", "kind": "runtime" },
+      { "path": "./SwitchLabel.vue", "kind": "runtime" },
+      { "path": "./switch.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.checked.conflictsWith": "doc",
+      "contracts.props.defaultChecked.conflictsWith": "doc",
+      "contracts.themeConfiguration.fields.size.default": "doc",
+      "contracts.uiConfiguration.fields": "doc",
+      "subComponents.SwitchLabel.props.asChild.default": "doc",
+      "behaviorModel.transitions.effects": "runtime"
+    }
+  }
+}

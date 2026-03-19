@@ -1,0 +1,45 @@
+{
+  "name": "@raxium/mcp",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.28.2",
+  "description": "Maxium UI MCP server with stdio transport",
+  "author": "",
+  "license": "MIT",
+  "url": "https://github.com/raxium-ui/raxium-ui",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "mcp",
+    "model-context-protocol",
+    "ark-ui"
+  ],
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "bin": {
+    "raxium-mcp": "dist/cli.js"
+  },
+  "files": [
+    "README.md",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "smoke:inspector": "tsx scripts/inspector-smoke.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

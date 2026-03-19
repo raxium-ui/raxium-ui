@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.addons.murri",
+  "component": {
+    "name": "Muuri",
+    "framework": "vue",
+    "package": "@raxium/vue-addons-u-murri",
+    "importPath": "@raxium/vue-addons-u-murri",
+    "exportName": "useMuuri",
+    "category": "addon",
+    "description": "addons 中基于 muuri 库的拖拽排序 composable。用于将列表节点初始化为可拖拽网格，并在拖拽移动时同步更新传入的 list 数据。不提供 theme 或 ui 配置，样式扩展通过 CSS 类完成。",
+    "basePrimitive": {
+      "library": "muuri",
+      "primitive": "Grid",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [],
+      "notes": "composable 非组件，无 HTML 透传。options 继承 muuri GridOptions，全部透传至 Grid 构造；内部默认注入 layout、dragEnabled、dragHandle、dragAxis、dragPlaceholder 与 onMove 列表同步逻辑。"
+    },
+    "capabilities": [
+      "drag-sort",
+      "list-sync",
+      "layout-customization"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "el",
+        "required": true,
+        "requiredSource": "doc",
+        "typeText": "string | MaybeRefOrGetter<MaybeElement>",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            {
+              "type": "object",
+              "description": "Ref or getter returning MaybeElement"
+            }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "目标容器。可传 CSS 选择器（如 '.demo-muuri-grid'）或元素 ref/getter。"
+      },
+      {
+        "name": "list",
+        "required": true,
+        "requiredSource": "doc",
+        "typeText": "MaybeRef<T[]>",
+        "typeSchema": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "用于渲染与排序同步的数据列表。onMove 时按 fromIndex -> toIndex 自动更新顺序；若为 ref，会赋值 list.value。"
+      },
+      {
+        "name": "options",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "UseMuuriOptions",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "onMove": {
+              "type": "function",
+              "description": "(data: { item: Item; fromIndex: number; toIndex: number; action: 'move' | 'swap' }) => any"
+            },
+            "onDragStart": {
+              "type": "function",
+              "description": "(item: Item, event: DraggerStartEvent | DraggerMoveEvent) => any"
+            },
+            "onDragEnd": {
+              "type": "function",
+              "description": "(item: Item, event: DraggerEndEvent | DraggerCancelEvent) => any"
+            },
+            "onDragMove": {
+              "type": "function",
+              "description": "(item: Item, event: DraggerMoveEvent) => any"
+            },
+            "onDragScroll": {
+              "type": "function",
+              "description": "(item: Item, event: ScrollEvent) => any"
+            },
+            "onLayoutStart": {
+              "type": "function",
+              "description": "(items: Item[], isInstant: boolean) => any"
+            },
+            "onLayoutEnd": {
+              "type": "function",
+              "description": "(items: Item[]) => any"
+            },
+            "onLayoutAbort": { "type": "function" },
+            "onAdd": { "type": "function" },
+            "onRemove": { "type": "function" },
+            "onShowStart": { "type": "function" },
+            "onShowEnd": { "type": "function" },
+            "onHideStart": { "type": "function" },
+            "onHideEnd": { "type": "function" },
+            "onFilter": { "type": "function" },
+            "onSort": { "type": "function" },
+            "onSend": { "type": "function" },
+            "onBeforeSend": { "type": "function" },
+            "onReceive": { "type": "function" },
+            "onBeforeReceive": { "type": "function" },
+            "onDragInit": { "type": "function" },
+            "onDragReleaseStart": { "type": "function" },
+            "onDragReleaseEnd": { "type": "function" },
+            "onDestroy": { "type": "function" },
+            "onSynchronize": { "type": "function" }
+          },
+          "additionalProperties": true
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "Muuri 选项与事件回调。继承 GridOptions；所有 onXxx 会被映射为 Muuri 事件。内部默认 onMove 会先同步 list 顺序再调用外部回调。"
+      }
+    ],
+    "events": [],
+    "slots": [],
+    "themeConfiguration": {
+      "fields": [],
+      "notes": "Muuri 不提供 theme 配置。可通过 rui-muuri-grid、rui-muuri-item、rui-muuri-handle、rui-muuri-placeholder 等 CSS 类及 --muuri-placeholder-bg 变量扩展样式。"
+    },
+    "uiConfiguration": {
+      "fields": [],
+      "notes": "Muuri 不提供 ui 配置。建议通过容器 class 与 index.css 中的结构类覆盖。"
+    }
+  },
+  "cssImport": {
+    "required": true,
+    "importPath": "@raxium/vue-addons-u-murri/index.css",
+    "sourcePath": "packages/vue/addons/composables/murri/src/index.css",
+    "description": "定义 Muuri 必需的结构样式（网格容器相对定位、item 绝对定位、拖拽层级、占位符样式），提供 rui-muuri-grid、rui-muuri-item、rui-muuri-placeholder 等基础结构类。",
+    "usage": "import '@raxium/vue-addons-u-murri/index.css'"
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "grid": "ShallowRef<Grid | null>",
+      "list": "MaybeRef<T[]>"
+    },
+    "derived": {
+      "gridReady": "grid.value !== null",
+      "listOrder": "toValue(list) 在 onMove 后按 fromIndex->toIndex 重排"
+    },
+    "transitions": [
+      {
+        "on": "tryOnMounted",
+        "guard": "el 解析为有效 HTMLElement 或选择器",
+        "effects": ["start()", "grid.value = new Grid(target, mergedOptions)"]
+      },
+      {
+        "on": "onMove (muuri 内部)",
+        "guard": "always",
+        "effects": ["splice list fromIndex->toIndex", "options?.onMove?.(data)"]
+      },
+      {
+        "on": "tryOnScopeDispose",
+        "guard": "always",
+        "effects": ["stop()", "grid.value?.destroy()", "grid.value = null"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/composables/murri" },
+        "exampleId": "basic"
+      },
+      "description": "基础拖拽排序，列表顺序自动同步"
+    },
+    {
+      "id": "events",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/composables/murri" },
+        "exampleId": "events"
+      },
+      "description": "onDragStart/onDragEnd/onMove 回调示例"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "el (选择器或 ref)",
+      "list (ref)",
+      "options (onMove/onDragStart/onDragEnd)"
+    ],
+    "safeDefaults": {
+      "layout": "纵向堆叠",
+      "dragEnabled": true,
+      "dragHandle": ".rui-muuri-handle",
+      "dragAxis": "y",
+      "dragPlaceholder": "enabled: true"
+    },
+    "a11yChecklist": [
+      "拖拽手柄需提供 aria-label（如 aria-label=\"拖拽手柄\"）。",
+      "列表项需保持稳定 key，避免拖拽测量抖动。"
+    ],
+    "codegenTemplates": {
+      "minimal": "const items = ref([...])\nuseMuuri('.rui-muuri-grid', items)",
+      "withCallbacks": "useMuuri(gridRef, items, {\n  onDragStart: () => { ... },\n  onDragEnd: () => { ... },\n  onMove: (data) => { ... }\n})"
+    },
+    "antiPatterns": [
+      "使用 useMuuri 但未引入 index.css — 导致 rui-muuri-grid、rui-muuri-item 等结构样式缺失，布局错乱",
+      "v-for 未使用稳定 key — 拖拽时测量抖动",
+      "整项可拖拽且无 dragHandle — 易误触，应使用 .rui-muuri-handle"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./murri.doc.mdx", "kind": "doc" },
+      { "path": "./useMuuri.ts", "kind": "runtime" },
+      { "path": "./muuri.stories.ts", "kind": "story" },
+      { "path": "./examples/basic.vue", "kind": "example" },
+      { "path": "./examples/events.vue", "kind": "example" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.el.description": "doc",
+      "contracts.props.list.description": "doc",
+      "contracts.props.options.description": "doc",
+      "cssImport": "doc",
+      "behaviorModel.transitions": "runtime",
+      "generationHints.safeDefaults": "runtime",
+      "generationHints.antiPatterns": "doc"
+    }
+  }
+}

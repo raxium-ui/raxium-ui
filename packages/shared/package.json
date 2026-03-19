@@ -1,0 +1,52 @@
+{
+  "name": "@raxium/shared",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "Shared utilities for Raxium UI",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/raxium-ui/raxium-ui"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "shared",
+    "utilities"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./css": {
+      "types": "./dist/css.d.ts",
+      "import": "./dist/css.js"
+    },
+    "./dom": {
+      "types": "./dist/dom.d.ts",
+      "import": "./dist/dom.js"
+    },
+    "./color": {
+      "types": "./dist/color.d.ts",
+      "import": "./dist/color.js"
+    },
+    "./constant": {
+      "types": "./dist/constant.d.ts",
+      "import": "./dist/constant.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

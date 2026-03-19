@@ -1,0 +1,29 @@
+@layer components {
+  .rui-input {
+    --default-border-color: var(--color-h55);
+    --hover-border-color: var(--color-h66);
+    --focus-border-color: var(--color-rz-green);
+    @apply bg-transparent border-(--default-border-color) text-hbb transition-colors;
+    @apply hover:border-(--hover-border-color) focus:border-(--focus-border-color);
+    @apply data-[state=focused]:border-(--focus-border-color) 
+      data-[state=focused]:hover:border-(--focus-border-color) 
+        data-[state=focused]:ring-2
+        data-[state=focused]:ring-(--focus-border-color)/30;
+    @apply data-[state=disabled]:hover:border-(--default-border-color) data-[state=disabled]:bg-h1d;
+    @apply data-[state=readonly]:bg-h1d;
+
+    &[data-focus] {
+      @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
+    }
+  }
+
+  .rui-input-input {
+    @apply placeholder:text-h55 placeholder:italic selection:bg-[#204C19] selection:text-[#97C390];
+  }
+
+  .rui-input-clearable {
+    @apply [&>svg]:fill-rui-close
+           [&>svg]:stroke-black
+           [&>svg]:hover:fill-rui-close-hover;
+  }
+}

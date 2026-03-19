@@ -1,0 +1,361 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as NumberInputStories from './number-input.stories'
+
+<Meta of={NumberInputStories} />
+
+# NumberInput
+
+`NumberInput` 用于处理数值输入场景，支持键盘输入、步进调整、范围限制与格式化展示。组件基于 Ark UI Number Input 构建，在根能力透传的基础上扩展了 `showTrigger`、`theme` 与 `ui` 配置，便于统一输入框风格与交互细节。
+
+---
+
+## Examples
+
+展示组件在常见业务中的使用方式。
+
+### 基础用法
+
+<Canvas of={NumberInputStories.Basic} />
+
+### 步进按钮
+
+<Canvas of={NumberInputStories.Triggers} />
+
+### 尺寸变体
+
+<Canvas of={NumberInputStories.Sizes} />
+
+### 状态：禁用/只读/错误
+
+<Canvas of={NumberInputStories.States} />
+
+### 格式化与范围策略
+
+<Canvas of={NumberInputStories.Format} />
+
+### 事件监听
+
+<Canvas of={NumberInputStories.Events} />
+
+### 程序化调用
+
+<Canvas of={NumberInputStories.Programmatic} />
+
+---
+
+## ARK UI Link
+
+`NumberInput` 基于 Ark UI Number Input 根能力封装：数值状态、范围约束、步进逻辑、格式化参数等核心能力由 Ark UI 提供；Raxium UI 额外补充了触发器显示开关与主题样式入口。
+
+- **相关文档**: [Ark UI Number Input (Vue)](https://ark-ui.com/vue/docs/components/number-input)
+- **透传边界**: 常用 Ark UI Root 参数（如 `modelValue/defaultValue`、`min/max/step`、`locale`、`formatOptions` 等）可直接使用；`showTrigger`、`theme`、`ui.*` 为 Raxium UI 扩展项。
+
+---
+
+## API
+
+### Props
+
+以下列出常用参数与 Raxium UI 扩展项；Ark UI 原生完整参数请以官方文档为准。
+
+#### NumberInput
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控输入值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始值</td>
+    </tr>
+    <tr>
+      <td><code>min</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>允许输入的最小值</td>
+    </tr>
+    <tr>
+      <td><code>max</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>允许输入的最大值</td>
+    </tr>
+    <tr>
+      <td><code>step</code></td>
+      <td><code>number</code></td>
+      <td><code>1</code></td>
+      <td>步进增减间隔</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用输入与步进交互</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否只读（保留聚焦与文本选择）</td>
+    </tr>
+    <tr>
+      <td><code>invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否为错误态样式</td>
+    </tr>
+    <tr>
+      <td><code>locale</code></td>
+      <td><code>string</code></td>
+      <td>浏览器默认语言</td>
+      <td>数值格式化所使用的区域设置</td>
+    </tr>
+    <tr>
+      <td><code>formatOptions</code></td>
+      <td><code>Intl.NumberFormatOptions</code></td>
+      <td>-</td>
+      <td>传递给 <code>Intl.NumberFormat</code> 的格式化参数</td>
+    </tr>
+    <tr>
+      <td><code>clampValueOnBlur</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>失焦时是否自动钳制到 <code>min/max</code> 范围内</td>
+    </tr>
+    <tr>
+      <td><code>showTrigger</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否显示内置增减按钮（Raxium UI 扩展）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点自定义 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvInput' | 'tvNumberInput'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### NumberInput emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string)</code></td>
+      <td>输入值变化时触发，用于 <code>v-model</code> 同步</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: &#123; value: string; valueAsNumber: number | null &#125;)</code></td>
+      <td>数值变化事件（Ark UI 详情对象）</td>
+    </tr>
+    <tr>
+      <td><code>valueInvalid</code></td>
+      <td><code>(details: &#123; reason: string; value: string &#125;)</code></td>
+      <td>输入值无效时触发</td>
+    </tr>
+    <tr>
+      <td><code>focusChange</code></td>
+      <td><code>(details: &#123; focused: boolean; value: string &#125;)</code></td>
+      <td>聚焦状态变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>inputFocus</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>输入框聚焦时触发（模板监听写法：<code>@input-focus</code>）</td>
+    </tr>
+    <tr>
+      <td><code>inputBlur</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>输入框失焦时触发（模板监听写法：<code>@input-blur</code>）</td>
+    </tr>
+    <tr>
+      <td><code>focus</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>Raxium UI 额外透出的输入框 focus 事件</td>
+    </tr>
+    <tr>
+      <td><code>blur</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>Raxium UI 额外透出的输入框 blur 事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>NumberInput</code></td>
+      <td><code>prefix</code></td>
+      <td>输入框前置区域（如货币符号、单位标签）</td>
+    </tr>
+    <tr>
+      <td><code>NumberInput</code></td>
+      <td><code>suffix</code></td>
+      <td>输入框后置区域（如单位、状态图标）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`NumberInput` 通过 `theme` 同时驱动 `tvInput` 与 `tvNumberInput` crafts，覆盖输入框基础样式与步进按钮区域样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>输入框与触发器尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面亮暗语义</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvInput</code> / <code>tvNumberInput</code> crafts</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={NumberInputStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`NumberInput` 提供分区 `ui` 覆盖入口，适合在保留主题体系的前提下做局部样式微调。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.control</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>控制区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.input</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>输入节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.triggerGroup</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>增减按钮组 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.trigger</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>增减按钮 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={NumberInputStories.Triggers} />
+
+---
+
+## 最佳实践
+
+- 范围明确的业务（如数量、库存）建议始终设置 `min/max/step`，减少非法值进入后续流程。
+- 需要格式化显示时优先使用 `locale + formatOptions`，避免手写字符串格式化导致输入态与展示态不一致。
+- 是否自动纠正越界值应根据业务选择：金融/精确录入可将 `clampValueOnBlur` 设为 `false`，由表单校验统一处理。
+- 仅在需要鼠标快速调整时开启 `showTrigger`；移动端或紧凑布局中可保持隐藏以降低视觉负担。
+- 外部状态同步使用 `v-model` + `update:modelValue`，精细交互追踪再补充监听 `valueChange/valueInvalid/focusChange`。
+- 需要外部控制焦点和步进时，可通过组件实例的 `$api` 调用 `focus/increment/decrement/setToMin/setToMax/clearValue`。

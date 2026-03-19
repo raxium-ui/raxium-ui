@@ -1,0 +1,632 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.addons.swiper",
+  "component": {
+    "name": "Swiper",
+    "framework": "vue",
+    "package": "@raxium/vue-addons-swiper",
+    "importPath": "@raxium/vue-addons-swiper",
+    "exportName": "Swiper",
+    "category": "addon",
+    "description": "addons 中的轮播组件集合，面向轮播容器、分页器、导航按钮和滚动条等常见组合场景。基于 swiper 生态二次封装，核心能力以底层库为主，补充 SwiperPagination 的 autoplay-bullets 扩展类型。由 Swiper、SwiperSlide、SwiperPagination、SwiperNavigationPrev/Next、SwiperScrollbar、SwiperPrev/Next 组合而成。当前不提供 theme 与 ui 配置，支持 class、data-part 与 CSS 变量样式扩展。",
+    "basePrimitive": {
+      "library": "swiper/vue",
+      "primitive": "Swiper",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": ["aria-*", "data-*", "class"],
+      "notes": "SwiperProps 继承 SwiperOptions 全部透传；SwiperNavigation*、SwiperPagination、SwiperScrollbar 部分透传对应模块参数，enabled/el 由组件内部接管。"
+    },
+    "capabilities": [
+      "carousel",
+      "pagination",
+      "navigation",
+      "scrollbar",
+      "autoplay",
+      "loop",
+      "slot-composition"
+    ],
+    "subComponents": [
+      "SwiperSlide",
+      "SwiperPagination",
+      "SwiperNavigationPrev",
+      "SwiperNavigationNext",
+      "SwiperScrollbar",
+      "SwiperPrev",
+      "SwiperNext"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "tag",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": "div",
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "自定义容器标签。"
+      },
+      {
+        "name": "wrapperTag",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": "div",
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "自定义 wrapper 标签。"
+      },
+      {
+        "name": "modules",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "any[]",
+        "typeSchema": { "type": "array" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "需要启用的 Swiper 模块（Navigation、Pagination、Scrollbar、Autoplay 等）。"
+      },
+      {
+        "name": "direction",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'horizontal' | 'vertical'",
+        "typeSchema": { "enum": ["horizontal", "vertical"] },
+        "default": "horizontal",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "滑动方向。"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "HTMLAttributes['class']",
+        "typeSchema": {
+          "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根轮播元素 class，与内置 rui-swiper 合并。"
+      }
+    ],
+    "events": [
+      {
+        "name": "swiper",
+        "payload": {
+          "typeText": "(swiper: Swiper) => void",
+          "typeSchema": { "type": "object", "x-ts-type": "Swiper" }
+        },
+        "emitWhen": [{ "expr": "swiper_initialized", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:swiper"],
+        "description": "Swiper 实例初始化后触发。"
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": { "type": "object", "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "默认内容区域，通常放置 SwiperSlide。"
+      },
+      {
+        "name": "container-start",
+        "slotPropsSchema": { "type": "object", "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "容器起始扩展槽，常用于放导航与分页组件。"
+      },
+      {
+        "name": "container-end",
+        "slotPropsSchema": { "type": "object", "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "容器结束扩展槽。"
+      },
+      {
+        "name": "wrapper-start",
+        "slotPropsSchema": { "type": "object", "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "wrapper 起始扩展槽。"
+      },
+      {
+        "name": "wrapper-end",
+        "slotPropsSchema": { "type": "object", "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "wrapper 结束扩展槽。"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [],
+      "notes": "Swiper 不提供 theme 配置。"
+    },
+    "uiConfiguration": {
+      "fields": [],
+      "notes": "Swiper 不提供 ui 配置，建议通过 class、data-part 与 CSS 变量扩展。"
+    }
+  },
+  "cssImport": {
+    "required": true,
+    "importPath": "@raxium/vue-addons-swiper/index.css",
+    "sourcePath": "packages/vue/addons/components/swiper/src/index.css",
+    "description": "包含 Swiper 基础样式引入（swiper/css、navigation、pagination、scrollbar）以及 rui-swiper-* 结构类与分页/滚动条 CSS 变量定义。",
+    "usage": "import '@raxium/vue-addons-swiper/index.css'"
+  },
+  "subComponents": {
+    "SwiperSlide": {
+      "props": [],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "additionalProperties": true },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "Slide 内容，参数见 Swiper 官方 SwiperSlide 文档。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperPagination": {
+      "props": [
+        {
+          "name": "type",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "PaginationOptions['type'] | 'autoplay-bullets'",
+          "typeSchema": { "type": "string" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "分页类型；autoplay-bullets 为 addons 扩展值。"
+        },
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": {
+            "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "分页容器 class。"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperNavigationPrev": {
+      "props": [
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": {
+            "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "导航按钮 class。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": { "disabled": { "type": "boolean" } },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "默认左箭头图标",
+          "description": "参数为 { disabled: boolean }。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperNavigationNext": {
+      "props": [
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": {
+            "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "导航按钮 class。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": { "disabled": { "type": "boolean" } },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "默认右箭头图标",
+          "description": "参数为 { disabled: boolean }。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperScrollbar": {
+      "props": [
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": {
+            "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "滚动条容器 class。"
+        }
+      ],
+      "slots": [],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperPrev": {
+      "props": [
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": { "disabled": { "type": "boolean" } },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "自定义上一页按钮内容，参数为 { disabled: boolean }。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "SwiperNext": {
+      "props": [
+        {
+          "name": "swiper",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "Swiper",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "可选的 Swiper 实例；未传时从 useSwiper() 获取。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": { "disabled": { "type": "boolean" } },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "自定义下一页按钮内容，参数为 { disabled: boolean }。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "swiperInstance": "Swiper | null",
+      "direction": "'horizontal' | 'vertical'"
+    },
+    "derived": {
+      "hasKeyboard": "hasModule('Keyboard')",
+      "prevKey": "direction === 'vertical' ? 'ArrowUp' : 'ArrowLeft'",
+      "nextKey": "direction === 'vertical' ? 'ArrowDown' : 'ArrowRight'"
+    },
+    "transitions": [
+      {
+        "on": "swiper-init",
+        "guard": "always",
+        "effects": ["emit:swiper"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "basic"
+      },
+      "description": "基础轮播"
+    },
+    {
+      "id": "with-pagination",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "with-pagination"
+      },
+      "description": "分页器"
+    },
+    {
+      "id": "with-navigation",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "with-navigation"
+      },
+      "description": "导航按钮（模块导航）"
+    },
+    {
+      "id": "with-prev-next",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "with-prev-next"
+      },
+      "description": "导航按钮（函数式切换）"
+    },
+    {
+      "id": "with-scrollbar",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "with-scrollbar"
+      },
+      "description": "滚动条"
+    },
+    {
+      "id": "autoplay",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "autoplay"
+      },
+      "description": "自动播放"
+    },
+    {
+      "id": "vertical",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "vertical"
+      },
+      "description": "垂直方向"
+    },
+    {
+      "id": "loop",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "loop"
+      },
+      "description": "循环模式"
+    },
+    {
+      "id": "multiple-slides",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/components/swiper" },
+        "exampleId": "multiple-slides"
+      },
+      "description": "多 slide 同时显示"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "modules",
+      "direction",
+      "SwiperSlide",
+      "SwiperPagination",
+      "SwiperNavigationPrev/Next"
+    ],
+    "safeDefaults": {
+      "tag": "div",
+      "wrapperTag": "div",
+      "direction": "horizontal"
+    },
+    "a11yChecklist": [
+      "轮播区域需提供 role=\"region\" 与 aria-roledescription=\"carousel\"（组件已内置）。",
+      "导航与分页按钮需具备可聚焦与键盘可操作。"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Swiper>\n  <SwiperSlide v-for=\"i in 5\" :key=\"i\">Slide {{ i }}</SwiperSlide>\n</Swiper>",
+      "withPagination": "<Swiper :modules=\"[Pagination]\">\n  <SwiperSlide v-for=\"i in 5\" :key=\"i\">Slide {{ i }}</SwiperSlide>\n  <template #container-end>\n    <SwiperPagination />\n  </template>\n</Swiper>",
+      "withNavigation": "<Swiper :modules=\"[Navigation]\">\n  <SwiperSlide v-for=\"i in 5\" :key=\"i\">Slide {{ i }}</SwiperSlide>\n  <template #container-end>\n    <SwiperNavigationPrev /><SwiperNavigationNext />\n  </template>\n</Swiper>"
+    },
+    "antiPatterns": [
+      "使用 Swiper 组件但未引入 index.css — 导致 swiper 基础样式与 rui-swiper-* 结构类缺失，轮播布局错乱",
+      "<SwiperPagination /> — 未将 Pagination 模块加入 Swiper.modules，分页不生效",
+      "<Swiper><SwiperNavigationPrev /></Swiper> — 导航组件未放在 container-start/container-end 插槽内，建议放于插槽以便定位统一"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./swiper.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Swiper.vue", "kind": "runtime" },
+      { "path": "./SwiperPagination.vue", "kind": "runtime" },
+      { "path": "./SwiperNavigationPrev.vue", "kind": "runtime" },
+      { "path": "./SwiperNavigationNext.vue", "kind": "runtime" },
+      { "path": "./SwiperScrollbar.vue", "kind": "runtime" },
+      { "path": "./SwiperPrev.vue", "kind": "runtime" },
+      { "path": "./SwiperNext.vue", "kind": "runtime" },
+      { "path": "./swiper.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.tag.default": "doc",
+      "contracts.props.wrapperTag.default": "doc",
+      "contracts.props.direction.default": "runtime",
+      "component.subComponents": "doc",
+      "cssImport": "doc"
+    }
+  }
+}

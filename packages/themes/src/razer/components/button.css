@@ -1,0 +1,40 @@
+@layer components {
+  .rui-btn {
+    /* --rui-ripple-color: var(--color-rz-green); */
+    &[data-variant="default"] {
+      --rui-ripple-color: var(--color-rz-green-border);
+      @apply bg-rz-green text-h00 border-rz-green-border
+      hover:bg-rz-green-light hover:border-rz-green-border-hover hover:ring-rz-green-border-hover
+      active:bg-rz-green-dark-active active:border-rz-green-border-active active:ring-rz-green-border-active;
+    }
+
+    &[data-variant="normal"] {
+      --rui-ripple-color: var(--color-h4f);
+      @apply bg-h70 text-hff border-h4f
+      hover:bg-h9b hover:border-h83 hover:ring-h83
+      active:bg-h4f active:border-h37 active:ring-h37;
+    }
+
+    &[data-variant="outline"] {
+      --rui-ripple-color: var(--color-hcc);
+      @apply bg-transparent text-hcc border-hcc
+      hover:border-hff hover:ring-hff
+      active:border-hbb active:ring-hbb;
+    }
+
+    &[data-variant="text"] {
+      --rui-ripple-color: var(--color-h8f);
+      @apply border-none bg-transparent text-hcc
+      hover:bg-h33 hover:text-hff
+      active:bg-h24 active:text-h8f;
+    }
+
+    &[data-variant="icon"] {
+      --rui-ripple-color: var(--color-h8f);
+      @apply bg-transparent text-hcc
+      hover:bg-h33 hover:text-hff
+      active:bg-h24 active:text-h8f;
+    }
+    
+  }
+}

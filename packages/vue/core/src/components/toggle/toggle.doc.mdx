@@ -1,0 +1,240 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks'
+import * as ToggleStories from './toggle.stories'
+
+<Meta of={ToggleStories} />
+
+# Toggle
+
+`Toggle` 用于表达“可按下/取消按下”的二态按钮，适合静音、收藏、布局切换等即时状态开关场景。组件基于 Ark UI Toggle 构建，支持受控/非受控状态与表单语义透传，并扩展了 Raxium UI 的 `theme` 配置能力。
+
+---
+
+## Examples
+
+### 基础用法（含图标）
+
+<Canvas of={ToggleStories.Basic} />
+
+### 状态示例（默认/按下/禁用）
+
+<Canvas of={ToggleStories.States} />
+
+### 尺寸变体
+
+<Canvas of={ToggleStories.Sizes} />
+
+### 受控模式
+
+<Canvas of={ToggleStories.Controlled} />
+
+### 分组使用（结合 ToggleGroup）
+
+<Canvas of={ToggleStories.Grouped} />
+
+---
+
+## ARK UI Link
+
+`Toggle` 根组件基于 Ark UI Toggle Root 封装，常用状态和交互属性会透传到底层；Raxium UI 在此基础上增加了 `theme` 样式入口。若需要“多个 toggle 组成单选/多选组”，建议搭配 `ToggleGroup` 与 `ToggleGroupItem` 使用。
+
+- Ark UI 文档：[Ark UI Toggle (Vue)](https://ark-ui.com/vue/docs/components/toggle)
+- 透传边界：以 Ark UI Root 能力为主；本文重点说明 Raxium UI 的扩展能力与常用字段。
+
+---
+
+## API
+
+### Props
+
+以下列出 `Toggle` 常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### Toggle
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>pressed</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控按下状态（可配合 <code>v-model:pressed</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultPressed</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始按下状态</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用交互</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将交互能力合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>id / name / value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>表单语义与标识相关字段（Ark UI Root 能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvToggle'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆写入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Toggle emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:pressed</code></td>
+      <td><code>(pressed: boolean)</code></td>
+      <td>受控状态同步事件（用于 <code>v-model:pressed</code>）</td>
+    </tr>
+    <tr>
+      <td><code>pressedChange</code></td>
+      <td><code>Ark UI pressed change details</code></td>
+      <td>底层 Ark UI 状态变更事件，参数结构与 Ark UI 保持一致</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Toggle</code></td>
+      <td><code>default</code></td>
+      <td>按钮内容插槽，可放文本、图标或两者组合</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Toggle` 通过 `theme` 驱动 `tvToggle` crafts。常见场景可用 `theme.size` 统一尺寸，也可通过 `theme.crafts` 深度覆盖样式生成逻辑。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制按钮尺寸与内边距</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvToggle</code> crafts 生成逻辑</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ToggleStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Toggle` 当前不提供 `ui.*` 分槽位配置入口。若需局部样式覆盖，建议优先使用 `class`；若需体系化样式调整，建议使用 `theme` / `theme.crafts`。
+
+<table>
+  <thead>
+    <tr>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui</code></td>
+      <td>-</td>
+      <td>-</td>
+      <td>当前组件未提供该能力</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ToggleStories.Basic} />
+
+---
+
+## 可访问性
+
+- 组件基于 Ark UI，内置切换按钮语义与键盘交互能力（可通过键盘触发按下/取消按下）。
+- 对仅图标的 toggle，建议提供可见文本或可访问名称（如 `aria-label`），避免语义缺失。
+- 需要表达不可操作状态时使用 `disabled`，不要仅用视觉样式弱化交互。
+- 与表单联动时建议补齐 `name` 与 `value`，确保状态可被原生提交流程识别。
+
+---
+
+## 最佳实践
+
+- 单个独立状态优先使用 `Toggle`；多个互斥或集合选择优先交给 `ToggleGroup` 管理。
+- 外部状态需要强同步时使用 `v-model:pressed` 受控模式；仅初始化默认值时使用 `defaultPressed`。
+- 图标切换建议配合 `ToggleContext` 渲染状态差异，保持视觉反馈和真实状态一致。
+- 样式定制遵循“先 theme 后 class”：共性走 `theme`，局部差异再用 `class` 覆盖。
+- 禁用态应在业务逻辑层同时阻断动作触发，避免仅靠 UI 禁用造成状态不一致。
+
+---
+
+## Stories Controls & Source
+
+用于联动查看 `Basic` 场景的 controls 与源码：
+
+<Controls of={ToggleStories.Basic} />
+
+<Source of={ToggleStories.Basic} />

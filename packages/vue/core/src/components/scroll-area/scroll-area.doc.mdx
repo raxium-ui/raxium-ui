@@ -1,0 +1,325 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ScrollAreaStories from './scroll-area.stories'
+
+<Meta of={ScrollAreaStories} />
+
+# ScrollArea
+
+`ScrollArea` 用于在固定容器内承载可滚动内容，支持垂直/水平滚动条组合与角落补位（`Corner`）。组件基于 Ark UI Scroll Area 构建，根组件透传 Ark UI Root 能力，并扩展 `theme` 与 `ui` 配置用于样式定制。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={ScrollAreaStories.Basic} />
+
+### 双轴滚动与 Corner
+
+<Canvas of={ScrollAreaStories.BothAxes} />
+
+### 尺寸变体
+
+<Canvas of={ScrollAreaStories.Sizes} />
+
+### UI 定制
+
+<Canvas of={ScrollAreaStories.CustomUi} />
+
+---
+
+## ARK UI Link
+
+`ScrollArea`、`ScrollAreaScrollbar`、`ScrollAreaCorner` 基于 Ark UI Scroll Area 原语封装：
+
+- `ScrollArea` 根组件会将 `ScrollAreaRootBaseProps` 透传给 Ark UI Root（通过 `useForwardProps`）。
+- `ScrollAreaScrollbar` 与 `ScrollAreaCorner` 分别封装 Ark UI 的 `Scrollbar` 与 `Corner`，并补充 `theme/ui` 样式入口。
+- 组件额外提供滚动事件透出（`scrollstart` / `scrollend` / `scroll`）与基于内容尺寸的滚动条显示控制。
+
+- **相关文档**: [Ark UI Scroll Area (Vue)](https://ark-ui.com/vue/docs/components/scroll-area)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明。Ark UI 原生完整参数请参考官方文档。
+
+#### ScrollArea
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>...ScrollAreaRootBaseProps</code></td>
+      <td><code>Ark UI Root Props</code></td>
+      <td>-</td>
+      <td>Ark UI Root 原生能力，组件会透传到底层 Root</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点自定义 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ScrollAreaTheme</code></td>
+      <td>-</td>
+      <td>根组件主题配置（含 <code>size</code> 与 crafts 覆盖）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ScrollAreaScrollbar
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>...ScrollAreaScrollbarBaseProps</code></td>
+      <td><code>Ark UI Scrollbar Props</code></td>
+      <td>-</td>
+      <td>Ark UI Scrollbar 原生能力（如 <code>orientation</code>）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>滚动条节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ScrollAreaTheme, 'crafts'&gt;</code></td>
+      <td>-</td>
+      <td>滚动条局部主题配置（用于覆盖尺寸等主题参数）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ScrollAreaCorner
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>...ScrollAreaCornerBaseProps</code></td>
+      <td><code>Ark UI Corner Props</code></td>
+      <td>-</td>
+      <td>Ark UI Corner 原生能力</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Corner 节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ScrollAreaTheme, 'crafts'&gt;</code></td>
+      <td>-</td>
+      <td>角落节点局部主题配置</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### ScrollArea emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>scrollstart</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>Viewport 开始滚动时触发</td>
+    </tr>
+    <tr>
+      <td><code>scroll</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>Viewport 滚动过程中触发</td>
+    </tr>
+    <tr>
+      <td><code>scrollend</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>Viewport 结束滚动时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ScrollAreaScrollbar / ScrollAreaCorner emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>未额外暴露自定义事件（使用 Ark UI 原生交互模型）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ScrollArea</code></td>
+      <td><code>default</code></td>
+      <td>内容与子组件插槽；可放置业务内容、<code>ScrollAreaScrollbar</code>、<code>ScrollAreaCorner</code></td>
+    </tr>
+    <tr>
+      <td><code>ScrollAreaScrollbar</code></td>
+      <td>-</td>
+      <td>无公开插槽</td>
+    </tr>
+    <tr>
+      <td><code>ScrollAreaCorner</code></td>
+      <td>-</td>
+      <td>无公开插槽</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`ScrollArea` 通过 `theme` 驱动 `tvScrollArea`，主要影响 `root/viewport/content/scrollbar/thumb/corner` 等部位。当前组件显式支持 `size` 变体，并允许通过 `crafts` 覆盖样式实现。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>滚动条尺寸变体（影响 scrollbar 与 thumb 厚度）</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvScrollArea</code> crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={ScrollAreaStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`ScrollArea` 与 `ScrollAreaScrollbar` 提供 `ui` 配置；`ScrollAreaCorner` 不提供 `ui`，可直接通过 `class` 覆盖样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ScrollArea.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.ui.viewport</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Viewport 节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.ui.content</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Content 节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ScrollAreaScrollbar.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Scrollbar 根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ScrollAreaScrollbar.ui.thumb</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Thumb 节点 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={ScrollAreaStories.CustomUi} />
+
+---
+
+## 最佳实践
+
+- 推荐按 `ScrollArea + ScrollAreaScrollbar (+ ScrollAreaCorner)` 的固定结构组合，避免遗漏滚动条节点导致“可滚动但无反馈”。
+- 单轴滚动场景仅保留一个 `ScrollAreaScrollbar`，双轴场景再补充 `orientation="horizontal"` 与 `ScrollAreaCorner`。
+- 业务上需要监听滚动行为时，优先使用 `scrollstart/scroll/scrollend` 在根组件统一收敛事件，不在内容节点重复绑定。
+- 全局风格差异优先用 `theme.size` 或 `theme.crafts`，局部微调再使用 `ui.*`，降低样式维护成本。
+- 对超大内容建议限制容器尺寸并把布局交给 `Viewport`，不要依赖外层页面滚动替代局部滚动区域。
+- 当内容宽高不确定时，先使用 `BothAxes` 场景验证横纵滚动与角落显示，再落地到业务页面。

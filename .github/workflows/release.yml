@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  release:
+    if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'changeset-release/main' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        shell: bash
+        run: pnpm install --frozen-lockfile
+
+      - name: Build release-target packages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          TARGET_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+
+          echo "Detecting release targets from $BASE_SHA -> $TARGET_SHA"
+
+          mapfile -t changed_manifests < <(git diff --name-only "$BASE_SHA" "$TARGET_SHA" -- 'packages/**/package.json' || true)
+          package_names=()
+
+          for manifest in "${changed_manifests[@]}"; do
+            [[ -n "$manifest" ]] || continue
+
+            before_version=$(git show "${BASE_SHA}:${manifest}" 2>/dev/null | node -e "let d=''; process.stdin.on('data', c => d += c); process.stdin.on('end', () => { try { const p = JSON.parse(d); process.stdout.write(p.version || ''); } catch {} });")
+            after_version=$(git show "${TARGET_SHA}:${manifest}" 2>/dev/null | node -e "let d=''; process.stdin.on('data', c => d += c); process.stdin.on('end', () => { try { const p = JSON.parse(d); process.stdout.write(p.version || ''); } catch {} });")
+            name=$(git show "${TARGET_SHA}:${manifest}" 2>/dev/null | node -e "let d=''; process.stdin.on('data', c => d += c); process.stdin.on('end', () => { try { const p = JSON.parse(d); process.stdout.write(p.name || ''); } catch {} });")
+
+            if [[ -n "$before_version" && -n "$after_version" && "$before_version" != "$after_version" && -n "$name" ]]; then
+              package_names+=("$name")
+            fi
+          done
+
+          if [[ ${#package_names[@]} -eq 0 ]]; then
+            echo "No version-bumped packages detected in merged release PR; failing release job."
+            exit 1
+          fi
+
+          # De-duplicate the package names while preserving order
+          unique_packages=()
+          declare -A seen=()
+          for pkg in "${package_names[@]}"; do
+            if [[ -z "${seen[$pkg]+x}" ]]; then
+              seen[$pkg]=1
+              unique_packages+=("$pkg")
+            fi
+          done
+
+          # Build --filter arguments from the unique packages
+          args=()
+          for pkg in "${unique_packages[@]}"; do
+            args+=(--filter="${pkg}...")
+          done
+
+          echo "Building version-bumped packages: ${unique_packages[*]}"
+          pnpm turbo run build "${args[@]}"
+
+      - name: Publish Packages
+        run: pnpm changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,14 @@
+@layer components {
+  .rui-hover-card-content {
+    --border-radius: var(--radius);
+    @apply shadow-rui-popper;
+    @apply data-theme-bordered:border-h00;
+    @apply surface-dark:data-theme-bordered:border-h33;
+  }
+
+  .rui-hover-card-content,
+  .rui-hover-card-content-inner {
+    @apply bg-hff text-h00;
+    @apply surface-dark:bg-h00 surface-dark:text-hff;
+  }
+}

@@ -1,0 +1,11 @@
+@layer components {
+  .rui-skeleton {
+    @apply bg-h55;
+    &[data-variant="wave"] {
+      --tw-duration: 2s;
+      @apply bg-linear-to-r from-h33 from-8% via-h55 via-18% to-h33 to-33%;
+      background-size: 200% 100%;
+      animation: skeleton-wave var(--tw-duration, 2s) linear infinite;
+    }
+  }
+}

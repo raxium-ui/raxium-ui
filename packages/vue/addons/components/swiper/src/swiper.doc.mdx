@@ -1,0 +1,512 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as SwiperStories from './swiper.stories'
+
+<Meta of={SwiperStories} />
+
+# Swiper
+
+`Swiper` 是 addons 中的轮播组件集合，面向轮播容器、分页器、导航按钮和滚动条等常见组合场景。该组件集基于 `swiper` 生态做二次封装，核心能力以底层库为主，并补充了 `SwiperPagination` 的 `autoplay-bullets` 扩展类型。当前不提供 `theme` 与 `ui` 配置入口，支持通过 `class`、结构化 `data-part` 以及 CSS 变量进行样式扩展。
+
+---
+
+## Examples
+
+### 基础轮播
+
+<Canvas of={SwiperStories.Basic} />
+
+### 分页器
+
+<Canvas of={SwiperStories.WithPagination} />
+
+### 导航按钮（模块导航）
+
+<Canvas of={SwiperStories.WithNavigation} />
+
+### 导航按钮（函数式切换）
+
+<Canvas of={SwiperStories.WithPrevNext} />
+
+### 滚动条
+
+<Canvas of={SwiperStories.WithScrollbar} />
+
+### 自动播放
+
+<Canvas of={SwiperStories.Autoplay} />
+
+### 垂直方向
+
+<Canvas of={SwiperStories.Vertical} />
+
+### 循环模式
+
+<Canvas of={SwiperStories.Loop} />
+
+### 多 slide 同时显示
+
+<Canvas of={SwiperStories.MultipleSlides} />
+
+---
+
+## Implementation References
+
+`Swiper` 的实现依赖与封装边界如下：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>封装边界</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>swiper/vue</code> / <code>swiper/types</code></td>
+      <td>提供轮播容器、<code>SwiperSlide</code>、模块配置、事件与类型系统。</td>
+      <td><code>SwiperProps</code> 继承 <code>SwiperOptions</code>，属于“全部透传 + 少量扩展”；内部额外接管键盘焦点行为与 <code>swiper</code> 实例暴露。</td>
+      <td><a href="https://swiperjs.com/vue">Swiper Vue</a></td>
+    </tr>
+    <tr>
+      <td><code>swiper/modules</code></td>
+      <td>提供 <code>Navigation</code> / <code>Pagination</code> / <code>Scrollbar</code> / <code>Autoplay</code> 等模块能力。</td>
+      <td>属于“部分透传”。导航、分页、滚动条组件分别继承对应模块参数类型，但内部固定注入 <code>enabled</code> 与挂载元素（<code>nextEl</code>/<code>prevEl</code>/<code>el</code>）。</td>
+      <td><a href="https://swiperjs.com/swiper-api">Swiper API</a></td>
+    </tr>
+    <tr>
+      <td><code>@raxium/vue-addons-shared</code></td>
+      <td>提供内部 props/emit 转发工具。</td>
+      <td>属于“扩展能力”。仅影响组件内部转发实现，不改变基于接口继承定义的透传边界与 Swiper 行为模型。</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code>tailwind-merge</code></td>
+      <td>合并默认类名与外部传入 <code>class</code>。</td>
+      <td>属于“直接使用底层能力”。仅处理 class 冲突，不参与轮播逻辑。</td>
+      <td><a href="https://github.com/dcastil/tailwind-merge">tailwind-merge</a></td>
+    </tr>
+    <tr>
+      <td><code>es-toolkit/compat</code></td>
+      <td>通过 <code>merge</code> 合并模块选项。</td>
+      <td>属于“直接使用底层能力”。仅做对象合并，模块行为仍由 Swiper 决定。</td>
+      <td><a href="https://es-toolkit.dev">es-toolkit</a></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## API
+
+### Style
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>路径</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Swiper 样式文件</code></td>
+      <td><code>packages/vue/addons/components/swiper/src/index.css</code></td>
+      <td>包含 Swiper 基础样式引入（<code>swiper/css</code>、<code>navigation</code>、<code>pagination</code>、<code>scrollbar</code>）以及 <code>rui-swiper-*</code> 结构类与分页/滚动条 CSS 变量定义。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Props
+
+`Swiper` 相关组件对底层 Swiper 配置存在“全部透传/部分透传”两种模式：
+
+- `Swiper`：`SwiperProps` 继承 `SwiperOptions`，属于**全部透传**，并扩展 `tag`、`wrapperTag`、`modules`、`class`。
+- `SwiperNavigationPrev` / `SwiperNavigationNext`：`SwiperNavigationProps` 继承 `Omit<NavigationOptions, 'enabled' | 'nextEl' | 'prevEl'>`，属于**部分透传**；`enabled` 与元素挂载由组件内部接管。
+- `SwiperPagination`：`SwiperPaginationProps` 继承 `Omit<PaginationOptions, 'type' | 'enabled' | 'el'>`，属于**部分透传**；内部接管 `enabled`、`el`，并将 `type` 扩展为 `autoplay-bullets`。
+- `SwiperScrollbar`：`SwiperScrollbarProps` 继承 `Omit<ScrollbarOptions, 'enabled' | 'el'>`，属于**部分透传**；`enabled` 与 `el` 由组件内部接管。
+
+底层参数详情请参考 <a href="https://swiperjs.com/swiper-api">Swiper API</a>。
+
+#### Swiper
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Swiper.tag</code></td>
+      <td><code>string</code></td>
+      <td><code>'div'</code></td>
+      <td>自定义容器标签。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper.wrapperTag</code></td>
+      <td><code>string</code></td>
+      <td><code>'div'</code></td>
+      <td>自定义 wrapper 标签。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper.modules</code></td>
+      <td><code>any[]</code></td>
+      <td>-</td>
+      <td>传入需要启用的 Swiper 模块。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper.direction</code></td>
+      <td><code>SwiperOptions['direction']</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>滑动方向（其余 Swiper 参数同底层透传）。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper.class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根轮播元素 class；与内置 <code>rui-swiper</code> 合并。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperNavigationPrev
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperNavigationPrev.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationPrev.class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>导航按钮 class；与内置 <code>rui-swiper-navigation_prev</code> 合并。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationPrev.*</code></td>
+      <td><code>Omit&lt;NavigationOptions, 'enabled' | 'nextEl' | 'prevEl'&gt;</code></td>
+      <td>-</td>
+      <td>透传常用导航配置；<code>enabled</code> 与 <code>prevEl</code> 由组件内部接管。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperNavigationNext
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperNavigationNext.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationNext.class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>导航按钮 class；与内置 <code>rui-swiper-navigation_next</code> 合并。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationNext.*</code></td>
+      <td><code>Omit&lt;NavigationOptions, 'enabled' | 'nextEl' | 'prevEl'&gt;</code></td>
+      <td>-</td>
+      <td>透传常用导航配置；<code>enabled</code> 与 <code>nextEl</code> 由组件内部接管。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperPagination
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperPagination.type</code></td>
+      <td><code>PaginationOptions['type'] | 'autoplay-bullets'</code></td>
+      <td>-</td>
+      <td>分页类型；<code>autoplay-bullets</code> 为 addons 扩展值。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPagination.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPagination.class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>分页容器 class；与内置 <code>rui-swiper-pagination</code> 合并。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPagination.*</code></td>
+      <td><code>Omit&lt;PaginationOptions, 'type' | 'enabled' | 'el'&gt;</code></td>
+      <td>-</td>
+      <td>透传分页配置；<code>enabled</code> / <code>el</code> / <code>type</code>（映射策略）由组件内部接管。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperScrollbar
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperScrollbar.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperScrollbar.class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>滚动条容器 class；与内置 <code>rui-swiper-scrollbar</code> 合并。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperScrollbar.*</code></td>
+      <td><code>Omit&lt;ScrollbarOptions, 'enabled' | 'el'&gt;</code></td>
+      <td>-</td>
+      <td>透传滚动条配置；<code>enabled</code> 与 <code>el</code> 由组件内部接管。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperPrev
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperPrev.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperNext
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperNext.swiper</code></td>
+      <td><code>Swiper</code></td>
+      <td>-</td>
+      <td>可选的 Swiper 实例；未传时尝试从上下文 <code>useSwiper()</code> 获取。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwiperSlide
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SwiperSlide.*</code></td>
+      <td><code>Swiper 官方 SwiperSlide 参数</code></td>
+      <td>-</td>
+      <td>当前为直接导出组件，未在 addons 内做参数二次封装；详见 <a href="https://swiperjs.com/vue">Swiper Vue 文档</a>。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Swiper.swiper</code></td>
+      <td><code>(swiper: Swiper) =&gt; void</code></td>
+      <td>Swiper 实例初始化后触发。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper.[SwiperEvents]</code></td>
+      <td><code>SwiperEvents</code></td>
+      <td>根组件声明透传 Swiper 事件集合（如 <code>slideChange</code>、<code>reachEnd</code> 等，完整列表以 Swiper 官方事件为准）。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationPrev.navigationHide/navigationPrev/navigationShow</code></td>
+      <td><code>NavigationEvents</code> 对应参数</td>
+      <td>导航模块事件透传。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationNext.navigationHide/navigationNext/navigationShow</code></td>
+      <td><code>NavigationEvents</code> 对应参数</td>
+      <td>导航模块事件透传。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPagination.paginationHide/paginationRender/paginationShow/paginationUpdate</code></td>
+      <td><code>PaginationEvents</code> 对应参数</td>
+      <td>分页模块事件透传。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperScrollbar.scrollbarDragEnd/scrollbarDragMove/scrollbarDragStart</code></td>
+      <td><code>ScrollbarEvents</code> 对应参数</td>
+      <td>滚动条模块事件透传。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPrev / SwiperNext / SwiperSlide</code></td>
+      <td>-</td>
+      <td>未暴露自定义事件。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Swiper</code></td>
+      <td><code>default</code></td>
+      <td>默认内容区域，通常放置 <code>SwiperSlide</code>。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper</code></td>
+      <td><code>container-start</code> / <code>container-end</code></td>
+      <td>容器起止扩展槽，常用于放导航与分页组件。</td>
+    </tr>
+    <tr>
+      <td><code>Swiper</code></td>
+      <td><code>wrapper-start</code> / <code>wrapper-end</code></td>
+      <td>wrapper 起止扩展槽。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationPrev</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; disabled: boolean &#125;</code>；未提供时渲染默认左箭头图标。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNavigationNext</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; disabled: boolean &#125;</code>；未提供时渲染默认右箭头图标。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPrev</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; disabled: boolean &#125;</code>，用于自定义上一页按钮内容。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperNext</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; disabled: boolean &#125;</code>，用于自定义下一页按钮内容。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperPagination / SwiperScrollbar</code></td>
+      <td>-</td>
+      <td>未声明自定义插槽。</td>
+    </tr>
+    <tr>
+      <td><code>SwiperSlide</code></td>
+      <td><code>default</code></td>
+      <td>直接使用 Swiper 官方 <code>SwiperSlide</code> 插槽能力（可承载 slide 内容，详细参数见 <a href="https://swiperjs.com/vue">Swiper Vue 文档</a>）。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Swiper` 不提供 `theme` 配置能力。建议通过组件 `class`、`data-scope` / `data-part` 结构选择器与 CSS 变量进行样式控制。
+
+---
+
+## UI Configuration
+
+`Swiper` 不提供 `ui` 或 `.ui.*` 配置能力。样式扩展建议：
+
+- 对应组件传入 `class`（如 `Swiper`、`SwiperPagination`、`SwiperNavigationPrev`）。
+- 基于 `index.css` 中的 `rui-swiper-*` 结构类与 `data-part` 节点做覆盖。
+- 按需覆盖分页与滚动条的 CSS 变量（如 `--swiper-pagination-*`、`--swiper-scrollbar-*`）。
+
+---
+
+## 最佳实践
+
+- 先按模块声明能力：需要分页/导航/滚动条时，优先将对应模块加入 `Swiper.modules`，再挂载对应子组件。
+- 组合优先放在 `Swiper` 插槽内部：导航和分页建议优先放在 `container-start` / `container-end`，便于结构和定位统一。
+- 外部控制场景使用 `swiper` 引用透传：当控制器组件需要放到容器外部时，通过 `ref` 获取实例后传给 `SwiperPagination`、`SwiperNavigation*`、`SwiperPrev/Next`。
+- 使用 `SwiperPrev/Next` 自定义按钮时，基于 `default` 插槽的 `disabled` 状态同步禁用样式与点击反馈。
+- 自动播放进度点建议使用 `SwiperPagination type="autoplay-bullets"`，并配合分页 CSS 变量统一进度外观。
+- 需要较深样式定制时，优先走 `class + CSS 变量`，避免直接依赖底层 DOM 结构细节。

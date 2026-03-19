@@ -1,0 +1,252 @@
+@import './animation-easing.css';
+
+@plugin 'tailwindcss-motion';
+
+@theme {
+  --animate-accordion-down: accordion-down var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-accordion-up: accordion-up var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-collapsible-down: collapsible-down var(--tw-duration, 200ms)
+    var(--tw-timing, ease-in-out);
+  --animate-collapsible-up: collapsible-up var(--tw-duration, 200ms)
+    var(--tw-timing, ease-in-out);
+  --animate-quick-squeeze-x: squeeze-x var(--tw-duration, 200ms)
+    var(--tw-timing, ease-in-out);
+  --animate-rippling: rippling var(--tw-ripple-duration, 600ms) ease-out;
+  --animate-spin: spin 1s linear infinite;
+  --animate-fade-scale-in: fade-scale-in var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-fade-scale-out: fade-scale-out var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-backdrop-blur-in: backdrop-blur-in var(--tw-duration, 200ms) 
+    var(--tw-timing, ease-out) forwards;
+  --animate-backdrop-blur-out: backdrop-blur-out var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out) forwards;
+
+  /* toast exit animations */
+  --animate-toast-exit-right: toast-exit-right var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-toast-exit-left: toast-exit-left var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-toast-exit-top: toast-exit-top var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+  --animate-toast-exit-bottom: toast-exit-bottom var(--tw-duration, 200ms)
+    var(--tw-timing, ease-out);
+
+  /* Keyframes */
+  @keyframes accordion-down {
+    from {
+      height: 0px;
+    }
+
+    to {
+      height: var(--reka-accordion-content-height, 0px);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--reka-accordion-content-height, 0px);
+    }
+
+    to {
+      height: 0px;
+    }
+  }
+
+  @keyframes collapsible-down {
+    from {
+      height: var(--collapsed-height, 0px);
+    }
+
+    to {
+      height: var(--height, 0px);
+    }
+  }
+
+  @keyframes collapsible-up {
+    from {
+      height: var(--height, 0px);
+    }
+
+    to {
+      height: var(--collapsed-height, 0px);
+    }
+  }
+
+  @keyframes squeeze-x {
+    from {
+      transform: scaleX(1);
+    }
+
+    50% {
+      transform: scaleX(1.15);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes path-dash {
+    from {
+      stroke-dashoffset: var(--dash-offset-from, 0);
+    }
+    to {
+      stroke-dashoffset: var(--dash-offset-to, 0);
+    }
+  }
+
+  @keyframes fade-down-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(-2rem);
+    }
+  }
+
+  @keyframes blur-in {
+    from {
+      filter: blur(1rem);
+    }
+
+    to {
+      filter: blur(0);
+    }
+  }
+
+  @keyframes rippling {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes toast-exit-right {
+    from {
+      opacity: 1;
+      transform: translate3d(var(--reka-toast-swipe-end-x, 0), 0, 0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(calc(100% + 24px), 0, 0);
+    }
+  }
+
+  @keyframes toast-exit-left {
+    from {
+      opacity: 1;
+      transform: translate3d(var(--reka-toast-swipe-end-x, 0), 0, 0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(calc(-100% - 24px), 0, 0);
+    }
+  }
+
+  @keyframes toast-exit-top {
+    from {
+      opacity: 1;
+      transform: translate3d(0, var(--reka-toast-swipe-end-y, 0), 0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(0, calc(-100% - 24px), 0);
+    }
+  }
+
+  @keyframes toast-exit-bottom {
+    from {
+      opacity: 1;
+      transform: translate3d(0, var(--reka-toast-swipe-end-y, 0), 0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translate3d(0, calc(100% + 24px), 0);
+    }
+  }
+
+  @keyframes skeleton-wave {
+    to {
+      background-position-x: -200%;
+    }
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fade-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fade-scale-out {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+
+  @keyframes backdrop-blur-in {
+    from {
+      backdrop-filter: blur(0);
+    }
+    to {
+      backdrop-filter: blur(.3125rem);
+    }
+  }
+  @keyframes backdrop-blur-out {
+    from {
+      backdrop-filter: blur(.3125rem);
+    }
+    to {
+      backdrop-filter: blur(0);
+    }
+  }
+}
+
+@utility animate-check-dash {
+  --dash-offset-from: -50;
+  --dash-offset-to: 0;
+  stroke-dasharray: 50;
+  stroke-dashoffset: var(--dash-offset-from);
+  animation: path-dash var(--tw-duration, 150ms) var(--tw-timing, ease-out)
+    forwards;
+}
+
+@utility animate-indeterminate-dash {
+  --dash-offset-from: 50;
+  --dash-offset-to: 0;
+  stroke-dasharray: 50;
+  stroke-dashoffset: var(--dash-offset-from);
+  animation: path-dash var(--tw-duration, 150ms) linear forwards;
+}

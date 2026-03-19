@@ -1,0 +1,205 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.addons.v-title",
+  "component": {
+    "name": "vTitle",
+    "framework": "vue",
+    "package": "@raxium/vue-addons-v-title",
+    "importPath": "@raxium/vue-addons-v-title",
+    "exportName": "vTitle",
+    "category": "addon",
+    "description": "addons 提供的文本提示指令，鼠标悬停时展示浮层标题内容，支持尺寸（.lg）与表面主题（arg 如 dark）切换。基于 @floating-ui/vue computePosition 定位，500ms 延迟显示，滚动时自动收起。",
+    "basePrimitive": {
+      "library": "@floating-ui/vue",
+      "primitive": "computePosition",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "aria-*",
+        "data-*",
+        "class"
+      ],
+      "notes": "指令形态 v-title:[theme].lg=\"value\"。宿主元素可透传 aria-*、data-*、class；tooltip 节点为指令内部创建的 div，应用 .rui-v-title 及 data-size、data-theme-surface。"
+    },
+    "capabilities": [
+      "tooltip",
+      "theme-surface",
+      "size-variant"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "value",
+        "required": true,
+        "requiredSource": "doc",
+        "typeText": "string",
+        "typeSchema": {
+          "type": "string"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "指令值（binding.value）。tooltip 文本内容，内部以 document.createTextNode(binding.value) 写入提示层。"
+      },
+      {
+        "name": "arg",
+        "required": false,
+        "requiredSource": "runtime",
+        "typeText": "string",
+        "typeSchema": {
+          "type": "string"
+        },
+        "default": "default",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "指令参数（binding.arg）。写入 tooltip 的 data-theme-surface。如 v-title:dark 会写入 data-theme-surface='dark'，命中暗色样式分支；未指定时为 'default'。"
+      },
+      {
+        "name": "lg",
+        "required": false,
+        "requiredSource": "runtime",
+        "typeText": "boolean",
+        "typeSchema": {
+          "type": "boolean"
+        },
+        "default": false,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "修饰符 .lg（binding.modifiers.lg）。存在时写入 data-size='lg'；未设置时为 data-size='base'。"
+      }
+    ],
+    "events": [],
+    "slots": [],
+    "themeConfiguration": {
+      "fields": [],
+      "notes": "v-title 不提供组件级 theme 配置。可通过指令参数（如 v-title:dark）切换内置表面属性，并配合样式覆盖扩展更多主题表现。"
+    },
+    "uiConfiguration": {
+      "fields": [],
+      "notes": "v-title 不提供 ui 配置。结构与视觉定制建议通过 .rui-v-title 样式覆盖完成。"
+    }
+  },
+  "cssImport": {
+    "required": true,
+    "importPath": "@raxium/vue-addons-v-title/index.css",
+    "sourcePath": "packages/vue/addons/directives/v-title/src/index.css",
+    "description": "提供 .rui-v-title 基础样式及 data-size（base/lg）、data-theme-surface（default/dark）的样式分支。",
+    "usage": "import '@raxium/vue-addons-v-title/index.css'"
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "showTimer": "number",
+      "visible": "boolean"
+    },
+    "derived": {
+      "themeSurface": "arg ?? 'default'",
+      "size": "modifiers.lg ? 'lg' : 'base'"
+    },
+    "transitions": [
+      {
+        "on": "mouseenter",
+        "guard": "always",
+        "effects": [
+          "clearTimeout(showTimer)",
+          "setTimeout(500ms)",
+          "set titleTipTextNode = binding.value",
+          "set data-theme-surface = arg ?? 'default'",
+          "set data-size = modifiers.lg ? 'lg' : 'base'",
+          "computePosition(el, titleTipNode, { placement: 'bottom', middleware: [flip(), shift(), offset(4), hide()] })",
+          "if !referenceHidden: set left/top, visibility=visible",
+          "else: display=none"
+        ]
+      },
+      {
+        "on": "mouseleave",
+        "guard": "always",
+        "effects": [
+          "clearTimeout(showTimer)",
+          "showTimer = 0",
+          "visibility=hidden, display=none"
+        ]
+      },
+      {
+        "on": "scroll",
+        "guard": "showTimer !== 0",
+        "effects": [
+          "onMouseLeave",
+          "visibility=hidden, display=none"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/directives/v-title" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法（默认、lg、unstyled、dark）"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "value",
+      "arg",
+      "lg"
+    ],
+    "safeDefaults": {
+      "arg": "default",
+      "lg": false
+    },
+    "a11yChecklist": [
+      "建议仅在文本可能被截断或信息需要补充说明时使用 v-title，避免无意义提示。",
+      "需要更强对比度时优先使用 v-title:dark，并与页面背景对照验证可读性。"
+    ],
+    "codegenTemplates": {
+      "minimal": "<div v-title=\"'Tooltip text'\">Hover me</div>",
+      "lg": "<div v-title.lg=\"'Large tooltip'\">Hover me</div>",
+      "dark": "<div v-title:dark=\"'Dark theme tooltip'\">Hover me</div>",
+      "lgDark": "<div v-title:dark.lg=\"'Large dark tooltip'\">Hover me</div>"
+    },
+    "antiPatterns": [
+      "<div v-title=\"''\">...</div> — 空字符串无意义，建议不绑定或提供有效文案",
+      "v-title.unstyled — 当前实现未消费 .unstyled，不会产生额外行为",
+      "对非内置主题值（如 v-title:brand）未补充 [data-theme-surface='brand'] 样式 — 只有属性变化而无视觉反馈"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./index.ts", "kind": "runtime" },
+      { "path": "./v-title.doc.mdx", "kind": "doc" },
+      { "path": "./v-title.stories.ts", "kind": "story" },
+      { "path": "./examples/basic.vue", "kind": "example" },
+      { "path": "./index.css", "kind": "style" }
+    ],
+    "precedence": [
+      "runtime",
+      "type",
+      "doc"
+    ],
+    "fieldSourceMap": {
+      "contracts.props.value.description": "doc",
+      "contracts.props.arg.default": "runtime",
+      "contracts.props.lg.default": "runtime",
+      "behaviorModel.transitions": "runtime",
+      "cssImport.description": "doc"
+    }
+  }
+}

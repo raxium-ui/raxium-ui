@@ -1,0 +1,236 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as VTitleStories from './v-title.stories'
+
+<Meta of={VTitleStories} />
+
+# v-title
+
+`v-title` 是 addons 提供的文本提示指令，用于在鼠标悬停时展示浮层标题内容，并支持尺寸与表面主题切换。该能力属于 addons 独立实现（非 Ark UI 对齐组件），不提供组件级 `theme` / `ui` 扩展入口；可通过指令参数与样式覆盖进行扩展。
+
+---
+
+## Examples
+
+### 基础用法（默认/大尺寸/暗色表面）
+
+<Canvas of={VTitleStories.Basic} />
+
+---
+
+## Implementation References
+
+`v-title` 的实现边界由以下模块决定：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>对外暴露 / 透传边界</th>
+      <th>二次封装范围</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Vue Custom Directive（DirectiveBinding）</code></td>
+      <td>承载 <code>binding.value</code> / <code>binding.arg</code> / <code>binding.modifiers</code>，并在指令函数中绑定宿主元素鼠标事件。</td>
+      <td>属于“直接使用底层能力”。输入边界由 Vue 标准指令 binding 结构决定。</td>
+      <td>封装了悬停显示/离开隐藏逻辑，不提供组件 Props/Slots。</td>
+      <td><a href="https://vuejs.org/guide/reusability/custom-directives.html">Vue Custom Directives</a></td>
+    </tr>
+    <tr>
+      <td><code>@floating-ui/vue</code>（<code>computePosition</code> + middleware）</td>
+      <td>计算提示层定位，处理翻转、位移与可见性检测。</td>
+      <td>属于“部分透传”。对外不直接开放 Floating UI 全量配置；内部固定使用 <code>placement: 'bottom'</code> 与 <code>flip/shift/offset(4)/hide</code>。</td>
+      <td>封装 tooltip 节点创建、500ms 延迟显示、滚动时自动收起与隐藏判定。</td>
+      <td><a href="https://floating-ui.com/docs/computePosition">Floating UI - computePosition</a></td>
+    </tr>
+    <tr>
+      <td><code>index.css</code>（<code>.rui-v-title</code>）</td>
+      <td>提供 tooltip 基础样式及 <code>data-size</code> / <code>data-theme-surface</code> 的样式分支。</td>
+      <td>属于“扩展能力”。可继续通过全局样式覆盖类名与属性选择器，但指令本身不提供 <code>ui</code> 配置路径。</td>
+      <td>封装基础视觉（边框、背景、文字、圆角、层级）与 <code>base/lg</code>、<code>dark</code> 变体。</td>
+      <td>-</td>
+    </tr>
+  </tbody>
+</table>
+
+实现结论：`v-title` 为指令封装，不存在基于组件 Props interface 继承的“Props 全量透传”；对外能力边界由指令 binding 输入与内置定位策略共同决定。
+
+---
+
+## API
+
+### Style
+
+<table>
+  <thead>
+    <tr>
+      <th>项</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>index.css</code></td>
+      <td><code>CSS</code></td>
+      <td>-</td>
+      <td>提供 <code>.rui-v-title</code> 及其 <code>data-size</code>、<code>data-theme-surface</code> 样式规则。对应 stories 已通过 <code>import './index.css'</code> 引入。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Props
+
+`v-title` 为指令形态，不提供组件 Props。对外输入由“指令值（value）+ 指令参数（arg）+ 修饰符（modifiers）”组成。
+
+#### 指令值（binding.value）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>tooltip 文本内容，内部以 <code>document.createTextNode(binding.value)</code> 写入提示层。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 指令参数（binding.arg）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-title:dark</code></td>
+      <td><code>string</code></td>
+      <td><code>'default'</code></td>
+      <td>用于写入 tooltip 的 <code>data-theme-surface</code>。示例中的 <code>dark</code> 会命中暗色样式分支。</td>
+    </tr>
+    <tr>
+      <td><code>v-title:[theme]</code></td>
+      <td><code>string</code></td>
+      <td><code>'default'</code></td>
+      <td>任意参数值都会写入 <code>data-theme-surface</code>；当前样式文件仅定义了 <code>dark</code> 的显式分支。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 修饰符（binding.modifiers）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>.lg</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>存在时写入 <code>data-size='lg'</code>；未设置时为 <code>data-size='base'</code>。</td>
+    </tr>
+    <tr>
+      <td>其他 modifiers（如 <code>.unstyled</code>）</td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>当前实现未读取除 <code>lg</code> 外的 modifier，不会产生额外行为。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>mouseenter</code>（宿主原生事件）</td>
+      <td><code>MouseEvent</code></td>
+      <td>指令内部监听后触发显示流程（500ms 延迟后定位并展示 tooltip）。</td>
+    </tr>
+    <tr>
+      <td><code>mouseleave</code>（宿主原生事件）</td>
+      <td><code>MouseEvent</code></td>
+      <td>指令内部监听后立即隐藏 tooltip，并清理待执行定时器。</td>
+    </tr>
+    <tr>
+      <td><code>Vue emits</code></td>
+      <td>-</td>
+      <td>未暴露自定义组件事件。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-title（指令）</code></td>
+      <td>-</td>
+      <td>指令本身不定义插槽能力；插槽由宿主组件决定。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`v-title` 不提供组件级 `theme` 配置入口。可通过指令参数（如 <code>v-title:dark</code>）切换内置表面属性，并配合样式覆盖扩展更多主题表现。
+
+---
+
+## UI Configuration
+
+`v-title` 不提供 `ui` 或 `.ui.*` 配置能力。结构与视觉定制建议通过宿主元素 class 与 <code>.rui-v-title</code> 样式覆盖完成。
+
+<Canvas of={VTitleStories.Basic} />
+
+---
+
+## 最佳实践
+
+- 为避免无意义提示，建议仅在文本可能被截断或信息需要补充说明时使用 `v-title`。
+- 需要更强对比度时优先使用 `v-title:dark`，并与页面背景对照验证可读性。
+- 列表或高频悬停场景下，保持 tooltip 内容为短文本，减少频繁重排与定位抖动。
+- 若需统一大字号提示，优先使用 `.lg` 而不是业务侧重复定义字体样式，保持行为与样式一致。
+- 对非内置主题值（如 `v-title:brand`），请同步补充 <code>[data-theme-surface='brand']</code> 样式规则，避免只有属性变化而无视觉反馈。
+- 对不需要悬浮样式的节点，不建议使用无效 modifier（如当前实现未消费的 <code>.unstyled</code>），避免产生“已配置但无效果”的认知偏差。

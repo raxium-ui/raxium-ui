@@ -1,0 +1,697 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.rating-group",
+  "component": {
+    "name": "RatingGroup",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "RatingGroup",
+    "category": "core",
+    "description": "用于评分场景（如满意度、服务质量、内容打分），支持受控/非受控值管理、悬浮预览、半星评分和禁用/只读状态。基于 Ark UI Rating Group 构建，扩展 theme 与 ui 样式入口，暴露 $api 便于编程式设置与清空评分。由 RatingGroup（根）与 RatingGroupItem（子组件）组成。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/rating-group",
+      "primitive": "RatingGroup.RootProvider",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": ["aria-*", "data-*"],
+      "notes": "组件基于 Ark UI Rating Group 原语封装，透传 Root 常用能力。"
+    },
+    "capabilities": [
+      "v-model",
+      "theme",
+      "ui-override",
+      "allow-half",
+      "programmatic-api"
+    ],
+    "subComponents": ["RatingGroupItem"]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "modelValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["defaultValue"],
+        "description": "受控评分值（配合 v-model）"
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["modelValue"],
+        "description": "非受控初始评分值"
+      },
+      {
+        "name": "count",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": 5,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "评分项数量"
+      },
+      {
+        "name": "allowHalf",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否允许半星"
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否禁用交互"
+      },
+      {
+        "name": "readOnly",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否只读（可展示，不可修改）"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点 class"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvRatingGroup'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 crafts 覆盖"
+      },
+      {
+        "name": "ui",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "{ root?: HTMLAttributes['class']; control?: HTMLAttributes['class'] }",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "root": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "control": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            }
+          },
+          "additionalProperties": true
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "局部样式覆盖；ui.root、ui.control 为直接 class（string | array | object），非嵌套"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "payload": {
+          "typeText": "(value: number)",
+          "typeSchema": { "type": "number" }
+        },
+        "emitWhen": [
+          { "expr": "value_changed", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:update:modelValue"],
+        "description": "受控值同步事件（对应 v-model）"
+      },
+      {
+        "name": "valueChange",
+        "payload": {
+          "typeText": "(details: { value: number })",
+          "typeSchema": {
+            "type": "object",
+            "properties": { "value": { "type": "number" } }
+          }
+        },
+        "emitWhen": [
+          { "expr": "rating_selected", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:valueChange"],
+        "description": "评分值变化时触发"
+      },
+      {
+        "name": "hoverChange",
+        "payload": {
+          "typeText": "(details: { hoveredValue: number })",
+          "typeSchema": {
+            "type": "object",
+            "properties": { "hoveredValue": { "type": "number" } }
+          }
+        },
+        "emitWhen": [
+          { "expr": "hover_value_changed", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:hoverChange"],
+        "description": "悬浮评分变化时触发"
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "评分区域前置内容"
+      },
+      {
+        "name": "default",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": { "type": "number" },
+              "description": "评分项索引数组，如 [0,1,2,3,4]"
+            }
+          },
+          "additionalProperties": true
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "评分项渲染插槽，作用域参数包含 items"
+      },
+      {
+        "name": "suffix",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "评分区域后置内容"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": {
+            "enum": ["xs", "sm", "base", "lg"]
+          },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "评分图标尺寸与间距节奏"
+        },
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": {
+            "enum": ["razer", "shadcn"]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark'",
+          "typeSchema": {
+            "enum": ["light", "dark"]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "亮/暗表面语义"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "移除默认样式"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 tvRatingGroup 的 crafts 配置"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": [
+        {
+          "name": "ui.root",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "根节点 class"
+        },
+        {
+          "name": "ui.control",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "评分控制容器 class"
+        }
+      ]
+    }
+  },
+  "subComponents": {
+    "RatingGroupItem": {
+      "props": [
+        {
+          "name": "index",
+          "required": true,
+          "requiredSource": "doc",
+          "typeText": "number",
+          "typeSchema": { "type": "number" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "当前评分项索引（通常来自根组件提供的 items）"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "评分项根节点 class"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承或覆盖当前主题参数"
+        },
+        {
+          "name": "ui",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "{ root?: HTMLAttributes['class']; indicator?: HTMLAttributes['class']; icon?: HTMLAttributes['class'] }",
+          "typeSchema": {
+            "type": "object",
+            "properties": {
+              "root": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "array" },
+                  { "type": "object" }
+                ]
+              },
+              "indicator": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "array" },
+                  { "type": "object" }
+                ]
+              },
+              "icon": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "array" },
+                  { "type": "object" }
+                ]
+              }
+            },
+            "additionalProperties": true
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "局部样式覆盖；ui.root、ui.indicator、ui.icon 为直接 class"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "classes": {
+                "type": "object",
+                "properties": {
+                  "indicator": {
+                    "anyOf": [
+                      { "type": "string" },
+                      { "type": "array" },
+                      { "type": "object" }
+                    ]
+                  },
+                  "icon": {
+                    "anyOf": [
+                      { "type": "string" },
+                      { "type": "array" },
+                      { "type": "object" }
+                    ]
+                  }
+                }
+              },
+              "context": {
+                "type": "object",
+                "properties": {
+                  "highlighted": { "type": "boolean" },
+                  "half": { "type": "boolean" },
+                  "checked": { "type": "boolean" }
+                }
+              },
+              "index": { "type": "number" }
+            }
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "默认星形图标",
+          "description": "自定义单项渲染，作用域含 classes、context、index"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": {
+        "fields": []
+      },
+      "uiConfiguration": {
+        "fields": [
+          {
+            "name": "ui.root",
+            "typeText": "string | array | object",
+            "typeSchema": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "评分项节点 class"
+          },
+          {
+            "name": "ui.indicator",
+            "typeText": "string | array | object",
+            "typeSchema": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "指示器节点 class"
+          },
+          {
+            "name": "ui.icon",
+            "typeText": "string | array | object",
+            "typeSchema": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "图标节点 class"
+          }
+        ]
+      }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "modelValue": "number",
+      "disabled": "boolean",
+      "readOnly": "boolean",
+      "allowHalf": "boolean",
+      "count": "number"
+    },
+    "derived": {
+      "hoveredValue": "当前悬浮评分"
+    },
+    "transitions": [
+      {
+        "on": "item_select",
+        "guard": "disabled !== true && readOnly !== true",
+        "effects": [
+          "setModelValue(selectedValue)",
+          "emit:update:modelValue",
+          "emit:valueChange"
+        ]
+      },
+      {
+        "on": "item_hover",
+        "guard": "always",
+        "effects": ["emit:hoverChange"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法"
+    },
+    {
+      "id": "sizes",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "sizes"
+      },
+      "description": "尺寸变体"
+    },
+    {
+      "id": "states",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "states"
+      },
+      "description": "状态：禁用与只读"
+    },
+    {
+      "id": "allow-half",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "allow-half"
+      },
+      "description": "半星评分"
+    },
+    {
+      "id": "events",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "events"
+      },
+      "description": "事件监听"
+    },
+    {
+      "id": "programmatic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "RatingGroup" },
+        "exampleId": "programmatic"
+      },
+      "description": "编程式控制"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "modelValue / defaultValue",
+      "count",
+      "allowHalf",
+      "theme.size",
+      "disabled / readOnly",
+      "RatingGroupItem.index"
+    ],
+    "safeDefaults": {
+      "count": 5,
+      "allowHalf": false,
+      "disabled": false,
+      "readOnly": false
+    },
+    "a11yChecklist": [
+      "评分组件需提供 aria-label 或 aria-labelledby 说明用途",
+      "readOnly 与 disabled 语义不同，需区分使用",
+      "半星评分需考虑屏幕阅读器对部分值的表达"
+    ],
+    "codegenTemplates": {
+      "minimal": "<RatingGroup v-model=\"rating\">\n  <template #default=\"{ items }\">\n    <RatingGroupItem v-for=\"item in items\" :key=\"item\" :index=\"item\" />\n  </template>\n</RatingGroup>",
+      "controlled": "<RatingGroup v-model=\"rating\" :count=\"5\" :allow-half=\"true\">\n  <template #default=\"{ items }\">\n    <RatingGroupItem v-for=\"item in items\" :key=\"item\" :index=\"item\" />\n  </template>\n</RatingGroup>",
+      "withTheme": "<RatingGroup v-model=\"rating\" :theme=\"{ size: 'sm' }\">\n  <template #default=\"{ items }\">\n    <RatingGroupItem v-for=\"item in items\" :key=\"item\" :index=\"item\" />\n  </template>\n</RatingGroup>",
+      "customItem": "<RatingGroup v-model=\"rating\">\n  <template #default=\"{ items }\">\n    <RatingGroupItem v-for=\"item in items\" :key=\"item\" :index=\"item\">\n      <template #default=\"{ classes, context }\">\n        <span :class=\"classes.indicator\" :data-highlighted=\"context.highlighted\">\n          <Star :class=\"classes.icon\" />\n        </span>\n      </template>\n    </RatingGroupItem>\n  </template>\n</RatingGroup>"
+    },
+    "antiPatterns": [
+      "<RatingGroup v-model=\"rating\" :default-value=\"3\" /> — 同时使用 modelValue 与 defaultValue 导致冲突",
+      "<RatingGroup v-model=\"rating\"><RatingGroupItem :index=\"0\" /></RatingGroup> — 未使用 default 插槽的 items 遍历，缺少完整评分项",
+      "<RatingGroup v-model=\"rating\" read-only><span class=\"opacity-50\">禁用</span></RatingGroup> — 仅靠视觉样式模拟禁用（应使用 disabled）"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./rating-group.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./RatingGroup.vue", "kind": "runtime" },
+      { "path": "./RatingGroupItem.vue", "kind": "runtime" },
+      { "path": "./rating-group.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.modelValue.conflictsWith": "doc",
+      "contracts.props.defaultValue.conflictsWith": "doc",
+      "contracts.props.count.default": "doc",
+      "contracts.props.allowHalf.default": "doc",
+      "contracts.themeConfiguration.fields.size.default": "doc",
+      "contracts.uiConfiguration.fields": "doc",
+      "subComponents.RatingGroupItem.props.index.required": "doc",
+      "subComponents.RatingGroupItem.slots.default.slotPropsSchema": "runtime",
+      "subComponents.RatingGroupItem.uiConfiguration.fields": "doc",
+      "behaviorModel.transitions.effects": "runtime"
+    }
+  }
+}

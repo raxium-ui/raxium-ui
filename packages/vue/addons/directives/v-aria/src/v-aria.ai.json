@@ -1,0 +1,265 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.addons.v-aria",
+  "component": {
+    "name": "vAria",
+    "framework": "vue",
+    "package": "@raxium/vue-addons-v-aria",
+    "importPath": "@raxium/vue-addons-v-aria",
+    "exportName": "vAria",
+    "category": "addon",
+    "description": "可访问性增强指令，用于给非原生可交互节点补齐 tabindex、role、aria-* 属性，并在 Enter 键时触发 action 回调。",
+    "basePrimitive": {
+      "library": "vue",
+      "primitive": "DirectiveBinding",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "tabindex",
+        "role",
+        "aria-*"
+      ],
+      "notes": "指令形态 v-aria:arg.modifiers=\"value\"。修饰符 .stop：Enter 触发 action 时执行 event.stopPropagation()。"
+    },
+    "capabilities": [
+      "a11y",
+      "keyboard",
+      "tabindex",
+      "role",
+      "aria-attributes"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "arg",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "string",
+        "typeSchema": {
+          "type": "string"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "指令参数，用于设置目标元素的 tabindex。有值时优先于 value.index。"
+      },
+      {
+        "name": "index",
+        "required": false,
+        "requiredSource": "runtime",
+        "typeText": "string | number",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "number" }
+          ]
+        },
+        "default": 0,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["arg"],
+        "description": "未传 arg 时写入 tabindex 的值。"
+      },
+      {
+        "name": "role",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "string",
+        "typeSchema": {
+          "type": "string"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "写入目标元素的 role 属性。"
+      },
+      {
+        "name": "pt",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "string | any",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "object", "additionalProperties": true }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "string 时按 querySelector 定位子元素；truthy 非 string 时优先命中 [tabindex]，否则回退根节点。"
+      },
+      {
+        "name": "action",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "(event: KeyboardEvent) => void",
+        "typeSchema": {
+          "type": "object",
+          "x-ts-type": "(event: KeyboardEvent) => void"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "存在时监听 keydown，仅在 event.key === 'Enter' 时触发，调用前执行 preventDefault。"
+      },
+      {
+        "name": "ariaAttributes",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "Record<string, string | number | boolean>",
+        "typeSchema": {
+          "type": "object",
+          "additionalProperties": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" }
+            ]
+          }
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "除 index/role/pt/action 外的 value 键值对。键含 aria- 前缀则原样写入，否则补全为 aria-key。"
+      }
+    ],
+    "events": [],
+    "slots": [],
+    "themeConfiguration": {
+      "fields": [],
+      "notes": "v-aria 不提供 theme 配置。视觉层通过宿主元素 class 控制。"
+    },
+    "uiConfiguration": {
+      "fields": [],
+      "notes": "v-aria 不提供 ui 配置。指令仅负责属性与键盘行为增强。"
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {},
+    "derived": {
+      "tabindexValue": "arg ?? index",
+      "targetEl": "pt === string ? querySelector(pt) : pt ? querySelector('[tabindex]') : el"
+    },
+    "transitions": [
+      {
+        "on": "mounted",
+        "guard": "binding.value exists",
+        "effects": [
+          "apply tabindex/role/aria-* to targetEl",
+          "if action: add keydown listener"
+        ]
+      },
+      {
+        "on": "updated",
+        "guard": "always",
+        "effects": [
+          "cleanup keydown listener",
+          "re-apply from mounted"
+        ]
+      },
+      {
+        "on": "keydown",
+        "guard": "event.key === 'Enter' && action exists",
+        "effects": [
+          "preventDefault",
+          "if modifiers.stop: stopPropagation",
+          "invoke action(event)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/directives/v-aria" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法（补齐 aria + Enter 触发）"
+    },
+    {
+      "id": "pt-target",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "addons/directives/v-aria" },
+        "exampleId": "pt-target"
+      },
+      "description": "指定目标元素（pt 定向到子节点）"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "role",
+      "label",
+      "action",
+      "pt"
+    ],
+    "safeDefaults": {
+      "index": 0
+    },
+    "a11yChecklist": [
+      "非原生交互元素使用 v-aria；原生 button/a 保留自身语义。",
+      "键盘触发时同时声明 role 与 aria-label（或等价）。",
+      "嵌套较深时使用 pt 精确命中目标。"
+    ],
+    "codegenTemplates": {
+      "minimal": "<div v-aria=\"{ role: 'button', label: 'Action' }\">Click</div>",
+      "withAction": "<div v-aria:0.stop=\"{ role: 'button', label: 'Press Enter', action: onAction }\">Focus me</div>",
+      "ptTarget": "<div v-aria=\"{ pt: '.target', role: 'button', label: 'Target' }\"><div class=\"target\">inner</div></div>"
+    },
+    "antiPatterns": [
+      "<button v-aria=\"{ role: 'button' }\">...</button> — 原生 button 无需重复 role",
+      "v-aria 绑定值频繁变更且 action 引用不稳定 — 导致监听器重建"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./index.ts", "kind": "runtime" },
+      { "path": "./v-aria.doc.mdx", "kind": "doc" },
+      { "path": "./v-aria.stories.ts", "kind": "story" },
+      { "path": "./examples/basic.vue", "kind": "example" },
+      { "path": "./examples/pt-target.vue", "kind": "example" }
+    ],
+    "precedence": [
+      "runtime",
+      "type",
+      "doc"
+    ],
+    "fieldSourceMap": {
+      "contracts.props.index.default": "runtime",
+      "contracts.props.arg.description": "doc",
+      "contracts.props.pt.description": "doc",
+      "behaviorModel.transitions": "runtime",
+      "passThrough.notes": "doc"
+    }
+  }
+}

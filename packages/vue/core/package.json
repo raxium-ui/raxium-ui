@@ -1,0 +1,100 @@
+{
+  "name": "@raxium/vue",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "Vue core components for Raxium UI, based on Ark UI",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/hwacc/raxium-ui"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "ark-ui",
+    "vue"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
+    },
+    "./composables": {
+      "types": "./dist/composables/index.d.ts",
+      "import": "./dist/composables/index.js"
+    },
+    "./composables/*": {
+      "types": "./dist/composables/*.d.ts",
+      "import": "./dist/composables/*.js"
+    },
+    "./providers": {
+      "types": "./dist/providers/index.d.ts",
+      "import": "./dist/providers/index.js"
+    },
+    "./providers/*": {
+      "types": "./dist/providers/*/index.d.ts",
+      "import": "./dist/providers/*/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build --tsconfig ./tsconfig.build.json && vue-tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "@ark-ui/vue": "^5.34.1",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@iconify/vue": "^5.0.0",
+    "@raxium/shared": "workspace:*",
+    "@raxium/themes": "workspace:*",
+    "@vueuse/core": "^14.1.0",
+    "es-toolkit": "^1.44.0",
+    "lucide-vue-next": "^0.577.0",
+    "vue-component-type-helpers": "^3.2.1"
+  },
+  "devDependencies": {
+    "@ark-ui/vue": "^5.34.1",
+    "@iconify/vue": "^5.0.0",
+    "@internationalized/date": "^3.10.1",
+    "@raxium/shared": "workspace:*",
+    "@raxium/themes": "workspace:*",
+    "@rsbuild/plugin-babel": "^1.0.6",
+    "@rsbuild/plugin-vue-jsx": "^1.1.2",
+    "@rslib/core": "0.20.0",
+    "@zag-js/checkbox": "^1.35.3",
+    "@zag-js/date-picker": "^1.35.3",
+    "@zag-js/floating-panel": "^1.35.3",
+    "@zag-js/select": "^1.35.3",
+    "@zag-js/toast": "^1.35.3",
+    "@zag-js/tree-view": "^1.33.1",
+    "rsbuild-plugin-unplugin-vue": "^0.1.0",
+    "tsc-alias": "^1.8.16",
+    "vue-tsc": "^3.2.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

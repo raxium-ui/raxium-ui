@@ -1,0 +1,296 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as BadgeStories from './badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+Badge 是轻量级状态标识组件，适用于标签、计数提示与角标提醒等场景。组件基于 Ark UI Factory 原语构建，支持 `default / secondary / dot` 变体、尺寸主题能力（`theme`），并可通过 `as` 切换为 `div` 或 `sup` 元素以适配不同布局语义。
+
+---
+
+## Examples
+
+展示组件的常见使用方式。
+
+### 基础用法（尺寸）
+
+<Canvas of={BadgeStories.Basic} />
+
+### 次要样式
+
+<Canvas of={BadgeStories.Secondary} />
+
+### 圆点角标
+
+<Canvas of={BadgeStories.Dot} />
+
+### 主题参数示例
+
+<Canvas of={BadgeStories.ThemeExample} />
+
+---
+
+## ARK UI Link
+
+`Badge` 不对应 Ark UI 的独立组件，而是基于 Ark UI Factory 原语（`ark.div` / `ark.sup`）封装。组件会将业务扩展属性（如 `variant`、`theme`、`as`）消费后，把其余原生属性透传给底层元素。
+
+- **相关文档**: [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+- **透传边界**: 支持常规 HTML 属性透传（如 `id`、`data-*`、`aria-*`、原生事件等）；不提供 Ark UI 某个“Badge 组件”的完整 API 透传能力（因为 Ark UI 中无同名组件）。
+
+---
+
+## API
+
+### Props
+
+以下为 `Badge` 根组件常用与扩展属性说明。
+
+#### Badge
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>'default' | 'secondary' | 'dot'</code>
+      </td>
+      <td>
+        <code>'default'</code>
+      </td>
+      <td>徽章变体样式</td>
+    </tr>
+    <tr>
+      <td>
+        <code>theme</code>
+      </td>
+      <td>
+        <code>ThemeCrafts&lt;'tvBadge'&gt;['theme']</code>
+      </td>
+      <td>-</td>
+      <td>主题入口（尺寸、皮肤、表面语义、crafts 覆盖等）</td>
+    </tr>
+    <tr>
+      <td>
+        <code>as</code>
+      </td>
+      <td>
+        <code>'div' | 'sup'</code>
+      </td>
+      <td>
+        <code>'div'</code>
+      </td>
+      <td>渲染的 HTML 元素，圆点场景常用 sup</td>
+    </tr>
+    <tr>
+      <td>
+        <code>asChild</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>-</td>
+      <td>是否将能力合并到子元素（组合封装场景）</td>
+    </tr>
+    <tr>
+      <td>
+        <code>class</code>
+      </td>
+      <td>
+        <code>string | array | object</code>
+      </td>
+      <td>-</td>
+      <td>自定义 class</td>
+    </tr>
+    <tr>
+      <td>
+        <code>HTML Attributes</code>
+      </td>
+      <td>
+        <code>HTMLAttributes</code>
+      </td>
+      <td>-</td>
+      <td>其余属性透传到底层 <code>div/sup</code> 元素</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+### Events
+
+`Badge` 为展示型组件，不定义对外 emits 事件。
+
+#### Badge emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>-</code></td>
+      <td><code>-</code></td>
+      <td>组件未声明自定义事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+#### Badge slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Badge</code></td>
+      <td><code>default</code></td>
+      <td>徽章文本或自定义内容（如数字、状态文案）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Badge` 通过根组件 `theme` 控制 `tvBadge` 的样式变量，影响范围为单一根节点（包括尺寸、皮肤语义与 crafts 覆盖）。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>size</code>
+      </td>
+      <td>
+        <code>'xs' | 'sm' | 'base' | 'lg'</code>
+      </td>
+      <td>
+        <code>'base'</code>
+      </td>
+      <td>徽章尺寸</td>
+    </tr>
+    <tr>
+      <td>
+        <code>skin</code>
+      </td>
+      <td>
+        <code>'razer' | 'shadcn'</code>
+      </td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td>
+        <code>surface</code>
+      </td>
+      <td>
+        <code>'light' | 'dark'</code>
+      </td>
+      <td>-</td>
+      <td>亮色/暗色表面语义</td>
+    </tr>
+    <tr>
+      <td>
+        <code>unstyled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>-</td>
+      <td>是否移除默认样式</td>
+    </tr>
+    <tr>
+      <td>
+        <code>bordered</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>-</td>
+      <td>是否显示边框</td>
+    </tr>
+    <tr>
+      <td>
+        <code>crafts</code>
+      </td>
+      <td>
+        <code>CraftInput&lt;tvBadge&gt; | (() =&gt; tv) | Crafts</code>
+      </td>
+      <td>-</td>
+      <td>覆盖 <code>tvBadge</code> 的 crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={BadgeStories.ThemeExample} />
+
+---
+
+## UI Configuration
+
+`Badge` 不提供 `ui` 或 `ui.*` 配置入口。由于该组件是单一根节点结构，样式覆盖建议通过 `theme` 和 `class` 完成。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>-</code></td>
+      <td><code>-</code></td>
+      <td>不提供该能力；请使用 <code>theme</code>、<code>class</code> 或透传原生属性定制</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={BadgeStories.Basic} />
+
+---
+
+## 最佳实践
+
+- 纯文本或数字标识优先使用 `default`/`secondary` 变体，避免在 Badge 内放置复杂交互控件。
+- 角标提醒场景使用 `variant="dot"` 并配合 `as="sup"`，让语义与布局更贴近通知角标。
+- 需要统一视觉时，把尺寸和皮肤放入 `theme`，而不是在业务层分散写大量 class。
+- 只做局部微调时优先使用 `class`，涉及整体样式体系时再通过 `theme.crafts` 覆盖。
+- 如果需要点击、切换等交互行为，建议把交互放在外层组件；Badge 保持展示职责，减少状态耦合。

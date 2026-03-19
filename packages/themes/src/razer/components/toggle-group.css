@@ -1,0 +1,19 @@
+@layer components {
+  .rui-toggle-group {
+    @apply border-h55;
+  }
+  .rui-toggle-group-item {
+    @apply border-h55 bg-h1a
+    hover:bg-h5e hover:border-h4c hover:ring-h4c
+    active:bg-h1a active:border-h00 active:text-ha7;
+
+    &[data-state='on'] {
+      @apply bg-rz-green-dark
+      hover:bg-rz-green-dark-hover
+      hover:border-rz-green-dark-hover
+      active:bg-rz-green-dark-active
+      active:border-rz-green-dark-active
+      active:text-ha7;
+    }
+  }
+}

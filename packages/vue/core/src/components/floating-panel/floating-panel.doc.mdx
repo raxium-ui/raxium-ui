@@ -1,0 +1,475 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as FloatingPanelStories from './floating-panel.stories'
+
+<Meta of={FloatingPanelStories} />
+
+# FloatingPanel
+
+`FloatingPanel` 是一个可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。组件基于 Ark UI Floating Panel 能力封装，根组件透传 Ark UI 常用交互参数，并扩展了 Raxium UI 的 `theme`、初始透明度（`opacity`）、固定拖拽状态（`pinned`）与缩放触发轴（`resizeAxis`）能力。
+
+---
+
+## Examples
+
+### 基础组合（标题、控制区、透明度/固定/阶段切换）
+
+<Canvas of={FloatingPanelStories.Basic} />
+
+### 最小可用结构
+
+<Canvas of={FloatingPanelStories.Minimal} />
+
+### 缩放触发轴配置
+
+<Canvas of={FloatingPanelStories.ResizeAxis} />
+
+### 最小尺寸限制
+
+<Canvas of={FloatingPanelStories.MinSize} />
+
+### 初始状态（透明度与固定）
+
+<Canvas of={FloatingPanelStories.InitialState} />
+
+---
+
+## ARK UI Link
+
+`FloatingPanel` 组件族与 Ark UI Floating Panel 对应，属于“部分透传 + Raxium UI 扩展”：
+
+- 根组件会透传 Ark UI Root 常用参数与状态机能力（如尺寸、位置、打开状态、拖拽相关配置等）。
+- `FloatingPanelTrigger` 直接导出自 `@ark-ui/vue`，保持 Ark UI 原语行为。
+- `FloatingPanelContent`、`FloatingPanelHeader`、各 Trigger 子组件在 Ark UI 原语之上补充了默认样式与 `theme/ui` 覆盖入口。
+
+Ark UI 文档： [Ark UI Floating Panel (Vue)](https://ark-ui.com/vue/docs/components/floating-panel)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组列出常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### FloatingPanel
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>opacity</code></td>
+      <td><code>number</code></td>
+      <td><code>100</code></td>
+      <td>面板透明度（内部会被限制在 <code>0-100</code>）</td>
+    </tr>
+    <tr>
+      <td><code>pinned</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否固定面板；固定时会禁用拖拽</td>
+    </tr>
+    <tr>
+      <td><code>resizeAxis</code></td>
+      <td><code>'x' | 'y' | 'xy' | 'xyc' | 'custom'</code></td>
+      <td><code>'xyc'</code></td>
+      <td>控制内置缩放触发器渲染策略</td>
+    </tr>
+    <tr>
+      <td><code>draggable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否可拖拽（当 <code>pinned=true</code> 时会被强制关闭）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否延迟挂载内容（Ark UI Root 参数）</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>关闭后是否卸载内容（Ark UI Root 参数）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvFloatingPanel'&gt;</code></td>
+      <td>-</td>
+      <td>浮动面板主题变量与 crafts 覆盖入口</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>根节点 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### FloatingPanelTrigger（Ark UI 原语导出）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将触发行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Trigger 参数</td>
+      <td><code>FloatingPanelTriggerBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### FloatingPanelContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可局部覆盖主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>内容区 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### FloatingPanelHeader
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>头部容器 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### FloatingPanelCloseTrigger / FloatingPanelPinTrigger / FloatingPanelStageTrigger / FloatingPanelOpacityTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承/覆盖浮动面板主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>stage</code>（仅 StageTrigger）</td>
+      <td><code>'minimized' | 'maximized' | 'default'</code></td>
+      <td>-</td>
+      <td>设置点击后切换到的面板阶段</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### FloatingPanel
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>exitComplete</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>退出动画结束时触发</td>
+    </tr>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: OpenChangeDetails) =&gt; void</code></td>
+      <td>打开状态变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean) =&gt; void</code></td>
+      <td>用于双向绑定打开状态</td>
+    </tr>
+    <tr>
+      <td><code>positionChange</code></td>
+      <td><code>(details: PositionChangeDetails) =&gt; void</code></td>
+      <td>位置实时变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>update:position</code></td>
+      <td><code>(position: PositionChangeDetails['position']) =&gt; void</code></td>
+      <td>用于双向绑定面板位置</td>
+    </tr>
+    <tr>
+      <td><code>positionChangeEnd</code></td>
+      <td><code>(details: PositionChangeDetails) =&gt; void</code></td>
+      <td>拖拽/位移结束时触发</td>
+    </tr>
+    <tr>
+      <td><code>sizeChange</code></td>
+      <td><code>(details: SizeChangeDetails) =&gt; void</code></td>
+      <td>尺寸实时变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>update:size</code></td>
+      <td><code>(size: SizeChangeDetails['size']) =&gt; void</code></td>
+      <td>用于双向绑定面板尺寸</td>
+    </tr>
+    <tr>
+      <td><code>sizeChangeEnd</code></td>
+      <td><code>(details: SizeChangeDetails) =&gt; void</code></td>
+      <td>缩放结束时触发</td>
+    </tr>
+    <tr>
+      <td><code>stageChange</code></td>
+      <td><code>(details: StageChangeDetails) =&gt; void</code></td>
+      <td>阶段变化（最小化/最大化/默认）时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+#### FloatingPanelPinTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>click</code></td>
+      <td><code>(event: MouseEvent) =&gt; void</code></td>
+      <td>点击时触发；若事件未被阻止，会切换 <code>pinned</code> 状态</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>FloatingPanel</code></td>
+      <td><code>default</code></td>
+      <td>放置触发器、内容与其它子组件</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelContent</code></td>
+      <td><code>default</code></td>
+      <td>面板主体内容</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelHeader</code></td>
+      <td><code>default</code></td>
+      <td>标题内容（内部渲染到 <code>FloatingPanel.Title</code>）</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelHeader</code></td>
+      <td><code>control</code></td>
+      <td>头部右侧控制区，通常放置 Pin/Stage/Close Trigger</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelCloseTrigger</code></td>
+      <td><code>default</code></td>
+      <td>关闭按钮内容；默认渲染 X 图标</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelStageTrigger</code></td>
+      <td><code>default</code></td>
+      <td>阶段切换按钮内容；默认根据 <code>stage</code> 渲染图标</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelPinTrigger</code></td>
+      <td><code>default</code></td>
+      <td>作用域插槽：<code>&#123; pinned, setPinned &#125;</code></td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelOpacityTrigger</code></td>
+      <td><code>default</code></td>
+      <td>作用域插槽：<code>&#123; opacity, opacityGetter, setOpacity &#125;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`FloatingPanel` 的主题入口在根组件 `theme`，并由子组件继承。核心样式由 `tvFloatingPanel` 提供槽位与尺寸变体。
+
+<table>
+  <thead>
+    <tr>
+      <th>配置项</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>影响范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td>-</td>
+      <td>控制头部间距、触发器尺寸、缩放手柄尺寸</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvFloatingPanel</code></td>
+      <td><code>Partial&lt;...&gt;</code></td>
+      <td>-</td>
+      <td>覆盖 <code>positioner/content/header/control/title/trigger/resize*</code> 槽位样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={FloatingPanelStories.Basic} />
+
+---
+
+## UI Configuration
+
+根组件 `FloatingPanel` 本身不提供 `ui` 参数；UI 覆盖通过 `FloatingPanelContent` 与 `FloatingPanelHeader` 的 `ui.*` 完成。
+
+<table>
+  <thead>
+    <tr>
+      <th>路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>FloatingPanelContent.ui.positioner</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>定位容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelContent.ui.content</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>内容区样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelContent.ui.resizeVertical</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>垂直缩放边样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelContent.ui.resizeHorizontal</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>水平缩放边样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelContent.ui.resizeCorner</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>角落缩放点样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelHeader.ui.root</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>头部容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelHeader.ui.title</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>标题区域样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>FloatingPanelHeader.ui.control</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>控制区样式覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={FloatingPanelStories.ResizeAxis} />
+
+---
+
+## 最佳实践
+
+- 推荐保持固定结构：`FloatingPanel` + `FloatingPanelTrigger` + `FloatingPanelContent` + `FloatingPanelHeader`，将交互按钮统一放在 `control` 插槽中。
+- 若需要“窗口固定”能力，优先使用 `FloatingPanelPinTrigger` 与根组件 `pinned` 初始值配合，不要手动改写拖拽逻辑。
+- 透明度调节建议通过 `FloatingPanelOpacityTrigger` 的作用域插槽驱动，使用 `setOpacity` 统一更新，避免外部多处状态源冲突。
+- 需要精细控制缩放交互时，优先用 `resizeAxis` 切换内置策略；仅在 `custom` 场景下自行渲染自定义缩放触发器。
+- 处理复杂业务时建议监听 `openChange`、`stageChange`、`sizeChangeEnd`、`positionChangeEnd`，用于埋点和状态持久化。
+- 面板内容较长时，建议在内容区内部自行处理滚动与虚拟列表，避免将大体量渲染压力放在拖拽/缩放交互层。

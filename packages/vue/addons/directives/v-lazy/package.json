@@ -1,0 +1,46 @@
+{
+  "name": "@raxium/vue-addons-v-lazy",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/raxium-ui/raxium-ui"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "vue",
+    "addons",
+    "v-lazy"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "module": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build --tsconfig ./tsconfig.build.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.27"
+  },
+  "dependencies": {
+    "es-toolkit": "^1.44.0"
+  },
+  "devDependencies": {
+    "@rslib/core": "0.19.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

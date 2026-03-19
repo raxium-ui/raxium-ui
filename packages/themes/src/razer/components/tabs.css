@@ -1,0 +1,11 @@
+@layer components {
+  .rui-tabs-list {
+    @apply border-b border-b-h54;
+  }
+  .rui-tabs-trigger{
+    @apply text-rui-toggle-text hover:text-rui-toggle-text-hover data-[state=active]:text-rui-toggle-text-active;
+  }
+  .rui-tabs-indicator{
+    @apply bg-rz-green;
+  }
+}

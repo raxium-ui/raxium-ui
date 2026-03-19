@@ -1,0 +1,39 @@
+@layer components {
+  .rui-checkbox {
+    @apply text-hcc hover:text-hff disabled:text-hcc;
+    &[disabled],
+    &[data-disabled] {
+      @apply opacity-(--disabled-opacity);
+    }
+  }
+
+  .rui-checkbox-control {
+    @apply bg-transparent border-h55
+    hover:border-rz-green
+    focus:border-rz-green
+    active:bg-rz-green-dark-active
+    active:border-rz-green-dark-active
+    data-[state=checked]:bg-rz-green
+    data-[state=checked]:border-rz-green
+    data-[state=indeterminate]:bg-rz-green
+    data-[state=indeterminate]:border-rz-green;
+
+    &[disabled],
+    &[data-disabled] {
+      @apply border-h55 bg-transparent hover:border-h55;
+      @apply data-[state=checked]:bg-rz-green data-[state=checked]:border-rz-green;
+      @apply data-[state=indeterminate]:bg-rz-green data-[state=indeterminate]:border-rz-green;
+      @apply data-[state=checked]:hover:bg-rz-green data-[state=checked]:hover:border-rz-green data-[state=indeterminate]:hover:bg-rz-green data-[state=indeterminate]:hover:border-rz-green;
+      @apply active:border-h55 active:bg-transparent;
+      @apply data-[state=checked]:active:bg-rz-green data-[state=checked]:active:border-rz-green data-[state=indeterminate]:active:bg-rz-green data-[state=indeterminate]:active:border-rz-green;
+    }
+  }
+
+  .rui-checkbox-label {
+    @apply text-hcc hover:text-hff;
+    &[disabled],
+    &[data-disabled] {
+      @apply hover:text-hcc;
+    }
+  }
+}

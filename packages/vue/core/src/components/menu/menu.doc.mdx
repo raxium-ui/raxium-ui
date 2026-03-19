@@ -1,0 +1,523 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as MenuStories from './menu.stories'
+
+<Meta of={MenuStories} />
+
+# Menu
+
+`Menu` 是一个复合菜单组件，用于承载命令选择、上下文菜单、单选/多选项等轻量操作入口。该组件基于 Ark UI Menu 构建，支持受控与非受控状态、分组与子菜单，并扩展了 Raxium UI 的 `theme` 与子组件 `ui` 样式覆盖能力。
+
+---
+
+## Examples
+
+展示菜单的常见使用方式。
+
+### 基础用法
+
+<Canvas of={MenuStories.Basic} />
+
+### 子菜单
+
+<Canvas of={MenuStories.Submenu} />
+
+### 多选项（Checkbox）
+
+<Canvas of={MenuStories.Checkbox} />
+
+### 单选项（Radio）
+
+<Canvas of={MenuStories.Radio} />
+
+### 右键上下文菜单
+
+<Canvas of={MenuStories.ContextTrigger} />
+
+### 受控打开与高亮项
+
+<Canvas of={MenuStories.ControlledOpen} />
+
+### 尺寸主题
+
+<Canvas of={MenuStories.Sizes} />
+
+---
+
+## ARK UI Link
+
+`Menu` 组件族与 Ark UI Menu 的关系如下：
+
+- `Menu`、`MenuContent`、`MenuItem`、`MenuItemGroup`、`MenuCheckboxItem`、`MenuRadioItem`、`MenuRadioItemGroup`、`MenuTriggerItem` 为在 Ark UI 原语上的封装，保留核心交互并增加主题/样式能力。
+- `MenuTrigger`、`MenuContextTrigger`、`MenuItemText`、`MenuItemIndicator`、`MenuContext` 直接从 Ark UI 导出，参数与行为以 Ark UI 为准。
+- `MenuArrow` 基于 Ark UI Arrow/ArrowTip 组合封装，用于菜单箭头渲染。
+
+- **相关文档**: [Ark UI Menu (Vue)](https://ark-ui.com/vue/docs/components/menu)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组列出已在当前实现中验证的常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### Menu
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控打开状态（可用 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>highlightedValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控高亮项值（可用 <code>v-model:highlighted-value</code>）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>延迟挂载内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>关闭后卸载内容</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvMenu' | 'tvCheckbox' | 'tvRadioGroup'&gt;</code></td>
+      <td>-</td>
+      <td>菜单及关联选择器（checkbox/radio）的主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>closeOnSelect / loopFocus / typeahead / positioning ...</code></td>
+      <td><code>同 Ark UI Menu Root</code></td>
+      <td>-</td>
+      <td>常用交互与定位参数（示例见 <code>ControlledOpen</code>、<code>Submenu</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容区附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>...Ark Menu Content props</code></td>
+      <td><code>同 Ark UI Menu Content</code></td>
+      <td>-</td>
+      <td>如定位偏移、渲染策略等原生参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuItem / MenuTriggerItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>菜单项值（用于选择事件）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用菜单项</td>
+    </tr>
+    <tr>
+      <td><code>closeOnSelect</code></td>
+      <td><code>boolean</code></td>
+      <td>Ark UI 默认</td>
+      <td>选中后是否关闭菜单</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>菜单项附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuItemGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>分组标题（未提供 <code>label</code> 插槽时生效）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>分组容器附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuCheckboxItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>checked</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控勾选状态</td>
+    </tr>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>当前选项值</td>
+    </tr>
+    <tr>
+      <td><code>closeOnSelect</code></td>
+      <td><code>boolean</code></td>
+      <td>Ark UI 默认</td>
+      <td>切换后是否关闭菜单</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuRadioItem / MenuRadioItemGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-model</code>（<code>MenuRadioItemGroup</code>）</td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>单选组当前值</td>
+    </tr>
+    <tr>
+      <td><code>value</code>（<code>MenuRadioItem</code>）</td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>单选项值</td>
+    </tr>
+    <tr>
+      <td><code>variant</code>（<code>MenuRadioItem</code>）</td>
+      <td><code>'default' | 'checkbox'</code></td>
+      <td><code>'default'</code></td>
+      <td>指示器形态（圆点或勾选）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+事件按实现中对外可订阅能力分组列出；Ark UI 完整事件模型请参考官方文档。
+
+#### Menu
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>select</code></td>
+      <td><code>&#123; value: string; ... &#125;</code></td>
+      <td>菜单项被选择时触发（示例见 <code>Basic</code>、<code>ContextTrigger</code>）</td>
+    </tr>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>boolean</code></td>
+      <td><code>v-model:open</code> 的更新事件（示例见 <code>ControlledOpen</code>）</td>
+    </tr>
+    <tr>
+      <td><code>update:highlightedValue</code></td>
+      <td><code>string | undefined</code></td>
+      <td><code>v-model:highlighted-value</code> 的更新事件</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuCheckboxItem
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:checked</code></td>
+      <td><code>boolean</code></td>
+      <td>勾选状态变化（示例见 <code>Checkbox</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MenuRadioItemGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>string</code></td>
+      <td>单选组值变化（示例见 <code>Radio</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Menu</code></td>
+      <td><code>default</code></td>
+      <td>放置触发器与菜单内容结构</td>
+    </tr>
+    <tr>
+      <td><code>MenuContent</code></td>
+      <td><code>default</code></td>
+      <td>菜单内容；可包含 <code>MenuArrow</code> 与菜单项节点</td>
+    </tr>
+    <tr>
+      <td><code>MenuItem</code> / <code>MenuTriggerItem</code></td>
+      <td><code>default</code></td>
+      <td>菜单项文案或自定义内容</td>
+    </tr>
+    <tr>
+      <td><code>MenuItemGroup</code></td>
+      <td><code>default</code>, <code>label</code></td>
+      <td><code>label</code> 用于覆盖默认分组标题</td>
+    </tr>
+    <tr>
+      <td><code>MenuCheckboxItem</code></td>
+      <td><code>default</code>, <code>indicator</code></td>
+      <td>两个插槽均提供 <code>&#123; checked &#125;</code> 上下文</td>
+    </tr>
+    <tr>
+      <td><code>MenuRadioItem</code></td>
+      <td><code>default</code>, <code>indicator</code></td>
+      <td>插槽接收 Ark <code>Menu.ItemContext</code>（含 <code>checked</code> 等状态）</td>
+    </tr>
+    <tr>
+      <td><code>MenuRadioItemGroup</code></td>
+      <td><code>default</code></td>
+      <td>承载一组 <code>MenuRadioItem</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Menu` 的主题入口在根组件 `theme`，并会影响 `MenuContent`、`MenuItem`、`MenuItemGroup`、`MenuTriggerItem`，以及菜单内置的 checkbox/radio 指示器样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制菜单项字号、内边距与间距</td>
+    </tr>
+    <tr>
+      <td><code>theme.bordered</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>控制菜单内容区是否带边框</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvMenu</code></td>
+      <td><code>craft 覆盖对象</code></td>
+      <td>-</td>
+      <td>覆盖菜单主结构样式（content/item/group 等）</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvCheckbox</code></td>
+      <td><code>craft 覆盖对象</code></td>
+      <td>-</td>
+      <td>覆盖 <code>MenuCheckboxItem</code> 内置 Checkbox 样式</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvRadioGroup</code></td>
+      <td><code>craft 覆盖对象</code></td>
+      <td>-</td>
+      <td>覆盖 <code>MenuRadioItem</code> 指示器样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={MenuStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Menu` 根组件本身不提供 `ui` 字段，样式覆盖入口主要在子组件。
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>MenuContent</code></td>
+      <td><code>ui.positioner</code> / <code>ui.content</code> / <code>ui.inner</code></td>
+      <td><code>string | array | object</code></td>
+      <td>覆盖定位容器、内容容器与内部包裹层样式</td>
+    </tr>
+    <tr>
+      <td><code>MenuItemGroup</code></td>
+      <td><code>ui.root</code> / <code>ui.label</code></td>
+      <td><code>string | array | object</code></td>
+      <td>覆盖分组容器与标题样式</td>
+    </tr>
+    <tr>
+      <td><code>MenuCheckboxItem</code></td>
+      <td><code>ui.root</code> / <code>ui.checkbox</code></td>
+      <td><code>string | array | object</code></td>
+      <td>覆盖 checkbox 菜单项与指示器样式</td>
+    </tr>
+    <tr>
+      <td><code>MenuRadioItem</code></td>
+      <td><code>ui.root</code> / <code>ui.indicator</code></td>
+      <td><code>string | array | object</code></td>
+      <td>覆盖 radio 菜单项与指示器样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={MenuStories.Submenu} />
+
+---
+
+## 最佳实践
+
+- 使用 `Menu` + `MenuTrigger` + `MenuContent` 作为固定骨架，再按需组合 `MenuItemGroup`、`MenuCheckboxItem`、`MenuRadioItemGroup` 扩展能力。
+- 当状态需要与页面其他区域联动时，优先使用 `v-model:open`、`v-model:highlighted-value`、`v-model`（radio group）走受控模式。
+- 需要埋点时，优先监听根组件 `select` 事件，统一记录 `value`，避免在每个菜单项重复绑定点击逻辑。
+- 多选与单选场景分别使用 `MenuCheckboxItem` 与 `MenuRadioItemGroup`，不要混用同一组选项状态模型。
+- 子菜单建议像 `Submenu` 示例那样独立 `Menu` 实例并配合 `positioning` 调整偏移，避免层级菜单遮挡。
+- 视觉定制先用 `theme`（统一尺寸/风格），局部结构再用子组件 `ui.*` 覆盖，减少样式分散维护成本。

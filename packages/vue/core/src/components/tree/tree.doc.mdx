@@ -1,0 +1,440 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks'
+import * as TreeStories from './tree.stories'
+
+<Meta of={TreeStories} />
+
+# Tree
+
+`Tree` 用于展示层级结构数据，适合目录浏览、权限节点选择、配置树编辑等场景。组件基于 Ark UI Tree View 原语构建，支持展开/折叠、单选/多选、复选框勾选、焦点管理以及懒挂载策略，并扩展了 Raxium UI 的 `theme` 与 `ui` 样式配置能力。
+
+---
+
+## Examples
+
+### 基础树（展开/折叠 + 选中）
+
+<Canvas of={TreeStories.Basic} />
+
+### 选中模式（单选 / 多选）
+
+<Canvas of={TreeStories.SelectionModes} />
+
+### 禁用节点
+
+<Canvas of={TreeStories.DisabledNodes} />
+
+### 复选框树（checkedValue）
+
+<Canvas of={TreeStories.Checkbox} />
+
+### 懒挂载与大数据
+
+<Canvas of={TreeStories.LargeData} />
+
+### 自定义节点渲染
+
+<Canvas of={TreeStories.CustomRender} />
+
+### 通过 props 自定义渲染函数
+
+<Canvas of={TreeStories.CustomPropsRender} />
+
+### 事件监听
+
+<Canvas of={TreeStories.Events} />
+
+---
+
+## ARK UI Link
+
+`Tree`、`TreeNode`、`TreeCheckboxNode` 基于 Ark UI Tree View 原语封装：
+
+- `Tree` 根组件透传 Ark UI Root 常用能力（值管理、展开/聚焦、加载策略、选择模式等），并增加 `theme` 与 `ui` 入口。
+- `TreeNode` / `TreeCheckboxNode` 基于 Node/Branch/Item 原语构建，补充默认渲染逻辑和可覆盖的渲染函数、插槽能力。
+- 异步子节点加载能力（如 `loadChildren`、`loadChildrenComplete`、`loadChildrenError`）遵循 Ark UI 事件与回调模型。
+
+Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components/tree-view)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组，列出项目内常用与扩展项。Ark UI 原生完整参数请参考官方文档。
+
+#### Tree
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>collection</code></td>
+      <td><code>TreeCollection&lt;T&gt;</code></td>
+      <td>-</td>
+      <td>树数据集合（通常由 <code>createTreeCollection</code> 创建）</td>
+    </tr>
+    <tr>
+      <td><code>selectionMode</code></td>
+      <td><code>'single' | 'multiple'</code></td>
+      <td>Ark UI 默认</td>
+      <td>选中模式，影响 <code>selectedValue</code> 语义</td>
+    </tr>
+    <tr>
+      <td><code>expandedValue / defaultExpandedValue</code></td>
+      <td><code>TreeValueType[]</code></td>
+      <td>-</td>
+      <td>受控/非受控展开值</td>
+    </tr>
+    <tr>
+      <td><code>selectedValue / defaultSelectedValue</code></td>
+      <td><code>TreeValueType[]</code></td>
+      <td>-</td>
+      <td>受控/非受控选中值</td>
+    </tr>
+    <tr>
+      <td><code>checkedValue / defaultCheckedValue</code></td>
+      <td><code>TreeValueType[]</code></td>
+      <td>-</td>
+      <td>复选框树受控/非受控勾选值</td>
+    </tr>
+    <tr>
+      <td><code>focusedValue / defaultFocusedValue</code></td>
+      <td><code>TreeValueType</code></td>
+      <td>-</td>
+      <td>当前焦点节点值</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount / unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>Ark UI 默认</td>
+      <td>懒挂载与退出卸载策略（示例见 <code>LargeData</code>）</td>
+    </tr>
+    <tr>
+      <td><code>...TreeViewRootBaseProps</code></td>
+      <td><code>Ark UI Root Props</code></td>
+      <td>-</td>
+      <td>其余 Root 能力（如加载策略、可访问性配置、键盘交互策略等）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvTree'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TreeNode
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>node</code></td>
+      <td><code>TreeNodeData</code></td>
+      <td>-</td>
+      <td>当前节点数据（必填）</td>
+    </tr>
+    <tr>
+      <td><code>indexPath</code></td>
+      <td><code>number[]</code></td>
+      <td>-</td>
+      <td>当前节点路径索引（必填）</td>
+    </tr>
+    <tr>
+      <td><code>keyMap</code></td>
+      <td><code>Partial&lt;TreeKeyMap&gt;</code></td>
+      <td><code>&#123; id:'id', name:'name', children:'children', icon:'icon' &#125;</code></td>
+      <td>将默认字段映射到自定义数据结构（示例见 <code>CustomDatatype</code>）</td>
+    </tr>
+    <tr>
+      <td><code>nodeIndent</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>节点缩进值（px）</td>
+    </tr>
+    <tr>
+      <td><code>renderIcon</code></td>
+      <td><code>(props) =&gt; VNode</code></td>
+      <td>内置实现</td>
+      <td>自定义图标渲染函数（示例见 <code>CustomPropsRender</code>）</td>
+    </tr>
+    <tr>
+      <td><code>renderName</code></td>
+      <td><code>(props) =&gt; VNode | string</code></td>
+      <td>内置实现</td>
+      <td>自定义名称渲染函数</td>
+    </tr>
+    <tr>
+      <td><code>ui.branch*</code> / <code>ui.item*</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>分支/叶子各结构节点 class 覆盖（title、icon、text、indicator 等）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TreeCheckboxNode
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>node / indexPath / keyMap / nodeIndent</code></td>
+      <td><code>同 TreeNode</code></td>
+      <td>-</td>
+      <td>与 <code>TreeNode</code> 相同的节点输入与映射能力</td>
+    </tr>
+    <tr>
+      <td><code>renderIcon / renderName</code></td>
+      <td><code>同 TreeNode</code></td>
+      <td>内置实现</td>
+      <td>支持同样的自定义渲染函数</td>
+    </tr>
+    <tr>
+      <td><code>ui.branchCheckbox*</code> / <code>ui.itemCheckbox*</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>复选框控制区与指示器 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Tree emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:expandedValue</code></td>
+      <td><code>(value: TreeValueType[])</code></td>
+      <td>展开值受控同步</td>
+    </tr>
+    <tr>
+      <td><code>update:selectedValue</code></td>
+      <td><code>(value: TreeValueType[])</code></td>
+      <td>选中值受控同步</td>
+    </tr>
+    <tr>
+      <td><code>update:checkedValue</code></td>
+      <td><code>(value: TreeValueType[])</code></td>
+      <td>勾选值受控同步</td>
+    </tr>
+    <tr>
+      <td><code>update:focusedValue</code></td>
+      <td><code>(value: TreeValueType)</code></td>
+      <td>焦点值受控同步</td>
+    </tr>
+    <tr>
+      <td><code>expandedChange / selectionChange / checkedChange / focusChange</code></td>
+      <td><code>Ark UI details</code></td>
+      <td>树状态变化详情事件（示例见 <code>Events</code>）</td>
+    </tr>
+    <tr>
+      <td><code>loadChildrenComplete / loadChildrenError</code></td>
+      <td><code>Ark UI details</code></td>
+      <td>异步加载子节点完成/失败事件</td>
+    </tr>
+    <tr>
+      <td><code>renameStart / beforeRename / renameComplete</code></td>
+      <td><code>Ark UI details</code></td>
+      <td>节点重命名生命周期事件（Ark UI 能力）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TreeNode / TreeCheckboxNode emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>当前封装未额外暴露自定义事件，交互状态由 <code>Tree</code> 根组件统一对外通知</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tree</code></td>
+      <td><code>default</code></td>
+      <td>树节点内容（通常放置递归 <code>TreeNode</code> 或 <code>TreeCheckboxNode</code>）</td>
+    </tr>
+    <tr>
+      <td><code>Tree</code></td>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td>树容器前后附加区域</td>
+    </tr>
+    <tr>
+      <td><code>TreeNode</code></td>
+      <td><code>branch</code></td>
+      <td>分支节点自定义渲染，作用域含 <code>node</code>、<code>keyMap</code>、<code>state</code></td>
+    </tr>
+    <tr>
+      <td><code>TreeNode</code></td>
+      <td><code>item</code></td>
+      <td>叶子节点自定义渲染，作用域含 <code>node</code>、<code>keyMap</code>、<code>state</code></td>
+    </tr>
+    <tr>
+      <td><code>TreeCheckboxNode</code></td>
+      <td><code>branch</code> / <code>item</code></td>
+      <td>同 <code>TreeNode</code>，并附带复选框渲染语义</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Tree` 根组件通过 `theme` 驱动 `tvTree`，并通过 context 统一分发给 `TreeNode` / `TreeCheckboxNode` 的 branch、item、checkbox 样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>节点行高、文本和图标尺寸节奏</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvTree</code> 及关联 crafts（branch/item/checkbox）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TreeStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Tree`、`TreeNode`、`TreeCheckboxNode` 均提供 `ui` class 覆盖入口：
+
+<table>
+  <thead>
+    <tr>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tree.ui.root / Tree.ui.tree</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根容器与树容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TreeNode.ui.branch*</code> / <code>TreeNode.ui.item*</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>分支与叶子节点结构样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TreeCheckboxNode.ui.branchCheckbox*</code> / <code>TreeCheckboxNode.ui.itemCheckbox*</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>复选框控制区与指示器样式覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TreeStories.CustomRender} />
+
+---
+
+## 可访问性
+
+- 组件基于 Ark UI，内置 tree role、键盘导航、焦点管理和层级语义。
+- 建议为节点文本提供稳定可读标签，避免仅依赖图标表达含义。
+- 禁用节点请通过 `isNodeDisabled`/数据字段统一声明，不要只做视觉置灰。
+- 大数据场景建议搭配 `lazyMount`/`unmountOnExit`，降低初始渲染与非激活分支开销。
+
+---
+
+## 最佳实践
+
+- 数据建模优先统一：用 `createTreeCollection` 收敛 `nodeToValue/nodeToString/nodeToChildren`，不要在视图层重复解析结构。
+- 选中模型先定清楚：单选场景用 `selectionMode="single"` + `selectedValue`，批量选择场景优先 `TreeCheckboxNode` + `checkedValue`。
+- 自定义数据结构时统一配置 `keyMap`，避免在每个节点组件里手写字段兼容逻辑。
+- 状态追踪建议在根组件集中监听 `expandedChange/selectionChange/checkedChange`，减少节点级重复埋点。
+- 大树性能优先策略是“懒挂载 + 局部展开”，并限制容器高度配合滚动区域。
+- UI 定制遵循“先 theme 后 ui”：共性风格走 `theme`，局部差异再通过 `ui.*` 覆盖。
+
+---
+
+## Stories Controls & Source
+
+用于联动查看 `Basic` 场景的 controls 与源码：
+
+<Controls of={TreeStories.Basic} />
+
+<Source of={TreeStories.Basic} />

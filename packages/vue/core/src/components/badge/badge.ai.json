@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.badge",
+  "component": {
+    "name": "Badge",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Badge",
+    "category": "core",
+    "description": "轻量级状态标识组件，适用于标签、计数提示与角标提醒等场景。基于 Ark UI Factory 原语封装，支持 default/secondary/dot 变体、theme 样式能力与 as 元素切换。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/factory",
+      "primitive": "ark.div | ark.sup",
+      "nativeElement": "div | sup"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "id",
+        "aria-*",
+        "data-*",
+        "class",
+        "native-events"
+      ],
+      "notes": "组件会消费 variant/theme/as/asChild，其余属性透传给底层 div/sup。"
+    },
+    "capabilities": [
+      "status-indicator",
+      "variant",
+      "theme",
+      "as-switch",
+      "as-child"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "variant",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'default' | 'secondary' | 'dot' | string",
+        "typeSchema": {
+          "anyOf": [
+            {
+              "enum": [
+                "default",
+                "secondary",
+                "dot"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "default": "default",
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "徽章变体样式。"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvBadge'>['theme']",
+        "typeSchema": {
+          "type": "object"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题配置，驱动 tvBadge crafts（如 size/skin/surface/bordered/unstyled/crafts）。"
+      },
+      {
+        "name": "as",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'div' | 'sup'",
+        "typeSchema": {
+          "enum": [
+            "div",
+            "sup"
+          ]
+        },
+        "default": "div",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "渲染元素类型；角标场景常与 dot 变体配合使用 sup。"
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": {
+          "type": "boolean"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否将能力合并到子元素（组合封装场景）。"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array"
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点自定义 class。"
+      }
+    ],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [
+          {
+            "expr": "always"
+          }
+        ],
+        "fallback": null,
+        "description": "徽章内容（文本、数字或自定义节点）。dot 变体可为空。"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": {
+            "enum": [
+              "xs",
+              "sm",
+              "base",
+              "lg"
+            ]
+          },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "徽章尺寸。"
+        },
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": {
+            "enum": [
+              "razer",
+              "shadcn"
+            ]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤。"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark'",
+          "typeSchema": {
+            "enum": [
+              "light",
+              "dark"
+            ]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "亮色/暗色表面语义。"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": {
+            "type": "boolean"
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否移除默认样式。"
+        },
+        {
+          "name": "bordered",
+          "typeText": "boolean",
+          "typeSchema": {
+            "type": "boolean"
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否显示边框。"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": {
+            "type": "object"
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 tvBadge 的 crafts 配置。"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": []
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "variant": "'default' | 'secondary' | 'dot' | string | undefined",
+      "as": "'div' | 'sup'",
+      "asChild": "boolean | undefined"
+    },
+    "derived": {
+      "rootPrimitive": "as === 'div' ? 'ark.div' : 'ark.sup'",
+      "variantDataAttr": "data-variant = variant"
+    },
+    "transitions": []
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Badge" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法（尺寸）。"
+    },
+    {
+      "id": "secondary",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Badge" },
+        "exampleId": "secondary"
+      },
+      "description": "次要样式。"
+    },
+    {
+      "id": "dot",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Badge" },
+        "exampleId": "dot"
+      },
+      "description": "圆点角标样式。"
+    },
+    {
+      "id": "theme-example",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Badge" },
+        "exampleId": "basic"
+      },
+      "description": "Theme 配置示例（story 内联，无独立 example 文件，可参考 badge.stories.ts ThemeExample）。"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "variant",
+      "theme.size",
+      "as"
+    ],
+    "safeDefaults": {
+      "variant": "default",
+      "as": "div"
+    },
+    "a11yChecklist": [
+      "仅展示状态信息，不承载关键交互逻辑。",
+      "dot 角标场景建议结合可读文本或 aria 语义，避免纯视觉信息丢失。"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Badge>New</Badge>",
+      "dotSup": "<Badge variant=\"dot\" as=\"sup\" />"
+    },
+    "antiPatterns": [
+      "<Badge><Button>Click</Button></Badge> — Badge 内放置交互控件，应仅展示状态信息",
+      "<Badge class=\"bg-red-500\" /> — 纯颜色角标无文案，应提供可读文本或 aria 语义"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      {
+        "path": "./badge.doc.mdx",
+        "kind": "doc"
+      },
+      {
+        "path": "./props.ts",
+        "kind": "type"
+      },
+      {
+        "path": "./Badge.vue",
+        "kind": "runtime"
+      },
+      {
+        "path": "./badge.stories.ts",
+        "kind": "story"
+      }
+    ],
+    "precedence": [
+      "runtime",
+      "type",
+      "doc"
+    ],
+    "fieldSourceMap": {
+      "contracts.props.as.default": "runtime",
+      "contracts.props.variant.default": "doc",
+      "contracts.themeConfiguration.fields.size.default": "doc",
+      "generationHints.safeDefaults": "doc",
+      "generationHints.antiPatterns": "doc"
+    }
+  }
+}

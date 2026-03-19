@@ -1,0 +1,701 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.toast",
+  "component": {
+    "name": "ToasterManager",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "ToasterManager",
+    "category": "core",
+    "description": "基于 Ark UI Toast 封装的全局轻提示方案，适合异步反馈、状态提醒与轻量操作提示。组件由 ToasterManager（根/容器管理）、Toaster（队列与定位）、Toast（单条渲染）三部分组成，支持 useToast() 编程式调用、theme 与 ui 配置。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/toast",
+      "primitive": "Toaster",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [],
+      "notes": "ToasterManager 为 Rark 扩展的根容器，内部组合 Ark Toaster 与 Toast.Root；Toaster 使用 createToaster 承载队列，Toast 透传 ToastRootBaseProps。"
+    },
+    "capabilities": [
+      "theme",
+      "ui-override",
+      "programmatic-api",
+      "slots"
+    ],
+    "subComponents": ["Toaster", "Toast"]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "disableDefaultToaster",
+        "required": false,
+        "requiredSource": "runtime",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否禁用内置默认容器（默认容器为 bottom-end）。"
+      },
+      {
+        "name": "defaultToasterProps",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ToasterProps",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "placement": { "type": "string", "enum": ["top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end"] },
+            "max": { "type": "number" },
+            "duration": { "type": "number" },
+            "overlap": { "type": "boolean" },
+            "gap": { "type": "number" },
+            "offsets": { "anyOf": [{ "type": "string" }, { "type": "object" }] },
+            "hotkey": { "type": "array", "items": { "type": "string" } },
+            "removeDelay": { "type": "number" },
+            "pauseOnPageIdle": { "type": "boolean" },
+            "theme": { "type": "object" }
+          }
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "覆盖默认容器配置（如 placement、duration、theme）。"
+      }
+    ],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "挂载多个 Toaster，用于多位置容器管理。"
+      }
+    ],
+    "themeConfiguration": { "fields": [] },
+    "uiConfiguration": { "fields": [] }
+  },
+  "subComponents": {
+    "Toaster": {
+      "props": [
+        {
+          "name": "toasterId",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "string",
+          "typeSchema": { "type": "string" },
+          "default": "default-toaster",
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "容器标识，用于多容器场景路由。"
+        },
+        {
+          "name": "placement",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'",
+          "typeSchema": {
+            "type": "string",
+            "enum": ["top", "top-start", "top-end", "bottom", "bottom-start", "bottom-end"]
+          },
+          "default": "bottom",
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "提示出现位置（可被 toast.create(options.placement) 选择）。"
+        },
+        {
+          "name": "max",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "number",
+          "typeSchema": { "type": "number" },
+          "default": 24,
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "最大同时显示数量，超出进入队列。"
+        },
+        {
+          "name": "duration",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "number",
+          "typeSchema": { "type": "number" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "容器级默认停留时长（毫秒）。"
+        },
+        {
+          "name": "overlap",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "是否允许提示堆叠重叠。"
+        },
+        {
+          "name": "gap",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "number",
+          "typeSchema": { "type": "number" },
+          "default": 16,
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "提示间距。"
+        },
+        {
+          "name": "offsets",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "string | Record<'left' | 'right' | 'bottom' | 'top', string>",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "left": { "type": "string" },
+                  "right": { "type": "string" },
+                  "bottom": { "type": "string" },
+                  "top": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "default": "1rem",
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "与视口安全区域的偏移。"
+        },
+        {
+          "name": "hotkey",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "string[]",
+          "typeSchema": { "type": "array", "items": { "type": "string" } },
+          "default": ["altKey", "KeyT"],
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "聚焦当前 toast 组的快捷键。"
+        },
+        {
+          "name": "removeDelay",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "number",
+          "typeSchema": { "type": "number" },
+          "default": 200,
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "关闭后移除延迟（用于退场动画）。"
+        },
+        {
+          "name": "pauseOnPageIdle",
+          "required": false,
+          "requiredSource": "doc",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": false,
+          "defaultKind": "explicit-doc",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "页面切后台时是否暂停计时。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeCrafts<'tvToast'>",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "容器下所有提示的主题参数与 crafts 覆盖。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "toast": { "type": "object", "description": "ToastOptions" }
+            }
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "返回 { toast }，用于将当前消息对象绑定到 Toast 渲染。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": {
+        "fields": [
+          {
+            "name": "size",
+            "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+            "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+            "default": "base",
+            "defaultKind": "explicit-doc",
+            "description": "容器下 toast 的尺寸节奏。"
+          },
+          {
+            "name": "skin",
+            "typeText": "'razer' | 'shadcn'",
+            "typeSchema": { "enum": ["razer", "shadcn"] },
+            "default": null,
+            "defaultKind": "unknown",
+            "description": "主题皮肤。"
+          },
+          {
+            "name": "crafts",
+            "typeText": "object",
+            "typeSchema": { "type": "object" },
+            "default": null,
+            "defaultKind": "unknown",
+            "description": "覆盖 tvToast crafts。"
+          }
+        ]
+      },
+      "uiConfiguration": { "fields": [] }
+    },
+    "Toast": {
+      "props": [
+        {
+          "name": "options",
+          "required": true,
+          "requiredSource": "type",
+          "typeText": "ToastOptions",
+          "typeSchema": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["info", "success", "warning", "error", "loading"] },
+              "placement": { "type": "string" },
+              "title": {},
+              "description": {},
+              "render": { "type": "function" },
+              "theme": { "type": "object" },
+              "duration": { "type": "number" }
+            },
+            "required": []
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": false,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "单条提示配置（必填），含 type、title、description、render、theme、duration 等。"
+        },
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "string | string[] | Record<string, boolean>",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "根节点附加 class。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts['theme']",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "单条提示主题参数，与 options.theme 合并。"
+        },
+        {
+          "name": "ui",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "{ root?: class; content?: class; inner?: class; title?: class; description?: class; icon?: class; close?: class }",
+          "typeSchema": {
+            "type": "object",
+            "properties": {
+              "root": {},
+              "content": {},
+              "inner": {},
+              "title": {},
+              "description": {},
+              "icon": {},
+              "close": {}
+            }
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "各结构节点 class 覆盖。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "options": {},
+              "context": {}
+            }
+          },
+          "renderWhen": [{ "expr": "!options?.render" }],
+          "fallback": null,
+          "description": "自定义整条提示结构；作用域含 options 与 context。"
+        },
+        {
+          "name": "icon",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "options": {},
+              "context": {}
+            }
+          },
+          "renderWhen": [{ "expr": "!options?.render" }],
+          "fallback": "按 type 渲染默认图标",
+          "description": "覆盖图标区域。"
+        },
+        {
+          "name": "inner",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "options": {},
+              "context": {}
+            }
+          },
+          "renderWhen": [{ "expr": "!options?.render" }],
+          "fallback": "title + description",
+          "description": "覆盖内容区域（标题与描述）。"
+        },
+        {
+          "name": "close",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "options": {},
+              "context": {}
+            }
+          },
+          "renderWhen": [{ "expr": "!options?.render && context.type !== 'loading'" }],
+          "fallback": "ToastCloseTrigger",
+          "description": "覆盖关闭区域；loading 类型默认不渲染关闭按钮。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": {
+        "fields": [
+          {
+            "name": "size",
+            "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+            "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+            "default": "base",
+            "defaultKind": "explicit-doc",
+            "description": "提示尺寸。"
+          },
+          {
+            "name": "skin",
+            "typeText": "'razer' | 'shadcn'",
+            "typeSchema": { "enum": ["razer", "shadcn"] },
+            "default": null,
+            "defaultKind": "unknown",
+            "description": "主题皮肤。"
+          }
+        ]
+      },
+      "uiConfiguration": {
+        "fields": [
+          {
+            "name": "ui.root",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "根节点 class 覆盖。"
+          },
+          {
+            "name": "ui.content",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "内容容器 class 覆盖。"
+          },
+          {
+            "name": "ui.inner",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "标题与描述容器 class 覆盖。"
+          },
+          {
+            "name": "ui.title",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "标题区域 class 覆盖。"
+          },
+          {
+            "name": "ui.description",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "描述区域 class 覆盖。"
+          },
+          {
+            "name": "ui.icon",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "图标区域 class 覆盖。"
+          },
+          {
+            "name": "ui.close",
+            "typeText": "string | array | object",
+            "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+            "default": null,
+            "defaultKind": "implicit-undefined",
+            "description": "关闭按钮区域 class 覆盖。"
+          }
+        ]
+      }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "type": "info | success | warning | error | loading",
+      "placement": "string"
+    },
+    "derived": {
+      "showCloseIcon": "type !== 'loading'",
+      "iconVNode": "switch(type): info->Info, success->CircleCheck, error->CircleX, warning->CircleAlert, loading->LoaderCircle"
+    },
+    "transitions": [
+      {
+        "on": "options.render",
+        "guard": "typeof options?.render === 'function'",
+        "effects": [
+          "contentNode = options.render(context)",
+          "slots.default.bypassed = true",
+          "slots.icon.bypassed = true",
+          "slots.inner.bypassed = true",
+          "slots.close.bypassed = true"
+        ]
+      },
+      {
+        "on": "default",
+        "guard": "typeof options?.render !== 'function'",
+        "effects": [
+          "renderIcon(type)",
+          "renderInner(options.title, options.description)",
+          "renderClose(type !== 'loading')"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法（类型与状态）"
+    },
+    {
+      "id": "placements",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "placements"
+      },
+      "description": "位置控制（多 Toaster）"
+    },
+    {
+      "id": "duration-and-actions",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "duration-and-actions"
+      },
+      "description": "持续时长、可关闭与操作按钮"
+    },
+    {
+      "id": "promise",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "promise"
+      },
+      "description": "Promise 生命周期提示"
+    },
+    {
+      "id": "custom-render",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "custom-render"
+      },
+      "description": "完全自定义渲染"
+    },
+    {
+      "id": "slots-and-ui",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Toast" },
+        "exampleId": "slots-and-ui"
+      },
+      "description": "插槽与 UI 覆盖"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "useToast().toast.create/success/error/info/warning/loading",
+      "ToasterManager + Toaster + Toast",
+      "options.type + options.title + options.description"
+    ],
+    "safeDefaults": {
+      "ToasterManager.disableDefaultToaster": false,
+      "options": "必填"
+    },
+    "a11yChecklist": [
+      "duration: Infinity 时应提供可见关闭入口",
+      "关键流程建议使用 title + description 双层信息",
+      "多位置容器并存时保持统一 placement 策略"
+    ],
+    "codegenTemplates": {
+      "minimal": "<ToasterManager />\n// 在子组件中: const { toast } = useToast(); toast.create({ title: '提示', type: 'info' })",
+      "withToasterManager": "<ToasterManager><Toaster v-slot=\"{ toast }\"><Toast :options=\"toast\" /></Toaster></ToasterManager>",
+      "useToastCreate": "const { toast } = useToast(); toast.create({ title: '提示', type: 'info' })",
+      "useToastSuccess": "const { toast } = useToast(); toast.success({ title: '成功', description: '操作已完成' })",
+      "multiPlacement": "<ToasterManager :disable-default-toaster=\"true\"><Toaster v-slot=\"{ toast }\" toaster-id=\"top-end\" placement=\"top-end\" overlap><Toast :options=\"toast\" /></Toaster><Toaster v-slot=\"{ toast }\" toaster-id=\"bottom-start\" placement=\"bottom-start\" overlap><Toast :options=\"toast\" /></Toaster></ToasterManager>"
+    },
+    "antiPatterns": [
+      "const { toast } = useToast(); toast.create({ type: 'error' })",
+      "const { toast } = useToast(); toast.create({})",
+      "<div><Button @click=\"() => useToast().toast.create({ title: 'x' })\" /></div>"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./toast.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./ToasterManager.vue", "kind": "runtime" },
+      { "path": "./Toaster.vue", "kind": "runtime" },
+      { "path": "./Toast.vue", "kind": "runtime" },
+      { "path": "./use-toast.ts", "kind": "runtime" },
+      { "path": "./toast.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.disableDefaultToaster.default": "runtime",
+      "contracts.props.defaultToasterProps.type": "type",
+      "subComponents.Toaster.props.placement.default": "doc",
+      "subComponents.Toaster.props.max.default": "doc",
+      "subComponents.Toaster.props.gap.default": "doc",
+      "subComponents.Toaster.props.offsets.default": "doc",
+      "subComponents.Toaster.props.hotkey.default": "doc",
+      "subComponents.Toaster.props.removeDelay.default": "doc",
+      "subComponents.Toaster.props.pauseOnPageIdle.default": "doc",
+      "subComponents.Toaster.uiConfiguration.fields": "doc",
+      "subComponents.Toast.props.options.required": "type",
+      "subComponents.Toast.slots.close.renderWhen": "runtime",
+      "behaviorModel.transitions.effects": "runtime"
+    }
+  }
+}

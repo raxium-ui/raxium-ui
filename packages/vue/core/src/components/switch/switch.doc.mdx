@@ -1,0 +1,318 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SwitchStories from './switch.stories'
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+`Switch` 用于表达单一布尔开关状态（开/关），适合用于功能启停、偏好配置等场景。组件基于 Ark UI Switch 构建，支持受控/非受控状态、表单语义透传，并扩展了 Raxium UI 的 `theme` 与 `ui` 样式入口；同时提供 `SwitchLabel` 便于构建一致的标签结构。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={SwitchStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={SwitchStories.Sizes} />
+
+### 状态示例
+
+<Canvas of={SwitchStories.States} />
+
+### 标签组合
+
+<Canvas of={SwitchStories.WithLabel} />
+
+### 受控模式
+
+<Canvas of={SwitchStories.Controlled} />
+
+---
+
+## ARK UI Link
+
+`Switch` 根组件通过 `useForwardProps` 将 Ark UI Switch Root 的常用能力透传到底层（如 `checked/defaultChecked`、`disabled`、`readOnly`、`required`、`name`、`value` 等），并在此基础上增加 Raxium UI 的 `theme` / `ui` 扩展。`SwitchLabel` 基于 Ark UI 的 Label 原语封装，主要用于标签样式与组合结构。
+
+- Ark UI 文档：[Ark UI Switch (Vue)](https://ark-ui.com/vue/docs/components/switch)
+- 透传边界：Ark UI Root 能力为主；文档重点说明 Raxium UI 额外扩展与常用字段。
+
+---
+
+## API
+
+### Props
+
+以下按组件分组列出常用与扩展项。Ark UI 原生完整参数请参考官方文档。
+
+#### Switch
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>checked</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控选中状态（可配合 <code>v-model:checked</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultChecked</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始状态</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用交互</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否只读</td>
+    </tr>
+    <tr>
+      <td><code>required</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否必填（表单语义）</td>
+    </tr>
+    <tr>
+      <td><code>invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否错误态</td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>表单字段名</td>
+    </tr>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>表单提交值</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根容器自定义 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvSwitch'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆写（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwitchLabel
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>标签节点自定义 class</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将标签能力合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>从上下文继承主题参数，也可局部覆盖主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Switch emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:checked</code></td>
+      <td><code>(checked: boolean)</code></td>
+      <td>受控状态同步事件（用于 <code>v-model:checked</code>）</td>
+    </tr>
+    <tr>
+      <td><code>checkedChange</code></td>
+      <td><code>Ark UI checked change details</code></td>
+      <td>底层 Ark UI 状态变化事件，参数结构与 Ark UI 保持一致</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SwitchLabel emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>不额外暴露自定义事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Switch</code></td>
+      <td><code>default</code></td>
+      <td>默认插槽；通常放置 <code>SwitchLabel</code> 或自定义描述内容</td>
+    </tr>
+    <tr>
+      <td><code>SwitchLabel</code></td>
+      <td><code>default</code></td>
+      <td>标签文本或自定义标签结构</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Switch` 使用 `theme` 驱动 `tvSwitch` crafts。当前内置变体以 `size` 为核心；如需深度定制可通过 `crafts` 覆写对应槽位样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制开关轨道、滑块和标签字号</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvSwitch</code> 的 crafts 配置（如 <code>root/control/thumb/label</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SwitchStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Switch` 根组件提供 `ui` 槽位样式入口；标签样式建议通过 `SwitchLabel.class` 覆盖。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.control</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>控制区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.thumb</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>滑块 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.label</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>当前版本未在模板中消费；建议使用 <code>SwitchLabel.class</code> 覆盖标签样式</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SwitchStories.WithLabel} />
+
+---
+
+## 最佳实践
+
+- 单个布尔状态优先使用 `v-model:checked`，外部需要强制回写时再切换到完全受控模式。
+- 在表单中使用时补齐 `name`、`value`、`required`，保证提交语义与校验一致。
+- 标签内容建议放在 `SwitchLabel` 中，避免把说明文本直接塞进 `Switch` 根节点造成结构不清晰。
+- 样式调整优先按层次处理：全局风格使用 `theme.size/crafts`，局部差异使用 `ui.root/control/thumb`。
+- 禁用与只读要区分：禁止交互用 `disabled`，仅阻止编辑但保留可读语义用 `readOnly`。

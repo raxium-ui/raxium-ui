@@ -1,0 +1,459 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks'
+import * as TooltipStories from './tooltip.stories'
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+`Tooltip` 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。组件基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略，并扩展了 Raxium UI 的 `theme` 与局部 `ui` 样式覆盖能力。
+
+---
+
+## Examples
+
+### 基础用法（Hover / Focus）
+
+<Canvas of={TooltipStories.Basic} />
+
+### 位置与皮肤
+
+<Canvas of={TooltipStories.PlacementsAndSkins} />
+
+### 尺寸与边框（含箭头）
+
+<Canvas of={TooltipStories.SizesAndBordered} />
+
+### 延迟与受控打开（Click 联动）
+
+<Canvas of={TooltipStories.DelaysAndControlledOpen} />
+
+### UI 覆盖与 fixed 定位策略
+
+<Canvas of={TooltipStories.UiAndFixedStrategy} />
+
+### 禁用状态
+
+<Canvas of={TooltipStories.Disabled} />
+
+---
+
+## ARK UI Link
+
+`Tooltip` 组件族与 Ark UI Tooltip 对应，属于“部分透传 + Raxium UI 扩展”：
+
+- `Tooltip` 根组件基于 Ark UI Root，通过 `useTooltip` 管理状态，透传 Root 常用参数（如 `open/defaultOpen`、`disabled`、`positioning`、`openDelay/closeDelay`、`lazyMount/unmountOnExit`），并扩展 `theme`。
+- `TooltipTrigger` 直接导出自 Ark UI 原语，交互行为与 Ark UI 保持一致（默认支持 hover/focus 触发）。
+- `TooltipContent` 与 `TooltipArrow` 在 Ark UI 原语基础上增加 Raxium UI 主题与 `ui` 覆盖入口。
+
+Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/tooltip)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组列出常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### Tooltip
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控打开状态（配合 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控初始打开状态</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用 Tooltip 行为（触发器不再弹出提示）</td>
+    </tr>
+    <tr>
+      <td><code>openDelay</code></td>
+      <td><code>number</code></td>
+      <td><code>0</code></td>
+      <td>打开延迟（ms，可由配置中心覆盖）</td>
+    </tr>
+    <tr>
+      <td><code>closeDelay</code></td>
+      <td><code>number</code></td>
+      <td><code>0</code></td>
+      <td>关闭延迟（ms，可由配置中心覆盖）</td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>PositioningOptions</code></td>
+      <td>-</td>
+      <td>浮层定位配置（如 <code>placement</code>、<code>strategy</code>）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否延迟挂载内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>关闭后是否卸载内容</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvTooltip'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Root 参数</td>
+      <td><code>TooltipRootBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Tooltip 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TooltipTrigger（Ark UI 原语导出）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将触发行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Trigger 参数</td>
+      <td><code>TooltipTriggerBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Tooltip 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TooltipContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>内容节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根组件主题，也可局部覆盖（不含 crafts）</td>
+    </tr>
+    <tr>
+      <td><code>ui.positioner</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>定位层 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.content</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>内容层 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.inner</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>内容内层 class 覆盖</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Content 参数</td>
+      <td><code>TooltipContentBaseProps</code></td>
+      <td>-</td>
+      <td>完整能力请参考 Ark UI Tooltip 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TooltipArrow
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>）</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrow</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>箭头容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrowTip</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>箭头尖端节点 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Tooltip
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean) =&gt; void</code></td>
+      <td>受控状态同步事件（用于 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: OpenChangeDetails) =&gt; void</code></td>
+      <td>打开状态变化时触发（Ark UI Root 事件）</td>
+    </tr>
+    <tr>
+      <td>其它 Ark UI Root 事件</td>
+      <td><code>TooltipRootEmits</code></td>
+      <td>完整事件列表请参考 Ark UI Tooltip 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TooltipTrigger / TooltipContent / TooltipArrow
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>当前封装未额外声明自定义 emits，DOM 事件可按原生方式监听</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tooltip</code></td>
+      <td><code>default</code></td>
+      <td>承载触发器与内容（通常组合 <code>TooltipTrigger</code> + <code>TooltipContent</code>）</td>
+    </tr>
+    <tr>
+      <td><code>TooltipTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发节点内容；可配合 <code>asChild</code> 复用现有按钮/链接</td>
+    </tr>
+    <tr>
+      <td><code>TooltipContent</code></td>
+      <td><code>default</code></td>
+      <td>提示内容；可放置 <code>TooltipArrow</code> 与文案/图标</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Tooltip` 的主题入口在根组件 `theme`（`ThemeCrafts<'tvTooltip'>`），用于统一驱动提示内容与箭头样式；`TooltipContent` / `TooltipArrow` 也支持局部 `theme` 覆盖（`ThemeNoCrafts`）。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制内容与箭头尺寸节奏</td>
+    </tr>
+    <tr>
+      <td><code>theme.surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>控制明暗表面语义</td>
+    </tr>
+    <tr>
+      <td><code>theme.skin</code></td>
+      <td><code>'razer' | 'shadcn' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>控制皮肤语义</td>
+    </tr>
+    <tr>
+      <td><code>theme.bordered</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>控制内容与箭头边框表现</td>
+    </tr>
+    <tr>
+      <td><code>theme.unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用默认样式，便于完全自定义</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts</code>（仅根组件）</td>
+      <td><code>ThemeCrafts&lt;'tvTooltip'&gt;['theme']['crafts']</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvTooltip</code> 样式工艺配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TooltipStories.SizesAndBordered} />
+
+---
+
+## UI Configuration
+
+`Tooltip` 根组件本身不提供 `ui` 入口；UI 覆盖主要在 `TooltipContent` 与 `TooltipArrow`。
+
+<table>
+  <thead>
+    <tr>
+      <th>可配置路径</th>
+      <th>组件</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.positioner</code></td>
+      <td><code>TooltipContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖定位层容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.content</code></td>
+      <td><code>TooltipContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖内容容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.inner</code></td>
+      <td><code>TooltipContent</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖内容内层容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrow</code></td>
+      <td><code>TooltipArrow</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖箭头容器 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.arrowTip</code></td>
+      <td><code>TooltipArrow</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>覆盖箭头尖端节点 class</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TooltipStories.UiAndFixedStrategy} />
+
+---
+
+## 可访问性
+
+- 组件基于 Ark UI，默认具备悬停与键盘聚焦触发语义；可通过键盘导航触发提示内容。
+- 使用 `TooltipTrigger asChild` 挂载到交互元素时，需确保触发元素本身可聚焦（如 `button`、`a`）。
+- Tooltip 仅用于“补充说明”，不要放置必须点击或必须阅读的核心流程信息。
+- 禁用场景请使用 `disabled` 明确阻断提示，避免仅用样式隐藏导致语义与行为不一致。
+
+---
+
+## 最佳实践
+
+- 简短文案优先：建议将 tooltip 文案控制在一到两行，复杂说明改用 `Popover` 或 `Dialog`。
+- 优先非受控：纯提示场景使用默认触发（hover/focus），需要业务联动再切到 `v-model:open`。
+- 点击触发建议走受控模式：当业务需要 click 打开时，使用外部状态控制 `open`，避免与默认 hover 语义混淆。
+- 延迟按密度调节：密集列表建议设置 `openDelay/closeDelay`，减少误触和频繁闪动。
+- 样式定制遵循“先 theme 后 ui”：统一外观用 `theme`，局部结构差异再通过 `ui.*` 覆盖。
+- 位置策略显式化：在滚动容器或复杂层级中优先配置 `positioning.strategy='fixed'`，降低遮挡与抖动。
+
+---
+
+## Stories Controls & Source
+
+用于联动查看 `DelaysAndControlledOpen` 场景的 controls 与源码：
+
+<Controls of={TooltipStories.DelaysAndControlledOpen} />
+
+<Source of={TooltipStories.DelaysAndControlledOpen} />

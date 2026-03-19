@@ -1,0 +1,21 @@
+@theme {
+  /* tw default duration */
+  --tw-duration: var(--motion-duration);
+  --default-transition-duration: var(--motion-duration);
+  --transition-duration: var(--motion-duration);
+  --tw-timing: var(--motion-timing);
+  --default-transition-timing-function: var(--motion-timing);
+  --transition-timing-function: var(--motion-timing);
+}
+
+@property --motion-duration {
+  syntax: '<time>';
+  inherits: false;
+  initial-value: 200ms;
+}
+
+@property --motion-timing {
+  syntax: '*';
+  inherits: false;
+  initial-value: cubic-bezier(0, 0, 0.2, 1);
+}

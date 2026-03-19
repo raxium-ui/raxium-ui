@@ -1,0 +1,397 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as PopoverStories from './popover.stories'
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+`Popover` 是一个轻量浮层组件，用于承载补充说明、上下文操作与小型交互内容。组件基于 Ark UI Popover 原语构建，支持受控/非受控打开状态、定位策略，以及 Raxium UI 的 `theme` 与局部 `ui` 样式覆盖能力。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={PopoverStories.Basic} />
+
+### 主题与尺寸变体
+
+<Canvas of={PopoverStories.SkinsAndVariants} />
+
+### 定位策略
+
+<Canvas of={PopoverStories.Positioning} />
+
+### 上下文与交互内容
+
+<Canvas of={PopoverStories.ContextAndInteractive} />
+
+### 受控模式
+
+<Canvas of={PopoverStories.ControlledOpen} />
+
+---
+
+## ARK UI Link
+
+`Popover` 组件族基于 Ark UI Popover 封装，根组件使用 `Popover.RootProvider` 与 `usePopover` 连接状态；`PopoverTrigger`、`PopoverCloseTrigger`、`PopoverTitle`、`PopoverDescription` 等由 Ark UI 直接导出。
+
+- **相关文档**: [Ark UI Popover (Vue)](https://ark-ui.com/vue/docs/components/popover)
+- **透传边界**: `Popover` 根组件继承 Ark UI Root 常用能力（如 `open/defaultOpen`、`positioning`、`modal`、`portalled`、`closeOnEscape` 等），并扩展 `theme`。`PopoverContent`/`PopoverClose`/`PopoverIndicator` 在 Ark 原语基础上增加了 Raxium UI 的样式封装与 `ui` 覆盖入口。
+
+---
+
+## API
+
+### Props
+
+按子组件分组说明常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### Popover
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控打开状态（可配合 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控初始打开状态</td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>PositioningOptions</code></td>
+      <td>-</td>
+      <td>浮层定位配置（如 <code>placement</code>）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>是否延迟挂载内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>关闭后是否卸载内容</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvPopover'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口</td>
+    </tr>
+  </tbody>
+</table>
+
+#### PopoverTrigger / PopoverCloseTrigger / PopoverTitle / PopoverDescription
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Ark UI 原生 props</code></td>
+      <td><code>参考 Ark UI Popover 子组件定义</code></td>
+      <td>-</td>
+      <td>这些子组件由 Ark UI 直接导出，参数能力与 Ark UI 保持一致</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>常见于 Trigger/CloseTrigger：将行为合并到子元素</td>
+    </tr>
+  </tbody>
+</table>
+
+#### PopoverContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容容器附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可局部覆盖主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### PopoverClose
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>关闭按钮 class</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将默认按钮行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>关闭按钮主题覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### PopoverIndicator
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>指示器 class</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否将指示器行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>指示器主题覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Popover` 根组件事件来自 Ark UI `PopoverRootEmits`，并直接透传到外部。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean)</code></td>
+      <td>受控状态同步事件（<code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: &#123; open: boolean &#125;)</code></td>
+      <td>打开状态变化通知（参数结构遵循 Ark UI）</td>
+    </tr>
+    <tr>
+      <td><code>其他 Ark UI Root 事件</code></td>
+      <td><code>参考 Ark UI PopoverRootEmits</code></td>
+      <td>如外部交互、焦点与关闭请求等事件会按 Ark UI 定义透传</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Popover</code></td>
+      <td><code>default</code></td>
+      <td>放置 Trigger 与 Content 等子组件</td>
+    </tr>
+    <tr>
+      <td><code>PopoverTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发器内容</td>
+    </tr>
+    <tr>
+      <td><code>PopoverContent</code></td>
+      <td><code>default</code></td>
+      <td>弹层内容；内部会识别并优先渲染 <code>PopoverArrow</code></td>
+    </tr>
+    <tr>
+      <td><code>PopoverClose</code></td>
+      <td><code>default</code></td>
+      <td>自定义关闭按钮内容；不传则渲染默认关闭图标</td>
+    </tr>
+    <tr>
+      <td><code>PopoverIndicator</code></td>
+      <td><code>default</code></td>
+      <td>自定义触发器状态指示内容；不传则渲染默认箭头图标</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Popover` 通过 `theme` 驱动 `tvPopover` crafts，主要影响 `content`、`contentInner`、`close`、`indicator` 四个样式槽位。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制内容内边距、字体与关闭按钮/指示器尺寸</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否启用边框语义（会同步到内容数据属性）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤语义（由主题系统解析）</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面语义（亮/暗）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除默认样式（由主题系统控制）</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvPopover</code> crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={PopoverStories.SkinsAndVariants} />
+
+---
+
+## UI Configuration
+
+`Popover` 根组件本身不提供 `ui`。可通过 `PopoverContent` 的 `ui` 分槽位覆盖局部样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.positioner</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>定位容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.content</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容层样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.inner</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容内层样式覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={PopoverStories.ContextAndInteractive} />
+
+---
+
+## 最佳实践
+
+- 优先使用 `PopoverTrigger as-child` 挂载到已有按钮组件，避免额外包裹节点影响布局与可访问性。
+- 需要业务联动时使用 `v-model:open` 受控模式，并以 `update:open` 作为状态单一入口。
+- 内容中存在输入、开关等可交互元素时，建议在 `PopoverContent` 内使用上下文组件组织状态，减少外部事件耦合。
+- 定位优先通过 `positioning.placement` 明确表达意图；同一页面内尽量保持方向一致，降低用户认知成本。
+- 大范围视觉风格优先用 `theme`，局部结构差异再使用 `ui.*`，避免样式覆盖分散到业务页面。
+- 在内容插槽中将 `PopoverArrow` 放在首位，可保持箭头与内容结构稳定，避免后续重排带来的视觉抖动。

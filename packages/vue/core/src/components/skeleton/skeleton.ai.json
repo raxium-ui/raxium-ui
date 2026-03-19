@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.skeleton",
+  "component": {
+    "name": "Skeleton",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Skeleton",
+    "category": "core",
+    "description": "用于在内容加载阶段提供结构占位，减少页面跳动并提前建立视觉预期。基于 Raxium UI 主题系统与 Ark UI Factory 原语实现，支持动画变体（pulse/wave）、形状变体（rect/circle），并通过 theme 扩展样式能力。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/factory",
+      "primitive": "ark.div",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "id",
+        "style",
+        "title",
+        "role",
+        "tabindex",
+        "aria-*",
+        "data-*"
+      ],
+      "notes": "原生 HTML div 的通用属性可透传使用；variant、shape 与 theme 为 Raxium UI 扩展能力。"
+    },
+    "capabilities": [
+      "variant",
+      "shape",
+      "theme"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "variant",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'pulse' | 'wave'",
+        "typeSchema": { "enum": ["pulse", "wave"] },
+        "default": "pulse",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "占位动画样式。"
+      },
+      {
+        "name": "shape",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'rect' | 'circle'",
+        "typeSchema": { "enum": ["rect", "circle"] },
+        "default": "rect",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "占位形状。"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点自定义 class（通常用于尺寸与布局）。"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvSkeleton'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 crafts 覆盖入口。"
+      }
+    ],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "默认内容插槽，可用于包裹占位对比层或结构辅助内容。"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": { "enum": ["razer", "shadcn"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤。"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark' | string",
+          "typeSchema": { "anyOf": [{ "enum": ["light", "dark"] }, { "type": "string" }] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "表面语义（亮/暗及扩展值）。"
+        },
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "通用尺寸语义（是否生效取决于 crafts 配置）。"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "移除内置样式。"
+        },
+        {
+          "name": "bordered",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "边框语义开关（是否生效取决于 crafts 配置）。"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object | function",
+          "typeSchema": { "anyOf": [{ "type": "object" }, { "type": "function" }] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆写 tvSkeleton 的样式配置。"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": []
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "variant": "'pulse' | 'wave'",
+      "shape": "'rect' | 'circle'"
+    },
+    "derived": {
+      "dataShape": "shape",
+      "dataVariant": "variant"
+    },
+    "transitions": []
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Skeleton" },
+        "exampleId": "basic"
+      },
+      "description": "基础占位"
+    },
+    {
+      "id": "variants",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Skeleton" },
+        "exampleId": "variants"
+      },
+      "description": "动画变体"
+    },
+    {
+      "id": "shapes",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Skeleton" },
+        "exampleId": "shapes"
+      },
+      "description": "形状变体"
+    },
+    {
+      "id": "with-children",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Skeleton" },
+        "exampleId": "with-children"
+      },
+      "description": "包裹子内容"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": ["shape", "variant", "class", "theme"],
+    "safeDefaults": {
+      "variant": "pulse",
+      "shape": "rect"
+    },
+    "a11yChecklist": [
+      "Skeleton 为纯视觉占位，不包含复杂交互；确保加载完成后有可访问的实际内容。"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Skeleton class=\"h-4 w-32\" />",
+      "withChildren": "<Skeleton><div class=\"h-4 w-32\">Loading...</div></Skeleton>"
+    },
+    "antiPatterns": [
+      "<Skeleton /> 或 <Skeleton><span>占位</span></Skeleton> — 未用 class 明确宽高，导致加载前后布局跳动。",
+      "<div class=\"flex gap-2\"><Skeleton variant=\"pulse\" class=\"h-4 w-20\" /><Skeleton variant=\"wave\" class=\"h-4 w-20\" /></div> — 同一区域混用 variant 导致动画节奏不一致。"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./skeleton.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Skeleton.vue", "kind": "runtime" },
+      { "path": "./skeleton.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.variant.default": "runtime",
+      "contracts.props.shape.default": "runtime",
+      "contracts.themeConfiguration.fields.skin.default": "doc",
+      "contracts.themeConfiguration.fields.surface.default": "doc",
+      "contracts.themeConfiguration.fields.size.default": "doc",
+      "contracts.themeConfiguration.fields.unstyled.default": "doc",
+      "contracts.themeConfiguration.fields.bordered.default": "doc",
+      "contracts.themeConfiguration.fields.crafts.default": "doc"
+    }
+  }
+}

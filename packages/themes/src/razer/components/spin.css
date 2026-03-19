@@ -1,0 +1,15 @@
+@layer components{
+  .rui-spin-mask{
+    @apply bg-h00/50;
+  }
+
+  .rui-spin-icon {
+    &[data-variant="default"] {
+      @apply text-rz-green animate-spin;
+    }
+  }
+
+  .rui-spin-text{
+    @apply text-h88;
+  }
+}

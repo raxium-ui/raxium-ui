@@ -1,0 +1,292 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as InputStories from './input.stories'
+
+<Meta of={InputStories} />
+
+# Input
+
+`Input` 用于采集单行文本或数字输入，适合表单、筛选栏、搜索框等场景。组件基于 Ark UI Vue `factory` 原语（`ark.div`）构建输入容器，在原生输入行为之上补充了 `clearable` 清空能力、`prefix/suffix` 插槽、`theme` 主题参数与 `ui` 局部样式覆盖入口。
+
+---
+
+## Examples
+
+### 基础输入与双向绑定
+
+<Canvas of={InputStories.Basic} />
+
+### 常见状态：可清空、禁用、只读
+
+<Canvas of={InputStories.States} />
+
+### 尺寸主题变体
+
+<Canvas of={InputStories.Sizes} />
+
+### 前后缀插槽与 UI 覆盖
+
+<Canvas of={InputStories.PrefixSuffixAndUi} />
+
+---
+
+## ARK UI Link
+
+`Input` 不是 Ark UI 官方一一对应的业务组件，而是基于 Ark UI Vue `factory` 原语封装的输入组件：
+
+- 透传边界：外层容器使用 `ark.div`，保留 Ark 原语语义能力。
+- 扩展能力：增加 `clearable`、`prefix/suffix` 插槽、`theme`（`tvInput`）与 `ui`（`ui.root` / `ui.input` / `ui.clearable`）配置。
+- 原生输入属性：通过组件自身显式 props 提供常用输入能力（如 `placeholder`、`maxlength`、`disabled`、`readonly`）。
+
+Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+
+---
+
+## API
+
+### Props
+
+#### Input
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>输入框 id；未传时内部自动生成</td>
+    </tr>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string | number</code></td>
+      <td>-</td>
+      <td>受控值（配合 <code>v-model</code> 使用）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string | number</code></td>
+      <td>-</td>
+      <td>非受控模式初始值</td>
+    </tr>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>占位文案</td>
+    </tr>
+    <tr>
+      <td><code>maxlength</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>输入最大长度</td>
+    </tr>
+    <tr>
+      <td><code>clearable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否启用聚焦态清空按钮</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用输入</td>
+    </tr>
+    <tr>
+      <td><code>readonly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否只读</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根容器附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvInput'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆写入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Input
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string | number)</code></td>
+      <td>输入值变化时触发，用于 <code>v-model</code> 同步</td>
+    </tr>
+    <tr>
+      <td><code>focus</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>输入框获得焦点时触发</td>
+    </tr>
+    <tr>
+      <td><code>blur</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>输入框失焦时触发</td>
+    </tr>
+    <tr>
+      <td><code>input</code></td>
+      <td><code>(event: Event, value: string | number | undefined)</code></td>
+      <td>原生输入事件回调，并返回当前值</td>
+    </tr>
+    <tr>
+      <td><code>change</code></td>
+      <td><code>(event: Event, value: string | number | undefined)</code></td>
+      <td>原生 change 事件回调，并返回当前值</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Input</code></td>
+      <td><code>prefix</code></td>
+      <td>输入框前置内容，常用于图标或前缀文本</td>
+    </tr>
+    <tr>
+      <td><code>Input</code></td>
+      <td><code>suffix</code></td>
+      <td>输入框后置内容，常用于快捷提示或状态标识</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Input` 通过 `theme` 传入 Rark 通用主题参数，并由 `tvInput` 负责样式生成。可用入口如下：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td>-</td>
+      <td>尺寸主题变体</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤风格</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框风格</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | (() =&gt; tv)</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvInput</code> 或注入自定义 crafts</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={InputStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Input` 提供 `ui` 作为局部 class 覆盖入口，适用于插槽组合和局部视觉调整：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>外层容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.input</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>输入框 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.clearable</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>清空按钮 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={InputStories.PrefixSuffixAndUi} />
+
+---
+
+## 最佳实践
+
+- 优先确定受控策略：需要外部统一管理值时使用 `v-model`（`modelValue` + `update:modelValue`），仅初始化值时使用 `defaultValue`。
+- 区分 `readonly` 与 `disabled`：可查看不可编辑用 `readonly`，完全不可交互且弱化样式反馈用 `disabled`。
+- 清空能力配合输入反馈：启用 `clearable` 时建议同时监听 `input` 或 `update:modelValue`，保证清空后的业务状态同步。
+- 插槽与样式分层：结构扩展优先使用 `prefix/suffix` 插槽，样式细化通过 `ui.root/ui.input/ui.clearable` 覆盖，避免直接改内部结构。
+- 主题定制优先 `theme`：尺寸、皮肤与全局风格差异优先走 `theme`，局部临时差异再走 `ui`，便于后续主题升级。

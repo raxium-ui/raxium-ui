@@ -1,0 +1,26 @@
+@layer components {
+  .rui-rating-group-item {
+    --fill-color: var(--color-h88);
+    --stroke-color: var(--color-h88);
+    --highlighted-fill-color: var(--color-hff);
+    --highlighted-stroke-color: var(--color-hff);
+  }
+
+  .rui-rating-group-item-indicator {
+    & [data-bg] {
+      stroke: var(--stroke-color);
+      fill: var(--fill-color);
+    }
+    & [data-fg] {
+      stroke: var(--highlighted-stroke-color);
+      fill: var(--highlighted-fill-color);
+      clip-path: inset(0 0 0 0);
+    }
+    &[data-half] [data-fg] {
+      clip-path: inset(0 50% 0 0);
+    }
+    &:not([data-highlighted]) [data-fg] {
+      clip-path: inset(0 100% 0 0);
+    }
+  }
+}

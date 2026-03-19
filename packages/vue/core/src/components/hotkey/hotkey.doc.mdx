@@ -1,0 +1,266 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as HotkeyStories from './hotkey.stories'
+
+<Meta of={HotkeyStories} />
+
+# Hotkey
+
+`Hotkey` 用于在页面中采集和展示快捷键组合（如 `Ctrl + Shift + K`），适合设置中心、编辑器偏好等场景。组件基于 Ark UI `factory` 原语（`ark.div` / `ark.input`）构建，不对应 Ark UI 的独立业务组件；在原语能力上扩展了热键解析、删除清空、IME 输入保护、`theme` 与 `ui` 样式配置入口。
+
+---
+
+## Examples
+
+### 基础录入与双向绑定
+
+<Canvas of={HotkeyStories.Basic} />
+
+### 尺寸主题变体
+
+<Canvas of={HotkeyStories.Sizes} />
+
+### 常见状态：普通/禁用/只读
+
+<Canvas of={HotkeyStories.States} />
+
+### 自定义占位文案
+
+<Canvas of={HotkeyStories.Placeholder} />
+
+### 事件监听与回调参数
+
+<Canvas of={HotkeyStories.Events} />
+
+---
+
+## ARK UI Link
+
+`Hotkey` 不是 Ark UI 官方的一一对应组件，而是使用 Ark UI Vue `factory` 原语自行封装的输入组件：
+
+- 透传边界：根节点与输入框由 `ark.div` / `ark.input` 渲染，保留 Ark 原语语义能力。
+- 扩展能力：增加热键采集逻辑（按键组合排序、删除清空、冲突兜底）、`theme`（`tvHotkey`）和 `ui`（`ui.root` / `ui.input`）配置。
+
+Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+
+---
+
+## API
+
+### Props
+
+#### Hotkey
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>hotkey</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>当前热键字符串（配合 <code>v-model:hotkey</code> 使用）</td>
+    </tr>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string | ((focused: boolean) =&gt; string)</code></td>
+      <td><code>''</code></td>
+      <td>占位文案；可根据焦点状态动态返回文案</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用输入与热键采集</td>
+    </tr>
+    <tr>
+      <td><code>readonly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>只读展示，不允许变更热键值</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvHotkey'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆写入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Hotkey
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:hotkey</code></td>
+      <td><code>(value: string)</code></td>
+      <td>热键值更新（用于 <code>v-model:hotkey</code>）</td>
+    </tr>
+    <tr>
+      <td><code>focus</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>输入框获得焦点时触发</td>
+    </tr>
+    <tr>
+      <td><code>blur</code></td>
+      <td><code>(event: Event)</code></td>
+      <td>输入框失焦时触发</td>
+    </tr>
+    <tr>
+      <td><code>error</code></td>
+      <td><code>(error: Error)</code></td>
+      <td>异常输入场景回调（如 IME 输入锁定）</td>
+    </tr>
+    <tr>
+      <td><code>cancel</code></td>
+      <td><code>(keycodes: string[], hotkey: string)</code></td>
+      <td>删除动作触发时回调（Backspace/Delete，<code>hotkey</code> 为 <code>'ESC'</code>）</td>
+    </tr>
+    <tr>
+      <td><code>change</code></td>
+      <td><code>(keycodes: string[], hotkey: string)</code></td>
+      <td>成功录入热键后触发，返回规范化按键数组与展示文本</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Hotkey</code></td>
+      <td>-</td>
+      <td>不提供公开插槽；内容由内部输入与无障碍文本节点固定渲染</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Hotkey` 通过 `theme` 传入 Rark 统一主题参数，并由 `tvHotkey`（扩展自 `tvInput`）驱动样式。常用配置如下：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸主题变体</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤风格选择</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框风格</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | (() =&gt; tv)</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvHotkey</code>（或注入自定义 crafts）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={HotkeyStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Hotkey` 提供精简的 `ui` 覆盖点，用于局部 class 定制：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.input</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>输入框 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={HotkeyStories.Placeholder} />
+
+---
+
+## 最佳实践
+
+- 优先使用 `v-model:hotkey`：将热键字符串作为单一事实源，便于与设置持久化逻辑对接。
+- 区分只读与禁用：可查看但不可编辑用 `readonly`，不可交互且弱化视觉反馈用 `disabled`。
+- 将业务监听放在 `change`：持久化或联动配置建议基于 `change` 回调，拿到标准化 `keycodes` 与最终 `hotkey` 文本。
+- 将删除行为单独处理：监听 `cancel`，可针对清空动作做二次确认或回退逻辑。
+- IME 环境提前提示：在中文输入法场景，建议同时监听 `error` 并给用户可见提示，降低录入失败困惑。
+- 样式定制分层处理：全局风格优先用 `theme`，局部样式差异再用 `ui.root/ui.input`，减少后续升级冲突。

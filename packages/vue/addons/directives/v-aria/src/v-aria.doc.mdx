@@ -1,0 +1,216 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as VAriaStories from './v-aria.stories'
+
+<Meta of={VAriaStories} />
+
+# v-aria
+
+`v-aria` 是 addons 中的可访问性增强指令，用于给非原生可交互节点补齐 `tabindex`、`role` 与 `aria-*` 属性，并在需要时把 Enter 键映射为业务 action。该能力属于 addons 独立实现（非 Ark UI 对齐封装），当前不提供 `theme` / `ui` 配置入口，支持通过原生属性与类名扩展。
+
+---
+
+## Examples
+
+### 基础用法（补齐 aria + Enter 触发）
+
+<Canvas of={VAriaStories.Basic} />
+
+### 指定目标元素（pt 定向到子节点）
+
+<Canvas of={VAriaStories.PtTarget} />
+
+---
+
+## Implementation References
+
+`v-aria` 的实现边界由以下模块决定：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>封装边界</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>vue DirectiveBinding</code></td>
+      <td>承载指令参数（<code>arg</code> / <code>modifiers</code> / <code>value</code>），驱动 mounted/updated/unmounted 生命周期执行。</td>
+      <td>属于“直接使用底层能力”。<code>v-aria</code> 不透传额外 Vue 运行时配置，仅消费标准指令上下文。</td>
+      <td><a href="https://vuejs.org/guide/reusability/custom-directives.html">Vue Custom Directives</a></td>
+    </tr>
+    <tr>
+      <td><code>DOM API（querySelector / setAttribute / addEventListener）</code></td>
+      <td>定位目标节点、写入 <code>tabindex</code>/<code>role</code>/<code>aria-*</code>，并监听 Enter 键触发 <code>action</code>。</td>
+      <td>属于“扩展能力”。指令仅封装常用无障碍补齐流程；其余复杂键盘语义与交互状态需业务侧自行实现。</td>
+      <td><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA">MDN ARIA</a></td>
+    </tr>
+  </tbody>
+</table>
+
+实现结论：`v-aria` 没有第三方交互库依赖，不存在基于接口继承的“Props 全量透传”；其能力边界完全由指令值对象字段与原生 DOM 行为决定。
+
+---
+
+## API
+
+### Props
+
+`v-aria` 为指令形态，不提供组件 Props。对外输入由“指令参数（arg）+ 指令值（value）+ 修饰符（modifiers）”组成。
+
+#### 指令参数（arg）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-aria:arg</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>用于设置目标元素的 <code>tabindex</code>。有值时优先于 <code>value.index</code>。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 指令值（value）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>string | number</code></td>
+      <td><code>0</code></td>
+      <td>当未传 <code>arg</code> 时写入 <code>tabindex</code>。</td>
+    </tr>
+    <tr>
+      <td><code>role</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>写入目标元素 <code>role</code> 属性。</td>
+    </tr>
+    <tr>
+      <td><code>pt</code></td>
+      <td><code>any</code></td>
+      <td>-</td>
+      <td><code>string</code> 时按 <code>querySelector</code> 定位子元素；其余 truthy 值走兼容逻辑（优先命中 <code>[tabindex]</code>，否则回退根节点）。</td>
+    </tr>
+    <tr>
+      <td><code>action</code></td>
+      <td><code>(event: KeyboardEvent) =&gt; void</code></td>
+      <td>-</td>
+      <td>存在时监听目标节点 <code>keydown</code>；仅在 <code>event.key === 'Enter'</code> 时触发。</td>
+    </tr>
+    <tr>
+      <td><code>aria-* / 其他键</code></td>
+      <td><code>any</code></td>
+      <td>-</td>
+      <td>其余字段会映射为 ARIA 属性：键已含 <code>aria-</code> 前缀则原样写入，否则自动补全为 <code>aria-key</code>。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 修饰符（modifiers）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>.stop</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>仅在 Enter 触发 <code>action</code> 时执行 <code>event.stopPropagation()</code>。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>action</code>（指令值回调）</td>
+      <td><code>(event: KeyboardEvent) =&gt; void</code></td>
+      <td>不是 Vue emit；由指令内部监听 <code>keydown</code> 后在 Enter 场景调用，并在调用前执行 <code>preventDefault()</code>。</td>
+    </tr>
+    <tr>
+      <td><code>Vue emits</code></td>
+      <td>-</td>
+      <td>未暴露自定义组件事件。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-aria（指令）</code></td>
+      <td>-</td>
+      <td>指令本身不定义插槽能力；插槽由宿主组件决定。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`v-aria` 不提供 `theme` 配置能力。视觉层建议通过宿主元素 class 与样式系统控制。
+
+---
+
+## UI Configuration
+
+`v-aria` 不提供 `ui` 或 `.ui.*` 配置能力。该指令只负责属性与键盘行为增强。
+
+<Canvas of={VAriaStories.PtTarget} />
+
+---
+
+## 最佳实践
+
+- 优先对“非原生交互元素”使用 `v-aria`，原生 `<button>`、`<a>` 应保留自身语义，避免重复声明 `role`。
+- 若需要键盘触发行为，始终同时声明 `role` 与可读 `label`（或等价 `aria-label`），确保读屏可感知。
+- 当交互节点嵌套较深时，优先使用 `pt: '.selector'` 精确命中目标，避免把 `tabindex` 写到外层容器。
+- 对需要阻断冒泡的快捷交互，使用 `.stop` 并在 `action` 内只处理 Enter 语义，其他按键交给业务逻辑单独处理。
+- 建议将复杂 ARIA 状态（如 `expanded`、`controls`、`describedby`）显式写在指令值中，避免在模板与脚本分散维护。
+- 在频繁更新绑定值的场景中，保持 `action` 引用稳定，减少重复绑定带来的监听器重建成本。

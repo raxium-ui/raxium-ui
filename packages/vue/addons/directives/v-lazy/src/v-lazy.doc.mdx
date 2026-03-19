@@ -1,0 +1,285 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as VLazyStories from './v-lazy.stories'
+
+<Meta of={VLazyStories} />
+
+# v-lazy
+
+`v-lazy` 是 addons 提供的图片/背景资源懒加载指令，用于在元素进入可视区域后再加载目标资源，并提供 `loading` / `error` 占位、滚动容器监听、数组源回退等能力。该能力属于 addons 独立实现（基于指令封装，不是 Ark UI 对齐组件），不提供 `theme` / `ui` 配置入口，可通过原生属性、类名与样式进行扩展。
+
+---
+
+## Examples
+
+### 基础图片懒加载
+
+<Canvas of={VLazyStories.Basic} />
+
+### 背景图懒加载
+
+<Canvas of={VLazyStories.Background} />
+
+### 滚动容器场景
+
+<Canvas of={VLazyStories.ScrollContainer} />
+
+### 数组源回退加载
+
+<Canvas of={VLazyStories.ArraySrc} />
+
+---
+
+## Implementation References
+
+`v-lazy` 的实现边界由以下模块决定：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>对外暴露 / 透传边界</th>
+      <th>二次封装范围</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Vue Custom Directive（DirectiveBinding）</code></td>
+      <td>承载 <code>binding.value</code> / <code>binding.arg</code> / <code>binding.modifiers</code>，并在 <code>beforeMount/beforeUpdate/updated/unmounted</code> 生命周期执行懒加载逻辑。</td>
+      <td>属于“直接使用底层能力”。指令输入边界仅来自 Vue 标准指令 binding 结构。</td>
+      <td>封装了目标元素注册、更新与销毁，不新增组件级 Props/Slots。</td>
+      <td><a href="https://vuejs.org/guide/reusability/custom-directives.html">Vue Custom Directives</a></td>
+    </tr>
+    <tr>
+      <td><code>lazy.ts + listener.ts（LazyEx / ReactiveListenerEx）</code></td>
+      <td>管理监听队列、可视区检测、资源状态渲染（<code>loading/loaded/error</code>）与元素属性写入。</td>
+      <td>属于“部分透传”。对外开放的是指令 binding 输入；内部仍接管监听队列、缓存、状态标记（<code>lazy</code>/<code>src-size</code>/<code>src-index</code>）与渲染时机。</td>
+      <td>在基础 Lazy 行为上扩展了数组 <code>src</code> 回退、<code>background-image</code>/<code>href</code> 写入分支、<code>loadingDelay</code> 延迟渲染与 <code>no-cache</code> 属性控制。</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code>IntersectionObserver / 事件监听 / DOM API</code></td>
+      <td>根据模式监听滚动与可视区变化，并通过 <code>setAttribute</code> / <code>style</code> 更新目标资源。</td>
+      <td>属于“扩展能力”。仅暴露常用指令语义，不直接暴露完整观察器与监听器管理接口。</td>
+      <td>封装了默认监听事件与容器回退逻辑（modifier 容器未命中时回退到 <code>scrollParent</code>）。</td>
+      <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">Intersection Observer API</a></td>
+    </tr>
+  </tbody>
+</table>
+
+实现结论：`v-lazy` 为指令封装，不存在基于组件 Props interface 继承的“Props 全量透传”；对外能力边界由指令 binding 输入与插件初始化选项共同决定。
+
+---
+
+## API
+
+### Props
+
+`v-lazy` 为指令形态，不提供组件 Props。对外输入由“指令值（value）+ 指令参数（arg）+ 修饰符（modifiers）”组成。
+
+#### 指令值（binding.value）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>直接作为目标资源地址使用（通常用于 <code>img src</code>）。</td>
+    </tr>
+    <tr>
+      <td><code>value.src</code></td>
+      <td><code>string | string[]</code></td>
+      <td>-</td>
+      <td>主资源地址。<code>string[]</code> 时按顺序尝试加载，命中成功项后记录对应索引。</td>
+    </tr>
+    <tr>
+      <td><code>value.loading</code></td>
+      <td><code>string</code></td>
+      <td>插件 <code>loading</code> 配置或 1x1 gif</td>
+      <td>加载中占位资源。</td>
+    </tr>
+    <tr>
+      <td><code>value.error</code></td>
+      <td><code>string</code></td>
+      <td>插件 <code>error</code> 配置或 1x1 gif</td>
+      <td>加载失败占位资源。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 指令参数（binding.arg）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-lazy:src</code></td>
+      <td><code>'src'</code></td>
+      <td><code>'src'</code></td>
+      <td>写入元素 <code>src</code> 属性（默认分支）。</td>
+    </tr>
+    <tr>
+      <td><code>v-lazy:background-image</code></td>
+      <td><code>'background-image'</code></td>
+      <td>-</td>
+      <td>写入元素样式背景图；当值包含 <code>gradient</code> 时按样式字符串原样写入。</td>
+    </tr>
+    <tr>
+      <td><code>v-lazy:background</code> / <code>v-lazy:backgroundImage</code></td>
+      <td><code>'background' | 'backgroundImage'</code></td>
+      <td>-</td>
+      <td>同样进入背景样式分支。</td>
+    </tr>
+    <tr>
+      <td><code>v-lazy:href</code> / <code>v-lazy:xlink:href</code></td>
+      <td><code>'href' | 'xlink:href'</code></td>
+      <td>-</td>
+      <td>写入对应链接属性（常用于 SVG/use 等场景）。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 修饰符（binding.modifiers）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-lazy.[containerRef]</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>仅取第一个 modifier key 作为容器名：优先查 <code>binding.instance.$refs[key]</code>，未命中再查 <code>document.getElementById(key)</code>。</td>
+    </tr>
+    <tr>
+      <td>无 modifier</td>
+      <td>-</td>
+      <td>-</td>
+      <td>自动回退到元素的滚动父容器（<code>scrollParent(el)</code>）。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 事件与状态边界（指令侧）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>dispatchEvent</code>（插件选项）</td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>开启后，目标元素会派发 <code>loading</code>/<code>loaded</code>/<code>error</code> 原生 <code>CustomEvent</code>。</td>
+    </tr>
+    <tr>
+      <td><code>loadingDelay</code>（扩展插件选项）</td>
+      <td><code>number</code></td>
+      <td><code>0</code></td>
+      <td>延迟写入加载完成/失败后的目标资源。</td>
+    </tr>
+    <tr>
+      <td><code>no-cache</code>（元素属性）</td>
+      <td><code>boolean attribute</code></td>
+      <td>未设置</td>
+      <td>存在时禁用该元素实例的缓存命中（覆盖默认缓存行为）。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>loading</code> / <code>loaded</code> / <code>error</code></td>
+      <td><code>CustomEvent</code></td>
+      <td>仅当插件启用 <code>dispatchEvent</code> 时由目标元素派发；<code>event.detail</code> 为当前 listener 对象（包含 <code>src</code>/<code>state</code>/<code>naturalWidth</code>/<code>naturalHeight</code> 等运行时信息）。</td>
+    </tr>
+    <tr>
+      <td><code>Vue emits</code></td>
+      <td>-</td>
+      <td>未暴露自定义组件事件。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>v-lazy（指令）</code></td>
+      <td>-</td>
+      <td>指令本身不定义插槽能力；插槽由宿主组件决定。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`v-lazy` 不提供 `theme` 配置能力。可通过宿主元素 class、CSS 变量与业务样式系统控制视觉表现（如占位尺寸、边框、背景样式）。
+
+---
+
+## UI Configuration
+
+`v-lazy` 不提供 `ui` 或 `.ui.*` 配置能力。建议通过宿主元素属性与样式覆盖实现结构与表现定制。
+
+<Canvas of={VLazyStories.Background} />
+
+---
+
+## 最佳实践
+
+- 图片资源优先使用对象值形式（`src/loading/error`）而不是仅传字符串，避免加载中与失败状态不可控。
+- 当需要背景图懒加载时，明确使用 `v-lazy:background-image`，并在样式中预先定义 `bg-cover/bg-center` 等布局类，避免加载后布局跳变。
+- 多候选资源（CDN 主备）建议使用 `src: string[]`，并把更高成功率地址放前面，减少回退链路耗时。
+- 对滚动容器场景，优先保证容器可被稳定定位（`ref` 或 `id`），避免监听回退到错误的祖先滚动节点。
+- 需要监听加载结果时，统一在插件层开启 `dispatchEvent`，再对目标元素订阅 `loaded/error`，便于埋点与告警收敛。
+- 对频繁切换资源的列表项，可结合元素 `no-cache` 属性控制缓存策略，避免旧缓存命中影响实时性。

@@ -1,0 +1,5 @@
+export { default as Pagination } from './Pagination.vue'
+export { default as PaginationGoTo } from './PaginationGoTo.vue'
+export { default as PaginationGoToTrigger } from './PaginationGoToTrigger.vue'
+export { default as PaginationPageSize } from './PaginationPageSize.vue'
+export * from './props'

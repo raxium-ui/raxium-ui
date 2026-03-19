@@ -1,0 +1,31 @@
+@theme static {
+  /* z-indexes */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-dropdown: 50;
+  --z-tooltip: 100;
+  --z-fixed: 200;
+  --z-overlay: 900;
+  --z-modal: 1000;
+  --z-popover: 1100;
+  --z-toast: 1500;
+  --z-loading: 2000;
+  --z-devtools: 9999;
+  --z-max: 2147483647;
+}
+
+@utility overflow-anchor-none {
+  overflow-anchor: none;
+}
+
+@utility overflow-anchor-auto {
+  overflow-anchor: auto;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome / Safari */
+  }
+}
+

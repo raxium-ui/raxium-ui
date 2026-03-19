@@ -1,0 +1,21 @@
+@layer components {
+  .rui-muuri-grid {
+    position: relative;
+  }
+  .rui-muuri-item {
+    position: absolute;
+    z-index: 1;
+  }
+  .rui-muuri-item.muuri-item-dragging {
+    z-index: 3;
+  }
+  .rui-muuri-item.muuri-item-releasing {
+    z-index: 2;
+  }
+  .rui-muuri-item.muuri-item-hidden {
+    z-index: 0;
+  }
+  .rui-muuri-placeholder {
+    background-color: var(--muuri-placeholder-bg, oklch(76.87% 0.2343 141.32 / 30%));
+  }
+}

@@ -1,0 +1,19 @@
+
+@import './checkbox.css';
+
+@layer components {
+  .rui-tree-item[data-disabled] {
+    @apply opacity-(--disabled-opacity);
+  }
+
+  .rui-tree-branch {
+    &[data-disabled] {
+      @apply opacity-(--disabled-opacity);
+    }
+    &:not([data-disabled]) {
+      & .rui-tree-branch-control[data-disabled] {
+        @apply cursor-pointer;
+      }
+    }
+  }
+}

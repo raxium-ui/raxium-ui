@@ -1,0 +1,11 @@
+@layer components {
+  .rui-floating-panel-content {
+    @apply bg-h00/80 rounded-[1.25rem] border-rz-green border-2 backdrop-blur-md;
+  }
+  .rui-floating-panel-header {
+    @apply font-rob-bold;
+  }
+  .rui-floating-panel-trigger {
+    @apply text-rui-close hover:text-rui-close-hover;
+  }
+}

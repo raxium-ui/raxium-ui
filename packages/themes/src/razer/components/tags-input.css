@@ -1,0 +1,16 @@
+@import './input.css';
+
+@layer components {
+  .rui-tags-input-control {
+    &[data-focus] {
+      @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
+    }
+  }
+
+  .rui-tags-input-item-preview {
+    @apply bg-h22 hover:bg-h44;
+    &[data-highlighted] {
+      @apply bg-rz-blue text-hff;
+    }
+  }
+}

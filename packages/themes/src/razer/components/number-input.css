@@ -1,0 +1,9 @@
+@import './input.css';
+
+@layer components {
+  .rui-number-input {}
+
+  .rui-number-input-trigger {
+    @apply hover:bg-h33 hover:text-hff;
+  }
+}

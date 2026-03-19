@@ -1,0 +1,382 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as MessageStories from './message.stories'
+
+<Meta of={MessageStories} />
+
+# Message
+
+`Message` 是基于 Ark UI Toast 能力封装的全局消息提示方案，适合反馈异步结果、状态变更与轻量通知。组件由 `Messager`（消息容器）与 `Message`（单条消息渲染）组合而成，支持函数式调用（`useMessage`）、主题配置（`theme`）与样式覆盖（`ui`）。
+
+---
+
+## Examples
+
+### 基础消息类型
+
+<Canvas of={MessageStories.Basic} />
+
+### 尺寸与关闭按钮
+
+<Canvas of={MessageStories.SizesAndClose} />
+
+### 自定义渲染
+
+<Canvas of={MessageStories.CustomRender} />
+
+### Promise 生命周期消息
+
+<Canvas of={MessageStories.Promise} />
+
+### 本地 Messager 容器参数
+
+<Canvas of={MessageStories.MessagerProps} />
+
+---
+
+## ARK UI Link
+
+`Message` 组件组基于 Ark UI Toast 构建，但属于“部分透传 + Rark 扩展”：
+
+- `Messager` 内部使用 `createToaster` 与 `Toaster` 承载队列和容器能力。
+- `Message` 基于 `Toast.Root` 渲染单条消息，透传 `ToastRootBaseProps`。
+- 在 Ark 能力之上，额外扩展了 `theme`、`ui`、`showClose`、`render`、函数式 `useMessage()` 封装。
+
+Ark UI 文档： [Ark UI Toast (Vue)](https://ark-ui.com/vue/docs/components/toast)
+
+---
+
+## API
+
+### Props
+
+按组件分组列出常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### Messager
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>max</code></td>
+      <td><code>number</code></td>
+      <td><code>24</code></td>
+      <td>最大同时显示数量，超出后进入队列</td>
+    </tr>
+    <tr>
+      <td><code>overlap</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否允许消息重叠展示</td>
+    </tr>
+    <tr>
+      <td><code>duration</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>全局默认停留时长（毫秒）</td>
+    </tr>
+    <tr>
+      <td><code>gap</code></td>
+      <td><code>number</code></td>
+      <td><code>16</code></td>
+      <td>消息间距</td>
+    </tr>
+    <tr>
+      <td><code>offsets</code></td>
+      <td><code>string | Record&lt;'left' | 'right' | 'bottom' | 'top', string&gt;</code></td>
+      <td><code>'1rem'</code></td>
+      <td>与视口安全边距的偏移设置</td>
+    </tr>
+    <tr>
+      <td><code>hotkey</code></td>
+      <td><code>string[]</code></td>
+      <td><code>['altKey', 'KeyT']</code></td>
+      <td>聚焦消息组的快捷键</td>
+    </tr>
+    <tr>
+      <td><code>removeDelay</code></td>
+      <td><code>number</code></td>
+      <td><code>200</code></td>
+      <td>关闭后移除延迟（常用于退场动画）</td>
+    </tr>
+    <tr>
+      <td><code>pauseOnPageIdle</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>页面切后台时是否暂停计时</td>
+    </tr>
+    <tr>
+      <td><code>showClose</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>注入到默认插槽的消息参数中，作为每条消息默认关闭按钮策略</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvMessage'&gt;</code></td>
+      <td>-</td>
+      <td>全局消息主题参数与 crafts 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+> 说明：`Messager` 内部固定 `placement: 'top'`，当前不提供 placement props。
+
+#### Message
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>options</code></td>
+      <td><code>MessageOptions</code></td>
+      <td>-</td>
+      <td>单条消息配置（必填）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>消息根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts['theme']</code></td>
+      <td>-</td>
+      <td>单条消息主题参数，和 <code>options.theme</code> 合并</td>
+    </tr>
+    <tr>
+      <td><code>...ToastRootBaseProps</code></td>
+      <td><code>ToastRootBaseProps</code></td>
+      <td>-</td>
+      <td>透传 Ark UI Toast Root 常用能力，完整项请参考 Ark 文档</td>
+    </tr>
+  </tbody>
+</table>
+
+#### MessageOptions（`options` 字段）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>'info' | 'success' | 'warning' | 'error' | 'loading' | ...</code></td>
+      <td>-</td>
+      <td>消息类型，驱动默认图标与状态语义</td>
+    </tr>
+    <tr>
+      <td><code>description</code></td>
+      <td><code>VNodeChild | ((context) =&gt; VNode)</code></td>
+      <td>-</td>
+      <td>描述内容，支持函数式渲染</td>
+    </tr>
+    <tr>
+      <td><code>render</code></td>
+      <td><code>(context) =&gt; any</code></td>
+      <td>-</td>
+      <td>完全接管整条消息内容渲染</td>
+    </tr>
+    <tr>
+      <td><code>showClose</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否展示默认关闭按钮（<code>loading</code> 类型默认不渲染关闭按钮）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts['theme']</code></td>
+      <td>-</td>
+      <td>单条消息主题参数（优先级高于 <code>Message.theme</code>）</td>
+    </tr>
+    <tr>
+      <td><code>...toast.Options</code></td>
+      <td><code>Omit&lt;toast.Options&lt;T&gt;, 'title' | 'description'&gt;</code></td>
+      <td>-</td>
+      <td>Ark UI Toast 创建参数透传（不含 <code>title</code> / <code>description</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>（无组件自定义 emits）</td>
+      <td>-</td>
+      <td><code>Message</code> 与 <code>Messager</code> 均未声明 <code>defineEmits</code>；状态变化可通过 Ark Toast 相关回调参数处理</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Messager</code></td>
+      <td><code>default</code>（scoped）</td>
+      <td>返回 <code>{'{'} message {'}'}</code>，用于将当前消息对象绑定到 <code>Message</code> 渲染</td>
+    </tr>
+    <tr>
+      <td><code>Message</code></td>
+      <td><code>default</code>（scoped）</td>
+      <td>自定义整条消息结构；作用域参数含 <code>options</code> 与 <code>context</code></td>
+    </tr>
+    <tr>
+      <td><code>Message</code></td>
+      <td><code>icon</code>（scoped）</td>
+      <td>覆盖默认类型图标区域</td>
+    </tr>
+    <tr>
+      <td><code>Message</code></td>
+      <td><code>inner</code>（scoped）</td>
+      <td>覆盖描述区域内容</td>
+    </tr>
+    <tr>
+      <td><code>Message</code></td>
+      <td><code>close</code>（scoped）</td>
+      <td>覆盖关闭按钮区域，仅在 <code>options.showClose</code> 为真时渲染</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Message` 支持主题配置，入口包括：
+
+1. `Messager.theme`：配置全局消息主题。
+2. `Message.theme`：覆盖当前渲染节点主题参数。
+3. `Message.options.theme`：单条消息级别覆盖，最终会与 `Message.theme` 合并，且后者被前者覆盖同名字段。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题入口</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>影响范围</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Messager.theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvMessage'&gt;</code></td>
+      <td>-</td>
+      <td>影响当前 <code>Messager</code> 容器下的消息样式</td>
+    </tr>
+    <tr>
+      <td><code>Message.theme</code></td>
+      <td><code>ThemeNoCrafts['theme']</code></td>
+      <td>-</td>
+      <td>影响当前消息的 crafts 计算</td>
+    </tr>
+    <tr>
+      <td><code>Message.options.theme</code></td>
+      <td><code>ThemeNoCrafts['theme']</code></td>
+      <td>-</td>
+      <td>单条消息粒度覆盖（常用于尺寸等局部差异）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={MessageStories.SizesAndClose} />
+
+---
+
+## UI Configuration
+
+`Messager` 本身不提供 `ui` 字段；样式覆盖入口位于 `Message.ui`。
+
+<table>
+  <thead>
+    <tr>
+      <th>路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>消息根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.content</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>内容容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.description</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>描述区域 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.icon</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>图标区域 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.close</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>关闭按钮区域 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={MessageStories.MessagerProps} />
+
+---
+
+## 最佳实践
+
+- 在应用根部至少挂载一个 `Messager`，再通过 `useMessage()` 在任意业务层触发消息，避免“无容器”告警。
+- 需要完整自定义结构时优先用 `options.render`；仅替换图标、文本或关闭按钮时优先用 `Message` 的具名插槽，便于复用默认交互。
+- 对异步请求统一使用 `message.promise()`，将 loading/success/error 生命周期消息绑定到同一流程，减少手动维护状态分支。
+- 关闭按钮策略建议分层：全局默认用 `Messager.showClose`，单条特例再用 `options.showClose` 覆盖。
+- 样式调整优先走 `theme`，需要精确节点覆盖时再用 `ui.*`，避免大量业务 class 直接侵入组件结构。
+- `loading` 类型默认不显示关闭按钮；若业务需要可提供自定义 `render` 并配合 `MessageCloseTrigger` 管理关闭行为。

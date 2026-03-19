@@ -1,0 +1,14 @@
+@layer components {
+  .rui-pagination-control {}
+
+  .rui-pagination-item {
+    @apply text-h90 hover:text-hff hover:bg-h00/30;
+    &[data-selected] {
+      @apply text-hff bg-h00/30;
+    }
+  }
+
+  .rui-pagination-ellipsis {
+    @apply text-h90;
+  }
+}

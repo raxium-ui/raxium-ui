@@ -1,0 +1,261 @@
+@import '../css/index.css';
+
+@custom-variant skin-razer (&:where(html[data-theme-skin=razer], html[data-theme-skin=razer] *));
+
+@custom-variant surface-dark (&:where([data-theme-surface=dark], [data-theme-surface=dark] *));
+@custom-variant surface-light (&:where([data-theme-surface=light], [data-theme-surface=light] *));
+@custom-variant surface-razer (&:where([data-theme-surface=razer], [data-theme-surface=razer] *));
+
+@custom-variant success (&:where([data-type=success], [data-type=success] *));
+@custom-variant error (&:where([data-type=error], [data-type=error] *));
+@custom-variant warning (&:where([data-type=warning], [data-type=warning] *));
+@custom-variant info (&:where([data-type=info], [data-type=info] *));
+@custom-variant loading (&:where([data-type=loading], [data-type=loading] *));
+@custom-variant arrow-css (&:where([data-arrow-type="css"]));
+@custom-variant arrow-svg (&:where([data-arrow-type="svg"]));
+
+@theme {
+  /* Spacing */
+  --spacing: 0.25rem;
+
+  /* Breakpoints */
+  --break-point-sm: 1024px;
+  --break-point-md: 1440px;
+  --break-point-lg: 1920px;
+  --break-point-xl: 2560px;
+  --break-point-2xl: 3840px;
+
+  /* Colors */
+  --color-*: initial;
+  --color-tw-ring-color: transparent;
+  --color-rz-green: oklch(76.87% 0.2343 141.32);
+  --color-rz-green-dark: oklch(47.48% 0.2343 141.32);
+  --color-rz-green-dark-hover: oklch(59.25% 0.2343 141.32);
+  --color-rz-green-dark-active: oklch(33.16% 0.2343 141.32);
+  --color-rz-green-light: oklch(82.23% 0.2343 141.32);
+  --color-rz-green-border: oklch(45.35% 0.2343 141.32);
+  --color-rz-green-border-hover: oklch(70.57% 0.2343 141.32);
+  --color-rz-green-border-active: oklch(45.88% 0.2343 141.32);
+
+  --color-rz-orange: oklch(80.16% 0.1705 73.27);
+  --color-rz-red: oklch(62.32% 0.2121 25.89);
+  --color-rz-blue: oklch(69% 0.1282 229.93);
+
+  --color-black: oklch(0% 0 0);
+  --color-h00: oklch(0% 0 0);
+  --color-white: oklch(100% 0 0);
+  --color-hff: oklch(100% 0 0);
+  --color-h70: oklch(54.52% 0 0);
+  --color-h4f: oklch(42.76% 0 0);
+  --color-h9b: oklch(68.95% 0 0);
+  --color-h83: oklch(61% 0 0);
+  --color-h37: oklch(33.68% 0 0);
+  --color-hcc: oklch(84.52% 0 0);
+  --color-hbb: oklch(79.21% 0 0);
+  --color-h33: oklch(32.11% 0 0);
+  --color-h24: oklch(26.03% 0 0);
+  --color-h8f: oklch(65% 0 0);
+  --color-h1a: oklch(21.78% 0 0);
+  --color-ha7: oklch(72.84% 0 0);
+  --color-h5e: oklch(48.19% 0 0);
+  --color-h4c: oklch(41.65% 0 0);
+  --color-h55: oklch(44.95% 0 0);
+  --color-h54: oklch(44.59% 0 0);
+  --color-h66: oklch(51.03% 0 0);
+  --color-h58: oklch(46.04% 0 0);
+  --color-h28: oklch(27.68% 0 0);
+  --color-h78: oklch(57.27% 0 0);
+  --color-h88: oklch(62.68% 0 0);
+  --color-hee: oklch(94.91% 0 0);
+  --color-h44: oklch(38.67% 0 0);
+  --color-h22: oklch(25.2% 0 0);
+  --color-h16: oklch(20.02% 0 0);
+  --color-h11: oklch(15.26% 0 0);
+  --color-h2a: oklch(22.22% 0 0);
+  --color-h1d: oklch(19.61% 0 0);
+  --color-h47: oklch(40.64% 0 0);
+  --color-h90: oklch(65.34% 0 0);
+
+  /* Text */
+  --text-3xs: 0.5rem;
+  --text-3xs--line-height: 1.25;
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.25;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.25;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25;
+  --text-base: 1rem;
+  --text-base--line-height: 1.25;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.25;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.25;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 1.25;
+
+  /* Shadows */
+  --shadow-glory: 0 0 1.5625rem 0 oklch(86.64% 0.2343 141.32 / 47%);
+  --shadow-black: 0 0 0.625rem 0 oklch(0% 0 0 / 80%);
+  --shadow-black-md: 0 0 0.9375rem 0 oklch(0% 0 0 / 80%);
+
+  /* Fonts */
+  --font-rob: Roboto, var(--font-sans);
+  --font-rob-regular: Roboto-Regular, var(--font-sans);
+  --font-rob-medium: Roboto-Medium, var(--font-sans);
+  --font-rob-bold: Roboto-Bold, var(--font-sans);
+  --font-rob-black: Roboto-Black, var(--font-sans);
+  --font-rz: RazerF5, var(--font-sans);
+  --font-rz-light: RazerF5-Light, var(--font-sans);
+  --font-rz-medium: RazerF5-Medium, var(--font-sans);
+  --font-rz-bold: RazerF5-Bold, var(--font-sans);
+  --font-rz-black: RazerF5-Black, var(--font-sans);
+
+  /* Border Radius */
+  --radius: 0.125rem; /* 2px */
+  --radius-md: calc(var(--radius) + 0.125rem); /* 4px */
+  --radius-lg: calc(var(--radius) + 0.25rem); /* 6px */
+
+  /* Other */
+  --outline: 2px solid var(--color-rz-green);
+  --disabled-opacity: var(--opacity-50, 0.5);
+
+  /* RUI Theme*/
+  --color-rui-parimary: var(--color-rz-green);
+  --color-rui-parimary-hover: var(--color-rz-green-dark-hover);
+  --color-rui-parimary-active: var(--color-rz-green-dark-active);
+
+  --color-rui-border: var(--color-h54);
+
+  --color-rui-toggle-text: var(--color-h88);
+  --color-rui-toggle-text-hover: var(--color-hff);
+  --color-rui-toggle-text-active: var(--color-hff);
+
+  --color-rui-success: var(--color-rz-green);
+  --color-rui-error: var(--color-rz-red);
+  --color-rui-info: var(--color-h88);
+  --color-rui-warning: var(--color-rz-orange);
+
+  --color-rui-close: var(--color-h88);
+  --color-rui-close-hover: var(--color-hff);
+
+  --color-rui-separator: var(--color-h00);
+
+  --font-rui-label: var(--font-rob-bold);
+
+  --shadow-rui-popper: 0 0.25rem 0.375rem 0 oklch(0% 0 0 / 80%);
+  --shadow-rui-popper-top: 0 -0.25rem 0.375rem 0 oklch(0% 0 0 / 80%);
+}
+
+@theme inline {
+}
+
+@theme static {
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+
+  :root {
+    font-family: var(--font-roboto, --font-sans);
+  }
+
+  *:focus-visible {
+    outline: var(--outline);
+    outline-offset: 2px;
+  }
+}
+
+@utility flex-c {
+  @apply flex justify-center items-center;
+}
+
+@utility flex-ac {
+  @apply flex justify-around items-center;
+}
+
+@utility flex-bc {
+  @apply flex justify-between items-center;
+}
+
+@utility flex-col-c {
+  @apply flex flex-col justify-center items-center;
+}
+
+@utility flex-col-ac {
+  @apply flex flex-col justify-center items-center;
+}
+
+@utility flex-col-bc {
+  @apply flex flex-col justify-between items-center;
+}
+
+@utility hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility webkit-scrollbar {
+  ::-webkit-scrollbar {
+    @apply size-[6px];
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    @apply bg-transparent rounded-[6px];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply h-[30px] bg-h58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+  }
+}
+
+@utility webkit-scrollbar-self {
+  &::-webkit-scrollbar {
+    @apply size-[6px];
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    @apply bg-transparent rounded-[6px];
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply h-[30px] bg-h58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+  }
+}
+
+@utility webkit-small-scrollbar {
+  ::-webkit-scrollbar {
+    @apply size-[3px];
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    @apply bg-transparent rounded-[1px];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply h-[5px] bg-h58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+  }
+}
+
+@utility webkit-small-scrollbar-self {
+  &::-webkit-scrollbar {
+    @apply size-[3px];
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    @apply bg-transparent rounded-[1px];
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply h-[5px] bg-h58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+  }
+}

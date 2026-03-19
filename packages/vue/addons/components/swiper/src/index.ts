@@ -1,0 +1,10 @@
+export type * from './props'
+export { default as Swiper } from './Swiper.vue'
+export { default as SwiperNavigationNext } from './SwiperNavigationNext.vue'
+export { default as SwiperNavigationPrev } from './SwiperNavigationPrev.vue'
+export { default as SwiperNext } from './SwiperNext.vue'
+export { default as SwiperPagination } from './SwiperPagination.vue'
+export { default as SwiperPrev } from './SwiperPrev.vue'
+export { default as SwiperScrollbar } from './SwiperScrollbar.vue'
+
+export { SwiperSlide } from 'swiper/vue'

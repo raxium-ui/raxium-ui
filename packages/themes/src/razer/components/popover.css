@@ -1,0 +1,19 @@
+@layer components {
+  .rui-popover-content {
+    --border-radius: var(--radius);
+    @apply shadow-rui-popper;
+    @apply data-theme-bordered:border-h00;
+    @apply surface-dark:data-theme-bordered:border-h33;
+  }
+
+  .rui-popover-content,
+  .rui-popover-content-inner {
+    @apply bg-hff text-h00;
+    @apply surface-dark:bg-h00 surface-dark:text-hff;
+  }
+
+  .rui-popover-close {
+    @apply text-rui-close hover:text-h00;
+    @apply surface-dark:hover:text-rui-close-hover;
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "./dist"
+  },
+  "paths": {
+    "@raxium/vue-addons-shared": ["../../shared/src"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "build.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/virtual.stories.ts",
+    "src/examples/**/*.vue"
+  ]
+}

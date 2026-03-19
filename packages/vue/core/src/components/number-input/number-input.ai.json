@@ -1,0 +1,487 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.number-input",
+  "component": {
+    "name": "NumberInput",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "NumberInput",
+    "category": "core",
+    "description": "用于处理数值输入场景，支持键盘输入、步进调整、范围限制与格式化展示。基于 Ark UI Number Input 构建，扩展 showTrigger、theme 与 ui 配置。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/number-input",
+      "primitive": "NumberInput.RootProvider",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "disabled",
+        "readOnly",
+        "aria-*",
+        "data-*"
+      ],
+      "notes": "透传 Ark UI NumberInputRootBaseProps；showTrigger、theme、ui 为 Rark 扩展。"
+    },
+    "capabilities": [
+      "v-model",
+      "theme",
+      "ui-override",
+      "programmatic-api"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "modelValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["defaultValue"],
+        "description": "受控输入值（配合 v-model）。"
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["modelValue"],
+        "description": "非受控模式下的初始值。"
+      },
+      {
+        "name": "min",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "允许输入的最小值。"
+      },
+      {
+        "name": "max",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "允许输入的最大值。"
+      },
+      {
+        "name": "step",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": 1,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "步进增减间隔。"
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否禁用输入与步进交互。"
+      },
+      {
+        "name": "readOnly",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否只读（保留聚焦与文本选择）。"
+      },
+      {
+        "name": "invalid",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否为错误态样式。"
+      },
+      {
+        "name": "locale",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "数值格式化所使用的区域设置（默认浏览器语言）。"
+      },
+      {
+        "name": "formatOptions",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "Intl.NumberFormatOptions",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "传递给 Intl.NumberFormat 的格式化参数。"
+      },
+      {
+        "name": "clampValueOnBlur",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": true,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "失焦时是否自动钳制到 min/max 范围内。"
+      },
+      {
+        "name": "showTrigger",
+        "required": false,
+        "requiredSource": "runtime",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否显示内置增减按钮（Raxium UI 扩展）。"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点自定义 class。"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvInput' | 'tvNumberInput'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 crafts 覆盖入口。"
+      },
+      {
+        "name": "ui",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "{ root?: class; control?: class; input?: class; triggerGroup?: class; trigger?: class }",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "root": {},
+            "control": {},
+            "input": {},
+            "triggerGroup": {},
+            "trigger": {}
+          }
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "各结构节点 class 覆盖。"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "payload": { "typeText": "(value: string)", "typeSchema": { "type": "object", "x-ts-type": "string" } },
+        "emitWhen": [{ "expr": "value_changed", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:modelValue"],
+        "description": "输入值变化时触发，用于 v-model 同步。"
+      },
+      {
+        "name": "valueChange",
+        "payload": { "typeText": "(details: { value: string; valueAsNumber: number | null })", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "value_changed", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:valueChange"],
+        "description": "数值变化事件（Ark UI 详情对象）。"
+      },
+      {
+        "name": "valueInvalid",
+        "payload": { "typeText": "(details: { reason: string; value: string })", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "value_invalid", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:valueInvalid"],
+        "description": "输入值无效时触发。"
+      },
+      {
+        "name": "focusChange",
+        "payload": { "typeText": "(details: { focused: boolean; value: string })", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "focus_state_changed", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:focusChange"],
+        "description": "聚焦状态变化时触发。"
+      },
+      {
+        "name": "inputFocus",
+        "payload": { "typeText": "(event: FocusEvent)", "typeSchema": { "type": "object", "x-ts-type": "FocusEvent" } },
+        "emitWhen": [{ "expr": "input_focused", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:inputFocus"],
+        "description": "输入框聚焦时触发（模板监听 @input-focus）。"
+      },
+      {
+        "name": "inputBlur",
+        "payload": { "typeText": "(event: FocusEvent)", "typeSchema": { "type": "object", "x-ts-type": "FocusEvent" } },
+        "emitWhen": [{ "expr": "input_blurred", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:inputBlur"],
+        "description": "输入框失焦时触发（模板监听 @input-blur）。"
+      },
+      {
+        "name": "focus",
+        "payload": { "typeText": "(event: FocusEvent)", "typeSchema": { "type": "object", "x-ts-type": "FocusEvent" } },
+        "emitWhen": [{ "expr": "input_focused", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:focus"],
+        "description": "Raxium UI 额外透出的输入框 focus 事件。"
+      },
+      {
+        "name": "blur",
+        "payload": { "typeText": "(event: FocusEvent)", "typeSchema": { "type": "object", "x-ts-type": "FocusEvent" } },
+        "emitWhen": [{ "expr": "input_blurred", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:blur"],
+        "description": "Raxium UI 额外透出的输入框 blur 事件。"
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "输入框前置区域（如货币符号、单位标签）。"
+      },
+      {
+        "name": "suffix",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "输入框后置区域（如单位、状态图标）。"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "输入框与触发器尺寸。"
+        },
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": { "enum": ["razer", "shadcn"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤。"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark'",
+          "typeSchema": { "enum": ["light", "dark"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "表面亮暗语义。"
+        },
+        {
+          "name": "bordered",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否启用边框样式。"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否移除内置样式。"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 tvInput / tvNumberInput crafts。"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": [
+        { "name": "ui.root", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "根容器 class 覆盖" },
+        { "name": "ui.control", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "控制区 class 覆盖" },
+        { "name": "ui.input", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "输入节点 class 覆盖" },
+        { "name": "ui.triggerGroup", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "增减按钮组 class 覆盖" },
+        { "name": "ui.trigger", "typeText": "string | array | object", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "增减按钮 class 覆盖" }
+      ]
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "value": "string",
+      "valueAsNumber": "number | null",
+      "focused": "boolean"
+    },
+    "derived": {
+      "showTriggerGroup": "showTrigger === true"
+    },
+    "transitions": [
+      {
+        "on": "increment",
+        "guard": "!disabled",
+        "effects": ["setValue(value+step)", "emit:update:modelValue", "emit:valueChange"]
+      },
+      {
+        "on": "decrement",
+        "guard": "!disabled",
+        "effects": ["setValue(value-step)", "emit:update:modelValue", "emit:valueChange"]
+      }
+    ]
+  },
+  "examples": [
+    { "id": "basic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "basic" }, "description": "基础用法" },
+    { "id": "triggers", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "triggers" }, "description": "步进按钮" },
+    { "id": "sizes", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "sizes" }, "description": "尺寸变体" },
+    { "id": "states", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "states" }, "description": "状态：禁用/只读/错误" },
+    { "id": "format", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "format" }, "description": "格式化与范围策略" },
+    { "id": "events", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "events" }, "description": "事件监听" },
+    { "id": "programmatic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "NumberInput" }, "exampleId": "programmatic" }, "description": "程序化调用" }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": ["modelValue/defaultValue", "min/max/step", "showTrigger", "theme"],
+    "safeDefaults": {
+      "showTrigger": false,
+      "step": 1,
+      "clampValueOnBlur": true
+    },
+    "a11yChecklist": [
+      "范围明确的业务建议始终设置 min/max/step",
+      "需要格式化显示时优先使用 locale + formatOptions"
+    ],
+    "codegenTemplates": {
+      "minimal": "<NumberInput v-model=\"value\" />",
+      "withTrigger": "<NumberInput v-model=\"value\" :show-trigger=\"true\" />"
+    },
+    "antiPatterns": [
+      "<NumberInput v-model=\"qty\" /> — 在数量场景未设置 :min=\"0\" :max=\"99\" :step=\"1\" 导致非法值进入",
+      "使用自定义 @update:modelValue 做 toFixed(2) — 应使用 formatOptions 保持输入态与展示态一致",
+      "<NumberInput v-model=\"val\" :default-value=\"0\" /> — 同时使用 modelValue 与 defaultValue 导致冲突"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./number-input.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./NumberInput.vue", "kind": "runtime" },
+      { "path": "./number-input.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.showTrigger.default": "runtime",
+      "contracts.props.step.default": "doc",
+      "contracts.props.modelValue.conflictsWith": "doc",
+      "contracts.props.defaultValue.conflictsWith": "doc",
+      "contracts.props.clampValueOnBlur.default": "doc",
+      "contracts.props.locale": "doc",
+      "contracts.props.formatOptions": "doc",
+      "themeConfiguration.fields.crafts": "doc"
+    }
+  }
+}

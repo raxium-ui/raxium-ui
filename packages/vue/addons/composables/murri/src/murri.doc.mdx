@@ -1,0 +1,239 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as MuuriStories from './muuri.stories'
+
+<Meta of={MuuriStories} />
+
+# Muuri
+
+`Muuri`（目录名为 `murri`）是 addons 中基于 `muuri` 的拖拽排序 composable。它用于将列表节点初始化为可拖拽网格，并在拖拽移动时同步更新传入的列表数据。该能力属于 addons 独立封装，不提供 `theme` 或 `ui` 配置入口，样式扩展通过 CSS 类与样式文件完成。
+
+---
+
+## 安装 / 引入
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>示例</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>安装</code></td>
+      <td><code>pnpm add @raxium/vue-addons-u-murri</code></td>
+      <td>安装 Murri composable 包。</td>
+    </tr>
+    <tr>
+      <td><code>引入 composable</code></td>
+      <td><code>import &#123; useMuuri &#125; from '@raxium/vue-addons-u-murri'</code></td>
+      <td>用于初始化拖拽网格并获取 <code>grid/start/stop</code>。</td>
+    </tr>
+    <tr>
+      <td><code>引入样式</code></td>
+      <td><code>import '@raxium/vue-addons-u-murri/index.css'</code></td>
+      <td>提供 <code>rui-muuri-grid</code>、<code>rui-muuri-item</code>、占位符等基础结构样式。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Examples
+
+### 基础示例
+
+<Canvas of={MuuriStories.Basic} />
+
+### 事件示例
+
+<Canvas of={MuuriStories.Events} />
+
+---
+
+## Implementation References
+
+`Muuri` 的实现依赖与封装边界如下：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>封装边界</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>muuri</code></td>
+      <td>提供 <code>Grid</code>、拖拽排序、布局与事件系统。</td>
+      <td>属于“全部透传 + 默认增强”。<code>UseMuuriOpitons</code> 继承 <code>GridOptions</code>，并额外声明一组 <code>onXxx</code> 回调；内部默认注入 <code>layout</code>、<code>dragEnabled</code>、<code>dragHandle</code>、<code>dragAxis</code>、<code>dragPlaceholder</code> 与列表同步逻辑。</td>
+      <td><a href="https://docs.muuri.dev">Muuri 文档</a></td>
+    </tr>
+    <tr>
+      <td><code>@vueuse/core</code></td>
+      <td>提供 <code>tryOnMounted</code>、<code>tryOnScopeDispose</code>、<code>unrefElement</code> 等生命周期与元素解析能力。</td>
+      <td>属于“扩展能力”。用于让 composable 同时支持选择器字符串与元素 ref，并自动在作用域销毁时释放 <code>grid</code>。</td>
+      <td><a href="https://vueuse.org/core/">VueUse 文档</a></td>
+    </tr>
+    <tr>
+      <td><code>es-toolkit/compat</code></td>
+      <td>用于选项整理与事件名转换（<code>omit</code>、<code>pickBy</code>、<code>camelCase</code>、<code>forEach</code>）。</td>
+      <td>属于“直接使用底层能力”。仅处理对象与键名，不改变 Muuri 行为模型。</td>
+      <td><a href="https://es-toolkit.dev">es-toolkit</a></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## API
+
+### Style
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>路径</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Muuri 样式文件</code></td>
+      <td><code>packages/vue/addons/composables/murri/src/index.css</code></td>
+      <td>定义 Muuri 必需的结构样式（网格容器相对定位、item 绝对定位、拖拽层级、占位符样式）。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Props
+
+`useMuuri` 对底层 `muuri` 配置属于“全部透传 + 默认增强”：
+
+- 透传依据：`UseMuuriOpitons` 直接继承 `GridOptions`（以 interface/type 继承关系为准）。
+- 内部接管：默认布局函数、默认拖拽参数、占位符创建与 `onMove` 时的列表重排同步。
+- 其余底层参数见 <a href="https://docs.muuri.dev">Muuri 文档</a>。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>el / selector</code></td>
+      <td><code>string | MaybeRefOrGetter&lt;MaybeElement&gt;</code></td>
+      <td>-</td>
+      <td>目标容器。可传 CSS 选择器（如示例中的 <code>'.demo-muuri-grid'</code>）或元素 ref。</td>
+    </tr>
+    <tr>
+      <td><code>list</code></td>
+      <td><code>MaybeRef&lt;T[]&gt;</code></td>
+      <td>-</td>
+      <td>用于渲染与排序同步的数据列表；默认在 <code>onMove</code> 中按 <code>fromIndex -&gt; toIndex</code> 更新顺序。</td>
+    </tr>
+    <tr>
+      <td><code>options</code></td>
+      <td><code>UseMuuriOpitons</code></td>
+      <td>-</td>
+      <td>Muuri 选项与事件回调扩展集合。</td>
+    </tr>
+    <tr>
+      <td><code>return.grid</code></td>
+      <td><code>ShallowRef&lt;Grid | null&gt;</code></td>
+      <td>-</td>
+      <td>当前 Muuri <code>Grid</code> 实例引用。</td>
+    </tr>
+    <tr>
+      <td><code>return.start</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>-</td>
+      <td>手动初始化网格实例（组件挂载时也会自动调用）。</td>
+    </tr>
+    <tr>
+      <td><code>return.stop</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>-</td>
+      <td>销毁网格实例并清空 <code>grid</code> 引用。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onMove</code></td>
+      <td><code>(data: &#123; item: Item; fromIndex: number; toIndex: number; action: 'move' | 'swap' &#125;) =&gt; any</code></td>
+      <td>元素移动时触发；内部会先同步 <code>list</code> 顺序，再调用外部回调。</td>
+    </tr>
+    <tr>
+      <td><code>onDragStart / onDragEnd / onDragMove / onDragScroll</code></td>
+      <td><code>Muuri 拖拽事件参数</code></td>
+      <td>用于监听拖拽状态变化，示例中用于展示 <code>dragging/idle</code> 状态。</td>
+    </tr>
+    <tr>
+      <td><code>onLayoutStart / onLayoutEnd / onAdd / onRemove / onSort</code> 等</td>
+      <td><code>Muuri 对应事件参数</code></td>
+      <td>所有以 <code>on</code> 开头的配置会被映射为 Muuri 事件（驼峰转事件名）。完整事件集合以 Muuri 官方事件为准。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>useMuuri (composable)</code></td>
+      <td>-</td>
+      <td>不涉及组件插槽能力。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Muuri` 不提供 `theme` 配置能力。可通过样式类（如 `rui-muuri-grid`、`rui-muuri-item`）与自定义 CSS 变量（如 `--muuri-placeholder-bg`）进行外观调整。
+
+---
+
+## UI Configuration
+
+`Muuri` 不提供 `ui` 或 `.ui.*` 配置能力。建议通过容器 class 与样式文件中的结构类进行覆盖。
+
+---
+
+## 最佳实践
+
+- 列表项结构保持稳定：每个项使用稳定 `key`，并保持 `rui-muuri-item` / `rui-muuri-item-content` 的层级，减少拖拽测量抖动。
+- 优先使用手柄拖拽：默认 `dragHandle` 为 `.rui-muuri-handle`，建议为可交互区域提供明确手柄，避免整行误拖动。
+- 需要监听行为时优先用 `onMove` + `onDragStart/onDragEnd` 组合：`onMove` 追踪顺序变化，拖拽事件追踪状态展示。
+- 自定义布局前先评估默认纵向布局：当前默认布局按单列垂直堆叠并动态计算高度，适合任务流/卡片排序场景。
+- 手动控制生命周期时配合 `start/stop`：在容器显隐或重建场景中可显式调用，避免残留实例。
+

@@ -1,0 +1,184 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SkeletonStories from './skeleton.stories'
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+Skeleton 用于在内容加载阶段提供结构占位，减少页面跳动并提前建立视觉预期。组件基于 Raxium UI 主题系统与 Ark UI Factory 原语实现，支持动画变体（`pulse` / `wave`）、形状变体（`rect` / `circle`），并支持通过 `theme` 扩展样式能力。
+
+---
+
+## Examples
+
+### 基础占位
+
+<Canvas of={SkeletonStories.Basic} />
+
+### 动画变体
+
+<Canvas of={SkeletonStories.Variants} />
+
+### 形状变体
+
+<Canvas of={SkeletonStories.Shapes} />
+
+### 包裹子内容
+
+<Canvas of={SkeletonStories.WithChildren} />
+
+---
+
+## ARK UI Link
+
+`Skeleton` 不是 Ark UI 的独立业务组件（如 Dialog/Menu），而是基于 Ark UI Factory 原语封装的样式组件。其行为以样式占位为主，不包含复杂交互状态机。
+
+- **相关文档**: [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+- **说明**: 原生 HTML `div` 的通用属性可透传使用；`variant`、`shape` 与 `theme` 为 Raxium UI 扩展能力。
+
+---
+
+## API
+
+### Props
+
+#### Skeleton
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'pulse' | 'wave'</code></td>
+      <td><code>'pulse'</code></td>
+      <td>占位动画样式</td>
+    </tr>
+    <tr>
+      <td><code>shape</code></td>
+      <td><code>'rect' | 'circle'</code></td>
+      <td><code>'rect'</code></td>
+      <td>占位形状</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点自定义 class（通常用于尺寸与布局）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvSkeleton'&gt;['theme']</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Skeleton` 不额外暴露组件自定义事件（emits）。
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Skeleton</code></td>
+      <td><code>default</code></td>
+      <td>默认内容插槽，可用于包裹占位对比层或结构辅助内容</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Skeleton` 通过 `theme` 继承 Raxium UI 的通用主题参数，并支持覆写 `tvSkeleton` crafts。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | string</code></td>
+      <td>-</td>
+      <td>表面语义（亮/暗及扩展值）</td>
+    </tr>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td>-</td>
+      <td>通用尺寸语义（是否生效取决于 crafts 配置）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框语义开关（是否生效取决于 crafts 配置）</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | function</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvSkeleton</code> 的样式配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SkeletonStories.Variants} />
+
+---
+
+## UI Configuration
+
+`Skeleton` 组件不提供独立的 `ui` 分槽位配置。推荐通过 `class` 与 `theme.crafts` 进行样式覆盖。
+
+**示例**:
+
+<Canvas of={SkeletonStories.WithChildren} />
+
+---
+
+## 最佳实践
+
+- 先用 `class` 明确占位块的宽高，再用 `shape` 表达结构语义（文本行、头像、卡片等），避免加载前后布局跳动。
+- 文本占位优先使用多行短条组合（如 `h-4` + 不同宽度），比单条整宽占位更接近真实内容密度。
+- 列表或信息流场景中，建议同一区域统一 `variant`，减少动画节奏不一致带来的视觉噪音。
+- 需要骨架屏与真实内容叠放对比时，可使用默认插槽包裹内部结构，保持占位尺寸与目标内容一致。
+- 全局风格统一优先通过 `theme` 管理；仅在局部页面差异化时再用 `class` 临时覆盖，降低维护成本。

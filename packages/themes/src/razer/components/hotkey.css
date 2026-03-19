@@ -1,0 +1,5 @@
+@import './input.css';
+
+@layer components {
+  .rui-hotkey {}
+}

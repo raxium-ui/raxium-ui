@@ -1,0 +1,18 @@
+shellEmulator: true
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - vite@6.4.1
+
+packages:
+  - packages/**
+  - playground/*
+  - website/*
+overrides:
+  lightningcss: ^1.31.0
+ignoredBuiltDependencies:
+  - core-js
+onlyBuiltDependencies:
+  - esbuild
+  - vue-demi

@@ -1,0 +1,27 @@
+@layer components {
+  .rui-slider-track {
+    @apply bg-h33;
+  }
+
+  .rui-slider-range {
+    @apply bg-rz-green;
+  }
+
+  .rui-slider-thumb {
+    @apply 
+     data-[theme-size=xs]:border 
+     data-[theme-size=sm]:border-2 
+     data-[theme-size=base]:border-2
+     data-[theme-size=lg]:border-2;
+    @apply border-rz-green bg-h00;
+  }
+
+  .rui-slider-marker-dot {
+    &[data-state="over-value"] {
+      @apply bg-h33;
+    }
+    &[data-state="under-value"] {
+      @apply bg-rz-green;
+    }
+  }
+}

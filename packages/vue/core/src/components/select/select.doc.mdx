@@ -1,0 +1,540 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SelectStories from './select.stories'
+
+<Meta of={SelectStories} />
+
+# Select
+
+`Select` 是用于单选或多选场景的下拉选择组件，适用于表单输入、筛选器和配置项选择。组件基于 Ark UI Select 能力构建，支持受控/非受控状态、高亮项控制、分组选项、可清空触发器，并扩展了 Raxium UI 的 `theme` 与局部 `ui` 配置能力。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={SelectStories.Basic} />
+
+### 分组与禁用项
+
+<Canvas of={SelectStories.GroupsAndDisabled} />
+
+### 多选与清空操作
+
+<Canvas of={SelectStories.MultipleAndClearable} />
+
+### 尺寸变体
+
+<Canvas of={SelectStories.Sizes} />
+
+### 受控打开与高亮项
+
+<Canvas of={SelectStories.ControlledOpenAndHighlight} />
+
+---
+
+## ARK UI Link
+
+`Select` 组件族（`Select`、`SelectTrigger`、`SelectContent`、`SelectItem`、`SelectItemGroup`）基于 Ark UI Select 原语封装：
+
+- 根组件在 Ark UI Root 常用能力之上扩展了 Raxium UI 的 `theme` 与样式体系。
+- 子组件复用 Ark UI 对应部件并补充默认样式、可选插槽和少量增强属性（如 `SelectTrigger.clearable`、`SelectItemGroup.label`）。
+- `SelectValue` 用于值展示区域封装，默认渲染 Ark UI 的 `Select.ValueText`。
+
+- **相关文档**: [Ark UI Select (Vue)](https://ark-ui.com/vue/docs/components/select)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组，仅列常用与扩展项。Ark UI 原生完整参数请参考官方文档。
+
+#### Select
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>collection</code></td>
+      <td><code>ListCollection&lt;T&gt;</code></td>
+      <td>-</td>
+      <td>选项集合（通常由 <code>createListCollection</code> 创建）</td>
+    </tr>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>SelectValueType[]</code></td>
+      <td>-</td>
+      <td>受控选中值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>SelectValueType[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>open / defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>下拉面板受控/非受控打开状态</td>
+    </tr>
+    <tr>
+      <td><code>highlightedValue</code></td>
+      <td><code>SelectValueType</code></td>
+      <td>-</td>
+      <td>受控高亮项值（配合 <code>v-model:highlighted-value</code>）</td>
+    </tr>
+    <tr>
+      <td><code>multiple</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用多选</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount / unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>延迟挂载与退出卸载策略</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvSelect'&gt;</code></td>
+      <td>-</td>
+      <td>组件主题参数与 crafts 覆盖（根组件）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SelectTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>clearable</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否显示清空按钮（显示后可通过内置 ClearTrigger 清空当前值）</td>
+    </tr>
+    <tr>
+      <td><code>disabled / invalid / readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>触发器状态控制（Ark UI 能力）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>触发器附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SelectContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>PositioningOptions</code></td>
+      <td>-</td>
+      <td>浮层定位配置（Ark UI 能力）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容区域附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SelectItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>item</code></td>
+      <td><code>CollectionItem</code></td>
+      <td>-</td>
+      <td>当前选项对象（通常包含 <code>label/value</code> 等字段）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>取 item.disabled</td>
+      <td>是否禁用当前选项</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>选项节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SelectItemGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>分组标题文案（可被 <code>label</code> 插槽覆盖）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>分组节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SelectValue
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>未选择时展示的占位文案</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>将值展示能力合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>值展示区域附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Select` 的对外事件由根组件统一发出，子组件不额外定义自定义 emits。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: SelectValueType[])</code></td>
+      <td>受控值同步（<code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean)</code></td>
+      <td>受控打开状态同步（<code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>update:highlightedValue</code></td>
+      <td><code>(value: SelectValueType)</code></td>
+      <td>受控高亮值同步（<code>v-model:highlighted-value</code>）</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: ValueChangeDetails&lt;T&gt;)</code></td>
+      <td>选中值变化详情</td>
+    </tr>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: OpenChangeDetails)</code></td>
+      <td>打开状态变化详情</td>
+    </tr>
+    <tr>
+      <td><code>highlightChange</code></td>
+      <td><code>(details: HighlightChangeDetails&lt;T&gt;)</code></td>
+      <td>高亮项变化详情</td>
+    </tr>
+    <tr>
+      <td><code>select</code></td>
+      <td><code>(details: SelectionDetails)</code></td>
+      <td>触发选中动作时回调</td>
+    </tr>
+    <tr>
+      <td><code>focusOutside</code></td>
+      <td><code>(event: FocusOutsideEvent)</code></td>
+      <td>焦点移出浮层时触发</td>
+    </tr>
+    <tr>
+      <td><code>interactOutside</code></td>
+      <td><code>(event: InteractOutsideEvent)</code></td>
+      <td>与组件外部交互时触发</td>
+    </tr>
+    <tr>
+      <td><code>pointerDownOutside</code></td>
+      <td><code>(event: PointerDownOutsideEvent)</code></td>
+      <td>在外部区域按下指针时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Select</code></td>
+      <td><code>default</code></td>
+      <td>放置 Trigger、Content 等子组件</td>
+    </tr>
+    <tr>
+      <td><code>SelectTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发器主内容（通常包含 <code>SelectValue</code>）</td>
+    </tr>
+    <tr>
+      <td><code>SelectTrigger</code></td>
+      <td><code>indicator</code></td>
+      <td>自定义右侧指示器，默认是下拉箭头</td>
+    </tr>
+    <tr>
+      <td><code>SelectContent</code></td>
+      <td><code>default</code></td>
+      <td>选项内容区域</td>
+    </tr>
+    <tr>
+      <td><code>SelectItem</code></td>
+      <td><code>default</code></td>
+      <td>选项文本内容</td>
+    </tr>
+    <tr>
+      <td><code>SelectItem</code></td>
+      <td><code>indicator</code></td>
+      <td>自定义选中指示器，默认是对勾图标</td>
+    </tr>
+    <tr>
+      <td><code>SelectItemGroup</code></td>
+      <td><code>default</code></td>
+      <td>分组内选项内容</td>
+    </tr>
+    <tr>
+      <td><code>SelectItemGroup</code></td>
+      <td><code>label</code></td>
+      <td>分组标题内容，覆盖 <code>label</code> 属性</td>
+    </tr>
+    <tr>
+      <td><code>SelectValue</code></td>
+      <td><code>default</code></td>
+      <td>值展示内容，未提供时渲染内置 <code>Select.ValueText</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Select` 根组件通过 `theme` 驱动 `tvSelect` crafts（影响 root/trigger/content/item/value 等部位）。`SelectTrigger`、`SelectContent`、`SelectItem`、`SelectItemGroup`、`SelectValue` 可通过 `theme` 继承或覆盖主题上下文。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>ThemeSize（由 THEME_SIZE 定义）</code></td>
+      <td>-</td>
+      <td>控制触发器、内容与选项的尺寸节奏</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>ThemeSkin</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>ThemeSurface</code></td>
+      <td>-</td>
+      <td>亮/暗表面语义</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvSelect</code> crafts 配置（仅根组件）</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SelectStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Select` 根组件与 `SelectTrigger`、`SelectItem`、`SelectValue` 不提供独立 `ui` 对象；可通过以下子组件进行样式槽位覆盖：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SelectContent.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>SelectContent.ui.inner</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容内层容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>SelectItemGroup.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>分组容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>SelectItemGroup.ui.label</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>分组标题 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SelectStories.GroupsAndDisabled} />
+
+---
+
+## 最佳实践
+
+- 选项数据优先统一使用 `createListCollection` 生成 `collection`，避免手写数组导致分组与禁用逻辑分散。
+- 普通表单场景优先使用非受控（`defaultValue`），仅在需要和外部状态同步时再切换受控（`v-model`、`v-model:open`）。
+- 多选场景建议配合 `SelectTrigger.clearable`，为用户提供显式清空入口，降低重复点击成本。
+- 需要追踪键盘导航或高亮行为时，监听 `highlightChange` 并按需使用 `v-model:highlighted-value` 做受控联动。
+- 分组列表优先使用 `SelectItemGroup`，不要在选项文本中混合“组名 + 选项名”来模拟分组，避免可访问性与样式维护问题。
+- 样式定制遵循“先 theme 后 ui”：统一视觉走 `theme`，局部覆盖再用 `SelectContent.ui.*` / `SelectItemGroup.ui.*`，减少升级时的样式破坏风险。

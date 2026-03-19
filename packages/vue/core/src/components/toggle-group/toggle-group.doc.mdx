@@ -1,0 +1,316 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks'
+import * as ToggleGroupStories from './toggle-group.stories'
+
+<Meta of={ToggleGroupStories} />
+
+# ToggleGroup
+
+`ToggleGroup` 用于管理一组可切换按钮，适合文本样式工具栏、视图模式切换、筛选条件等场景。组件基于 Ark UI Toggle Group 原语构建，支持单选/多选模式、受控/非受控值管理，并扩展了 Raxium UI 的 `theme` 样式能力。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={ToggleGroupStories.Basic} />
+
+### 多选模式（Multiple）
+
+<Canvas of={ToggleGroupStories.Multiple} />
+
+### 单选模式与受控状态
+
+<Canvas of={ToggleGroupStories.Controlled} />
+
+### 方向与禁用态
+
+<Canvas of={ToggleGroupStories.OrientationAndDisabled} />
+
+### 尺寸变体
+
+<Canvas of={ToggleGroupStories.Sizes} />
+
+### 图标项
+
+<Canvas of={ToggleGroupStories.WithIcons} />
+
+---
+
+## ARK UI Link
+
+`ToggleGroup` 与 `ToggleGroupItem` 基于 Ark UI Toggle Group 封装：
+
+- `ToggleGroup` 根组件基于 Ark UI Root，通过 `useToggleGroup` 管理组状态，并增加 `theme` 入口驱动 Raxium UI crafts。
+- `ToggleGroupItem` 基于 Ark UI Item，继承组上下文状态（如选中态、方向），并提供统一样式输出。
+- Ark UI 原生完整参数（高级键盘交互、可访问性细节等）可参考官方文档。
+
+Ark UI 文档：[Ark UI Toggle Group (Vue)](https://ark-ui.com/vue/docs/components/toggle-group)
+
+---
+
+## API
+
+### Props
+
+以下按组件分组说明（优先列出常用与扩展项，Ark UI 全量参数请参考官方文档）。
+
+#### ToggleGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string | string[]</code></td>
+      <td>-</td>
+      <td>受控模式下的组值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string | string[]</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始值</td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>'single' | 'multiple'</code></td>
+      <td><code>'single'</code></td>
+      <td>选择模式：单选或多选</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>布局方向</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用整组交互（Ark UI Root 能力）</td>
+    </tr>
+    <tr>
+      <td><code>rovingFocus</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否启用组内 roving focus 键盘导航</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvToggleGroup'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆写入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ToggleGroupItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>项值（必填）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用当前项</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>项节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### ToggleGroup emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string | string[])</code></td>
+      <td>组值变化时触发，用于受控同步</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>Ark UI value change details</code></td>
+      <td>底层 Ark UI 状态变化事件，参数结构与 Ark UI 保持一致</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ToggleGroupItem emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>当前封装未额外暴露自定义事件；状态变化由 <code>ToggleGroup</code> 统一对外通知</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ToggleGroup</code></td>
+      <td><code>default</code></td>
+      <td>组内容器插槽，通常放置多个 <code>ToggleGroupItem</code></td>
+    </tr>
+    <tr>
+      <td><code>ToggleGroupItem</code></td>
+      <td><code>default</code></td>
+      <td>单项内容插槽，可放文本、图标或混合内容</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`ToggleGroup` 的主题入口位于根组件 `theme`，用于驱动 `tvToggleGroup` crafts，统一控制组容器和项节点样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制组项尺寸与间距密度</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvToggleGroup</code></td>
+      <td><code>craft 覆盖对象</code></td>
+      <td>-</td>
+      <td>深度覆写 <code>root</code> / <code>item</code> 槽位样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ToggleGroupStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`ToggleGroup` 与 `ToggleGroupItem` 当前不提供 `ui.*` 分槽位配置入口。建议使用 `theme` 处理体系化样式，通过 `class` 处理局部覆盖。
+
+<table>
+  <thead>
+    <tr>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui</code></td>
+      <td>-</td>
+      <td>-</td>
+      <td>当前组件未提供该能力</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ToggleGroupStories.Basic} />
+
+---
+
+## 可访问性
+
+- 组件基于 Ark UI，默认支持组语义与键盘导航；方向为纵向时同样可使用方向键在组内切换焦点。
+- 图标项建议补充可访问名称（如 `aria-label`），避免仅图形表达导致语义缺失。
+- 禁用态请使用 `disabled` 属性，不建议只靠视觉样式模拟禁用。
+- 需要表单联动时，请确保 `value` 稳定且类型一致，便于提交与回显。
+
+---
+
+## 最佳实践
+
+- 互斥选择场景优先使用 `type="single"`；允许组合筛选时使用 `type="multiple"`。
+- 仅初始化默认值时使用 `defaultValue`；需要与外部状态强同步时使用 `v-model`。
+- 同一组内保持 `value` 语义稳定（例如都用字符串枚举），避免状态判断和持久化出现歧义。
+- 图标项建议同时提供 tooltip 或文本说明，提升可学习性与可读性。
+- 样式定制遵循“先 theme 后 class”：全局风格放在 `theme`，局部差异再通过 `class` 覆盖。
+
+---
+
+## Stories Controls & Source
+
+用于联动查看 `Basic` 场景的 controls 与源码：
+
+<Controls of={ToggleGroupStories.Basic} />
+
+<Source of={ToggleGroupStories.Basic} />

@@ -1,0 +1,202 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as IconStories from './icon.stories'
+
+<Meta of={IconStories} />
+
+# Icon
+
+`Icon` 是基于 Iconify 的通用图标组件，用于在按钮、表单、列表和状态提示中统一渲染图标。组件不对应 Ark UI 的独立业务组件，但在 Raxium UI 体系内提供了 `theme` 入口（`tvIcon`）与 `class` 样式覆写能力，便于和全局主题保持一致。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={IconStories.Basic} />
+
+### 尺寸与排版联动
+
+<Canvas of={IconStories.Sizes} />
+
+### 颜色与样式覆写
+
+<Canvas of={IconStories.ColorAndClass} />
+
+---
+
+## ARK UI Link
+
+`Icon` 不对应 Ark UI 官方组件，底层渲染由 `@iconify/vue` 的 `Icon` 完成；组件不继承 Ark UI 的 Props 接口，不属于 Ark UI 组件族的“完全透传”场景。
+
+- Ark UI 参考： [Ark UI Vue Utilities](https://ark-ui.com/vue/docs/utilities)
+- Iconify 参考： [Iconify for Vue](https://iconify.design/docs/icon-components/vue/)
+
+---
+
+## API
+
+### Props
+
+#### Icon
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>icon</code></td>
+      <td><code>string | IconifyIcon</code></td>
+      <td>-</td>
+      <td>图标标识或 Iconify 图标对象（必填）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>图标节点附加 class，用于颜色、动画、线宽等样式控制</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ThemeProps, 'crafts'&gt; &amp; &#123; crafts?: CraftInput&lt;tvIcon&gt; | (() =&gt; tv) | Crafts &#125;</code></td>
+      <td>-</td>
+      <td>主题与 crafts 覆写入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Icon
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>组件未声明对外事件（无 <code>emits</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Icon</code></td>
+      <td>-</td>
+      <td>不提供公开插槽；由内部 Iconify 组件直接渲染图标</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Icon` 支持通过 `theme` 参与 Raxium UI 统一主题系统，并由 `tvIcon` 生成最终 class。`tvIcon` 当前默认基线样式为 <code>size-[1lh]</code>，可通过 `theme.crafts` 覆写。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤风格选择</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框语义（由主题系统解释）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | (() =&gt; tv)</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvIcon</code> 或注入自定义 crafts</td>
+    </tr>
+  </tbody>
+</table>
+
+> 说明：`IconProps` 对 `ThemeCrafts&lt;'tvIcon'&gt;` 做了 `Omit&lt;'size'&gt;` 处理，因此不提供 `theme.size` 入口。
+
+<Canvas of={IconStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Icon` 组件未提供 `ui` 或 `ui.*` 配置项。样式定制建议通过以下方式完成：
+
+<table>
+  <thead>
+    <tr>
+      <th>路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui</code></td>
+      <td>-</td>
+      <td>-</td>
+      <td>不支持；请使用 <code>class</code> 或 <code>theme.crafts</code> 进行样式覆写</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={IconStories.ColorAndClass} />
+
+---
+
+## 最佳实践
+
+- 图标来源统一使用 Iconify 命名空间（如 `lucide:*`），避免团队内多套图标源并行导致视觉不一致。
+- 需要与文本行高对齐时，优先通过字体级别（如父级 `text-sm/text-base`）控制尺寸，利用 `tvIcon` 的 `size-[1lh]` 保持对齐。
+- 优先使用 `class` 完成颜色、动画、描边等单点样式调整；多页面复用样式再考虑沉淀到 `theme.crafts`。
+- 组件不提供事件与插槽，交互语义（点击、提示、可访问性）应由外层按钮/链接等语义组件承载。
+- 若业务需要固定像素尺寸或其它 Iconify 参数，先在项目中约定统一传参策略，避免不同页面出现图标比例漂移。

@@ -1,0 +1,16 @@
+@layer components {
+  .rui-tooltip-content {
+    --border-radius: var(--radius);
+    @apply shadow-rui-popper;
+    @apply data-theme-bordered:border-h00;
+    @apply surface-dark:data-theme-bordered:border-h33;
+    @apply surface-razer:border-h00;
+  }
+
+  .rui-tooltip-content,
+  .rui-tooltip-content-inner {
+    @apply bg-hff text-h00;
+    @apply surface-dark:bg-h00 surface-dark:text-hff;
+    @apply surface-razer:bg-rz-green surface-razer:text-h00;
+  }
+}

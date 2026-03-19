@@ -1,0 +1,407 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks'
+import * as TagsInputStories from './tags-input.stories'
+
+<Meta of={TagsInputStories} />
+
+# TagsInput
+
+`TagsInput` 用于管理“字符串标签集合”输入，适合关键词录入、技能标注、邮件地址批量输入等场景。组件基于 Ark UI Tags Input 构建，支持受控/非受控值管理、最大数量与校验策略、横向滚动与换行模式，并扩展了 Raxium UI 的 `theme` 与 `ui` 配置能力。
+
+---
+
+## Examples
+
+### 基础用法（受控模式）
+
+<Canvas of={TagsInputStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={TagsInputStories.Sizes} />
+
+### 行内滚动与换行布局
+
+<Canvas of={TagsInputStories.Inline} />
+
+### 常见状态（禁用 / 只读 / 无效）
+
+<Canvas of={TagsInputStories.States} />
+
+### 最大标签数与创建校验
+
+<Canvas of={TagsInputStories.MaxAndValidate} />
+
+### 事件监听与删除操作
+
+<Canvas of={TagsInputStories.Events} />
+
+### 编程式调用（focus / add / set / clear）
+
+<Canvas of={TagsInputStories.Programmatic} />
+
+---
+
+## ARK UI Link
+
+`TagsInput` 与 `TagsInputItem` 基于 Ark UI Tags Input 原语封装，关系如下：
+
+- `TagsInput` 根组件透传 `TagsInputRootBaseProps` 到 Ark UI Root，并扩展 `theme`、`inline` 和 `ui` 配置。
+- `TagsInputItem` 基于 Ark UI Item 组合 `ItemPreview`、`ItemText`、`ItemInput`，并提供局部 `ui` 覆盖能力。
+- 删除触发器等更细粒度部件可直接使用 Ark UI 子原语（示例中使用 `ArkTagsInput.ItemDeleteTrigger`）。
+
+Ark UI 文档： [Ark UI Tags Input (Vue)](https://ark-ui.com/vue/docs/components/tags-input)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明，Ark UI 原生完整参数请参考官方文档。
+
+#### TagsInput
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>max</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>可创建的最大标签数（超出时触发无效事件）</td>
+    </tr>
+    <tr>
+      <td><code>validate</code></td>
+      <td><code>(details) =&gt; boolean</code></td>
+      <td>-</td>
+      <td>创建前校验函数，可用于去重、长度限制、格式过滤等策略</td>
+    </tr>
+    <tr>
+      <td><code>disabled / readOnly / invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用、只读、无效状态控制</td>
+    </tr>
+    <tr>
+      <td><code>...TagsInputRootBaseProps</code></td>
+      <td><code>Ark UI Root Props</code></td>
+      <td>-</td>
+      <td>包含分隔符、创建策略、输入行为等 Ark UI Root 原生能力（如按键创建、粘贴创建等）</td>
+    </tr>
+    <tr>
+      <td><code>inline</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否使用行内横向滚动模式；为 <code>false</code> 时以换行流式布局展示</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvTagsInput' | 'tvInput'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TagsInputItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>当前标签值</td>
+    </tr>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>当前标签索引（用于与根状态关联）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用单个标签项交互</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>标签项根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### TagsInput emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string[])</code></td>
+      <td>受控值同步（<code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: &#123; value: string[] &#125;)</code></td>
+      <td>标签集合变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>highlightChange</code></td>
+      <td><code>(details: &#123; highlightedValue: string | null &#125;)</code></td>
+      <td>高亮标签变化时触发（键盘导航常用）</td>
+    </tr>
+    <tr>
+      <td><code>valueInvalid</code></td>
+      <td><code>(details: &#123; reason: string &#125;)</code></td>
+      <td>创建失败时触发（如超出 max 或 validate 未通过）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### TagsInputItem emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>当前封装未额外暴露自定义事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>TagsInput</code></td>
+      <td><code>default</code></td>
+      <td>渲染标签项区域，作用域参数 <code>items</code> 为当前标签列表</td>
+    </tr>
+    <tr>
+      <td><code>TagsInput</code></td>
+      <td><code>prefix</code></td>
+      <td>输入控制区前置内容</td>
+    </tr>
+    <tr>
+      <td><code>TagsInput</code></td>
+      <td><code>suffix</code></td>
+      <td>输入控制区后置内容</td>
+    </tr>
+    <tr>
+      <td><code>TagsInputItem</code></td>
+      <td><code>default</code></td>
+      <td>标签项扩展区域，常用于挂载删除按钮等操作部件</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`TagsInput` 的主题入口在根组件 `theme`，用于驱动 `tvTagsInput` 与 `tvInput`，覆盖根节点、控制区、输入框、标签项、标签文本等部位。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td>-</td>
+      <td>控制输入框与标签项尺寸体系</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td>-</td>
+      <td>表面语义模式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>去除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvTagsInput</code> / <code>tvInput</code> 样式生成逻辑</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TagsInputStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`TagsInput` 与 `TagsInputItem` 均提供 `ui` 局部 class 覆盖入口。
+
+<table>
+  <thead>
+    <tr>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>TagsInput.ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInput.ui.control</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>控制区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInput.ui.input</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>输入框 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInputItem.ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>标签项根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInputItem.ui.preview</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>标签展示容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInputItem.ui.input</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>标签内编辑输入框 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>TagsInputItem.ui.text</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>标签文本 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TagsInputStories.Inline} />
+
+---
+
+## 可访问性
+
+- 组件基于 Ark UI，内置键盘交互语义：可通过键盘导航高亮标签，并在输入框与标签间移动焦点。
+- 建议在表单中提供明确的可见标签或辅助文案，不仅依赖 placeholder 表达输入目的。
+- 对 `invalid` 状态建议同步外部错误提示文本，避免仅靠颜色表达错误。
+- 只读与禁用语义应区分：`readOnly` 保留可聚焦与可读，`disabled` 用于完全禁止交互。
+
+---
+
+## 最佳实践
+
+- 先确定数据模式：需要和外部筛选或表单状态联动时用受控（`v-model`），仅初始化时优先非受控（`defaultValue`）。
+- 校验策略集中到 `validate`：把去重、trim、最小长度、格式匹配统一放在一处，避免在多个事件里重复判断。
+- 数量限制与反馈成对使用：设置 `max` 时同步监听 `valueInvalid`，为用户给出明确失败原因。
+- 布局优先按内容密度选择：标签较长或较多时优先 `inline=true` 横向滚动，阅读优先场景可切换 `inline=false` 换行模式。
+- 删除行为保持可见：在 `TagsInputItem` 默认插槽中放置删除触发器，避免只依赖键盘删除导致发现成本高。
+- 样式定制遵循“先 theme 后 ui”：统一视觉走 `theme`，局部差异再用 `ui.*` 覆盖，降低后续升级成本。
+
+---
+
+## Stories Controls & Source
+
+用于联动查看 `Basic` 场景的 controls 与源码：
+
+<Controls of={TagsInputStories.Basic} />
+
+<Source of={TagsInputStories.Basic} />

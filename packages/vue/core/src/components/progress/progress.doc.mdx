@@ -1,0 +1,475 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ProgressStories from './progress.stories'
+
+<Meta of={ProgressStories} />
+
+# Progress
+
+`Progress` 用于展示任务完成度或流程进度，支持线性进度条、圆形进度和弧形进度三种常见形态。组件基于 Ark UI Progress 构建，保留 Ark UI 的进度状态与可访问性语义，并在 Raxium UI 中扩展了 `theme`、局部 `ui` 覆盖与 `transfer` 视觉变体能力。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={ProgressStories.Basic} />
+
+### 线性变体（default / robbin / transfer）
+
+<Canvas of={ProgressStories.LinearVariants} />
+
+### 尺寸与方向（横向 / 纵向）
+
+<Canvas of={ProgressStories.SizesAndOrientation} />
+
+### 圆形与弧形进度
+
+<Canvas of={ProgressStories.CircleAndArc} />
+
+### UI 覆盖示例
+
+<Canvas of={ProgressStories.CustomUi} />
+
+---
+
+## ARK UI Link
+
+`Progress` 组件族基于 Ark UI Progress 原语实现，属于“部分透传 + 扩展能力”：
+
+- `Progress` 根组件透传 Ark UI Root 常用能力（如 `modelValue/defaultValue`、`min/max`、`orientation`、`formatOptions`、`translations` 等），并扩展 `theme` 与根 `class`。
+- `ProgressLinear`、`ProgressCircle`、`ProgressArc` 使用 Ark UI Track/Range/Circle 系列原语封装默认样式，补充 `variant`、`ui.*` 与圆形尺寸扩展（支持 `number` 像素值）。
+- `ProgressLabel`、`ProgressValueText`、`ProgressView` 直接从 Ark UI 导出，可与 `Progress` 组合使用。
+
+Ark UI 文档： [Ark UI Progress (Vue)](https://ark-ui.com/vue/docs/components/progress-linear)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明（仅列常用与扩展项，Ark UI 原生完整参数请参考官方文档）。
+
+#### Progress
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>number | null</code></td>
+      <td>-</td>
+      <td>受控进度值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>number</code></td>
+      <td><code>50</code></td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>min</code></td>
+      <td><code>number</code></td>
+      <td><code>0</code></td>
+      <td>最小值</td>
+    </tr>
+    <tr>
+      <td><code>max</code></td>
+      <td><code>number</code></td>
+      <td><code>100</code></td>
+      <td>最大值</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>进度方向（影响线性轨道布局）</td>
+    </tr>
+    <tr>
+      <td><code>formatOptions</code></td>
+      <td><code>NumberFormatOptions</code></td>
+      <td><code>&#123; style: 'percent' &#125;</code></td>
+      <td>用于格式化值文本</td>
+    </tr>
+    <tr>
+      <td><code>translations</code></td>
+      <td><code>IntlTranslations</code></td>
+      <td>-</td>
+      <td>无障碍与值文本相关文案</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvProgress'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 <code>tvProgress</code> crafts 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ProgressLinear
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'robbin' | 'transfer'</code></td>
+      <td><code>'default'</code></td>
+      <td>线性范围条视觉变体</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆盖通用主题参数（不含 crafts）</td>
+    </tr>
+    <tr>
+      <td><code>ui.track</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>轨道节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.range</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>进度范围节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>附加到轨道节点的 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ProgressCircle
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'transfer'</code></td>
+      <td><code>'default'</code></td>
+      <td>圆形进度视觉变体</td>
+    </tr>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg' | number</code></td>
+      <td><code>'base'</code></td>
+      <td>圆形尺寸；传 <code>number</code> 时按像素设置 <code>--size</code></td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ProgressCircleTheme, 'crafts'&gt;</code></td>
+      <td>-</td>
+      <td>圆形局部主题参数（不支持在子组件传入 crafts）</td>
+    </tr>
+    <tr>
+      <td><code>ui.circle</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>圆形根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.circleTrack</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>圆形轨道 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.circleRange</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>圆形范围 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ProgressArc
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theta</code></td>
+      <td><code>number</code></td>
+      <td><code>60</code></td>
+      <td>弧形留白角度（单位：度）</td>
+    </tr>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'transfer'</code></td>
+      <td><code>'default'</code></td>
+      <td>弧形范围视觉变体</td>
+    </tr>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg' | number</code></td>
+      <td><code>'base'</code></td>
+      <td>弧形尺寸；支持像素数值</td>
+    </tr>
+    <tr>
+      <td><code>ui.circle / ui.circleTrack / ui.circleRange</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>弧形根节点、轨道、范围的 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ProgressLabel / ProgressValueText / ProgressView
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Ark UI 原语能力：将行为合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>ProgressView.state</code></td>
+      <td><code>ProgressState</code></td>
+      <td>-</td>
+      <td>为 View 指定进度状态快照</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Progress emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: number | null)</code></td>
+      <td>受控进度值同步</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>进度值变化时触发（Ark UI Root 事件）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### 其他子组件事件
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ProgressLinear / ProgressCircle / ProgressArc</code></td>
+      <td>-</td>
+      <td>不额外定义自定义 emits；仅消费 Progress 上下文渲染轨道与范围</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Progress</code></td>
+      <td><code>default</code></td>
+      <td>主组合插槽，用于放置 <code>ProgressLinear</code> / <code>ProgressCircle</code> / <code>ProgressArc</code> 以及 Label/ValueText 等子节点</td>
+    </tr>
+    <tr>
+      <td><code>ProgressLinear</code></td>
+      <td>-</td>
+      <td>不提供具名插槽</td>
+    </tr>
+    <tr>
+      <td><code>ProgressCircle</code></td>
+      <td>-</td>
+      <td>不提供具名插槽</td>
+    </tr>
+    <tr>
+      <td><code>ProgressArc</code></td>
+      <td>-</td>
+      <td>不提供具名插槽</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Progress` 的主题入口在根组件 `theme`，通过 `tvProgress` 统一驱动 `root/track/range/circle/circleTrack/circleRange`。线性与圆形子组件可继承该主题，也可在子组件层按需覆盖非 crafts 的主题参数。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制线性高度/圆形尺寸等视觉尺度</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>参与 <code>tvProgress</code> 样式分支计算（通常与根组件 <code>orientation</code> 配合）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面语义</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvProgress</code> crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ProgressStories.SizesAndOrientation} />
+
+---
+
+## UI Configuration
+
+`Progress` 根组件不提供 `ui`；UI 细粒度覆盖通过渲染子组件实现。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ProgressLinear.ui.track</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>线性轨道 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ProgressLinear.ui.range</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>线性范围 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ProgressCircle.ui.circle/circleTrack/circleRange</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>圆形根节点、轨道、范围 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ProgressArc.ui.circle/circleTrack/circleRange</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>弧形根节点、轨道、范围 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ProgressStories.CustomUi} />
+
+---
+
+## 最佳实践
+
+- 保持组合结构稳定：推荐固定使用 `Progress` 根组件承载状态，再按场景选择 `ProgressLinear`、`ProgressCircle` 或 `ProgressArc`。
+- 状态管理优先单一数据源：需要与业务同步时使用 `v-model`（`modelValue` + `update:modelValue`），避免同时混用受控和非受控。
+- 线性与圆形分工明确：流程条或列表进度优先线性；仪表盘或卡片概览优先圆形/弧形。
+- `transfer` 变体用于“渐变迁移”反馈，建议搭配明确颜色变量，避免与主题主色冲突导致可读性下降。
+- 纵向进度务必同时设置容器高度（如示例中的 `class="h-30"`），否则视觉上无法体现方向差异。
+- 样式定制遵循“先 `theme` 后 `ui`”：全局规格走 `theme.size/skin`，局部节点微调走 `ui.track/ui.range` 或 `ui.circle*`。

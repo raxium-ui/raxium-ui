@@ -1,0 +1,214 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as OverlayStories from './overlay.stories'
+
+<Meta of={OverlayStories} />
+
+# Overlay
+
+`Overlay` 用于统一管理“运行时创建”的浮层实例（如通过函数式方式打开的 Dialog）。当前能力由 `OverlayProvider` 与 `useOverlay()` 组合提供：`OverlayProvider` 负责挂载与生命周期回收，`useOverlay()` 负责创建、打开、关闭与更新浮层实例。该能力参考 Nuxt UI Overlay 方案实现，并可与基于 Ark UI 的弹层组件配合使用。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={OverlayStories.Basic} />
+
+---
+
+## ARK UI Link
+
+`Overlay` 本身不是 Ark UI 的直接组件封装，而是运行时浮层管理能力：
+
+- 浮层内容组件通常会使用 Ark UI 组件（例如示例里的 `Dialog`）。
+- `OverlayProvider` 通过动态组件渲染与事件桥接（`open-change`、`exit-complete`）驱动实例状态。
+- `useOverlay()` 提供创建/打开/关闭等编排能力，不直接对应 Ark UI 某个单体组件 API。
+
+可参考 Ark UI Dialog 文档了解常见承载组件： [Ark UI Dialog (Vue)](https://ark-ui.com/vue/docs/components/dialog)
+
+---
+
+## API
+
+### Props
+
+#### OverlayProvider
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>当前实现不接收显式 props；数据来自 <code>useOverlay()</code> 共享状态</td>
+    </tr>
+  </tbody>
+</table>
+
+#### useOverlay 创建参数（`create(component, options?)`）
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>options.defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>创建后是否默认打开并挂载</td>
+    </tr>
+    <tr>
+      <td><code>options.props</code></td>
+      <td><code>Record&lt;string, any&gt;</code></td>
+      <td>-</td>
+      <td>初始透传给目标浮层组件的 props</td>
+    </tr>
+    <tr>
+      <td><code>options.destroyOnClose</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>关闭并退出后是否从管理列表中移除实例</td>
+    </tr>
+  </tbody>
+</table>
+
+#### useOverlay 返回方法
+
+<table>
+  <thead>
+    <tr>
+      <th>方法</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>create(component, options?)</code></td>
+      <td><code>(...) =&gt; OverlayInstance</code></td>
+      <td>创建一个受管理浮层实例，返回 <code>open/close/patch</code> 等实例方法</td>
+    </tr>
+    <tr>
+      <td><code>open(id, props?)</code></td>
+      <td><code>(...) =&gt; Promise&lt;any&gt; &amp; &#123; result: Promise&lt;any&gt; &#125;</code></td>
+      <td>按 id 打开实例并可覆盖 props，返回可等待结果的 Promise</td>
+    </tr>
+    <tr>
+      <td><code>close(id, value?)</code></td>
+      <td><code>(...) =&gt; void</code></td>
+      <td>关闭指定浮层，并用 <code>value</code> 解析打开时返回的 Promise</td>
+    </tr>
+    <tr>
+      <td><code>closeAll()</code></td>
+      <td><code>() =&gt; void</code></td>
+      <td>关闭所有已注册浮层</td>
+    </tr>
+    <tr>
+      <td><code>patch(id, props)</code></td>
+      <td><code>(...) =&gt; void</code></td>
+      <td>更新指定浮层当前 props（与现有 props 合并）</td>
+    </tr>
+    <tr>
+      <td><code>unmount(id)</code></td>
+      <td><code>(...) =&gt; void</code></td>
+      <td>标记浮层卸载；当 <code>destroyOnClose=true</code> 时会移除实例</td>
+    </tr>
+    <tr>
+      <td><code>isOpen(id)</code></td>
+      <td><code>(...) =&gt; boolean</code></td>
+      <td>获取指定浮层当前打开状态</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### OverlayProvider 事件桥接
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open-change</code></td>
+      <td><code>(&#123; open: boolean &#125;)</code></td>
+      <td>监听子浮层打开状态变化；当 <code>open=false</code> 时触发内部 <code>close(id)</code></td>
+    </tr>
+    <tr>
+      <td><code>exit-complete</code></td>
+      <td><code>()</code></td>
+      <td>监听子浮层退出完成；触发内部 <code>unmount(id)</code> 回收挂载状态</td>
+    </tr>
+  </tbody>
+</table>
+
+> `useOverlay` 是组合式函数，不通过 Vue emits 暴露事件，状态通知主要通过返回 Promise 与方法调用完成。
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OverlayProvider</code></td>
+      <td>-</td>
+      <td>当前实现无公开插槽，渲染内容由动态浮层组件决定</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`OverlayProvider` 与 `useOverlay` 本身不提供 `theme` 配置入口。视觉主题应在“被管理的具体浮层组件”中配置（例如 `Dialog` 的 `theme`）。
+
+**示例**:
+
+<Canvas of={OverlayStories.Basic} />
+
+---
+
+## UI Configuration
+
+`OverlayProvider` 与 `useOverlay` 本身不提供 `ui` 分槽位配置。若需要样式覆盖，请在具体浮层组件（如 `DialogContent`、`DialogHeader`）上使用对应 `ui` props。
+
+**示例**:
+
+<Canvas of={OverlayStories.Basic} />
+
+---
+
+## 最佳实践
+
+- 在应用根部放置单个 `OverlayProvider`，集中管理运行时浮层，避免多 provider 导致状态分散。
+- 需要复用同一浮层实例时，先调用一次 `create()` 并复用返回实例；高频临时弹层可配合 `destroyOnClose` 减少残留。
+- 使用 `open(props)` 时仅传递本次变化字段，其余字段由 `originalProps` 合并，避免每次重复构建完整参数。
+- 需要等待用户结果（如确认/取消）时，优先 `await` `open()` 返回 Promise，而不是在页面层维护额外中间状态。
+- 将样式与主题配置放在承载组件（如 `Dialog`）内部，`Overlay` 只负责生命周期与状态编排，保持职责单一。

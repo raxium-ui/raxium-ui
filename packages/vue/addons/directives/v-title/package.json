@@ -1,0 +1,44 @@
+{
+  "name": "@raxium/vue-addons-v-title",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/raxium-ui/raxium-ui"
+  },
+  "license": "ISC",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "vue",
+    "addons",
+    "v-title"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "module": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "copy:css": "bun -e \"import { mkdir } from 'node:fs/promises'; await mkdir('./dist', { recursive: true }); await Bun.write('./dist/index.css', Bun.file('./src/index.css'));\"",
+    "build": "tsc --project tsconfig.build.json && bun run copy:css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.27"
+  },
+  "dependencies": {
+    "@floating-ui/vue": "^1.1.10"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

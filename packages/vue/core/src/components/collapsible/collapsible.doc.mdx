@@ -1,0 +1,395 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as CollapsibleStories from './collapsible.stories'
+
+<Meta of={CollapsibleStories} />
+
+# Collapsible
+
+`Collapsible` 用于在有限空间中分段展示信息，支持展开/收起状态切换。该组件组包含 `Collapsible`、`CollapsibleTrigger`、`CollapsibleContent`，并提供面向长文本场景的 `ReadMore` 封装；在 Ark UI 原语能力基础上，扩展了 `theme` 与部分 `ui` 样式配置入口。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={CollapsibleStories.Basic} />
+
+### 状态：默认展开与禁用
+
+<Canvas of={CollapsibleStories.States} />
+
+### 尺寸变体
+
+<Canvas of={CollapsibleStories.Sizes} />
+
+### 触发器与插槽组合
+
+<Canvas of={CollapsibleStories.TriggerAndSlots} />
+
+### ReadMore 长内容折叠
+
+<Canvas of={CollapsibleStories.ReadMore} />
+
+---
+
+## ARK UI Link
+
+`Collapsible` 组件组基于 Ark UI 的 Collapsible 构建，但不是“全量无差别透传”：
+
+- `Collapsible` 根组件将 Ark UI Root 常用能力（如 `open`、`defaultOpen`、`disabled`、`collapsedHeight`）透传，同时增加 `theme/class` 扩展。
+- `CollapsibleTrigger`、`CollapsibleContent` 基于 Ark 对应原语封装，补充了默认样式与可选 UI 覆盖点。
+- `ReadMore` 是基于上述三个组件组合出的业务便捷组件，不是 Ark UI 的一一映射子组件。
+
+Ark UI 文档： [Ark UI Collapsible (Vue)](https://ark-ui.com/vue/docs/components/collapsible)
+
+---
+
+## API
+
+### Props
+
+按子组件分组列出常用与扩展项。Ark UI 原生完整参数请参考官方文档。
+
+#### Collapsible
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控展开状态</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控模式下的初始展开状态</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否禁用折叠交互</td>
+    </tr>
+    <tr>
+      <td><code>collapsedHeight</code></td>
+      <td><code>number | string</code></td>
+      <td><code>0</code></td>
+      <td>收起状态保留高度，常用于长内容预览</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvCollapsible'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### CollapsibleTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否渲染默认箭头指示器</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将行为合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器根节点 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### CollapsibleContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将行为合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>内容区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可单独覆盖主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### ReadMore
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>text.more</code></td>
+      <td><code>string</code></td>
+      <td><code>'View More'</code></td>
+      <td>收起状态按钮文案</td>
+    </tr>
+    <tr>
+      <td><code>text.less</code></td>
+      <td><code>string</code></td>
+      <td><code>'View Less'</code></td>
+      <td>展开状态按钮文案</td>
+    </tr>
+    <tr>
+      <td><code>open / defaultOpen / collapsedHeight / disabled / theme / class</code></td>
+      <td><code>同 Collapsible</code></td>
+      <td>-</td>
+      <td>继承根组件常用能力</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Collapsible` 与 `ReadMore` 的状态事件来自 Ark UI Root 事件模型；`CollapsibleTrigger` 与 `CollapsibleContent` 不额外暴露自定义事件。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Collapsible: update:open</code></td>
+      <td><code>(open: boolean)</code></td>
+      <td>受控状态同步</td>
+    </tr>
+    <tr>
+      <td><code>Collapsible: openChange</code></td>
+      <td><code>(details: {'{'} open: boolean {'}'})</code></td>
+      <td>展开状态变化通知</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore: update:open</code></td>
+      <td><code>(open: boolean)</code></td>
+      <td>继承内部 Collapsible 的受控状态同步事件</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore: openChange</code></td>
+      <td><code>(details: {'{'} open: boolean {'}'})</code></td>
+      <td>继承内部 Collapsible 的展开状态变化通知</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Collapsible</code></td>
+      <td><code>default</code></td>
+      <td>根插槽，作用域包含 Ark Collapsible 上下文（可用于组合 Trigger/Content）</td>
+    </tr>
+    <tr>
+      <td><code>CollapsibleTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发器内容插槽，作用域含 <code>open</code>、<code>visible</code></td>
+    </tr>
+    <tr>
+      <td><code>CollapsibleTrigger</code></td>
+      <td><code>indicator</code></td>
+      <td>自定义指示器插槽，作用域含 <code>open</code>、<code>visible</code></td>
+    </tr>
+    <tr>
+      <td><code>CollapsibleContent</code></td>
+      <td><code>default</code></td>
+      <td>折叠内容区域</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore</code></td>
+      <td><code>default</code></td>
+      <td>长内容主体插槽</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Collapsible` 通过 `theme` 控制样式变体；`ReadMore` 继承 `Collapsible` 主题能力，并使用自身的 `tvReadMore` crafts 渲染内容/触发器样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸变体（主要影响触发器与内容节奏）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤风格</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvCollapsible</code>（ReadMore 场景可覆写 <code>tvReadMore</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CollapsibleStories.ThemeExample} />
+
+---
+
+## UI Configuration
+
+`Collapsible` 根组件不提供 `ui` 配置；样式覆盖应通过 `CollapsibleTrigger` 与 `ReadMore` 的 `ui` 入口完成。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CollapsibleTrigger.ui.root</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>CollapsibleTrigger.ui.indicator</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器指示器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore.ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>ReadMore 根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore.ui.content</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>ReadMore 内容区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore.ui.trigger</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>ReadMore 触发器 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CollapsibleStories.UIExample} />
+
+---
+
+## 最佳实践
+
+- 保持结构稳定：推荐固定使用 `Collapsible > CollapsibleTrigger + CollapsibleContent`，避免在运行时频繁增删子节点影响可访问性语义。
+- 状态管理先选非受控：仅在需要和外部业务状态同步时使用 `open` 受控模式，并监听 `update:open` 或 `openChange` 做单向数据更新。
+- 触发器文案可读优先：当使用 `indicator` 插槽自定义图标时，同时保留可理解文本，避免只依赖视觉符号。
+- 长内容优先用 `ReadMore`：通过 `collapsedHeight` 与 `text.more/text.less` 统一阅读体验，不建议重复造轮子实现测量与折叠逻辑。
+- 样式定制分层处理：大范围风格用 `theme`，局部差异用 `ui`；当需要大幅改造时再使用 `crafts` 覆写，减少后续升级成本。

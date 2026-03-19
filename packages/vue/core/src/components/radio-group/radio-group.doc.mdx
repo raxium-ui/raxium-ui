@@ -1,0 +1,328 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as RadioGroupStories from './radio-group.stories'
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+`RadioGroup` 用于管理“单选集合”场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。组件基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展了 `theme`、`variant` 以及 `ui` 样式入口。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={RadioGroupStories.Basic} />
+
+### 变体（圆点 / 勾选）
+
+<Canvas of={RadioGroupStories.Variants} />
+
+### 尺寸
+
+<Canvas of={RadioGroupStories.Sizes} />
+
+### 状态与布局方向
+
+<Canvas of={RadioGroupStories.StatesAndOrientation} />
+
+### 自定义插槽
+
+<Canvas of={RadioGroupStories.CustomSlots} />
+
+---
+
+## ARK UI Link
+
+`RadioGroup` 与 `RadioGroupItem` 基于 Ark UI Radio Group 封装，关系如下：
+
+- `RadioGroup` 根组件基于 Ark UI Root，通过 `useRadioGroup` 承接组值状态，并在此基础上扩展 Raxium UI 的主题能力。
+- `RadioGroupItem` 基于 Ark UI Item 组合 `ItemControl/ItemText/ItemHiddenInput`，并扩展 `label`、`variant` 与 `ui` 样式入口。
+- Ark UI 原生完整参数（尤其高级可访问性与定位细节）可直接参考官方文档。
+
+Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/components/radio-group)
+
+---
+
+## API
+
+### Props
+
+以下按组件分组说明（仅列当前实现中已验证的常用与扩展项）。
+
+#### RadioGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string | number | symbol | bigint | null</code></td>
+      <td>-</td>
+      <td>受控模式下的当前值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string | number | symbol | bigint | null</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始值</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>布局方向（示例见 <code>StatesAndOrientation</code>）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用整组交互（Ark UI Root 能力）</td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>组内隐藏输入的字段名（表单提交语义）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvRadioGroup'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖入口（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### RadioGroupItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string | number | symbol | bigint | null</code></td>
+      <td>-</td>
+      <td>单选项值（必填）</td>
+    </tr>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>默认文本标签；也可用默认插槽完全自定义</td>
+    </tr>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'checkbox'</code></td>
+      <td><code>'default'</code></td>
+      <td>指示器样式变体（圆点或勾选）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用当前项（Ark UI Item 能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>单选项根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖主题上下文</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### RadioGroup emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string | number | symbol | bigint | null)</code></td>
+      <td>组值变化时触发，用于 <code>v-model</code> 同步</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: &#123; value: string | number | symbol | bigint | null &#125;)</code></td>
+      <td>单选值变化详情事件</td>
+    </tr>
+  </tbody>
+</table>
+
+#### RadioGroupItem emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>当前封装未额外暴露自定义事件；状态变化由 <code>RadioGroup</code> 统一对外通知</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RadioGroup</code></td>
+      <td><code>default</code></td>
+      <td>组内容器插槽，通常放置多个 <code>RadioGroupItem</code></td>
+    </tr>
+    <tr>
+      <td><code>RadioGroup</code></td>
+      <td><code>label</code></td>
+      <td>组级标题/说明区域插槽（渲染在 items 之前）</td>
+    </tr>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>default</code></td>
+      <td>自定义文本区，作用域含 Ark item context（如 <code>checked</code>）</td>
+    </tr>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>control</code></td>
+      <td>自定义控制区，作用域含 Ark item context（如 <code>checked</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`RadioGroup` 的主题入口在根组件 `theme`，用于驱动 `tvRadioGroup` crafts，覆盖组根节点、单选项、控制区、指示器与文本节点样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>主题路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制 control/indicator/text 的尺寸体系</td>
+    </tr>
+    <tr>
+      <td><code>theme.crafts.tvRadioGroup</code></td>
+      <td><code>craft 覆盖对象</code></td>
+      <td>-</td>
+      <td>深度覆写 `root/item/itemControl/itemIndicator/itemText` 样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={RadioGroupStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`RadioGroup` 根组件不提供 `ui` 字段；UI 覆盖入口位于 `RadioGroupItem`。
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>配置路径</th>
+      <th>类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>单选项根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>ui.control</code></td>
+      <td><code>string | array | object</code></td>
+      <td>控制区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>ui.indicator</code></td>
+      <td><code>string | array | object</code></td>
+      <td>指示器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>RadioGroupItem</code></td>
+      <td><code>ui.text</code></td>
+      <td><code>string | array | object</code></td>
+      <td>文本节点 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={RadioGroupStories.CustomSlots} />
+
+---
+
+## 最佳实践
+
+- 同一组选项保持 `value` 类型一致（例如全字符串或全数字），避免比较与持久化时出现隐式转换问题。
+- 普通表单优先用非受控（`defaultValue`）；需要与外部筛选状态联动时再切到受控（`v-model` + `update:modelValue`）。
+- 当选项较多或有分组文案时，使用 `orientation="vertical"` 提升可读性，并在根节点配合间距 class 控制密度。
+- 变体选择建议按语义区分：默认圆点用于“单选”，`checkbox` 变体用于和同页 checkbox 风格保持一致的视觉场景。
+- 样式定制遵循“先 theme 后 ui”：全局风格与尺寸优先放在 `theme`，单项差异再通过 `ui.*` 覆盖。
+- 需要品牌化图标或更复杂状态展示时，优先使用 `control/default` 作用域插槽，不要直接改写内部结构。

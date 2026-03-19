@@ -1,0 +1,47 @@
+@layer components {
+  .rui-menu-content {
+    --border-radius: var(--radius);
+    /** shadow & border */
+    @apply data-theme-bordered:border-h11 shadow-rui-popper;
+
+    /** arrow */
+    & [data-part='arrow'] {
+      --arrow-background: var(--color-h1a);
+      &[data-theme-surface='dark'] {
+        --arrow-background: var(--color-h1a);
+      }
+    }
+    & [data-part='arrow-tip'] {
+      @apply bg-h1a data-theme-bordered:border-h11;
+    }
+  }
+
+  /** bg & text */
+  .rui-menu-content,
+  .rui-menu-content-inner {
+    @apply bg-h1a;
+  }
+
+  .rui-menu-item {
+    @apply bg-transparent
+    text-hcc
+    data-highlighted:bg-hff/10
+    data-highlighted:text-hff
+    data-[state=open]:bg-hff/10
+    data-[state=open]:text-hff;
+
+    &[data-type='radio'] {
+      & .rui-radio-group-item-indicator[data-variant='checkbox'] {
+        @apply fill-transparent stroke-rz-green;
+      }
+    }
+  }
+
+  .rui-menu-item-group-label {
+    @apply text-hff font-rz-bold border-h11;
+  }
+
+  .rui-menu-separator {
+    @apply border-h11;
+  }
+}

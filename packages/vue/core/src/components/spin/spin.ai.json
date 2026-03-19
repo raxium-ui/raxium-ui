@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.spin",
+  "component": {
+    "name": "Spin",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Spin",
+    "category": "core",
+    "description": "用于加载中状态反馈的遮罩组件，支持在局部容器内覆盖（inline）或全屏覆盖（fullscreen）。基于 Ark UI Factory 原语与 Raxium UI 主题体系构建，支持 theme 与 ui 分槽位样式配置，并可通过 SpinProvider 统一注入默认或自定义加载图标。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/factory",
+      "primitive": "ark.span",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": ["aria-*", "data-*"],
+      "notes": "组件基于 Ark UI Factory 原语封装，非 Ark UI 独立 Spin 组件。"
+    },
+    "capabilities": [
+      "theme",
+      "ui-override",
+      "fullscreen-inline",
+      "delay-hide",
+      "provider-icon"
+    ],
+    "parentComponents": ["SpinProvider"]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "show",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否显示加载层（未传时不显示）"
+      },
+      {
+        "name": "mode",
+        "required": false,
+        "requiredSource": "doc",
+        "typeText": "'fullscreen' | 'inline'",
+        "typeSchema": {
+          "enum": ["fullscreen", "inline"]
+        },
+        "default": "inline",
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "覆盖模式：局部容器覆盖或全屏覆盖"
+      },
+      {
+        "name": "delay",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "隐藏延迟（毫秒）；仅在 show 从 true 变为 false 时生效"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点附加 class"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvSpin'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 tvSpin crafts 覆盖"
+      },
+      {
+        "name": "ui",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "{ root?: string | array | object; mask?: string | array | object; indicator?: string | array | object; text?: string | array | object }",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "root": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "mask": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "indicator": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "text": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            }
+          },
+          "additionalProperties": true
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "局部样式覆盖配置（ui.root、ui.mask、ui.indicator、ui.text 为 class 覆盖）"
+      }
+    ],
+    "events": [],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {
+            "mode": { "type": "string" },
+            "theme": { "type": "object" }
+          },
+          "additionalProperties": true
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": "SpinProvider.renderIcon",
+        "description": "自定义加载图标区域，插槽参数为 { mode, theme }"
+      },
+      {
+        "name": "text",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "自定义加载文本区域内容"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": {
+            "enum": ["xs", "sm", "base", "lg"]
+          },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "控制加载图标与相关间距尺寸"
+        },
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": {
+            "enum": ["razer", "shadcn"]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark' | string",
+          "typeSchema": {
+            "anyOf": [
+              { "enum": ["light", "dark"] },
+              { "type": "string" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "表面语义（亮/暗或自定义语义）"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "移除内置样式"
+        },
+        {
+          "name": "bordered",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "启用边框语义（是否生效取决于 tvSpin 具体实现）"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 tvSpin 的 crafts 配置"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": [
+        {
+          "name": "ui.root",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "根容器样式覆盖"
+        },
+        {
+          "name": "ui.mask",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "遮罩层样式覆盖"
+        },
+        {
+          "name": "ui.indicator",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "指示器容器样式覆盖"
+        },
+        {
+          "name": "ui.text",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "文本区域样式覆盖"
+        }
+      ]
+    }
+  },
+  "parentComponents": {
+    "SpinProvider": {
+      "props": [],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {},
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "包裹业务内容并向后代 Spin 提供图标渲染上下文"
+        },
+        {
+          "name": "icon",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "mode": { "type": "string" },
+              "theme": { "type": "object" },
+              "class": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "array" },
+                  { "type": "object" }
+                ]
+              }
+            },
+            "additionalProperties": true
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "LoaderCircle",
+          "description": "全局自定义图标渲染，插槽参数为 { mode, theme, class }"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": {
+        "fields": []
+      },
+      "uiConfiguration": {
+        "fields": []
+      }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "show": "boolean",
+      "mode": "'fullscreen' | 'inline'",
+      "delay": "number | undefined"
+    },
+    "derived": {
+      "isVisible": "show === true 或 (show 刚变为 false 且 delay 未到)"
+    },
+    "transitions": [
+      {
+        "on": "show_true",
+        "guard": "always",
+        "effects": ["setIsVisible(true)", "updateParentPosition()"]
+      },
+      {
+        "on": "show_false",
+        "guard": "delay ? scheduleHide : immediate",
+        "effects": ["scheduleHide(delay)", "setIsVisible(false)", "restoreParentPosition()"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Spin" },
+        "exampleId": "basic"
+      },
+      "description": "基础用法"
+    },
+    {
+      "id": "sizes",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Spin" },
+        "exampleId": "sizes"
+      },
+      "description": "尺寸变体"
+    },
+    {
+      "id": "modes",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Spin" },
+        "exampleId": "modes"
+      },
+      "description": "覆盖模式（inline / fullscreen）"
+    },
+    {
+      "id": "delay-and-text",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Spin" },
+        "exampleId": "delay-and-text"
+      },
+      "description": "延迟隐藏与文本"
+    },
+    {
+      "id": "custom-icon",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Spin" },
+        "exampleId": "custom-icon"
+      },
+      "description": "自定义图标"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "show",
+      "mode",
+      "theme.size",
+      "delay",
+      "text slot"
+    ],
+    "safeDefaults": {
+      "show": false,
+      "mode": "inline"
+    },
+    "a11yChecklist": [
+      "加载层需提供 aria-busy 或 aria-live 语义",
+      "inline 模式建议父容器具备明确尺寸",
+      "delay 隐藏时建议保持足够时长避免闪烁"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Spin :show=\"loading\" />",
+      "withText": "<Spin :show=\"loading\"><template #text>加载中...</template></Spin>",
+      "withProvider": "<SpinProvider><template #icon=\"{ class: klass }\"><CustomIcon :class=\"klass\" /></template><div>业务内容</div><Spin :show=\"loading\" /></SpinProvider>"
+    },
+    "antiPatterns": [
+      "<Spin :show=\"loading\" mode=\"fullscreen\" /> — 全屏加载用于非阻塞式流程（如局部 tab 切换）应使用 mode=\"inline\"",
+      "<Spin :show=\"loading\" /> — 请求瞬时结束导致闪烁时应使用 delay 参数",
+      "<div><Spin :show=\"true\" mode=\"inline\" /></div> — inline 模式父容器无尺寸导致遮罩抖动，父 div 需设 height/min-height"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./spin.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Spin.vue", "kind": "runtime" },
+      { "path": "./SpinProvider.tsx", "kind": "runtime" },
+      { "path": "./spin.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.show.default": "doc",
+      "contracts.props.mode.default": "doc",
+      "contracts.props.ui.typeSchema": "type",
+      "contracts.themeConfiguration.fields.size.default": "doc",
+      "contracts.uiConfiguration.fields": "doc",
+      "parentComponents.SpinProvider.props": "doc",
+      "parentComponents.SpinProvider.slots": "doc",
+      "behaviorModel.transitions.effects": "runtime"
+    }
+  }
+}

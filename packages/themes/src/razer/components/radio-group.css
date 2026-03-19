@@ -1,0 +1,44 @@
+@layer components {
+  .rui-radio-group-root {
+  }
+  .rui-radio-group-item {
+    @apply data-disabled:opacity-(--disabled-opacity);
+  }
+  .rui-radio-group-item-control {
+    @apply bg-transparent active:bg-h28 border-h70 
+         hover:border-rz-green active:border-rz-green
+         group-hover/item:border-rz-green group-focus-within/item:border-rz-green;
+
+ 
+    @apply data-disabled:hover:border-h70 data-disabled:active:bg-h28 data-disabled:active:border-h70
+    data-disabled:group-hover/item:border-h70 data-disabled:group-focus-within/item:border-h70;
+
+    &[data-variant='checkbox'] {
+      @apply data-[state=checked]:bg-rz-green
+      data-[state=checked]:hover:bg-rz-green-light
+      data-[state=checked]:active:bg-rz-green-dark-active
+      data-[state=checked]:border-rz-green
+      data-[state=checked]:hover:border-rz-green-light
+      data-[state=checked]:active:border-rz-green-dark-active;
+
+      @apply data-disabled:data-[state=checked]:bg-rz-green 
+      data-disabled:data-[state=checked]:hover:bg-rz-green 
+      data-disabled:data-[state=checked]:active:bg-rz-green 
+      data-disabled:data-[state=checked]:border-rz-green 
+      data-disabled:data-[state=checked]:hover:border-rz-green 
+      data-disabled:data-[state=checked]:active:border-rz-green;
+    }
+  }
+  .rui-radio-group-item-indicator {
+    @apply fill-rz-green stroke-rz-green;
+    &[data-variant="checkbox"] {
+      @apply fill-transparent stroke-h00;
+    }
+  }
+
+  .rui-radio-group-item-text {
+    @apply text-hcc hover:text-hff group-hover/item:text-hff;
+    @apply data-disabled:hover:text-hcc data-disabled:group-hover/item:text-hcc;
+    
+  }
+}

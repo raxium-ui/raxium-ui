@@ -1,0 +1,403 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.select",
+  "component": {
+    "name": "Select",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Select",
+    "category": "core",
+    "description": "用于单选或多选场景的下拉选择组件，适用于表单输入、筛选器和配置项选择。基于 Ark UI Select 构建，支持受控/非受控状态、高亮项控制、分组选项、可清空触发器。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/select",
+      "primitive": "ark.select",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": ["aria-*", "data-*"],
+      "notes": "根组件在 Ark UI Root 常用能力之上扩展 Raxium UI 的 theme 与样式体系。"
+    },
+    "capabilities": [
+      "theme",
+      "ui-override",
+      "single-multiple",
+      "highlighted-value",
+      "clearable"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "collection",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ListCollection<T>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "选项集合（通常由 createListCollection 创建）"
+      },
+      {
+        "name": "modelValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "SelectValueType[]",
+        "typeSchema": { "type": "array" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "受控选中值（配合 v-model）"
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "SelectValueType[]",
+        "typeSchema": { "type": "array" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "非受控初始值"
+      },
+      {
+        "name": "open",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "下拉面板受控打开状态"
+      },
+      {
+        "name": "defaultOpen",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "下拉面板非受控初始打开状态"
+      },
+      {
+        "name": "highlightedValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "SelectValueType",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "object" }
+          ],
+          "x-ts-type": "SelectValueType"
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "受控高亮项值（配合 v-model:highlighted-value）"
+      },
+      {
+        "name": "multiple",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否启用多选"
+      },
+      {
+        "name": "lazyMount",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "延迟挂载"
+      },
+      {
+        "name": "unmountOnExit",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "退出卸载策略"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点附加 class"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvSelect'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "组件主题参数与 crafts 覆盖（根组件）"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "payload": { "typeText": "(value: SelectValueType[])", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "value_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:modelValue"],
+        "description": "受控值同步（v-model）"
+      },
+      {
+        "name": "update:open",
+        "payload": { "typeText": "(open: boolean)", "typeSchema": { "type": "object", "properties": { "open": { "type": "boolean" } } } },
+        "emitWhen": [{ "expr": "open_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:open"],
+        "description": "受控打开状态同步（v-model:open）"
+      },
+      {
+        "name": "update:highlightedValue",
+        "payload": { "typeText": "(value: SelectValueType)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "highlight_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:highlightedValue"],
+        "description": "受控高亮值同步（v-model:highlighted-value）"
+      },
+      {
+        "name": "valueChange",
+        "payload": { "typeText": "(details: ValueChangeDetails<T>)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "value_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:valueChange"],
+        "description": "选中值变化详情"
+      },
+      {
+        "name": "openChange",
+        "payload": { "typeText": "(details: OpenChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "open_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:openChange"],
+        "description": "打开状态变化详情"
+      },
+      {
+        "name": "highlightChange",
+        "payload": { "typeText": "(details: HighlightChangeDetails<T>)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "highlight_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:highlightChange"],
+        "description": "高亮项变化详情"
+      },
+      {
+        "name": "select",
+        "payload": { "typeText": "(details: SelectionDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "select_action", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:select"],
+        "description": "触发选中动作时回调"
+      },
+      {
+        "name": "focusOutside",
+        "payload": { "typeText": "(event: FocusOutsideEvent)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "focus_outside", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:focusOutside"],
+        "description": "焦点移出浮层时触发"
+      },
+      {
+        "name": "interactOutside",
+        "payload": { "typeText": "(event: InteractOutsideEvent)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "interact_outside", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:interactOutside"],
+        "description": "与组件外部交互时触发"
+      },
+      {
+        "name": "pointerDownOutside",
+        "payload": { "typeText": "(event: PointerDownOutsideEvent)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "pointer_down_outside", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:pointerDownOutside"],
+        "description": "在外部区域按下指针时触发"
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "放置 Trigger、Content 等子组件"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "控制触发器、内容与选项的尺寸节奏"
+        },
+        {
+          "name": "skin",
+          "typeText": "ThemeSkin",
+          "typeSchema": { "type": "string" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "主题皮肤"
+        },
+        {
+          "name": "surface",
+          "typeText": "ThemeSurface",
+          "typeSchema": { "type": "string" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "亮/暗表面语义"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "移除默认样式"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 tvSelect crafts 配置（仅根组件）"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": []
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "open": "boolean",
+      "modelValue": "SelectValueType[]",
+      "highlightedValue": "SelectValueType | undefined"
+    },
+    "derived": {},
+    "transitions": [
+      {
+        "on": "trigger_click",
+        "guard": "open === false",
+        "effects": ["setOpen(true)"]
+      },
+      {
+        "on": "item_select",
+        "guard": "always",
+        "effects": ["updateValue", "emit(valueChange)", "emit(update:modelValue)"]
+      }
+    ]
+  },
+  "examples": [
+    { "id": "basic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Select" }, "exampleId": "basic" }, "description": "基础用法" },
+    { "id": "groups-and-disabled", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Select" }, "exampleId": "groups-and-disabled" }, "description": "分组与禁用项" },
+    { "id": "multiple-and-clearable", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Select" }, "exampleId": "multiple-and-clearable" }, "description": "多选与清空操作" },
+    { "id": "sizes", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Select" }, "exampleId": "sizes" }, "description": "尺寸变体" },
+    { "id": "controlled-open-and-highlight", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Select" }, "exampleId": "controlled-open-and-highlight" }, "description": "受控打开与高亮项" }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": ["collection", "modelValue", "theme.size", "multiple"],
+    "safeDefaults": {},
+    "a11yChecklist": [
+      "选项数据优先统一使用 createListCollection 生成 collection",
+      "分组列表优先使用 SelectItemGroup",
+      "多选场景建议配合 SelectTrigger.clearable"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Select :collection=\"items\"><SelectTrigger><SelectValue placeholder=\"Select\" /></SelectTrigger><SelectContent><SelectItem v-for=\"item in items\" :key=\"item.value\" :item=\"item\" /></SelectContent></Select>",
+      "multiple": "<Select :collection=\"items\" multiple v-model=\"selected\">...</Select>"
+    },
+    "antiPatterns": [
+      "手写数组导致分组与禁用逻辑分散，应使用 createListCollection",
+      "在选项文本中混合组名+选项名模拟分组"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./select.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Select.vue", "kind": "runtime" },
+      { "path": "./select.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {}
+  }
+}

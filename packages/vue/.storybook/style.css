@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@import '../../themes/src/razer/index.css';
+
+@config '../tailwind.config.ts';
+
+:root {
+  color: var(--color-hff);
+}
+
+.docs-story {
+  background: #222 !important;
+}

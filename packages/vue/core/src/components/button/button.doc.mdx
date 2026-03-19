@@ -1,0 +1,253 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ButtonStories from './button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Button 是用于触发操作、提交表单或承载快捷动作的基础交互组件。组件基于 Ark UI 的 `ark.button` 原语封装，支持变体、尺寸、加载态和水波纹反馈，并扩展了 Raxium UI 的 `theme` 与 `ui` 配置能力。
+
+---
+
+## Examples
+
+展示组件的常见使用方式。
+
+### 基本用法
+
+<Canvas of={ButtonStories.Basic} />
+
+### 变体与状态
+
+<Canvas of={ButtonStories.Variants} />
+
+### 尺寸配置
+
+<Canvas of={ButtonStories.Sizes} />
+
+### Crafts 主题覆写
+
+<Canvas of={ButtonStories.Crafts} />
+
+---
+
+## ARK UI Link
+
+`Button` 基于 Ark UI Factory 的 `ark.button` 原语实现，底层是原生 `<button>` 能力。根组件会透传常见 HTML 按钮属性（如 `type`、`disabled`、`aria-*`、`data-*`），同时叠加 Raxium UI 的主题与样式扩展。
+
+- **相关文档**: [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+- **透传边界**: 该组件不是 Ark UI 独立业务组件（如 Dialog/Menu），而是基于 factory 原语封装。原生按钮属性可直接使用；`variant`、`ripple`、`loading`、`theme`、`ui` 等为 Raxium UI 扩展能力。
+
+---
+
+## API
+
+### Props
+
+仅列常用与扩展项；底层 `button` 原生属性请参考 HTML 标准与 Ark UI Factory 文档。
+
+#### Button
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'normal' | 'outline' | 'text' | 'icon'</code></td>
+      <td><code>'default'</code></td>
+      <td>按钮变体样式</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用按钮交互（同时阻断 ripple）</td>
+    </tr>
+    <tr>
+      <td><code>ripple</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否启用点击水波纹效果</td>
+    </tr>
+    <tr>
+      <td><code>loading</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否显示加载图标（可由 <code>loading</code> 插槽覆盖）</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否将 props 合并到子元素（复合组件场景）</td>
+    </tr>
+    <tr>
+      <td><code>tooltip</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>提示文案字段（用于上层组合；当前组件模板未直接渲染 tooltip）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>自定义 class</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Button emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>click</code></td>
+      <td><code>(event: MouseEvent)</code></td>
+      <td>点击按钮时触发（内部会先执行 ripple，再向外派发）</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Button</code></td>
+      <td><code>default</code></td>
+      <td>按钮主内容（文本或图标）</td>
+    </tr>
+    <tr>
+      <td><code>Button</code></td>
+      <td><code>loading</code></td>
+      <td>自定义加载态内容；在 <code>loading=true</code> 时显示</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Button` 通过 `theme` 驱动 `tvButton` crafts（影响 root/loading 等样式位）。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>按钮尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>亮色/暗色表面</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否显示边框</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 tvButton 的 crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={ButtonStories.ThemeExample} />
+---
+
+## UI Configuration
+
+`Button` 根组件提供 `ui` 配置，可精细覆盖根节点与加载节点样式：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根元素的自定义 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.loading.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>加载图标的自定义 class</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={ButtonStories.UIExample} />
+
+---
+
+## 最佳实践
+
+- 业务动作按钮优先使用 `default/normal/outline/text` 语义变体，避免仅靠颜色类名区分行为优先级。
+- 若按钮状态由外部异步流程驱动，建议直接使用 `loading` + `disabled` 组合，防止重复提交与多次触发事件。
+- 需要统一尺寸体系时，优先通过 `theme.size` 管理，而不是在页面里零散写 `class` 覆盖。
+- 开启 `ripple` 时建议仅用于强调点击反馈的场景（如工具按钮），批量列表中应谨慎使用以控制视觉噪音。
+- 若要深度定制样式，先用 `ui.root/ui.loading` 做局部覆盖；仅在需要系统级改造时再使用 `theme.crafts`。
+- 需要将交互能力挂到自定义元素时使用 `asChild`，并确保子元素具备可访问性属性与可聚焦行为。

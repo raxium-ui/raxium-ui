@@ -1,0 +1,587 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.input",
+  "component": {
+    "name": "Input",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "Input",
+    "category": "core",
+    "description": "用于采集单行文本或数字输入，适合表单、筛选栏、搜索框等场景。基于 Ark UI Vue factory 原语（ark.div）构建输入容器，在原生输入行为之上补充 clearable 清空能力、prefix/suffix 插槽、theme 主题参数与 ui 局部样式覆盖入口。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue/factory",
+      "primitive": "ark.div",
+      "nativeElement": "input"
+    },
+    "passThrough": {
+      "htmlAttributes": [
+        "id",
+        "placeholder",
+        "maxlength",
+        "disabled",
+        "readonly",
+        "aria-*",
+        "data-*"
+      ],
+      "notes": "组件基于 factory 原语封装，内部使用原生 input 元素，非 Ark UI 独立业务组件。"
+    },
+    "capabilities": [
+      "v-model",
+      "clearable",
+      "theme",
+      "ui-override",
+      "prefix-suffix-slots"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "id",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "输入框 id；未传时内部自动生成"
+      },
+      {
+        "name": "modelValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | number",
+        "typeSchema": {
+          "anyOf": [{ "type": "string" }, { "type": "number" }]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["defaultValue"],
+        "description": "受控值（配合 v-model 使用）"
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | number",
+        "typeSchema": {
+          "anyOf": [{ "type": "string" }, { "type": "number" }]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["modelValue"],
+        "description": "非受控模式初始值"
+      },
+      {
+        "name": "placeholder",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string",
+        "typeSchema": { "type": "string" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "占位文案"
+      },
+      {
+        "name": "maxlength",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "输入最大长度"
+      },
+      {
+        "name": "clearable",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否启用聚焦态清空按钮"
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否禁用输入"
+      },
+      {
+        "name": "readonly",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否只读"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | array | object",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根容器附加 class"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvInput'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "主题参数与 crafts 覆写入口"
+      },
+      {
+        "name": "ui",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "{ root?: HTMLAttributes['class'], input?: HTMLAttributes['class'], clearable?: HTMLAttributes['class'] }",
+        "typeSchema": {
+          "type": "object",
+          "properties": {
+            "root": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "input": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            },
+            "clearable": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "array" },
+                { "type": "object" }
+              ]
+            }
+          },
+          "additionalProperties": true
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "局部样式覆盖配置"
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "payload": {
+          "typeText": "(value: string | number)",
+          "typeSchema": {
+            "anyOf": [{ "type": "string" }, { "type": "number" }]
+          }
+        },
+        "emitWhen": [
+          { "expr": "modelValue_changed", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:update:modelValue"],
+        "description": "输入值变化时触发，用于 v-model 同步"
+      },
+      {
+        "name": "focus",
+        "payload": {
+          "typeText": "(event: Event)",
+          "typeSchema": { "type": "object", "x-ts-type": "Event" }
+        },
+        "emitWhen": [
+          { "expr": "input_focus", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:focus"],
+        "description": "输入框获得焦点时触发"
+      },
+      {
+        "name": "blur",
+        "payload": {
+          "typeText": "(event: Event)",
+          "typeSchema": { "type": "object", "x-ts-type": "Event" }
+        },
+        "emitWhen": [
+          { "expr": "input_blur", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:blur"],
+        "description": "输入框失焦时触发"
+      },
+      {
+        "name": "input",
+        "payload": {
+          "typeText": "(event: Event, value: string | number | undefined)",
+          "typeSchema": {
+            "type": "array",
+            "items": [
+              { "type": "object", "x-ts-type": "Event" },
+              {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "number" },
+                  { "type": "null" }
+                ]
+              }
+            ]
+          }
+        },
+        "emitWhen": [
+          { "expr": "native_input_event", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:input"],
+        "description": "原生输入事件回调，并返回当前值"
+      },
+      {
+        "name": "change",
+        "payload": {
+          "typeText": "(event: Event, value: string | number | undefined)",
+          "typeSchema": {
+            "type": "array",
+            "items": [
+              { "type": "object", "x-ts-type": "Event" },
+              {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "number" },
+                  { "type": "null" }
+                ]
+              }
+            ]
+          }
+        },
+        "emitWhen": [
+          { "expr": "native_change_event", "kind": "runtime-hook" }
+        ],
+        "notEmitWhen": [],
+        "order": ["emit:change"],
+        "description": "原生 change 事件回调，并返回当前值"
+      }
+    ],
+    "slots": [
+      {
+        "name": "prefix",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "输入框前置内容，常用于图标或前缀文本"
+      },
+      {
+        "name": "suffix",
+        "slotPropsSchema": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "输入框后置内容，常用于快捷提示或状态标识"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": {
+            "enum": ["xs", "sm", "base", "lg"]
+          },
+          "default": "base",
+          "defaultKind": "explicit-doc",
+          "description": "尺寸主题变体（crafts tvInput defaultVariants）"
+        },
+        {
+          "name": "skin",
+          "typeText": "'razer' | 'shadcn'",
+          "typeSchema": {
+            "enum": ["razer", "shadcn"]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "皮肤风格"
+        },
+        {
+          "name": "surface",
+          "typeText": "'light' | 'dark'",
+          "typeSchema": {
+            "enum": ["light", "dark"]
+          },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "表面模式"
+        },
+        {
+          "name": "bordered",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否启用边框风格"
+        },
+        {
+          "name": "unstyled",
+          "typeText": "boolean",
+          "typeSchema": { "type": "boolean" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "是否移除内置样式"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆写 tvInput 或注入自定义 crafts"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": [
+        {
+          "name": "ui.root.class",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "外层容器 class 覆盖"
+        },
+        {
+          "name": "ui.input.class",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "输入框 class 覆盖"
+        },
+        {
+          "name": "ui.clearable.class",
+          "typeText": "string | array | object",
+          "typeSchema": {
+            "anyOf": [
+              { "type": "string" },
+              { "type": "array" },
+              { "type": "object" }
+            ]
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "description": "清空按钮 class 覆盖"
+        }
+      ]
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "modelValue": "string | number | undefined",
+      "isFocus": "boolean",
+      "disabled": "boolean | undefined",
+      "readonly": "boolean | undefined",
+      "clearable": "boolean"
+    },
+    "derived": {
+      "inputState": "disabled ? 'disabled' : readonly ? 'readonly' : isFocus ? 'focused' : 'blur'",
+      "showClearable": "inputState === 'focused' && clearable && modelValue"
+    },
+    "transitions": [
+      {
+        "on": "focus",
+        "guard": "disabled !== true",
+        "effects": ["setIsFocus(true)", "emit:focus"]
+      },
+      {
+        "on": "blur",
+        "guard": "!rejectBlur",
+        "effects": ["setIsFocus(false)", "emit:blur"]
+      },
+      {
+        "on": "input",
+        "guard": "always",
+        "effects": ["updateModelValue(value)", "emit:update:modelValue", "emit:input"]
+      },
+      {
+        "on": "clearable_click",
+        "guard": "showClearable",
+        "effects": ["setModelValue('')", "focusInput"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "id": "basic",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Input" },
+        "exampleId": "basic"
+      },
+      "description": "基础输入与双向绑定"
+    },
+    {
+      "id": "states",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Input" },
+        "exampleId": "states"
+      },
+      "description": "常见状态：可清空、禁用、只读"
+    },
+    {
+      "id": "sizes",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Input" },
+        "exampleId": "sizes"
+      },
+      "description": "尺寸主题变体"
+    },
+    {
+      "id": "prefix-suffix-and-ui",
+      "mcp": {
+        "server": "raxium",
+        "tool": "get-example",
+        "args": { "framework": "vue", "componentName": "Input" },
+        "exampleId": "prefix-suffix-and-ui"
+      },
+      "description": "前后缀插槽与 UI 覆盖"
+    }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": [
+      "modelValue / defaultValue",
+      "placeholder",
+      "clearable",
+      "theme.size",
+      "disabled / readonly"
+    ],
+    "safeDefaults": {
+      "clearable": false,
+      "disabled": false,
+      "readonly": false,
+      "defaultValue": ""
+    },
+    "a11yChecklist": [
+      "placeholder 不能替代 label，需配合 label 或 aria-label 使用",
+      "disabled/readonly 状态需提供可感知视觉反馈",
+      "maxlength 建议配合 aria-describedby 提示剩余字数"
+    ],
+    "codegenTemplates": {
+      "minimal": "<Input v-model=\"value\" placeholder=\"请输入\" />",
+      "controlled": "<Input v-model=\"value\" placeholder=\"请输入\" :clearable=\"true\" />"
+    },
+    "antiPatterns": [
+      "<Input placeholder=\"请输入\" /> 未配合 label 或 aria-label",
+      "同时设置 :readonly=\"true\" :disabled=\"true\" 导致语义不清",
+      "<Input v-model=\"q\" :clearable=\"true\" /> 未监听 @update:modelValue 导致业务状态不同步"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./input.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./Input.vue", "kind": "runtime" },
+      { "path": "./input.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.clearable.default": "runtime",
+      "contracts.props.modelValue.conflictsWith": "doc",
+      "contracts.props.defaultValue.conflictsWith": "doc",
+      "contracts.events.order": "runtime",
+      "contracts.slots.prefix.description": "doc",
+      "behaviorModel.transitions.effects": "runtime",
+      "themeConfiguration.fields.size.default": "runtime"
+    }
+  }
+}

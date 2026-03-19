@@ -1,0 +1,330 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as RatingGroupStories from './rating-group.stories'
+
+<Meta of={RatingGroupStories} />
+
+# RatingGroup
+
+`RatingGroup` 用于评分场景（如满意度、服务质量、内容打分），支持受控/非受控值管理、悬浮预览、半星评分和禁用/只读状态。组件基于 Ark UI Rating Group 构建，并扩展了 Raxium UI 的 `theme` 与 `ui` 样式入口；同时暴露 `$api` 便于编程式设置与清空评分。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={RatingGroupStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={RatingGroupStories.Sizes} />
+
+### 状态：禁用与只读
+
+<Canvas of={RatingGroupStories.States} />
+
+### 半星评分
+
+<Canvas of={RatingGroupStories.AllowHalf} />
+
+### 事件监听
+
+<Canvas of={RatingGroupStories.Events} />
+
+### 编程式控制
+
+<Canvas of={RatingGroupStories.Programmatic} />
+
+---
+
+## ARK UI Link
+
+`RatingGroup` 与 `RatingGroupItem` 基于 Ark UI Rating Group 原语封装：
+
+- 根组件透传 Ark UI Root 常用能力（如 `count`、`disabled`、`readOnly`、`allowHalf`、`defaultValue`、`modelValue` 等），并增加 `theme`、`ui.root`、`ui.control`。
+- 子项组件基于 Ark UI Item 封装，增加了 `theme`、`ui.root`、`ui.indicator`、`ui.icon` 以及默认星形渲染。
+- 根组件通过 `defineExpose` 暴露 `$api`（来自 Ark `useRatingGroup`），可用于 `setValue`、`clearValue` 等编程式调用。
+
+Ark UI 文档： [Ark UI Rating Group (Vue)](https://ark-ui.com/vue/docs/components/rating-group)
+
+---
+
+## API
+
+### Props
+
+以下按组件分组列出常用与扩展项；Ark UI 原生完整参数请参考官方文档。
+
+#### RatingGroup
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>受控评分值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>非受控初始评分值</td>
+    </tr>
+    <tr>
+      <td><code>count</code></td>
+      <td><code>number</code></td>
+      <td><code>5</code></td>
+      <td>评分项数量</td>
+    </tr>
+    <tr>
+      <td><code>allowHalf</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否允许半星</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否禁用交互</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否只读（可展示，不可修改）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvRatingGroup'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### RatingGroupItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>当前评分项索引（通常来自根组件提供的 <code>items</code>）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>评分项根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承或覆盖当前主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`RatingGroup` 事件来自 Ark UI Root 的事件模型；`RatingGroupItem` 不额外暴露自定义事件。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: number)</code></td>
+      <td>受控值同步事件（对应 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: &#123; value: number &#125;)</code></td>
+      <td>评分值变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>hoverChange</code></td>
+      <td><code>(details: &#123; hoveredValue: number &#125;)</code></td>
+      <td>悬浮评分变化时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RatingGroup</code></td>
+      <td><code>prefix</code></td>
+      <td>评分区域前置内容</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroup</code></td>
+      <td><code>default</code></td>
+      <td>评分项渲染插槽，作用域参数包含 <code>items</code></td>
+    </tr>
+    <tr>
+      <td><code>RatingGroup</code></td>
+      <td><code>suffix</code></td>
+      <td>评分区域后置内容</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroupItem</code></td>
+      <td><code>default</code></td>
+      <td>自定义单项渲染，作用域含 <code>classes</code>、<code>context</code>、<code>index</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`RatingGroup` 使用 `theme` 驱动 `tvRatingGroup` crafts（覆盖 root/control/item/itemIndicator/itemIndicatorIcon 等部位）；`RatingGroupItem` 可通过 `theme` 继承或局部覆盖该主题上下文。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>评分图标尺寸与间距节奏</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>亮/暗表面语义</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvRatingGroup</code> 的 crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={RatingGroupStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`RatingGroup` 与 `RatingGroupItem` 都提供 `ui` 覆盖入口，可按结构槽位覆盖 class。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>RatingGroup.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroup.ui.control</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>评分控制容器 class</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroupItem.ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>评分项节点 class</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroupItem.ui.indicator</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>指示器节点 class</td>
+    </tr>
+    <tr>
+      <td><code>RatingGroupItem.ui.icon</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>图标节点 class</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={RatingGroupStories.Basic} />
+
+---
+
+## 最佳实践
+
+- 业务需要和表单状态同步时，优先用 `v-model` 受控模式；纯展示或轻交互场景可用 `defaultValue` 简化状态管理。
+- 有“半分”需求时开启 `allowHalf`，并确保评分文案或提示支持小数表达（如 3.5 分）。
+- 只读展示与禁用交互语义不同：展示历史评分用 `readOnly`，不可操作状态用 `disabled`。
+- 需要记录用户评分意图时，同时监听 `valueChange` 与 `hoverChange`，区分“悬浮预览”和“最终提交”。
+- 样式定制先用 `theme` 做全局一致性，再用 `ui` 做局部覆盖；大范围改造时才使用 `crafts` 覆写。
+- 需要外部按钮联动评分时，使用 `ref` 调用 `$api.setValue()` / `$api.clearValue()`，避免在多个地方重复维护评分逻辑。

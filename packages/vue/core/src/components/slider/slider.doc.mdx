@@ -1,0 +1,481 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SliderStories from './slider.stories'
+
+<Meta of={SliderStories} />
+
+# Slider
+
+`Slider` 是用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。组件基于 Ark UI Slider 构建，根组件在透传 Ark UI Root 常用能力的同时，扩展了 Raxium UI 的 `theme` 与 `ui` 样式配置入口。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={SliderStories.Basic} />
+
+### 范围选择
+
+<Canvas of={SliderStories.Range} />
+
+### 刻度与 Tooltip 组合
+
+<Canvas of={SliderStories.MarkersAndTooltips} />
+
+### 尺寸变体
+
+<Canvas of={SliderStories.Sizes} />
+
+### 垂直方向与禁用态
+
+<Canvas of={SliderStories.VerticalAndDisabled} />
+
+### 受控模式
+
+<Canvas of={SliderStories.Controlled} />
+
+---
+
+## ARK UI Link
+
+`Slider` 组件族与 Ark UI Slider 的关系如下：
+
+- `Slider` 根组件基于 `Slider.RootProvider + useSlider`，根 props 与事件透传 Ark UI Root 能力（如 `modelValue/defaultValue`、`min/max/step`、`orientation`、`origin`、`minStepsBetweenThumbs` 等）。
+- `SliderThumb`、`SliderMarker` 基于 Ark UI 对应原语封装，保留原语属性并补充主题样式。
+- `SliderTooltipThumb`、`SliderTooltipMarker` 通过组合 Ark Slider 与 Tooltip 提供“值提示”能力，属于 Raxium UI 扩展，不是 Ark UI 一一对应子组件。
+
+- **相关文档**: [Ark UI Slider (Vue)](https://ark-ui.com/vue/docs/components/slider)
+
+---
+
+## API
+
+### Props
+
+按子组件分组说明（仅列常用与扩展项，Ark UI 原生完整参数请参考官方文档）。
+
+#### Slider
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue / v-model</code></td>
+      <td><code>number[]</code></td>
+      <td>-</td>
+      <td>受控值数组（单值模式通常为单元素数组）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>number[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>min / max / step</code></td>
+      <td><code>number</code></td>
+      <td><code>0 / 100 / 1</code></td>
+      <td>数值区间与步长</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>方向；垂直模式通常需配合高度与 <code>ui</code> 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否禁用滑动交互</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>只读模式（可聚焦但不修改值）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvSlider'&gt;</code></td>
+      <td>-</td>
+      <td>Slider 主题变量与 crafts 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SliderThumb
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>Thumb 索引（范围模式需为每个 Thumb 指定不同索引）</td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>表单字段名（透传到底层 HiddenInput）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Thumb 样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆写主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SliderMarker
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>刻度值位置</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Marker 根节点样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承根主题，也可局部覆写主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SliderTooltipThumb
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>绑定的 Thumb 索引</td>
+    </tr>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>(context: UseSliderContext) =&gt; boolean</code></td>
+      <td><code>(ctx) =&gt; ctx.dragging</code></td>
+      <td>Tooltip 可见性计算函数；默认随拖拽状态显示</td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>TooltipRootBaseProps['positioning']</code></td>
+      <td>组件内置定位配置</td>
+      <td>Tooltip 定位参数（可改 placement/strategy 等）</td>
+    </tr>
+    <tr>
+      <td><code>widget.tooltipContent</code></td>
+      <td><code>ComponentProps&lt;typeof TooltipContent&gt;</code></td>
+      <td>-</td>
+      <td>透传给 TooltipContent 的属性</td>
+    </tr>
+    <tr>
+      <td><code>widget.tooltipArrow</code></td>
+      <td><code>ComponentProps&lt;typeof TooltipArrow&gt;</code></td>
+      <td>-</td>
+      <td>透传给 TooltipArrow 的属性</td>
+    </tr>
+    <tr>
+      <td><code>class / theme</code></td>
+      <td><code>同 SliderThumb</code></td>
+      <td>-</td>
+      <td>Thumb 样式与主题覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SliderTooltipMarker
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>绑定的 Marker 值位置</td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>TooltipRootBaseProps['positioning']</code></td>
+      <td>组件内置定位配置</td>
+      <td>Tooltip 定位参数（默认偏向底部显示）</td>
+    </tr>
+    <tr>
+      <td><code>class / theme</code></td>
+      <td><code>同 SliderMarker</code></td>
+      <td>-</td>
+      <td>Marker 样式与主题覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Slider` 根组件直接使用 Ark UI `SliderRootEmits`，常用事件如下；其余事件以 Ark UI 文档为准。其余扩展子组件（`SliderThumb`、`SliderMarker`、`SliderTooltipThumb`、`SliderTooltipMarker`）不额外声明自定义 emits。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: number[])</code></td>
+      <td>受控值同步（`v-model`）</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>拖拽过程中值变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>valueChangeEnd</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>值变化结束（通常为松开拖拽）时触发</td>
+    </tr>
+    <tr>
+      <td><code>focusChange</code></td>
+      <td><code>(details: FocusChangeDetails)</code></td>
+      <td>焦点 Thumb 索引变化时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Slider</code></td>
+      <td><code>prefix</code></td>
+      <td>控制区前置内容（如标签、辅助说明）</td>
+    </tr>
+    <tr>
+      <td><code>Slider</code></td>
+      <td><code>default</code></td>
+      <td>放置 Thumb / TooltipThumb 等控制节点</td>
+    </tr>
+    <tr>
+      <td><code>Slider</code></td>
+      <td><code>suffix</code></td>
+      <td>控制区后置内容（常用于 <code>SliderMarkerGroup</code>）</td>
+    </tr>
+    <tr>
+      <td><code>SliderMarker</code></td>
+      <td><code>default</code></td>
+      <td>自定义刻度内容；不传时渲染默认圆点 + 数值文本</td>
+    </tr>
+    <tr>
+      <td><code>SliderTooltipThumb</code></td>
+      <td><code>default</code></td>
+      <td>Tooltip 主体内容；默认渲染 <code>Slider.ValueText</code></td>
+    </tr>
+    <tr>
+      <td><code>SliderTooltipThumb</code></td>
+      <td><code>arrow</code></td>
+      <td>自定义 Tooltip 箭头</td>
+    </tr>
+    <tr>
+      <td><code>SliderTooltipMarker</code></td>
+      <td><code>default</code></td>
+      <td>自定义 Marker 节点内容；不传时渲染默认圆点</td>
+    </tr>
+    <tr>
+      <td><code>SliderTooltipMarker</code></td>
+      <td><code>content</code></td>
+      <td>自定义 Tooltip 内容；默认显示当前 <code>value</code></td>
+    </tr>
+    <tr>
+      <td><code>SliderTooltipMarker</code></td>
+      <td><code>arrow</code></td>
+      <td>自定义 Tooltip 箭头</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Slider` 根组件通过 `theme` 驱动 `tvSlider` crafts，影响 `root/control/track/range/thumb/marker` 等部位。`SliderThumb`、`SliderMarker` 与 Tooltip 扩展组件会继承该主题，并支持局部覆写。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>滑块尺寸体系（轨道、Thumb、刻度节奏）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'razer'</code></td>
+      <td>-</td>
+      <td>表面语义（可在 Tooltip 子组件局部覆盖）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvSlider</code> crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SliderStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Slider` 根组件提供分槽位 `ui` 配置；其余扩展子组件不提供 `ui` 对象，通常通过 `class` 或 `theme` 调整样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根容器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.control</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>控制区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.track</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>轨道 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.range</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>已选区间 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={SliderStories.VerticalAndDisabled} />
+
+---
+
+## 最佳实践
+
+- 单值与范围统一使用数组值（如 `[30]`、`[20, 70]`），避免在业务层混用标量与数组造成状态分支复杂化。
+- 需要联动外部筛选状态时使用受控模式（`v-model` + `update:modelValue`）；仅做初始展示时优先 `defaultValue`。
+- 范围模式务必为每个 Thumb 明确设置 `index`，并在需要时配置 `minStepsBetweenThumbs` 防止手柄过度重叠。
+- 垂直布局不要只改 `orientation`，同时调整容器高度与 `ui.control/ui.track/ui.range`，保证命中区与视觉一致。
+- Tooltip 建议用于精确反馈场景：高频拖拽时可监听 `valueChange` 做实时预览，提交动作优先放在 `valueChangeEnd`。
+- 样式定制按层次处理：全局风格优先 `theme`，局部结构优先 `ui`，仅在设计系统级改造时使用 `crafts` 覆写。

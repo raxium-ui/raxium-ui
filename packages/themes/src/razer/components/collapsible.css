@@ -1,0 +1,16 @@
+@layer components {
+  .rui-readmore {
+    @apply relative;
+  }
+}
+
+@layer utilities {
+  .rui-readmore-trigger {
+    &[data-state='closed'] {
+      @apply absolute bottom-0 right-0 pl-10 py-1 pr-1 bg-linear-[90deg,transparent_0%,var(--color-h1a)_27%];
+    }
+    &[data-state='open'] {
+      @apply static flex w-full justify-end pl-10 py-1 pr-1;
+    }
+  }
+}

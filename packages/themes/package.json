@@ -1,0 +1,61 @@
+{
+  "name": "@raxium/themes",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.13.1",
+  "description": "Themes for Raxium UI",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/raxium-ui/raxium-ui"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "themes",
+    "tailwind"
+  ],
+  "exports": {
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js",
+      "default": "./dist/utils/index.js"
+    },
+    "./razer": {
+      "types": "./dist/razer/index.d.ts",
+      "import": "./dist/razer/index.js",
+      "default": "./dist/razer/index.js"
+    },
+    "./default": {
+      "types": "./dist/default/index.d.ts",
+      "import": "./dist/default/index.js",
+      "default": "./dist/default/index.js"
+    },
+    "./razer/index.css": "./dist/razer/index.css",
+    "./razer/preset.css": "./src/razer/preset.css",
+    "./default/index.css": "./dist/default/index.css"
+  },
+  "module": "./dist/index.js",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "bun run build.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "tailwind-merge": "^3.4.0",
+    "tailwind-variants": "^3.2.2",
+    "tailwindcss-animated": "^2.0.0",
+    "tailwindcss-motion": "^1.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

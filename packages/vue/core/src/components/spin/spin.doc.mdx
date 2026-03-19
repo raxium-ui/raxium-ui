@@ -1,0 +1,281 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SpinStories from './spin.stories'
+
+<Meta of={SpinStories} />
+
+# Spin
+
+`Spin` 是用于加载中状态反馈的遮罩组件，支持在局部容器内覆盖（`inline`）或全屏覆盖（`fullscreen`）。组件基于 Ark UI Factory 原语与 Raxium UI 主题体系构建，支持 `theme` 与 `ui` 分槽位样式配置，并可通过 `SpinProvider` 统一注入默认或自定义加载图标。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={SpinStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={SpinStories.Sizes} />
+
+### 覆盖模式（inline / fullscreen）
+
+<Canvas of={SpinStories.Modes} />
+
+### 延迟隐藏与文本
+
+<Canvas of={SpinStories.DelayAndText} />
+
+### 自定义图标
+
+<Canvas of={SpinStories.CustomIcon} />
+
+---
+
+## ARK UI Link
+
+`Spin` 不是 Ark UI 的一一对应业务组件（如 Dialog/Menu），而是基于 Ark UI Factory 原语（如 `ark.span`）封装的加载反馈组件。
+
+- **相关文档**: [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
+- **透传边界**: `Spin` 的能力以 Raxium UI 自身实现为主（`show`、`mode`、`delay`、`theme`、`ui`、`SpinProvider`）；不依赖 Ark UI 独立 Spin 组件的 API。
+
+---
+
+## API
+
+### Props
+
+#### Spin
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>show</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否显示加载层（未传时不显示）</td>
+    </tr>
+    <tr>
+      <td><code>mode</code></td>
+      <td><code>'fullscreen' | 'inline'</code></td>
+      <td><code>'inline'</code></td>
+      <td>覆盖模式：局部容器覆盖或全屏覆盖</td>
+    </tr>
+    <tr>
+      <td><code>delay</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>隐藏延迟（毫秒）；仅在 <code>show</code> 从 <code>true</code> 变为 <code>false</code> 时生效</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvSpin'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 <code>tvSpin</code> crafts 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### SpinProvider
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>不提供公开 props，通过插槽提供图标渲染能力</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+`Spin` 与 `SpinProvider` 不额外定义组件级自定义事件（`emits`）。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>无公开自定义事件</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Spin</code></td>
+      <td><code>default</code></td>
+      <td>自定义加载图标区域，插槽参数为 <code>&#123; mode, theme &#125;</code></td>
+    </tr>
+    <tr>
+      <td><code>Spin</code></td>
+      <td><code>text</code></td>
+      <td>自定义加载文本区域内容</td>
+    </tr>
+    <tr>
+      <td><code>SpinProvider</code></td>
+      <td><code>default</code></td>
+      <td>包裹业务内容并向后代 <code>Spin</code> 提供图标渲染上下文</td>
+    </tr>
+    <tr>
+      <td><code>SpinProvider</code></td>
+      <td><code>icon</code></td>
+      <td>全局自定义图标渲染，插槽参数为 <code>&#123; mode, theme, class &#125;</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Spin` 通过 `theme` 驱动 `tvSpin` crafts，影响 `root/mask/indicator/icon/text` 等部位样式。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制加载图标与相关间距尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | string</code></td>
+      <td>-</td>
+      <td>表面语义（亮/暗或自定义语义）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>启用边框语义（是否生效取决于 <code>tvSpin</code> 具体实现）</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvSpin</code> 的 crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={SpinStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Spin` 提供分槽位 `ui` 覆盖入口，用于局部样式微调。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.mask</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>遮罩层样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.indicator</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>指示器容器样式覆盖</td>
+    </tr>
+    <tr>
+      <td><code>ui.text</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>文本区域样式覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={SpinStories.CustomIcon} />
+
+---
+
+## 最佳实践
+
+- 页面内局部加载优先使用 `mode='inline'`，并保证父容器具备明确尺寸，避免遮罩高度抖动。
+- 全屏加载仅用于阻塞式流程（如整页初始化/提交流程），避免频繁开关影响交互连续性。
+- 需要平滑收尾时使用 `delay`，减少请求瞬时结束导致的闪烁；建议与真实网络耗时一起评估阈值。
+- 统一图标风格时优先通过 `SpinProvider` 的 `icon` 插槽集中定义，避免在多个页面重复实现。
+- 文案反馈通过 `text` 插槽提供（如 “Loading...”/“提交中...”），让用户区分“正在加载”与“无响应”。
+- 视觉定制按“`theme` 优先、`ui` 补充”的方式处理：全局风格走 `theme`，局部差异再用 `ui.*`。

@@ -1,0 +1,469 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as EditableStories from './editable.stories'
+
+<Meta of={EditableStories} />
+
+# Editable
+
+`Editable` 用于将静态文本切换为就地编辑输入，适合昵称、标题、备注等轻量修改场景。组件基于 Ark UI Editable 构建，支持受控/非受控值、编辑态切换、提交与回退事件，并在 Raxium UI 中扩展了 `theme`、局部 `ui` 和组合插槽能力。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={EditableStories.Basic} />
+
+### 尺寸与主题参数
+
+<Canvas of={EditableStories.Sizes} />
+
+### 状态：空值、禁用、只读
+
+<Canvas of={EditableStories.States} />
+
+### 自定义控制按钮
+
+<Canvas of={EditableStories.CustomControls} />
+
+---
+
+## ARK UI Link
+
+`Editable` 组件族与 Ark UI Editable 一一对应，但属于“部分透传 + Rark 扩展”：
+
+- `EditableProps` 通过 `extends EditableRootBaseProps` 继承 Ark Root 能力，并扩展了 Raxium UI 的 `theme`、`ui`、`class`（以及 `clearable` 字段）。
+- `EditableInputProps` / `EditablePreviewProps` 分别 `extends EditableInputBaseProps` / `EditablePreviewBaseProps`，在 Ark 原语基础上封装默认样式；`EditableInput` 额外提供 `clearable` 快捷清空交互。
+- `EditableControl`、`EditableEditTrigger`、`EditableSubmitTrigger`、`EditableCancelTrigger` 为 Ark UI 对应子组件导出，可直接组合使用。
+
+Ark UI 文档： [Ark UI Editable (Vue)](https://ark-ui.com/vue/docs/components/editable)
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明（仅列常用与扩展项；Ark UI 原生完整参数请参考官方文档）。
+
+#### Editable
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控文本值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>edit</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>受控编辑态（配合 <code>v-model:edit</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultEdit</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控初始编辑态</td>
+    </tr>
+    <tr>
+      <td><code>activationMode</code></td>
+      <td><code>'focus' | 'click' | 'dblclick' | 'none'</code></td>
+      <td><code>'focus'</code></td>
+      <td>预览区进入编辑态的触发方式</td>
+    </tr>
+    <tr>
+      <td><code>submitMode</code></td>
+      <td><code>'enter' | 'blur' | 'none' | 'both'</code></td>
+      <td><code>'both'</code></td>
+      <td>编辑态提交触发方式</td>
+    </tr>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string | &#123; edit: string; preview: string &#125;</code></td>
+      <td>-</td>
+      <td>输入态/预览态占位文案</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用交互</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>只读模式（可聚焦但不提交修改）</td>
+    </tr>
+    <tr>
+      <td><code>maxLength</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>最大输入长度</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvEditable'&gt;</code></td>
+      <td>-</td>
+      <td>根组件主题参数与 <code>tvEditable</code> crafts 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>clearable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>根接口定义的扩展字段；清空按钮实际由 <code>EditableInput</code> 的 <code>clearable</code> 生效</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### EditableInput
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>clearable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>编辑态且非空时显示清空按钮</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可局部覆盖通用主题参数（不含 crafts）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>输入区域附加 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>InputHTMLAttributes</code></td>
+      <td>-</td>
+      <td>支持 Ark Input 原生输入属性透传（如 <code>type</code>、<code>autocomplete</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### EditablePreview
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可局部覆盖通用主题参数</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>预览区域附加 class</td>
+    </tr>
+    <tr>
+      <td><code>...</code></td>
+      <td><code>HTMLAttributes</code></td>
+      <td>-</td>
+      <td>支持 Ark Preview 常规 HTML 属性透传</td>
+    </tr>
+  </tbody>
+</table>
+
+#### EditableControl / EditableEditTrigger / EditableSubmitTrigger / EditableCancelTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将触发能力合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>控制容器或触发器附加 class</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Editable emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string)</code></td>
+      <td>受控文本值同步</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>值变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>valueCommit</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>提交编辑值时触发</td>
+    </tr>
+    <tr>
+      <td><code>valueRevert</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>回退编辑值时触发</td>
+    </tr>
+    <tr>
+      <td><code>update:edit</code></td>
+      <td><code>(edit: boolean)</code></td>
+      <td>受控编辑态同步</td>
+    </tr>
+    <tr>
+      <td><code>editChange</code></td>
+      <td><code>(details: EditChangeDetails)</code></td>
+      <td>编辑态变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>focusOutside</code></td>
+      <td><code>(event: FocusOutsideEvent)</code></td>
+      <td>焦点移出组件时触发</td>
+    </tr>
+    <tr>
+      <td><code>pointerDownOutside</code></td>
+      <td><code>(event: PointerDownOutsideEvent)</code></td>
+      <td>外部按下指针时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+`Editable.vue` 中的 `defineEmits` 使用了 <code>Omit&lt;EditableRootEmits, 'onInteractOutside'&gt;</code>，因此不对外提供 <code>interactOutside</code> emit；如需该能力，请通过 Ark Root 对应的 <code>onInteractOutside</code> 属性回调处理。
+
+#### 其他子组件事件
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>EditableInput / EditablePreview / Control &amp; Trigger 组件</code></td>
+      <td>-</td>
+      <td>不额外定义 Rark 自定义 emits；事件行为遵循 Ark UI 对应原语</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Editable</code></td>
+      <td><code>default</code></td>
+      <td>主内容插槽（常放 <code>EditableInput</code> 与 <code>EditablePreview</code>），作用域含 <code>editing</code>、<code>empty</code>、<code>value</code></td>
+    </tr>
+    <tr>
+      <td><code>Editable</code></td>
+      <td><code>prefix</code></td>
+      <td>编辑区域前置内容，作用域含 <code>editing</code>、<code>empty</code>、<code>value</code></td>
+    </tr>
+    <tr>
+      <td><code>Editable</code></td>
+      <td><code>suffix</code></td>
+      <td>编辑区域后置内容（常用于控制按钮），作用域含 <code>editing</code>、<code>empty</code>、<code>value</code></td>
+    </tr>
+    <tr>
+      <td><code>EditableInput</code></td>
+      <td><code>clearable</code></td>
+      <td>自定义清空按钮区域，覆盖默认清空图标</td>
+    </tr>
+    <tr>
+      <td><code>EditablePreview</code></td>
+      <td><code>default</code></td>
+      <td>预览文本内容插槽</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Editable` 的主题入口在根组件 `theme`，会驱动 `tvEditable`（根、区域、预览相关样式）；`EditableInput` 可通过自身 `theme` 覆盖通用主题参数，其输入区样式由内部 `tvEditableInput` 应用。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸变体（示例见 Sizes）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | string</code></td>
+      <td>-</td>
+      <td>表面语义</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框风格</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object | (() =&gt; tv)</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvEditable</code> crafts（根组件）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={EditableStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Editable` 提供有限的 `ui` 覆盖入口；`EditableInput` 与 `EditablePreview` 本身不提供 `ui.*` 路径，建议通过其 `class` 或插槽完成局部样式控制。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Editable 根节点附加 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.area</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>Editable 编辑区域容器附加 class</td>
+    </tr>
+    <tr>
+      <td><code>EditableInput.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>输入区附加 class（替代 <code>ui</code>）</td>
+    </tr>
+    <tr>
+      <td><code>EditablePreview.class</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>预览区附加 class（替代 <code>ui</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={EditableStories.CustomControls} />
+
+---
+
+## 最佳实践
+
+- 优先使用 `Editable + EditableInput + EditablePreview` 的固定结构，避免缺失任一子组件导致交互不完整。
+- 简单场景使用非受控（`defaultValue`）；需要与外部状态同步或联动校验时再切到受控（`v-model`、`v-model:edit`）。
+- 需要明确提交/取消行为时，将 `activation-mode="none"` 与 `EditableControl` + `Submit/CancelTrigger` 组合使用。
+- 若启用 `clearable`，建议在 `EditableInput` 上配置，并在 `clearable` 插槽里替换为业务图标以保持视觉一致。
+- 对高频编辑输入建议监听 `valueCommit` 做持久化、监听 `valueRevert` 做埋点或回滚提示，而不是仅依赖 `valueChange`。
+- 样式定制遵循“先 `theme` 后 `ui/class`”：全局风格走 `theme`，局部布局和微调走 `ui.root/ui.area` 与子组件 `class`。

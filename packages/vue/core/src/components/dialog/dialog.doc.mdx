@@ -1,0 +1,501 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as DialogStories from './dialog.stories'
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+Dialog 是一个复合弹窗组件，用于承载确认、表单编辑、详情展示等临时交互内容。组件基于 Ark UI Dialog 构建，支持受控/非受控状态、关闭来源追踪（`from`）、主题配置，以及头部/内容/底部的结构化组合。
+
+---
+
+## Examples
+
+展示组件的常见使用方式。
+
+### 基础用法
+
+<Canvas of={DialogStories.Basic} />
+
+### 受控模式与事件
+
+<Canvas of={DialogStories.ControlledAndEvents} />
+
+### 尺寸与主题变体
+
+<Canvas of={DialogStories.Variants} />
+
+### 可滚动内容
+
+<Canvas of={DialogStories.Scrollable} />
+
+### Content 关闭按钮控制
+
+<Canvas of={DialogStories.ContentClose} />
+
+### Footer 按钮定制
+
+<Canvas of={DialogStories.FooterWidget} />
+
+### 函数式调用
+
+<Canvas of={DialogStories.Functional} />
+
+---
+
+## ARK UI Link
+
+`Dialog` 组件族与 Ark UI 的关系分为两层：`Dialog`、`DialogTrigger`、`DialogCloseTrigger`、`DialogBackdrop` 通过类型接口继承 Ark UI 基础 Props；`DialogContent/Header/Body/Footer` 为 Raxium UI 的结构化扩展层。
+
+- **相关文档**: [Ark UI Dialog (Vue)](https://ark-ui.com/vue/docs/components/dialog)
+- **说明**: `DialogProps extends DialogRootBaseProps`，`DialogTriggerProps/DialogCloseTriggerProps/DialogBackdropProps` 分别继承 Ark 对应 BaseProps，属于**部分透传 + 扩展**模式：保留 Ark UI 交互能力，同时扩展 Raxium UI 的 `theme`（根组件）与 `from`（触发来源追踪）。
+
+---
+
+## API
+
+### Props
+
+以下按子组件分组说明（仅列常用与扩展项，Ark UI 原生能力可参考官方文档）。
+
+#### Dialog
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控打开状态（配合 <code>v-model:open</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控初始状态</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>延迟挂载内容</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark UI 默认</td>
+      <td>关闭后卸载内容</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvDialog'&gt;</code></td>
+      <td>-</td>
+      <td>Dialog 主题变量（尺寸、皮肤、crafts 等）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点自定义 class</td>
+    </tr>
+  </tbody>
+</table>
+
+#### DialogTrigger / DialogCloseTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将触发能力合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>from</code></td>
+      <td><code>TriggerFrom | string | null | undefined</code></td>
+      <td><code>open_trigger / close_trigger</code></td>
+      <td>自定义触发来源，透传到 <code>openChange.details.from</code></td>
+    </tr>
+  </tbody>
+</table>
+
+#### DialogContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>showClose</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>未使用 <code>DialogHeader</code> 时，是否显示右上角默认关闭按钮</td>
+    </tr>
+  </tbody>
+</table>
+
+#### DialogHeader
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+#### DialogFooter
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>widget.cancel</code></td>
+      <td><code>ButtonProps &amp; {'{'} text?: string {'}'}</code></td>
+      <td>-</td>
+      <td>取消按钮属性与文案</td>
+    </tr>
+    <tr>
+      <td><code>widget.ok</code></td>
+      <td><code>ButtonProps &amp; {'{'} text?: string {'}'}</code></td>
+      <td>-</td>
+      <td>确认按钮属性与文案</td>
+    </tr>
+  </tbody>
+</table>
+
+#### DialogBody / DialogBackdrop
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DialogBody.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容主体区域 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogBackdrop.class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>遮罩层 class（通常由 <code>DialogContent.ui.backdrop</code> 统一控制）</td>
+    </tr>
+    <tr>
+      <td><code>DialogBackdrop.asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将 backdrop props 合并到子元素</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+#### Dialog emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:open</code></td>
+      <td><code>(open: boolean)</code></td>
+      <td>受控状态同步</td>
+    </tr>
+    <tr>
+      <td><code>openChange</code></td>
+      <td><code>(details: {'{'} open: boolean; from: DialogTriggerFrom {'}'})</code></td>
+      <td>打开状态变化（含触发来源）</td>
+    </tr>
+    <tr>
+      <td><code>escapeKeyDown</code></td>
+      <td><code>(event: KeyboardEvent)</code></td>
+      <td>按下 ESC 触发</td>
+    </tr>
+    <tr>
+      <td><code>focusOutside</code></td>
+      <td><code>(event: FocusOutsideEvent)</code></td>
+      <td>焦点移出弹层时触发</td>
+    </tr>
+    <tr>
+      <td><code>interactOutside</code></td>
+      <td><code>(event: InteractOutsideEvent)</code></td>
+      <td>与弹层外部交互时触发</td>
+    </tr>
+    <tr>
+      <td><code>pointerDownOutside</code></td>
+      <td><code>(event: PointerDownOutsideEvent)</code></td>
+      <td>指针按下外部区域时触发</td>
+    </tr>
+    <tr>
+      <td><code>requestDismiss</code></td>
+      <td><code>(event: RequestDismissEvent)</code></td>
+      <td>请求关闭时触发</td>
+    </tr>
+    <tr>
+      <td><code>exitComplete</code></td>
+      <td><code>()</code></td>
+      <td>退出动画完成后触发</td>
+    </tr>
+  </tbody>
+</table>
+
+#### DialogFooter emits
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ok</code></td>
+      <td><code>(event: MouseEvent)</code></td>
+      <td>点击确认按钮时触发</td>
+    </tr>
+    <tr>
+      <td><code>cancel</code></td>
+      <td><code>(event: MouseEvent)</code></td>
+      <td>点击取消按钮时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Dialog</code></td>
+      <td><code>default</code></td>
+      <td>放置触发器、内容等子组件</td>
+    </tr>
+    <tr>
+      <td><code>DialogTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发元素（通常配合 <code>as-child</code>）</td>
+    </tr>
+    <tr>
+      <td><code>DialogBackdrop</code></td>
+      <td><code>default</code></td>
+      <td>自定义遮罩层内容（通常无需使用）</td>
+    </tr>
+    <tr>
+      <td><code>DialogContent</code></td>
+      <td><code>default</code></td>
+      <td>弹窗主体内容（Header/Body/Footer）</td>
+    </tr>
+    <tr>
+      <td><code>DialogContent</code></td>
+      <td><code>close</code></td>
+      <td>自定义右上角关闭区域，覆盖默认关闭按钮</td>
+    </tr>
+    <tr>
+      <td><code>DialogHeader</code></td>
+      <td><code>default</code></td>
+      <td>标题文本或自定义头部内容</td>
+    </tr>
+    <tr>
+      <td><code>DialogBody</code></td>
+      <td><code>default</code></td>
+      <td>正文区域</td>
+    </tr>
+    <tr>
+      <td><code>DialogFooter</code></td>
+      <td><code>default</code></td>
+      <td>自定义底部；不传时渲染默认取消/确认按钮</td>
+    </tr>
+    <tr>
+      <td><code>DialogCloseTrigger</code></td>
+      <td><code>default</code></td>
+      <td>任意关闭触发元素（可记录来源）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Dialog` 通过 `theme` 统一驱动 `tvDialog` crafts（包括 backdrop / content / header / body / footer / close 等部位）。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>控制弹窗尺寸相关样式</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>主题皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | (string &amp; {'{'} {'}'})</code></td>
+      <td>-</td>
+      <td>亮/暗表面语义</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>控制是否启用边框语义（由主题实现决定实际样式）</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>去除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆盖 <code>tvDialog</code> 的 crafts 配置</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={DialogStories.Variants} />
+
+---
+
+## UI Configuration
+
+`Dialog` 根组件本身不提供 `ui` props；可通过以下子组件进行结构化 UI 覆盖：
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DialogContent.ui.backdrop</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>遮罩层 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogContent.ui.positioner</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>定位容器 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogContent.ui.content</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>内容容器 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogContent.ui.close</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>右上角关闭按钮 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogHeader.ui.root/title/close</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>头部容器、标题与关闭按钮 class</td>
+    </tr>
+    <tr>
+      <td><code>DialogFooter.ui.root/cancel/ok</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>底部容器与按钮 class</td>
+    </tr>
+  </tbody>
+</table>
+
+**示例**:
+
+<Canvas of={DialogStories.FooterWidget} />
+
+---
+
+## 最佳实践
+
+- 优先使用 `DialogHeader` + `DialogBody` + `DialogFooter` 组合，保证结构语义和一致样式。
+- 需要追踪关闭来源时，为触发器和关闭器配置 `from`，并在 `openChange` 中统一记录。
+- 复杂业务推荐使用受控模式（`v-model:open`），将弹窗状态与页面逻辑保持单一数据源。
+- 内容较长时限制 `DialogBody` 高度并开启滚动，避免整页滚动与焦点管理混乱。
+- 若需快速确认弹窗，可使用 `dialog()` 函数式 API；复杂表单仍建议使用组件式组合。
+- 当自定义关闭区时，使用 `DialogContent` 的 `close` 插槽并显式设置 `show-close="false"`，避免重复关闭按钮。

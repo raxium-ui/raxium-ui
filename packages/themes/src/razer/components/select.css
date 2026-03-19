@@ -1,0 +1,31 @@
+@layer components {
+  .rui-select-trigger {
+    @apply bg-h16 text-hbb border-h00 data-[state=open]:border-rz-green;
+
+    &:not([data-disabled]) {
+      @apply hover:border-rz-green;
+    }
+  }
+
+  .rui-select-content {
+    @apply bg-h1a text-hcc border-h11 shadow-rui-popper webkit-small-scrollbar;
+  }
+
+  .rui-select-item {
+    @apply bg-transparent data-highlighted:bg-h28 text-hbb data-[state=checked]:text-rz-green;
+  }
+
+  .rui-select-item-group-label {
+    @apply text-hff font-rz-bold border-h11;
+  }
+
+  .rui-select-separator {
+    @apply border-h11;
+  }
+
+  .rui-select-clear-trigger {
+    @apply [&>svg]:fill-rui-close
+    [&>svg]:stroke-black
+    [&>svg]:hover:fill-rui-close-hover;
+  }
+}

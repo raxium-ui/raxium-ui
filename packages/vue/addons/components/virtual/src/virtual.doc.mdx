@@ -1,0 +1,431 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as VirtualStories from './virtual.stories'
+
+<Meta of={VirtualStories} />
+
+# Virtual
+
+`Virtual` 是 addons 里的独立虚拟滚动组件集，用于长列表、动态高度列表和二维网格的按需渲染。组件核心由虚拟化库封装而来，并通过 `VirtualListItem` / `VirtualGridItem` / `VirtualInfiniteLoading` 组合扩展能力。当前不提供 `theme` 配置入口，支持部分 `ui` 样式覆盖。
+
+---
+
+## Examples
+
+### 基础列表
+
+<Canvas of={VirtualStories.BasicList} />
+
+### 动态高度与无限加载
+
+<Canvas of={VirtualStories.DynamicList} />
+
+### 基础网格
+
+<Canvas of={VirtualStories.BasicGrid} />
+
+---
+
+## Implementation References
+
+`Virtual` 的实现边界由以下依赖共同决定：
+
+<table>
+  <thead>
+    <tr>
+      <th>模块</th>
+      <th>用途</th>
+      <th>封装边界</th>
+      <th>文档</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>@tanstack/vue-virtual</code></td>
+      <td>提供 <code>useVirtualizer</code>、可视区计算、尺寸估算、滚动偏移计算。</td>
+      <td>属于“部分透传”。<code>VirtualListProps&lt;T&gt;</code> 基于 <code>VirtualizerOptions</code> 并由组件接管 <code>enabled</code> / <code>count</code> / <code>getScrollElement</code>；同时保留并扩展常用能力（如 <code>estimateSize</code>、<code>scrollToFn</code>、<code>observeElementRect</code>、<code>observeElementOffset</code>）供业务侧配置。</td>
+      <td><a href="https://tanstack.com/virtual/latest/docs/framework/vue/vue-virtual">Vue Virtual 文档</a></td>
+    </tr>
+    <tr>
+      <td><code>@raxium/vue-addons-shared</code></td>
+      <td>提供 addons 共享能力：<code>createContext</code>、<code>useForwardProps</code>、<code>useForwardExpose</code>。</td>
+      <td>属于“扩展能力”。用于上下文注入与引用透传，不直接增加业务 API；对外仍以当前组件的 Props / Slots / Events 为准。</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code>tailwind-merge</code></td>
+      <td>合并默认类名与传入的 <code>class</code>、<code>ui.*</code>。</td>
+      <td>属于“直接使用底层能力”。仅处理 class 冲突，不参与虚拟化计算和状态流转。</td>
+      <td><a href="https://github.com/dcastil/tailwind-merge">tailwind-merge</a></td>
+    </tr>
+    <tr>
+      <td><code>es-toolkit/compat</code></td>
+      <td>通过 <code>merge</code> 组装虚拟器最终选项。</td>
+      <td>属于“直接使用底层能力”。只负责对象合并，最终行为仍由组件内固定选项与虚拟化库共同决定。</td>
+      <td><a href="https://es-toolkit.dev">es-toolkit</a></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## API
+
+### Props
+
+`VirtualList` 与 `VirtualGrid` 对 `@tanstack/vue-virtual` 属于“部分透传”：文档中仅列出常用和扩展项；底层虚拟器能力请参考
+<a href="https://tanstack.com/virtual/latest/docs/framework/vue/vue-virtual">Vue Virtual 文档</a>。
+其中 <code>enabled</code>、<code>count</code>、<code>getScrollElement</code> 由组件内部控制；<code>estimateSize</code>、<code>scrollToFn</code>、<code>observeElementRect</code>、<code>observeElementOffset</code> 作为扩展项对外开放。
+
+#### VirtualList
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualList.dataSource</code></td>
+      <td><code>Array&lt;T&gt;</code></td>
+      <td>-</td>
+      <td>列表数据源。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualList.estimateSize</code></td>
+      <td><code>(index: number) =&gt; number</code></td>
+      <td><code>() =&gt; 30</code></td>
+      <td>列表项估算高度/宽度（横向时为宽度）。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualList.overscan</code></td>
+      <td><code>number</code></td>
+      <td><code>1</code></td>
+      <td>额外渲染缓冲项数量。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualList.horizontal</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否横向虚拟滚动。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualList.unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>组件声明了该参数；当前实现中未见样式分支逻辑，建议优先通过 <code>class</code> / <code>ui</code> 覆盖。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### VirtualGrid
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualGrid.dataSource</code></td>
+      <td><code>Array&lt;T&gt;</code></td>
+      <td>-</td>
+      <td>网格数据源。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.row</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>行数维度控制。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.column</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>列数维度控制。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.gap</code></td>
+      <td><code>[number, number]</code></td>
+      <td><code>[0, 0]</code></td>
+      <td>行间距与列间距。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.rowVirtualizerOptions</code></td>
+      <td><code>Omit&lt;VirtualListProps&lt;T&gt;, 'dataSource'&gt;</code></td>
+      <td>-</td>
+      <td>行虚拟器参数；其余参数遵循底层虚拟器能力边界。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.columnVirtualizerOptions</code></td>
+      <td><code>Omit&lt;VirtualListProps&lt;T&gt;, 'dataSource'&gt;</code></td>
+      <td>-</td>
+      <td>列虚拟器参数；其余参数遵循底层虚拟器能力边界。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### VirtualListItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualListItem.data</code></td>
+      <td><code>T</code></td>
+      <td>-</td>
+      <td>当前列表项数据。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualListItem.index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>当前项索引。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualListItem.dynamic</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>开启后在节点变化时触发 <code>measureElement</code>。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### VirtualGridItem
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualGridItem.data</code></td>
+      <td><code>T</code></td>
+      <td>-</td>
+      <td>当前网格项数据。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGridItem.index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>当前项线性索引。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGridItem.rowIndex</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>行索引。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGridItem.colIndex</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>列索引。</td>
+    </tr>
+  </tbody>
+</table>
+
+#### VirtualInfiniteLoading
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualInfiniteLoading.enableFirstLoad</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>挂载后是否立即触发一次加载。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualInfiniteLoading.enableRetry</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>错误状态是否展示重试按钮。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualInfiniteLoading.size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>状态块尺寸。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualList / VirtualGrid / VirtualListItem / VirtualGridItem</code></td>
+      <td>-</td>
+      <td>未暴露自定义事件。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualInfiniteLoading.infinite</code></td>
+      <td><code>($state: &#123; loading: () =&gt; void; loaded: () =&gt; void; complete: () =&gt; void; error: () =&gt; void &#125;) =&gt; void</code></td>
+      <td>首次加载或命中观察点时触发；业务侧通过回调切换加载状态。</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualList</code></td>
+      <td><code>default</code></td>
+      <td>列表内容槽，通常放 <code>VirtualListItem</code>，可额外放 <code>VirtualInfiniteLoading</code>。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualListItem</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; data: T, index?: number &#125;</code>。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid</code></td>
+      <td><code>default</code></td>
+      <td>网格内容槽，通常放 <code>VirtualGridItem</code>，可额外放 <code>VirtualInfiniteLoading</code>。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGridItem</code></td>
+      <td><code>default</code></td>
+      <td>参数为 <code>&#123; data: T, index?: number, rowIndex?: number, colIndex?: number &#125;</code>。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualInfiniteLoading</code></td>
+      <td><code>loading</code> / <code>spinner</code> / <code>complete</code> / <code>error</code></td>
+      <td><code>error</code> 插槽参数为 <code>&#123; retry: () =&gt; void &#125;</code>，其余无参数。</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Virtual` 不支持 `theme` 配置。替代方案：
+
+- 使用 `class` 与 `ui.*` 覆盖局部样式。
+- 引入并按需覆盖 `index.css` 中的结构化选择器（`data-scope` / `data-part`）。
+
+---
+
+## UI Configuration
+
+当前可配置路径如下（以实际渲染代码为准）：
+
+<table>
+  <thead>
+    <tr>
+      <th>可配置路径</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>VirtualList.ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>列表根容器样式。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualList.ui.scroll</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>列表滚动区域样式。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.ui.root</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>网格根容器样式。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualGrid.ui.scroll</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>网格滚动区域样式。</td>
+    </tr>
+    <tr>
+      <td><code>VirtualInfiniteLoading.ui.root/loading/spinner/complete/error</code></td>
+      <td><code>HTMLAttributes['class']</code></td>
+      <td>-</td>
+      <td>无限加载各状态节点样式。</td>
+    </tr>
+  </tbody>
+</table>
+
+样式引入说明：
+
+<table>
+  <thead>
+    <tr>
+      <th>项目</th>
+      <th>路径</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Virtual 样式文件</code></td>
+      <td><code>packages/vue/addons/components/virtual/src/index.css</code></td>
+      <td>包含 <code>rui-virtual-list</code> / <code>rui-virtual-grid</code> / <code>rui-virtual-infinite</code> 的基础样式与状态样式，并提供基于 <code>data-scope</code> / <code>data-part</code> 的结构化覆盖点。</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={VirtualStories.DynamicList} />
+
+---
+
+## 最佳实践
+
+- 组合优先：列表场景使用 `VirtualList + VirtualListItem`，网格场景使用 `VirtualGrid + VirtualGridItem`，无限加载作为附加节点放在默认插槽里。
+- 动态高度优先开启 `VirtualListItem.dynamic`，并提供接近真实值的 `estimateSize`，减少滚动跳动。
+- 处理加载态时统一从 `infinite` 事件回调维护状态，只在数据真正结束时调用 `complete()`。
+- 网格调优先分开设置 `rowVirtualizerOptions` 与 `columnVirtualizerOptions`，不要只调单侧 `overscan`。
+- 样式覆盖先用 `ui.*`，再用组件 `class`；需要结构级覆盖时再基于 `data-scope` / `data-part` 写样式。
+- 若使用 TypeScript，`VirtualList` / `VirtualGrid` 的 `ui` 在类型声明与渲染路径存在差异时，应以渲染生效路径 `root` / `scroll` 为准并在业务侧补充类型声明。

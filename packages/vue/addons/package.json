@@ -1,0 +1,17 @@
+{
+  "name": "@raxium/vue-addons",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "description": "Vue addons for Raxium UI",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/Hwacc/raxium"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "vue",
+    "addons"
+  ]
+}

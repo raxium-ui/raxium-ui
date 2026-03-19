@@ -1,0 +1,24 @@
+@layer components {
+  .rui-switch-control {
+    @apply bg-h78
+           data-[state=unchecked]:hover:bg-h78/80
+           data-[state=checked]:bg-rz-green
+           data-[state=checked]:hover:bg-rz-green-light
+           border-transparent;
+    &[data-disabled] {
+      @apply bg-h78 hover:bg-h78;
+      @apply opacity-(--disabled-opacity);
+    }
+    &[data-state='checked']&[data-disabled] {
+      @apply bg-rz-green;
+      @apply hover:bg-rz-green;
+    }
+  }
+  .rui-switch-thumb {
+    @apply bg-h00;
+  }
+  .rui-switch-label {
+    @apply text-h88;
+    @apply group-hover/switch:text-hff;
+  }
+}

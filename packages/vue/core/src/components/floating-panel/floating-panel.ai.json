@@ -1,0 +1,788 @@
+{
+  "schemaVersion": "2.0.0",
+  "docId": "rark.vue.floating-panel",
+  "component": {
+    "name": "FloatingPanel",
+    "framework": "vue",
+    "package": "@raxium/vue/core",
+    "importPath": "@raxium/vue/core",
+    "exportName": "FloatingPanel",
+    "category": "core",
+    "description": "可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。基于 Ark UI Floating Panel 封装，根组件透传 Ark UI Root 状态机能力，FloatingPanelTrigger 直接导出自 @ark-ui/vue。",
+    "basePrimitive": {
+      "library": "@ark-ui/vue",
+      "primitive": "FloatingPanel.RootProvider",
+      "nativeElement": "div"
+    },
+    "passThrough": {
+      "htmlAttributes": ["aria-*", "data-*"],
+      "notes": "根组件透传 Ark UI Root 常用参数与状态机能力（open/defaultOpen、尺寸、位置、lazyMount/unmountOnExit 等）。"
+    },
+    "capabilities": [
+      "theme",
+      "draggable",
+      "resizable",
+      "stage",
+      "opacity",
+      "pinned",
+      "open",
+      "lazyMount",
+      "unmountOnExit"
+    ],
+    "subComponents": [
+      "FloatingPanelContent",
+      "FloatingPanelHeader",
+      "FloatingPanelCloseTrigger",
+      "FloatingPanelPinTrigger",
+      "FloatingPanelStageTrigger",
+      "FloatingPanelOpacityTrigger"
+    ]
+  },
+  "contracts": {
+    "props": [
+      {
+        "name": "open",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["defaultOpen"],
+        "description": "受控打开状态（配合 v-model:open）。"
+      },
+      {
+        "name": "defaultOpen",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-doc",
+        "nullable": false,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": ["open"],
+        "description": "非受控模式下的初始打开状态。"
+      },
+      {
+        "name": "opacity",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "number",
+        "typeSchema": { "type": "number" },
+        "default": 100,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "面板透明度（内部会被限制在 0-100）。"
+      },
+      {
+        "name": "pinned",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": false,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否固定面板；固定时会禁用拖拽。"
+      },
+      {
+        "name": "resizeAxis",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'x' | 'y' | 'xy' | 'xyc' | 'custom'",
+        "typeSchema": { "enum": ["x", "y", "xy", "xyc", "custom"] },
+        "default": "xyc",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "控制内置缩放触发器渲染策略。"
+      },
+      {
+        "name": "draggable",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": true,
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否可拖拽（当 pinned=true 时会被强制关闭）。"
+      },
+      {
+        "name": "lazyMount",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "是否延迟挂载内容（Ark UI Root 参数）。"
+      },
+      {
+        "name": "unmountOnExit",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "boolean",
+        "typeSchema": { "type": "boolean" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": true,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "关闭后是否卸载内容（Ark UI Root 参数）。"
+      },
+      {
+        "name": "class",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "string | string[] | Record<string, boolean>",
+        "typeSchema": {
+          "anyOf": [
+            { "type": "string" },
+            { "type": "array" },
+            { "type": "object" }
+          ]
+        },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "根节点 class 覆盖。"
+      },
+      {
+        "name": "theme",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "ThemeCrafts<'tvFloatingPanel'>",
+        "typeSchema": { "type": "object" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "浮动面板主题变量与 crafts 覆盖入口。"
+      }
+    ],
+    "events": [
+      {
+        "name": "exitComplete",
+        "payload": { "typeText": "() => void", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "exit_animation_complete", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:exitComplete"],
+        "description": "退出动画结束时触发。"
+      },
+      {
+        "name": "openChange",
+        "payload": { "typeText": "(details: OpenChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "open_state_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:openChange"],
+        "description": "打开状态变化时触发。"
+      },
+      {
+        "name": "update:open",
+        "payload": { "typeText": "(open: boolean)", "typeSchema": { "type": "object", "properties": { "open": { "type": "boolean" } } } },
+        "emitWhen": [{ "expr": "open_state_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:open"],
+        "description": "用于双向绑定打开状态。"
+      },
+      {
+        "name": "positionChange",
+        "payload": { "typeText": "(details: PositionChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "position_realtime_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:positionChange"],
+        "description": "位置实时变化时触发。"
+      },
+      {
+        "name": "update:position",
+        "payload": { "typeText": "(position: PositionChangeDetails['position'])", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "position_realtime_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:position"],
+        "description": "用于双向绑定面板位置。"
+      },
+      {
+        "name": "positionChangeEnd",
+        "payload": { "typeText": "(details: PositionChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "drag_end", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:positionChangeEnd"],
+        "description": "拖拽/位移结束时触发。"
+      },
+      {
+        "name": "sizeChange",
+        "payload": { "typeText": "(details: SizeChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "size_realtime_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:sizeChange"],
+        "description": "尺寸实时变化时触发。"
+      },
+      {
+        "name": "update:size",
+        "payload": { "typeText": "(size: SizeChangeDetails['size'])", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "size_realtime_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:update:size"],
+        "description": "用于双向绑定面板尺寸。"
+      },
+      {
+        "name": "sizeChangeEnd",
+        "payload": { "typeText": "(details: SizeChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "resize_end", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:sizeChangeEnd"],
+        "description": "缩放结束时触发。"
+      },
+      {
+        "name": "stageChange",
+        "payload": { "typeText": "(details: StageChangeDetails)", "typeSchema": { "type": "object" } },
+        "emitWhen": [{ "expr": "stage_change", "kind": "runtime-hook" }],
+        "notEmitWhen": [],
+        "order": ["emit:stageChange"],
+        "description": "阶段变化（最小化/最大化/默认）时触发。"
+      }
+    ],
+    "slots": [
+      {
+        "name": "default",
+        "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+        "renderWhen": [{ "expr": "always" }],
+        "fallback": null,
+        "description": "放置触发器、内容与其它子组件。"
+      }
+    ],
+    "themeConfiguration": {
+      "fields": [
+        {
+          "name": "size",
+          "typeText": "'xs' | 'sm' | 'base' | 'lg'",
+          "typeSchema": { "enum": ["xs", "sm", "base", "lg"] },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "控制头部间距、触发器尺寸、缩放手柄尺寸。"
+        },
+        {
+          "name": "crafts",
+          "typeText": "object",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "unknown",
+          "description": "覆盖 positioner/content/header/control/title/trigger/resize* 槽位样式。"
+        }
+      ]
+    },
+    "uiConfiguration": {
+      "fields": []
+    }
+  },
+  "subComponents": {
+    "FloatingPanelContent": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "内容区 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承主题上下文，也可局部覆盖主题参数。"
+        },
+        {
+          "name": "ui",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "{ positioner?: HTMLAttributes['class']; content?: HTMLAttributes['class']; resizeVertical?: HTMLAttributes['class']; resizeHorizontal?: HTMLAttributes['class']; resizeCorner?: HTMLAttributes['class'] }",
+          "typeSchema": {
+            "type": "object",
+            "properties": {
+              "positioner": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "content": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "resizeVertical": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "resizeHorizontal": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "resizeCorner": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }
+            },
+            "additionalProperties": false
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "定位容器、内容区、垂直/水平/角落缩放手柄 class 覆盖。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "面板主体内容。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": {
+        "fields": [
+          { "name": "ui.positioner", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "定位容器样式覆盖。" },
+          { "name": "ui.content", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "内容区样式覆盖。" },
+          { "name": "ui.resizeVertical", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "垂直缩放边样式覆盖。" },
+          { "name": "ui.resizeHorizontal", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "水平缩放边样式覆盖。" },
+          { "name": "ui.resizeCorner", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "角落缩放点样式覆盖。" }
+        ]
+      }
+    },
+    "FloatingPanelHeader": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "头部容器 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承主题上下文，也可局部覆盖。"
+        },
+        {
+          "name": "ui",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "{ root?: HTMLAttributes['class']; title?: HTMLAttributes['class']; control?: HTMLAttributes['class'] }",
+          "typeSchema": {
+            "type": "object",
+            "properties": {
+              "root": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "title": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+              "control": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }
+            },
+            "additionalProperties": false
+          },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "头部容器、标题、控制区 class 覆盖。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "标题内容（内部渲染到 FloatingPanel.Title）。"
+        },
+        {
+          "name": "control",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "头部右侧控制区，通常放置 Pin/Stage/Close Trigger。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": {
+        "fields": [
+          { "name": "ui.root", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "头部容器样式覆盖。" },
+          { "name": "ui.title", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "标题区域样式覆盖。" },
+          { "name": "ui.control", "typeText": "HTMLAttributes['class']", "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] }, "default": null, "defaultKind": "implicit-undefined", "description": "控制区样式覆盖。" }
+        ]
+      }
+    },
+    "FloatingPanelCloseTrigger": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "触发器根节点 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承/覆盖浮动面板主题上下文。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "X 图标",
+          "description": "关闭按钮内容；默认渲染 X 图标。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "FloatingPanelPinTrigger": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "触发器根节点 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承/覆盖浮动面板主题上下文。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "pinned": { "type": "boolean" },
+              "setPinned": { "type": "function" }
+            },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "Pin/PinOff 图标",
+          "description": "作用域插槽：{ pinned, setPinned }。"
+        }
+      ],
+      "events": [
+        {
+          "name": "click",
+          "payload": { "typeText": "(event: MouseEvent)", "typeSchema": { "type": "object" } },
+          "emitWhen": [{ "expr": "click_before_toggle", "kind": "runtime-hook" }],
+          "notEmitWhen": [],
+          "order": ["emit:click"],
+          "description": "点击时触发；若事件未被阻止，会切换 pinned 状态。"
+        }
+      ],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "FloatingPanelStageTrigger": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "触发器根节点 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承/覆盖浮动面板主题上下文。"
+        },
+        {
+          "name": "stage",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "'minimized' | 'maximized' | 'default'",
+          "typeSchema": { "enum": ["minimized", "maximized", "default"] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "设置点击后切换到的面板阶段。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": { "type": "object", "properties": {}, "additionalProperties": false },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": "根据 stage 渲染对应图标",
+          "description": "阶段切换按钮内容；默认根据 stage 渲染图标。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    },
+    "FloatingPanelOpacityTrigger": {
+      "props": [
+        {
+          "name": "class",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "HTMLAttributes['class']",
+          "typeSchema": { "anyOf": [{ "type": "string" }, { "type": "array" }, { "type": "object" }] },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "触发器根节点 class 覆盖。"
+        },
+        {
+          "name": "theme",
+          "required": false,
+          "requiredSource": "type",
+          "typeText": "ThemeNoCrafts",
+          "typeSchema": { "type": "object" },
+          "default": null,
+          "defaultKind": "implicit-undefined",
+          "nullable": true,
+          "passthrough": false,
+          "deprecated": false,
+          "dependsOn": [],
+          "conflictsWith": [],
+          "description": "继承/覆盖浮动面板主题上下文。"
+        }
+      ],
+      "slots": [
+        {
+          "name": "default",
+          "slotPropsSchema": {
+            "type": "object",
+            "properties": {
+              "opacity": { "type": "number" },
+              "opacityGetter": { "type": "function" },
+              "setOpacity": { "type": "function" }
+            },
+            "additionalProperties": false
+          },
+          "renderWhen": [{ "expr": "always" }],
+          "fallback": null,
+          "description": "作用域插槽：{ opacity, opacityGetter, setOpacity }。"
+        }
+      ],
+      "events": [],
+      "themeConfiguration": { "fields": [] },
+      "uiConfiguration": { "fields": [] }
+    }
+  },
+  "behaviorModel": {
+    "stateVars": {
+      "opacity": "number",
+      "pinned": "boolean",
+      "draggable": "boolean"
+    },
+    "derived": {
+      "effectiveDraggable": "!pinned && draggable",
+      "opacityClamped": "clamp(opacity, 0, 100)"
+    },
+    "transitions": [
+      {
+        "on": "pin_toggle",
+        "guard": "always",
+        "effects": ["setPinned(!pinned)", "disableDraggableIfPinned"]
+      },
+      {
+        "on": "opacity_change",
+        "guard": "always",
+        "effects": ["setOpacity(clamp(value, 0, 100))"]
+      }
+    ]
+  },
+  "examples": [
+    { "id": "basic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "FloatingPanel" }, "exampleId": "basic" }, "description": "基础组合（标题、控制区、透明度/固定/阶段切换）" },
+    { "id": "minimal", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "FloatingPanel" }, "exampleId": "minimal" }, "description": "最小可用结构" },
+    { "id": "resize-axis", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "FloatingPanel" }, "exampleId": "resize-axis" }, "description": "缩放触发轴配置" },
+    { "id": "min-size", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "FloatingPanel" }, "exampleId": "min-size" }, "description": "最小尺寸限制" },
+    { "id": "initial-state", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "FloatingPanel" }, "exampleId": "initial-state" }, "description": "初始状态（透明度与固定）" }
+  ],
+  "generationHints": {
+    "preferredUsageOrder": ["open/defaultOpen", "opacity", "pinned", "resizeAxis", "theme.size"],
+    "safeDefaults": {
+      "opacity": 100,
+      "pinned": false,
+      "resizeAxis": "xyc",
+      "draggable": true
+    },
+    "a11yChecklist": [
+      "推荐保持固定结构：FloatingPanel + FloatingPanelTrigger + FloatingPanelContent + FloatingPanelHeader",
+      "将交互按钮统一放在 control 插槽中"
+    ],
+    "codegenTemplates": {
+      "minimal": "<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template #control><FloatingPanelCloseTrigger /></template></FloatingPanelHeader>Content</FloatingPanelContent></FloatingPanel>",
+      "withHeader": "<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template #control><FloatingPanelCloseTrigger /></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>",
+      "withTriggers": "<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template #control><FloatingPanelOpacityTrigger /><FloatingPanelPinTrigger /><FloatingPanelStageTrigger stage=\"minimized\" /><FloatingPanelStageTrigger stage=\"maximized\" /><FloatingPanelCloseTrigger /></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>"
+    },
+    "antiPatterns": [
+      "<FloatingPanel :pinned=\"pinned\" @position-change-end=\"pinned = true\"><FloatingPanelTrigger><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title</FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>",
+      "<FloatingPanel :opacity=\"opacity\"><FloatingPanelContent><FloatingPanelHeader><template #control><Slider :model-value=\"opacity\" @update:model-value=\"opacity = $event[0]\"/><input :value=\"opacity\" @input=\"opacity = +$event.target.value\"/></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      { "path": "./floating-panel.doc.mdx", "kind": "doc" },
+      { "path": "./props.ts", "kind": "type" },
+      { "path": "./FloatingPanel.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelContent.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelHeader.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelCloseTrigger.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelPinTrigger.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelStageTrigger.vue", "kind": "runtime" },
+      { "path": "./FloatingPanelOpacityTrigger.vue", "kind": "runtime" },
+      { "path": "./floating-panel.stories.ts", "kind": "story" }
+    ],
+    "precedence": ["runtime", "type", "doc"],
+    "fieldSourceMap": {
+      "contracts.props.open.default": "type",
+      "contracts.props.defaultOpen.default": "doc",
+      "contracts.props.open.conflictsWith": "doc",
+      "contracts.props.defaultOpen.conflictsWith": "doc",
+      "contracts.props.opacity.default": "runtime",
+      "contracts.props.pinned.default": "runtime",
+      "contracts.props.resizeAxis.default": "runtime",
+      "contracts.props.draggable.default": "runtime",
+      "contracts.uiConfiguration.fields": "doc",
+      "component.basePrimitive.primitive": "runtime",
+      "component.subComponents": "doc",
+      "subComponents.FloatingPanelContent.props.ui": "runtime",
+      "subComponents.FloatingPanelContent.uiConfiguration.fields": "doc",
+      "subComponents.FloatingPanelHeader.props.ui": "runtime",
+      "subComponents.FloatingPanelHeader.uiConfiguration.fields": "doc",
+      "subComponents.FloatingPanelPinTrigger.slots.default.slotPropsSchema": "runtime",
+      "subComponents.FloatingPanelOpacityTrigger.slots.default.slotPropsSchema": "runtime",
+      "contracts.events.order": "doc"
+    }
+  }
+}
