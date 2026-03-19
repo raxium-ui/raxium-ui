@@ -90,7 +90,7 @@
     "@zag-js/select": "^1.35.3",
     "@zag-js/toast": "^1.35.3",
     "@zag-js/tree-view": "^1.33.1",
-    "rsbuild-plugin-unplugin-vue": "^0.1.0",
+    "rsbuild-plugin-unplugin-vue": "^0.2.0",
     "tailwind-merge": "^3.5.0",
     "tsc-alias": "^1.8.16",
     "vue-tsc": "^3.2.4"

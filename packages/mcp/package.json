@@ -1,7 +1,7 @@
 {
   "name": "@raxium/mcp",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "packageManager": "pnpm@10.28.2",
   "description": "Maxium UI MCP server with stdio transport",
   "author": "",
