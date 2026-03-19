@@ -1,9 +1,12 @@
 shellEmulator: true
 
 trustPolicy: no-downgrade
+# 忽略发布时间超过 2 年的包的信任检查（覆盖 semver 5.x/6.x 等旧包）
+trustPolicyIgnoreAfter: 1051200
 trustPolicyExclude:
   - chokidar@4.0.3
   - vite@6.4.1
+  - semver@5.7.2
   - semver@6.3.1
 
 packages:

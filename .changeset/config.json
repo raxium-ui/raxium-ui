@@ -7,5 +7,5 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@raxium/playground-vue", "@raxium/vue-storybook", "@raxium/vue-addons"]
+  "ignore": ["@raxium/playground-vue", "@raxium/vue-storybook", "@raxium/vue-addons", "@raxium/vue"]
 }
