@@ -52,7 +52,7 @@ npx raxium-mcp
   "mcpServers": {
     "raxium-mcp": {
       "command": "npx",
-      "args": ["-y", "raxium-mcp"],
+      "args": ["-y", "@raxium/mcp"],
       "env": {
         "MCP_REMOTE_BASE_URL": "https://your-api.example.com",
         "MCP_REMOTE_TOKEN": "your-token", // 可选
