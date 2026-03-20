@@ -1,4 +1,4 @@
-# rui-ark-mcp
+# raxium-mcp
 
 一个通过 `stdio` 提供能力的 MCP Server，支持以下工具：
 
@@ -16,15 +16,15 @@
 
 ```bash
 pnpm install
-pnpm --filter rui-ark-mcp build
-pnpm --filter rui-ark-mcp start
+pnpm --filter raxium-mcp build
+pnpm --filter raxium-mcp start
 ```
 
 ### 快速验 5 个工具真实返回（Inspector 风格）
 
 ```bash
-pnpm --filter rui-ark-mcp build
-pnpm --filter rui-ark-mcp smoke:inspector
+pnpm --filter raxium-mcp build
+pnpm --filter raxium-mcp smoke:inspector
 ```
 
 该脚本会通过 `stdio` 启动本地 `dist/cli.js`，并按顺序调用：
@@ -42,7 +42,7 @@ pnpm --filter rui-ark-mcp smoke:inspector
 发布到 npm 后，可直接通过：
 
 ```bash
-npx rui-ark-mcp
+npx raxium-mcp
 ```
 
 ## MCP Client 配置（stdio）
@@ -50,15 +50,15 @@ npx rui-ark-mcp
 ```json
 {
   "mcpServers": {
-    "rui-ark-mcp": {
+    "raxium-mcp": {
       "command": "npx",
-      "args": ["-y", "rui-ark-mcp"],
+      "args": ["-y", "raxium-mcp"],
       "env": {
         "MCP_REMOTE_BASE_URL": "https://your-api.example.com",
-        "MCP_REMOTE_TOKEN": "your-token",
+        "MCP_REMOTE_TOKEN": "your-token", // 可选
         "MCP_TIMEOUT_MS": "8000",
         "MCP_REMOTE_RETRIES": "1",
-        "MCP_REPO_ROOT": "C:/workspace/rui-ark"
+        "MCP_REPO_ROOT": "C:/workspace/raxium-ui" // 本地fallback
       }
     }
   }
