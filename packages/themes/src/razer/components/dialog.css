@@ -4,7 +4,7 @@
   }
 
   .rui-dialog-content {
-    @apply bg-h1a border-h11 webkit-small-scrollbar
+    @apply text-hff bg-h1a border-h11 webkit-small-scrollbar
   }
 
   .rui-dialog-close{
@@ -12,7 +12,7 @@
   }
 
   .rui-dialog-header{
-    @apply bg-h22 font-rob-bold;
+    @apply text-hff bg-h22 font-rob-bold;
   }
 
   .rui-dialog-footer{
