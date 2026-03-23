@@ -1,7 +1,7 @@
 <script setup generic="T" lang="ts">
 import type { ComponentPublicInstance, HTMLAttributes } from 'vue'
 import type { VirtualGridProps } from '.'
-import { cn } from '@raxium/themes/utils'
+import { cn } from '@raxium/vue-addons-shared'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { merge } from 'es-toolkit/compat'
 import { cloneVNode, computed, h, useTemplateRef } from 'vue'

@@ -1,8 +1,7 @@
 <script lang="ts" generic="T" setup>
 import type { HTMLAttributes } from 'vue'
 import type { VirtualListProps } from '.'
-import { cn } from '@raxium/themes/utils'
-import { useForwardProps } from '@raxium/vue-addons-shared'
+import { cn, useForwardProps } from '@raxium/vue-addons-shared'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { merge } from 'es-toolkit/compat'
 import { cloneVNode, computed, h, useTemplateRef } from 'vue'

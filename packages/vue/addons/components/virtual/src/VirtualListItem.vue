@@ -1,6 +1,6 @@
 <script lang="ts" generic="T" setup>
 import type { HTMLAttributes } from 'vue'
-import { cn } from '@raxium/themes/utils'
+import { cn } from '@raxium/vue-addons-shared'
 import { useTemplateRef, watch } from 'vue'
 import { injectVirtualContext } from './VirtualRoot'
 

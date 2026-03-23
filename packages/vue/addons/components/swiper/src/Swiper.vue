@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperInstance } from 'swiper/types'
 import type { SwiperEmits, SwiperProps, SwiperSlots } from '.'
-import { cn } from '@raxium/themes/utils'
-import { useForwardPropsEmits } from '@raxium/vue-addons-shared'
+import { cn, useForwardPropsEmits } from '@raxium/vue-addons-shared'
 import { Swiper } from 'swiper/vue'
 import { ref, shallowRef } from 'vue'
 import { useSwiperModule } from './utils'

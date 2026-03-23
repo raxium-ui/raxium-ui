@@ -2,8 +2,7 @@
 import type { PaginationEvents, Swiper } from 'swiper/types'
 import type { SwiperPaginationProps } from '.'
 import { getNodeCssVar, rem2px } from '@raxium/shared'
-import { cn } from '@raxium/themes/utils'
-import { useForwardProps } from '@raxium/vue-addons-shared'
+import { cn, useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
 import { useSwiper } from 'swiper/vue'
 import { computed, nextTick, useTemplateRef, watch } from 'vue'
@@ -47,12 +46,18 @@ watch(
               const style = window.getComputedStyle(bullet)
               const dir = swiper.params.direction
               if (dir === 'horizontal') {
-                const width = parseFloat(style.width) + parseFloat(style.marginLeft) + parseFloat(style.marginRight)
+                const width
+                  = parseFloat(style.width)
+                    + parseFloat(style.marginLeft)
+                    + parseFloat(style.marginRight)
                 if (width < minSize)
                   minSize = width
               }
               else if (dir === 'vertical') {
-                const height = parseFloat(style.height) + parseFloat(style.marginTop) + parseFloat(style.marginBottom)
+                const height
+                  = parseFloat(style.height)
+                    + parseFloat(style.marginTop)
+                    + parseFloat(style.marginBottom)
                 if (height < minSize)
                   minSize = height
               }
@@ -82,9 +87,7 @@ watch(
 
     const options = merge(
       {},
-      typeof swiper.params.pagination === 'boolean'
-        ? {}
-        : swiper.params.pagination,
+      typeof swiper.params.pagination === 'boolean' ? {} : swiper.params.pagination,
       forwared.value,
       {
         enabled: true,

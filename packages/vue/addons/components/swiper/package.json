@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@raxium/shared": "workspace:*",
-    "@raxium/themes": "workspace:*",
     "@raxium/vue-addons-shared": "workspace:*",
     "es-toolkit": "^1.44.0",
     "lucide-vue-next": "^0.563.0",

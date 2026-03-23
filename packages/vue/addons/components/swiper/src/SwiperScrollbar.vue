@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import type { ScrollbarEvents } from 'swiper/types'
 import type { SwiperScrollbarProps } from '.'
-import { cn } from '@raxium/themes/utils'
-import { useForwardProps } from '@raxium/vue-addons-shared'
+import { cn, useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
 import { useSwiper } from 'swiper/vue'
 import { computed, useTemplateRef, watch } from 'vue'
