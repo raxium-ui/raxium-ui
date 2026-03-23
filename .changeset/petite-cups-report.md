@@ -5,3 +5,5 @@
 ---
 
 Remove vue addons dependency on themes package
+
+Fixed: pnpm-lock file
