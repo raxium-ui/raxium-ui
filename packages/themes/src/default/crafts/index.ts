@@ -1,3 +1,4 @@
+export { type AccordionVariants, tvAccordion } from './accordion'
 export { type BadgeVariants, tvBadge } from './badge'
 export { type ButtonVariants, tvButton } from './button'
 export { type CheckboxVariants, tvCheckbox } from './checkbox'

@@ -1,0 +1,399 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as AccordionStories from './accordion.stories'
+
+<Meta of={AccordionStories} />
+
+# Accordion
+
+`Accordion` 用于将内容分成多个可独立展开/收起的区块，适合 FAQ、设置分组、长表单分节等场景。组件组包含 `Accordion`、`AccordionItem`（别名 `AccordionPanel`）、`AccordionTrigger`、`AccordionContent`；在 Ark UI Accordion 能力基础上，根组件扩展了 `theme`/`class`，触发器扩展了 `indicator` 与 `ui` 样式入口。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={AccordionStories.Basic} />
+
+### 状态：默认展开、多选、禁用与可全关
+
+<Canvas of={AccordionStories.States} />
+
+### 尺寸变体
+
+<Canvas of={AccordionStories.Sizes} />
+
+### 触发器与插槽组合
+
+<Canvas of={AccordionStories.TriggerAndSlots} />
+
+---
+
+## ARK UI Link
+
+`Accordion` 组件组基于 Ark UI 的 Accordion 构建，透传边界以 `props.ts` 中的接口继承为准（`AccordionRootBaseProps`、`AccordionItemBaseProps` 等），而不是仅依据 `useForwardProps` 的实现细节：
+
+- `Accordion` 根组件继承 Ark Root 能力（如 `modelValue` / `defaultValue`、`multiple`、`collapsible`、`disabled`、`orientation` 等），并增加 `theme`、`class`。
+- `AccordionItem`、`AccordionTrigger`、`AccordionContent` 分别对应 Ark 的 Item、ItemTrigger、ItemContent 原语；`AccordionTrigger` 额外提供 `indicator` 与 `ui`（Raxium 扩展）。
+- `AccordionPanel` 与 `AccordionItem` 为同一组件的别名导出，便于与文档或其它设计系统命名对齐。
+
+Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components/accordion)
+
+---
+
+## API
+
+### Props
+
+按子组件分组列出常用与扩展项。Ark UI 原生完整参数（含懒渲染、多态 `asChild` 等）请参考官方文档。
+
+#### Accordion
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控模式下当前展开的 item <code>value</code> 列表</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控模式下的初始展开项</td>
+    </tr>
+    <tr>
+      <td><code>multiple</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否允许多个面板同时展开</td>
+    </tr>
+    <tr>
+      <td><code>collapsible</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>为 <code>true</code> 时允许全部收起；单选且非 collapsible 时需保持至少一项展开（行为以 Ark 文档为准）</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否禁用整个手风琴交互</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'vertical'</code></td>
+      <td>排列方向</td>
+    </tr>
+    <tr>
+      <td><code>id</code> / <code>ids</code></td>
+      <td><code>string</code> / <code>object</code></td>
+      <td>-</td>
+      <td>根 id 与内部元素 id 映射（组合与可访问性场景）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeCrafts&lt;'tvAccordion'&gt;</code></td>
+      <td>-</td>
+      <td>主题参数与 crafts 覆盖（见 Theme Configuration）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionItem / AccordionPanel
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>必填；在根组件的 <code>modelValue</code> / <code>defaultValue</code> 中引用</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>是否禁用该面板切换</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将行为合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>单项外层 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionTrigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>是否渲染默认箭头指示器</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将行为合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可单独覆盖主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+#### AccordionContent
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>将行为合并到子元素（Ark UI 原语能力）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>内容区 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>继承主题上下文，也可单独覆盖主题参数</td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+根组件对外事件与 Ark UI Accordion Root 一致；子组件不额外暴露自定义事件。
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Accordion: update:modelValue</code></td>
+      <td><code>(value: string[])</code></td>
+      <td>受控模式下展开项列表同步</td>
+    </tr>
+    <tr>
+      <td><code>Accordion: valueChange</code></td>
+      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>展开项变化（详见 Ark 类型定义）</td>
+    </tr>
+    <tr>
+      <td><code>Accordion: focusChange</code></td>
+      <td><code>(details: FocusChangeDetails)</code></td>
+      <td>焦点在 item 间移动时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+### Slots
+
+<table>
+  <thead>
+    <tr>
+      <th>组件</th>
+      <th>插槽</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Accordion</code></td>
+      <td><code>default</code></td>
+      <td>根插槽，作用域为 Ark <code>useAccordion</code> 返回的 API（用于高级组合或透传）</td>
+    </tr>
+    <tr>
+      <td><code>AccordionItem</code></td>
+      <td><code>default</code></td>
+      <td>单面板内：通常放 <code>AccordionTrigger</code> 与 <code>AccordionContent</code></td>
+    </tr>
+    <tr>
+      <td><code>AccordionTrigger</code></td>
+      <td><code>default</code></td>
+      <td>触发器主内容，作用域含 <code>open</code>、<code>visible</code></td>
+    </tr>
+    <tr>
+      <td><code>AccordionTrigger</code></td>
+      <td><code>indicator</code></td>
+      <td>自定义指示器，作用域含 <code>open</code>、<code>visible</code></td>
+    </tr>
+    <tr>
+      <td><code>AccordionContent</code></td>
+      <td><code>default</code></td>
+      <td>折叠内容区域</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Accordion` 根组件通过 `theme` 使用 `tvAccordion` crafts，主要驱动根、单项、触发器、指示器与内容区的尺寸与动效；`AccordionContent` / `AccordionTrigger` 上的 `theme` 为 `ThemeNoCrafts`，用于继承或微调主题上下文。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸变体（主要影响触发器字号与间距）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤风格</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>crafts</code></td>
+      <td><code>object</code></td>
+      <td>-</td>
+      <td>覆写 <code>tvAccordion</code> 各 slot</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={AccordionStories.ThemeExample} />
+
+---
+
+## UI Configuration
+
+`Accordion` 根组件不提供 `ui` 配置；局部样式覆盖请使用 `AccordionTrigger` 的 `ui.root` / `ui.indicator`，或通过各子组件的 `class` 完成。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>AccordionTrigger.ui.root</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>触发器根节点 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>AccordionTrigger.ui.indicator</code></td>
+      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>-</td>
+      <td>指示器容器 class 覆盖</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={AccordionStories.UIExample} />
+
+---
+
+## 最佳实践
+
+- **结构固定**：保持 `Accordion > AccordionItem > AccordionTrigger + AccordionContent` 层级，每个 `AccordionItem` 必须设置稳定的 `value`，便于受控与测试选择器引用。
+- **单选与全关**：默认非 `multiple` 时若需允许全部收起，将根上 `collapsible` 设为 `true`；多选场景用 `multiple` 并配合 `defaultValue` / `modelValue` 管理数组。
+- **受控同步**：与路由或表单状态绑定时使用 `modelValue` + `update:modelValue`，在 `valueChange` 中做埋点或副作用，避免双源状态。
+- **禁用粒度**：整组禁用用根 `disabled`；仅某一节不可点用对应 `AccordionItem` 的 `disabled`。
+- **长内容**：内容区仍可用常规布局与滚动容器；避免在触发器内塞入过多交互控件，以免与键盘/屏幕阅读器焦点模型冲突。
+- **样式分层**：全局节奏用根 `theme.size`，局部差异用 `AccordionTrigger` 的 `ui` 或 `class`；需要整体换肤时再考虑 `crafts` 覆写以降低升级成本。
