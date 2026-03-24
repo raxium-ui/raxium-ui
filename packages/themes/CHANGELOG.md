@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.3
+
+### Patch Changes
+
+- cc2d621: fix: dialog default text color
+
 ## 0.1.2
 
 ### Patch Changes

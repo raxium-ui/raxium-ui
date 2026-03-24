@@ -1,5 +1,13 @@
 # @raxium/vue
 
+## 0.1.3
+
+### Patch Changes
+
+- 840be63: fixed: spin renderIcon empty vnode judge
+- Updated dependencies [cc2d621]
+  - @raxium/themes@0.1.3
+
 ## 0.1.2
 
 ### Patch Changes
