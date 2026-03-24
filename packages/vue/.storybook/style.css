@@ -1,8 +1,10 @@
 @import 'tailwindcss';
 
-@import '../../themes/src/razer/index.css';
-
 @config '../tailwind.config.ts';
+
+@theme {
+  --spacing: 0.25rem;
+}
 
 :root {
   color: var(--color-hff);

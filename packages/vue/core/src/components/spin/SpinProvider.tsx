@@ -21,7 +21,7 @@ export default defineComponent({
     function renderIcon(props: SpinRenderProps) {
       const icon = slots?.icon?.(props)
       const crafts = computed(() => props.theme?.crafts?.tvSpin?.())
-      if (isEmptyVNode(icon)) {
+      if (!isEmptyVNode(icon)) {
         return (
           <ark.span
             class={crafts.value?.icon({
