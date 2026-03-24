@@ -15,6 +15,7 @@
     "node_modules",
     "dist",
     "src/**/*.stories.ts",
+    "src/**/__test__/**",
     "src/**/examples/**"
   ]
 }

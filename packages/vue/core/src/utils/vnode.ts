@@ -1,6 +1,6 @@
 import type { VNode, VNodeChild } from 'vue'
 import { camelCase, isEmpty } from 'es-toolkit/compat'
-import { isVNode } from 'vue'
+import { Comment, Fragment, isVNode, Text } from 'vue'
 
 export function someVNode(
   children: VNodeChild | VNodeChild[] | undefined,
@@ -126,4 +126,31 @@ export function checkContextVNodePosition(
       `\<${contextName}\> can not be a direct child of \<${componentName}\>, it may cause unexpected style behavior, consider lift it up or use it closer to where you want to use it `,
     )
   }
+}
+
+export function isEmptyVNode(node: VNode | VNode[] | null | undefined): boolean {
+  if (!node)
+    return true
+  const nodes = Array.isArray(node) ? node : [node]
+  if (nodes.length === 0)
+    return true
+  return nodes.every((n) => {
+    if (!n)
+      return true
+    if (!isVNode(n))
+      return true
+    if (n.type === Comment)
+      return true
+    if (n.type === Text)
+      return String(n.children ?? '').trim() === ''
+    if (n.type === Fragment) {
+      const ch = n.children
+      if (ch == null || ch === '')
+        return true
+      if (Array.isArray(ch))
+        return ch.every(c => isEmptyVNode(c as VNode))
+      return false
+    }
+    return false
+  })
 }

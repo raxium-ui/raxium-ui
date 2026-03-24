@@ -1,0 +1,11 @@
+---
+description: 单元测试文件与源码同目录分层，统一放在 __test__ 下
+globs: "**/*.test.ts"
+alwaysApply: false
+---
+
+# 测试文件位置
+
+- 所有 `*.test.ts` 放在**被测代码所在目录**下的 `__test__` 子目录中，不要与实现文件平级。
+- 示例：`src/utils/foo.ts` 的测试写在 `src/utils/__test__/foo.test.ts`；`src/components/bar/` 下写在 `src/components/bar/__test__/bar.test.ts`。
+- 新增或迁移测试时保持该结构；Vitest/Jest 的 `include` 需匹配 `**/__test__/**/*.test.ts`（按包内实际配置为准）。
