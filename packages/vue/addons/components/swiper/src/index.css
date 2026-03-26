@@ -1,115 +1,113 @@
-@layer components {
-  @import 'swiper/css';
-  @import 'swiper/css/navigation';
-  @import 'swiper/css/pagination';
-  @import 'swiper/css/scrollbar';
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/scrollbar';
 
-  .rui-swiper {
-    position: relative;
-  }
+.rui-swiper {
+  position: relative;
+}
 
-  .rui-swiper-navigation_prev,
-  .rui-swiper-navigation_next {
-    position: 'absolute';
-    height: 3.125rem;
-    z-index: 10;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.25rem;
-  }
-  .rui-swiper-navigation_prev {
-    left: 0;
-  }
-  .rui-swiper-navigation_next {
-    right: 0;
-  }
+.rui-swiper-navigation_prev,
+.rui-swiper-navigation_next {
+  position: 'absolute';
+  height: 3.125rem;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+}
+.rui-swiper-navigation_prev {
+  left: 0;
+}
+.rui-swiper-navigation_next {
+  right: 0;
+}
 
-  .rui-swiper-pagination {
-    --swiper-pagination-color: oklch(76.87% 0.2343 141.32);
+.rui-swiper-pagination {
+  --swiper-pagination-color: oklch(76.87% 0.2343 141.32);
 
-    /* position */
-    --swiper-pagination-left: auto;
-    --swiper-pagination-right: 0.5rem;
-    --swiper-pagination-bottom: 0.5rem;
-    --swiper-pagination-top: auto;
+  /* position */
+  --swiper-pagination-left: auto;
+  --swiper-pagination-right: 0.5rem;
+  --swiper-pagination-bottom: 0.5rem;
+  --swiper-pagination-top: auto;
 
-    /* fraction */
-    --swiper-pagination-fraction-color: inherit;
-    --swiper-pagination-progressbar-bg-color: oklch(0% 0 0 / 25%);
-    --swiper-pagination-progressbar-size: 4px;
+  /* fraction */
+  --swiper-pagination-fraction-color: inherit;
+  --swiper-pagination-progressbar-bg-color: oklch(0% 0 0 / 25%);
+  --swiper-pagination-progressbar-size: 4px;
 
-    /* Bullets */
-    --swiper-pagination-bullet-size: 0.5rem;
-    --swiper-pagination-bullet-width: 0.5rem;
-    --swiper-pagination-bullet-height: 0.5rem;
-    --swiper-pagination-bullet-border-radius: 50%;
-    --swiper-pagination-bullet-inactive-color: oklch(100% 0 0);
-    --swiper-pagination-bullet-inactive-opacity: 0.2;
-    --swiper-pagination-bullet-opacity: 1;
-    --swiper-pagination-bullet-horizontal-gap: 0.25rem;
-    --swiper-pagination-bullet-vertical-gap: 0.375rem;
-    --swiper-pagination-bullet-autoplay-active-bullet-size: 2.5rem;
+  /* Bullets */
+  --swiper-pagination-bullet-size: 0.5rem;
+  --swiper-pagination-bullet-width: 0.5rem;
+  --swiper-pagination-bullet-height: 0.5rem;
+  --swiper-pagination-bullet-border-radius: 50%;
+  --swiper-pagination-bullet-inactive-color: oklch(100% 0 0);
+  --swiper-pagination-bullet-inactive-opacity: 0.2;
+  --swiper-pagination-bullet-opacity: 1;
+  --swiper-pagination-bullet-horizontal-gap: 0.25rem;
+  --swiper-pagination-bullet-vertical-gap: 0.375rem;
+  --swiper-pagination-bullet-autoplay-active-bullet-size: 2.5rem;
 
-    &.swiper-pagination-horizontal[data-type='autoplay-bullets'] {
-      & .swiper-pagination-bullet-active {
-        position: relative;
-        width: var(--swiper-pagination-bullet-autoplay-active-bullet-size);
+  &.swiper-pagination-horizontal[data-type='autoplay-bullets'] {
+    & .swiper-pagination-bullet-active {
+      position: relative;
+      width: var(--swiper-pagination-bullet-autoplay-active-bullet-size);
+      border-radius: var(--swiper-pagination-bullet-height);
+      background-color: oklch(100% 0 0 / 20%);
+      transition: width 0.3s ease-out;
+
+      &:after {
+        content: ' ';
+        width: var(--autoplay-percentage);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: var(--swiper-pagination-color);
         border-radius: var(--swiper-pagination-bullet-height);
-        background-color: oklch(100% 0 0 / 20%);
-        transition: width 0.3s ease-out;
-
-        &:after {
-          content: " ";
-          width: var(--autoplay-percentage);
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          background-color: var(--swiper-pagination-color);
-          border-radius: var(--swiper-pagination-bullet-height);
-        }
       }
     }
+  }
 
-    &.swiper-pagination-vertical[data-type='autoplay-bullets'] {
-      & .swiper-pagination-bullet-active {
-        position: relative;
-        height: var(--swiper-pagination-bullet-autoplay-active-bullet-size);
+  &.swiper-pagination-vertical[data-type='autoplay-bullets'] {
+    & .swiper-pagination-bullet-active {
+      position: relative;
+      height: var(--swiper-pagination-bullet-autoplay-active-bullet-size);
+      border-radius: var(--swiper-pagination-bullet-width);
+      background-color: oklch(100% 0 0 / 20%);
+      transition: height 0.3s ease-out;
+
+      &:after {
+        content: ' ';
+        height: var(--autoplay-percentage);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--swiper-pagination-color);
         border-radius: var(--swiper-pagination-bullet-width);
-        background-color: oklch(100% 0 0 / 20%);
-        transition: height 0.3s ease-out;
-
-        &:after {
-          content: " ";
-          height: var(--autoplay-percentage);
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          background-color: var(--swiper-pagination-color);
-          border-radius: var(--swiper-pagination-bullet-width);
-        }
       }
     }
   }
-  
-  .rui-swiper-scrollbar {
-    --swiper-scrollbar-border-radius: 0.625rem;
-    --swiper-scrollbar-top: auto;
-    --swiper-scrollbar-bottom: 0.25rem;
-    --swiper-scrollbar-left: auto;
-    --swiper-scrollbar-right: 0.25rem;
-    --swiper-scrollbar-sides-offset: 1%;
-    --swiper-scrollbar-bg-color: rgba(255, 255, 255, 0.1);
-    --swiper-scrollbar-drag-bg-color: oklch(76.87% 0.2343 141.32);
-    --swiper-scrollbar-size: 0.25rem;
-  }
+}
 
-  .rui-swiper-next,
-  .rui-swiper-prev {
-    width: fit-content;
-  }
+.rui-swiper-scrollbar {
+  --swiper-scrollbar-border-radius: 0.625rem;
+  --swiper-scrollbar-top: auto;
+  --swiper-scrollbar-bottom: 0.25rem;
+  --swiper-scrollbar-left: auto;
+  --swiper-scrollbar-right: 0.25rem;
+  --swiper-scrollbar-sides-offset: 1%;
+  --swiper-scrollbar-bg-color: rgba(255, 255, 255, 0.1);
+  --swiper-scrollbar-drag-bg-color: oklch(76.87% 0.2343 141.32);
+  --swiper-scrollbar-size: 0.25rem;
+}
+
+.rui-swiper-next,
+.rui-swiper-prev {
+  width: fit-content;
 }
