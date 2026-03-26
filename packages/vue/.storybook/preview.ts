@@ -4,7 +4,6 @@ import { defineComponent, h } from 'vue'
 import { Toast, Toaster } from '../core/src/components/toast'
 import { RUIConfig } from '../core/src/providers/config'
 
-import '../../themes/src/razer/index.css'
 import './style.css'
 
 setup((app) => {
