@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.0
+
+### Minor Changes
+
+- 8c53b5a: Update ark-ui/vue -> 5.35.0
+
 ## 0.1.3
 
 ### Patch Changes
