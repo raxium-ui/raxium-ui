@@ -1,0 +1,54 @@
+{
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":dependencyDashboard"
+  ],
+
+  "timezone": "Asia/Shanghai",
+
+  "schedule": ["after 2am and before 5am every day"],
+
+  "rangeStrategy": "bump",
+
+  "labels": ["dependencies"],
+
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+
+  "npm": {
+    "workspaces": true
+  },
+
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^vue$"],
+      "groupName": "vue core"
+    },
+    {
+      "matchPackagePatterns": ["^@vue/"],
+      "groupName": "vue ecosystem"
+    },
+    {
+      "matchPackagePatterns": ["^@ark-ui/", "^@zag-js/"],
+      "rangeStrategy": "replace",
+      "automerge": false,
+      "groupName": "ark + zag ecosystem"
+    },
+    {
+      "matchPackagePatterns": ["^@types/"],
+      "groupName": "types"
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "excludePackagePatterns": ["^@types/"],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    }
+  ]
+}

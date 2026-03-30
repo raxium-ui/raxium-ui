@@ -4,6 +4,9 @@ import { vTitle } from '../index'
 
 <template>
   <div class="flex flex-col gap-4">
+    <div v-title="''" class="w-fit">
+      Empty Title
+    </div>
     <div v-title="'Test Title'" class="w-fit">
       Test Title
     </div>

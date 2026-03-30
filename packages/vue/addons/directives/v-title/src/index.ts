@@ -23,6 +23,11 @@ class TitleTooltip {
     this.showTimer && clearTimeout(this.showTimer)
     this.showTimer = setTimeout(async () => {
       try {
+        if (!binding.value) {
+          this.titleTipNode.style.visibility = 'hidden'
+          this.titleTipNode.style.display = 'block'
+          return
+        }
         this.titleTipNode.removeChild(this.titleTipTextNode)
         this.titleTipTextNode = document.createTextNode(binding.value)
         this.titleTipNode.appendChild(this.titleTipTextNode)

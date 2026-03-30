@@ -63,7 +63,7 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@ark-ui/vue": "^5.34.1",
+    "@ark-ui/vue": "^5.35.0",
     "vue": "^3.5.0"
   },
   "dependencies": {
@@ -76,7 +76,7 @@
     "vue-component-type-helpers": "^3.2.1"
   },
   "devDependencies": {
-    "@ark-ui/vue": "^5.34.1",
+    "@ark-ui/vue": "5.35.0",
     "@iconify/vue": "^5.0.0",
     "@internationalized/date": "^3.10.1",
     "@raxium/shared": "workspace:*",
@@ -84,12 +84,12 @@
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
     "@rslib/core": "0.20.0",
-    "@zag-js/checkbox": "^1.35.3",
-    "@zag-js/date-picker": "^1.35.3",
-    "@zag-js/floating-panel": "^1.35.3",
-    "@zag-js/select": "^1.35.3",
-    "@zag-js/toast": "^1.35.3",
-    "@zag-js/tree-view": "^1.33.1",
+    "@zag-js/checkbox": "1.38.2",
+    "@zag-js/date-picker": "1.38.2",
+    "@zag-js/floating-panel": "1.38.2",
+    "@zag-js/select": "1.38.2",
+    "@zag-js/toast": "1.38.2",
+    "@zag-js/tree-view": "1.38.2",
     "rsbuild-plugin-unplugin-vue": "^0.2.0",
     "tailwind-merge": "^3.5.0",
     "tsc-alias": "^1.8.16",
