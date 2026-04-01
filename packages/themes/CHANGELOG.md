@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.4
+
+### Patch Changes
+
+- 1271517: FIX: razer theme breakpoint spell bug
+
 ## 0.1.3
 
 ### Patch Changes
