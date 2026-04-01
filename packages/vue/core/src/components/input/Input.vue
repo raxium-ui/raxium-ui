@@ -22,10 +22,14 @@ const {
 } = defineProps<InputProps>()
 const emits = defineEmits<{
   'update:modelValue': [value: string | number]
-  'focus': [e: Event]
-  'blur': [e: Event]
-  'input': [e: Event, value: string | number | undefined]
+  'focus': [e: FocusEvent]
+  'blur': [e: FocusEvent]
+  'input': [e: InputEvent, value: string | number | undefined]
   'change': [e: Event, value: string | number | undefined]
+  'clear': [e: Event, value: string | number | undefined]
+  'beforeInput': [e: InputEvent, value: string | number | undefined]
+  'compositionStart': [e: CompositionEvent]
+  'compositionEnd': [e: CompositionEvent]
 }>()
 
 const inputId = useId()
@@ -45,7 +49,13 @@ const inputState = computed(() => {
 
 const inputRef = useTemplateRef<HTMLInputElement | null>('input')
 const rejectBlur = ref(false)
-function onBlur(event: Event) {
+
+function onFocus(event: FocusEvent) {
+  isFocus.value = true
+  emits('focus', event)
+}
+
+function onBlur(event: FocusEvent) {
   setTimeout(() => {
     emits('blur', event)
     if (rejectBlur.value) {
@@ -54,6 +64,13 @@ function onBlur(event: Event) {
     }
     isFocus.value = false
   })
+}
+
+function onClear() {
+  rejectBlur.value = true
+  inputRef.value?.focus()
+  modelValue.value = ''
+  emits('clear', new CustomEvent('clear'), modelValue.value)
 }
 
 // theme
@@ -78,26 +95,18 @@ const crafts = computed(() => theme.value.crafts.tvInput())
       :disabled="disabled ? true : undefined"
       :readonly="readonly ? true : undefined"
       :maxlength="maxlength"
-      @focus="
-        (event: Event) => {
-          isFocus = true;
-          emits('focus', event);
-        }
-      "
+      @focus="onFocus"
       @blur="onBlur"
-      @input="(e: Event) => emits('input', e, modelValue)"
-      @change="(e: Event) => emits('change', e, modelValue)"
+      @input="emits('input', $event, modelValue)"
+      @change="emits('change', $event, modelValue)"
+      @beforeinput="emits('beforeInput', $event, modelValue)"
+      @compositionstart="emits('compositionStart', $event)"
+      @compositionend="emits('compositionEnd', $event)"
     >
     <ark.div
       v-if="inputState === 'focused' && clearable && modelValue"
       :class="crafts.clearable({ class: clsx(ui?.clearable), ...theme })"
-      @mousedown.stop="
-        () => {
-          rejectBlur = true
-          inputRef?.focus()
-          modelValue = ''
-        }
-      "
+      @mousedown.stop="onClear"
     >
       <CircleX />
     </ark.div>
