@@ -1,5 +1,11 @@
 # @raxium/vue-addons-swiper
 
+## 0.1.3
+
+### Patch Changes
+
+- ca72dfc: FIX: remove addons css `@layer`, to avoid these @layer pollute tailwind css layer structure when `@import tailwindcss` do not on the top of css
+
 ## 0.1.2
 
 ### Patch Changes
