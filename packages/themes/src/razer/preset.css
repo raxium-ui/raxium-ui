@@ -19,11 +19,11 @@
   --spacing: 0.25rem;
 
   /* Breakpoints */
-  --break-point-sm: 1024px;
-  --break-point-md: 1440px;
-  --break-point-lg: 1920px;
-  --break-point-xl: 2560px;
-  --break-point-2xl: 3840px;
+  --breakpoint-sm: 1024px;
+  --breakpoint-md: 1440px;
+  --breakpoint-lg: 1920px;
+  --breakpoint-xl: 2560px;
+  --breakpoint-2xl: 3840px;
 
   /* Colors */
   --color-*: initial;
