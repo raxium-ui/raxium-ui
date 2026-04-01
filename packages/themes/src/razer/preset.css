@@ -2,9 +2,9 @@
 
 @custom-variant skin-razer (&:where(html[data-theme-skin=razer], html[data-theme-skin=razer] *));
 
-@custom-variant surface-dark (&:where([data-theme-surface=dark], [data-theme-surface=dark] *));
-@custom-variant surface-light (&:where([data-theme-surface=light], [data-theme-surface=light] *));
-@custom-variant surface-razer (&:where([data-theme-surface=razer], [data-theme-surface=razer] *));
+@custom-variant surface-dark (&:where([data-theme-surface=dark]));
+@custom-variant surface-light (&:where([data-theme-surface=light]));
+@custom-variant surface-razer (&:where([data-theme-surface=razer]));
 
 @custom-variant success (&:where([data-type=success], [data-type=success] *));
 @custom-variant error (&:where([data-type=error], [data-type=error] *));
