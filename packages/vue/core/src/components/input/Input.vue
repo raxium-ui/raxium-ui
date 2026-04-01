@@ -21,13 +21,13 @@ const {
   ...props
 } = defineProps<InputProps>()
 const emits = defineEmits<{
-  'update:modelValue': [value: string | number]
+  'update:modelValue': [value: string]
   'focus': [e: FocusEvent]
   'blur': [e: FocusEvent]
-  'input': [e: InputEvent, value: string | number | undefined]
-  'change': [e: Event, value: string | number | undefined]
-  'clear': [e: Event, value: string | number | undefined]
-  'beforeInput': [e: InputEvent, value: string | number | undefined]
+  'input': [e: InputEvent, value: string | undefined]
+  'change': [e: Event, value: string | undefined]
+  'clear': [e: Event, value: string | undefined]
+  'beforeInput': [e: InputEvent, value: string | undefined]
   'compositionStart': [e: CompositionEvent]
   'compositionEnd': [e: CompositionEvent]
 }>()
