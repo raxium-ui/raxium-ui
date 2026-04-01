@@ -3,8 +3,8 @@ import type { HTMLAttributes } from 'vue'
 
 export interface InputProps extends ThemeCrafts<'tvInput'> {
   id?: string
-  defaultValue?: string | number
-  modelValue?: string | number
+  defaultValue?: string
+  modelValue?: string
   class?: HTMLAttributes['class']
   placeholder?: string
   clearable?: boolean

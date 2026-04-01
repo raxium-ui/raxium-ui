@@ -86,7 +86,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
   >
     <slot name="prefix" />
     <input
-      :id="id ?? inputId"
+      :id="id ?? `input:${inputId}`"
       ref="input"
       v-model="modelValue"
       :class="crafts.input({ class: clsx(ui?.input), ...theme })"
