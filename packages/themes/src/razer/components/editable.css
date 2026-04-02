@@ -19,6 +19,7 @@
 
   .rui-editable-input-input {
     @apply placeholder:text-h55 placeholder:italic selection:bg-[#204C19] selection:text-[#97C390];
+    @apply focus-visible:shadow-none;
   }
 
   .rui-editable-input-clearable {

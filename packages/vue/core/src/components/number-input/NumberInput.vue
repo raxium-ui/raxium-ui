@@ -19,9 +19,20 @@ const emits = defineEmits<
   NumberInputRootEmits & {
     focus: [event: FocusEvent]
     blur: [event: FocusEvent]
+    focusin: [event: FocusEvent]
+    focusout: [event: FocusEvent]
   }
 >()
 const numberInput = useNumberInput(useForwardProps(props), emits)
+
+function onFocusin(event: FocusEvent) {
+  emits('focusin', event)
+  emits('focus', event)
+}
+function onFocusout(event: FocusEvent) {
+  emits('focusout', event)
+  emits('blur', event)
+}
 
 // theme
 const theme = useTheme(() => propsTheme)
@@ -44,8 +55,8 @@ useForwardExpose()
         :class="
           inputCrafts.input({ class: crafts.input({ class: clsx(ui?.input), ...theme }), ...theme })
         "
-        @focus="emits('focus', $event)"
-        @blur="emits('blur', $event)"
+        @focusin="onFocusin"
+        @focusout="onFocusout"
       />
       <div
         v-if="showTrigger"
