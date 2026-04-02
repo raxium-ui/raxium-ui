@@ -3,9 +3,8 @@ import type { InputProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { useVModel } from '@vueuse/core'
 import { CircleX } from 'lucide-vue-next'
-import { computed, ref, useId, useTemplateRef } from 'vue'
+import { computed, ref, useAttrs, useId, useTemplateRef, watch } from 'vue'
 
 const {
   id,
@@ -15,15 +14,16 @@ const {
   ui,
   disabled,
   readonly,
-  defaultValue,
   placeholder,
-  maxlength,
-  ...props
+  defaultValue,
+  modelValue,
 } = defineProps<InputProps>()
 const emits = defineEmits<{
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | undefined]
   'focus': [e: FocusEvent]
   'blur': [e: FocusEvent]
+  'focusin': [e: FocusEvent]
+  'focusout': [e: FocusEvent]
   'input': [e: InputEvent, value: string | undefined]
   'change': [e: Event, value: string | undefined]
   'clear': [e: Event, value: string | undefined]
@@ -35,10 +35,16 @@ const emits = defineEmits<{
 }>()
 
 const inputId = useId()
-const modelValue = useVModel(props, 'modelValue', emits, {
-  passive: true,
-  defaultValue,
-})
+const innerValue = ref<string | undefined>(modelValue ?? defaultValue ?? '')
+watch(
+  innerValue,
+  (newVal) => {
+    emits('update:modelValue', newVal)
+  },
+  {
+    flush: 'post',
+  },
+)
 
 const isFocus = ref(false)
 const inputState = computed(() => {
@@ -52,13 +58,15 @@ const inputState = computed(() => {
 const inputRef = useTemplateRef<HTMLInputElement | null>('input')
 const rejectBlur = ref(false)
 
-function onFocus(event: FocusEvent) {
+function onFocusin(event: FocusEvent) {
   isFocus.value = true
+  emits('focusin', event)
   emits('focus', event)
 }
 
-function onBlur(event: FocusEvent) {
+function onFocusout(event: FocusEvent) {
   setTimeout(() => {
+    emits('focusout', event)
     emits('blur', event)
     if (rejectBlur.value) {
       rejectBlur.value = false
@@ -71,8 +79,8 @@ function onBlur(event: FocusEvent) {
 function onClear() {
   rejectBlur.value = true
   inputRef.value?.focus()
-  modelValue.value = ''
-  emits('clear', new CustomEvent('clear'), modelValue.value)
+  innerValue.value = undefined
+  emits('clear', new CustomEvent('clear'), innerValue.value)
 }
 
 // theme
@@ -90,18 +98,18 @@ const crafts = computed(() => theme.value.crafts.tvInput())
     <input
       :id="id ?? `input:${inputId}`"
       ref="input"
-      v-model="modelValue"
+      v-bind="$attrs"
+      v-model="innerValue"
       :class="crafts.input({ class: clsx(ui?.input), ...theme })"
-      :placeholder="placeholder"
       :data-state="inputState"
+      :placeholder="placeholder"
       :disabled="disabled ? true : undefined"
       :readonly="readonly ? true : undefined"
-      :maxlength="maxlength"
-      @focus="onFocus"
-      @blur="onBlur"
-      @input="emits('input', $event, modelValue)"
-      @change="emits('change', $event, modelValue)"
-      @beforeinput="emits('beforeInput', $event, modelValue)"
+      @focusin="onFocusin"
+      @focusout="onFocusout"
+      @input="emits('input', $event, innerValue)"
+      @change="emits('change', $event, innerValue)"
+      @beforeinput="emits('beforeInput', $event, innerValue)"
       @compositionstart="emits('compositionStart', $event)"
       @compositionend="emits('compositionEnd', $event)"
       @keydown="emits('keydown', $event)"

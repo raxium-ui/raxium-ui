@@ -8,7 +8,7 @@ const text = ref('')
 <template>
   <div class="w-full flex flex-col gap-3">
     <Input class="w-60" default-value="Default Value" />
-    <Input class="w-60" placeholder="Placeholder" />
+    <Input class="w-60" placeholder="Placeholder" @keydown="() => console.log('keydown')" />
 
     <div class="flex items-center gap-3">
       <Input v-model="text" class="w-60" placeholder="v-model" />

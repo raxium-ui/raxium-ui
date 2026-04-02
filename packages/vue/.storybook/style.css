@@ -1,4 +1,6 @@
-@import '@raxium/themes/razer/index.css';
+/* FIXME: @raxium/themes/razer/index.css css 无法走 alias 引入 */
+@import '../../themes/src/razer/index.css';
+
 @import './taiwind.css';
 
 :root {

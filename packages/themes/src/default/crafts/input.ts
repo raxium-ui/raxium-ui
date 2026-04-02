@@ -15,7 +15,7 @@ export const tvInput = tv({
       'data-[state=disabled]:pointer-events-none',
       'data-[state=disabled]:opacity-(--disabled-opacity)',
     ],
-    input: ['flex-1', 'w-0', 'outline-hidden', 'border-none', 'bg-transparent'],
+    input: ['flex-1', 'w-0'],
     clearable: ['size-[1lh]', 'flex', 'items-center', 'justify-center'],
   },
   variants: {

@@ -6,11 +6,10 @@ export interface InputProps extends ThemeCrafts<'tvInput'> {
   defaultValue?: string
   modelValue?: string
   class?: HTMLAttributes['class']
-  placeholder?: string
   clearable?: boolean
   disabled?: boolean
   readonly?: boolean
-  maxlength?: number
+  placeholder?: string
   ui?: {
     root?: HTMLAttributes['class']
     input?: HTMLAttributes['class']
