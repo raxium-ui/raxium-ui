@@ -4,7 +4,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { CircleX } from 'lucide-vue-next'
-import { computed, ref, useAttrs, useId, useTemplateRef, watch } from 'vue'
+import { computed, ref, useId, useTemplateRef, watch } from 'vue'
 
 const {
   id,

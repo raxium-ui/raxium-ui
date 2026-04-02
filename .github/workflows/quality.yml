@@ -1,12 +1,16 @@
-name: CI
+name: Quality
 
 on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - changeset-release/main
 
 jobs:
   ci:
+    if: ${{ github.event_name == 'push' || github.event.pull_request.head.ref != 'changeset-release/main' }}
     runs-on: ubuntu-latest
 
     steps:
