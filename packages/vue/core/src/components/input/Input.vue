@@ -30,6 +30,8 @@ const emits = defineEmits<{
   'beforeInput': [e: InputEvent, value: string | undefined]
   'compositionStart': [e: CompositionEvent]
   'compositionEnd': [e: CompositionEvent]
+  'keydown': [e: KeyboardEvent]
+  'keyup': [e: KeyboardEvent]
 }>()
 
 const inputId = useId()
@@ -102,6 +104,8 @@ const crafts = computed(() => theme.value.crafts.tvInput())
       @beforeinput="emits('beforeInput', $event, modelValue)"
       @compositionstart="emits('compositionStart', $event)"
       @compositionend="emits('compositionEnd', $event)"
+      @keydown="emits('keydown', $event)"
+      @keyup="emits('keyup', $event)"
     >
     <ark.div
       v-if="inputState === 'focused' && clearable && modelValue"
