@@ -39,7 +39,7 @@
     "@raxium/vue-addons-shared": "workspace:*",
     "@tanstack/vue-virtual": "^3.13.19",
     "es-toolkit": "^1.44.0",
-    "lucide-vue-next": "^0.575.0"
+    "lucide-vue-next": "^1.0.0"
   },
   "devDependencies": {
     "@rsbuild/plugin-babel": "^1.0.6",

@@ -72,7 +72,7 @@
     "@raxium/themes": "workspace:*",
     "@vueuse/core": "^14.1.0",
     "es-toolkit": "^1.44.0",
-    "lucide-vue-next": "^0.577.0",
+    "lucide-vue-next": "^1.0.0",
     "vue-component-type-helpers": "^3.2.1"
   },
   "devDependencies": {
