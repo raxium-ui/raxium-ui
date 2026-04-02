@@ -1,5 +1,11 @@
 # @raxium/vue-addons-virtual
 
+## 0.1.4
+
+### Patch Changes
+
+- 87bb15a: CHORE: update lucide-next -> v1.0.0
+
 ## 0.1.3
 
 ### Patch Changes
