@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- 7f60f14: rebuild
+
+## 0.1.6
+
+### Patch Changes
+
 - 312a505: FIX: editable focus style
   FIX: number-input focus events
 - 37eaa6a: FIX: Optimize the input focus effect
