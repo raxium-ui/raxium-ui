@@ -9,8 +9,7 @@ on:
       - changeset-release/main
 
 jobs:
-  ci:
-    if: ${{ github.event_name == 'push' || github.event.pull_request.head.ref != 'changeset-release/main' }}
+  build:
     runs-on: ubuntu-latest
 
     steps:
