@@ -1,5 +1,17 @@
 # @raxium/vue
 
+## 0.2.2
+
+### Patch Changes
+
+- 87bb15a: CHORE: update lucide-next -> v1.0.0
+- 5b2c0c7: CHORE: remove input component unuse types
+- 0a71c62: CHORE: remove input unuse types
+- f007c79: FEAT: Add new event listeners to the input component
+- Updated dependencies [b5f0f69]
+- Updated dependencies [e6f4c25]
+  - @raxium/themes@0.1.5
+
 ## 0.2.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @raxium/themes
 
+## 0.1.5
+
+### Patch Changes
+
+- b5f0f69: FIXED: Modify the outline effect
+- e6f4c25: FIX: Tighten CSS surface and determine scoped
+
 ## 0.1.4
 
 ### Patch Changes
