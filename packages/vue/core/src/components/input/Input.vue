@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { InputProps } from '.'
-import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { CircleX } from 'lucide-vue-next'
@@ -17,6 +16,9 @@ const {
   placeholder,
   defaultValue,
   modelValue,
+  maxlength,
+  minlength,
+  type,
 } = defineProps<InputProps>()
 const emits = defineEmits<{
   'update:modelValue': [value: string | undefined]
@@ -89,8 +91,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
 </script>
 
 <template>
-  <ark.div
-    :as-child="false"
+  <div
     :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
     :data-state="inputState"
   >
@@ -98,13 +99,15 @@ const crafts = computed(() => theme.value.crafts.tvInput())
     <input
       :id="id ?? `input:${inputId}`"
       ref="input"
-      v-bind="$attrs"
       v-model="innerValue"
       :class="crafts.input({ class: clsx(ui?.input), ...theme })"
       :data-state="inputState"
       :placeholder="placeholder"
       :disabled="disabled ? true : undefined"
       :readonly="readonly ? true : undefined"
+      :maxlength="maxlength"
+      :minlength="minlength"
+      :type="type"
       @focusin="onFocusin"
       @focusout="onFocusout"
       @input="emits('input', $event, innerValue)"
@@ -115,13 +118,13 @@ const crafts = computed(() => theme.value.crafts.tvInput())
       @keydown="emits('keydown', $event)"
       @keyup="emits('keyup', $event)"
     >
-    <ark.div
+    <div
       v-if="inputState === 'focused' && clearable && modelValue"
       :class="crafts.clearable({ class: clsx(ui?.clearable), ...theme })"
       @mousedown.stop="onClear"
     >
       <CircleX />
-    </ark.div>
+    </div>
     <slot name="suffix" />
-  </ark.div>
+  </div>
 </template>
