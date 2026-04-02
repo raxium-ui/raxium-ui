@@ -1,5 +1,17 @@
 # @raxium/vue
 
+## 0.2.3
+
+### Patch Changes
+
+- e535dc8: FIX: add input key events emits
+- 312a505: FIX: editable focus style
+  FIX: number-input focus events
+- 37eaa6a: FIX: Optimize the input focus effect
+- Updated dependencies [312a505]
+- Updated dependencies [37eaa6a]
+  - @raxium/themes@0.1.6
+
 ## 0.2.2
 
 ### Patch Changes
