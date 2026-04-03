@@ -5,11 +5,13 @@ import * as PaginationStories from './pagination.stories'
 
 # Pagination
 
-`Pagination` 用于列表、表格等长数据场景的页码导航，支持上一页/下一页、首尾页、省略页码展示以及受控分页状态管理。组件基于 Ark UI Pagination 构建，在 Ark UI 根能力上扩展了 `theme` 与 `ui` 配置，并提供 `PaginationGoTo`、`PaginationPageSize` 等组合能力。
+`Pagination` 用于列表、表格等长数据场景的页码导航，支持上一页/下一页、首尾页、省略页码展示以及受控分页状态管理。根组件支持 **`dynamicPageEnd`**：在总页数较多时，将末位页码替换为「当前页 + N」形式的动态锚点，便于快速向后跳转。组件基于 Ark UI Pagination 构建，在 Ark UI 根能力上扩展了 `theme` 与 `ui` 配置，并提供 `PaginationGoTo`、`PaginationPageSize` 等组合能力。
 
 ---
 
 ## Examples
+
+展示组件的常见使用方式。
 
 ### 基础用法
 
@@ -35,14 +37,19 @@ import * as PaginationStories from './pagination.stories'
 
 <Canvas of={PaginationStories.LinkType} />
 
+### 动态末页页码（dynamicPageEnd）
+
+<Canvas of={PaginationStories.DynamicEnd} />
+
 ---
 
 ## ARK UI Link
 
-`Pagination` 根组件基于 Ark UI Pagination Root 与上下文能力封装，常用分页状态与行为（如 `page`、`pageSize`、`count`、`siblingCount`、`type`、`getPageUrl`）会透传到底层；页码项、前后翻页与省略节点使用 Ark UI 对应原语渲染。
+`Pagination` 根组件基于 Ark UI Pagination Root 与上下文能力封装，常用分页状态与行为（如 `page`、`pageSize`、`count`、`siblingCount`、`type`、`getPageUrl`）来自 **`PaginationRootBaseProps`**，通过 `useForwardProps` 传入 `usePagination`；页码项、前后翻页与省略节点使用 Ark UI 对应原语渲染。
 
 - **相关文档**: [Ark UI Pagination (Vue)](https://ark-ui.com/vue/docs/components/pagination)
-- **说明**: `PaginationGoTo`、`PaginationGoToTrigger`、`PaginationPageSize` 是基于 Ark UI 上下文与 Raxium UI 组件（如 NumberInput/Select）构建的增强子组件，不是 Ark UI 一一对应子组件。
+- **透传边界**: 以 `PaginationProps`（继承 `PaginationRootBaseProps`）为准；Raxium 扩展项包括 `theme`、`ui`、`class`、`dynamicPageEnd`。
+- **子组件**: `PaginationGoTo`、`PaginationGoToTrigger`、`PaginationPageSize` 基于 Ark 分页上下文与 Raxium 组件（`NumberInput`、`Select`）构建，不是 Ark 内置同名子组件。
 
 ---
 
@@ -113,6 +120,12 @@ import * as PaginationStories from './pagination.stories'
       <td><code>type='link'</code> 时用于生成页码链接</td>
     </tr>
     <tr>
+      <td><code>dynamicPageEnd</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>大于 <code>1</code> 时生效：将列表最后一项页码替换为「当前页 + dynamicPageEnd」（若未越界总页数），用于长列表快速向后跳转</td>
+    </tr>
+    <tr>
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvPagination'&gt;</code></td>
       <td>-</td>
@@ -143,7 +156,7 @@ import * as PaginationStories from './pagination.stories'
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>跳页输入区主题参数</td>
+      <td>主题参数（尺寸/皮肤等）；内部仍通过 <code>useTheme</code> 使用 <code>tvPaginationGoto</code> crafts</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -170,13 +183,13 @@ import * as PaginationStories from './pagination.stories'
       <td><code>asChild</code></td>
       <td><code>boolean</code></td>
       <td><code>false</code></td>
-      <td>Ark Polymorphic 能力：将触发行为合并到子元素</td>
+      <td>多态能力：将行为合并到子元素（继承自 Polymorphic）</td>
     </tr>
     <tr>
-      <td><code>...</code></td>
+      <td><code>…</code></td>
       <td><code>PolymorphicProps</code></td>
       <td>-</td>
-      <td>支持 Ark UI 多态属性（如原生按钮属性）</td>
+      <td>其余属性透传至 <code>ark.button</code>（如原生按钮属性）</td>
     </tr>
   </tbody>
 </table>
@@ -209,7 +222,7 @@ import * as PaginationStories from './pagination.stories'
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>每页条数选择器主题参数</td>
+      <td>主题参数；内部使用 <code>tvPaginationPageSize</code> crafts</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -217,18 +230,14 @@ import * as PaginationStories from './pagination.stories'
       <td>-</td>
       <td>根节点自定义 class</td>
     </tr>
-    <tr>
-      <td><code>ui.root / ui.control / ui.trigger / ui.value / ui.content / ui.item</code></td>
-      <td><code>string | array | object</code></td>
-      <td>-</td>
-      <td>Select 各结构节点 class 覆盖</td>
-    </tr>
   </tbody>
 </table>
 
 ### Events
 
 #### Pagination emits
+
+根组件使用 Ark UI 的 <code>PaginationRootEmits</code>，常见包括：
 
 <table>
   <thead>
@@ -242,12 +251,12 @@ import * as PaginationStories from './pagination.stories'
     <tr>
       <td><code>update:page</code></td>
       <td><code>(page: number)</code></td>
-      <td>当前页变化时触发，用于 <code>v-model:page</code></td>
+      <td>当前页变化，用于 <code>v-model:page</code></td>
     </tr>
     <tr>
       <td><code>update:page-size</code></td>
       <td><code>(pageSize: number)</code></td>
-      <td>每页条数变化时触发，用于 <code>v-model:page-size</code></td>
+      <td>每页条数变化，用于 <code>v-model:page-size</code></td>
     </tr>
     <tr>
       <td><code>page-change</code></td>
@@ -262,34 +271,13 @@ import * as PaginationStories from './pagination.stories'
   </tbody>
 </table>
 
-#### PaginationGoTo / PaginationGoToTrigger / PaginationPageSize emits
+完整事件名与载荷以 Ark UI Pagination 类型定义为准。
 
-<table>
-  <thead>
-    <tr>
-      <th>事件</th>
-      <th>参数类型</th>
-      <th>说明</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>PaginationGoTo</code></td>
-      <td>-</td>
-      <td>无额外对外 emits，状态变更通过父级 <code>Pagination</code> 统一派发</td>
-    </tr>
-    <tr>
-      <td><code>PaginationGoToTrigger</code></td>
-      <td><code>MouseEvent</code></td>
-      <td>点击触发后调用上层注入的跳页逻辑</td>
-    </tr>
-    <tr>
-      <td><code>PaginationPageSize</code></td>
-      <td>-</td>
-      <td>无额外对外 emits，内部改动会驱动父级 <code>Pagination</code> emits</td>
-    </tr>
-  </tbody>
-</table>
+#### PaginationGoTo / PaginationGoToTrigger / PaginationPageSize
+
+上述子组件**不单独声明**对外 emits：分页状态变更由根级 <code>Pagination</code> 通过 Ark 上下文统一派发。
+
+- <strong>PaginationGoToTrigger</strong>：点击时调用注入的 <code>goInputPage</code>；插槽作用域为 <code>&#123; go &#125;</code>（与 <code>goInputPage</code> 一致），无额外自定义事件。
 
 ### Slots
 
@@ -339,7 +327,7 @@ import * as PaginationStories from './pagination.stories'
 
 ## Theme Configuration
 
-`Pagination` 根组件通过 `theme` 驱动 `tvPagination` crafts，用于统一控制分页容器、控制区、页码项和省略号等样式；`PaginationGoTo` 与 `PaginationPageSize` 分别使用各自的 crafts（`tvPaginationGoto`、`tvPaginationPageSize`）并复用主题上下文。
+`Pagination` 根组件通过 `theme` 驱动 `tvPagination` crafts，用于统一控制分页容器、控制区、页码项和省略号等样式；`PaginationGoTo` 与 `PaginationPageSize` 在各自内部使用 `tvPaginationGoto` / `tvPaginationPageSize`，并会通过 `ThemeProvider` 继承根级传入的主题上下文。
 
 <table>
   <thead>
@@ -354,32 +342,38 @@ import * as PaginationStories from './pagination.stories'
     <tr>
       <td><code>size</code></td>
       <td><code>'sm' | 'base' | 'lg'</code></td>
-      <td><code>'base'</code></td>
-      <td>分页尺寸</td>
+      <td>由配置合并，常见为 <code>'base'</code></td>
+      <td>分页相关组件尺寸</td>
     </tr>
     <tr>
       <td><code>skin</code></td>
       <td><code>'razer' | 'shadcn'</code></td>
-      <td>-</td>
+      <td>由配置合并，常见为 <code>'razer'</code></td>
       <td>主题皮肤</td>
     </tr>
     <tr>
       <td><code>surface</code></td>
-      <td><code>'light' | 'dark'</code></td>
-      <td>-</td>
+      <td><code>'light' | 'dark'</code> 等（见 <code>ThemeProps</code>）</td>
+      <td>由配置合并，常见为 <code>'dark'</code></td>
       <td>亮/暗表面语义</td>
     </tr>
     <tr>
       <td><code>unstyled</code></td>
       <td><code>boolean</code></td>
-      <td>-</td>
+      <td><code>false</code></td>
       <td>移除默认样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>由配置合并</td>
+      <td>是否显示边框（全局主题项）</td>
     </tr>
     <tr>
       <td><code>crafts</code></td>
       <td><code>object</code></td>
       <td>-</td>
-      <td>覆盖分页相关 crafts 细节</td>
+      <td>覆盖或扩展分页相关 crafts</td>
     </tr>
   </tbody>
 </table>
@@ -394,6 +388,8 @@ import * as PaginationStories from './pagination.stories'
 
 `Pagination` 支持通过 `ui` 对结构节点进行 class 覆盖；`PaginationGoTo` 与 `PaginationPageSize` 也提供各自的 `ui` 配置入口。`PaginationGoToTrigger` 不提供独立 `ui` 对象，可直接通过自身 class/多态属性定制。
 
+#### Pagination
+
 <table>
   <thead>
     <tr>
@@ -405,34 +401,64 @@ import * as PaginationStories from './pagination.stories'
   </thead>
   <tbody>
     <tr>
-      <td><code>Pagination.ui.root</code></td>
+      <td><code>ui.root</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
       <td>分页根容器 class</td>
     </tr>
     <tr>
-      <td><code>Pagination.ui.control</code></td>
+      <td><code>ui.control</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
       <td>分页控制区 class</td>
     </tr>
     <tr>
-      <td><code>Pagination.ui.firstPage/prevPage/nextPage/lastPage/item/ellipsis</code></td>
+      <td><code>ui.firstPage</code> / <code>ui.prevPage</code> / <code>ui.nextPage</code> / <code>ui.lastPage</code> / <code>ui.item</code> / <code>ui.ellipsis</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
       <td>翻页按钮、页码项、省略节点 class</td>
     </tr>
+  </tbody>
+</table>
+
+#### PaginationGoTo
+
+<table>
+  <thead>
     <tr>
-      <td><code>PaginationGoTo.ui.root/input</code></td>
-      <td><code>string | array | object</code></td>
-      <td>-</td>
-      <td>跳页容器与输入区域 class</td>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
-      <td><code>PaginationPageSize.ui.root/control/trigger/value/content/item</code></td>
+      <td><code>ui.root</code> / <code>ui.input</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>每页条数选择器各子节点 class</td>
+      <td>跳页容器与输入区域 class（<code>input</code> 会同时传给内部 <code>NumberInput</code> 的 <code>ui.input</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+#### PaginationPageSize
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code> / <code>ui.control</code> / <code>ui.trigger</code> / <code>ui.value</code> / <code>ui.content</code> / <code>ui.item</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>每页条数选择器（内部为 <code>Select</code>）各结构节点 class</td>
     </tr>
   </tbody>
 </table>
@@ -447,7 +473,8 @@ import * as PaginationStories from './pagination.stories'
 
 - 当分页状态需要与 URL、筛选条件或远程查询参数同步时，优先使用受控模式（`v-model:page` / `v-model:page-size`）。
 - `type='link'` 场景建议始终提供 `getPageUrl`，保证页码项具备可分享/可回退的导航语义。
-- 需要跳页输入时，优先通过 `PaginationGoTo + PaginationGoToTrigger` 组合，不要在外部重复实现页码边界校验。
-- `PaginationPageSize` 建议与后端可接受的分页粒度保持一致，并通过 `sizes` 显式约束可选值。
+- 需要跳页输入时，优先通过 `PaginationGoTo + PaginationGoToTrigger` 组合，不要在外部重复实现页码边界校验（内部已与 `totalPages` 对齐）。
+- `PaginationPageSize` 的 `sizes` 应与后端可接受的分页粒度一致，避免用户选择服务端不支持的 pageSize。
+- 总页数很大且需要「向更远页跳转」时，可评估 `dynamicPageEnd`，并配合 `siblingCount` 控制中间展示页码数量。
 - 大范围风格统一优先使用 `theme`，局部结构微调再使用 `ui.*`，避免在业务页面分散写样式覆盖。
 - 列表数据量或过滤条件变化后，若当前页可能越界，应在业务层同步重置或校正 `page`，避免出现空页展示。

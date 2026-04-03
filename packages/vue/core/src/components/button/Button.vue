@@ -11,7 +11,7 @@ import { LoaderCircle } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 const {
-  variant = 'default',
+  variant = 'solid',
   color = 'primary',
   class: propsClass,
   theme: propsTheme,
@@ -55,6 +55,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
     :ref="forwardRef"
     :class="crafts.root({
       variant: variant as ButtonVariants['variant'],
+      color: color as ButtonVariants['color'],
       loading,
       class: clsx(ui?.root?.class, propsClass),
       ...theme,

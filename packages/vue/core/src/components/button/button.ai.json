@@ -8,7 +8,7 @@
     "importPath": "@raxium/vue/core",
     "exportName": "Button",
     "category": "core",
-    "description": "用于触发操作、提交表单或承载快捷动作的基础交互组件。基于 Ark UI 的 ark.button 原语封装，支持变体、尺寸、加载态和水波纹反馈，并扩展 theme 与 ui 配置能力。",
+    "description": "用于触发操作、提交表单或承载快捷动作的基础交互组件。基于 Ark UI 的 ark.button 原语封装，通过 tvButton 提供 variant 与 color 语义组合、尺寸与加载态，支持水波纹反馈，并扩展 theme 与 ui 配置能力。",
     "basePrimitive": {
       "library": "@ark-ui/vue/factory",
       "primitive": "ark.button",
@@ -29,7 +29,8 @@
       "ripple",
       "theme",
       "ui-override",
-      "as-child"
+      "as-child",
+      "variant-color"
     ]
   },
   "contracts": {
@@ -38,15 +39,16 @@
         "name": "variant",
         "required": false,
         "requiredSource": "type",
-        "typeText": "'default' | 'normal' | 'outline' | 'text' | 'icon' | string",
+        "typeText": "'solid' | 'outlined' | 'filled' | 'text' | 'link' | 'icon' | string",
         "typeSchema": {
           "anyOf": [
             {
               "enum": [
-                "default",
-                "normal",
-                "outline",
+                "solid",
+                "outlined",
+                "filled",
                 "text",
+                "link",
                 "icon"
               ]
             },
@@ -55,14 +57,44 @@
             }
           ]
         },
-        "default": "default",
+        "default": "solid",
         "defaultKind": "explicit-runtime",
         "nullable": false,
         "passthrough": false,
         "deprecated": false,
         "dependsOn": [],
         "conflictsWith": [],
-        "description": "按钮变体样式。"
+        "description": "按钮形态变体；icon 为方形图标按钮（由 tvButton compoundVariants 等驱动）。"
+      },
+      {
+        "name": "color",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "'primary' | 'default' | 'danger' | 'warning' | 'info' | string",
+        "typeSchema": {
+          "anyOf": [
+            {
+              "enum": [
+                "primary",
+                "default",
+                "danger",
+                "warning",
+                "info"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "default": "primary",
+        "defaultKind": "explicit-runtime",
+        "nullable": false,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "语义色，与根节点 data-color 及主题 CSS 配合；与 theme.surface（亮/暗表面）含义不同。"
       },
       {
         "name": "disabled",
@@ -180,7 +212,7 @@
         "name": "theme",
         "required": false,
         "requiredSource": "type",
-        "typeText": "ThemeCrafts<'tvButton'>",
+        "typeText": "ThemeCrafts<'tvButton'>（含 theme.size/skin/surface 等与 tvButton 变体合并）",
         "typeSchema": {
           "type": "object"
         },
@@ -191,7 +223,7 @@
         "deprecated": false,
         "dependsOn": [],
         "conflictsWith": [],
-        "description": "主题配置，驱动 tvButton crafts。"
+        "description": "主题配置，驱动 tvButton crafts；展开传入 crafts.root/loading 的 ...theme。"
       },
       {
         "name": "ui",
@@ -343,7 +375,7 @@
           },
           "default": "base",
           "defaultKind": "explicit-doc",
-          "description": "按钮尺寸。"
+          "description": "按钮尺寸（与 tvButton size 变体一致；useTheme 合并后常见为 base）。"
         },
         {
           "name": "skin",
@@ -369,7 +401,7 @@
           },
           "default": null,
           "defaultKind": "unknown",
-          "description": "亮色/暗色表面。"
+          "description": "全局主题亮/暗表面（data-surface）；勿与 props.color 语义色混淆。"
         },
         {
           "name": "unstyled",
@@ -450,6 +482,8 @@
   },
   "behaviorModel": {
     "stateVars": {
+      "variant": "string",
+      "color": "string",
       "disabled": "boolean | undefined",
       "loading": "boolean",
       "ripple": "boolean"
@@ -457,7 +491,8 @@
     "derived": {
       "rippleEnabled": "ripple === true && disabled !== true",
       "showLoadingSlot": "loading === true",
-      "showRippleNode": "ripple === true"
+      "showRippleNode": "ripple === true",
+      "rootDataAttrs": "data-variant, data-color, data-surface (theme.surface), data-size (theme.size)"
     },
     "transitions": [
       {
@@ -489,7 +524,7 @@
         "args": { "framework": "vue", "componentName": "Button" },
         "exampleId": "variants"
       },
-      "description": "变体与状态"
+      "description": "变体与语义色（variants.vue）"
     },
     {
       "id": "sizes",
@@ -535,12 +570,14 @@
   "generationHints": {
     "preferredUsageOrder": [
       "variant",
+      "color",
       "theme.size",
       "loading+disabled",
       "ripple"
     ],
     "safeDefaults": {
-      "variant": "default",
+      "variant": "solid",
+      "color": "primary",
       "ripple": false,
       "loading": false,
       "asChild": false
@@ -552,10 +589,12 @@
     ],
     "codegenTemplates": {
       "minimal": "<Button>Submit</Button>",
+      "semantic": "<Button variant=\"solid\" color=\"primary\">OK</Button>",
+      "iconButton": "<Button variant=\"icon\" color=\"primary\"><Icon icon=\"lucide:plus\" /></Button>",
       "asyncAction": "<Button :loading=\"pending\" :disabled=\"pending\">Save</Button>"
     },
     "antiPatterns": [
-      "<Button class=\"bg-red-500\">Delete</Button> — 用颜色 class 表达优先级，应使用 variant",
+      "<Button class=\"bg-red-500\">Delete</Button> — 用裸颜色 class 表达语义，应优先 variant + color",
       "<Button @click=\"submit\">Save</Button> — 异步提交未组合 loading + disabled，导致重复触发"
     ]
   },
@@ -574,6 +613,10 @@
         "kind": "runtime"
       },
       {
+        "path": "../../../../../themes/src/default/crafts/button.ts",
+        "kind": "type"
+      },
+      {
         "path": "./button.stories.ts",
         "kind": "story"
       }
@@ -585,6 +628,7 @@
     ],
     "fieldSourceMap": {
       "contracts.props.variant.default": "runtime",
+      "contracts.props.color.default": "runtime",
       "contracts.props.tooltip.description": "doc",
       "contracts.events.click.order": "runtime",
       "contracts.themeConfiguration.fields.size.default": "doc",
