@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.5
+
+### Patch Changes
+
+- 502eca9: FIX: Button default value
+
 ## 0.2.4
 
 ### Patch Changes
