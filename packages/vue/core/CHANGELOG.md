@@ -1,5 +1,17 @@
 # @raxium/vue
 
+## 0.2.4
+
+### Patch Changes
+
+- 59fe7c5: FIX: input props
+- da6ffda: FEAT: Pagination add `dynamic page end` feature
+- 9aec289: FEAT: add button variant and color to control styles
+  FEAT: add more colors vars
+  FIX: fix razer static rz colors
+- Updated dependencies [9aec289]
+  - @raxium/themes@0.1.7
+
 ## 0.2.3
 
 ### Patch Changes
