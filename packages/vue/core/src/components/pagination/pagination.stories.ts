@@ -4,6 +4,8 @@ import BasicExample from './examples/basic.vue'
 import BasicExampleRaw from './examples/basic.vue?raw'
 import ControlledExample from './examples/controlled.vue'
 import ControlledExampleRaw from './examples/controlled.vue?raw'
+import DynamicEndExample from './examples/dynamic-end.vue'
+import DynamicEndExampleRaw from './examples/dynamic-end.vue?raw'
 import EventsExample from './examples/events.vue'
 import EventsExampleRaw from './examples/events.vue?raw'
 import LinkTypeExample from './examples/link-type.vue'
@@ -109,3 +111,17 @@ export const LinkType = {
   }),
 }
 
+export const DynamicEnd = {
+  parameters: {
+    docs: {
+      source: {
+        code: DynamicEndExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: DynamicEndExample },
+    template: '<Component />',
+  }),
+}

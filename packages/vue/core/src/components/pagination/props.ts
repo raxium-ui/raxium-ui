@@ -16,6 +16,7 @@ export interface PaginationProps extends PaginationRootBaseProps, ThemeCrafts<'t
     item?: HTMLAttributes['class']
     ellipsis?: HTMLAttributes['class']
   }
+  dynamicPageEnd?: number
 }
 
 export interface PaginationGoToProps extends ThemeNoCrafts {

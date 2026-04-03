@@ -4,7 +4,7 @@ import type { PaginationProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
-import { cn, clsx } from '@raxium/themes/utils'
+import { clsx, cn } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
@@ -14,6 +14,7 @@ const {
   class: propsClass,
   theme: propsTheme,
   ui,
+  dynamicPageEnd,
   ...props
 } = defineProps<PaginationProps>()
 
@@ -24,6 +25,20 @@ const pagination = usePagination(useForwardProps(props), emit)
 const theme = useTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvPagination())
 const itemClx = computed(() => crafts.value.item({ ...theme.value }))
+
+// dynamic page end
+const isDynamicPageEnd = computed(() => dynamicPageEnd && dynamicPageEnd > 1)
+const dynamicPages = computed(() => {
+  if (!isDynamicPageEnd.value)
+    return pagination.value.pages
+  const { page, pages, totalPages } = pagination.value
+  if (page + dynamicPageEnd! - 1 < totalPages) {
+    const newPages = [...pages]
+    newPages.splice(pages.length - 1, 1, { type: 'page', value: page + dynamicPageEnd! })
+    return newPages
+  }
+  return pages
+})
 
 // expose
 defineExpose({ $api: pagination })
@@ -51,7 +66,7 @@ useForwardExpose()
           <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
         </Pagination.PrevTrigger>
         <template
-          v-for="(page, index) in pagination.pages"
+          v-for="(page, index) in isDynamicPageEnd ? dynamicPages : pagination.pages"
           :key="index"
         >
           <Pagination.Item
