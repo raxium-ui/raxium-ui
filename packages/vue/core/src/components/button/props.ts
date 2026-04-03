@@ -4,6 +4,7 @@ import type { HTMLAttributes } from 'vue'
 
 export interface ButtonProps extends ThemeCrafts<'tvButton'> {
   variant?: ButtonVariants['variant'] | string
+  color?: ButtonVariants['color'] | string
   class?: HTMLAttributes['class']
   disabled?: boolean
   tooltip?: string

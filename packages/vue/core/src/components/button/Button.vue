@@ -12,6 +12,7 @@ import { computed } from 'vue'
 
 const {
   variant = 'default',
+  color = 'primary',
   class: propsClass,
   theme: propsTheme,
   disabled,
@@ -60,9 +61,11 @@ const crafts = computed(() => theme.value.crafts.tvButton())
     })"
     :disabled="disabled"
     :data-variant="variant"
+    :data-color="color"
+    :data-surface="theme.surface"
     :data-ripple="ripple ? true : undefined"
     :data-loading="loading ? true : undefined"
-    :data-theme-size="theme.size"
+    :data-size="theme.size"
     :as-child="asChild"
     @click="onClick"
   >

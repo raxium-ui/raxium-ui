@@ -1,17 +1,13 @@
 @layer components {
   .rui-toggle {
-    @apply border-h00 bg-h1a
-    hover:bg-h5e hover:border-h4c hover:ring-h4c
-    active:bg-h1a active:border-h00 active:text-ha7;
+    @apply text-rui-toggle-text bg-h1a border-h28
+      hover:bg-h33 hover:border-h4c hover:ring-h4c hover:text-rui-toggle-text-hover
+      active:bg-h24 active:text-rui-toggle-text-active;
 
     &[data-state='on'] {
-      @apply bg-rz-green-dark
-      border-rz-green-dark
-      hover:bg-rz-green-dark-hover
-      hover:border-rz-green-dark-hover
-      active:bg-rz-green-dark-active
-      active:border-rz-green-dark-active
-      active:text-ha7;
+      @apply bg-rz-green-dark text-hff border-rz-green-border
+        hover:bg-rz-green hover:border-rz-green-border
+        active:bg-rz-green-dark active:text-ha7;
     }
   }
 }

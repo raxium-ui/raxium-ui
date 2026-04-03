@@ -1,40 +1,239 @@
 @layer components {
   .rui-btn {
-    /* --rui-ripple-color: var(--color-rz-green); */
-    &[data-variant="default"] {
-      --rui-ripple-color: var(--color-rz-green-border);
-      @apply bg-rz-green text-h00 border-rz-green-border
-      hover:bg-rz-green-light hover:border-rz-green-border-hover hover:ring-rz-green-border-hover
-      active:bg-rz-green-dark-active active:border-rz-green-border-active active:ring-rz-green-border-active;
+    /* ===== solid ===== */
+    &[data-variant='solid'] {
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green-border);
+        @apply bg-rz-green text-h00 border-rz-green-border hover:bg-rz-green-light active:bg-rz-green-dark;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-h4f);
+        @apply bg-rz-neutral text-hff border-rz-neutral-border
+          hover:bg-rz-neutral-light
+          active:bg-rz-neutral-dark;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply bg-rz-red text-hff border-rz-red-border
+          hover:bg-rz-red-light
+          active:bg-rz-red-dark;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply bg-rz-orange text-hff border-rz-orange-border
+          hover:bg-rz-orange-light
+          active:bg-rz-orange-dark;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply bg-rz-blue text-hff border-rz-blue-border
+          hover:bg-rz-blue-light
+          active:bg-rz-blue-dark;
+      }
     }
 
-    &[data-variant="normal"] {
-      --rui-ripple-color: var(--color-h4f);
-      @apply bg-h70 text-hff border-h4f
-      hover:bg-h9b hover:border-h83 hover:ring-h83
-      active:bg-h4f active:border-h37 active:ring-h37;
+    /* ===== outlined ===== */
+    &[data-variant='outlined'] {
+      @apply bg-transparent;
+
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green);
+        @apply text-rz-green border-rz-green-border 
+        hover:border-rz-green-light hover:text-rz-green-light 
+        active:border-rz-green-dark active:text-rz-green-dark;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-hcc);
+        @apply text-h90 border-rz-neutral-border
+          hover:border-rz-neutral-light hover:text-hff
+          active:border-rz-neutral-dark active:text-rz-neutral;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply text-rz-red border-rz-red-border
+          hover:border-rz-red-light hover:text-rz-red-light
+          active:border-rz-red-dark active:text-rz-red-dark;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply text-rz-orange border-rz-orange-border
+          hover:border-rz-orange-light hover:text-rz-orange-light
+          active:border-rz-orange-dark active:text-rz-orange-dark;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply text-rz-blue border-rz-blue-border
+          hover:border-rz-blue-light hover:text-rz-blue-light
+          active:border-rz-blue-dark active:text-rz-blue-dark;
+      }
     }
 
-    &[data-variant="outline"] {
-      --rui-ripple-color: var(--color-hcc);
-      @apply bg-transparent text-hcc border-hcc
-      hover:border-hff hover:ring-hff
-      active:border-hbb active:ring-hbb;
+    /* ===== filled ===== */
+    &[data-variant='filled'] {
+      @apply border-transparent;
+
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green);
+        @apply bg-rz-green/15 text-rz-green
+          hover:bg-rz-green-light/30
+          active:bg-rz-green-dark/15;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-h4f);
+        @apply bg-rz-neutral/15 text-hff
+          hover:bg-rz-neutral-light/30
+          active:bg-rz-neutral-dark/15;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply bg-rz-red/15 text-rz-red
+          hover:bg-rz-red-light/30
+          active:bg-rz-red-dark/15;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply bg-rz-orange/15 text-rz-orange
+          hover:bg-rz-orange-light/30
+          active:bg-rz-orange-dark/15;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply bg-rz-blue/15 text-rz-blue
+          hover:bg-rz-blue-light/30
+          active:bg-rz-blue-dark/15;
+      }
     }
 
-    &[data-variant="text"] {
-      --rui-ripple-color: var(--color-h8f);
-      @apply border-none bg-transparent text-hcc
-      hover:bg-h33 hover:text-hff
-      active:bg-h24 active:text-h8f;
+    /* ===== text ===== */
+    &[data-variant='text'] {
+      @apply border-none bg-transparent;
+
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green);
+        @apply text-rz-green
+          hover:bg-rz-green-light/30 hover:text-rz-green-light
+          active:bg-rz-green-dark/15;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-h8f);
+        @apply text-h90
+          hover:bg-rz-neutral-light/30 hover:text-hff
+          active:bg-rz-neutral-dark/15 active:text-h90;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply text-rz-red
+          hover:bg-rz-red-light/30 hover:text-rz-red-light
+          active:bg-rz-red-dark/15;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply text-rz-orange
+          hover:bg-rz-orange-light/30 hover:text-rz-orange-light
+          active:bg-rz-orange-dark/15;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply text-rz-blue
+          hover:bg-rz-blue-light/30 hover:text-rz-blue-light
+          active:bg-rz-blue-dark/15;
+      }
     }
 
-    &[data-variant="icon"] {
-      --rui-ripple-color: var(--color-h8f);
-      @apply bg-transparent text-hcc
-      hover:bg-h33 hover:text-hff
-      active:bg-h24 active:text-h8f;
+    /* ===== link ===== */
+    &[data-variant='link'] {
+      @apply border-none bg-transparent underline underline-offset-2;
+
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green);
+        @apply text-rz-green
+          hover:text-rz-green-light
+          active:text-rz-green-dark;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-h8f);
+        @apply text-h90
+          hover:text-hff
+          active:text-h90;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply text-rz-red
+          hover:text-rz-red-light
+          active:text-rz-red-dark;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply text-rz-orange
+          hover:text-rz-orange-light
+          active:text-rz-orange-dark;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply text-rz-blue
+          hover:text-rz-blue-light
+          active:text-rz-blue-dark;
+      }
     }
-    
+
+    /* ===== icon ===== */
+    &[data-variant='icon'] {
+      @apply bg-transparent;
+
+      &[data-color='primary'] {
+        --rui-ripple-color: var(--color-rz-green);
+        @apply text-rz-green
+          hover:bg-rz-green-light/30 hover:text-rz-green-light
+          active:bg-rz-green-dark/15;
+      }
+
+      &[data-color='default'] {
+        --rui-ripple-color: var(--color-h8f);
+        @apply text-h90
+          hover:bg-rz-neutral-light/30 hover:text-hff
+          active:bg-rz-neutral-dark/15 active:text-h90;
+      }
+
+      &[data-color='danger'] {
+        --rui-ripple-color: var(--color-rz-red);
+        @apply text-rz-red
+          hover:bg-rz-red-light/30 hover:text-rz-red-light
+          active:bg-rz-red-dark/15;
+      }
+
+      &[data-color='warning'] {
+        --rui-ripple-color: var(--color-rz-orange);
+        @apply text-rz-orange
+          hover:bg-rz-orange-light/30 hover:text-rz-orange-light
+          active:bg-rz-orange-dark/15;
+      }
+
+      &[data-color='info'] {
+        --rui-ripple-color: var(--color-rz-blue);
+        @apply text-rz-blue
+          hover:bg-rz-blue-light/30 hover:text-rz-blue-light  
+          active:bg-rz-blue-dark/15;
+      }
+    }
   }
 }

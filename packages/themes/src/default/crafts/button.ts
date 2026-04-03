@@ -22,13 +22,19 @@ export const tvButton = tv(
     },
     variants: {
       variant: {
-        default: '',
-        normal: '',
-        outline: '',
+        solid: '',
+        outlined: '',
+        filled: '',
         text: '',
-        icon: {
-          root: ['p-0', 'aspect-square', 'border-none'],
-        },
+        link: '',
+        icon: '',
+      },
+      color: {
+        primary: '',
+        default: '',
+        danger: '',
+        warning: '',
+        info: '',
       },
       size: {
         xs: {
@@ -51,8 +57,19 @@ export const tvButton = tv(
         false: '',
       },
     },
+
+    compoundVariants: [
+      {
+        variant: 'icon',
+        class: {
+          root: 'p-0 aspect-square border-none',
+        },
+      },
+    ],
+
     defaultVariants: {
-      variant: 'default',
+      variant: 'solid',
+      color: 'primary',
       size: 'base',
       loading: false,
     },

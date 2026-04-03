@@ -16,10 +16,10 @@
     &[data-variant='checkbox'] {
       @apply data-[state=checked]:bg-rz-green
       data-[state=checked]:hover:bg-rz-green-light
-      data-[state=checked]:active:bg-rz-green-dark-active
+      data-[state=checked]:active:bg-rz-green-dark
       data-[state=checked]:border-rz-green
       data-[state=checked]:hover:border-rz-green-light
-      data-[state=checked]:active:border-rz-green-dark-active;
+      data-[state=checked]:active:border-rz-green;
 
       @apply data-disabled:data-[state=checked]:bg-rz-green 
       data-disabled:data-[state=checked]:hover:bg-rz-green 

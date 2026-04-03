@@ -28,18 +28,47 @@
   /* Colors */
   --color-*: initial;
   --color-tw-ring-color: transparent;
+  
   --color-rz-green: oklch(76.87% 0.2343 141.32);
+  /* razer green dark */
   --color-rz-green-dark: oklch(47.48% 0.2343 141.32);
-  --color-rz-green-dark-hover: oklch(59.25% 0.2343 141.32);
-  --color-rz-green-dark-active: oklch(33.16% 0.2343 141.32);
-  --color-rz-green-light: oklch(82.23% 0.2343 141.32);
-  --color-rz-green-border: oklch(45.35% 0.2343 141.32);
-  --color-rz-green-border-hover: oklch(70.57% 0.2343 141.32);
-  --color-rz-green-border-active: oklch(45.88% 0.2343 141.32);
+  /* razer green light */
+  --color-rz-green-light: oklch(82.45% 0.2343 141.32);
+  /* razer green border */
+  --color-rz-green-border: oklch(59.19% 0.2343 141.32);
 
   --color-rz-orange: oklch(80.16% 0.1705 73.27);
-  --color-rz-red: oklch(62.32% 0.2121 25.89);
+  /* razer orange light */
+  --color-rz-orange-light: oklch(85.98% 0.1705 73.27);
+  /* razer orange dark */
+  --color-rz-orange-dark: oklch(49.51% 0.1705 73.27);
+  /* razer orange border */
+  --color-rz-orange-border: oklch(61.72% 0.1705 73.27);
+
+  --color-rz-red: oklch(49.67% 0.202 29.03);
+  /* razer red light */
+  --color-rz-red-light: oklch(53.28% 0.202 29.03);
+  /* razer red dark */
+  --color-rz-red-dark: oklch(30.68% 0.202 29.03);
+  /* razer red border */
+  --color-rz-red-border: oklch(38.25% 0.202 29.03);
+
   --color-rz-blue: oklch(69% 0.1282 229.93);
+  /* razer blue light */
+  --color-rz-blue-light: oklch(74.01% 0.1282 229.93);
+  /* razer blue dark */
+  --color-rz-blue-dark: oklch(42.62% 0.1282 229.93);
+  /* razer blue border */
+  --color-rz-blue-border: oklch(53.13% 0.1282 229.93);
+
+  /* razer neutral */
+  --color-rz-neutral: oklch(54.52% 0 0);
+  /* razer neutral light */
+  --color-rz-neutral-light: oklch(58.48% 0 0);
+  /* razer neutral dark */
+  --color-rz-neutral-dark: oklch(33.68% 0 0);
+  /* razer neutral border */
+  --color-rz-neutral-border: oklch(41.98% 0 0);
 
   --color-black: oklch(0% 0 0);
   --color-h00: oklch(0% 0 0);
@@ -75,6 +104,9 @@
   --color-h1d: oklch(19.61% 0 0);
   --color-h47: oklch(40.64% 0 0);
   --color-h90: oklch(65.34% 0 0);
+  --color-h70: oklch(54.52% 0 0);
+  --color-h33: oklch(32.11% 0 0);
+  --color-h99: oklch(68.3% 0 0);
 
   /* Text */
   --text-3xs: 0.5rem;

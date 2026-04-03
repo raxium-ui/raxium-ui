@@ -11,8 +11,7 @@
     @apply bg-transparent border-h55
     hover:border-rz-green
     focus:border-rz-green
-    active:bg-rz-green-dark-active
-    active:border-rz-green-dark-active
+    active:bg-rz-green-dark
     data-[state=checked]:bg-rz-green
     data-[state=checked]:border-rz-green
     data-[state=indeterminate]:bg-rz-green
