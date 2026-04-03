@@ -1,5 +1,13 @@
 # @raxium/themes
 
+## 0.1.7
+
+### Patch Changes
+
+- 9aec289: FEAT: add button variant and color to control styles
+  FEAT: add more colors vars
+  FIX: fix razer static rz colors
+
 ## 0.1.6
 
 ### Patch Changes
