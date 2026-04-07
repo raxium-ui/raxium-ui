@@ -13,7 +13,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
       :positioning="{ placement: 'top' }"
     >
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           {{ size }}
         </Button>
       </HoverCardTrigger>
@@ -28,7 +28,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
       :positioning="{ placement: 'top' }"
     >
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           no border
         </Button>
       </HoverCardTrigger>
@@ -43,7 +43,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
       :positioning="{ placement: 'top' }"
     >
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           dark skin
         </Button>
       </HoverCardTrigger>

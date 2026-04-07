@@ -10,16 +10,16 @@ const ratingRef = ref<any>(null)
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-2">
-      <Button variant="outline" @click="ratingRef?.$api?.setValue(1)">
+      <Button variant="outlined" @click="ratingRef?.$api?.setValue(1)">
         Set 1
       </Button>
-      <Button variant="outline" @click="ratingRef?.$api?.setValue(3)">
+      <Button variant="outlined" @click="ratingRef?.$api?.setValue(3)">
         Set 3
       </Button>
-      <Button variant="outline" @click="ratingRef?.$api?.setValue(5)">
+      <Button variant="outlined" @click="ratingRef?.$api?.setValue(5)">
         Set 5
       </Button>
-      <Button variant="outline" @click="ratingRef?.$api?.clearValue()">
+      <Button variant="outlined" @click="ratingRef?.$api?.clearValue()">
         Clear
       </Button>
       <div class="text-sm text-hcc">

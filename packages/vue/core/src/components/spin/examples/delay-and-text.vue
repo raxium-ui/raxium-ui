@@ -10,10 +10,10 @@ const show = ref(true)
   <SpinProvider>
     <div class="w-full flex flex-col gap-3">
       <div class="flex items-center gap-2">
-        <Button variant="outline" @click="show = true">
+        <Button variant="outlined" @click="show = true">
           Show
         </Button>
-        <Button variant="outline" @click="show = false">
+        <Button variant="outlined" @click="show = false">
           Hide (delay 1000ms)
         </Button>
         <div class="text-sm text-hcc">

@@ -9,7 +9,7 @@ const content = fakerEN.lorem.sentences(2)
 <template>
   <HoverCard :positioning="{ placement: 'bottom' }">
     <HoverCardTrigger as-child>
-      <Button variant="outline">
+      <Button variant="outlined">
         Custom UI
       </Button>
     </HoverCardTrigger>

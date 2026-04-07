@@ -23,7 +23,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
 
     <Tooltip :positioning="{ placement: 'top' }">
       <TooltipTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           bordered=false
         </Button>
       </TooltipTrigger>

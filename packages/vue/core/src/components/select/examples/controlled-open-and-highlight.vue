@@ -20,7 +20,7 @@ const modelValue = ref<string[]>([])
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex items-center gap-3">
-      <Button variant="outline" @click="open = !open">
+      <Button variant="outlined" @click="open = !open">
         Toggle open: {{ open }}
       </Button>
       <span class="text-sm text-hff">highlighted: {{ highlightedValue ?? 'null' }}</span>

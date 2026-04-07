@@ -9,13 +9,13 @@ const value = ref<string[]>(['b'])
 <template>
   <div class="flex flex-col gap-3">
     <div class="flex items-center gap-2">
-      <Button variant="outline" @click="value = ['a']">
+      <Button variant="outlined" @click="value = ['a']">
         Set A
       </Button>
-      <Button variant="outline" @click="value = ['b']">
+      <Button variant="outlined" @click="value = ['b']">
         Set B
       </Button>
-      <Button variant="outline" @click="value = ['c']">
+      <Button variant="outlined" @click="value = ['c']">
         Set C
       </Button>
       <span class="text-sm text-hff">value: {{ value }}</span>

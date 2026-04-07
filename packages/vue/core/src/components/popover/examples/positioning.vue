@@ -12,7 +12,7 @@ import {
   <div class="w-full flex flex-wrap items-center gap-4">
     <Popover :positioning="{ placement: 'top' }">
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Top
         </Button>
       </PopoverTrigger>
@@ -24,7 +24,7 @@ import {
 
     <Popover :positioning="{ placement: 'right' }">
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Right
         </Button>
       </PopoverTrigger>
@@ -36,7 +36,7 @@ import {
 
     <Popover :positioning="{ placement: 'bottom-start' }">
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Bottom-start
         </Button>
       </PopoverTrigger>

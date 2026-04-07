@@ -20,7 +20,7 @@ const open = ref(false)
 
     <Popover v-model:open="open" :positioning="{ placement: 'bottom-start' }">
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Controlled Popover
         </Button>
       </PopoverTrigger>

@@ -17,16 +17,16 @@ function open(size: 'xs' | 'sm' | 'base' | 'lg', showClose: boolean) {
 
 <template>
   <div class="flex flex-wrap items-center gap-3">
-    <Button variant="outline" @click="open('xs', true)">
+    <Button variant="outlined" @click="open('xs', true)">
       xs + close
     </Button>
-    <Button variant="outline" @click="open('sm', true)">
+    <Button variant="outlined" @click="open('sm', true)">
       sm + close
     </Button>
-    <Button variant="outline" @click="open('base', true)">
+    <Button variant="outlined" @click="open('base', true)">
       base + close
     </Button>
-    <Button variant="outline" @click="open('lg', true)">
+    <Button variant="outlined" @click="open('lg', true)">
       lg + close
     </Button>
     <Button variant="text" @click="open('base', false)">

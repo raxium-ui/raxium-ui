@@ -16,7 +16,7 @@ const content = fakerEN.lorem.sentences(2)
 <template>
   <Dialog>
     <DialogTrigger as-child>
-      <Button variant="outline">
+      <Button variant="outlined">
         Footer widget props
       </Button>
     </DialogTrigger>

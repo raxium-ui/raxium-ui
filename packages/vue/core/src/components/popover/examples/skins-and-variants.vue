@@ -11,7 +11,7 @@ import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } f
       :positioning="{ placement: 'bottom-start' }"
     >
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Dark skin
         </Button>
       </PopoverTrigger>
@@ -29,7 +29,7 @@ import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } f
       :positioning="{ placement: 'bottom-start' }"
     >
       <PopoverTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           No border
         </Button>
       </PopoverTrigger>
@@ -50,7 +50,7 @@ import { Popover, PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger } f
     >
       <PopoverTrigger as-child>
         <Button
-          variant="outline"
+          variant="outlined"
           :theme="{ size }"
         >
           {{ size }}

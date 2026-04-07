@@ -36,7 +36,7 @@ const lastFrom = ref<string | null | undefined>(undefined)
       @exit-complete="() => { /* just to show event exists */ }"
     >
       <DialogTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Open via Trigger
         </Button>
       </DialogTrigger>

@@ -16,7 +16,7 @@ const content = fakerEN.lorem.paragraphs(8)
 <template>
   <Dialog>
     <DialogTrigger as-child>
-      <Button class="w-fit" variant="outline">
+      <Button class="w-fit" variant="outlined">
         Scrollable body
       </Button>
     </DialogTrigger>

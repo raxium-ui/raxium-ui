@@ -22,7 +22,7 @@ const content = fakerEN.lorem.sentences(3)
       :theme="{ size }"
     >
       <DialogTrigger as-child>
-        <Button :theme="{ size }" variant="outline">
+        <Button :theme="{ size }" variant="outlined">
           {{ size }}
         </Button>
       </DialogTrigger>

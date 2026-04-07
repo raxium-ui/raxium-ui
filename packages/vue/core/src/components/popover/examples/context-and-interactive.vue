@@ -17,7 +17,7 @@ const toggle = ref(true)
 <template>
   <Popover :positioning="{ placement: 'bottom-start' }">
     <PopoverTrigger as-child>
-      <Button variant="outline">
+      <Button variant="outlined">
         Interactive Popover
       </Button>
     </PopoverTrigger>

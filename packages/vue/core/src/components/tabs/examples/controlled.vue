@@ -9,13 +9,13 @@ const value = ref('tab-7')
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex items-center gap-2">
-      <Button variant="outline" @click="value = 'tab-1'">
+      <Button variant="outlined" @click="value = 'tab-1'">
         Tab 1
       </Button>
-      <Button variant="outline" @click="value = 'tab-7'">
+      <Button variant="outlined" @click="value = 'tab-7'">
         Tab 7
       </Button>
-      <Button variant="outline" @click="value = 'tab-10'">
+      <Button variant="outlined" @click="value = 'tab-10'">
         Tab 10
       </Button>
       <span class="text-sm text-hff">value: {{ value }}</span>

@@ -12,16 +12,16 @@ const tagsRef = ref<any>(null)
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-2">
-      <Button variant="outline" @click="tagsRef?.$api?.focus()">
+      <Button variant="outlined" @click="tagsRef?.$api?.focus()">
         Focus
       </Button>
-      <Button variant="outline" @click="tagsRef?.$api?.addValue('solid')">
+      <Button variant="outlined" @click="tagsRef?.$api?.addValue('solid')">
         Add solid
       </Button>
-      <Button variant="outline" @click="tagsRef?.$api?.setValue(['vue', 'svelte'])">
+      <Button variant="outlined" @click="tagsRef?.$api?.setValue(['vue', 'svelte'])">
         Set [vue, svelte]
       </Button>
-      <Button variant="outline" @click="tagsRef?.$api?.clearValue()">
+      <Button variant="outlined" @click="tagsRef?.$api?.clearValue()">
         Clear
       </Button>
       <div class="text-sm text-hcc">

@@ -9,10 +9,10 @@ const value = ref(30)
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="flex items-center gap-3">
-      <Button variant="outline" @click="value = Math.max(0, value - 10)">
+      <Button variant="outlined" @click="value = Math.max(0, value - 10)">
         -10
       </Button>
-      <Button variant="outline" @click="value = Math.min(100, value + 10)">
+      <Button variant="outlined" @click="value = Math.min(100, value + 10)">
         +10
       </Button>
       <span class="text-sm text-hff">value: {{ value }}</span>

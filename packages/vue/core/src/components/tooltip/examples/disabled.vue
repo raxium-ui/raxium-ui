@@ -7,7 +7,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
   <div class="w-full flex flex-wrap items-center gap-4">
     <Tooltip :disabled="true">
       <TooltipTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Disabled tooltip
         </Button>
       </TooltipTrigger>

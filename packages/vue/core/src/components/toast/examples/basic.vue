@@ -31,16 +31,16 @@ function create(options: ToastOptions) {
     <Button @click="() => create({ type: 'loading' })">
       Loading
     </Button>
-    <Button variant="outline" @click="() => create({ theme: { size: 'xs' } })">
+    <Button variant="outlined" @click="() => create({ theme: { size: 'xs' } })">
       size=xs
     </Button>
-    <Button variant="outline" @click="() => create({ theme: { size: 'sm' } })">
+    <Button variant="outlined" @click="() => create({ theme: { size: 'sm' } })">
       size=sm
     </Button>
-    <Button variant="outline" @click="() => create({ theme: { size: 'base' } })">
+    <Button variant="outlined" @click="() => create({ theme: { size: 'base' } })">
       size=base
     </Button>
-    <Button variant="outline" @click="() => create({ theme: { size: 'lg' }, duration: Infinity })">
+    <Button variant="outlined" @click="() => create({ theme: { size: 'lg' }, duration: Infinity })">
       size=lg
     </Button>
   </div>

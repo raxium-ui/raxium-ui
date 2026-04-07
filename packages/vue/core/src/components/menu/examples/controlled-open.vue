@@ -24,7 +24,7 @@ const highlightedValue = ref<string>()
       :typeahead="true"
     >
       <MenuTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Controlled Menu
         </Button>
       </MenuTrigger>

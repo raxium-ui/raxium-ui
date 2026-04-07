@@ -41,7 +41,7 @@ function openCustomRender() {
     <Button @click="openBasic">
       Open Functional Dialog
     </Button>
-    <Button variant="outline" @click="openCustomRender">
+    <Button variant="outlined" @click="openCustomRender">
       Open Custom Render
     </Button>
   </div>

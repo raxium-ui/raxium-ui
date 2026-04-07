@@ -7,7 +7,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
   <div class="w-full flex flex-wrap items-center gap-6">
     <HoverCard :open-delay="0" :close-delay="0" :positioning="{ placement: 'top' }">
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           No delay (top)
         </Button>
       </HoverCardTrigger>
@@ -19,7 +19,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
 
     <HoverCard :open-delay="800" :close-delay="300" :positioning="{ placement: 'bottom-start' }">
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Delayed (bottom-start)
         </Button>
       </HoverCardTrigger>
@@ -31,7 +31,7 @@ import { HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger } from '.
 
     <HoverCard :positioning="{ placement: 'right' }" unmount-on-exit lazy-mount>
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Lazy mount + unmount
         </Button>
       </HoverCardTrigger>

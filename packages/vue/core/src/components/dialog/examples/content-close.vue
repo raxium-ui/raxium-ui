@@ -18,7 +18,7 @@ const content = fakerEN.lorem.sentences(4)
   <div class="w-full flex flex-wrap items-center gap-4">
     <Dialog>
       <DialogTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           No header (auto close in content)
         </Button>
       </DialogTrigger>
@@ -32,7 +32,7 @@ const content = fakerEN.lorem.sentences(4)
 
     <Dialog>
       <DialogTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Custom close slot
         </Button>
       </DialogTrigger>

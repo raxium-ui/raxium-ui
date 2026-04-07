@@ -10,22 +10,22 @@ const inputRef = ref<any>(null)
 <template>
   <div class="w-full flex flex-col gap-3">
     <div class="flex flex-wrap items-center gap-2">
-      <Button variant="outline" @click="inputRef?.$api?.focus()">
+      <Button variant="outlined" @click="inputRef?.$api?.focus()">
         Focus
       </Button>
-      <Button variant="outline" @click="inputRef?.$api?.decrement()">
+      <Button variant="outlined" @click="inputRef?.$api?.decrement()">
         - step
       </Button>
-      <Button variant="outline" @click="inputRef?.$api?.increment()">
+      <Button variant="outlined" @click="inputRef?.$api?.increment()">
         + step
       </Button>
-      <Button variant="outline" @click="inputRef?.$api?.setToMin()">
+      <Button variant="outlined" @click="inputRef?.$api?.setToMin()">
         Set min
       </Button>
-      <Button variant="outline" @click="inputRef?.$api?.setToMax()">
+      <Button variant="outlined" @click="inputRef?.$api?.setToMax()">
         Set max
       </Button>
-      <Button variant="outline" @click="inputRef?.$api?.clearValue()">
+      <Button variant="outlined" @click="inputRef?.$api?.clearValue()">
         Clear
       </Button>
       <div class="text-sm text-hcc">

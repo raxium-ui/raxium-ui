@@ -9,7 +9,7 @@ const open = ref(false)
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="flex items-center gap-2">
-      <Button variant="outline" @click="open = !open">
+      <Button variant="outlined" @click="open = !open">
         Toggle open: {{ open }}
       </Button>
     </div>
@@ -29,7 +29,7 @@ const open = ref(false)
 
       <Tooltip v-model:open="open" :positioning="{ placement: 'bottom' }">
         <TooltipTrigger as-child>
-          <Button variant="outline">
+          <Button variant="outlined">
             Controlled open
           </Button>
         </TooltipTrigger>

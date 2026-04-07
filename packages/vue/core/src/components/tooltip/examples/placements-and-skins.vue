@@ -7,7 +7,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
   <div class="w-full flex flex-wrap items-center gap-4">
     <Tooltip :theme="{ surface: 'dark' }" :positioning="{ placement: 'top' }">
       <TooltipTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           top (dark)
         </Button>
       </TooltipTrigger>
@@ -19,7 +19,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
 
     <Tooltip :theme="{ surface: 'razer' }" :positioning="{ placement: 'right' }">
       <TooltipTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           right (razer)
         </Button>
       </TooltipTrigger>
@@ -31,7 +31,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
 
     <Tooltip :positioning="{ placement: 'bottom' }">
       <TooltipTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           bottom (default)
         </Button>
       </TooltipTrigger>

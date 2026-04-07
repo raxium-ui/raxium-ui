@@ -23,7 +23,7 @@ const open = ref(false)
       :positioning="{ placement: 'top' }"
     >
       <HoverCardTrigger as-child>
-        <Button variant="outline">
+        <Button variant="outlined">
           Controlled hover-card
         </Button>
       </HoverCardTrigger>

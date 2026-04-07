@@ -46,7 +46,7 @@ function openRender() {
     <Button @click="openCustomDescription">
       Custom description()
     </Button>
-    <Button variant="outline" @click="openRender">
+    <Button variant="outlined" @click="openRender">
       render()
     </Button>
   </div>
