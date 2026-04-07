@@ -1,5 +1,12 @@
 # @raxium/vue
 
+## 0.2.6
+
+### Patch Changes
+
+- 6dee0b7: FIX: Datepicker lazy-mount & unmount on exit props
+- ddd2f2b: FIX: Dialog footer button default style
+
 ## 0.2.5
 
 ### Patch Changes
