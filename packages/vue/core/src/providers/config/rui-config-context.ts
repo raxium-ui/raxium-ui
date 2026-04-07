@@ -17,6 +17,10 @@ export interface RUIConfigContext {
     lazyMount?: boolean
     unmountOnExit?: boolean
   }
+  'date-picker'?: {
+    lazyMount?: boolean
+    unmountOnExit?: boolean
+  }
   'hover-card'?: {
     closeDelay?: number
     openDelay?: number

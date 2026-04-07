@@ -72,6 +72,10 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     defaultToasterProps: {},
   }),
   messager: () => ({}),
+  datePicker: () => ({
+    lazyMount: true,
+    unmountOnExit: true,
+  }),
 })
 
 props.iconify?.addIcons?.forEach(([icon, iconifyIcon]) => {
