@@ -3,8 +3,8 @@ import type { ThemeCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
 
 export interface ButtonProps extends ThemeCrafts<'tvButton'> {
-  variant?: ButtonVariants['variant'] | string
-  color?: ButtonVariants['color'] | string
+  variant?: ButtonVariants['variant']
+  color?: ButtonVariants['color']
   class?: HTMLAttributes['class']
   disabled?: boolean
   tooltip?: string

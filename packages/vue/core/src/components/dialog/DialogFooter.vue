@@ -33,6 +33,7 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
       >
         <Button
           variant="text"
+          color="default"
           v-bind="widget?.cancel"
           :class="clsx(ui?.cancel)"
           :theme="theme"
