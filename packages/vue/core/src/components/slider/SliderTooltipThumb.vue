@@ -72,7 +72,7 @@ const { forwardRef } = useForwardExpose()
           :index="index"
           :name="name"
         >
-          <Slider.HiddenInput class="hidden" />
+          <Slider.HiddenInput />
         </Slider.Thumb>
       </TooltipTrigger>
       <Teleport

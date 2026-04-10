@@ -1,6 +1,7 @@
 @layer components {
   .rui-switch-control {
     @apply bg-h78
+             data-focus:shadow-(--shadow-rui-outline)
            data-[state=unchecked]:hover:bg-h78/80
            data-[state=checked]:bg-rz-green
            data-[state=checked]:hover:bg-rz-green-light

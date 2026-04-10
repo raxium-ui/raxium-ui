@@ -69,7 +69,7 @@ const crafts = computed(() => theme.value.crafts.tvRadioGroup())
           {{ label }}
         </RadioGroup.ItemText>
       </slot>
-      <RadioGroup.ItemHiddenInput class="hidden" />
+      <RadioGroup.ItemHiddenInput />
     </RadioGroup.ItemContext>
   </RadioGroup.Item>
 </template>

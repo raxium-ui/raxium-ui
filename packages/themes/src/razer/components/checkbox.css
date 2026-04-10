@@ -11,6 +11,7 @@
     @apply bg-transparent border-h55
     hover:border-rz-green
     focus:border-rz-green
+    data-focus:shadow-(--shadow-rui-outline)
     active:bg-rz-green-dark
     data-[state=checked]:bg-rz-green
     data-[state=checked]:border-rz-green

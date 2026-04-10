@@ -23,6 +23,6 @@ const crafts = computed(() => theme.value.crafts.tvSlider())
     :class="crafts.thumb({ class: clsx(propsClass), ...theme })"
     :data-theme-size="theme.size"
   >
-    <Slider.HiddenInput class="hidden" />
+    <Slider.HiddenInput />
   </Slider.Thumb>
 </template>

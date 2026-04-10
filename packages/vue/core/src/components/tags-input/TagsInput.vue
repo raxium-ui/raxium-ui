@@ -85,12 +85,15 @@ useForwardExpose()
         />
         <TagsInput.Input
           :class="
-            inputCrafts.input({ class: clsx(crafts.input({ inline, ...theme }), ui?.input), ...theme })
+            inputCrafts.input({
+              class: clsx(crafts.input({ inline, ...theme }), ui?.input),
+              ...theme,
+            })
           "
         />
       </TagsInput.Control>
       <slot name="suffix" />
     </ThemeProvider>
-    <TagsInput.HiddenInput class="hidden" />
+    <TagsInput.HiddenInput />
   </TagsInput.RootProvider>
 </template>

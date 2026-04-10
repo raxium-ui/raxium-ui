@@ -29,7 +29,7 @@ useForwardExpose()
       <Switch.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
         <Switch.Thumb :class="crafts.thumb({ class: clsx(ui?.thumb), ...theme })" />
       </Switch.Control>
-      <Switch.HiddenInput class="hidden" />
+      <Switch.HiddenInput />
       <slot />
     </ThemeProvider>
   </Switch.RootProvider>
