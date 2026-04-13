@@ -1,5 +1,12 @@
 # @raxium/vue-addons-virtual
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [aeced23]
+  - @raxium/vue-addons-shared@0.1.3
+
 ## 0.1.4
 
 ### Patch Changes
