@@ -1,3 +1,4 @@
+export * from './components/Primitive'
 export * from './composables/useForwardExpose'
 export * from './composables/useForwardProps'
 export * from './composables/useFowardPropsEmits'
