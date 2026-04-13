@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.8
+
+### Patch Changes
+
+- 7caf891: FIX: Remove 'hidden' class from HiddenInput components in Checkbox, RadioGroup, Slider, Switch, and TagsInput for improved accessibility
+
 ## 0.1.7
 
 ### Patch Changes

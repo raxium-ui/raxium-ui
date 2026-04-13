@@ -1,5 +1,13 @@
 # @raxium/vue-addons-swiper
 
+## 0.1.5
+
+### Patch Changes
+
+- aeced23: FEAT: vue addons add Primitive component to let props passthrough
+- Updated dependencies [aeced23]
+  - @raxium/vue-addons-shared@0.1.3
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @raxium/vue
 
+## 0.2.7
+
+### Patch Changes
+
+- 2b13800: FIX: input watch props modelValueChange
+- 7caf891: FIX: Remove 'hidden' class from HiddenInput components in Checkbox, RadioGroup, Slider, Switch, and TagsInput for improved accessibility
+- Updated dependencies [7caf891]
+  - @raxium/themes@0.1.8
+
 ## 0.2.6
 
 ### Patch Changes
