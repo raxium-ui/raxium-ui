@@ -38,6 +38,9 @@ const emits = defineEmits<{
 
 const inputId = useId()
 const innerValue = ref<string | undefined>(modelValue ?? defaultValue ?? '')
+watch(() => modelValue, (newVal?: string) => {
+  innerValue.value = newVal ?? ''
+})
 watch(
   innerValue,
   (newVal) => {
