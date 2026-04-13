@@ -18,19 +18,24 @@ const crafts = computed(() => theme.value.crafts.tvSlider())
 </script>
 
 <template>
-  <Slider.Marker v-bind="forwarded" :class="crafts.marker({ class: clsx(propsClass), ...theme })">
-    <slot>
+  <Slider.Marker
+    v-bind="forwarded"
+    :class="crafts.marker({ class: clsx(propsClass), ...theme })"
+  >
+    <slot name="default" :value="forwarded.value">
       <div
         :class="crafts.markerDot({ ...theme })"
         data-scope="slider"
         data-part="marker-dot"
         v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
       />
-      <span
-        v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
-      >
-        {{ forwarded.value }}
-      </span>
+      <slot name="value" :value="forwarded.value">
+        <span
+          v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
+        >
+          {{ forwarded.value }}
+        </span>
+      </slot>
     </slot>
   </Slider.Marker>
 </template>
