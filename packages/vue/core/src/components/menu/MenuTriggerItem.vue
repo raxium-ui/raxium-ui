@@ -2,7 +2,7 @@
 import type { MenuTriggerItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { cn, clsx } from '@raxium/themes/utils'
+import { clsx, cn } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ChevronRight } from 'lucide-vue-next'
 import { computed } from 'vue'
