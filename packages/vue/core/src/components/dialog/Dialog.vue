@@ -97,7 +97,7 @@ watch(
 )
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => ({ ...dialogConfig.value?.theme, ...propsTheme }))
 
 // expose
 defineExpose({ $api: dialog as UseDialogReturn })

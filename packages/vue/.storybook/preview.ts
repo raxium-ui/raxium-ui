@@ -51,7 +51,13 @@ const preview: Preview = {
           return () =>
             h(
               RUIConfig,
-              {},
+              {
+                tooltip: {
+                  theme: {
+                    surface: 'light',
+                  },
+                },
+              },
               {
                 default: () => h(story()),
                 toaster: () => [

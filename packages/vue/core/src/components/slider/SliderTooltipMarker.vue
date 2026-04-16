@@ -43,7 +43,9 @@ const tooltip = useTooltip(
   ),
 )
 
+// theme
 const theme = useTheme(() => propsTheme)
+const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
 const crafts = computed(() => theme.value.crafts.tvSlider())
 </script>
 
@@ -62,14 +64,16 @@ const crafts = computed(() => theme.value.crafts.tvSlider())
           </slot>
         </Slider.Marker>
       </TooltipTrigger>
-      <TooltipContent>
-        <slot name="arrow">
-          <TooltipArrow />
-        </slot>
-        <slot name="content">
-          {{ value }}
-        </slot>
-      </TooltipContent>
+      <ThemeProvider :value="tooltipTheme">
+        <TooltipContent>
+          <slot name="arrow">
+            <TooltipArrow />
+          </slot>
+          <slot name="content">
+            {{ value }}
+          </slot>
+        </TooltipContent>
+      </ThemeProvider>
     </TooltipRootProvider>
   </ThemeProvider>
 </template>

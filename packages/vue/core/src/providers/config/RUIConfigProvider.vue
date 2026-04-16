@@ -39,28 +39,39 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     closeDelay: 0,
     lazyMount: false,
     unmountOnExit: false,
+    theme: undefined,
   }),
   hoverCard: () => ({
     openDelay: 0,
     closeDelay: 300,
     lazyMount: true,
     unmountOnExit: true,
+    theme: undefined,
   }),
   dialog: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    theme: undefined,
   }),
   popover: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    theme: undefined,
   }),
   menu: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    theme: undefined,
   }),
   select: () => ({
     lazyMount: false,
     unmountOnExit: false,
+    theme: undefined,
+  }),
+  datePicker: () => ({
+    lazyMount: true,
+    unmountOnExit: true,
+    theme: undefined,
   }),
   iconify: () => ({
     addIcons: [],
@@ -72,10 +83,6 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     defaultToasterProps: {},
   }),
   messager: () => ({}),
-  datePicker: () => ({
-    lazyMount: true,
-    unmountOnExit: true,
-  }),
 })
 
 props.iconify?.addIcons?.forEach(([icon, iconifyIcon]) => {
@@ -120,7 +127,10 @@ provideRUIConfigContext(
       overlap
       v-bind="props.messager"
     >
-      <slot name="message">
+      <slot
+        name="message"
+        :message="message"
+      >
         <Message :options="message" />
       </slot>
     </Messager>

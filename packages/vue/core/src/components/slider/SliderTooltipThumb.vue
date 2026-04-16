@@ -55,6 +55,7 @@ watch(
 
 // theme
 const theme = useTheme(() => propsTheme)
+const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
 const crafts = computed(() => theme.value.crafts.tvSlider())
 
 // expose
@@ -75,11 +76,24 @@ const { forwardRef } = useForwardExpose()
           <Slider.HiddenInput />
         </Slider.Thumb>
       </TooltipTrigger>
-      <Teleport
-        v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
-        to="body"
-      >
-        <TooltipContent v-bind="widget?.tooltipContent">
+      <ThemeProvider :value="tooltipTheme">
+        <Teleport
+          v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
+          to="body"
+        >
+          <TooltipContent v-bind="widget?.tooltipContent">
+            <slot name="arrow">
+              <TooltipArrow v-bind="widget?.tooltipArrow" />
+            </slot>
+            <slot name="default">
+              <Slider.ValueText />
+            </slot>
+          </TooltipContent>
+        </Teleport>
+        <TooltipContent
+          v-else
+          v-bind="widget?.tooltipContent"
+        >
           <slot name="arrow">
             <TooltipArrow v-bind="widget?.tooltipArrow" />
           </slot>
@@ -87,18 +101,7 @@ const { forwardRef } = useForwardExpose()
             <Slider.ValueText />
           </slot>
         </TooltipContent>
-      </Teleport>
-      <TooltipContent
-        v-else
-        v-bind="widget?.tooltipContent"
-      >
-        <slot name="arrow">
-          <TooltipArrow v-bind="widget?.tooltipArrow" />
-        </slot>
-        <slot name="default">
-          <Slider.ValueText />
-        </slot>
-      </TooltipContent>
+      </ThemeProvider>
     </TooltipRootProvider>
   </ThemeProvider>
 </template>

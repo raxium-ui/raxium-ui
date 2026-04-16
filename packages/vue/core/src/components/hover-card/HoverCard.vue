@@ -34,7 +34,7 @@ const hoverCard = useHoverCard(
 )
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => ({ ...hoverCardConfig.value?.theme, ...propsTheme }))
 
 // expose
 defineExpose({ $api: hoverCard })

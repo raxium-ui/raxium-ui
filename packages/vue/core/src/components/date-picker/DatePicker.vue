@@ -14,7 +14,7 @@ const datePicker = useDatePicker(forwarded, emit)
 const datePickerOptions = useConfig('date-picker', () => ({ unmountOnExit, lazyMount }))
 
 // theme
-const theme = useTheme(() => themeProps)
+const theme = useTheme(() => ({ ...datePickerOptions.value?.theme, ...themeProps }))
 
 // expose
 defineExpose({ $api: datePicker })

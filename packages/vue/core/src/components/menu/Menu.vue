@@ -19,7 +19,7 @@ const menuConfig = useConfig('menu', () => ({ lazyMount, unmountOnExit }))
 const menu = useMenu(useForwardProps(props), emits)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => ({ ...menuConfig.value?.theme, ...propsTheme }))
 
 // expose
 defineExpose({ $api: menu })

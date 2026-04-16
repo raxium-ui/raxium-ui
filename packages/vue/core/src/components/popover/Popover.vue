@@ -22,7 +22,7 @@ const popoverConfig = useConfig('popover', () => ({ unmountOnExit, lazyMount }))
 const popover = usePopover(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => ({ ...popoverConfig.value?.theme, ...propsTheme }))
 
 // expose
 defineExpose({ $api: popover as UsePopoverReturn })

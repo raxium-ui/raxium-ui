@@ -22,7 +22,7 @@ const selectConfig = useConfig('select', () => ({ lazyMount, unmountOnExit }))
 const selectRoot = useSelect<T>(useForwardProps(props) as unknown as UseSelectProps<T>, emits)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => ({ ...selectConfig.value?.theme, ...propsTheme }))
 const crafts = computed(() => theme.value.crafts.tvSelect())
 
 // expose
