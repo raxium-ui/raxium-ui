@@ -35,6 +35,14 @@
         @apply fill-transparent stroke-rz-green;
       }
     }
+    &[data-type='checkbox'] {
+      &[data-highlighted]:not([data-disabled]) .rui-checkbox-control {
+        @apply border-rz-green;
+      }
+      &[data-state='checked'] .rui-checkbox-indicator-checked {
+        @apply stroke-h00;
+      }
+    }
   }
 
   .rui-menu-item-group-label {

@@ -10,6 +10,27 @@ import { TreeCheckboxNode } from '.'
 import { Icon } from '../icon'
 import { injectTreeContext } from './tree-context'
 
+/**
+ * Zag TreeView maps Space → NODE/BRANCH CLICK (selection / expand) only; `CHECKED.TOGGLE`
+ * is wired on `NodeCheckbox` click. Intercept Space on the row so it toggles like a checkbox.
+ */
+function onCheckableTreeRowSpaceKeydown(
+  e: KeyboardEvent,
+  opts: { disabled: boolean, toggle: () => void },
+) {
+  if (e.key !== ' ')
+    return
+  if (e.defaultPrevented)
+    return
+  if (e.shiftKey || e.ctrlKey || e.metaKey || e.altKey)
+    return
+  if (opts.disabled)
+    return
+  e.preventDefault()
+  e.stopPropagation()
+  opts.toggle()
+}
+
 /** 合并 keyMap 后的完整类型（用于 slots） */
 interface ResolvedKeyMap {
   id: string
@@ -267,6 +288,15 @@ export default defineComponent({
                     >
                       <TreeView.BranchControl
                         class={branchClx.value.control}
+                        onKeydown={(e: KeyboardEvent) =>
+                          onCheckableTreeRowSpaceKeydown(e, {
+                            disabled: !!nodeState.disabled,
+                            toggle: () =>
+                              treeViewContext.value.toggleChecked(
+                                uNode[uKeyMap.id] as string,
+                                true,
+                              ),
+                          })}
                       >
                         {slots.branch
                           ? (
@@ -355,6 +385,15 @@ export default defineComponent({
                       onClick={() => {
                         treeViewContext.value.toggleChecked(uNode[uKeyMap.id] as string, false)
                       }}
+                      onKeydown={(e: KeyboardEvent) =>
+                        onCheckableTreeRowSpaceKeydown(e, {
+                          disabled: !!nodeState.disabled,
+                          toggle: () =>
+                            treeViewContext.value.toggleChecked(
+                              uNode[uKeyMap.id] as string,
+                              false,
+                            ),
+                        })}
                     >
                       {slots.item
                         ? (
