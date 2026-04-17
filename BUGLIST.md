@@ -5,5 +5,6 @@
 [x] popover trigger 和 input 组合时, trigger 属性会随 $attr 传透到 <input> 上, 需要还原
 [x] 考虑addons中增加 Primitive组件实现 as-child功能
 [x] ~~考虑addons swiper暴露出swiper context~~
-[] Checkbox Menu 无障碍无法使用
+[x] Checkbox Menu 无障碍无法使用
 [x] 考虑增加全局设置 Tooltip, Popover 等组件的theme, 用于设定surface
+[] Dialog 增加 beforeCancel, beforeOk, 用于暂停关闭等待回调
