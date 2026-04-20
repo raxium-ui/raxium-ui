@@ -9,7 +9,7 @@ export const tvDialog = tv(
       backdrop: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal) + var(--layer-index, 0) * 2)]', // for z-index stacking
+        'z-[calc(var(--z-modal)+var(--layer-index,0)*2)]', // for z-index stacking
         'data-[state=open]:motion-opacity-in',
         'data-[state=open]:animate-backdrop-blur-in',
         'data-[state=closed]:motion-opacity-out',
@@ -18,7 +18,7 @@ export const tvDialog = tv(
       positioner: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal) + var(--layer-index, 0) * 2 + 1)]', // for z-index stacking
+        'z-[calc(var(--z-modal)+var(--layer-index,0)*2+1)]', // for z-index stacking
         'flex',
         'items-center',
         'justify-center',
