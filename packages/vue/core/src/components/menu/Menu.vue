@@ -6,6 +6,8 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { defaults } from 'es-toolkit/compat'
+import { computed, mergeProps } from 'vue'
 
 const {
   class: propsClass,
@@ -16,7 +18,18 @@ const {
 } = defineProps<MenuProps>()
 const emits = defineEmits<MenuRootEmits>()
 const menuConfig = useConfig('menu', () => ({ lazyMount, unmountOnExit }))
-const menu = useMenu(useForwardProps(props), emits)
+const forwarded = useForwardProps(props)
+const menu = useMenu(
+  computed(() =>
+    mergeProps(forwarded.value, {
+      positioning: defaults(
+        { ...(forwarded.value.positioning ?? {}) },
+        { placement: menuConfig.value?.placement },
+      ),
+    }),
+  ),
+  emits,
+)
 
 // theme
 const theme = useTheme(() => ({ ...menuConfig.value?.theme, ...propsTheme }))

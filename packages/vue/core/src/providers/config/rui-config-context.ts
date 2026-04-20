@@ -1,10 +1,7 @@
-import type {
-  IconifyIcon,
-  IconifyJSON,
-  PartialIconifyAPIConfig,
-} from '@iconify/vue'
+import type { IconifyIcon, IconifyJSON, PartialIconifyAPIConfig } from '@iconify/vue'
 import type { MessagerExpose } from '@raxium/vue/components/message'
 import type { ToasterManagerExpose } from '@raxium/vue/components/toast'
+import type * as popper from '@zag-js/popper'
 import type { ComputedRef } from 'vue'
 import type { ThemeCrafts, ThemeProps } from '../theme/theme-props'
 import { createContext } from '@ark-ui/vue'
@@ -16,11 +13,13 @@ export interface RUIConfigContext {
     openDelay?: number
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvTooltip'>['theme']
   }
   'date-picker'?: {
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvDatePicker'>['theme']
   }
   'hover-card'?: {
@@ -28,6 +27,7 @@ export interface RUIConfigContext {
     openDelay?: number
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvHoverCard'>['theme']
   }
   'dialog'?: {
@@ -38,16 +38,19 @@ export interface RUIConfigContext {
   'popover'?: {
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvPopover'>['theme']
   }
   'menu'?: {
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvMenu'>['theme']
   }
   'select'?: {
     lazyMount?: boolean
     unmountOnExit?: boolean
+    placement?: popper.Placement
     theme?: ThemeCrafts<'tvSelect'>['theme']
   }
   'iconify'?: {

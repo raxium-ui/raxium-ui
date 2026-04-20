@@ -1,6 +1,4 @@
-<script lang="ts">
-
-</script>
+<script lang="ts"></script>
 
 <script setup lang="ts">
 import type { PopoverRootEmits, UsePopoverReturn } from '@ark-ui/vue/popover'
@@ -10,6 +8,8 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { defaults } from 'es-toolkit/compat'
+import { computed, mergeProps } from 'vue'
 
 const {
   theme: propsTheme,
@@ -19,7 +19,18 @@ const {
 } = defineProps<PopoverProps>()
 const emit = defineEmits<PopoverRootEmits>()
 const popoverConfig = useConfig('popover', () => ({ unmountOnExit, lazyMount }))
-const popover = usePopover(useForwardProps(props), emit)
+const forwarded = useForwardProps(props)
+const popover = usePopover(
+  computed(() =>
+    mergeProps(forwarded.value, {
+      positioning: defaults(
+        { ...(forwarded.value.positioning ?? {}) },
+        { placement: popoverConfig.value?.placement },
+      ),
+    }),
+  ),
+  emit,
+)
 
 // theme
 const theme = useTheme(() => ({ ...popoverConfig.value?.theme, ...propsTheme }))

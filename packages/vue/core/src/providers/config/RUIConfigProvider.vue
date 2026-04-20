@@ -39,6 +39,7 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     closeDelay: 0,
     lazyMount: false,
     unmountOnExit: false,
+    placement: 'top',
     theme: undefined,
   }),
   hoverCard: () => ({
@@ -46,6 +47,7 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     closeDelay: 300,
     lazyMount: true,
     unmountOnExit: true,
+    placement: 'bottom',
     theme: undefined,
   }),
   dialog: () => ({
@@ -56,21 +58,25 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
   popover: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    placement: 'bottom',
     theme: undefined,
   }),
   menu: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    placement: 'bottom-start',
     theme: undefined,
   }),
   select: () => ({
     lazyMount: false,
     unmountOnExit: false,
+    placement: 'bottom-start',
     theme: undefined,
   }),
   datePicker: () => ({
     lazyMount: true,
     unmountOnExit: true,
+    placement: 'bottom',
     theme: undefined,
   }),
   iconify: () => ({

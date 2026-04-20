@@ -6,6 +6,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
 const {
@@ -28,6 +29,12 @@ const hoverCard = useHoverCard(
         closeDelay: hoverCardConfig.value?.closeDelay,
       },
       forwarded.value,
+      {
+        positioning: defaults(
+          { ...(forwarded.value.positioning ?? {}) },
+          { placement: hoverCardConfig.value?.placement },
+        ),
+      },
     ),
   ),
   emit,

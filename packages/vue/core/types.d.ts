@@ -14,8 +14,6 @@ declare type LayerDismissEventDetail = {
   targetIndex: number
 }
 
-declare type Placement = 'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end'
-
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
 

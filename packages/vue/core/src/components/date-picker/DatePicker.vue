@@ -5,13 +5,26 @@ import { DatePicker, useDatePicker, useForwardExpose, useForwardProps } from '@a
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { defaults } from 'es-toolkit/compat'
+import { computed, mergeProps } from 'vue'
 
 const { theme: themeProps, lazyMount, unmountOnExit, ...props } = defineProps<DatePickerProps>()
 const emit = defineEmits<DatePickerRootEmits>()
 
-const forwarded = useForwardProps<DatePickerProps, UseDatePickerProps>(props)
-const datePicker = useDatePicker(forwarded, emit)
 const datePickerOptions = useConfig('date-picker', () => ({ unmountOnExit, lazyMount }))
+const forwarded = useForwardProps<DatePickerProps, UseDatePickerProps>(props)
+const datePicker = useDatePicker(
+  computed(
+    () =>
+      mergeProps(forwarded.value as Record<string, unknown>, {
+        positioning: defaults(
+          { ...(forwarded.value.positioning ?? {}) },
+          { placement: datePickerOptions.value?.placement },
+        ),
+      }) as UseDatePickerProps,
+  ),
+  emit,
+)
 
 // theme
 const theme = useTheme(() => ({ ...datePickerOptions.value?.theme, ...themeProps }))

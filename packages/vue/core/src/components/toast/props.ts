@@ -68,7 +68,7 @@ interface ToastStoreProps {
    * The placement of the toast
    * @default "bottom"
    */
-  placement?: Placement | undefined
+  placement?: toast.Placement | undefined
   /**
    * The maximum number of toasts. When the number of toasts exceeds this limit, the new toasts are queued.
    * @default 24

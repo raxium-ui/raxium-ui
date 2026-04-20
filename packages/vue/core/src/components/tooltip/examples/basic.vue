@@ -4,7 +4,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
 </script>
 
 <template>
-  <Tooltip :positioning="{ placement: 'bottom-start' }">
+  <Tooltip>
     <TooltipTrigger as-child>
       <Button>
         Hover tooltip
