@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { UseDialogProps, UseDialogReturn } from '@ark-ui/vue/dialog'
-import type { DialogEmits, DialogOpenChangeDetails, DialogProps } from '.'
+import type { ComputedRef } from 'vue'
+import type { DialogEmits, DialogProps } from '.'
 import type {
   DialogInterceptContext,
   DialogTriggerFrom,
@@ -19,11 +20,6 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { TriggerFrom } from './dialog-intercept-context'
 import DialogInterceptProvider from './DialogInterceptProvider.vue'
 
-type UseDialogPropsEx = UseDialogProps & {
-  onOpenChange: (details: DialogOpenChangeDetails) => void
-  onExitComplete: () => void
-}
-
 const {
   class: propsClass,
   theme: propsTheme,
@@ -37,8 +33,7 @@ const dialogConfig = useConfig(
   'dialog',
   computed(() => ({ lazyMount, unmountOnExit })),
 )
-const forwarded = useForwardProps<DialogProps, UseDialogPropsEx>(props)
-
+const forwarded = useForwardProps(props) as ComputedRef<UseDialogProps & { onExitComplete?: () => void }>
 const triggerFrom = ref<DialogTriggerFrom>(undefined)
 const dialogInterceptContext: DialogInterceptContext = { triggerFrom }
 
@@ -48,7 +43,10 @@ const bypassBeforeClose = ref(false)
 function emitOpenChange(details: OpenChangeDetails) {
   emits('openChange', { ...details, from: triggerFrom.value })
   emits('update:open', details.open)
-  forwarded.value.onOpenChange?.({ ...details, from: triggerFrom.value })
+  forwarded.value.onOpenChange?.({
+    ...details,
+    from: triggerFrom.value,
+  } as OpenChangeDetails)
 }
 
 const dialog = useDialog(
