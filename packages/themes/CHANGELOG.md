@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.10
+
+### Patch Changes
+
+- 7d0a7bf: FIX: Dialog z-index stacking display
+
 ## 0.1.9
 
 ### Patch Changes

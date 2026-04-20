@@ -1,5 +1,14 @@
 # @raxium/vue
 
+## 0.2.11
+
+### Patch Changes
+
+- 7d0a7bf: FIX: Dialog z-index stacking display
+- 9535248: FIX: Dialog export needs types
+- Updated dependencies [7d0a7bf]
+  - @raxium/themes@0.1.10
+
 ## 0.2.10
 
 ### Patch Changes
