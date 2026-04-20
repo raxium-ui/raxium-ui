@@ -14,6 +14,8 @@ import FunctionalExample from './examples/functional.vue'
 import FunctionalExampleRaw from './examples/functional.vue?raw'
 import ScrollableExample from './examples/scrollable.vue'
 import ScrollableExampleRaw from './examples/scrollable.vue?raw'
+import StackedExample from './examples/stacked.vue'
+import StackedExampleRaw from './examples/stacked.vue?raw'
 import VariantsExample from './examples/variants.vue'
 import VariantsExampleRaw from './examples/variants.vue?raw'
 
@@ -139,6 +141,21 @@ export const Functional = {
   },
   render: () => ({
     components: { Component: FunctionalExample },
+    template: '<Component />',
+  }),
+}
+
+export const Stacked = {
+  parameters: {
+    docs: {
+      source: {
+        code: StackedExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: StackedExample },
     template: '<Component />',
   }),
 }
