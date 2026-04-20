@@ -3,7 +3,7 @@
  */
 import type { UseDialogContext } from '@ark-ui/vue/dialog'
 import type { ThemeProps } from '@raxium/vue/providers/theme'
-import type { PropType } from 'vue'
+import type { AppContext, PropType } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import type {
   DialogBeforeCloseHandler,
@@ -13,7 +13,7 @@ import type {
   DialogTriggerFrom,
   OpenChangeDetails,
 } from './dialog-intercept-context'
-import { createApp, defineComponent, reactive, ref } from 'vue'
+import { createVNode, defineComponent, getCurrentInstance, reactive, ref, render as vueRender } from 'vue'
 import {
   Dialog,
   DialogBody,
@@ -42,7 +42,7 @@ interface DialogOptions extends ThemeProps {
   onCancel?: (event: MouseEvent) => void
 }
 
-export function dialog(options: DialogOptions) {
+export function dialog(options: DialogOptions, appContext?: AppContext | null) {
   const {
     title,
     content,
@@ -144,18 +144,34 @@ export function dialog(options: DialogOptions) {
     },
   })
 
-  let dialogRootEl: HTMLDivElement | null = document.createElement('div')
-  const dialogVueInstance = createApp(DialogComponent, {
+  const container = document.createElement('div')
+  const vnode = createVNode(DialogComponent, {
     onAfterClose: () => {
-      dialogRootEl = null
-      dialogVueInstance.unmount()
+      vueRender(null, container)
     },
   })
-  dialogVueInstance.mount(dialogRootEl)
+  if (appContext) {
+    vnode.appContext = appContext
+  }
+  vueRender(vnode, container)
   open.value = true
   return {
     close: () => {
       open.value = false
+    },
+  }
+}
+
+/**
+ * 在组件内部使用，自动捕获当前 App 上下文（插件、全局组件等）并传入 dialog()。
+ * 推荐在组件 setup 中调用以替代直接调用 dialog()。
+ */
+export function useDialog() {
+  const instance = getCurrentInstance()
+  const appContext = instance?.appContext ?? null
+  return {
+    dialog: {
+      open: (options: DialogOptions) => dialog(options, appContext),
     },
   }
 }

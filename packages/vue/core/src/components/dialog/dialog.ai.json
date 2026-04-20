@@ -22,7 +22,8 @@
       "theme",
       "controlled-open",
       "from-tracking",
-      "structured-content"
+      "structured-content",
+      "functional-api"
     ],
     "subComponents": ["DialogTrigger", "DialogCloseTrigger", "DialogBackdrop", "DialogContent", "DialogHeader", "DialogBody", "DialogFooter"]
   },
@@ -811,7 +812,8 @@
     { "id": "scrollable", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "scrollable" }, "description": "可滚动内容" },
     { "id": "content-close", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "content-close" }, "description": "Content 关闭按钮控制" },
     { "id": "footer-widget", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "footer-widget" }, "description": "Footer 按钮定制" },
-    { "id": "functional", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "functional" }, "description": "函数式调用" }
+    { "id": "functional", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "functional" }, "description": "函数式调用（dialog() 与 useDialog()）" },
+    { "id": "stacked", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "stacked" }, "description": "多层嵌套 Dialog（z-index 堆叠）" }
   ],
   "generationHints": {
     "preferredUsageOrder": ["open", "defaultOpen", "theme.size", "lazyMount"],
@@ -827,13 +829,16 @@
       "minimal": "<Dialog>\n  <DialogTrigger asChild><button>Open</button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>Title</DialogHeader>\n    <DialogBody>...</DialogBody>\n  </DialogContent>\n</Dialog>",
       "controlled": "<Dialog v-model:open=\"open\">\n  <DialogTrigger asChild><button>Toggle</button></DialogTrigger>\n  <DialogContent>...</DialogContent>\n</Dialog>",
       "withFooter": "<Dialog>\n  <DialogTrigger asChild><button>Open</button></DialogTrigger>\n  <DialogContent>\n    <DialogHeader>Title</DialogHeader>\n    <DialogBody>Content</DialogBody>\n    <DialogFooter @ok=\"handleOk\" @cancel=\"handleCancel\" />\n  </DialogContent>\n</Dialog>",
-      "contentCloseSlot": "<DialogContent :show-close=\"false\">\n  <template #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template>\n  ...\n</DialogContent>"
+      "contentCloseSlot": "<DialogContent :show-close=\"false\">\n  <template #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template>\n  ...\n</DialogContent>",
+      "functionalInComponent": "// 在组件 setup 内（推荐）\nconst { dialog } = useDialog()\nfunction handleClick() {\n  dialog.open({ title: 'Title', content: 'Content', onOk: () => {} })\n}",
+      "functionalOutsideComponent": "// 在组件外（路由守卫、utils）\nimport { app } from './main'\ndialog({ title: 'Title' }, app._context)"
     },
     "antiPatterns": [
       "<Dialog><button>Open</button><DialogContent>...</DialogContent></Dialog>",
       "<DialogContent><DialogHeader>Title</DialogHeader><template #close><span>×</span></template></DialogContent>",
       "<Dialog v-model:open=\"open\" :default-open=\"false\">...</Dialog>",
-      "<DialogContent :show-close=\"true\"><DialogHeader>Title</DialogHeader><template #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template></DialogContent>"
+      "<DialogContent :show-close=\"true\"><DialogHeader>Title</DialogHeader><template #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template></DialogContent>",
+      "// 在组件 setup 内直接调用 dialog() 而不使用 useDialog()，会导致弹窗无法访问 vue-i18n 等 App 插件\ndialog({ title: '…' })"
     ]
   },
   "provenance": {
@@ -848,6 +853,7 @@
       { "path": "./DialogCloseTrigger.vue", "kind": "runtime" },
       { "path": "./DialogBackdrop.vue", "kind": "runtime" },
       { "path": "./DialogBody.vue", "kind": "runtime" },
+      { "path": "./dialog-functional.tsx", "kind": "runtime" },
       { "path": "./dialog.stories.ts", "kind": "story" }
     ],
     "precedence": ["runtime", "type", "doc"],

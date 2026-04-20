@@ -1,5 +1,5 @@
 // components
-export { dialog } from './dialog-functional'
+export { dialog, useDialog } from './dialog-functional'
 export {
   type DialogTriggerFrom,
   type OpenChangeDetails,

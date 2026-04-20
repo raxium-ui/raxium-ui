@@ -1,6 +1,21 @@
 <script setup lang="tsx">
 import { Button } from '../../button'
-import { dialog, TriggerFrom } from '../index'
+import { dialog, TriggerFrom, useDialog } from '../index'
+
+// 在 setup 中调用，自动捕获当前 App 的 appContext（插件、全局组件等）
+const { dialog: dialogFn } = useDialog()
+
+/** 使用 useDialog() 唤起弹窗，自动继承 App 上下文（vue-i18n、pinia、全局组件等） */
+function openWithContext() {
+  dialogFn.open({
+    title: 'useDialog()（继承 App 上下文）',
+    content:
+      '此弹窗通过 useDialog() 唤起。相比直接调用 dialog()，useDialog() 在 setup 内调用时会自动将当前 App 的 appContext 注入到弹窗，使弹窗内容可访问 vue-i18n、vue-router、pinia 及全局注册的组件。',
+    onOk: () => {
+      console.log('useDialog ok')
+    },
+  })
+}
 
 function openBasic() {
   dialog({
@@ -69,6 +84,9 @@ function openWithBeforeClose() {
     </Button>
     <Button variant="outlined" @click="openWithBeforeClose">
       Open with beforeClose
+    </Button>
+    <Button variant="outlined" @click="openWithContext">
+      Open with useDialog()
     </Button>
   </div>
 </template>
