@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.11
+
+### Patch Changes
+
+- c8cf78f: FIX: Dialog z-index stacking
+
 ## 0.1.10
 
 ### Patch Changes
