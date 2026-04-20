@@ -1,12 +1,5 @@
 # @raxium/vue
 
-## 0.2.9
-
-### Patch Changes
-
-- 8f81130: FEAT: Add Tooltip/Popover/HoverCard/Menu/Select/DatePicker poper like components, global placement config
-- becd811: FEAT: add dialog before-close prop to control close before done func call
-
 ## 0.2.8
 
 ### Patch Changes
