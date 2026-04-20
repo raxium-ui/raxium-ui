@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^10.1.0",
-    "@rsbuild/core": "^1.6.15",
+    "@rsbuild/core": "^1.7.5",
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-vue": "^1.2.2",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
