@@ -29,6 +29,7 @@ const {
   theme: propsTheme,
   lazyMount = undefined,
   unmountOnExit = undefined,
+  beforeClose,
   ...props
 } = defineProps<DialogProps>()
 const emits = defineEmits<DialogEmits>()
@@ -40,13 +41,43 @@ const forwarded = useForwardProps<DialogProps, UseDialogPropsEx>(props)
 
 const triggerFrom = ref<DialogTriggerFrom>(undefined)
 const dialogInterceptContext: DialogInterceptContext = { triggerFrom }
+
+const beforeClosePending = ref(false)
+const bypassBeforeClose = ref(false)
+
+function emitOpenChange(details: OpenChangeDetails) {
+  emits('openChange', { ...details, from: triggerFrom.value })
+  emits('update:open', details.open)
+  forwarded.value.onOpenChange?.({ ...details, from: triggerFrom.value })
+}
+
 const dialog = useDialog(
   computed(() => ({
     ...forwarded.value,
     onOpenChange: (details: OpenChangeDetails) => {
-      emits('openChange', { ...details, from: triggerFrom.value })
-      emits('update:open', details.open)
-      forwarded.value.onOpenChange?.({ ...details, from: triggerFrom.value })
+      if (!details.open && beforeClose && !bypassBeforeClose.value) {
+        if (beforeClosePending.value) {
+          dialog.value.setOpen(true)
+          return
+        }
+        beforeClosePending.value = true
+        dialog.value.setOpen(true)
+        beforeClose({
+          from: triggerFrom.value,
+          done: () => {
+            if (!beforeClosePending.value)
+              return
+            beforeClosePending.value = false
+            bypassBeforeClose.value = true
+            dialog.value.setOpen(false)
+            nextTick(() => {
+              bypassBeforeClose.value = false
+            })
+          },
+        })
+        return
+      }
+      emitOpenChange(details)
     },
     onEscapeKeyDown: (event: KeyboardEvent) => {
       triggerFrom.value = TriggerFrom.ESCAPE

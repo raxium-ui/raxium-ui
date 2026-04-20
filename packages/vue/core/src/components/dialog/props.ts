@@ -21,8 +21,20 @@ import type {
 
 // types
 export type DialogOpenChangeDetails = OpenChangeDetails & { from: DialogTriggerFrom }
+
+/** 关闭前钩子：调用 `done()` 后才会完成关闭（与 Ark 的 `onOpenChange` 透传可同时使用，关闭流程会先经过此处） */
+export type DialogBeforeCloseHandler = ({
+  from,
+  done,
+}: {
+  from: DialogTriggerFrom
+  done: () => void
+}) => void
+
 export interface DialogProps extends DialogRootBaseProps, ThemeCrafts<'tvDialog'> {
   class?: HTMLAttributes['class']
+  /** 关闭前的回调；在回调内调用 `done()` 时才会真正关闭 */
+  beforeClose?: DialogBeforeCloseHandler
 }
 export interface DialogEmits extends DialogRootEmits {
   'update:open': [open: boolean]

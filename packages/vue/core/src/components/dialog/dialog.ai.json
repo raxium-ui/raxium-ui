@@ -89,6 +89,21 @@
         "description": "关闭后卸载内容"
       },
       {
+        "name": "beforeClose",
+        "required": false,
+        "requiredSource": "type",
+        "typeText": "(done: () => void) => void",
+        "typeSchema": { "type": "function" },
+        "default": null,
+        "defaultKind": "implicit-undefined",
+        "nullable": true,
+        "passthrough": false,
+        "deprecated": false,
+        "dependsOn": [],
+        "conflictsWith": [],
+        "description": "关闭前回调；在回调内调用 done() 后才会真正关闭"
+      },
+      {
         "name": "class",
         "required": false,
         "requiredSource": "type",
@@ -791,6 +806,7 @@
   "examples": [
     { "id": "basic", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "basic" }, "description": "基础用法" },
     { "id": "controlled-and-events", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "controlled-and-events" }, "description": "受控模式与事件" },
+    { "id": "before-close", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "before-close" }, "description": "beforeClose 关闭前确认" },
     { "id": "variants", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "variants" }, "description": "尺寸与主题变体" },
     { "id": "scrollable", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "scrollable" }, "description": "可滚动内容" },
     { "id": "content-close", "mcp": { "server": "raxium", "tool": "get-example", "args": { "framework": "vue", "componentName": "Dialog" }, "exampleId": "content-close" }, "description": "Content 关闭按钮控制" },

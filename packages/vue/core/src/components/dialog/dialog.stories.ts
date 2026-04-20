@@ -2,6 +2,8 @@ import type { Meta } from 'storybook-vue3-rsbuild'
 
 import BasicExample from './examples/basic.vue'
 import BasicExampleRaw from './examples/basic.vue?raw'
+import BeforeCloseExample from './examples/before-close.vue'
+import BeforeCloseExampleRaw from './examples/before-close.vue?raw'
 import ContentCloseExample from './examples/content-close.vue'
 import ContentCloseExampleRaw from './examples/content-close.vue?raw'
 import ControlledAndEventsExample from './examples/controlled-and-events.vue'
@@ -47,6 +49,21 @@ export const ControlledAndEvents = {
   },
   render: () => ({
     components: { Component: ControlledAndEventsExample },
+    template: '<Component />',
+  }),
+}
+
+export const BeforeClose = {
+  parameters: {
+    docs: {
+      source: {
+        code: BeforeCloseExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: BeforeCloseExample },
     template: '<Component />',
   }),
 }

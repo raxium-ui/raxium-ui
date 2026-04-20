@@ -6,6 +6,7 @@ import type { ThemeProps } from '@raxium/vue/providers/theme'
 import type { PropType } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import type {
+  DialogBeforeCloseHandler,
   DialogOpenChangeDetails,
 } from '.'
 import type {
@@ -36,6 +37,7 @@ interface DialogOptions extends ThemeProps {
   }
   onOpenChange?: (details: OpenChangeDetailsWithFrom) => void
   onAfterClose?: (details: OpenChangeDetailsWithFrom) => void
+  beforeClose?: DialogBeforeCloseHandler
   onOk?: (event: MouseEvent) => void
   onCancel?: (event: MouseEvent) => void
 }
@@ -51,6 +53,7 @@ export function dialog(options: DialogOptions) {
     onCancel,
     onOpenChange,
     onAfterClose,
+    beforeClose,
   } = reactive(options)
   const open = ref(false)
   const DialogComponent = defineComponent({
@@ -72,6 +75,7 @@ export function dialog(options: DialogOptions) {
             v-model={[open.value, 'open']}
             lazy-mount
             unmount-on-exit
+            beforeClose={beforeClose}
             onOpenChange={(details: DialogOpenChangeDetails) => {
               openChangeDetail.value = details
               onOpenChange?.(details)
