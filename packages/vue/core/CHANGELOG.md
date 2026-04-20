@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.13
+
+### Patch Changes
+
+- 252a2c4: FEAT: add useDialog to solve the issue where it is impossible to obtain the context data of the Vue instance when creating a functional Dialog.
+
 ## 0.2.12
 
 ### Patch Changes
