@@ -8,3 +8,4 @@
 [x] Checkbox Menu 无障碍无法使用
 [x] 考虑增加全局设置 Tooltip, Popover 等组件的theme, 用于设定surface
 [] 考虑增加 Tooltip Popover Hovercard 全局默认positioning设置
+[x] Dialog 增加 beforeClose 用于暂停关闭等待回调

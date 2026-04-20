@@ -1,5 +1,15 @@
 # @raxium/vue
 
+## 0.2.8
+
+### Patch Changes
+
+- f0937c3: FIX: slider marker add value slot
+- eff1140: FEAT: Add pop components and independent global settings
+- 241d4f4: FIX: the focus issues and accessibility selection problems of Checkbox and TreeCheckboxItem
+- Updated dependencies [241d4f4]
+  - @raxium/themes@0.1.9
+
 ## 0.2.7
 
 ### Patch Changes

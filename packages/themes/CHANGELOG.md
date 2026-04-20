@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.9
+
+### Patch Changes
+
+- 241d4f4: FIX: the focus issues and accessibility selection problems of Checkbox and TreeCheckboxItem
+
 ## 0.1.8
 
 ### Patch Changes
