@@ -1,6 +1,10 @@
 // components
 export { dialog } from './dialog-functional'
-export { TriggerFrom } from './dialog-intercept-context'
+export {
+  type DialogTriggerFrom,
+  type OpenChangeDetails,
+  TriggerFrom,
+} from './dialog-intercept-context'
 export { default as Dialog } from './Dialog.vue'
 export { default as DialogBackdrop } from './DialogBackdrop.vue'
 export { default as DialogBody } from './DialogBody.vue'
