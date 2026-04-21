@@ -7,7 +7,7 @@ export const tvRadioGroup = tv(
   {
     slots: {
       root: ['flex', 'items-center'],
-      item: ['inline-flex', 'items-center', 'w-fit', 'gap-2', 'group/item'],
+      item: ['relative', 'inline-flex', 'items-center', 'w-fit', 'gap-2', 'group/item'],
       itemControl: [
         'flex',
         'items-center',

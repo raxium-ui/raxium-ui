@@ -10,4 +10,5 @@
 [x] 考虑增加 Tooltip Popover Hovercard 全局默认positioning设置
 [x] Dialog 增加 beforeClose 用于暂停关闭等待回调
 [x] 调整显示多个Dialog时的层级
-[] 由于 functional Dialog 创建时, 采用了创建新Vue实例挂载到DOM, 会存在拿不到主(App) Vue Instance绑定的组件/数据, 例如: <i18n-t> 等
+[x] 由于 functional Dialog 创建时, 采用了创建新Vue实例挂载到DOM, 会存在拿不到主(App) Vue Instance绑定的组件/数据, 例如: <i18n-t> 等
+[x] Checkbox/Swith 等组件的hiddenInput存在tab后焦点改变导致scoll页面自动scroll

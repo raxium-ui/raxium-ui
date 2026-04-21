@@ -6,7 +6,7 @@ const prefix = 'rui-tags-input'
 export const tvTagsInput = tv(
   {
     slots: {
-      root: ['flex flex-col'],
+      root: ['flex flex-col', 'relative'],
       control: ['flex', 'items-center'],
       scrollArea: '',
       scrollAreaContent: '',

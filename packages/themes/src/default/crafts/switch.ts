@@ -11,6 +11,7 @@ export const tvSwitch = tv({
       'gap-2',
       'w-fit',
       'group/switch',
+      'relative',
     ],
     control: [
       'block',
