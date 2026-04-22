@@ -1,5 +1,12 @@
 # @raxium/themes
 
+## 0.1.12
+
+### Patch Changes
+
+- 43580c1: FIX: The hiddenInput of components such as Checkbox/Switch may cause the page to automatically scroll when the focus changes after being placed on a tab.
+- c073a47: FIX: Tabs content switch animate bugs
+
 ## 0.1.11
 
 ### Patch Changes
