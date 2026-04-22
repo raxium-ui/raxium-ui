@@ -18,7 +18,7 @@ export const tvTabs = tv({
       'disabled:pointer-events-none',
       'disabled:opacity-(--disabled-opacity)',
     ],
-    content: ['mt-2'],
+    content: ['mt-2', 'data-[state=closed]:hidden'],
     indicator: [],
   },
 
@@ -39,9 +39,11 @@ export const tvTabs = tv({
     },
     orientation: {
       horizontal: {
+        root: 'overflow-x-clip', // overflow-x-clip prevents horizontal scrollbar flash during tab content slide-in animation
         indicator: 'w-(--width) bottom-0',
       },
       vertical: {
+        root: 'overflow-y-clip',
         indicator: 'h-(--height)',
       },
     },
