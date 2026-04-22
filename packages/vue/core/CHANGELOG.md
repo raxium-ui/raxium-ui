@@ -1,5 +1,13 @@
 # @raxium/vue
 
+## 0.2.14
+
+### Patch Changes
+
+- Updated dependencies [43580c1]
+- Updated dependencies [c073a47]
+  - @raxium/themes@0.1.12
+
 ## 0.2.13
 
 ### Patch Changes
