@@ -21,7 +21,7 @@ class ReactiveListenerEx extends ReactiveListener {
   ) {
     super(
       el,
-      src as string,
+      src,
       error,
       loading,
       bindType,
@@ -31,11 +31,6 @@ class ReactiveListenerEx extends ReactiveListener {
       elRenderer,
       imageCache,
     )
-    if (isMissingLazySrc(src)) {
-      this.state.error = true
-      this.state.loaded = false
-      this.render('error', false)
-    }
   }
 
   initState() {
@@ -55,6 +50,10 @@ class ReactiveListenerEx extends ReactiveListener {
     }
     if (this.state.rendered && this.state.loaded)
       return
+    if (isMissingLazySrc(this.src) && this.state.error) {
+      onFinish()
+      return
+    }
     if (isArray(this.src)) {
       if ((this.options as VueLazyloadOptionsEx).useCache) {
         // 是否开启了数组src的缓存功能
@@ -83,7 +82,7 @@ class ReactiveListenerEx extends ReactiveListener {
       }
     }
 
-    if (isMissingLazySrc(this.src as string | string[])) {
+    if (isMissingLazySrc(this.src)) {
       if (!this.state.error) {
         !this.options.silent && console.error(new Error('image src is required'))
         this.state.error = true
@@ -129,7 +128,7 @@ class ReactiveListenerEx extends ReactiveListener {
       else {
         loadImageAsync(
           {
-            src: this.src,
+            src: this.src as string,
             cors: this.cors,
           },
           (data: { naturalHeight: number, naturalWidth: number, src: string }) => {
@@ -140,7 +139,7 @@ class ReactiveListenerEx extends ReactiveListener {
             this.record('loadEnd')
             this.render('loaded', false)
             this.state.rendered = true
-            this._imageCache.add(this.src)
+            this._imageCache.add(this.src as string)
             onFinish()
           },
           (err: Error) => {

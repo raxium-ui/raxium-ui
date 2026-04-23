@@ -2,6 +2,8 @@ import type { VueLazyloadOptions } from './types/lazyload'
 import type {
   ImageCache,
 } from './util'
+import { isArray } from 'es-toolkit/compat'
+import { isMissingLazySrc } from '../utils'
 import {
   loadImageAsync,
   noop,
@@ -16,7 +18,7 @@ import {
 
 export default class ReactiveListener {
   el: HTMLElement | null
-  src: string
+  src: string | string[]
   error: string | null
   loading: string
   bindType: string | null
@@ -44,7 +46,7 @@ export default class ReactiveListener {
   _imageCache: ImageCache
   constructor(
     el: HTMLElement,
-    src: string,
+    src: string | string[],
     error: string,
     loading: string,
     bindType: string,
@@ -80,7 +82,14 @@ export default class ReactiveListener {
 
     this.filter()
     this.initState()
-    this.render('loading', false)
+    if (isMissingLazySrc(this.src as string | string[])) {
+      this.state.error = true
+      this.state.loaded = false
+      this.render('error', false)
+    }
+    else {
+      this.render('loading', false)
+    }
   }
 
   /*
@@ -88,11 +97,12 @@ export default class ReactiveListener {
    * @return
    */
   initState() {
+    const serialized = isArray(this.src) ? (this.src as string[]).join(',') : String(this.src)
     if ('dataset' in this.el!) {
-      this.el.dataset.src = this.src
+      this.el.dataset.src = serialized
     }
     else {
-      this.el!.setAttribute('data-src', this.src)
+      this.el!.setAttribute('data-src', serialized)
     }
 
     this.state = {
@@ -118,7 +128,7 @@ export default class ReactiveListener {
    * @param  {String} error image uri
    * @return
    */
-  update(option: { src: string, loading: string, error: string }) {
+  update(option: { src: string | string[], loading: string, error: string }) {
     const oldSrc = this.src
     this.src = option.src
     this.loading = option.loading
@@ -127,6 +137,11 @@ export default class ReactiveListener {
     if (oldSrc !== this.src) {
       this.attempt = 0
       this.initState()
+      if (isMissingLazySrc(option.src)) {
+        this.state.error = true
+        this.state.loaded = false
+        this.render('error', false)
+      }
     }
   }
 
@@ -195,11 +210,26 @@ export default class ReactiveListener {
     }
     if (this.state.rendered && this.state.loaded)
       return
+    if (isMissingLazySrc(this.src) && this.state.error) {
+      onFinish()
+      return
+    }
     if (this._imageCache.has(this.src as string)) {
       this.state.loaded = true
       this.render('loaded', true)
       this.state.rendered = true
       return onFinish()
+    }
+
+    if (isMissingLazySrc(this.src)) {
+      if (!this.state.error) {
+        !this.options.silent && console.error(new Error('image src is required'))
+        this.state.error = true
+        this.state.loaded = false
+        this.render('error', false)
+      }
+      onFinish()
+      return
     }
 
     this.renderLoading(() => {
@@ -209,7 +239,7 @@ export default class ReactiveListener {
       this.record('loadStart')
 
       loadImageAsync({
-        src: this.src,
+        src: this.src as string,
         cors: this.cors,
       }, (
         data: {
@@ -225,7 +255,7 @@ export default class ReactiveListener {
         this.record('loadEnd')
         this.render('loaded', false)
         this.state.rendered = true
-        this._imageCache.add(this.src)
+        this._imageCache.add(this.src as string)
         onFinish()
       }, (err: Error) => {
         !this.options.silent && console.error(err)

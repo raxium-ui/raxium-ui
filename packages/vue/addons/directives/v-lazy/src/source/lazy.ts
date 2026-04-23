@@ -4,6 +4,7 @@ import type {
 } from 'vue'
 import type LazyContainerMananger from './lazy-container'
 import type { VueLazyloadOptions, VueReactiveListener } from './types'
+import { isArray } from 'es-toolkit/compat'
 import {
   nextTick,
 } from 'vue'
@@ -474,17 +475,20 @@ class Lazy {
       case 'error':
         src = listener.error
         break
-      default:
-        src = listener.src
+      default: {
+        const raw = listener.src
+        src = isArray(raw) ? raw[0] : raw
         break
+      }
     }
 
+    const imgSrc = src != null && typeof src === 'string' ? src : ''
     if (bindType) {
       // @ts-ignore
-      el.style[bindType] = `url("${src}")`
+      el.style[bindType] = `url("${imgSrc}")`
     }
-    else if (el.getAttribute('src') !== src) {
-      el.setAttribute('src', src!)
+    else if (el.getAttribute('src') !== imgSrc) {
+      el.setAttribute('src', imgSrc)
     }
 
     el.setAttribute('lazy', state)

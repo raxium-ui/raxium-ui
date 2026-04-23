@@ -10,6 +10,12 @@ export function isMissingLazySrc(src: string | string[]): boolean {
   return src == null || String(src).trim() === ''
 }
 
+/** 应整段赋给 background / background-image 的渐变（避免误把含 "gradient" 的 URL 当渐变） */
+export function isCssGradientBackgroundValue(value: string): boolean {
+  const s = value.trim().toLowerCase()
+  return /^(?:(?:-webkit-)?(?:linear|radial)-gradient|(?:linear|radial|conic|repeating-linear|repeating-radial|repeating-conic)-gradient)\(/i.test(s)
+}
+
 export function loadImageArrAsync(
   arr: string[],
   index: number,
@@ -19,12 +25,11 @@ export function loadImageArrAsync(
   const image = new Image()
   if (isEmpty(arr)) {
     const err = new Error('image src is required')
-    return reject(err)
+    return reject(0, err)
   }
   if (isEmpty(arr[index])) {
     return reject(index + 1, new Error('will load next'))
   }
-  console.log('loadImageArrAsync', arr[index], index)
   image.src = arr[index]
   image.onload = function () {
     resolve({

@@ -5,8 +5,26 @@ import { nextTick } from 'vue'
 import ReactiveListenerEx from './listener'
 import Lazy from './source/lazy'
 import { getBestSelectionFromSrcset, inBrowser, scrollParent } from './source/util'
+import { isCssGradientBackgroundValue } from './utils'
 
 type TeventType = 'loading' | 'loaded' | 'error'
+
+function applyLazyBackground(el: HTMLElement, bindType: string, src: string | null | undefined) {
+  if (!src?.trim()) {
+    el.style.backgroundColor = 'transparent'
+    // @ts-expect-error CSSStyleDeclaration index
+    el.style[bindType] = ''
+    return
+  }
+  if (isCssGradientBackgroundValue(src)) {
+    // @ts-expect-error CSSStyleDeclaration index
+    el.style[bindType] = src
+  }
+  else {
+    // @ts-expect-error CSSStyleDeclaration index
+    el.style[bindType] = `url("${src}")`
+  }
+}
 
 class LazyEx extends Lazy {
   loadingDelayTimer: ReturnType<typeof setTimeout> | null = null
@@ -98,44 +116,25 @@ class LazyEx extends Lazy {
       || bindType === 'backgroundImage'
       || bindType === 'background-image'
     ) {
-      if (state === 'loading' && !src) {
+      if (state === 'loading' && !src?.trim()) {
         el.style.backgroundColor = 'transparent'
+        // @ts-expect-error CSSStyleDeclaration index
+        el.style[bindType] = ''
       }
       else if (state === 'loading') {
-        if (src.includes('gradient')) {
-          // @ts-expect-error style is not indexable
-          el.style[bindType] = src
-        }
-        else {
-          // @ts-expect-error style is not indexable
-          el.style[bindType] = `url("${src}")`
-        }
+        applyLazyBackground(el, bindType, src)
       }
       else {
         if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
           this.loadingDelayTimer = setTimeout(() => {
-            if (src.includes('gradient')) {
-              // @ts-expect-error style is not indexable
-              el.style[bindType] = src
-            }
-            else {
-              // @ts-expect-error style is not indexable
-              el.style[bindType] = `url("${src}")`
-            }
+            applyLazyBackground(el, bindType, src)
             if (srcIndex !== 'src') {
               el.setAttribute('src-index', srcIndex)
             }
           }, (this.options as VueLazyloadOptionsEx).loadingDelay)
         }
         else {
-          if (src.includes('gradient')) {
-            // @ts-expect-error style is not indexable
-            el.style[bindType] = src
-          }
-          else {
-            // @ts-expect-error style is not indexable
-            el.style[bindType] = `url("${src}")`
-          }
+          applyLazyBackground(el, bindType, src)
           if (srcIndex !== 'src') {
             el.setAttribute('src-index', srcIndex)
           }
@@ -143,23 +142,25 @@ class LazyEx extends Lazy {
       }
     }
     else if (bindType === 'xlink:href' || bindType === 'href') {
+      const attrSrc = src ?? ''
       if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
         this.loadingDelayTimer = setTimeout(() => {
-          el.setAttribute(bindType, src)
+          el.setAttribute(bindType, attrSrc)
         }, (this.options as VueLazyloadOptionsEx).loadingDelay)
       }
       else {
-        el.setAttribute(bindType, src)
+        el.setAttribute(bindType, attrSrc)
       }
     }
-    else if (el.getAttribute('src') !== src) {
+    else if (el.getAttribute('src') !== (src ?? '')) {
+      const imgSrc = src ?? ''
       if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
         this.loadingDelayTimer = setTimeout(() => {
-          el.setAttribute('src', src)
+          el.setAttribute('src', imgSrc)
         }, (this.options as VueLazyloadOptionsEx).loadingDelay)
       }
       else {
-        el.setAttribute('src', src)
+        el.setAttribute('src', imgSrc)
       }
     }
 
