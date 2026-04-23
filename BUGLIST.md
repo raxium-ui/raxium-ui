@@ -14,3 +14,4 @@
 [x] Checkbox/Swith 等组件的hiddenInput存在tab后焦点改变导致scoll页面自动scroll
 [x] Tabs在切换过程中, 动画使用的是motion-translate-x, 同时存在prev content 和 next content 导致container容器过长,出现scrollbar后消失
 [x] 使用方向键切换Tabs过程中: 例如有3个Tab, Tab3 -> Tab1的过程中 tab1的content 会将tab3的content挤到下方后, tab3 content消失, 造成闪烁
+[] v-lazy 没有对src为空字符处理

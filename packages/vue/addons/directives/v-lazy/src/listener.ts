@@ -3,7 +3,7 @@ import type { VueLazyloadOptionsEx } from './types'
 import { isArray, isEmpty } from 'es-toolkit/compat'
 import ReactiveListener from './source/listener'
 import { loadImageAsync } from './source/util'
-import { loadImageArrAsync } from './utils'
+import { isMissingLazySrc, loadImageArrAsync } from './utils'
 
 class ReactiveListenerEx extends ReactiveListener {
   renderIndex: number = 0
@@ -31,6 +31,11 @@ class ReactiveListenerEx extends ReactiveListener {
       elRenderer,
       imageCache,
     )
+    if (isMissingLazySrc(src)) {
+      this.state.error = true
+      this.state.loaded = false
+      this.render('error', false)
+    }
   }
 
   initState() {
@@ -76,6 +81,17 @@ class ReactiveListenerEx extends ReactiveListener {
         this.state.rendered = true
         return onFinish()
       }
+    }
+
+    if (isMissingLazySrc(this.src as string | string[])) {
+      if (!this.state.error) {
+        !this.options.silent && console.error(new Error('image src is required'))
+        this.state.error = true
+        this.state.loaded = false
+        this.render('error', false)
+      }
+      onFinish()
+      return
     }
 
     this.renderLoading(() => {

@@ -1,4 +1,14 @@
-import { isEmpty } from 'es-toolkit/compat'
+import { isArray, isEmpty } from 'es-toolkit/compat'
+
+/** 无有效图片地址（空串、仅空白、空数组或数组内全部无效） */
+export function isMissingLazySrc(src: string | string[]): boolean {
+  if (isArray(src)) {
+    if (src.length === 0)
+      return true
+    return src.every(item => item == null || String(item).trim() === '')
+  }
+  return src == null || String(src).trim() === ''
+}
 
 export function loadImageArrAsync(
   arr: string[],
