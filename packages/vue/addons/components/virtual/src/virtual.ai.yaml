@@ -1,0 +1,333 @@
+schemaVersion: 2.0.0
+docId: rark.vue.addons.virtual
+component:
+  name: Virtual
+  framework: vue
+  package: '@raxium/vue-addons-virtual'
+  importPath: '@raxium/vue-addons-virtual'
+  exportName: VirtualList
+  category: addon
+  description: addons 里的独立虚拟滚动组件集，用于长列表、动态高度列表和二维网格的按需渲染。由 VirtualList、VirtualListItem、VirtualGrid、VirtualGridItem、VirtualInfiniteLoading
+    组合而成，基于 @tanstack/vue-virtual 封装。VirtualList 为主导出；VirtualGrid 为并列容器；VirtualListItem、VirtualGridItem、VirtualInfiniteLoading
+    为子组件。当前不提供 theme 配置，支持 ui 样式覆盖。
+  basePrimitive:
+    library: '@tanstack/vue-virtual'
+    primitive: useVirtualizer
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+      - class
+    notes: 组件基于 @tanstack/vue-virtual 封装，VirtualList/VirtualGrid 部分透传 VirtualizerOptions；enabled、count、getScrollElement
+      由组件内部控制。
+  capabilities:
+    - ui-override
+    - virtual-list
+    - virtual-grid
+    - infinite-loading
+  subComponents:
+    - VirtualListItem
+    - VirtualGrid
+    - VirtualGridItem
+    - VirtualInfiniteLoading
+contracts:
+  props:
+    - name: dataSource
+      required: true
+      requiredSource: type
+      typeText: Array<T>
+      description: 列表数据源。
+    - name: estimateSize
+      typeText: '(index: number) => number'
+      default: () => 30
+      description: 列表项估算高度/宽度（横向时为宽度）。
+    - name: overscan
+      typeText: number
+      default: 1
+      description: 额外渲染缓冲项数量。
+    - name: horizontal
+      typeText: boolean
+      default: false
+      description: 是否横向虚拟滚动。
+    - name: unstyled
+      typeText: boolean
+      description: 组件声明了该参数；当前实现中未见样式分支逻辑，建议优先通过 class/ui 覆盖。
+  events: []
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 列表内容槽，通常放 VirtualListItem，可额外放 VirtualInfiniteLoading。
+  themeConfiguration:
+    fields: []
+    notes: Virtual 不支持 theme 配置。使用 class 与 ui.* 覆盖局部样式。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: HTMLAttributes['class']
+        description: 列表根容器样式。
+      - name: ui.scroll
+        typeText: HTMLAttributes['class']
+        description: 列表滚动区域样式。
+cssImport:
+  required: true
+  importPath: '@raxium/vue-addons-virtual/index.css'
+  sourcePath: packages/vue/addons/components/virtual/src/index.css
+  description: 包含 rui-virtual-list、rui-virtual-grid、rui-virtual-infinite 的基础样式与状态样式，并提供基于
+    data-scope/data-part 的结构化覆盖点。
+  usage: import '@raxium/vue-addons-virtual/index.css'
+subComponents:
+  VirtualListItem:
+    props:
+      - name: data
+        typeText: T
+        description: 当前列表项数据。
+      - name: index
+        typeText: number
+        description: 当前项索引。
+      - name: dynamic
+        typeText: boolean
+        description: 开启后在节点变化时触发 measureElement，用于动态高度列表。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties:
+            data: {}
+            index:
+              type: number
+        description: '参数为 { data: T, index?: number }。'
+  VirtualGrid:
+    props:
+      - name: dataSource
+        required: true
+        requiredSource: type
+        typeText: Array<T>
+        description: 网格数据源。
+      - name: row
+        typeText: number
+        description: 行数维度控制。
+      - name: column
+        typeText: number
+        description: 列数维度控制。
+      - name: gap
+        typeText: '[number, number]'
+        default: '[0, 0]'
+        description: 行间距与列间距。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 网格内容槽，通常放 VirtualGridItem，可额外放 VirtualInfiniteLoading。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: HTMLAttributes['class']
+          description: 网格根容器样式。
+        - name: ui.scroll
+          typeText: HTMLAttributes['class']
+          description: 网格滚动区域样式。
+  VirtualGridItem:
+    props:
+      - name: data
+        typeText: T
+        description: 当前网格项数据。
+      - name: index
+        typeText: number
+        description: 当前项线性索引。
+      - name: rowIndex
+        typeText: number
+        description: 行索引。
+      - name: colIndex
+        typeText: number
+        description: 列索引。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties:
+            data: {}
+            index:
+              type: number
+            rowIndex:
+              type: number
+            colIndex:
+              type: number
+        description: '参数为 { data: T, index?: number, rowIndex?: number, colIndex?: number
+          }。'
+  VirtualInfiniteLoading:
+    props:
+      - name: enableFirstLoad
+        typeText: boolean
+        default: true
+        description: 挂载后是否立即触发一次加载。
+      - name: enableRetry
+        typeText: boolean
+        default: true
+        description: 错误状态是否展示重试按钮。
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 状态块尺寸。
+    slots:
+      - name: loading
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: state === LOADING
+        description: 加载态内容。
+      - name: spinner
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: state === LOADING
+        fallback: LoaderCircle
+        description: 加载图标。
+      - name: complete
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: state === COMPLETE
+        fallback: No more results!
+        description: 加载完成态内容。
+      - name: error
+        slotPropsSchema:
+          type: object
+          properties:
+            retry:
+              type: function
+        renderWhen:
+          - expr: state === ERROR
+        description: '错误态内容，参数为 { retry: () => void }。'
+    events:
+      - name: infinite
+        payload:
+          typeText: '{ loading: () => void; loaded: () => void; complete: () => void;
+            error: () => void }'
+        description: 首次加载或命中观察点时触发；业务侧通过回调切换加载状态。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: HTMLAttributes['class']
+          description: 无限加载根节点样式。
+        - name: ui.loading
+          typeText: HTMLAttributes['class']
+          description: 加载态样式。
+        - name: ui.spinner
+          typeText: HTMLAttributes['class']
+          description: 加载图标样式。
+        - name: ui.complete
+          typeText: HTMLAttributes['class']
+          description: 完成态样式。
+        - name: ui.error
+          typeText: HTMLAttributes['class']
+          description: 错误态样式。
+behaviorModel:
+  derived:
+    virtualizedRows: rowVirtualizer.getVirtualItems()
+    virtualizedColumns: columnVirtualizer.getVirtualItems()
+    virtualizedItems: virtualizer.getVirtualItems()
+  transitions:
+    - on: VirtualInfiniteLoading.mounted
+      guard: enableFirstLoad && state === IDLE
+      effects:
+        - emit:infinite
+    - on: IntersectionObserver.intersect
+      guard: state === LOADING
+      effects:
+        - emit:infinite
+    - on: stateHandler.loading()
+      guard: always
+      effects:
+        - state = LOADING
+    - on: stateHandler.loaded()
+      guard: always
+      effects:
+        - state = LOADED
+    - on: stateHandler.complete()
+      guard: always
+      effects:
+        - state = COMPLETE
+    - on: stateHandler.error()
+      guard: always
+      effects:
+        - state = ERROR
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: addons/components/virtual
+examples:
+  - id: basic-list
+    description: 基础列表虚拟滚动
+  - id: basic-grid
+    description: 基础网格虚拟滚动
+  - id: dynamic-list
+    description: 动态高度与无限加载
+generationHints:
+  preferredUsageOrder:
+    - VirtualList + VirtualListItem
+    - VirtualGrid + VirtualGridItem
+    - VirtualInfiniteLoading
+  a11yChecklist:
+    - 长列表需确保 aria-setsize 与 aria-posinset 正确（组件已内置）。
+    - 无限加载重试按钮需具备可聚焦与键盘可操作。
+  codegenTemplates:
+    minimalList: |-
+      <VirtualList :data-source="items">
+        <VirtualListItem v-slot="{ data }">{{ data.name }}</VirtualListItem>
+      </VirtualList>
+    minimalGrid: |-
+      <VirtualGrid :data-source="items" :row="3" :column="4">
+        <VirtualGridItem v-slot="{ data }">{{ data }}</VirtualGridItem>
+      </VirtualGrid>
+    withInfinite: |-
+      <VirtualList :data-source="items">
+        <VirtualListItem v-slot="{ data }">{{ data.name }}</VirtualListItem>
+        <VirtualInfiniteLoading @infinite="handleLoad" />
+      </VirtualList>
+    dynamicList: |-
+      <VirtualList :data-source="items">
+        <VirtualListItem v-slot="{ data }" :dynamic="true">{{ data.name }}</VirtualListItem>
+      </VirtualList>
+  antiPatterns:
+    - 使用 Virtual 组件但未引入 index.css — 导致 rui-virtual-list/rui-virtual-grid/rui-virtual-infinite
+      等结构样式缺失，布局错乱
+    - <VirtualListItem v-slot="{ data }">{{ data.name }}</VirtualListItem> — 动态高度列表未设置
+      dynamic，导致滚动跳动
+    - handleLoad({ complete }) { complete() } — 数据未真正结束时过早调用 complete()，导致无法继续加载
+provenance:
+  sources:
+    - path: ./virtual.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./VirtualListImpl.vue
+      kind: runtime
+    - path: ./VirtualGridImpl.vue
+      kind: runtime
+    - path: ./VirtualListItem.vue
+      kind: runtime
+    - path: ./VirtualGridItem.vue
+      kind: runtime
+    - path: ./VirtualInfiniteLoading.vue
+      kind: runtime
+    - path: ./virtual.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

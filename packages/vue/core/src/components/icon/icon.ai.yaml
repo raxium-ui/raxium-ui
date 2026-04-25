@@ -1,0 +1,102 @@
+schemaVersion: 2.0.0
+docId: rark.vue.icon
+component:
+  name: Icon
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Icon
+  category: core
+  description: 基于 Iconify 的通用图标组件，用于在按钮、表单、列表和状态提示中统一渲染图标。提供 theme 入口（tvIcon）与 class
+    样式覆写能力。不对应 Ark UI 官方组件，不支持 ui 配置，请使用 class 或 theme.crafts 覆写。
+  basePrimitive:
+    library: '@iconify/vue'
+    primitive: Icon
+    nativeElement: svg
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 组件不对应 Ark UI 官方组件，底层由 @iconify/vue Icon 渲染。不支持 ui，请使用 class 或 theme.crafts
+      覆写。
+  capabilities:
+    - theme
+    - class-override
+contracts:
+  props:
+    - name: icon
+      required: true
+      requiredSource: type
+      typeText: string | IconifyIcon
+      description: 图标标识或 Iconify 图标对象（必填）
+    - name: class
+      typeText: HTMLAttributes['class']
+      description: 图标节点附加 class，用于颜色、动画、线宽等样式控制
+    - name: theme
+      typeText: Omit<ThemeCrafts<'tvIcon'>, 'size'>
+      description: 主题与 crafts 覆写入口（IconProps 对 ThemeCrafts<'tvIcon'> 做了 Omit<'size'>，不提供
+        theme.size）
+  events: []
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 皮肤风格选择
+      - name: surface
+        typeText: '''light'' | ''dark'' | (string & {})'
+        description: 表面模式
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框语义
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式
+      - name: crafts
+        typeText: object | (() => tv)
+        description: 覆写 tvIcon 或注入自定义 crafts
+behaviorModel:
+  derived: {}
+  transitions: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Icon
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸与排版联动
+  - id: color-and-class
+    description: 颜色与样式覆写
+generationHints:
+  preferredUsageOrder:
+    - icon
+    - class
+    - theme.crafts
+  a11yChecklist:
+    - 图标来源统一使用 Iconify 命名空间（如 lucide:*）
+    - 交互语义（点击、提示、可访问性）应由外层按钮/链接等承载
+  codegenTemplates:
+    minimal: <Icon icon="lucide:check" />
+    withClass: <Icon icon="lucide:check" class="text-green-500" />
+  antiPatterns:
+    - 混用 lucide:check、heroicons:check、mdi:check 等不同命名空间
+    - <Icon icon="lucide:check" @click="..." /> 应包裹在 <button> 或 <a> 内
+provenance:
+  sources:
+    - path: ./icon.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Icon.vue
+      kind: runtime
+    - path: ./icon.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

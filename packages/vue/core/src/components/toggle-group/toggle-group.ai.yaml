@@ -1,0 +1,194 @@
+schemaVersion: 2.0.0
+docId: rark.vue.toggle-group
+component:
+  name: ToggleGroup
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: ToggleGroup
+  category: core
+  description: 用于管理一组可切换按钮，适合文本样式工具栏、视图模式切换、筛选条件等场景。基于 Ark UI Toggle Group 原语构建，支持单选/多选模式、受控/非受控值管理，并扩展
+    Raxium UI 的 theme 样式能力。由 ToggleGroup（根）与 ToggleGroupItem（子组件）组成；ToggleGroupItem
+    承载单项内容，继承组上下文状态。
+  basePrimitive:
+    library: '@ark-ui/vue/toggle-group'
+    primitive: ToggleGroup.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 组件基于 Ark UI Toggle Group 封装，通过 useToggleGroup 管理组状态。
+  capabilities:
+    - v-model
+    - theme
+    - single-multiple
+    - orientation
+    - composite-item
+  subComponents:
+    - ToggleGroupItem
+contracts:
+  props:
+    - name: modelValue
+      typeText: string | string[]
+      description: 受控模式下的组值（配合 v-model）
+    - name: defaultValue
+      typeText: string | string[]
+      description: 非受控模式下的初始值
+    - name: type
+      typeText: '''single'' | ''multiple'''
+      default: single
+      description: 选择模式：单选或多选
+    - name: orientation
+      typeText: '''horizontal'' | ''vertical'''
+      default: horizontal
+      description: 布局方向
+    - name: disabled
+      typeText: boolean
+      description: 禁用整组交互
+    - name: rovingFocus
+      typeText: boolean
+      default: true
+      description: 是否启用组内 roving focus 键盘导航
+    - name: class
+      typeText: string | array | object
+      description: 根节点附加 class
+    - name: theme
+      typeText: ThemeCrafts<'tvToggleGroup'>
+      description: 主题参数与 crafts 覆写入口
+  events:
+    - name: update:modelValue
+      payload:
+        typeText: '(value: string | string[])'
+      description: 组值变化时触发，用于受控同步
+    - name: valueChange
+      payload:
+        typeText: Ark UI value change details
+      description: 底层 Ark UI 状态变化事件
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 组内容器插槽，通常放置多个 ToggleGroupItem
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 控制组项尺寸与间距密度
+      - name: crafts
+        typeText: object
+        description: 深度覆写 root/item 槽位样式
+subComponents:
+  ToggleGroupItem:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: string
+        description: 项值（必填）
+      - name: disabled
+        typeText: boolean
+        description: 禁用当前项
+      - name: class
+        typeText: string | array | object
+        description: 项节点附加 class
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承或覆盖主题上下文
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 单项内容插槽，可放文本、图标或混合内容
+behaviorModel:
+  derived:
+    selectedItems: 'type === ''single'' ? [modelValue] : modelValue'
+  transitions:
+    - on: item_toggle
+      guard: disabled !== true
+      effects:
+        - setModelValue(newValue)
+        - emit:update:modelValue
+        - emit:valueChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: ToggleGroup
+examples:
+  - id: basic
+    description: 基础用法
+  - id: multiple
+    description: 多选模式（Multiple）
+  - id: controlled
+    description: 单选模式与受控状态
+  - id: orientation-and-disabled
+    description: 方向与禁用态
+  - id: sizes
+    description: 尺寸变体
+  - id: with-icons
+    description: 图标项
+generationHints:
+  preferredUsageOrder:
+    - modelValue / defaultValue
+    - type
+    - orientation
+    - theme.size
+    - ToggleGroupItem.value
+  a11yChecklist:
+    - 图标项建议补充 aria-label
+    - 禁用态使用 disabled 属性
+    - value 类型需一致
+  codegenTemplates:
+    minimal: |-
+      <ToggleGroup v-model="value">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+        <ToggleGroupItem value="b">B</ToggleGroupItem>
+        <ToggleGroupItem value="c">C</ToggleGroupItem>
+      </ToggleGroup>
+    multiple: |-
+      <ToggleGroup v-model="values" type="multiple">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+        <ToggleGroupItem value="b">B</ToggleGroupItem>
+        <ToggleGroupItem value="c">C</ToggleGroupItem>
+      </ToggleGroup>
+    controlled: |-
+      <ToggleGroup v-model="value" type="single">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+        <ToggleGroupItem value="b">B</ToggleGroupItem>
+      </ToggleGroup>
+    withTheme: |-
+      <ToggleGroup v-model="value" :theme="{ size: 'sm' }">
+        <ToggleGroupItem value="a">A</ToggleGroupItem>
+        <ToggleGroupItem value="b">B</ToggleGroupItem>
+      </ToggleGroup>
+  antiPatterns:
+    - <ToggleGroup type="multiple"><ToggleGroupItem value="a">A</ToggleGroupItem><ToggleGroupItem
+      value="b">B</ToggleGroupItem></ToggleGroup> 用于互斥选择（应使用 type="single"）
+    - <ToggleGroupItem value="a" class="opacity-50">A</ToggleGroupItem> 仅靠视觉样式模拟禁用（应使用
+      disabled）
+    - <ToggleGroup><ToggleGroupItem value="1">1</ToggleGroupItem><ToggleGroupItem value="two">2</ToggleGroupItem></ToggleGroup>
+      同一组内 value 类型不一致（应统一为 string）
+provenance:
+  sources:
+    - path: ./toggle-group.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./ToggleGroup.vue
+      kind: runtime
+    - path: ./ToggleGroupItem.vue
+      kind: runtime
+    - path: ./toggle-group.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

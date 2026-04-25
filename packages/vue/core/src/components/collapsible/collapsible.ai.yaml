@@ -1,0 +1,336 @@
+schemaVersion: 2.0.0
+docId: rark.vue.collapsible
+component:
+  name: Collapsible
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Collapsible
+  category: core
+  description: 用于在有限空间中切换内容的展开/收起状态组件组。基于 Ark UI collapsible 原语封装，包含 Collapsible、CollapsibleTrigger、CollapsibleContent
+    和 ReadMore，并扩展 theme 与部分 ui 配置能力。
+  basePrimitive:
+    library: '@ark-ui/vue/collapsible'
+    primitive: Collapsible.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - aria-*
+      - data-*
+    notes: Collapsible 根组件透传 Ark UI Root 常用状态属性；Trigger/Content 透传 Ark 子原语属性。
+  capabilities:
+    - expand-collapse
+    - controlled
+    - uncontrolled
+    - read-more
+    - theme
+    - ui-override
+    - slot-composition
+  subComponents:
+    - CollapsibleTrigger
+    - CollapsibleContent
+    - ReadMore
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: Collapsible/ReadMore 受控展开状态。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: Collapsible/ReadMore 非受控模式初始展开状态。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 是否禁用展开/收起交互。
+    - name: collapsedHeight
+      typeText: number | string
+      default: 0
+      description: 收起时保留高度；ReadMore 通过该值计算是否显示触发器。
+    - name: asChild
+      typeText: boolean
+      default: false
+      description: Ark 原语能力：将行为合并到子元素（Root/Trigger/Content 均支持对应 base props）。
+    - name: class
+      typeText: string | array | object
+      description: 根节点 class 覆盖。
+    - name: theme
+      typeText: ThemeCrafts<'tvCollapsible'> | ThemeNoCrafts
+      description: 主题配置；Collapsible 使用 tvCollapsible，ReadMore 使用 tvReadMore。
+  events:
+    - name: update:open
+      payload:
+        typeText: boolean
+      description: Collapsible/ReadMore 展开状态变化时用于 v-model:open 同步。
+    - name: openChange
+      payload:
+        typeText: '{ open: boolean }'
+      description: Ark UI 原生展开状态变化详情事件。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties:
+          open:
+            type: boolean
+          visible:
+            type: boolean
+        additionalProperties: true
+      description: Collapsible 根默认插槽（可访问 open/visible），用于组合 Trigger/Content。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 折叠组件尺寸变体（主要影响 Trigger 样式节奏）。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 皮肤主题。
+      - name: surface
+        typeText: '''light'' | ''dark'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvCollapsible/tvReadMore crafts 配置。
+subComponents:
+  CollapsibleTrigger:
+    props:
+      - name: indicator
+        typeText: boolean
+        default: true
+        description: 是否渲染默认箭头指示器。
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将行为合并到子元素（Ark UI 原语能力）。
+      - name: class
+        typeText: string | array | object
+        description: 触发器根节点 class 覆盖。
+      - name: ui
+        typeText: '{ root?: class; indicator?: class }'
+        description: 触发器根节点与指示器 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties:
+            open:
+              type: boolean
+            visible:
+              type: boolean
+          required:
+            - open
+            - visible
+          additionalProperties: false
+        description: 触发器内容插槽，作用域含 open、visible。
+      - name: indicator
+        slotPropsSchema:
+          type: object
+          properties:
+            open:
+              type: boolean
+            visible:
+              type: boolean
+          required:
+            - open
+            - visible
+          additionalProperties: false
+        fallback: ChevronDown in Collapsible.Indicator when indicator=true
+        description: 自定义指示器插槽，作用域含 open、visible。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string | array | object
+          description: 触发器根节点 class 覆盖。
+        - name: ui.indicator
+          typeText: string | array | object
+          description: 触发器指示器 class 覆盖。
+  CollapsibleContent:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将行为合并到子元素（Ark UI 原语能力）。
+      - name: class
+        typeText: string
+        description: 内容区 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承主题上下文，也可单独覆盖主题参数。
+    slots:
+      - name: default
+        description: 折叠内容区域。
+  ReadMore:
+    props:
+      - name: open
+        typeText: boolean
+        conflictsWith:
+          - defaultOpen
+        description: 受控展开状态。
+      - name: defaultOpen
+        typeText: boolean
+        default: false
+        conflictsWith:
+          - open
+        description: 非受控模式初始展开状态。
+      - name: disabled
+        typeText: boolean
+        default: false
+        description: 是否禁用展开/收起交互。
+      - name: collapsedHeight
+        typeText: number | string
+        default: 0
+        description: 收起时保留高度，用于计算是否显示触发器。
+      - name: class
+        typeText: string | array | object
+        description: 根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeCrafts<'tvReadMore'> | ThemeNoCrafts
+        description: 主题配置，使用 tvReadMore crafts。
+      - name: text.more
+        typeText: string
+        default: View More
+        description: 收起状态按钮文案。
+      - name: text.less
+        typeText: string
+        default: View Less
+        description: 展开状态按钮文案。
+      - name: ui
+        typeText: '{ root?: string; trigger?: string; content?: string }'
+        description: ReadMore 根、触发器、内容区 class 覆盖。
+    slots:
+      - name: default
+        description: 长内容主体插槽。
+    events:
+      - name: update:open
+        payload:
+          typeText: boolean
+        description: 继承内部 Collapsible 的受控状态同步事件。
+      - name: openChange
+        payload:
+          typeText: '{ open: boolean }'
+        description: 继承内部 Collapsible 的展开状态变化通知。
+    themeConfiguration:
+      fields:
+        - name: size
+          typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+          typeSchema:
+            enum:
+              - xs
+              - sm
+              - base
+              - lg
+          default: base
+          defaultKind: explicit-doc
+          description: 尺寸变体（影响触发器与内容节奏）。
+        - name: crafts
+          typeText: object
+          typeSchema:
+            type: object
+          default: null
+          defaultKind: unknown
+          description: 覆写 tvReadMore crafts。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: ReadMore 根容器 class 覆盖。
+        - name: ui.content
+          typeText: string
+          description: ReadMore 内容区域 class 覆盖。
+        - name: ui.trigger
+          typeText: string
+          description: ReadMore 触发器 class 覆盖。
+behaviorModel:
+  derived:
+    isControlled: open !== undefined
+    canToggle: disabled !== true
+    showIndicatorFallback: indicator === true && !hasSlot('indicator')
+    collapsedHeightPx: 'typeof collapsedHeight === ''string'' ? rem2px(collapsedHeight)
+      : collapsedHeight'
+    showReadMoreTrigger: measuredHeight > collapsedHeightPx
+  transitions:
+    - on: trigger-click
+      guard: canToggle
+      effects:
+        - emit:update:open
+        - emit:openChange
+    - on: content-resize
+      guard: component === ReadMore
+      effects:
+        - recompute(measuredHeight)
+        - set(showReadMoreTrigger)
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Collapsible
+examples:
+  - id: basic
+    description: 基础用法。
+  - id: states
+    description: 默认展开与禁用状态。
+  - id: sizes
+    description: 尺寸变体。
+  - id: trigger-and-slots
+    description: 关闭默认指示器与自定义 indicator 插槽。
+  - id: read-more
+    description: ReadMore 长内容折叠场景。
+  - id: theme-example
+    exampleId: basic
+    description: Theme 配置示例（story 内联，无独立 example 文件，可参考 collapsible.stories.ts ThemeExample）。
+  - id: ui-example
+    exampleId: basic
+    description: UI 配置示例（story 内联，无独立 example 文件，可参考 collapsible.stories.ts UIExample）。
+generationHints:
+  preferredUsageOrder:
+    - open/defaultOpen
+    - collapsedHeight
+    - theme.size
+    - ui.*
+  a11yChecklist:
+    - Trigger 应提供可理解文本，不仅依赖图标。
+    - 禁用态请使用 disabled 语义属性，不仅做样式灰化。
+    - 自定义 indicator 插槽时保持状态可感知（展开/收起）。
+  codegenTemplates:
+    minimal: <Collapsible><CollapsibleTrigger>Details</CollapsibleTrigger><CollapsibleContent>Content</CollapsibleContent></Collapsible>
+    triggerWithIndicator: <Collapsible><CollapsibleTrigger :indicator="false">Details</CollapsibleTrigger><CollapsibleContent>Content</CollapsibleContent></Collapsible>
+    readMore: <ReadMore :collapsed-height="60">Long content...</ReadMore>
+  antiPatterns:
+    - <Collapsible :open="true" :default-open="false"> — 同时传 open 和 defaultOpen，导致状态来源冲突。
+    - <ReadMore :collapsed-height="1">Short text</ReadMore> — collapsedHeight 过小导致短内容也显示触发器，违背
+      ReadMore 按高度测量决定是否展示触发器的用途。
+provenance:
+  sources:
+    - path: ./Collapsible.vue
+      kind: runtime
+    - path: ./CollapsibleTrigger.vue
+      kind: runtime
+    - path: ./CollapsibleContent.vue
+      kind: runtime
+    - path: ./ReadMore.vue
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./collapsible.doc.mdx
+      kind: doc
+    - path: ./collapsible.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

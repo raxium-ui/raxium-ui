@@ -1,0 +1,372 @@
+schemaVersion: 2.0.0
+docId: rark.vue.floating-panel
+component:
+  name: FloatingPanel
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: FloatingPanel
+  category: core
+  description: 可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。基于 Ark UI Floating
+    Panel 封装，根组件透传 Ark UI Root 状态机能力，FloatingPanelTrigger 直接导出自 @ark-ui/vue。
+  basePrimitive:
+    library: '@ark-ui/vue'
+    primitive: FloatingPanel.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 根组件透传 Ark UI Root 常用参数与状态机能力（open/defaultOpen、尺寸、位置、lazyMount/unmountOnExit
+      等）。
+  capabilities:
+    - theme
+    - draggable
+    - resizable
+    - stage
+    - opacity
+    - pinned
+    - open
+    - lazyMount
+    - unmountOnExit
+  subComponents:
+    - FloatingPanelContent
+    - FloatingPanelHeader
+    - FloatingPanelCloseTrigger
+    - FloatingPanelPinTrigger
+    - FloatingPanelStageTrigger
+    - FloatingPanelOpacityTrigger
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态（配合 v-model:open）。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控模式下的初始打开状态。
+    - name: opacity
+      typeText: number
+      default: 100
+      description: 面板透明度（内部会被限制在 0-100）。
+    - name: pinned
+      typeText: boolean
+      default: false
+      description: 是否固定面板；固定时会禁用拖拽。
+    - name: resizeAxis
+      typeText: '''x'' | ''y'' | ''xy'' | ''xyc'' | ''custom'''
+      default: xyc
+      description: 控制内置缩放触发器渲染策略。
+    - name: draggable
+      typeText: boolean
+      default: true
+      description: 是否可拖拽（当 pinned=true 时会被强制关闭）。
+    - name: lazyMount
+      typeText: boolean
+      description: 是否延迟挂载内容（Ark UI Root 参数）。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后是否卸载内容（Ark UI Root 参数）。
+    - name: class
+      typeText: string | string[] | Record<string, boolean>
+      description: 根节点 class 覆盖。
+    - name: theme
+      typeText: ThemeCrafts<'tvFloatingPanel'>
+      description: 浮动面板主题变量与 crafts 覆盖入口。
+  events:
+    - name: exitComplete
+      payload:
+        typeText: () => void
+      description: 退出动画结束时触发。
+    - name: openChange
+      payload:
+        typeText: '(details: OpenChangeDetails)'
+      description: 打开状态变化时触发。
+    - name: update:open
+      payload:
+        typeText: '(open: boolean)'
+      description: 用于双向绑定打开状态。
+    - name: positionChange
+      payload:
+        typeText: '(details: PositionChangeDetails)'
+      description: 位置实时变化时触发。
+    - name: update:position
+      payload:
+        typeText: '(position: PositionChangeDetails[''position''])'
+      description: 用于双向绑定面板位置。
+    - name: positionChangeEnd
+      payload:
+        typeText: '(details: PositionChangeDetails)'
+      description: 拖拽/位移结束时触发。
+    - name: sizeChange
+      payload:
+        typeText: '(details: SizeChangeDetails)'
+      description: 尺寸实时变化时触发。
+    - name: update:size
+      payload:
+        typeText: '(size: SizeChangeDetails[''size''])'
+      description: 用于双向绑定面板尺寸。
+    - name: sizeChangeEnd
+      payload:
+        typeText: '(details: SizeChangeDetails)'
+      description: 缩放结束时触发。
+    - name: stageChange
+      payload:
+        typeText: '(details: StageChangeDetails)'
+      description: 阶段变化（最小化/最大化/默认）时触发。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 放置触发器、内容与其它子组件。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        description: 控制头部间距、触发器尺寸、缩放手柄尺寸。
+      - name: crafts
+        typeText: object
+        description: 覆盖 positioner/content/header/control/title/trigger/resize* 槽位样式。
+subComponents:
+  FloatingPanelContent:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 内容区 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承主题上下文，也可局部覆盖主题参数。
+      - name: ui
+        typeText: '{ positioner?: HTMLAttributes[''class'']; content?: HTMLAttributes[''class''];
+          resizeVertical?: HTMLAttributes[''class'']; resizeHorizontal?: HTMLAttributes[''class''];
+          resizeCorner?: HTMLAttributes[''class''] }'
+        description: 定位容器、内容区、垂直/水平/角落缩放手柄 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 面板主体内容。
+    uiConfiguration:
+      fields:
+        - name: ui.positioner
+          typeText: HTMLAttributes['class']
+          description: 定位容器样式覆盖。
+        - name: ui.content
+          typeText: HTMLAttributes['class']
+          description: 内容区样式覆盖。
+        - name: ui.resizeVertical
+          typeText: HTMLAttributes['class']
+          description: 垂直缩放边样式覆盖。
+        - name: ui.resizeHorizontal
+          typeText: HTMLAttributes['class']
+          description: 水平缩放边样式覆盖。
+        - name: ui.resizeCorner
+          typeText: HTMLAttributes['class']
+          description: 角落缩放点样式覆盖。
+  FloatingPanelHeader:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 头部容器 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承主题上下文，也可局部覆盖。
+      - name: ui
+        typeText: '{ root?: HTMLAttributes[''class'']; title?: HTMLAttributes[''class''];
+          control?: HTMLAttributes[''class''] }'
+        description: 头部容器、标题、控制区 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 标题内容（内部渲染到 FloatingPanel.Title）。
+      - name: control
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 头部右侧控制区，通常放置 Pin/Stage/Close Trigger。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: HTMLAttributes['class']
+          description: 头部容器样式覆盖。
+        - name: ui.title
+          typeText: HTMLAttributes['class']
+          description: 标题区域样式覆盖。
+        - name: ui.control
+          typeText: HTMLAttributes['class']
+          description: 控制区样式覆盖。
+  FloatingPanelCloseTrigger:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 触发器根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承/覆盖浮动面板主题上下文。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: X 图标
+        description: 关闭按钮内容；默认渲染 X 图标。
+  FloatingPanelPinTrigger:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 触发器根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承/覆盖浮动面板主题上下文。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties:
+            pinned:
+              type: boolean
+            setPinned:
+              type: function
+          additionalProperties: false
+        fallback: Pin/PinOff 图标
+        description: 作用域插槽：{ pinned, setPinned }。
+    events:
+      - name: click
+        payload:
+          typeText: '(event: MouseEvent)'
+        description: 点击时触发；若事件未被阻止，会切换 pinned 状态。
+  FloatingPanelStageTrigger:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 触发器根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承/覆盖浮动面板主题上下文。
+      - name: stage
+        typeText: '''minimized'' | ''maximized'' | ''default'''
+        description: 设置点击后切换到的面板阶段。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: 根据 stage 渲染对应图标
+        description: 阶段切换按钮内容；默认根据 stage 渲染图标。
+  FloatingPanelOpacityTrigger:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 触发器根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承/覆盖浮动面板主题上下文。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties:
+            opacity:
+              type: number
+            opacityGetter:
+              type: function
+            setOpacity:
+              type: function
+          additionalProperties: false
+        description: 作用域插槽：{ opacity, opacityGetter, setOpacity }。
+behaviorModel:
+  derived:
+    effectiveDraggable: '!pinned && draggable'
+    opacityClamped: clamp(opacity, 0, 100)
+  transitions:
+    - on: pin_toggle
+      guard: always
+      effects:
+        - setPinned(!pinned)
+        - disableDraggableIfPinned
+    - on: opacity_change
+      guard: always
+      effects:
+        - setOpacity(clamp(value, 0, 100))
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: FloatingPanel
+examples:
+  - id: basic
+    description: 基础组合（标题、控制区、透明度/固定/阶段切换）
+  - id: minimal
+    description: 最小可用结构
+  - id: resize-axis
+    description: 缩放触发轴配置
+  - id: min-size
+    description: 最小尺寸限制
+  - id: initial-state
+    description: 初始状态（透明度与固定）
+generationHints:
+  preferredUsageOrder:
+    - open/defaultOpen
+    - opacity
+    - pinned
+    - resizeAxis
+    - theme.size
+  a11yChecklist:
+    - 推荐保持固定结构：FloatingPanel + FloatingPanelTrigger + FloatingPanelContent + FloatingPanelHeader
+    - 将交互按钮统一放在 control 插槽中
+  codegenTemplates:
+    minimal: '<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template
+      #control><FloatingPanelCloseTrigger /></template></FloatingPanelHeader>Content</FloatingPanelContent></FloatingPanel>'
+    withHeader: '<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template
+      #control><FloatingPanelCloseTrigger /></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>'
+    withTriggers: '<FloatingPanel><FloatingPanelTrigger as-child><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title<template
+      #control><FloatingPanelOpacityTrigger /><FloatingPanelPinTrigger /><FloatingPanelStageTrigger
+      stage="minimized" /><FloatingPanelStageTrigger stage="maximized" /><FloatingPanelCloseTrigger
+      /></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>'
+  antiPatterns:
+    - <FloatingPanel :pinned="pinned" @position-change-end="pinned = true"><FloatingPanelTrigger><Button>Open</Button></FloatingPanelTrigger><FloatingPanelContent><FloatingPanelHeader>Title</FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>
+    - '<FloatingPanel :opacity="opacity"><FloatingPanelContent><FloatingPanelHeader><template
+      #control><Slider :model-value="opacity" @update:model-value="opacity = $event[0]"/><input
+      :value="opacity" @input="opacity = +$event.target.value"/></template></FloatingPanelHeader>...</FloatingPanelContent></FloatingPanel>'
+provenance:
+  sources:
+    - path: ./floating-panel.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./FloatingPanel.vue
+      kind: runtime
+    - path: ./FloatingPanelContent.vue
+      kind: runtime
+    - path: ./FloatingPanelHeader.vue
+      kind: runtime
+    - path: ./FloatingPanelCloseTrigger.vue
+      kind: runtime
+    - path: ./FloatingPanelPinTrigger.vue
+      kind: runtime
+    - path: ./FloatingPanelStageTrigger.vue
+      kind: runtime
+    - path: ./FloatingPanelOpacityTrigger.vue
+      kind: runtime
+    - path: ./floating-panel.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

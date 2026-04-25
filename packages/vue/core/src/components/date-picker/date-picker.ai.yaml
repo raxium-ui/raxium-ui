@@ -1,0 +1,332 @@
+schemaVersion: 2.0.0
+docId: rark.vue.date-picker
+component:
+  name: DatePicker
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: DatePicker
+  category: core
+  description: 用于单日期与日期范围选择的复合组件，支持日/月/年多视图切换、受控状态管理、禁用日期规则与事件监听。基于 Ark UI useDatePicker
+    与 DatePicker.RootProvider 封装，在 Raxium UI 中扩展 theme 主题能力与 tvDatePicker crafts 覆盖，适用于表单录入、筛选面板与时间范围查询场景。
+  basePrimitive:
+    library: '@ark-ui/vue'
+    primitive: DatePicker.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - aria-*
+      - data-*
+    notes: 根组件透传 DatePickerRootBaseProps；子组件 DatePickerControl、DatePickerContent、DatePicker*View
+      透传 Ark 子原语属性。
+  capabilities:
+    - single-date
+    - range-date
+    - multi-view
+    - controlled
+    - uncontrolled
+    - theme
+    - disabled-date
+    - slot-composition
+  subComponents:
+    - DatePickerControl
+    - DatePickerContent
+    - DatePickerDayView
+    - DatePickerMonthView
+    - DatePickerYearView
+contracts:
+  props:
+    - name: modelValue
+      typeText: DateValue[]
+      conflictsWith:
+        - defaultValue
+      description: 当前选中值；单选通常为 1 个元素，范围选择通常为 2 个元素。
+    - name: selectionMode
+      typeText: '''single'' | ''range'' | ''multiple'''
+      default: single
+      description: 选择模式，控制单日期、区间或多项日期选择。
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 面板是否打开（受控）。
+    - name: view
+      typeText: '''day'' | ''month'' | ''year'''
+      conflictsWith:
+        - defaultView
+      description: 当前视图（受控）。
+    - name: focusedValue
+      typeText: DateValue
+      conflictsWith:
+        - defaultFocusedValue
+      description: 当前聚焦日期（受控）。
+    - name: isDateUnavailable
+      typeText: '(date: DateValue) => boolean'
+      description: 禁用日期回调，返回 true 的日期不可选。
+    - name: numOfMonths
+      typeText: number
+      description: 同时展示的月份数量。
+    - name: min
+      typeText: DateValue
+      description: 可选日期下限。
+    - name: max
+      typeText: DateValue
+      description: 可选日期上限。
+    - name: locale
+      typeText: string
+      description: 本地化语言与格式设置（BCP 47 语言标签）。
+    - name: theme
+      typeText: ThemeCrafts<'tvDatePicker'>
+      description: Rark 主题入口，可配置尺寸、变体与 tvDatePicker crafts 覆盖。
+  events:
+    - name: focusChange
+      payload:
+        typeText: FocusChangeDetails
+      description: 聚焦日期变化时触发。
+    - name: openChange
+      payload:
+        typeText: OpenChangeDetails
+      description: 面板打开状态变化时触发。
+    - name: valueChange
+      payload:
+        typeText: ValueChangeDetails
+      description: 选中值变化时触发。
+    - name: viewChange
+      payload:
+        typeText: ViewChangeDetails
+      description: 视图切换（日/月/年）时触发。
+    - name: update:modelValue
+      payload:
+        typeText: DateValue[]
+      description: v-model 双向绑定事件。
+    - name: update:open
+      payload:
+        typeText: boolean
+      description: v-model:open 双向绑定事件。
+    - name: update:view
+      payload:
+        typeText: DateView
+      description: v-model:view 双向绑定事件。
+    - name: update:focusedValue
+      payload:
+        typeText: DateValue
+      description: v-model:focusedValue 双向绑定事件。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 根结构插槽，通常放置 DatePickerControl 与 DatePickerContent。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸变体，联动输入触发区和视图网格节奏。
+      - name: bordered
+        typeText: boolean
+        description: 是否给内容区启用边框样式。
+      - name: crafts
+        typeText: object
+        description: 覆写 tvDatePicker 的 slots 样式（如 control、content、contentInner）。
+      - name: unstyled
+        typeText: boolean
+        description: 关闭默认主题样式，便于完全自定义。
+  uiConfiguration:
+    fields:
+      - name: DatePicker.theme.crafts.tvDatePicker
+        typeText: object
+        description: 覆盖根组件与内容容器的 crafts slots。
+subComponents:
+  DatePickerControl:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 控制区容器类名覆盖；透传 Ark DatePickerControlBaseProps。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 控制区插槽，通常放置 DatePickerTrigger 或自定义触发内容。
+    uiConfiguration:
+      fields:
+        - name: class
+          typeText: string | array | object
+          description: 定制控制区布局与间距。
+  DatePickerContent:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 弹层内容容器类名覆盖；透传 Ark DatePickerContentBaseProps。
+    slots:
+      - name: prefix
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 内容区前置插槽，渲染在视图主体前。
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 内容区主体插槽，放置 DatePickerDayView / DatePickerMonthView / DatePickerYearView。
+      - name: suffix
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 内容区后置插槽，渲染在视图主体后。
+    uiConfiguration:
+      fields:
+        - name: class
+          typeText: string | array | object
+          description: 定制弹层外观（边框、阴影、宽度等）。
+  DatePickerDayView:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 日视图根节点类名覆盖。
+      - name: weekDayType
+        typeText: '''short'' | ''long'' | ''narrow'''
+        default: short
+        description: 星期抬头显示格式。
+    slots: []
+    uiConfiguration:
+      fields:
+        - name: class
+          typeText: string | array | object
+          description: 日视图根节点 class 覆盖。
+  DatePickerMonthView:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 月视图根节点类名覆盖。
+      - name: monthType
+        typeText: '''short'' | ''long'''
+        default: short
+        description: 月份文案显示格式。
+    slots: []
+    uiConfiguration:
+      fields:
+        - name: class
+          typeText: string | array | object
+          description: 月视图根节点 class 覆盖。
+  DatePickerYearView:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 年视图根节点类名覆盖。
+    slots: []
+    uiConfiguration:
+      fields:
+        - name: class
+          typeText: string | array | object
+          description: 年视图根节点 class 覆盖。
+behaviorModel:
+  derived:
+    isOpen: open === true
+    hasValue: modelValue?.length > 0
+    isRangeMode: selectionMode === 'range'
+  transitions:
+    - on: valueChange
+      guard: '!disabled'
+      effects:
+        - emit:update:modelValue
+        - emit:valueChange
+    - on: openChange
+      guard: always
+      effects:
+        - emit:update:open
+        - emit:openChange
+    - on: viewChange
+      guard: always
+      effects:
+        - emit:update:view
+        - emit:viewChange
+    - on: focusChange
+      guard: always
+      effects:
+        - emit:update:focusedValue
+        - emit:focusChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: DatePicker
+examples:
+  - id: basic
+    description: 基础用法
+  - id: views
+    description: 多视图切换（日/月/年）
+  - id: range
+    description: 范围选择
+  - id: events
+    description: 受控模式与事件监听
+  - id: disabled-date
+    description: 禁用日期规则
+  - id: sizes
+    description: 尺寸与主题变体
+  - id: theme-example
+    exampleId: sizes
+    description: Theme 配置示例（story 内联，可参考 date-picker.stories.ts ThemeExample）
+generationHints:
+  preferredUsageOrder:
+    - modelValue
+    - selectionMode
+    - theme.size
+    - isDateUnavailable
+    - open
+  a11yChecklist:
+    - 保持 DatePicker + DatePickerControl + DatePickerContent + DatePicker*View 组合结构，确保可访问性与交互语义完整。
+    - 范围选择时显式设置 selectionMode="range"，并通过 DatePickerValueText 或外部文本展示开始/结束日期。
+    - 禁用日期逻辑统一通过 isDateUnavailable 处理，保证与键盘导航行为一致。
+  codegenTemplates:
+    minimal: |-
+      <DatePicker v-model="value">
+        <DatePickerControl><DatePickerTrigger><Button>Select Date</Button></DatePickerTrigger></DatePickerControl>
+        <DatePickerContent><DatePickerDayView /></DatePickerContent>
+      </DatePicker>
+    range: |-
+      <DatePicker v-model="value" selection-mode="range">
+        <DatePickerControl><DatePickerTrigger><DatePickerValueText placeholder="选择日期范围" /></DatePickerTrigger></DatePickerControl>
+        <DatePickerContent><DatePickerDayView /><DatePickerMonthView /></DatePickerContent>
+      </DatePicker>
+  antiPatterns:
+    - <DatePicker><DatePickerContent><DatePickerDayView /></DatePickerContent></DatePicker>
+      — 跳过 DatePickerControl 导致可访问性和交互语义不完整
+    - <DatePicker v-model="range" /> — 范围选择未设置 selection-mode="range"，v-model 应为 DateValue[]
+      且需显式 selection-mode
+    - 在业务层用 date.getDay() 判断周末并单独禁用单元格，而非传入 isDateUnavailable — 应使用 isDateUnavailable
+      回调统一处理
+provenance:
+  sources:
+    - path: ./date-picker.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./DatePicker.vue
+      kind: runtime
+    - path: ./DatePickerControl.vue
+      kind: runtime
+    - path: ./DatePickerContent.vue
+      kind: runtime
+    - path: ./DatePickerDayView.vue
+      kind: runtime
+    - path: ./DatePickerMonthView.vue
+      kind: runtime
+    - path: ./DatePickerYearView.vue
+      kind: runtime
+    - path: ./date-picker.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

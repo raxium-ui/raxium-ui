@@ -1,0 +1,182 @@
+schemaVersion: 2.0.0
+docId: rark.vue.hotkey
+component:
+  name: Hotkey
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Hotkey
+  category: core
+  description: 用于在页面中采集和展示快捷键组合（如 Ctrl + Shift + K），适合设置中心、编辑器偏好等场景。基于 Ark UI factory
+    原语（ark.div/ark.input）构建，扩展热键解析、删除清空、IME 输入保护、theme 与 ui 样式配置。
+  basePrimitive:
+    library: '@ark-ui/vue/factory'
+    primitive: ark.div | ark.input
+    nativeElement: div | input
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+      - disabled
+      - readonly
+    notes: 组件基于 factory 原语封装，不对应 Ark UI 独立业务组件；根节点与输入框由 ark.div/ark.input 渲染。
+  capabilities:
+    - hotkey-capture
+    - v-model
+    - theme
+    - ui-override
+    - ime-protection
+contracts:
+  props:
+    - name: hotkey
+      required: true
+      requiredSource: type
+      typeText: string
+      description: 当前热键字符串（配合 v-model:hotkey 使用）。
+    - name: placeholder
+      typeText: 'string | ((focused: boolean) => string)'
+      default: ''
+      description: 占位文案；可根据焦点状态动态返回文案。
+    - name: disabled
+      typeText: boolean
+      description: 禁用输入与热键采集。
+    - name: readonly
+      typeText: boolean
+      description: 只读展示，不允许变更热键值。
+    - name: class
+      typeText: string | array | object
+      description: 根节点附加 class。
+    - name: theme
+      typeText: ThemeCrafts<'tvHotkey'>
+      description: 主题配置，驱动 tvHotkey crafts。
+    - name: ui
+      typeText: '{ root?: class; input?: class }'
+      description: 分槽位 UI class 覆盖（root、input）。
+  events:
+    - name: update:hotkey
+      payload:
+        typeText: '(value: string)'
+      description: 热键值更新（用于 v-model:hotkey）。
+    - name: focus
+      payload:
+        typeText: '(event: Event)'
+      description: 输入框获得焦点时触发。
+    - name: blur
+      payload:
+        typeText: '(event: Event)'
+      description: 输入框失焦时触发。
+    - name: error
+      payload:
+        typeText: '(error: Error)'
+      description: 异常输入场景回调（如 IME 输入锁定）。
+    - name: cancel
+      payload:
+        typeText: '(keycodes: string[], hotkey: string)'
+      description: 删除动作触发时回调（Backspace/Delete，hotkey 为 'ESC'）。
+    - name: change
+      payload:
+        typeText: '(keycodes: string[], hotkey: string)'
+      description: 成功录入热键后触发，返回规范化按键数组与展示文本。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸主题变体。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 皮肤风格选择。
+      - name: surface
+        typeText: '''light'' | ''dark'''
+        description: 表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框风格。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+      - name: crafts
+        typeText: object | (() => tv)
+        description: 覆写 tvHotkey。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: 根容器 class 覆盖。
+      - name: ui.input
+        typeText: string | array | object
+        description: 输入框 class 覆盖。
+behaviorModel:
+  derived:
+    inputState: 'disabled ? ''disabled'' : readonly ? ''readonly'' : isFocus ? ''focused''
+      : ''blur'''
+    canRecord: '!disabled && !readonly && isFocus'
+  transitions:
+    - on: keydown
+      guard: canRecord && !repeat && keyCode < 229
+      effects:
+        - recordKeycodes
+        - updateDisplay
+    - on: keyup
+      guard: canRecord
+      effects:
+        - finalizeOrReset
+        - emit:update:hotkey
+        - emit:cancel
+        - emit:change
+    - on: blur
+      guard: always
+      effects:
+        - setInnerHotkey
+        - resetData
+        - emit:blur
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Hotkey
+examples:
+  - id: basic
+    description: 基础录入与双向绑定。
+  - id: sizes
+    description: 尺寸主题变体。
+  - id: states
+    description: 常见状态：普通/禁用/只读。
+  - id: placeholder
+    description: 自定义占位文案。
+  - id: events
+    description: 事件监听与回调参数。
+generationHints:
+  preferredUsageOrder:
+    - hotkey (v-model:hotkey)
+    - placeholder
+    - theme.size
+    - ui.root
+    - ui.input
+  a11yChecklist:
+    - 输入框具备 aria-label 或等效可访问名称。
+    - 禁用态使用 disabled 语义，不仅是视觉灰化。
+    - IME 场景建议监听 error 并给用户可见提示。
+  codegenTemplates:
+    minimal: <Hotkey v-model:hotkey="hotkey" />
+    withPlaceholder: <Hotkey v-model:hotkey="hotkey" placeholder="Press hotkey" />
+  antiPatterns:
+    - <Hotkey class="opacity-50" /> 未设置 :disabled="true"，仅用 class 模拟 disabled。
+    - 在 @focus 或 @blur 中持久化热键，而非 @change，导致与 v-model 状态不同步。
+provenance:
+  sources:
+    - path: ./hotkey.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Hotkey.vue
+      kind: runtime
+    - path: ./hotkey.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

@@ -23,7 +23,7 @@ export default defineConfig({
         '!./src/**/*.stories.ts',
         '!./src/**/*.md',
         '!./src/**/*.doc.mdx',
-        '!./src/**/*.ai.json',
+        '!./src/**/*.ai.yaml',
       ],
     },
   },

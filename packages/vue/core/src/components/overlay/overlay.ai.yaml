@@ -1,0 +1,96 @@
+schemaVersion: 2.0.0
+docId: rark.vue.overlay
+component:
+  name: Overlay
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: OverlayProvider
+  category: core
+  description: 用于统一管理运行时创建的浮层实例（如通过函数式方式打开的 Dialog）。由 OverlayProvider 与 useOverlay()
+    组合提供：OverlayProvider 负责挂载与生命周期回收，useOverlay() 负责创建、打开、关闭与更新浮层实例。参考 Nuxt UI Overlay
+    方案实现，可与基于 Ark UI 的弹层组件配合使用。
+  basePrimitive:
+    library: null
+    primitive: null
+    nativeElement: null
+  passThrough:
+    htmlAttributes: []
+    notes: OverlayProvider 不接收显式 props；数据来自 useOverlay() 共享状态。非 Ark UI 直接封装，为运行时浮层管理能力。
+  capabilities:
+    - create
+    - open
+    - close
+    - patch
+    - unmount
+    - closeAll
+contracts:
+  props: []
+  events:
+    - name: open-change
+      payload:
+        typeText: '{ open: boolean }'
+      description: 监听子浮层打开状态变化；当 open=false 时触发内部 close(id)。
+    - name: exit-complete
+      payload:
+        typeText: void
+      description: 监听子浮层退出完成；触发内部 unmount(id) 回收挂载状态。
+  slots: []
+  themeConfiguration:
+    fields: []
+behaviorModel:
+  derived:
+    mountedOverlays: overlays.filter(o => o.isMounted)
+  transitions:
+    - on: open-change
+      guard: open === false
+      effects:
+        - close(id)
+    - on: exit-complete
+      guard: always
+      effects:
+        - unmount(id)
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Overlay
+examples:
+  - id: basic
+    description: 基础用法（useOverlay + create + open，对应 Basic story）
+generationHints:
+  preferredUsageOrder:
+    - OverlayProvider_at_root
+    - useOverlay_create
+    - open_close_patch
+  a11yChecklist:
+    - 承载浮层组件（如 Dialog）需自行保证可访问性。
+    - OverlayProvider 仅负责生命周期编排，不提供焦点管理。
+  codegenTemplates:
+    minimal: |-
+      <OverlayProvider />
+      const overlay = useOverlay()
+      const instance = overlay.create(MyDialog)
+      instance.open({ title: 'Title' })
+    withDestroyOnClose: |-
+      const instance = overlay.create(MyDialog, { destroyOnClose: true })
+      instance.open({ title: 'Title' })
+  antiPatterns:
+    - 在 App.vue 中同时渲染多个 <OverlayProvider>，导致 useOverlay() 状态分散
+    - 在未挂载 OverlayProvider 的组件树中调用 useOverlay().create(MyDialog)
+provenance:
+  sources:
+    - path: ./overlay.doc.mdx
+      kind: doc
+    - path: ./OverlayProvider.vue
+      kind: runtime
+    - path: ../composables/useOverlay.ts
+      kind: runtime
+    - path: ./overlay.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

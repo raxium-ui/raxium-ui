@@ -1,0 +1,343 @@
+schemaVersion: 2.0.0
+docId: rark.vue.slider
+component:
+  name: Slider
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Slider
+  category: core
+  description: 用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。基于 Ark
+    UI Slider 构建，扩展 theme 与 ui 配置。
+  basePrimitive:
+    library: '@ark-ui/vue/slider'
+    primitive: Slider.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - disabled
+      - readOnly
+      - aria-*
+      - data-*
+    notes: 透传 Ark UI SliderRootBaseProps；theme、ui 为 Rark 扩展。
+  capabilities:
+    - v-model
+    - theme
+    - ui-override
+    - programmatic-api
+  subComponents:
+    - SliderThumb
+    - SliderMarker
+    - SliderTooltipThumb
+    - SliderTooltipMarker
+contracts:
+  props:
+    - name: modelValue
+      typeText: number[]
+      conflictsWith:
+        - defaultValue
+      description: 受控值数组（单值模式通常为单元素数组）。
+    - name: defaultValue
+      typeText: number[]
+      conflictsWith:
+        - modelValue
+      description: 非受控初始值。
+    - name: min
+      typeText: number
+      default: 0
+      description: 最小值。
+    - name: max
+      typeText: number
+      default: 100
+      description: 最大值。
+    - name: step
+      typeText: number
+      default: 1
+      description: 步长。
+    - name: orientation
+      typeText: '''horizontal'' | ''vertical'''
+      default: horizontal
+      description: 方向；垂直模式通常需配合高度与 ui 覆盖。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 是否禁用滑动交互。
+    - name: readOnly
+      typeText: boolean
+      default: false
+      description: 只读模式（可聚焦但不修改值）。
+    - name: class
+      typeText: string | array | object
+      description: 根节点附加 class。
+    - name: theme
+      typeText: ThemeCrafts<'tvSlider'>
+      description: Slider 主题变量与 crafts 覆盖。
+    - name: ui
+      typeText: '{ root?: class; control?: class; track?: class; range?: class }'
+      description: 各结构节点 class 覆盖。
+  events:
+    - name: update:modelValue
+      payload:
+        typeText: '(value: number[])'
+      description: 受控值同步（v-model）。
+    - name: valueChange
+      payload:
+        typeText: '(details: ValueChangeDetails)'
+      description: 拖拽过程中值变化时触发。
+    - name: valueChangeEnd
+      payload:
+        typeText: '(details: ValueChangeDetails)'
+      description: 值变化结束（通常为松开拖拽）时触发。
+    - name: focusChange
+      payload:
+        typeText: '(details: FocusChangeDetails)'
+      description: 焦点 Thumb 索引变化时触发。
+  slots:
+    - name: prefix
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 控制区前置内容（如标签、辅助说明）。
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 放置 Thumb / SliderTooltipThumb 等控制节点。
+    - name: suffix
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 控制区后置内容（常用于 SliderMarkerGroup）。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 滑块尺寸体系（轨道、Thumb、刻度节奏）。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 主题皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''razer'''
+        description: 表面语义（可在 Tooltip 子组件局部覆盖）。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+      - name: crafts
+        typeText: object
+        description: 覆写 tvSlider crafts 配置。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: 根容器 class 覆盖
+      - name: ui.control
+        typeText: string | array | object
+        description: 控制区 class 覆盖
+      - name: ui.track
+        typeText: string | array | object
+        description: 轨道 class 覆盖
+      - name: ui.range
+        typeText: string | array | object
+        description: 已选区间 class 覆盖
+subComponents:
+  SliderThumb:
+    props:
+      - name: index
+        typeText: number
+        description: Thumb 索引（范围模式需为每个 Thumb 指定不同索引）。
+      - name: name
+        typeText: string
+        description: 表单字段名（透传到底层 HiddenInput）。
+      - name: class
+        typeText: string | array | object
+        description: Thumb 样式覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根主题，也可局部覆写主题参数。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 自定义 Thumb 内容（可选）。
+  SliderMarker:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: number
+        description: 刻度值位置。
+      - name: class
+        typeText: string | array | object
+        description: Marker 根节点样式覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根主题，也可局部覆写主题参数。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: 默认圆点 + 数值文本
+        description: 自定义刻度内容；不传时渲染默认圆点 + 数值文本。
+  SliderTooltipThumb:
+    props:
+      - name: index
+        typeText: number
+        description: 绑定的 Thumb 索引。
+      - name: open
+        typeText: '(context: UseSliderContext) => boolean'
+        description: Tooltip 可见性计算函数；默认随拖拽状态显示 (ctx) => ctx.dragging。
+      - name: positioning
+        typeText: TooltipRootBaseProps['positioning']
+        description: Tooltip 定位参数（可改 placement/strategy 等）。
+      - name: widget.tooltipContent
+        typeText: ComponentProps<typeof TooltipContent>
+        description: 透传给 TooltipContent 的属性。
+      - name: widget.tooltipArrow
+        typeText: ComponentProps<typeof TooltipArrow>
+        description: 透传给 TooltipArrow 的属性。
+      - name: class
+        typeText: string | array | object
+        description: Thumb 样式覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根主题，也可局部覆写主题参数。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: Slider.ValueText
+        description: Tooltip 主体内容；默认渲染 Slider.ValueText。
+      - name: arrow
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: TooltipArrow
+        description: 自定义 Tooltip 箭头。
+  SliderTooltipMarker:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: number
+        description: 绑定的 Marker 值位置。
+      - name: positioning
+        typeText: TooltipRootBaseProps['positioning']
+        description: Tooltip 定位参数（默认偏向底部显示）。
+      - name: class
+        typeText: string | array | object
+        description: Marker 样式覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根主题，也可局部覆写主题参数。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: 默认圆点
+        description: 自定义 Marker 节点内容；不传时渲染默认圆点。
+      - name: content
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: 默认显示 value
+        description: 自定义 Tooltip 内容；默认显示当前 value。
+      - name: arrow
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        fallback: TooltipArrow
+        description: 自定义 Tooltip 箭头。
+behaviorModel:
+  derived:
+    valuePercent: value.map(v => (v - min) / (max - min) * 100)
+  transitions:
+    - on: drag
+      guard: '!disabled && !readOnly'
+      effects:
+        - updateValue(newValue)
+        - emit:valueChange
+    - on: dragEnd
+      guard: '!disabled && !readOnly'
+      effects:
+        - emit:valueChangeEnd
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Slider
+examples:
+  - id: basic
+    description: 基础用法
+  - id: range
+    description: 范围选择
+  - id: markers-and-tooltips
+    description: 刻度与 Tooltip 组合
+  - id: sizes
+    description: 尺寸变体
+  - id: vertical-and-disabled
+    description: 垂直方向与禁用态
+  - id: controlled
+    description: 受控模式
+generationHints:
+  preferredUsageOrder:
+    - modelValue/defaultValue
+    - min/max/step
+    - orientation
+    - theme
+  a11yChecklist:
+    - 范围模式务必为每个 Thumb 明确设置 index
+    - 垂直布局需同时调整容器高度与 ui
+  codegenTemplates:
+    minimal: <Slider v-model="value" :min="0" :max="100"><SliderTooltipThumb :index="0"
+      /></Slider>
+    range: <Slider v-model="value" :min="0" :max="100"><SliderTooltipThumb :index="0"
+      /><SliderTooltipThumb :index="1" /></Slider>
+    withMarker: '<Slider v-model="value"><template #suffix><SliderMarkerGroup><SliderMarker
+      :value="0" /><SliderMarker :value="50" /><SliderMarker :value="100" /></SliderMarkerGroup></template></Slider>'
+    withTooltipMarker: '<Slider v-model="value"><template #suffix><SliderMarkerGroup><SliderTooltipMarker
+      :value="50"><template #content>Mid: 50</template></SliderTooltipMarker></SliderMarkerGroup></template></Slider>'
+    controlled: <Slider v-model="value" @value-change-end="onCommit"><SliderTooltipThumb
+      :index="0" /></Slider>
+  antiPatterns:
+    - <Slider v-model="value" :default-value="[0]" />
+    - <Slider v-model="value" orientation="vertical" class="h-4" />
+    - <Slider v-model="value"><SliderTooltipThumb /></Slider>
+provenance:
+  sources:
+    - path: ./slider.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Slider.vue
+      kind: runtime
+    - path: ./SliderThumb.vue
+      kind: runtime
+    - path: ./SliderMarker.vue
+      kind: runtime
+    - path: ./SliderTooltipThumb.vue
+      kind: runtime
+    - path: ./SliderTooltipMarker.vue
+      kind: runtime
+    - path: ./slider.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

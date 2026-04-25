@@ -1,0 +1,305 @@
+schemaVersion: 2.0.0
+docId: rark.vue.tooltip
+component:
+  name: Tooltip
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Tooltip
+  category: core
+  description: 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略。由
+    Tooltip（根）、TooltipTrigger、TooltipContent、TooltipArrow 组合而成；TooltipTrigger 包裹触发元素，TooltipContent
+    承载提示内容，TooltipArrow 可选用于箭头指示。
+  basePrimitive:
+    library: '@ark-ui/vue/tooltip'
+    primitive: Tooltip.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 透传 Ark UI TooltipRootBaseProps；theme 为 Rark 扩展。TooltipContent、TooltipArrow
+      提供 ui 覆盖。
+  capabilities:
+    - v-model:open
+    - theme
+    - ui-override
+    - positioning
+  subComponents:
+    - TooltipTrigger
+    - TooltipContent
+    - TooltipArrow
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      description: 受控打开状态（配合 v-model:open）。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      description: 非受控初始打开状态。
+    - name: disabled
+      typeText: boolean
+      description: 禁用 Tooltip 行为（触发器不再弹出提示）。
+    - name: openDelay
+      typeText: number
+      default: 0
+      description: 打开延迟（ms，可由配置中心覆盖）。
+    - name: closeDelay
+      typeText: number
+      default: 0
+      description: 关闭延迟（ms，可由配置中心覆盖）。
+    - name: positioning
+      typeText: PositioningOptions
+      description: 浮层定位配置（如 placement、strategy）。
+    - name: lazyMount
+      typeText: boolean
+      default: false
+      description: 是否延迟挂载内容。
+    - name: unmountOnExit
+      typeText: boolean
+      default: false
+      description: 关闭后是否卸载内容。
+    - name: theme
+      typeText: ThemeCrafts<'tvTooltip'>
+      description: 主题参数与 crafts 覆盖入口。
+  events:
+    - name: update:open
+      payload:
+        typeText: '(open: boolean)'
+      description: 受控状态同步事件（用于 v-model:open）。
+    - name: openChange
+      payload:
+        typeText: '(details: OpenChangeDetails)'
+      description: 打开状态变化时触发。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 承载触发器与内容（通常组合 TooltipTrigger + TooltipContent）。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 控制内容与箭头尺寸节奏。
+      - name: surface
+        typeText: '''light'' | ''dark'' | string'
+        description: 控制明暗表面语义。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'' | string'
+        description: 控制皮肤语义。
+      - name: bordered
+        typeText: boolean
+        default: true
+        description: 控制内容与箭头边框表现。
+      - name: unstyled
+        typeText: boolean
+        default: false
+        description: 禁用默认样式。
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvTooltip 样式工艺配置。
+subComponents:
+  TooltipTrigger:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将触发行为合并到子元素。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 触发节点内容；可配合 asChild 复用现有按钮/链接。
+  TooltipContent:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 内容节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根组件主题，也可局部覆盖（不含 crafts）。
+      - name: ui
+        typeText: '{ positioner?: HTMLAttributes[''class'']; content?: HTMLAttributes[''class''];
+          inner?: HTMLAttributes[''class''] }'
+        description: 定位层、内容层、内容内层 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 提示内容；可放置 TooltipArrow 与文案/图标。
+    themeConfiguration:
+      fields:
+        - name: size
+          typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+          typeSchema:
+            enum:
+              - xs
+              - sm
+              - base
+              - lg
+          default: base
+          defaultKind: explicit-doc
+          description: 内容尺寸节奏（继承根 theme）。
+        - name: surface
+          typeText: '''light'' | ''dark'' | string'
+          typeSchema:
+            type: string
+          default: null
+          defaultKind: unknown
+          description: 明暗表面语义（继承根 theme）。
+        - name: skin
+          typeText: '''razer'' | ''shadcn'' | string'
+          typeSchema:
+            type: string
+          default: null
+          defaultKind: unknown
+          description: 皮肤语义（继承根 theme）。
+        - name: bordered
+          typeText: boolean
+          typeSchema:
+            type: boolean
+          default: true
+          defaultKind: explicit-doc
+          description: 内容边框表现（继承根 theme）。
+    uiConfiguration:
+      fields:
+        - name: ui.positioner
+          typeText: string | array | object
+          description: 定位层 class 覆盖。
+        - name: ui.content
+          typeText: string | array | object
+          description: 内容层 class 覆盖。
+        - name: ui.inner
+          typeText: string | array | object
+          description: 内容内层 class 覆盖。
+  TooltipArrow:
+    props:
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 箭头主题参数（如 size、surface、bordered）。
+      - name: ui
+        typeText: '{ arrow?: HTMLAttributes[''class'']; arrowTip?: HTMLAttributes[''class'']
+          }'
+        description: 箭头容器与尖端节点 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 箭头无默认插槽内容；作为 TooltipContent 的子节点使用。
+    themeConfiguration:
+      fields:
+        - name: size
+          typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+          typeSchema:
+            enum:
+              - xs
+              - sm
+              - base
+              - lg
+          default: base
+          defaultKind: explicit-doc
+          description: 箭头尺寸（继承根 theme）。
+        - name: surface
+          typeText: '''light'' | ''dark'' | string'
+          typeSchema:
+            type: string
+          default: null
+          defaultKind: unknown
+          description: 箭头表面语义（继承根 theme）。
+        - name: bordered
+          typeText: boolean
+          typeSchema:
+            type: boolean
+          default: true
+          defaultKind: explicit-doc
+          description: 箭头边框表现（继承根 theme）。
+    uiConfiguration:
+      fields:
+        - name: ui.arrow
+          typeText: string | array | object
+          description: 箭头容器 class 覆盖。
+        - name: ui.arrowTip
+          typeText: string | array | object
+          description: 箭头尖端节点 class 覆盖。
+behaviorModel:
+  derived:
+    showContent: open === true
+  transitions:
+    - on: hover/focus
+      guard: '!disabled'
+      effects:
+        - open = true（经 openDelay）
+    - on: blur/leave
+      guard: '!disabled'
+      effects:
+        - open = false（经 closeDelay）
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Tooltip
+examples:
+  - id: basic
+    description: 基础用法（Hover / Focus）
+  - id: placements-and-skins
+    description: 位置与皮肤
+  - id: sizes-and-bordered
+    description: 尺寸与边框（含箭头）
+  - id: delays-and-controlled-open
+    description: 延迟与受控打开（Click 联动）
+  - id: ui-and-fixed-strategy
+    description: UI 覆盖与 fixed 定位策略
+  - id: disabled
+    description: 禁用状态
+generationHints:
+  preferredUsageOrder:
+    - open/defaultOpen
+    - openDelay/closeDelay
+    - positioning
+    - theme
+  a11yChecklist:
+    - TooltipTrigger asChild 时确保触发元素可聚焦
+    - Tooltip 仅用于补充说明，不要放置核心流程信息
+    - 禁用场景使用 disabled 明确阻断
+  codegenTemplates:
+    minimal: <Tooltip><TooltipTrigger>Hover me</TooltipTrigger><TooltipContent>Tip
+      content</TooltipContent></Tooltip>
+    withArrow: <Tooltip><TooltipTrigger>Hover me</TooltipTrigger><TooltipContent><TooltipArrow
+      />Tip content</TooltipContent></Tooltip>
+    asChild: <Tooltip><TooltipTrigger :as-child="true"><Button>Hover</Button></TooltipTrigger><TooltipContent>Tip</TooltipContent></Tooltip>
+    controlled: <Tooltip v-model:open="open"><TooltipTrigger>...</TooltipTrigger><TooltipContent>...</TooltipContent></Tooltip>
+  antiPatterns:
+    - Tooltip 放置必须点击或必须阅读的核心信息
+    - 滚动容器中未配置 positioning.strategy='fixed'
+provenance:
+  sources:
+    - path: ./tooltip.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Tooltip.vue
+      kind: runtime
+    - path: ./TooltipContent.vue
+      kind: runtime
+    - path: ./index.ts
+      kind: runtime
+    - path: ../arrow/createArrow.tsx
+      kind: runtime
+    - path: ./tooltip.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

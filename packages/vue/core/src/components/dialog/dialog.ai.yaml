@@ -1,0 +1,419 @@
+schemaVersion: 2.0.0
+docId: rark.vue.dialog
+component:
+  name: Dialog
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Dialog
+  category: core
+  description: 复合弹窗组件，用于承载确认、表单编辑、详情展示等临时交互内容。基于 Ark UI Dialog 构建，支持受控/非受控状态、关闭来源追踪（from）、主题配置。
+  basePrimitive:
+    library: '@ark-ui/vue/dialog'
+    primitive: Dialog.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: DialogProps extends DialogRootBaseProps，属于部分透传 + 扩展模式。
+  capabilities:
+    - theme
+    - controlled-open
+    - from-tracking
+    - structured-content
+    - functional-api
+  subComponents:
+    - DialogTrigger
+    - DialogCloseTrigger
+    - DialogBackdrop
+    - DialogContent
+    - DialogHeader
+    - DialogBody
+    - DialogFooter
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态（配合 v-model:open）
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控初始状态
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载内容
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后卸载内容
+    - name: beforeClose
+      typeText: '(done: () => void) => void'
+      description: 关闭前回调；在回调内调用 done() 后才会真正关闭
+    - name: class
+      typeText: string | array | object
+      description: 根节点自定义 class
+    - name: theme
+      typeText: ThemeCrafts<'tvDialog'>
+      description: Dialog 主题变量（尺寸、皮肤、crafts 等）
+  events:
+    - name: update:open
+      payload:
+        typeText: '(open: boolean)'
+      description: 受控状态同步
+    - name: openChange
+      payload:
+        typeText: '(details: { open: boolean; from: DialogTriggerFrom })'
+      description: 打开状态变化（含触发来源）
+    - name: escapeKeyDown
+      payload:
+        typeText: '(event: KeyboardEvent)'
+      description: 按下 ESC 触发
+    - name: focusOutside
+      payload:
+        typeText: '(event: FocusOutsideEvent)'
+      description: 焦点移出弹层时触发
+    - name: interactOutside
+      payload:
+        typeText: '(event: InteractOutsideEvent)'
+      description: 与弹层外部交互时触发
+    - name: pointerDownOutside
+      payload:
+        typeText: '(event: PointerDownOutsideEvent)'
+      description: 指针按下外部区域时触发
+    - name: requestDismiss
+      payload:
+        typeText: '(event: RequestDismissEvent)'
+      description: 请求关闭时触发
+    - name: exitComplete
+      payload:
+        typeText: ()
+      description: 退出动画完成后触发
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 放置触发器、内容等子组件
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 控制弹窗尺寸相关样式
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 主题皮肤
+      - name: surface
+        typeText: '''light'' | ''dark'' | (string & {})'
+        description: 亮/暗表面语义
+      - name: bordered
+        typeText: boolean
+        description: 控制是否启用边框语义
+      - name: unstyled
+        typeText: boolean
+        description: 去除默认样式
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvDialog 的 crafts 配置
+subComponents:
+  DialogTrigger:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将触发能力合并到子元素
+      - name: from
+        typeText: TriggerFrom | string | null | undefined
+        default: open_trigger
+        description: 自定义触发来源，透传到 openChange.details.from
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 触发元素（通常配合 asChild）
+  DialogCloseTrigger:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将关闭能力合并到子元素
+      - name: from
+        typeText: TriggerFrom | string | null | undefined
+        default: close_trigger
+        description: 自定义关闭来源，透传到 openChange.details.from
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 任意关闭触发元素（可记录来源）
+  DialogBackdrop:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将 backdrop props 合并到子元素
+      - name: class
+        typeText: string | array | object
+        description: 遮罩层 class（通常由 DialogContent.ui.backdrop 统一控制）
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 自定义遮罩层内容（通常无需使用）
+  DialogContent:
+    props:
+      - name: class
+        typeText: string | array | object
+        description: 内容容器附加 class
+      - name: showClose
+        typeText: boolean
+        default: true
+        description: 未使用 DialogHeader 时，是否显示右上角默认关闭按钮
+      - name: ui
+        typeText: '{ backdrop?: HTMLAttributes[''class'']; positioner?: HTMLAttributes[''class''];
+          content?: HTMLAttributes[''class'']; close?: HTMLAttributes[''class''] }'
+        description: 遮罩、定位容器、内容容器、关闭按钮样式覆盖
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 弹窗主体内容（Header/Body/Footer）
+      - name: close
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 自定义右上角关闭区域，覆盖默认关闭按钮
+    uiConfiguration:
+      fields:
+        - name: ui.backdrop
+          typeText: string | array | object
+          description: 遮罩层 class
+        - name: ui.positioner
+          typeText: string | array | object
+          description: 定位容器 class
+        - name: ui.content
+          typeText: string | array | object
+          description: 内容容器 class
+        - name: ui.close
+          typeText: string | array | object
+          description: 右上角关闭按钮 class
+  DialogHeader:
+    props:
+      - name: class
+        typeText: string | array | object
+        description: 头部容器 class
+      - name: ui
+        typeText: '{ root?: HTMLAttributes[''class'']; title?: HTMLAttributes[''class''];
+          close?: HTMLAttributes[''class''] }'
+        description: 头部容器、标题与关闭按钮 class
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 标题文本或自定义头部内容
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string | array | object
+          description: 头部容器 class
+        - name: ui.title
+          typeText: string | array | object
+          description: 标题 class
+        - name: ui.close
+          typeText: string | array | object
+          description: 关闭按钮 class
+  DialogBody:
+    props:
+      - name: class
+        typeText: string | array | object
+        description: 内容主体区域 class
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 正文区域
+  DialogFooter:
+    props:
+      - name: class
+        typeText: string | array | object
+        description: 底部容器 class
+      - name: widget
+        typeText: '{ cancel?: ButtonProps & { text?: string }; ok?: ButtonProps & {
+          text?: string } }'
+        description: 取消/确认按钮属性与文案
+      - name: ui
+        typeText: '{ root?: HTMLAttributes[''class'']; cancel?: HTMLAttributes[''class''];
+          ok?: HTMLAttributes[''class''] }'
+        description: 底部容器与按钮 class
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 自定义底部；不传时渲染默认取消/确认按钮
+    events:
+      - name: ok
+        payload:
+          typeText: '(event: MouseEvent)'
+        description: 点击确认按钮时触发
+      - name: cancel
+        payload:
+          typeText: '(event: MouseEvent)'
+        description: 点击取消按钮时触发
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string | array | object
+          description: 底部容器 class
+        - name: ui.cancel
+          typeText: string | array | object
+          description: 取消按钮 class
+        - name: ui.ok
+          typeText: string | array | object
+          description: 确认按钮 class
+behaviorModel:
+  derived: {}
+  transitions:
+    - on: trigger_click
+      guard: open === false
+      effects:
+        - setOpen(true)
+        - emit:openChange
+    - on: close_trigger
+      guard: open === true
+      effects:
+        - setOpen(false)
+        - emit:openChange
+        - emit:exitComplete
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Dialog
+examples:
+  - id: basic
+    description: 基础用法
+  - id: controlled-and-events
+    description: 受控模式与事件
+  - id: before-close
+    description: beforeClose 关闭前确认
+  - id: variants
+    description: 尺寸与主题变体
+  - id: scrollable
+    description: 可滚动内容
+  - id: content-close
+    description: Content 关闭按钮控制
+  - id: footer-widget
+    description: Footer 按钮定制
+  - id: functional
+    description: 函数式调用（dialog() 与 useDialog()）
+  - id: stacked
+    description: 多层嵌套 Dialog（z-index 堆叠）
+generationHints:
+  preferredUsageOrder:
+    - open
+    - defaultOpen
+    - theme.size
+    - lazyMount
+  a11yChecklist:
+    - 优先使用 DialogHeader + DialogBody + DialogFooter 组合
+    - 需要追踪关闭来源时，为触发器和关闭器配置 from
+    - 内容较长时限制 DialogBody 高度并开启滚动
+  codegenTemplates:
+    minimal: |-
+      <Dialog>
+        <DialogTrigger asChild><button>Open</button></DialogTrigger>
+        <DialogContent>
+          <DialogHeader>Title</DialogHeader>
+          <DialogBody>...</DialogBody>
+        </DialogContent>
+      </Dialog>
+    controlled: |-
+      <Dialog v-model:open="open">
+        <DialogTrigger asChild><button>Toggle</button></DialogTrigger>
+        <DialogContent>...</DialogContent>
+      </Dialog>
+    withFooter: |-
+      <Dialog>
+        <DialogTrigger asChild><button>Open</button></DialogTrigger>
+        <DialogContent>
+          <DialogHeader>Title</DialogHeader>
+          <DialogBody>Content</DialogBody>
+          <DialogFooter @ok="handleOk" @cancel="handleCancel" />
+        </DialogContent>
+      </Dialog>
+    contentCloseSlot: |-
+      <DialogContent :show-close="false">
+        <template #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template>
+        ...
+      </DialogContent>
+    functionalInComponent: |-
+      // 在组件 setup 内（推荐）
+      const { dialog } = useDialog()
+      function handleClick() {
+        dialog.open({ title: 'Title', content: 'Content', onOk: () => {} })
+      }
+    functionalOutsideComponent: |-
+      // 在组件外（路由守卫、utils）
+      import { app } from './main'
+      dialog({ title: 'Title' }, app._context)
+  antiPatterns:
+    - <Dialog><button>Open</button><DialogContent>...</DialogContent></Dialog>
+    - '<DialogContent><DialogHeader>Title</DialogHeader><template #close><span>×</span></template></DialogContent>'
+    - <Dialog v-model:open="open" :default-open="false">...</Dialog>
+    - '<DialogContent :show-close="true"><DialogHeader>Title</DialogHeader><template
+      #close><DialogCloseTrigger asChild><button>×</button></DialogCloseTrigger></template></DialogContent>'
+    - |-
+      // 在组件 setup 内直接调用 dialog() 而不使用 useDialog()，会导致弹窗无法访问 vue-i18n 等 App 插件
+      dialog({ title: '…' })
+provenance:
+  sources:
+    - path: ./dialog.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Dialog.vue
+      kind: runtime
+    - path: ./DialogContent.vue
+      kind: runtime
+    - path: ./DialogHeader.vue
+      kind: runtime
+    - path: ./DialogFooter.vue
+      kind: runtime
+    - path: ./DialogTrigger.vue
+      kind: runtime
+    - path: ./DialogCloseTrigger.vue
+      kind: runtime
+    - path: ./DialogBackdrop.vue
+      kind: runtime
+    - path: ./DialogBody.vue
+      kind: runtime
+    - path: ./dialog-functional.tsx
+      kind: runtime
+    - path: ./dialog.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

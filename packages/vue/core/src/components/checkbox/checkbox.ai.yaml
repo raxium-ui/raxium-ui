@@ -1,0 +1,399 @@
+schemaVersion: 2.0.0
+docId: rark.vue.checkbox
+component:
+  name: Checkbox
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Checkbox
+  category: core
+  description: 用于布尔选择与多选集合项的复选框组件。基于 Ark UI checkbox 原语封装，支持 checked/indeterminate
+    状态、label 与 indicator 插槽，以及 theme/ui 样式扩展；可与 CheckboxGroup 组合管理值集合。
+  basePrimitive:
+    library: '@ark-ui/vue/checkbox'
+    primitive: Checkbox.RootProvider
+    nativeElement: input[type=checkbox]
+  passThrough:
+    htmlAttributes:
+      - id
+      - name
+      - required
+      - disabled
+      - readonly
+      - aria-*
+      - data-*
+    notes: 核心交互与可访问性语义由 Ark UI checkbox machine 提供；Raxium UI 增加 label、theme 与 ui 配置。
+  capabilities:
+    - checked
+    - indeterminate
+    - controlled
+    - uncontrolled
+    - theme
+    - ui-override
+    - form-participation
+    - group-selection
+  parentComponents:
+    - CheckboxGroup
+contracts:
+  props:
+    - name: checked
+      typeText: boolean | 'indeterminate'
+      conflictsWith:
+        - defaultChecked
+      description: 受控选中状态。
+    - name: defaultChecked
+      typeText: boolean | 'indeterminate'
+      conflictsWith:
+        - checked
+      description: 非受控模式初始状态。
+    - name: disabled
+      typeText: boolean
+      description: 是否禁用交互。
+    - name: readOnly
+      typeText: boolean
+      description: 只读模式，不允许用户切换状态。
+    - name: required
+      typeText: boolean
+      description: 表单语义必填。
+    - name: invalid
+      typeText: boolean
+      description: 是否为错误状态。
+    - name: name
+      typeText: string
+      description: 表单字段名。
+    - name: value
+      typeText: string | number | symbol | bigint | null
+      default: on
+      description: 表单提交值或组内项值。
+    - name: label
+      typeText: string
+      description: 文本标签；可被 label 插槽覆盖。
+    - name: class
+      typeText: string | array | object
+      description: 根节点 class 覆盖。
+    - name: theme
+      typeText: ThemeCrafts<'tvCheckbox'>
+      description: 主题配置，驱动 tvCheckbox crafts。
+    - name: ui
+      typeText: '{ root?: class; control?: class; indicator?: class; label?: class }'
+      description: 分槽位 UI class 覆盖。
+  events:
+    - name: update:checked
+      payload:
+        typeText: boolean | 'indeterminate'
+      description: checked 状态变化时触发，用于 v-model:checked。
+    - name: checkedChange
+      payload:
+        typeText: Ark UI checked change details
+      description: Ark UI 原生状态变更事件。
+  slots:
+    - name: indicator
+      slotPropsSchema:
+        type: object
+        properties:
+          checkedState:
+            anyOf:
+              - type: boolean
+              - const: indeterminate
+        required:
+          - checkedState
+        additionalProperties: false
+      fallback: Check / Minus icon
+      description: 自定义指示器内容，接收 checkedState。
+    - name: label
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      renderWhen:
+        - expr: props.label || hasSlot('label')
+      fallback: <span>{{ label }}</span>
+      description: 自定义标签区域。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 复选框尺寸。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 主题皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'''
+        description: 亮暗表面。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除默认样式。
+      - name: bordered
+        typeText: boolean
+        description: 是否显示边框。
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvCheckbox crafts。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: 根容器 class。
+      - name: ui.control
+        typeText: string | array | object
+        description: 控制框 class。
+      - name: ui.indicator
+        typeText: string | array | object
+        description: 指示器 class。
+      - name: ui.label
+        typeText: string | array | object
+        description: 标签 class。
+parentComponents:
+  CheckboxGroup:
+    props:
+      - name: modelValue
+        required: false
+        requiredSource: type
+        typeText: CheckboxValueType[]
+        typeSchema:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: number
+              - type: 'null'
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: false
+        deprecated: false
+        dependsOn: []
+        conflictsWith:
+          - defaultValue
+        description: 受控模式下的选中值集合，配合 v-model。
+      - name: defaultValue
+        required: false
+        requiredSource: type
+        typeText: CheckboxValueType[]
+        typeSchema:
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: number
+              - type: 'null'
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: false
+        deprecated: false
+        dependsOn: []
+        conflictsWith:
+          - modelValue
+        description: 非受控初始值集合。
+      - name: name
+        required: false
+        requiredSource: type
+        typeText: string
+        typeSchema:
+          type: string
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: true
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 组内输入项共享的字段名。
+      - name: disabled
+        required: false
+        requiredSource: type
+        typeText: boolean
+        typeSchema:
+          type: boolean
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: true
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 是否禁用整组。
+      - name: readOnly
+        required: false
+        requiredSource: type
+        typeText: boolean
+        typeSchema:
+          type: boolean
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: true
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 是否只读整组。
+      - name: invalid
+        required: false
+        requiredSource: type
+        typeText: boolean
+        typeSchema:
+          type: boolean
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: true
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 是否为校验错误态。
+      - name: maxSelectedValues
+        required: false
+        requiredSource: type
+        typeText: number
+        typeSchema:
+          type: number
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: false
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 允许选择的最大数量。
+      - name: class
+        required: false
+        requiredSource: type
+        typeText: string | array | object
+        typeSchema:
+          anyOf:
+            - type: string
+            - type: array
+            - type: object
+        default: null
+        defaultKind: implicit-undefined
+        nullable: true
+        passthrough: false
+        deprecated: false
+        dependsOn: []
+        conflictsWith: []
+        description: 根节点 class 覆盖。
+    events:
+      - name: update:modelValue
+        payload:
+          typeText: CheckboxValueType[]
+          typeSchema:
+            type: array
+            items:
+              anyOf:
+                - type: string
+                - type: number
+                - type: 'null'
+        emitWhen:
+          - expr: group_value_changes
+            kind: runtime-machine
+        notEmitWhen: []
+        order:
+          - internalStateUpdate
+          - emit:update:modelValue
+        description: 组内值集合变化时触发，用于 v-model。
+      - name: valueChange
+        payload:
+          typeText: CheckboxValueType[]
+          typeSchema:
+            type: array
+            items:
+              anyOf:
+                - type: string
+                - type: number
+                - type: 'null'
+        emitWhen:
+          - expr: group_value_changes
+            kind: runtime-machine
+        notEmitWhen: []
+        order:
+          - internalStateUpdate
+          - emit:valueChange
+        description: 对外暴露的组值变更事件。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: always
+        fallback: null
+        description: 组内容器插槽，通常放置多个 Checkbox。
+    themeConfiguration:
+      fields: []
+    uiConfiguration:
+      fields: []
+behaviorModel:
+  derived:
+    isInteractive: disabled !== true && readOnly !== true
+    showLabelNode: Boolean(label) || hasSlot('label')
+    showCheckIcon: checked === true
+    showIndeterminateIcon: checked === 'indeterminate'
+  transitions:
+    - on: toggle-request
+      guard: isInteractive
+      effects:
+        - emit:update:checked
+        - emit:checkedChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Checkbox
+examples:
+  - id: basic
+    description: 基础用法。
+  - id: states
+    description: 受控与状态展示。
+  - id: sizes
+    description: 尺寸配置。
+  - id: group
+    description: 组内多选。
+  - id: slots-and-ui
+    description: 插槽与 UI 覆盖。
+  - id: theme-example
+    exampleId: basic
+    description: Theme 配置示例（story 内联，无独立 example 文件，可参考 checkbox.stories.ts ThemeExample）。
+  - id: ui-example
+    exampleId: basic
+    description: UI 配置示例（story 内联，无独立 example 文件，可参考 checkbox.stories.ts UIExample）。
+generationHints:
+  preferredUsageOrder:
+    - checked/defaultChecked
+    - label
+    - theme.size
+    - ui.*
+    - CheckboxGroup
+  a11yChecklist:
+    - 为每个 Checkbox 提供可见 label 或等效可访问名称。
+    - 禁用态使用 disabled 语义，不仅是视觉灰化。
+    - 中间态请使用 'indeterminate'，不要仅靠图标模拟。
+  codegenTemplates:
+    minimal: <Checkbox label="Accept terms" />
+    group: <CheckboxGroup v-model="values"><Checkbox value="a" label="A" /><Checkbox
+      value="b" label="B" /></CheckboxGroup>
+  antiPatterns:
+    - <Checkbox :checked="true" :default-checked="false" /> — 同时传 checked 和 defaultChecked，状态来源冲突
+    - <Checkbox class="opacity-50" /> — 用 class 模拟禁用；应使用 disabled 语义
+provenance:
+  sources:
+    - path: ./Checkbox.vue
+      kind: runtime
+    - path: ./CheckboxGroup.vue
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./checkbox.d.ts
+      kind: type
+    - path: ./checkbox.doc.mdx
+      kind: doc
+    - path: ./checkbox.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

@@ -53,10 +53,10 @@ website/           → docs site
 | `index.ts` | Re-exports component + props |
 | `<name>.stories.ts` | Storybook stories |
 | `<name>.doc.mdx` | Human-readable Storybook MDX docs |
-| `<name>.ai.json` | Machine-readable AI doc (see spec below) |
+| `<name>.ai.yaml` | Machine-readable AI doc (see spec below) |
 | `examples/*.vue` | Standalone example files (excluded from build) |
 
-Stories, examples, `.md`, and `.ai.json` files are excluded from the library build (see `rslib.config.ts`).
+Stories, examples, `.md`, and `.ai.yaml` files are excluded from the library build (see `rslib.config.ts`).
 
 ### Theme System (crafts)
 
@@ -121,7 +121,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
 Components under `packages/vue/addons/components/` are independent packages. Differences from core:
 - May have their own `index.css` that consumers must import explicitly
 - Doc MDX uses `## Implementation References` instead of `## ARK UI Link`
-- `*.ai.json` includes a `cssImport` field (core components do not)
+- `*.ai.yaml` includes a `cssImport` field (core components do not)
 
 ## Test Conventions
 
@@ -129,18 +129,36 @@ Components under `packages/vue/addons/components/` are independent packages. Dif
 - Pattern: `src/utils/foo.ts` → `src/utils/__test__/foo.test.ts`
 - Vitest is configured with `include: ['src/**/__test__/**/*.test.ts']` (node environment)
 
-## AI Documentation (`.ai.json`)
+## AI Documentation (`.ai.yaml`)
 
-Every component should have a `<name>.ai.json` alongside its implementation. Use `packages/vue/core/src/components/button/button.ai.json` as the structural reference. Key rules:
+Every component should have a `<name>.ai.yaml` alongside its implementation. Use `packages/vue/core/src/components/accordion/accordion.ai.yaml` as the structural reference. Key rules:
 
 - `schemaVersion: "2.0.0"`
-- Required top-level fields (in order): `schemaVersion`, `docId`, `component`, `contracts`, `behaviorModel`, `examples`, `generationHints`, `provenance`
+- Required top-level fields (in order): `schemaVersion`, `docId`, `component`, `contracts`, `behaviorModel`, `exampleDefaults`, `examples`, `generationHints`, `provenance`
 - Addon-only field: `cssImport`
 - Do **not** include a `quality` field in the file itself
-- Each `examples[].mcp` entry must have `{ server, tool, args, exampleId }` for direct MCP tool invocation
+- **Minimal field principle**: only write fields an agent needs for code generation; omit all redundant defaults
+  - Props: write `required: true` only when required; omit `required: false`, `passthrough`, `defaultKind`, `nullable`, `deprecated`, `dependsOn`, `default: null`
+  - Events: only `name`, `payload.typeText`, `description` — omit `emitWhen`, `order`, etc.
+  - Slots: omit `slotPropsSchema` when the slot exposes no scope variables
+  - `behaviorModel`: include `derived` and `transitions`; omit `stateVars`
+  - `generationHints`: omit `safeDefaults` (duplicates prop defaults)
+  - `provenance`: omit `fieldSourceMap`
+- Examples use `exampleDefaults` (shared MCP call params) + slim `examples` list; each example entry only needs `id`, `description`, and `exampleId` (only when it differs from `id`)
 - `provenance.precedence` defaults to `["runtime", "type", "doc"]`
 
-The Cursor agent specs in `.cursor/agents/` (`component-ai-json.md`, `component-doc.md`, `addons-doc.md`) contain the full authoring rules for these files.
+### Conversion & optimization scripts
+
+```bash
+# Convert *.ai.json → *.ai.yaml (accepts files or directories)
+python3 scripts/json-to-yaml.py packages/vue/core/src
+python3 scripts/json-to-yaml.py packages/vue/addons
+
+# Optimize *.ai.yaml (strip redundant fields, generate report)
+python3 scripts/optimize-ai-yaml.py packages/vue/core/src/**/*.ai.yaml
+```
+
+The Cursor agent specs in `.cursor/agents/` (`component-ai-yaml.md`, `component-doc.md`, `addons-doc.md`) contain the full authoring rules for these files.
 
 ## MCP Server (`@raxium/mcp`)
 

@@ -1,0 +1,316 @@
+schemaVersion: 2.0.0
+docId: rark.vue.editable
+component:
+  name: Editable
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Editable
+  category: core
+  description: 用于将静态文本切换为就地编辑输入，适合昵称、标题、备注等轻量修改场景。基于 Ark UI Editable 构建，支持受控/非受控值、编辑态切换、提交与回退事件，扩展
+    theme、ui 和组合插槽能力。
+  basePrimitive:
+    library: '@ark-ui/vue/editable'
+    primitive: EditableRootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - disabled
+      - readOnly
+      - maxLength
+      - aria-*
+      - data-*
+    notes: 透传 Ark UI EditableRootBaseProps；theme、ui、clearable 为 Rark 扩展。
+  capabilities:
+    - v-model
+    - v-model:edit
+    - theme
+    - ui-override
+    - programmatic-api
+  subComponents:
+    - EditableInput
+    - EditablePreview
+contracts:
+  props:
+    - name: modelValue
+      typeText: string
+      conflictsWith:
+        - defaultValue
+      description: 受控文本值（配合 v-model）。
+    - name: defaultValue
+      typeText: string
+      conflictsWith:
+        - modelValue
+      description: 非受控初始值。
+    - name: edit
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - defaultEdit
+      description: 受控编辑态（配合 v-model:edit）。
+    - name: defaultEdit
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - edit
+      description: 非受控初始编辑态。
+    - name: activationMode
+      typeText: '''focus'' | ''click'' | ''dblclick'' | ''none'''
+      default: focus
+      description: 预览区进入编辑态的触发方式。
+    - name: submitMode
+      typeText: '''enter'' | ''blur'' | ''none'' | ''both'''
+      default: both
+      description: 编辑态提交触发方式。
+    - name: placeholder
+      typeText: 'string | { edit: string; preview: string }'
+      description: 输入态/预览态占位文案。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 禁用交互。
+    - name: readOnly
+      typeText: boolean
+      default: false
+      description: 只读模式（可聚焦但不提交修改）。
+    - name: maxLength
+      typeText: number
+      description: 最大输入长度。
+    - name: clearable
+      typeText: boolean
+      default: false
+      description: 根接口扩展字段；清空按钮实际由 EditableInput.clearable 生效。
+    - name: class
+      typeText: string | array | object
+      description: 根节点附加 class。
+    - name: theme
+      typeText: ThemeCrafts<'tvEditable'>
+      description: 根组件主题参数与 tvEditable crafts 覆盖。
+    - name: ui
+      typeText: '{ root?: class; area?: class }'
+      description: 根与编辑区域 class 覆盖。
+  events:
+    - name: update:modelValue
+      payload:
+        typeText: '(value: string)'
+      description: 受控文本值同步。
+    - name: valueChange
+      payload:
+        typeText: '(details: ValueChangeDetails)'
+      description: 值变化时触发。
+    - name: valueCommit
+      payload:
+        typeText: '(details: ValueChangeDetails)'
+      description: 提交编辑值时触发。
+    - name: valueRevert
+      payload:
+        typeText: '(details: ValueChangeDetails)'
+      description: 回退编辑值时触发。
+    - name: update:edit
+      payload:
+        typeText: '(edit: boolean)'
+      description: 受控编辑态同步。
+    - name: editChange
+      payload:
+        typeText: '(details: EditChangeDetails)'
+      description: 编辑态变化时触发。
+    - name: focusOutside
+      payload:
+        typeText: '(event: FocusOutsideEvent)'
+      description: 焦点移出组件时触发。
+    - name: pointerDownOutside
+      payload:
+        typeText: '(event: PointerDownOutsideEvent)'
+      description: 外部按下指针时触发。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties:
+          editing:
+            type: boolean
+          empty:
+            type: boolean
+          value:
+            type: string
+      description: 主内容插槽（常放 EditableInput 与 EditablePreview），作用域含 editing、empty、value。
+    - name: prefix
+      slotPropsSchema:
+        type: object
+        properties:
+          editing:
+            type: boolean
+          empty:
+            type: boolean
+          value:
+            type: string
+      description: 编辑区域前置内容。
+    - name: suffix
+      slotPropsSchema:
+        type: object
+        properties:
+          editing:
+            type: boolean
+          empty:
+            type: boolean
+          value:
+            type: string
+      description: 编辑区域后置内容（常用于控制按钮）。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸变体。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 主题皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | string'
+        description: 表面语义。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框风格。
+      - name: unstyled
+        typeText: boolean
+        description: 移除内置样式。
+      - name: crafts
+        typeText: object | (() => tv)
+        description: 覆盖 tvEditable crafts（根组件）。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: Editable 根节点附加 class
+      - name: ui.area
+        typeText: string | array | object
+        description: Editable 编辑区域容器附加 class
+subComponents:
+  EditableInput:
+    props:
+      - name: clearable
+        typeText: boolean
+        default: false
+        description: 编辑态且非空时显示清空按钮。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承主题上下文，也可局部覆盖通用主题参数（不含 crafts）。
+      - name: class
+        typeText: string | array | object
+        description: 输入区域附加 class。
+    slots:
+      - name: clearable
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: clearable && editing && !empty
+        fallback: 默认 CircleX 图标
+        description: 自定义清空按钮区域，覆盖默认清空图标。
+  EditablePreview:
+    props:
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承主题上下文，也可局部覆盖通用主题参数。
+      - name: class
+        typeText: string
+        description: 预览区域附加 class。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        renderWhen:
+          - expr: '!editing'
+        description: 预览文本内容插槽。
+behaviorModel:
+  derived:
+    showInput: editing === true
+    showPreview: editing === false
+  transitions:
+    - on: activation
+      guard: '!disabled'
+      effects:
+        - setEditing(true)
+    - on: submit
+      guard: '!disabled && !readOnly'
+      effects:
+        - setValue(inputValue)
+        - setEditing(false)
+        - emit:valueCommit
+    - on: cancel
+      guard: '!disabled'
+      effects:
+        - setEditing(false)
+        - emit:valueRevert
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Editable
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸与主题参数
+  - id: states
+    description: 状态：空值、禁用、只读
+  - id: custom-controls
+    description: 自定义控制按钮
+generationHints:
+  preferredUsageOrder:
+    - modelValue/defaultValue
+    - activationMode
+    - submitMode
+    - theme
+  a11yChecklist:
+    - 优先使用 Editable + EditableInput + EditablePreview 固定结构
+    - activation-mode="none" 时需提供明确提交/取消入口
+  codegenTemplates:
+    minimal: |-
+      <Editable placeholder="Edit me">
+        <EditableInput />
+        <EditablePreview />
+      </Editable>
+    controlled: |-
+      <Editable v-model="value" v-model:edit="editing" placeholder="Edit me">
+        <EditableInput clearable />
+        <EditablePreview />
+      </Editable>
+    withControls: |-
+      <Editable activation-mode="none" placeholder="Edit me">
+        <EditableInput clearable />
+        <EditablePreview />
+        <template #suffix="{ editing }">
+          <EditableControl>
+            <EditableEditTrigger v-if="!editing" as-child><Button>Edit</Button></EditableEditTrigger>
+            <EditableSubmitTrigger v-if="editing" as-child><Button>Submit</Button></EditableSubmitTrigger>
+            <EditableCancelTrigger v-if="editing" as-child><Button>Cancel</Button></EditableCancelTrigger>
+          </EditableControl>
+        </template>
+      </Editable>
+  antiPatterns:
+    - <Editable><EditableInput /></Editable> — 缺少 EditablePreview，预览态无法展示
+    - <Editable @value-change="persist">...</Editable> — 在 @value-change 中持久化，应监听 @value-commit
+provenance:
+  sources:
+    - path: ./editable.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Editable.vue
+      kind: runtime
+    - path: ./EditableInput.vue
+      kind: runtime
+    - path: ./EditablePreview.vue
+      kind: runtime
+    - path: ./editable.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

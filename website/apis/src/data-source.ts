@@ -260,7 +260,7 @@ export class LocalDataSource {
   ): { docPath: string | null, aiPath: string | null, fileName: string } {
     const addon = parseAddonQualifiedName(componentName)
     const fileName = `${addon ? addon.name : componentName}.doc.mdx`
-    const aiFileName = `${addon ? addon.name : componentName}.ai.json`
+    const aiFileName = `${addon ? addon.name : componentName}.ai.yaml`
 
     if (addon) {
       const srcDir = path.join(this.repoRoot, addon.srcDir)

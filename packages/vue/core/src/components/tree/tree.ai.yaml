@@ -1,0 +1,386 @@
+schemaVersion: 2.0.0
+docId: rark.vue.tree
+component:
+  name: Tree
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Tree
+  category: core
+  description: 用于展示层级结构数据，适合目录浏览、权限节点选择、配置树编辑等场景。基于 Ark UI Tree View 原语构建，支持展开/折叠、单选/多选、复选框勾选、焦点管理以及懒挂载策略。由
+    Tree、TreeNode、TreeCheckboxNode 组合而成；TreeNode 用于普通选中树，TreeCheckboxNode 用于复选框勾选树；default
+    插槽内通常递归放置 TreeNode 或 TreeCheckboxNode。
+  basePrimitive:
+    library: '@ark-ui/vue/tree-view'
+    primitive: TreeView.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 透传 Ark UI TreeViewRootBaseProps；theme、ui 为 Rark 扩展。
+  capabilities:
+    - v-model:expandedValue
+    - v-model:selectedValue
+    - v-model:checkedValue
+    - v-model:focusedValue
+    - theme
+    - ui-override
+    - programmatic-api
+  subComponents:
+    - TreeNode
+    - TreeCheckboxNode
+contracts:
+  props:
+    - name: collection
+      typeText: TreeCollection<T>
+      description: 树数据集合（通常由 createTreeCollection 创建）。
+    - name: selectionMode
+      typeText: '''single'' | ''multiple'''
+      description: 选中模式，影响 selectedValue 语义。
+    - name: expandedValue
+      typeText: TreeValueType[]
+      description: 受控展开值。
+    - name: defaultExpandedValue
+      typeText: TreeValueType[]
+      description: 非受控初始展开值。
+    - name: selectedValue
+      typeText: TreeValueType[]
+      description: 受控选中值。
+    - name: defaultSelectedValue
+      typeText: TreeValueType[]
+      description: 非受控初始选中值。
+    - name: checkedValue
+      typeText: TreeValueType[]
+      description: 复选框树受控勾选值。
+    - name: defaultCheckedValue
+      typeText: TreeValueType[]
+      description: 非受控初始勾选值。
+    - name: focusedValue
+      typeText: TreeValueType
+      description: 当前焦点节点值。
+    - name: defaultFocusedValue
+      typeText: TreeValueType
+      description: 非受控初始焦点值。
+    - name: lazyMount
+      typeText: boolean
+      description: 懒挂载：仅当节点展开时挂载子节点 DOM（示例见 LargeData）。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 退出卸载：折叠时卸载子节点 DOM，降低非激活分支开销（示例见 LargeData）。
+    - name: class
+      typeText: string | array | object
+      description: 根节点附加 class。
+    - name: theme
+      typeText: ThemeCrafts<'tvTree'>
+      description: 主题参数与 crafts 覆盖入口。
+    - name: ui
+      typeText: '{ root?: class; tree?: class }'
+      description: 根与树容器 class 覆盖。
+  events:
+    - name: update:expandedValue
+      payload:
+        typeText: '(value: TreeValueType[])'
+      description: 展开值受控同步。
+    - name: update:selectedValue
+      payload:
+        typeText: '(value: TreeValueType[])'
+      description: 选中值受控同步。
+    - name: update:checkedValue
+      payload:
+        typeText: '(value: TreeValueType[])'
+      description: 勾选值受控同步。
+    - name: update:focusedValue
+      payload:
+        typeText: '(value: TreeValueType)'
+      description: 焦点值受控同步。
+    - name: expandedChange
+      payload:
+        typeText: '(details: ExpandedChangeDetails)'
+      description: 展开状态变化时触发。
+    - name: selectionChange
+      payload:
+        typeText: '(details: SelectionChangeDetails)'
+      description: 选中状态变化时触发。
+    - name: checkedChange
+      payload:
+        typeText: '(details: CheckedChangeDetails)'
+      description: 勾选状态变化时触发。
+    - name: focusChange
+      payload:
+        typeText: '(details: FocusChangeDetails)'
+      description: 焦点变化时触发。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 树节点内容（通常放置递归 TreeNode 或 TreeCheckboxNode）。
+    - name: prefix
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 树容器前置附加区域。
+    - name: suffix
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 树容器后置附加区域。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 节点行高、文本和图标尺寸节奏。
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvTree 及关联 crafts（branch/item/checkbox）。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: 根容器 class 覆盖
+      - name: ui.tree
+        typeText: string | array | object
+        description: 树容器 class 覆盖
+subComponents:
+  TreeNode:
+    props:
+      - name: node
+        required: true
+        requiredSource: runtime
+        typeText: TreeNodeData
+        description: 当前节点数据（必填）。
+      - name: indexPath
+        required: true
+        requiredSource: runtime
+        typeText: number[]
+        default: []
+        description: 当前节点路径索引（必填）。
+      - name: keyMap
+        typeText: Partial<TreeKeyMap>
+        default:
+          id: id
+          name: name
+          children: children
+          icon: icon
+        description: 将默认字段映射到自定义数据结构（示例见 CustomDatatype）。
+      - name: nodeIndent
+        typeText: number
+        description: 节点缩进值（px）。
+      - name: renderIcon
+        typeText: '(props: RenderIconProps) => VNode'
+        description: 自定义图标渲染函数（示例见 CustomPropsRender）。
+      - name: renderName
+        typeText: '(props: RenderNameProps) => VNode | string'
+        description: 自定义名称渲染函数。
+      - name: ui
+        typeText: object
+        default: {}
+        description: 分支/叶子各结构节点 class 覆盖（branch、branchControl、branchTitle、branchIcon、branchText、branchIndicator、branchContent、branchIndentGuide、item、itemTitle、itemIcon、itemText）。
+    slots:
+      - name: branch
+        slotPropsSchema:
+          type: object
+          properties:
+            node:
+              type: object
+            keyMap:
+              type: object
+            state:
+              type: object
+          additionalProperties: false
+        renderWhen:
+          - expr: node 有 children
+        description: 分支节点自定义渲染。
+      - name: item
+        slotPropsSchema:
+          type: object
+          properties:
+            node:
+              type: object
+            keyMap:
+              type: object
+            state:
+              type: object
+          additionalProperties: false
+        renderWhen:
+          - expr: node 无 children
+        description: 叶子节点自定义渲染。
+    uiConfiguration:
+      fields:
+        - name: ui.branch*
+          typeText: HTMLAttributes['class']
+          description: 分支节点结构样式覆盖（branch、branchControl、branchTitle、branchIcon、branchText、branchIndicator、branchContent、branchIndentGuide）
+        - name: ui.item*
+          typeText: HTMLAttributes['class']
+          description: 叶子节点结构样式覆盖（item、itemTitle、itemIcon、itemText）
+  TreeCheckboxNode:
+    props:
+      - name: node
+        required: true
+        requiredSource: runtime
+        typeText: TreeNodeData
+        description: 同 TreeNode。
+      - name: indexPath
+        required: true
+        requiredSource: runtime
+        typeText: number[]
+        default: []
+        description: 同 TreeNode。
+      - name: keyMap
+        typeText: Partial<TreeKeyMap>
+        default:
+          id: id
+          name: name
+          children: children
+          icon: icon
+        description: 同 TreeNode。
+      - name: nodeIndent
+        typeText: number
+        description: 同 TreeNode。
+      - name: renderIcon
+        typeText: '(props: RenderIconProps) => VNode'
+        description: 同 TreeNode。
+      - name: renderName
+        typeText: '(props: RenderNameProps) => VNode | string'
+        description: 同 TreeNode。
+      - name: ui
+        typeText: object
+        default: {}
+        description: 除 TreeNode.ui 字段外，还有 branchCheckbox、branchCheckboxIndicator、itemCheckbox、itemCheckboxIndicator。
+    slots:
+      - name: branch
+        slotPropsSchema:
+          type: object
+          properties:
+            node:
+              type: object
+            keyMap:
+              type: object
+            state:
+              type: object
+          additionalProperties: false
+        renderWhen:
+          - expr: node 有 children
+        description: 同 TreeNode.branch，并附带复选框渲染语义。
+      - name: item
+        slotPropsSchema:
+          type: object
+          properties:
+            node:
+              type: object
+            keyMap:
+              type: object
+            state:
+              type: object
+          additionalProperties: false
+        renderWhen:
+          - expr: node 无 children
+        description: 同 TreeNode.item，并附带复选框渲染语义。
+    uiConfiguration:
+      fields:
+        - name: ui.branch*
+          typeText: HTMLAttributes['class']
+          description: 分支节点结构样式覆盖
+        - name: ui.item*
+          typeText: HTMLAttributes['class']
+          description: 叶子节点结构样式覆盖
+        - name: ui.branchCheckbox*
+          typeText: HTMLAttributes['class']
+          description: 分支节点复选框控制区与指示器样式覆盖（branchCheckbox、branchCheckboxIndicator）
+        - name: ui.itemCheckbox*
+          typeText: HTMLAttributes['class']
+          description: 叶子节点复选框控制区与指示器样式覆盖（itemCheckbox、itemCheckboxIndicator）
+behaviorModel:
+  derived:
+    expandedSet: Set(expandedValue)
+    selectedSet: Set(selectedValue)
+  transitions:
+    - on: toggleExpand
+      guard: node 存在
+      effects:
+        - 更新 expandedValue
+        - emit(expandedChange)
+    - on: select
+      guard: '!disabled'
+      effects:
+        - 更新 selectedValue
+        - emit(selectionChange)
+    - on: check
+      guard: '!disabled'
+      effects:
+        - 更新 checkedValue
+        - emit(checkedChange)
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Tree
+examples:
+  - id: basic
+    description: 基础树（展开/折叠 + 选中）
+  - id: selection-modes
+    description: 选中模式（单选 / 多选）
+  - id: disabled-nodes
+    description: 禁用节点
+  - id: checkbox
+    description: 复选框树（checkedValue）
+  - id: large-data
+    description: 懒挂载与大数据
+  - id: custom-render
+    description: 自定义节点渲染
+  - id: custom-props-render
+    description: 通过 props 自定义渲染函数
+  - id: custom-datatype
+    description: 自定义数据结构
+  - id: events
+    description: 事件监听
+  - id: sizes
+    description: 尺寸变体
+generationHints:
+  preferredUsageOrder:
+    - collection
+    - selectionMode
+    - expandedValue/selectedValue/checkedValue
+    - theme
+  a11yChecklist:
+    - 建议为节点文本提供稳定可读标签
+    - 禁用节点通过 isNodeDisabled/数据字段统一声明
+    - 大数据场景搭配 lazyMount/unmountOnExit
+  codegenTemplates:
+    minimal: <Tree :collection="collection"><TreeNode v-for="..." :node="node" :index-path="path"
+      /></Tree>
+    checkbox: <Tree v-model:checked-value="checked" :collection="collection"><TreeCheckboxNode
+      v-for="(node, index) in rootNode.children" :key="node.id" :node="node" :index-path="[index]"
+      /></Tree>
+    customDatatype: <Tree :collection="collection"><TreeNode :node="node" :index-path="path"
+      :key-map="{ id:'key', name:'label', children:'items' }" /></Tree>
+  antiPatterns:
+    - 在 TreeNode/TreeCheckboxNode 中自定义数据结构时未配置 keyMap，导致字段映射错误
+    - 在视图层重复解析结构而非用 createTreeCollection 收敛
+provenance:
+  sources:
+    - path: ./tree.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Tree.vue
+      kind: runtime
+    - path: ./TreeNode.tsx
+      kind: runtime
+    - path: ./TreeCheckboxNode.tsx
+      kind: runtime
+    - path: ./tree.d.ts
+      kind: type
+    - path: ./tree.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

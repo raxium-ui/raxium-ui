@@ -1,0 +1,197 @@
+schemaVersion: 2.0.0
+docId: rark.vue.switch
+component:
+  name: Switch
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: Switch
+  category: core
+  description: 用于表达单一布尔开关状态（开/关），适合用于功能启停、偏好配置等场景。基于 Ark UI Switch 构建，支持受控/非受控状态、表单语义透传，并扩展
+    theme 与 ui 样式入口。由 Switch（根）与 SwitchLabel（子组件）组成。
+  basePrimitive:
+    library: '@ark-ui/vue'
+    primitive: Switch.RootProvider
+    nativeElement: button
+  passThrough:
+    htmlAttributes:
+      - checked
+      - disabled
+      - readOnly
+      - required
+      - name
+      - value
+      - aria-*
+      - data-*
+    notes: 组件基于 Ark UI Switch 原语封装，透传 checked/defaultChecked、disabled、readOnly、required、name、value
+      等。
+  capabilities:
+    - checked
+    - theme
+    - ui-override
+    - form-semantics
+  subComponents:
+    - SwitchLabel
+contracts:
+  props:
+    - name: checked
+      typeText: boolean
+      conflictsWith:
+        - defaultChecked
+      description: 受控选中状态（可配合 v-model:checked）
+    - name: defaultChecked
+      typeText: boolean
+      conflictsWith:
+        - checked
+      description: 非受控模式下的初始状态
+    - name: disabled
+      typeText: boolean
+      description: 是否禁用交互
+    - name: readOnly
+      typeText: boolean
+      description: 是否只读
+    - name: required
+      typeText: boolean
+      description: 是否必填（表单语义）
+    - name: invalid
+      typeText: boolean
+      description: 是否错误态
+    - name: name
+      typeText: string
+      description: 表单字段名
+    - name: value
+      typeText: string
+      description: 表单提交值
+    - name: class
+      typeText: string | array | object
+      description: 根容器自定义 class
+    - name: theme
+      typeText: ThemeCrafts<'tvSwitch'>
+      description: 主题参数与 crafts 覆写
+    - name: ui
+      typeText: '{ root?: HTMLAttributes[''class'']; control?: HTMLAttributes[''class''];
+        thumb?: HTMLAttributes[''class'']; label?: HTMLAttributes[''class''] }'
+      description: 局部样式覆盖（root/control/thumb/label）；ui.label 当前版本未在模板中消费，建议使用 SwitchLabel.class
+        覆盖标签样式
+  events:
+    - name: update:checked
+      payload:
+        typeText: '(checked: boolean)'
+      description: 受控状态同步事件（用于 v-model:checked）
+    - name: checkedChange
+      payload:
+        typeText: Ark UI checked change details
+      description: 底层 Ark UI 状态变化事件
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 默认插槽；通常放置 SwitchLabel 或自定义描述内容
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 控制开关轨道、滑块和标签字号
+      - name: crafts
+        typeText: object
+        description: 覆写 tvSwitch 的 crafts 配置（如 root/control/thumb/label）
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string | array | object
+        description: 根容器 class 覆盖
+      - name: ui.control
+        typeText: string | array | object
+        description: 控制区 class 覆盖
+      - name: ui.thumb
+        typeText: string | array | object
+        description: 滑块 class 覆盖
+      - name: ui.label
+        typeText: string | array | object
+        description: 当前版本未在模板中消费；建议使用 SwitchLabel.class 覆盖标签样式
+subComponents:
+  SwitchLabel:
+    props:
+      - name: class
+        typeText: string | array | object
+        description: 标签节点自定义 class
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将标签能力合并到子元素
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 从上下文继承主题参数，也可局部覆盖主题参数
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 标签文本或自定义标签结构
+behaviorModel:
+  derived:
+    isInteractive: disabled !== true && readOnly !== true
+  transitions:
+    - on: click
+      guard: isInteractive
+      effects:
+        - setChecked(!checked)
+        - emit:update:checked
+        - emit:checkedChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: Switch
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸变体
+  - id: states
+    description: 状态示例
+  - id: with-label
+    description: 标签组合
+  - id: controlled
+    description: 受控模式
+generationHints:
+  preferredUsageOrder:
+    - checked
+    - defaultChecked
+    - theme.size
+    - disabled
+  a11yChecklist:
+    - 标签内容建议放在 SwitchLabel 中
+    - 禁用与只读要区分：禁止交互用 disabled，仅阻止编辑用 readOnly
+    - 表单使用时补齐 name、value、required
+  codegenTemplates:
+    minimal: <Switch v-model:checked="enabled" />
+    withLabel: <Switch v-model:checked="enabled"><SwitchLabel>启用</SwitchLabel></Switch>
+  antiPatterns:
+    - <Switch :checked="enabled" :default-checked="true" /> — 同时使用 checked 与 defaultChecked
+      导致冲突
+    - <Switch><span>启用</span></Switch> — 说明文本直接塞进 Switch 根节点，应使用 SwitchLabel
+    - <Switch disabled><SwitchLabel>禁用</SwitchLabel></Switch> 仅通过视觉样式模拟只读（应使用 readOnly
+      区分）
+provenance:
+  sources:
+    - path: ./switch.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./Switch.vue
+      kind: runtime
+    - path: ./SwitchLabel.vue
+      kind: runtime
+    - path: ./switch.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

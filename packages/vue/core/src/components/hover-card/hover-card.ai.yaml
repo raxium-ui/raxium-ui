@@ -1,0 +1,321 @@
+schemaVersion: 2.0.0
+docId: rark.vue.hover-card
+component:
+  name: HoverCard
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/core'
+  exportName: HoverCard
+  category: core
+  description: 可交互的悬停浮层组件，常用于展示用户摘要、快捷说明或次级操作入口。基于 Ark UI Hover Card 构建：根组件承接 Ark
+    UI Root 状态机能力，HoverCardContent 负责内容结构与样式扩展，支持 theme 与局部 ui 覆盖。
+  basePrimitive:
+    library: '@ark-ui/vue/hover-card'
+    primitive: HoverCard.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 根组件透传 Root 常用参数（open/defaultOpen、positioning、openDelay/closeDelay、lazyMount/unmountOnExit
+      等），并扩展 theme。
+  capabilities:
+    - open
+    - positioning
+    - openDelay
+    - closeDelay
+    - theme
+    - ui-override
+    - lazyMount
+    - unmountOnExit
+  subComponents:
+    - HoverCardContent
+    - HoverCardArrow
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态（配合 v-model:open）。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控模式下的初始打开状态。
+    - name: positioning
+      typeText: PositioningOptions
+      description: 浮层定位配置（如 placement、offset 等）。
+    - name: openDelay
+      typeText: number
+      default: 0
+      description: 鼠标悬停到触发器后，浮层延迟打开时间（ms）。
+    - name: closeDelay
+      typeText: number
+      default: 300
+      description: 鼠标移出后，浮层延迟关闭时间（ms）。
+    - name: lazyMount
+      typeText: boolean
+      description: 是否延迟挂载内容。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后是否卸载内容。
+    - name: theme
+      typeText: ThemeCrafts<'tvHoverCard'>
+      description: 根组件主题参数与 crafts 覆盖入口。
+  events:
+    - name: openChange
+      payload:
+        typeText: '(details: OpenChangeDetails)'
+      description: 打开状态变化时触发（Ark UI Root 事件）。
+    - name: update:open
+      payload:
+        typeText: '(open: boolean)'
+      description: 用于 v-model:open 双向绑定。
+  slots:
+    - name: default
+      slotPropsSchema:
+        type: object
+        properties: {}
+        additionalProperties: false
+      description: 承载触发器与内容区域（通常组合 HoverCardTrigger + HoverCardContent）。
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 影响浮层尺寸节奏与箭头尺寸。
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+        description: 影响组件视觉皮肤标识。
+      - name: surface
+        typeText: '''light'' | ''dark'''
+        description: 影响明暗表面样式。
+      - name: bordered
+        typeText: boolean
+        default: true
+        description: 控制内容与箭头边框表现。
+      - name: unstyled
+        typeText: boolean
+        default: false
+        description: 禁用默认样式，便于完全自定义。
+      - name: crafts
+        typeText: object
+        description: 覆盖 tvHoverCard 的样式工艺配置。
+subComponents:
+  HoverCardContent:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 内容节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 继承根组件主题，也可局部覆盖（不含 crafts）。
+      - name: ui
+        typeText: '{ positioner?: HTMLAttributes[''class'']; content?: HTMLAttributes[''class''];
+          inner?: HTMLAttributes[''class''] }'
+        description: 定位层、内容层、内容内层 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 浮层内容；可放置 HoverCardArrow 与任意业务节点。
+    themeConfiguration:
+      fields:
+        - name: size
+          typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+          typeSchema:
+            enum:
+              - xs
+              - sm
+              - base
+              - lg
+          default: base
+          defaultKind: explicit-doc
+          description: 内容尺寸（继承根 theme）。
+        - name: skin
+          typeText: '''razer'' | ''shadcn'''
+          typeSchema:
+            enum:
+              - razer
+              - shadcn
+          default: null
+          defaultKind: unknown
+          description: 皮肤语义（继承根 theme）。
+        - name: surface
+          typeText: '''light'' | ''dark'''
+          typeSchema:
+            enum:
+              - light
+              - dark
+          default: null
+          defaultKind: unknown
+          description: 表面语义（继承根 theme）。
+        - name: bordered
+          typeText: boolean
+          typeSchema:
+            type: boolean
+          default: true
+          defaultKind: explicit-doc
+          description: 边框语义（继承根 theme）。
+    uiConfiguration:
+      fields:
+        - name: ui.positioner
+          typeText: HTMLAttributes['class']
+          description: 覆盖定位层容器 class。
+        - name: ui.content
+          typeText: HTMLAttributes['class']
+          description: 覆盖内容容器 class。
+        - name: ui.inner
+          typeText: HTMLAttributes['class']
+          description: 覆盖内容内层容器 class。
+  HoverCardArrow:
+    props:
+      - name: class
+        typeText: HTMLAttributes['class']
+        description: 箭头根节点 class 覆盖。
+      - name: theme
+        typeText: ThemeNoCrafts
+        description: 箭头主题参数（如 size、surface、bordered）。
+      - name: ui
+        typeText: '{ arrow?: HTMLAttributes[''class'']; arrowTip?: HTMLAttributes[''class'']
+          }'
+        description: 箭头容器与尖端节点 class 覆盖。
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 箭头无默认插槽内容；作为 HoverCardContent 的子节点使用。
+    themeConfiguration:
+      fields:
+        - name: size
+          typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+          typeSchema:
+            enum:
+              - xs
+              - sm
+              - base
+              - lg
+          default: base
+          defaultKind: explicit-doc
+          description: 箭头尺寸（继承根 theme）。
+        - name: skin
+          typeText: '''razer'' | ''shadcn'''
+          typeSchema:
+            enum:
+              - razer
+              - shadcn
+          default: null
+          defaultKind: unknown
+          description: 皮肤语义（继承根 theme）。
+        - name: surface
+          typeText: '''light'' | ''dark'''
+          typeSchema:
+            enum:
+              - light
+              - dark
+          default: null
+          defaultKind: unknown
+          description: 表面语义（继承根 theme）。
+        - name: bordered
+          typeText: boolean
+          typeSchema:
+            type: boolean
+          default: true
+          defaultKind: explicit-doc
+          description: 箭头边框表现（继承根 theme）。
+    uiConfiguration:
+      fields:
+        - name: ui.arrow
+          typeText: HTMLAttributes['class']
+          description: 覆盖箭头容器 class。
+        - name: ui.arrowTip
+          typeText: HTMLAttributes['class']
+          description: 覆盖箭头尖端节点 class。
+behaviorModel:
+  derived:
+    isOpen: open
+  transitions:
+    - on: trigger_hover_enter
+      guard: open === false
+      effects:
+        - startOpenDelay
+        - setOpen(true)_after_delay
+    - on: trigger_hover_leave
+      guard: always
+      effects:
+        - startCloseDelay
+        - setOpen(false)_after_delay
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: HoverCard
+examples:
+  - id: basic
+    description: 基础用法
+  - id: delays-and-positioning
+    description: 延迟与定位
+  - id: controlled-and-context
+    description: 受控模式与上下文
+  - id: themes-and-variants
+    description: 主题尺寸与外观变体
+  - id: custom-content
+    description: 内容与 UI 自定义
+generationHints:
+  preferredUsageOrder:
+    - defaultOpen
+    - openDelay
+    - closeDelay
+    - positioning
+    - theme
+  a11yChecklist:
+    - 优先使用 HoverCard + HoverCardTrigger asChild + HoverCardContent 的标准组合。
+    - 内容区域建议保持短信息 + 轻操作，重交互场景改用 Dialog/Drawer。
+  codegenTemplates:
+    minimal: |-
+      <HoverCard>
+        <HoverCardTrigger asChild><Button>Hover</Button></HoverCardTrigger>
+        <HoverCardContent>Content</HoverCardContent>
+      </HoverCard>
+    controlled: |-
+      <HoverCard v-model:open="open">
+        <HoverCardTrigger asChild><Button>Toggle</Button></HoverCardTrigger>
+        <HoverCardContent>Content</HoverCardContent>
+      </HoverCard>
+    withArrow: |-
+      <HoverCard>
+        <HoverCardTrigger asChild><Button>Hover</Button></HoverCardTrigger>
+        <HoverCardContent>
+          <HoverCardArrow />
+          Content
+        </HoverCardContent>
+      </HoverCard>
+  antiPatterns:
+    - <HoverCard><HoverCardTrigger asChild><Button>Hover</Button></HoverCardTrigger><HoverCardContent><form><input/><input/><button>Submit</button></form></HoverCardContent></HoverCard>
+    - <HoverCard v-for="item in items"><HoverCardTrigger>{{item.name}}</HoverCardTrigger><HoverCardContent>{{item.desc}}</HoverCardContent></HoverCard>
+provenance:
+  sources:
+    - path: ./hover-card.doc.mdx
+      kind: doc
+    - path: ./props.ts
+      kind: type
+    - path: ./HoverCard.vue
+      kind: runtime
+    - path: ./HoverCardContent.vue
+      kind: runtime
+    - path: ../arrow/createArrow.tsx
+      kind: runtime
+    - path: ./hover-card.stories.ts
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc
