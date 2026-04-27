@@ -30,11 +30,6 @@ async function safeReadDir(targetPath: string) {
   }
 }
 
-function minimizeJsonContent(rawContent: string): string {
-  const parsed = JSON.parse(rawContent) as unknown
-  return JSON.stringify(parsed)
-}
-
 function sanitizeDocumentContent(rawContent: string): string {
   // Normalize windows newlines and collapse excessive blank lines.
   const normalizedNewlines = rawContent.replace(/\r\n/g, '\n').replace(/\n{2,}/g, '\n')
@@ -200,11 +195,10 @@ export class LocalDataSource {
     if (aiPath) {
       try {
         const rawContent = await readFile(aiPath, 'utf-8')
-        const content = minimizeJsonContent(rawContent)
         return {
           componentName,
           title: path.basename(aiPath),
-          content,
+          content: rawContent,
         }
       }
       catch {
