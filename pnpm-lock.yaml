@@ -94,8 +94,8 @@ importers:
         version: link:../themes
     devDependencies:
       '@faker-js/faker':
-        specifier: ^10.1.0
-        version: 10.3.0
+        specifier: ^10.4.0
+        version: 10.4.0
       '@rsbuild/core':
         specifier: ^1.6.15
         version: 1.7.3
@@ -396,8 +396,8 @@ importers:
         version: 3.5.30(typescript@5.9.3)
     devDependencies:
       '@faker-js/faker':
-        specifier: ^10.1.0
-        version: 10.3.0
+        specifier: ^10.4.0
+        version: 10.4.0
       '@rsbuild/core':
         specifier: ^1.6.14
         version: 1.7.3
@@ -1241,8 +1241,8 @@ packages:
     resolution: {integrity: sha512-43/qtrDUokr7LJqoF2c3+RInu/t4zfrpYdoSDfYyhg52rwLV6TnOvdG4fXm7IkSB3wErkcmJS9iEhjVtOSEjjA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@faker-js/faker@10.3.0':
-    resolution: {integrity: sha512-It0Sne6P3szg7JIi6CgKbvTZoMjxBZhcv91ZrqrNuaZQfB5WoqYYbzCUOq89YR+VY8juY9M1vDWmDDa2TzfXCw==}
+  '@faker-js/faker@10.4.0':
+    resolution: {integrity: sha512-sDBWI3yLy8EcDzgobvJTWq1MJYzAkQdpjXuPukga9wXonhpMRvd1Izuo2Qgwey2OiEoRIBr35RMU9HJRoOHzpw==}
     engines: {node: ^20.19.0 || ^22.13.0 || ^23.5.0 || >=24.0.0, npm: '>=10'}
 
   '@fastify/ajv-compiler@4.0.5':
@@ -7234,7 +7234,7 @@ snapshots:
       '@eslint/core': 0.17.0
       levn: 0.4.1
 
-  '@faker-js/faker@10.3.0': {}
+  '@faker-js/faker@10.4.0': {}
 
   '@fastify/ajv-compiler@4.0.5':
     dependencies:
