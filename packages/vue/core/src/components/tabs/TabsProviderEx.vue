@@ -6,6 +6,8 @@ import { computed } from 'vue'
 interface TabsContextEx {
   index: number
   orientation: 'horizontal' | 'vertical'
+  /** Bumped when tab subtree DOM changes (e.g. triggers mounted/unmounted); shared for indicator index + list scroll. */
+  domRevision: number
 }
 const [provideTabsContextEx, injectTabsContextEx] = createContext<ComputedRef<TabsContextEx>>('TabsProviderEx')
 

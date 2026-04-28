@@ -5,13 +5,16 @@ import { Tabs, useTabsContext } from '@ark-ui/vue/tabs'
 import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, useTemplateRef, watchEffect } from 'vue'
+import { injectTabsContextEx } from './TabsProviderEx.vue'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<TabsListProps>()
 const forwarded = useForwardProps(props)
 const context = useTabsContext()
+const contextEx = injectTabsContextEx()
 const tabsListRef = useTemplateRef('tabsList')
 
 watchEffect(() => {
+  contextEx.value.domRevision // domRevision 发生变化时，触发watchEffect
   const curValue = context.value.value
   const tabsListEl = tabsListRef.value?.$el
   if (!tabsListEl || !curValue)

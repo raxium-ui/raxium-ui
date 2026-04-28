@@ -6,6 +6,8 @@ import ControlledExample from './examples/controlled.vue'
 import ControlledExampleRaw from './examples/controlled.vue?raw'
 import DisabledAndNoIndicatorExample from './examples/disabled-and-no-indicator.vue'
 import DisabledAndNoIndicatorExampleRaw from './examples/disabled-and-no-indicator.vue?raw'
+import DynamicTriggersExample from './examples/dynamic-triggers.vue'
+import DynamicTriggersExampleRaw from './examples/dynamic-triggers.vue?raw'
 import ScrollableListExample from './examples/scrollable-list.vue'
 import ScrollableListExampleRaw from './examples/scrollable-list.vue?raw'
 import SizesExample from './examples/sizes.vue'
@@ -43,6 +45,21 @@ export const Controlled = {
   },
   render: () => ({
     components: { Component: ControlledExample },
+    template: '<Component />',
+  }),
+}
+
+export const DynamicTriggers = {
+  parameters: {
+    docs: {
+      source: {
+        code: DynamicTriggersExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: DynamicTriggersExample },
     template: '<Component />',
   }),
 }
@@ -91,4 +108,3 @@ export const DisabledAndNoIndicator = {
     template: '<Component />',
   }),
 }
-
