@@ -231,7 +231,15 @@
   @apply flex flex-col justify-between items-center;
 }
 
+
+/* will be deprecated in next major version */
 @utility hide-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility webkit-scrollbar-none {
   &::-webkit-scrollbar {
     display: none;
   }
