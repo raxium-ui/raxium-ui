@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-title
 
+## 0.1.3
+
+### Patch Changes
+
+- 1770607: FIX: Optimize the performance of v-title, and fix the issue where the popper does not disappear when the reference is removed.
+
 ## 0.1.2
 
 ### Patch Changes

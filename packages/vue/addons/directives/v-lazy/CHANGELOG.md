@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.3
+
+### Patch Changes
+
+- 41dd6ba: FIX: v-lazy bugs
+
 ## 0.1.2
 
 ### Patch Changes
