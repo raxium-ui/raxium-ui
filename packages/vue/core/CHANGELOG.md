@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.17
+
+### Patch Changes
+
+- 8332264: FIX: Spin mode default value
+
 ## 0.2.16
 
 ### Patch Changes
