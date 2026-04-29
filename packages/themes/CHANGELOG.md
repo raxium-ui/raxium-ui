@@ -1,5 +1,12 @@
 # @raxium/themes
 
+## 0.1.13
+
+### Patch Changes
+
+- 96f91a8: FIX: scrollbar none name
+- 2693d6c: FIX: Spin Component crafts
+
 ## 0.1.12
 
 ### Patch Changes

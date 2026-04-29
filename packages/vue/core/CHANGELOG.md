@@ -1,5 +1,16 @@
 # @raxium/vue
 
+## 0.2.15
+
+### Patch Changes
+
+- 196236e: FIX: Tabs trigger's computed and list's watchEffect not excuted when trigger dynamic show/hide
+- 2693d6c: FIX: Spin Component crafts
+- 2693d6c: FIX: Spin component dom structure
+- Updated dependencies [96f91a8]
+- Updated dependencies [2693d6c]
+  - @raxium/themes@0.1.13
+
 ## 0.2.14
 
 ### Patch Changes
