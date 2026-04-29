@@ -18,6 +18,7 @@ export default defineConfig({
         '!./src/examples/**',
         '!./src/swiper.stories.ts',
         '!./src/swiper.doc.mdx',
+        '!./src/swiper.ai.yaml',
       ],
     },
   },
