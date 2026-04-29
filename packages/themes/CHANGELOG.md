@@ -1,5 +1,12 @@
 # @raxium/themes
 
+## 0.1.14
+
+### Patch Changes
+
+- 1d3df5c: FIX: themes dist build
+- aed5bf0: FIX: themes dist build
+
 ## 0.1.13
 
 ### Patch Changes
