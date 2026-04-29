@@ -6,7 +6,14 @@ import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-const { show, mode, theme: propsTheme, delay, ui, class: propsClass } = defineProps<SpinProps>()
+const {
+  show,
+  mode = 'inline',
+  theme: propsTheme,
+  delay,
+  ui,
+  class: propsClass,
+} = defineProps<SpinProps>()
 
 const { renderIcon }
   = inject<{ renderIcon: (props: SpinRenderProps) => VNode | null }>('SpinProvider') ?? {}
@@ -80,8 +87,8 @@ const crafts = computed(() => theme.value.crafts.tvSpin())
 
 <template>
   <div
-    ref="spinPositionerRef"
     v-show="isVisible"
+    ref="spinPositionerRef"
     :class="crafts.positioner({ class: clsx(ui?.positioner, propsClass), mode, ...theme })"
   >
     <div :class="crafts.mask({ class: clsx(ui?.mask), ...theme })" />
