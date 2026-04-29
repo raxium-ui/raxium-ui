@@ -1,7 +1,8 @@
 /* FIXME: @raxium/themes/razer/index.css css 无法走 alias 引入 */
 @import '../../themes/src/razer/index.css';
 
-@import './taiwind.css';
+@source "../core/src/**/examples/**/*.{vue,ts,tsx}";
+@source "../addons/**/examples/**/*.{vue,ts,tsx}";
 
 :root {
   color: var(--color-hff);

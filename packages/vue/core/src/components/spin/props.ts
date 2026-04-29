@@ -13,7 +13,7 @@ export interface SpinProps extends PolymorphicProps, ThemeCrafts<'tvSpin'> {
   mode?: 'fullscreen' | 'inline'
   delay?: number
   ui?: {
-    root?: HTMLAttributes['class']
+    positioner?: HTMLAttributes['class']
     mask?: HTMLAttributes['class']
     indicator?: HTMLAttributes['class']
     text?: HTMLAttributes['class']

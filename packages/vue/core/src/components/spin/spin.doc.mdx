@@ -86,7 +86,7 @@ import * as SpinStories from './spin.stories'
       <td><code>class</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>根节点附加 class</td>
+      <td><code>positioner</code> 外层节点附加 class（与 <code>tvSpin</code> positioner 槽合并）</td>
     </tr>
   </tbody>
 </table>
@@ -171,7 +171,7 @@ import * as SpinStories from './spin.stories'
 
 ## Theme Configuration
 
-`Spin` 通过 `theme` 驱动 `tvSpin` crafts，影响 `root/mask/indicator/icon/text` 等部位样式。
+`Spin` 通过 `theme` 驱动 `tvSpin` crafts，影响 `positioner/mask/indicator/icon/text` 等部位样式。
 
 <table>
   <thead>
@@ -241,10 +241,10 @@ import * as SpinStories from './spin.stories'
   </thead>
   <tbody>
     <tr>
-      <td><code>ui.root</code></td>
+      <td><code>ui.positioner</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>根容器样式覆盖</td>
+      <td>外层定位容器（positioner）样式覆盖</td>
     </tr>
     <tr>
       <td><code>ui.mask</code></td>

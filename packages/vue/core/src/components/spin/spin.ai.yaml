@@ -41,14 +41,14 @@ contracts:
       description: 隐藏延迟（毫秒）；仅在 show 从 true 变为 false 时生效
     - name: class
       typeText: string | array | object
-      description: 根节点附加 class
+      description: positioner 外层节点附加 class（与 tvSpin positioner 槽合并）
     - name: theme
       typeText: ThemeCrafts<'tvSpin'>
       description: 主题参数与 tvSpin crafts 覆盖
     - name: ui
-      typeText: '{ root?: string | array | object; mask?: string | array | object; indicator?:
+      typeText: '{ positioner?: string | array | object; mask?: string | array | object; indicator?:
         string | array | object; text?: string | array | object }'
-      description: 局部样式覆盖配置（ui.root、ui.mask、ui.indicator、ui.text 为 class 覆盖）
+      description: 局部样式覆盖配置（ui.positioner、ui.mask、ui.indicator、ui.text 为 class 覆盖）
   events: []
   slots:
     - name: default
@@ -91,9 +91,9 @@ contracts:
         description: 覆盖 tvSpin 的 crafts 配置
   uiConfiguration:
     fields:
-      - name: ui.root
+      - name: ui.positioner
         typeText: string | array | object
-        description: 根容器样式覆盖
+        description: 外层定位容器（positioner）样式覆盖
       - name: ui.mask
         typeText: string | array | object
         description: 遮罩层样式覆盖

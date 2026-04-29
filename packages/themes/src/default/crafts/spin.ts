@@ -6,8 +6,9 @@ const prefix = 'rui-spin'
 export const tvSpin = tv(
   {
     slots: {
-      root: '',
-      mask: ['absolute', 'top-0', 'left-0', 'size-full'],
+      /** Mode + stacking context; wraps mask + indicator (children use absolute fills / center within this box). */
+      positioner: ['isolate'],
+      mask: ['absolute', 'inset-0'],
       indicator: [
         'absolute',
         'top-1/2',
@@ -15,6 +16,7 @@ export const tvSpin = tv(
         'transform',
         'translate-x-[-50%]',
         'translate-y-[-50%]',
+        'z-auto',
         'flex',
         'items-center',
         'justify-center',
@@ -26,9 +28,11 @@ export const tvSpin = tv(
     variants: {
       mode: {
         fullscreen: {
-          root: ['fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'z-(--z-loading)'],
+          positioner: ['fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'z-(--z-loading)'],
         },
-        inline: ['absolute', 'inset-0'],
+        inline: {
+          positioner: ['absolute', 'inset-0'],
+        },
       },
       size: {
         xs: {
@@ -52,7 +56,7 @@ export const tvSpin = tv(
   },
   {
     slots: {
-      root: prefix,
+      positioner: `${prefix}-positioner`,
       mask: `${prefix}-mask`,
       indicator: `${prefix}-indicator`,
       icon: `${prefix}-icon`,

@@ -4,7 +4,7 @@ import type { SpinProps, SpinRenderProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed, getCurrentInstance, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const { show, mode, theme: propsTheme, delay, ui, class: propsClass } = defineProps<SpinProps>()
 
@@ -34,14 +34,16 @@ watch(
   { immediate: true },
 )
 
-const vm = getCurrentInstance()?.proxy
+/** Positioner element — used to resolve the parent for inline `position:relative`. */
+const spinPositionerRef = ref<HTMLElement | null>(null)
+
 let parentPosition = document?.body?.style?.position ?? ''
 function updateParentStyle() {
   if (isFullscreen.value) {
     document.body.style.position = isVisible.value ? 'relative' : parentPosition
   }
   else {
-    const parent = vm?.$el?.parentElement
+    const parent = spinPositionerRef.value?.parentElement
     if (parent) {
       parent.style.position = isVisible.value ? 'relative' : parentPosition
     }
@@ -54,7 +56,7 @@ onMounted(() => {
     parentPosition = document.body.style.position
   }
   else {
-    const parent = vm?.$el?.parentElement
+    const parent = spinPositionerRef.value?.parentElement
     if (parent) {
       parentPosition = parent.style.position
     }
@@ -78,8 +80,9 @@ const crafts = computed(() => theme.value.crafts.tvSpin())
 
 <template>
   <div
+    ref="spinPositionerRef"
     v-show="isVisible"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), mode, ...theme })"
+    :class="crafts.positioner({ class: clsx(ui?.positioner, propsClass), mode, ...theme })"
   >
     <div :class="crafts.mask({ class: clsx(ui?.mask), ...theme })" />
     <div :class="crafts.indicator({ class: clsx(ui?.indicator), mode, ...theme })">

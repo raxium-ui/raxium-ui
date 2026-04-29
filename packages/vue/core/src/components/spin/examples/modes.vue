@@ -22,11 +22,10 @@ const showFullscreen = ref(false)
         </div>
       </div>
 
-      <div class="relative w-full max-w-[520px] rounded-md border border-h33 p-4">
+      <div class="relative w-full rounded-md border border-h33 p-4">
         <div class="text-sm text-hcc">
           Inline 模式：覆盖父元素
         </div>
-        <div class="mt-3 h-24 rounded bg-h0f" />
         <Spin :show="showInline" mode="inline" />
       </div>
 

@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
-@config './tailwind.config.ts';
+@source "./**/*.{ts}";
+@source "../default/**/*.{ts}";
+@source "../../../vue/core/src/**/*.{vue,ts,tsx}";
 
 @import './preset.css';
 @import './components.css';
