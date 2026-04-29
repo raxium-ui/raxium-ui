@@ -38,16 +38,23 @@ async function runCommand(title: string, cmd: string[]) {
   }
 }
 
-async function collectThemeConfigs() {
-  const glob = new Bun.Glob('src/*/tailwind.config.ts')
-  const files: string[] = []
+async function collectThemeCssEntries() {
+  // Only directories that contain a `crafts/` subdirectory are treated as themes.
+  const craftsGlob = new Bun.Glob('src/*/crafts')
+  const entries: string[] = []
 
-  for await (const file of glob.scan(ROOT)) {
-    files.push(file)
+  for await (const craftsDir of craftsGlob.scan({ cwd: ROOT, onlyFiles: false })) {
+    const normalized = normalizeSlash(craftsDir)
+    const themeDir = normalized.slice(0, normalized.lastIndexOf('/'))
+    const indexCss = `${themeDir}/index.css`
+    const inputFile = Bun.file(toAbsolutePath(indexCss))
+    if (await inputFile.exists()) {
+      entries.push(indexCss)
+    }
   }
 
-  files.sort((a, b) => a.localeCompare(b))
-  return files
+  entries.sort((a, b) => a.localeCompare(b))
+  return entries
 }
 
 async function cleanDistDirectory() {
@@ -59,37 +66,28 @@ async function cleanDistDirectory() {
 }
 
 async function buildCssByTheme() {
-  const themeConfigs = await collectThemeConfigs()
-  if (themeConfigs.length === 0) {
-    console.warn('No theme config found under src/*/tailwind.config.ts, skip css build.')
+  const cssEntries = await collectThemeCssEntries()
+  if (cssEntries.length === 0) {
+    console.warn('No index.css found under src/*/, skip css build.')
     return
   }
 
-  const cssEntries = ['index.css'] as const
-
-  for (const configPath of themeConfigs) {
-    const normalizedConfigPath = normalizeSlash(configPath)
-    const themeDir = normalizedConfigPath.slice(0, normalizedConfigPath.lastIndexOf('/'))
+  for (const entryPath of cssEntries) {
+    const normalizedEntryPath = normalizeSlash(entryPath)
+    const themeDir = normalizedEntryPath.slice(0, normalizedEntryPath.lastIndexOf('/'))
     const themeName = themeDir.slice(themeDir.lastIndexOf('/') + 1)
-    for (const cssEntry of cssEntries) {
-      const inputCss = toAbsolutePath(`${themeDir}/${cssEntry}`)
-      const outputCss = toAbsolutePath(`dist/${themeName}/${cssEntry}`)
-      const inputFile = Bun.file(inputCss)
-      if (!(await inputFile.exists())) {
-        console.warn(`Skip CSS build for theme "${themeName}": missing ${cssEntry}`)
-        continue
-      }
+    const inputCss = toAbsolutePath(normalizedEntryPath)
+    const outputCss = toAbsolutePath(`dist/${themeName}/index.css`)
 
-      await runCommand(`Build ${cssEntry} for theme: ${themeName}`, [
-        'bun',
-        'x',
-        'tailwindcss',
-        '--input',
-        inputCss,
-        '--output',
-        outputCss,
-      ])
-    }
+    await runCommand(`Build index.css for theme: ${themeName}`, [
+      'bun',
+      'x',
+      'tailwindcss',
+      '--input',
+      inputCss,
+      '--output',
+      outputCss,
+    ])
   }
 }
 

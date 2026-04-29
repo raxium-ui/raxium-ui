@@ -1,3 +1,5 @@
 @import 'tailwindcss';
 
-@config './tailwind.config.ts';
+@source "./crafts/**/*.{ts}";
+@source "../../../vue/core/src/**/*.{vue,ts,tsx}";
+@source not "../../../vue/core/src/**/examples";

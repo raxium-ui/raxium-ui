@@ -3,6 +3,7 @@
 @source "./**/*.{ts}";
 @source "../default/**/*.{ts}";
 @source "../../../vue/core/src/**/*.{vue,ts,tsx}";
+@source not "../../../vue/core/src/**/examples";
 
 @import './preset.css';
 @import './components.css';
