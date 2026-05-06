@@ -1,5 +1,12 @@
 # @raxium/vue
 
+## 0.2.18
+
+### Patch Changes
+
+- e537de8: FIX: functional Dialogs cascade display
+- 9719543: FEAT: Dialog add data-surface
+
 ## 0.2.17
 
 ### Patch Changes
