@@ -7,9 +7,8 @@ export function cn(...classes: ClassValue[]) {
   return twMerge(clsx(...classes))
 }
 
-export function cnMerge(...classes: ClassValue[]) {
-  return twMerge(clsx(...classes))
-}
+/** @deprecated Use `cn` instead */
+export const cnMerge = cn
 
 export function cx(...classes: ClassValue[]) {
   return clsx(...classes)

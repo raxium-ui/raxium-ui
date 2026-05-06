@@ -50,7 +50,7 @@ export function useTheme<T>(props?: MaybeRefOrGetter<Partial<T> | undefined>): U
   const propsTheme = computed(() => toValue(props) ?? {})
 
   const vm = getCurrentInstance()
-  const compName = vm?.type.__name
+  const compName = vm?.type.__name ?? vm?.type.name
 
   return computed(() => {
     const { crafts: configCrafts, ...configRest } = clean(configTheme) as any
@@ -59,7 +59,7 @@ export function useTheme<T>(props?: MaybeRefOrGetter<Partial<T> | undefined>): U
 
     const themeRest = Object.assign(
       {
-        skin: 'razer',
+        skin: 'default',
         surface: 'dark',
         size: 'base',
         unstyled: false,

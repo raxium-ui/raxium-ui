@@ -3,7 +3,7 @@ import type { tv } from '@raxium/themes/utils'
 import type { ComputedRef } from 'vue'
 import { createContext } from '@ark-ui/vue/utils'
 
-export type Skin = 'razer' | 'shadcn'
+export type Skin = 'default' | 'razer' | 'shadcn'
 export type Surface = 'light' | 'dark' | (string & {})
 export type Crafts = typeof crafts
 export interface ThemeProps {

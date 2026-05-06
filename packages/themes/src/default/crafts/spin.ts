@@ -65,4 +65,4 @@ export const tvSpin = tv(
   },
 )
 
-export interface SpinVariants extends VariantProps<typeof tvSpin> {}
+export type SpinVariants = VariantProps<typeof tvSpin>

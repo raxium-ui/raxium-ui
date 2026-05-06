@@ -52,6 +52,10 @@ const preview: Preview = {
             h(
               RUIConfig,
               {
+                theme: {
+                  skin: 'razer',
+                  surface: 'dark',
+                },
                 tooltip: {
                   theme: {
                     surface: 'light',
