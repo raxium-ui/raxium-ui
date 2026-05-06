@@ -33,11 +33,19 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
 
 <template>
   <Teleport to="body">
-    <DialogBackdrop :class="clsx(ui?.backdrop)" :theme="theme" />
-    <Dialog.Positioner :class="crafts.positioner({ class: clsx(ui?.positioner), ...theme })">
+    <DialogBackdrop
+      :class="clsx(ui?.backdrop)"
+      :theme="theme"
+      :data-surface="theme.surface"
+    />
+    <Dialog.Positioner
+      :class="crafts.positioner({ class: clsx(ui?.positioner), ...theme })"
+      :data-surface="theme.surface"
+    >
       <Dialog.Content
         v-bind="attrs"
         :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
+        :data-surface="theme.surface"
       >
         <slot />
         <slot name="close">
@@ -47,9 +55,13 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
           >
             <ark.button
               :class="
-                cn(['absolute', 'top-0', 'right-0'], crafts.close({ class: clsx(ui?.close), ...theme }))
+                cn(
+                  ['absolute', 'top-0', 'right-0'],
+                  crafts.close({ class: clsx(ui?.close), ...theme }),
+                )
               "
               data-variant="content-close"
+              :data-surface="theme.surface"
             >
               <X :style="{ width: '1lh', height: '1lh' }" />
               <span class="sr-only">Close</span>

@@ -19,15 +19,22 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
 <template>
   <ark.div
     :id="`dialog:${id}:header`"
+    :class="crafts.header({ class: clsx(ui?.root, propsClass), ...theme })"
     data-scope="dialog"
     data-part="header"
-    :class="crafts.header({ class: clsx(ui?.root, propsClass), ...theme })"
+    :data-surface="theme.surface"
   >
-    <Dialog.Title :class="crafts.title({ class: clsx(ui?.title), ...theme })">
+    <Dialog.Title
+      :class="crafts.title({ class: clsx(ui?.title), ...theme })"
+      :data-surface="theme.surface"
+    >
       <slot />
     </Dialog.Title>
     <DialogCloseTrigger as-child>
-      <ark.button :class="crafts.close({ class: clsx(ui?.close), ...theme })">
+      <ark.button
+        :class="crafts.close({ class: clsx(ui?.close), ...theme })"
+        :data-surface="theme.surface"
+      >
         <X :style="{ width: '1lh', height: '1lh' }" />
         <span class="sr-only">Close</span>
       </ark.button>

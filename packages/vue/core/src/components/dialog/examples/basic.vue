@@ -11,7 +11,7 @@ import {
 </script>
 
 <template>
-  <Dialog>
+  <Dialog :theme="{ surface: 'test' }">
     <DialogTrigger as-child>
       <Button class="w-fit">
         Open Dialog

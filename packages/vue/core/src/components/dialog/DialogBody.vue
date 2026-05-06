@@ -18,9 +18,10 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
   <ark.div
     v-bind="forwarded"
     :id="`dialog:${id}:body`"
+    :class="crafts.body({ class: clsx(propsClass), ...theme })"
     data-scope="dialog"
     data-part="body"
-    :class="crafts.body({ class: clsx(propsClass), ...theme })"
+    :data-surface="theme.surface"
   >
     <slot />
   </ark.div>

@@ -22,9 +22,10 @@ const crafts = computed(() => theme.value.crafts.tvDialog())
 <template>
   <ark.div
     :id="`dialog:${id}:footer`"
+    :class="crafts.footer({ class: clsx(ui?.root, propsClass), ...theme })"
     data-scope="dialog"
     data-part="footer"
-    :class="crafts.footer({ class: clsx(ui?.root, propsClass), ...theme })"
+    :data-surface="theme.surface"
   >
     <slot>
       <DialogCloseTrigger
