@@ -24,6 +24,8 @@ import {
 
 type OpenChangeDetailsWithFrom = OpenChangeDetails & { from: DialogTriggerFrom }
 
+let fnDialogCounter = 0
+
 interface DialogOptions extends ThemeProps {
   title?: string | ((context: UseDialogContext) => any)
   content?: string | ((context: UseDialogContext) => any)
@@ -151,7 +153,13 @@ export function dialog(options: DialogOptions, appContext?: AppContext | null) {
     },
   })
   if (appContext) {
-    vnode.appContext = appContext
+    vnode.appContext = {
+      ...appContext,
+      config: {
+        ...appContext.config,
+        idPrefix: `rui-fn-dialog-${++fnDialogCounter}`,
+      },
+    }
   }
   vueRender(vnode, container)
   open.value = true
