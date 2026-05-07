@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.19
+
+### Patch Changes
+
+- 859a5e6: FIX: Fixed the responsiveness of the functional Dialog props
+
 ## 0.2.18
 
 ### Patch Changes
