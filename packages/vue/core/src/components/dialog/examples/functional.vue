@@ -59,7 +59,7 @@ function openWithBeforeClose() {
     beforeClose: ({ from, done }) => {
       console.log('functional beforeClose', from)
       if (from === TriggerFrom.OK_BUTTON) {
-        console.log('functional beforeClose ok')
+        console.log('functional beforeClose in ok logic')
         window.setTimeout(done, 2000)
       }
       else {

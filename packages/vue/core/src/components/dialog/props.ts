@@ -28,7 +28,7 @@ export type DialogBeforeCloseHandler = ({
   done,
 }: {
   from: DialogTriggerFrom
-  done: () => void
+  done: (autoClose?: boolean) => void
 }) => void
 
 export interface DialogProps extends DialogRootBaseProps, ThemeCrafts<'tvDialog'> {

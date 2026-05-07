@@ -37,27 +37,25 @@ interface DialogOptions extends ThemeProps {
     body?: ComponentProps<typeof DialogBody>
     footer?: ComponentProps<typeof DialogFooter>
   }
+  beforeClose?: DialogBeforeCloseHandler
   onOpenChange?: (details: OpenChangeDetailsWithFrom) => void
   onAfterClose?: (details: OpenChangeDetailsWithFrom) => void
-  beforeClose?: DialogBeforeCloseHandler
   onOk?: (event: MouseEvent) => void
   onCancel?: (event: MouseEvent) => void
 }
 
-export function dialog(options: DialogOptions, appContext?: AppContext | null) {
-  const {
-    title,
-    content,
-    footer = true,
-    render,
-    widget,
-    onOk,
-    onCancel,
-    onOpenChange,
-    onAfterClose,
-    beforeClose,
-  } = reactive(options)
+export interface DialogFunctionalHandle {
+  /** 与传入对象同一 reactive 引用，修改字段可使弹窗内容同步更新 */
+  options: DialogOptions
+  close: () => void
+}
+
+export function dialog(
+  options: DialogOptions,
+  appContext?: AppContext | null,
+): DialogFunctionalHandle {
   const open = ref(false)
+  const opts = reactive(options)
   const DialogComponent = defineComponent({
     name: 'Dialog',
     props: {
@@ -72,65 +70,66 @@ export function dialog(options: DialogOptions, appContext?: AppContext | null) {
       const openChangeDetail = ref<OpenChangeDetails & { from: DialogTriggerFrom }>()
 
       return () => {
+        const footerShown = opts.footer ?? true
         return (
           <Dialog
             v-model={[open.value, 'open']}
             lazy-mount
             unmount-on-exit
-            beforeClose={beforeClose}
+            beforeClose={opts.beforeClose}
             onOpenChange={(details: DialogOpenChangeDetails) => {
               openChangeDetail.value = details
-              onOpenChange?.(details)
+              opts.onOpenChange?.(details)
             }}
             onExitComplete={() => {
               const details = openChangeDetail.value ?? { open: false, from: undefined }
               props.onAfterClose?.(details)
-              onAfterClose?.(details)
+              opts.onAfterClose?.(details)
             }}
           >
             {{
               default: (context: UseDialogContext) => {
-                if (render) {
+                if (opts.render) {
                   return (
-                    <DialogContent {...(widget?.content as Record<string, unknown>)}>
-                      {render(context)}
+                    <DialogContent {...(opts.widget?.content as Record<string, unknown>)}>
+                      {opts.render(context)}
                     </DialogContent>
                   )
                 }
                 return (
-                  <DialogContent {...(widget?.content as Record<string, unknown>)}>
-                    {title && (
-                      <DialogHeader {...(widget?.header as Record<string, unknown>)}>
+                  <DialogContent {...(opts.widget?.content as Record<string, unknown>)}>
+                    {opts.title && (
+                      <DialogHeader {...(opts.widget?.header as Record<string, unknown>)}>
                         {{
                           default: () => {
-                            return typeof title === 'function'
-                              ? title(context)
-                              : title
+                            return typeof opts.title === 'function'
+                              ? opts.title(context)
+                              : opts.title
                           },
                         }}
                       </DialogHeader>
                     )}
-                    {content && (
-                      <DialogBody {...(widget?.body as Record<string, unknown>)}>
+                    {opts.content && (
+                      <DialogBody {...(opts.widget?.body as Record<string, unknown>)}>
                         {{
                           default: () => {
-                            return typeof content === 'function'
-                              ? content(context)
-                              : content
+                            return typeof opts.content === 'function'
+                              ? opts.content(context)
+                              : opts.content
                           },
                         }}
                       </DialogBody>
                     )}
-                    {footer && (
+                    {footerShown && (
                       <DialogFooter
-                        {...(widget?.footer as Record<string, unknown>)}
-                        onOk={onOk}
-                        onCancel={onCancel}
+                        {...(opts.widget?.footer as Record<string, unknown>)}
+                        onOk={opts.onOk}
+                        onCancel={opts.onCancel}
                       >
                         {{
                           default: () => {
-                            return typeof footer === 'function'
-                              ? footer(context)
+                            return typeof opts.footer === 'function'
+                              ? opts.footer(context)
                               : null
                           },
                         }}
@@ -167,6 +166,7 @@ export function dialog(options: DialogOptions, appContext?: AppContext | null) {
     close: () => {
       open.value = false
     },
+    options: opts as DialogOptions,
   }
 }
 

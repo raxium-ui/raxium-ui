@@ -33,7 +33,9 @@ const dialogConfig = useConfig(
   'dialog',
   computed(() => ({ lazyMount, unmountOnExit })),
 )
-const forwarded = useForwardProps(props) as ComputedRef<UseDialogProps & { onExitComplete?: () => void }>
+const forwarded = useForwardProps(props) as ComputedRef<
+  UseDialogProps & { onExitComplete?: () => void }
+>
 const triggerFrom = ref<DialogTriggerFrom>(undefined)
 const dialogInterceptContext: DialogInterceptContext = { triggerFrom }
 
@@ -62,10 +64,14 @@ const dialog = useDialog(
         dialog.value.setOpen(true)
         beforeClose({
           from: triggerFrom.value,
-          done: () => {
+          done: (autoClose = true) => {
             if (!beforeClosePending.value)
               return
             beforeClosePending.value = false
+            if (!autoClose) {
+              bypassBeforeClose.value = false
+              return
+            }
             bypassBeforeClose.value = true
             dialog.value.setOpen(false)
             nextTick(() => {
