@@ -7,11 +7,27 @@ const text = ref('')
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <Input class="w-60" default-value="Default Value" />
-    <Input class="w-60" placeholder="Placeholder" :maxlength="5" @keydown="() => console.log('keydown')" />
-
+    <Input
+      class="w-60"
+      default-value="Default Value"
+    />
+    <Input
+      class="w-60"
+      placeholder="Placeholder"
+      :maxlength="5"
+      @keydown="() => console.log('keydown')"
+    />
+    <Input
+      class="w-60"
+      placeholder="Placeholder"
+      autocomplete="off"
+    />
     <div class="flex items-center gap-3">
-      <Input v-model="text" class="w-60" placeholder="v-model" />
+      <Input
+        v-model="text"
+        class="w-60"
+        placeholder="v-model"
+      />
       <span class="text-sm text-hff">value: {{ text }}</span>
     </div>
   </div>

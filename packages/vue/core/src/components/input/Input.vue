@@ -100,6 +100,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
   >
     <slot name="prefix" />
     <input
+      v-bind="$attrs"
       :id="id ?? `input:${inputId}`"
       ref="input"
       v-model="innerValue"
