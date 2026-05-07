@@ -2,7 +2,7 @@
  * 函数式唤起Dialog
  */
 import type { UseDialogContext } from '@ark-ui/vue/dialog'
-import type { ThemeProps } from '@raxium/vue/providers/theme'
+import type { ThemeCrafts } from '@raxium/vue/providers/theme'
 import type { AppContext, PropType } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
 import type {
@@ -26,7 +26,7 @@ type OpenChangeDetailsWithFrom = OpenChangeDetails & { from: DialogTriggerFrom }
 
 let fnDialogCounter = 0
 
-interface DialogOptions extends ThemeProps {
+interface DialogOptions extends ThemeCrafts<'tvDialog'> {
   title?: string | ((context: UseDialogContext) => any)
   content?: string | ((context: UseDialogContext) => any)
   footer?: boolean | ((context: UseDialogContext) => any)
@@ -76,6 +76,7 @@ export function dialog(
             v-model={[open.value, 'open']}
             lazy-mount
             unmount-on-exit
+            theme={opts.theme}
             beforeClose={opts.beforeClose}
             onOpenChange={(details: DialogOpenChangeDetails) => {
               openChangeDetail.value = details
