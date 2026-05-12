@@ -2,8 +2,8 @@
 import type { PaginationPageSizeProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
 import { createListCollection } from '@ark-ui/vue/collection'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { uniq } from 'es-toolkit'
 import { computed, ref, watch } from 'vue'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select'
@@ -28,12 +28,12 @@ const collection = computed(() => createListCollection({ items: sizeItems.value 
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvPaginationPageSize())
+const crafts = useCraft(theme, 'tvPaginationPageSize')
 </script>
 
 <template>
   <div
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
     data-scope="pagination"
     data-part="page-size"
   >
@@ -42,20 +42,20 @@ const crafts = computed(() => theme.value.crafts.tvPaginationPageSize())
       v-bind="theme"
       v-model="modelValue"
       :collection="collection"
-      :class="crafts.control({ class: clsx(ui?.control), ...theme })"
+      :class="crafts.control(cxc(ui?.control))"
     >
-      <SelectTrigger :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })">
+      <SelectTrigger :class="crafts.trigger(cxc(ui?.trigger))">
         <SelectValue
-          :class="crafts.value({ class: clsx(ui?.value), ...theme })"
+          :class="crafts.value(cxc(ui?.value))"
           :placeholder="placeholder ?? 'Page size'"
         />
       </SelectTrigger>
-      <SelectContent :class="crafts.content({ class: clsx(ui?.content), ...theme })">
+      <SelectContent :class="crafts.content(cxc(ui?.content))">
         <SelectItem
           v-for="item in collection.items"
           :key="item.value"
           :item="item"
-          :class="crafts.item({ class: clsx(ui?.item), ...theme })"
+          :class="crafts.item(cxc(ui?.item))"
         >
           {{ item.label }}
           <template #indicator>

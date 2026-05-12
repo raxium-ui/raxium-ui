@@ -3,27 +3,26 @@ import type { SelectContentProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<SelectContentProps>()
 const forwarded = useForwardProps(props)
 
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSelect())
+const crafts = useCraft(theme, 'tvSelect')
 </script>
 
 <template>
   <Select.Positioner>
     <Select.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: clsx(ui?.root, propsClass), ...theme })"
+      :class="crafts.content(cxc(ui?.root, propsClass))"
     >
       <ark.div
         data-scope="select"
         data-part="content-inner"
-        :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })"
+        :class="crafts.contentInner(cxc(ui?.inner))"
       >
         <slot />
       </ark.div>

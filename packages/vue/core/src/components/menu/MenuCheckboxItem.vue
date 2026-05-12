@@ -4,10 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { MenuCheckboxItemProps } from '.'
 import { Menu, MenuItemIndicator } from '@ark-ui/vue/menu'
 import { useForwardPropsEmits } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { Check } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<MenuCheckboxItemProps>()
 const emit = defineEmits<MenuCheckboxItemEmits>()
@@ -19,14 +18,14 @@ const forwarded = useForwardPropsEmits(props, emit)
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvMenu())
-const checkboxCrafts = computed(() => theme.value.crafts.tvCheckbox())
+const crafts = useCraft(theme, 'tvMenu')
+const checkboxCrafts = useCraft(theme, 'tvCheckbox')
 </script>
 
 <template>
   <Menu.CheckboxItem
     v-bind="forwarded"
-    :class="crafts.item({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.item(cxc(ui?.root, propsClass))"
   >
     <Menu.ItemContext v-slot="context">
       <slot
@@ -34,13 +33,13 @@ const checkboxCrafts = computed(() => theme.value.crafts.tvCheckbox())
         v-bind="context"
       >
         <span
-          :class="checkboxCrafts.control({ class: clsx(ui?.checkbox), ...theme })"
+          :class="checkboxCrafts.control(cxc(ui?.checkbox))"
           :data-state="context.checked ? 'checked' : 'unchecked'"
           :data-disabled="context.disabled ? '' : undefined"
           aria-hidden="true"
         >
-          <MenuItemIndicator :class="checkboxCrafts.indicator({ ...theme })">
-            <Check :class="checkboxCrafts.indicatorChecked({ ...theme })" />
+          <MenuItemIndicator :class="checkboxCrafts.indicator()">
+            <Check :class="checkboxCrafts.indicatorChecked()" />
           </MenuItemIndicator>
         </span>
       </slot>

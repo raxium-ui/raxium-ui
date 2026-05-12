@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { ButtonVariants } from '@raxium/themes/default'
 import type { ButtonProps } from '.'
 import { useForwardExpose } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { getNodeCssVar } from '@raxium/shared/css'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables/useCraft'
 import { useRipple } from '@raxium/vue/composables/useRipple'
 import { useTheme } from '@raxium/vue/composables/useTheme'
@@ -48,10 +47,13 @@ function onClick(event: MouseEvent) {
 }
 
 // theme — useCraft pre-binds variants so slot calls only need { class }
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(
+  () => propsTheme,
+  () => craft,
+)
 const crafts = useCraft(theme, 'tvButton', () => ({
-  variant: variant as ButtonVariants['variant'],
-  color: color as ButtonVariants['color'],
+  variant,
+  color,
   loading,
 }))
 </script>
@@ -59,7 +61,7 @@ const crafts = useCraft(theme, 'tvButton', () => ({
 <template>
   <ark.button
     :ref="forwardRef"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass) })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
     :disabled="disabled"
     :data-variant="variant"
     :data-color="color"
@@ -74,9 +76,7 @@ const crafts = useCraft(theme, 'tvButton', () => ({
       v-if="loading"
       name="loading"
     >
-      <LoaderCircle
-        :class="crafts.loading({ class: clsx(ui?.loading) })"
-      />
+      <LoaderCircle :class="crafts.loading(cxc(ui?.loading))" />
     </slot>
     <slot />
     <Ripple v-if="ripple" />

@@ -2,10 +2,10 @@
 import type { CollapsibleTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Collapsible, useCollapsibleContext } from '@ark-ui/vue/collapsible'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ChevronDown } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -19,13 +19,13 @@ const context = useCollapsibleContext()
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvCollapsible())
+const crafts = useCraft(theme, 'tvCollapsible')
 </script>
 
 <template>
   <Collapsible.Trigger
     v-bind="forwarded"
-    :class="crafts.trigger({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.trigger(cxc(ui?.root, propsClass))"
   >
     <slot v-bind="{ open: context.open, visible: context.visible }" />
     <slot
@@ -34,7 +34,7 @@ const crafts = computed(() => theme.value.crafts.tvCollapsible())
     >
       <Collapsible.Indicator
         v-if="indicator"
-        :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })"
+        :class="crafts.indicator(cxc(ui?.indicator))"
       >
         <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
       </Collapsible.Indicator>

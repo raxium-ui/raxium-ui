@@ -2,8 +2,8 @@
 import type { ToggleGroupItemProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ToggleGroup, useToggleGroupContext } from '@ark-ui/vue/toggle-group'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { computed } from 'vue'
 
 const {
@@ -17,19 +17,15 @@ const itemProps = computed<any>(() => context.value.getItemProps(forwarded.value
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvToggleGroup())
+const crafts = useCraft(theme, 'tvToggleGroup', () => ({
+  orientation: itemProps.value['data-orientation'] ?? 'horizontal',
+}))
 </script>
 
 <template>
   <ToggleGroup.Item
     v-bind="forwarded"
-    :class="
-      crafts.item({
-        class: clsx(propsClass),
-        orientation: itemProps['data-orientation'] ?? 'horizontal',
-        ...theme,
-      })
-    "
+    :class="crafts.item(cxc(propsClass))"
   >
     <slot />
   </ToggleGroup.Item>

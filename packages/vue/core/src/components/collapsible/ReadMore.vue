@@ -2,8 +2,8 @@
 import type { ReadMoreProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { rem2px } from '@raxium/shared/css'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useElementSize } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '.'
@@ -11,6 +11,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '.'
 const {
   class: propsClass,
   theme: propsTheme,
+  craft,
   ui,
   text = {
     more: 'View More',
@@ -32,24 +33,24 @@ const isShowTrigger = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvReadMore())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvReadMore')
 </script>
 
 <template>
   <Collapsible
     v-slot="{ open }"
     v-bind="forwarded"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
-    <CollapsibleContent :class="crafts.content({ class: clsx(ui?.content), ...theme })">
+    <CollapsibleContent :class="crafts.content(cxc(ui?.content))">
       <div ref="content-measure">
         <slot />
       </div>
     </CollapsibleContent>
     <CollapsibleTrigger
       v-if="isShowTrigger"
-      :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })"
+      :class="crafts.trigger(cxc(ui?.trigger))"
     >
       <div>{{ open ? text.less : text.more }}</div>
     </CollapsibleTrigger>

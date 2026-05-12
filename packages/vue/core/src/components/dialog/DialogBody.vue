@@ -2,23 +2,24 @@
 import type { DialogBodyProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { computed, useId } from 'vue'
+import { useId } from 'vue'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<DialogBodyProps>()
 const forwarded = useForwardProps(props)
 
 const id = useId()
 const theme = useInheritedTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvDialog())
+const crafts = useCraft(theme, 'tvDialog')
 </script>
 
 <template>
   <ark.div
     v-bind="forwarded"
     :id="`dialog:${id}:body`"
-    :class="crafts.body({ class: clsx(propsClass), ...theme })"
+    :class="crafts.body(cxc(propsClass))"
     data-scope="dialog"
     data-part="body"
     :data-surface="theme.surface"

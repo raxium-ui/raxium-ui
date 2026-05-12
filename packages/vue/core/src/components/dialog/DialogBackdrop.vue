@@ -3,7 +3,8 @@ import type { DialogBackdropProps } from '.'
 import { useForwardExpose, usePresenceContext } from '@ark-ui/vue'
 import { useDialogContext } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { merge, omit } from 'es-toolkit'
 import { computed } from 'vue'
@@ -26,7 +27,7 @@ const mergedProps = computed(() =>
 )
 // theme
 const theme = useInheritedTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvDialog())
+const crafts = useCraft(theme, 'tvDialog')
 
 // expose
 useForwardExpose()
@@ -36,7 +37,7 @@ useForwardExpose()
   <ark.div
     v-if="!presence.unmounted"
     v-bind="mergedProps"
-    :class="crafts.backdrop({ class: clsx(propsClass), ...theme })"
+    :class="crafts.backdrop(cxc(propsClass))"
     :as-child="asChild"
   >
     <slot />

@@ -4,10 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { RadioGroupItemProps } from '.'
 import { RadioGroup } from '@ark-ui/vue/radio-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { Check, Circle } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -25,13 +24,13 @@ const forwarded = useForwardProps<RadioGroupItemProps, RadioGroupItemBaseProps>(
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvRadioGroup())
+const crafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
 </script>
 
 <template>
   <RadioGroup.Item
     v-bind="forwarded"
-    :class="crafts.item({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.item(cxc(ui?.root, propsClass))"
   >
     <RadioGroup.ItemContext v-slot="context">
       <slot
@@ -39,19 +38,19 @@ const crafts = computed(() => theme.value.crafts.tvRadioGroup())
         v-bind="context"
       >
         <RadioGroup.ItemControl
-          :class="crafts.itemControl({ class: clsx(ui?.control), variant, ...theme })"
+          :class="crafts.itemControl(cxc(ui?.control))"
           :data-variant="variant"
         >
           <Circle
             v-if="variant === 'default'"
-            :class="crafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
+            :class="crafts.itemIndicator(cxc(ui?.indicator))"
             :data-state="context.checked ? 'checked' : 'unchecked'"
             :data-variant="variant"
             :hidden="context.checked ? undefined : true"
           />
           <Check
             v-if="variant === 'checkbox'"
-            :class="crafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
+            :class="crafts.itemIndicator(cxc(ui?.indicator))"
             :data-state="context.checked ? 'checked' : 'unchecked'"
             :data-variant="variant"
             :hidden="context.checked ? undefined : true"
@@ -64,7 +63,7 @@ const crafts = computed(() => theme.value.crafts.tvRadioGroup())
       >
         <RadioGroup.ItemText
           v-if="label"
-          :class="crafts.itemText({ class: clsx(ui?.text), ...theme })"
+          :class="crafts.itemText(cxc(ui?.text))"
         >
           {{ label }}
         </RadioGroup.ItemText>

@@ -2,8 +2,8 @@
 import type { HotkeyProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardExpose } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { isEmpty, without } from 'es-toolkit/compat'
 import { computed, nextTick, reactive, ref, watch, watchEffect } from 'vue'
 import { CodesMap, isAccebilityCode, isAssistCode, isDeleteCode, isMainCode } from './keycode'
@@ -15,6 +15,7 @@ const {
   disabled,
   readonly,
   theme: propsTheme,
+  craft,
   ui,
 } = defineProps<HotkeyProps>()
 
@@ -258,19 +259,19 @@ watchEffect((cleanup) => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvHotkey())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvHotkey')
 </script>
 
 <template>
   <ark.div
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
     :data-placeholder="placeholder"
     :data-state="inputState"
   >
     <ark.input
       :ref="forwardRef"
-      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
+      :class="crafts.input(cxc(ui?.input))"
       :disabled="disabled ? true : undefined"
       :spellcheck="false"
       :data-state="inputState"

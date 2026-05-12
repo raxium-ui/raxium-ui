@@ -2,10 +2,10 @@
 import type { AccordionTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Accordion, useAccordionItemContext } from '@ark-ui/vue/accordion'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { ChevronDown } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -18,13 +18,13 @@ const forwarded = useForwardProps(props)
 const itemContext = useAccordionItemContext()
 
 const theme = useInheritedTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvAccordion())
+const crafts = useCraft(theme, 'tvAccordion')
 </script>
 
 <template>
   <Accordion.ItemTrigger
     v-bind="forwarded"
-    :class="crafts.trigger({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.trigger(cxc(ui?.root, propsClass))"
   >
     <slot v-bind="{ open: itemContext.expanded, visible: itemContext.expanded }" />
     <slot
@@ -33,7 +33,7 @@ const crafts = computed(() => theme.value.crafts.tvAccordion())
     >
       <Accordion.ItemIndicator
         v-if="indicator"
-        :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })"
+        :class="crafts.indicator(cxc(ui?.indicator))"
       >
         <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
       </Accordion.ItemIndicator>

@@ -2,8 +2,8 @@
 import type { TooltipContentProps } from '.'
 import { Tooltip } from '@ark-ui/vue/tooltip'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { clsx, cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -21,14 +21,14 @@ const arrowNode = computed(() => findVNodeByName(defaultSlots.value, 'TooltipArr
 const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'TooltipArrow'))
 
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvTooltip())
+const crafts = useCraft(theme, 'tvTooltip')
 </script>
 
 <template>
   <Tooltip.Positioner :class="clsx(ui?.positioner)" :style="{ zIndex: `var(--z-tooltip, --z-index)` }">
     <Tooltip.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
+      :class="crafts.content(cxc(ui?.content, propsClass))"
       :data-theme-bordered="theme.bordered ? '' : undefined"
       :data-theme-skin="theme.skin"
       :data-theme-surface="theme.surface"
@@ -37,7 +37,7 @@ const crafts = computed(() => theme.value.crafts.tvTooltip())
         <component :is="arrowNode" />
       </template>
       <div
-        :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })"
+        :class="crafts.contentInner(cxc(ui?.inner))"
         :data-theme-skin="theme.skin"
         :data-theme-surface="theme.surface"
       >

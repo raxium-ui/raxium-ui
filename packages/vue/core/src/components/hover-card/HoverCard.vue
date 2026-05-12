@@ -11,6 +11,7 @@ import { computed, mergeProps } from 'vue'
 
 const {
   theme: propsTheme,
+  craft,
   lazyMount = undefined,
   unmountOnExit = undefined,
   ...props
@@ -41,7 +42,10 @@ const hoverCard = useHoverCard(
 )
 
 // theme
-const theme = useTheme(() => ({ ...hoverCardConfig.value?.theme, ...propsTheme }))
+const theme = useTheme(
+  () => ({ ...hoverCardConfig.value?.theme, ...propsTheme }),
+  () => craft,
+)
 
 // expose
 defineExpose({ $api: hoverCard })

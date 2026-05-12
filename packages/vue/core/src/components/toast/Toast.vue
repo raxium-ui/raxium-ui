@@ -4,8 +4,8 @@ import type { ToastProps, UseToastContext } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Toast, useToastContext } from '@ark-ui/vue/toast'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { CircleAlert, CircleCheck, CircleX, Info, LoaderCircle, X } from 'lucide-vue-next'
 import { computed, h } from 'vue'
 
@@ -25,9 +25,9 @@ const slotBindings = computed(() => ({
 
 // theme
 const theme = useTheme(() => Object.assign({}, propsTheme, options?.theme))
-const crafts = computed(() => theme.value.crafts.tvToast())
+const crafts = useCraft(theme, 'tvToast')
 const iconVNode = computed(() => {
-  const className = crafts.value.icon({ class: clsx(ui?.icon), ...theme.value })
+  const className = crafts.value.icon(cxc(ui?.icon))
   switch (toastContext.value.type) {
     case 'info':
       return h(Info, {
@@ -66,10 +66,10 @@ const iconVNode = computed(() => {
 <template>
   <Toast.Root
     v-bind="forwarded"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ark.div
-      :class="crafts.content({ class: clsx(ui?.content), ...theme })"
+      :class="crafts.content(cxc(ui?.content))"
       data-scope="toast"
       data-part="content"
       :data-placement="toastContext.placement"
@@ -91,7 +91,7 @@ const iconVNode = computed(() => {
           <component :is="iconVNode" />
         </slot>
         <ark.div
-          :class="crafts.inner({ class: clsx(ui?.inner), ...theme })"
+          :class="crafts.inner(cxc(ui?.inner))"
           data-part="inner"
           data-scope="toast"
         >
@@ -103,7 +103,7 @@ const iconVNode = computed(() => {
               <component :is="options?.title(toastContext)" />
             </template>
             <template v-else>
-              <Toast.Title :class="crafts.title({ class: clsx(ui?.title), ...theme })">
+              <Toast.Title :class="crafts.title(cxc(ui?.title))">
                 {{ options?.title }}
               </Toast.Title>
             </template>
@@ -111,7 +111,7 @@ const iconVNode = computed(() => {
               <component :is="options?.description(toastContext)" />
             </template>
             <template v-else>
-              <Toast.Description :class="crafts.description({ class: clsx(ui?.description), ...theme })">
+              <Toast.Description :class="crafts.description(cxc(ui?.description))">
                 {{ options?.description }}
               </Toast.Description>
             </template>
@@ -123,7 +123,7 @@ const iconVNode = computed(() => {
         >
           <Toast.CloseTrigger
             v-if="toastContext.type !== 'loading'"
-            :class="crafts.close({ class: clsx(ui?.close), ...theme })"
+            :class="crafts.close(cxc(ui?.close))"
           >
             <X class="size-[1lh]" />
           </Toast.CloseTrigger>

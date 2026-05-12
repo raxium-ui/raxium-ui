@@ -2,9 +2,8 @@
 import type { SliderThumbProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Slider } from '@ark-ui/vue/slider'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
@@ -14,13 +13,13 @@ const {
 const forwarded = useForwardProps(props)
 
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSlider())
+const crafts = useCraft(theme, 'tvSlider')
 </script>
 
 <template>
   <Slider.Thumb
     v-bind="forwarded"
-    :class="crafts.thumb({ class: clsx(propsClass), ...theme })"
+    :class="crafts.thumb(cxc(propsClass))"
     :data-theme-size="theme.size"
   >
     <Slider.HiddenInput />

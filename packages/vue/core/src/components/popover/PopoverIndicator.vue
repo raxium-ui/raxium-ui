@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { PopoverIndicatorProps } from '.'
 import { PopoverIndicator } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ChevronDown } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -13,13 +12,13 @@ const {
 } = defineProps<PopoverIndicatorProps>()
 const theme = useTheme(() => propsTheme)
 
-const crafts = computed(() => theme.value.crafts.tvPopover())
+const crafts = useCraft(theme, 'tvPopover')
 </script>
 
 <template>
   <PopoverIndicator
     :as-child="asChild"
-    :class="crafts.indicator({ class: clsx(propsClass), ...theme })"
+    :class="crafts.indicator(cxc(propsClass))"
   >
     <slot>
       <ChevronDown :style="{ width: '1lh', height: '1lh' }" />

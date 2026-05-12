@@ -4,7 +4,8 @@ import type { EditableProps } from '.'
 import { EditableArea, EditableRootProvider, useEditable } from '@ark-ui/vue/editable'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { findUp } from '@raxium/shared/dom'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed } from 'vue'
@@ -20,6 +21,7 @@ const {
   theme: propsTheme,
   clearable,
   ui,
+  craft,
   ...props
 } = defineProps<EditableProps>()
 const emits = defineEmits<Omit<EditableRootEmits, 'onInteractOutside'>>()
@@ -63,8 +65,8 @@ const slotProps = computed<SlotProps>(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvEditable())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvEditable')
 
 // expose
 defineExpose({ $api: editable })
@@ -74,14 +76,14 @@ useForwardExpose()
 <template>
   <EditableRootProvider
     :value="editable"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ThemeProvider :value="theme">
       <slot
         name="prefix"
         v-bind="slotProps"
       />
-      <EditableArea :class="crafts.area({ class: clsx(ui?.area, propsClass), ...theme })">
+      <EditableArea :class="crafts.area(cxc(ui?.area, propsClass))">
         <slot v-bind="slotProps" />
       </EditableArea>
       <slot

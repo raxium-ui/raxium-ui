@@ -3,12 +3,19 @@ import type { CheckboxRootEmits, UseCheckboxProps, UseCheckboxReturn } from '@ar
 import type { CheckboxProps, CheckedState } from './props'
 import { Checkbox, useCheckbox } from '@ark-ui/vue/checkbox'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Check, Minus } from 'lucide-vue-next'
-import { computed } from 'vue'
 
-const { class: propsClass, theme: propsTheme, label, ui, ...props } = defineProps<CheckboxProps>()
+const {
+  class: propsClass,
+  theme: propsTheme,
+  label,
+  ui,
+  craft,
+  ...props
+} = defineProps<CheckboxProps>()
 const emit = defineEmits<CheckboxRootEmits>()
 const slots = defineSlots<{
   indicator: (props: { checkedState: CheckedState }) => any
@@ -19,8 +26,13 @@ const forwarded = useForwardProps<CheckboxProps, UseCheckboxProps>(props)
 const checkbox = useCheckbox(forwarded, emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvCheckbox())
+const theme = useTheme(
+  () => propsTheme,
+  () => craft,
+)
+const crafts = useCraft(theme, 'tvCheckbox', () => ({
+  disabled: forwarded.value.disabled,
+}))
 
 // expose
 defineExpose({ $api: checkbox as UseCheckboxReturn })
@@ -30,26 +42,32 @@ useForwardExpose()
 <template>
   <Checkbox.RootProvider
     :value="checkbox"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
-    <Checkbox.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
-      <Checkbox.Indicator :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })">
-        <slot name="indicator" v-bind="{ checkedState: checkbox.checkedState }">
-          <Check :class="crafts.indicatorChecked({ ...theme })" />
+    <Checkbox.Control :class="crafts.control(cxc(ui?.control))">
+      <Checkbox.Indicator :class="crafts.indicator(cxc(ui?.indicator))">
+        <slot
+          name="indicator"
+          v-bind="{ checkedState: checkbox.checkedState }"
+        >
+          <Check :class="crafts.indicatorChecked()" />
         </slot>
       </Checkbox.Indicator>
       <Checkbox.Indicator
-        :class="crafts.indicator({ class: clsx(ui?.indicator), ...theme })"
+        :class="crafts.indicator(cxc(ui?.indicator))"
         indeterminate
       >
-        <slot name="indicator" v-bind="{ checkedState: checkbox.checkedState }">
-          <Minus :class="crafts.indicatorMinus({ ...theme })" />
+        <slot
+          name="indicator"
+          v-bind="{ checkedState: checkbox.checkedState }"
+        >
+          <Minus :class="crafts.indicatorMinus()" />
         </slot>
       </Checkbox.Indicator>
     </Checkbox.Control>
     <Checkbox.Label
       v-if="label || slots.label?.()"
-      :class="crafts.label({ class: clsx(ui?.label), ...theme })"
+      :class="crafts.label(cxc(ui?.label))"
       :as-child="!!label"
     >
       <slot name="label">

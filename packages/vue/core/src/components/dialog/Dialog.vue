@@ -25,6 +25,7 @@ const {
   theme: propsTheme,
   lazyMount = undefined,
   unmountOnExit = undefined,
+  craft,
   beforeClose,
   ...props
 } = defineProps<DialogProps>()
@@ -132,7 +133,10 @@ watch(
 )
 
 // theme
-const theme = useTheme(() => ({ ...dialogConfig.value?.theme, ...propsTheme }))
+const theme = useTheme(
+  () => ({ ...dialogConfig.value?.theme, ...propsTheme }),
+  () => craft,
+)
 
 // expose
 defineExpose({ $api: dialog as UseDialogReturn })

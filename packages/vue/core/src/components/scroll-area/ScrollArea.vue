@@ -2,8 +2,8 @@
 import type { ScrollAreaEmits, ScrollAreaProps, ScrollAreaTheme } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ScrollArea, useScrollArea } from '@ark-ui/vue/scroll-area'
-import { clsx } from '@raxium/themes/utils'
-import { useCustomTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { excludeVNodesByNames, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { useElementSize } from '@vueuse/core'
@@ -34,8 +34,8 @@ const isShowScrollbars = computed(() => ({
 }))
 
 // theme
-const theme = useCustomTheme<ScrollAreaTheme>(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvScrollArea())
+const theme = useTheme<ScrollAreaTheme>(() => propsTheme, () => propsTheme?.craft)
+const crafts = useCraft(theme, 'tvScrollArea')
 
 // expose
 defineExpose({ $api: scrollArea })
@@ -45,19 +45,19 @@ useForwardExpose()
 <template>
   <ScrollArea.RootProvider
     :value="scrollArea"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ThemeProvider :value="theme">
       <ScrollArea.Viewport
         ref="viewport"
-        :class="crafts.viewport({ class: clsx(ui?.viewport), ...theme })"
+        :class="crafts.viewport(cxc(ui?.viewport))"
         @scrollstart="emits('scrollstart', $event)"
         @scrollend="emits('scrollend', $event)"
         @scroll="emits('scroll', $event)"
       >
         <ScrollArea.Content
           ref="content"
-          :class="crafts.content({ class: clsx(ui?.content), ...theme })"
+          :class="crafts.content(cxc(ui?.content))"
         >
           <component
             :is="node"

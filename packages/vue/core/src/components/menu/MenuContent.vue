@@ -2,8 +2,8 @@
 import type { MenuContentProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { clsx, cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -29,7 +29,7 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'MenuA
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvMenu())
+const crafts = useCraft(theme, 'tvMenu')
 </script>
 
 <template>
@@ -39,13 +39,13 @@ const crafts = computed(() => theme.value.crafts.tvMenu())
   >
     <Menu.Content
       v-bind="forwarded"
-      :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
+      :class="crafts.content(cxc(ui?.content, propsClass))"
       :data-theme-bordered="theme.bordered ? '' : undefined"
     >
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div :class="crafts.contentInner({ class: clsx(ui?.inner), ...theme })">
+      <div :class="crafts.contentInner(cxc(ui?.inner))">
         <template v-for="node in otherNodes" :key="node.key">
           <component :is="node" />
         </template>

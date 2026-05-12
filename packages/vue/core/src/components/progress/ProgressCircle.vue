@@ -2,9 +2,9 @@
 import type { ProgressCircleProps, ProgressCircleTheme } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Progress } from '@ark-ui/vue/progress'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useCustomTheme } from '@raxium/vue/composables/useTheme'
-import { omit } from 'es-toolkit'
 import { computed, useTemplateRef } from 'vue'
 import { useRangeTransfer } from './useRangeTransfer'
 
@@ -26,30 +26,25 @@ const { styles: transferStyles } = useRangeTransfer(
 
 // theme
 const theme = useCustomTheme<ProgressCircleTheme>(() => propsTheme)
-const themeRest = computed(() => omit(theme.value, ['size']))
-const crafts = computed(() => theme.value.crafts.tvProgress())
+const crafts = useCraft(theme, 'tvProgress', () => ({
+  size: typeof theme.value.size === 'string' ? theme.value.size : 'base',
+}))
 </script>
 
 <template>
   <Progress.Circle
     v-bind="forwarded"
-    :class="
-      crafts.circle({
-        class: clsx(ui?.circle, propsClass),
-        size: typeof theme.size === 'string' ? theme.size : 'base',
-        ...themeRest,
-      })
-    "
+    :class="crafts.circle(cxc(ui?.circle, propsClass))"
     :data-variant="variant"
     :style="typeof theme.size === 'number' && { '--size': `${theme.size}px` }"
   >
     <Progress.CircleTrack
-      :class="crafts.circleTrack({ class: clsx(ui?.circleTrack), ...themeRest })"
+      :class="crafts.circleTrack(cxc(ui?.circleTrack))"
       :data-variant="variant"
     />
     <Progress.CircleRange
       ref="range"
-      :class="crafts.circleRange({ class: clsx(ui?.circleRange), ...themeRest })"
+      :class="crafts.circleRange(cxc(ui?.circleRange))"
       :data-variant="variant"
       :style="transferStyles"
     />

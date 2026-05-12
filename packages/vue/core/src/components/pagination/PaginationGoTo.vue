@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { PaginationGoToProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import { NumberInput } from '@raxium/vue/components/number-input'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed, provide, ref, watch } from 'vue'
+import { useCraft, useTheme } from '@raxium/vue/composables'
+import { provide, ref, watch } from 'vue'
 import { PAGINATION_GO_TO_PROVIDE_KEY } from '.'
 
 const { class: propsClass, theme: propsTheme, ui } = defineProps<PaginationGoToProps>()
@@ -34,14 +34,14 @@ function goInputPage() {
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvPaginationGoto())
+const crafts = useCraft(theme, 'tvPaginationGoto')
 
 provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })
 </script>
 
 <template>
   <div
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
     data-scope="pagination"
     data-part="goto"
   >
@@ -49,7 +49,7 @@ provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })
     <NumberInput
       v-bind="theme"
       v-model="innerValue"
-      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
+      :class="crafts.input(cxc(ui?.input))"
       :ui="ui ? { input: ui.input } : undefined"
       :min="1"
       :max="context.totalPages"

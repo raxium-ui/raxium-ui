@@ -3,14 +3,14 @@ import type { NumberInputRootEmits } from '@ark-ui/vue/number-input'
 import type { NumberInputProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { NumberInput, useNumberInput } from '@ark-ui/vue/number-input'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ChevronDown, ChevronUp } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
   theme: propsTheme,
+  craft,
   ui,
   showTrigger = false,
   ...props
@@ -35,9 +35,9 @@ function onFocusout(event: FocusEvent) {
 }
 
 // theme
-const theme = useTheme(() => propsTheme)
-const inputCrafts = computed(() => theme.value.crafts.tvInput())
-const crafts = computed(() => theme.value.crafts.tvNumberInput())
+const theme = useTheme(() => propsTheme, () => craft)
+const inputCrafts = useCraft(theme, 'tvInput')
+const crafts = useCraft(theme, 'tvNumberInput')
 
 // expose
 defineExpose({ $api: numberInput })
@@ -47,27 +47,25 @@ useForwardExpose()
 <template>
   <NumberInput.RootProvider
     :value="numberInput"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <slot name="prefix" />
-    <NumberInput.Control :class="inputCrafts.root({ class: clsx(ui?.control), ...theme })">
+    <NumberInput.Control :class="inputCrafts.root(cxc(crafts.control(), ui?.control))">
       <NumberInput.Input
-        :class="
-          inputCrafts.input({ class: crafts.input({ class: clsx(ui?.input), ...theme }), ...theme })
-        "
+        :class="inputCrafts.input(cxc(crafts.input(), ui?.input))"
         @focusin="onFocusin"
         @focusout="onFocusout"
       />
       <div
         v-if="showTrigger"
-        :class="crafts.triggerGroup({ class: clsx(ui?.triggerGroup), ...theme })"
+        :class="crafts.triggerGroup(cxc(ui?.triggerGroup))"
         data-scope="number-input"
         data-part="trigger-group"
       >
-        <NumberInput.IncrementTrigger :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })">
+        <NumberInput.IncrementTrigger :class="crafts.trigger(cxc(ui?.trigger))">
           <ChevronUp />
         </NumberInput.IncrementTrigger>
-        <NumberInput.DecrementTrigger :class="crafts.trigger({ class: clsx(ui?.trigger), ...theme })">
+        <NumberInput.DecrementTrigger :class="crafts.trigger(cxc(ui?.trigger))">
           <ChevronDown />
         </NumberInput.DecrementTrigger>
       </div>

@@ -4,8 +4,8 @@ import type { PaginationProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
-import { clsx, cn } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { clsx, cn, cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
 import { computed } from 'vue'
@@ -13,6 +13,7 @@ import { computed } from 'vue'
 const {
   class: propsClass,
   theme: propsTheme,
+  craft,
   ui,
   dynamicPageEnd,
   ...props
@@ -22,9 +23,12 @@ const emit = defineEmits<PaginationRootEmits>()
 const pagination = usePagination(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvPagination())
-const itemClx = computed(() => crafts.value.item({ ...theme.value }))
+const theme = useTheme(
+  () => propsTheme,
+  () => craft,
+)
+const crafts = useCraft(theme, 'tvPagination')
+const itemClx = computed(() => crafts.value.item())
 
 // dynamic page end
 const isDynamicPageEnd = computed(() => dynamicPageEnd && dynamicPageEnd > 1)
@@ -48,21 +52,21 @@ useForwardExpose()
 <template>
   <Pagination.RootProvider
     :value="pagination"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ThemeProvider :value="theme">
       <ark.div
-        :class="crafts.control({ class: clsx(ui?.control), ...theme })"
+        :class="crafts.control(cxc(ui?.control))"
         data-scope="pagination"
         data-part="control"
       >
         <ark.button
-          :class="cn(itemClx, clsx(ui?.firstPage))"
+          :class="cn(itemClx, ui?.firstPage)"
           @click="pagination.goToFirstPage"
         >
           <ChevronsLeft :style="{ width: '1lh', height: '1lh' }" />
         </ark.button>
-        <Pagination.PrevTrigger :class="cn(itemClx, clsx(ui?.prevPage))">
+        <Pagination.PrevTrigger :class="cn(itemClx, ui?.prevPage)">
           <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
         </Pagination.PrevTrigger>
         <template
@@ -72,23 +76,23 @@ useForwardExpose()
           <Pagination.Item
             v-if="page.type === 'page'"
             v-bind="page"
-            :class="cn(itemClx, clsx(ui?.item))"
+            :class="cn(itemClx, ui?.item)"
           >
             {{ page.value }}
           </Pagination.Item>
           <Pagination.Ellipsis
             v-else
             :index="index"
-            :class="crafts.ellipsis({ class: clsx(ui?.ellipsis), ...theme })"
+            :class="crafts.ellipsis(cxc(ui?.ellipsis))"
           >
             &#8230;
           </Pagination.Ellipsis>
         </template>
-        <Pagination.NextTrigger :class="cn(itemClx, clsx(ui?.nextPage))">
+        <Pagination.NextTrigger :class="cn(itemClx, ui?.nextPage)">
           <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
         </Pagination.NextTrigger>
         <ark.button
-          :class="cn(itemClx, clsx(ui?.lastPage))"
+          :class="cn(itemClx, ui?.lastPage)"
           @click="pagination.goToLastPage"
         >
           <ChevronsRight :style="{ width: '1lh', height: '1lh' }" />

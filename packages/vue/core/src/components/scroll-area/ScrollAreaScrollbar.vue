@@ -2,9 +2,8 @@
 import type { ScrollAreaScrollbarProps, ScrollAreaTheme } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ScrollArea } from '@ark-ui/vue/scroll-area'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
@@ -15,28 +14,22 @@ const {
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme<ScrollAreaTheme>(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvScrollArea())
+const theme = useTheme<ScrollAreaTheme>(() => propsTheme, () => propsTheme?.craft)
+const crafts = useCraft(theme, 'tvScrollArea', () => ({
+  orientation: forwarded.value.orientation ?? 'vertical',
+}))
 </script>
 
 <template>
   <ScrollArea.Scrollbar
     v-bind="forwarded"
     :class="
-      crafts.scrollbar({
-        class: clsx(ui?.root, propsClass),
-        orientation: forwarded.orientation ?? 'vertical',
-        ...theme,
-      })
+      crafts.scrollbar(cxc(ui?.root, propsClass))
     "
   >
     <ScrollArea.Thumb
       :class="
-        crafts.thumb({
-          class: clsx(ui?.thumb),
-          orientation: forwarded.orientation ?? 'vertical',
-          ...theme,
-        })
+        crafts.thumb(cxc(ui?.thumb))
       "
     />
   </ScrollArea.Scrollbar>

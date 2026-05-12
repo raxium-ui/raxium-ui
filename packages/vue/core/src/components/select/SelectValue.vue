@@ -2,9 +2,8 @@
 import type { SelectValueProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { Select } from '@ark-ui/vue/select'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
@@ -14,12 +13,12 @@ const {
 } = defineProps<SelectValueProps>()
 
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSelect())
+const crafts = useCraft(theme, 'tvSelect')
 </script>
 
 <template>
   <ark.span
-    :class="crafts.value({ class: clsx(propsClass), ...theme })"
+    :class="crafts.value(cxc(propsClass))"
     :as-child="asChild"
   >
     <slot>

@@ -6,7 +6,7 @@ import { Slider, useSliderContext } from '@ark-ui/vue/slider'
 import { TooltipRootProvider, useTooltip } from '@ark-ui/vue/tooltip'
 import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/components/tooltip'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { pick } from 'es-toolkit'
 import { merge } from 'es-toolkit/compat'
@@ -46,7 +46,7 @@ const tooltip = useTooltip(
 // theme
 const theme = useTheme(() => propsTheme)
 const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
-const crafts = computed(() => theme.value.crafts.tvSlider())
+const crafts = useCraft(theme, 'tvSlider')
 </script>
 
 <template>
@@ -56,7 +56,7 @@ const crafts = computed(() => theme.value.crafts.tvSlider())
         <Slider.Marker :value="value">
           <slot>
             <div
-              :class="crafts.markerDot({ ...theme })"
+              :class="crafts.markerDot()"
               data-scope="slider"
               data-part="marker-dot"
               v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"

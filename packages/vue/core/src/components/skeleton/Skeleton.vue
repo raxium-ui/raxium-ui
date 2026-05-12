@@ -1,24 +1,27 @@
 <script setup lang="ts">
 import type { SkeletonProps } from '.'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
   variant = 'pulse',
   shape = 'rect',
   theme: propsTheme,
+  craft,
 } = defineProps<SkeletonProps>()
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts)
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvSkeleton', () => ({
+  variant,
+  shape,
+}))
 </script>
 
 <template>
   <div
-    :class="crafts.tvSkeleton({ class: clsx(propsClass), variant, shape, ...theme })"
+    :class="crafts(cxc(propsClass))"
     :data-shape="shape"
     :data-variant="variant"
   >

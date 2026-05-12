@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { DatePickerContentProvide, DatePickerMonthViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
@@ -29,53 +30,50 @@ const theme = useTheme(() =>
     monthType,
   }),
 )
-const crafts = computed(() => theme.value.crafts.tvDatePickerView())
+const crafts = useCraft(theme, 'tvDatePickerView')
 </script>
 
 <template>
   <DatePicker.View
     view="month"
-    :class="crafts.view({ class: clsx(propsClass), ...theme })"
+    :class="crafts.view(cxc(propsClass))"
   >
-    <DatePicker.ViewControl :class="crafts.viewControl({ ...theme })">
+    <DatePicker.ViewControl :class="crafts.viewControl()">
       <DatePicker.PrevTrigger
         as-child
-        :class="crafts.viewControlTrigger({ ...theme })"
+        :class="crafts.viewControlTrigger()"
       >
         <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
       </DatePicker.PrevTrigger>
       <DatePicker.ViewTrigger
         v-if="viewsState.count > 1 && viewsState.hasYearView"
-        :class="crafts.viewTrigger({ ...theme })"
+        :class="crafts.viewTrigger()"
       >
         <DatePicker.RangeText />
       </DatePicker.ViewTrigger>
       <DatePicker.RangeText v-else />
       <DatePicker.NextTrigger
         as-child
-        :class="crafts.viewControlTrigger({ ...theme })"
+        :class="crafts.viewControlTrigger()"
       >
         <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
       </DatePicker.NextTrigger>
     </DatePicker.ViewControl>
 
-    <DatePicker.Table :class="crafts.table({ ...theme })">
+    <DatePicker.Table :class="crafts.table()">
       <div
         v-bind="context.getTableBodyProps()"
-        :class="crafts.tableBody({ ...theme })"
+        :class="crafts.tableBody()"
       >
         <DatePicker.TableCell
           v-for="(month, mid) in context.getMonths({ format: monthType })"
           :key="mid"
           :value="month.value"
-          :class="crafts.tableCell({ ...theme })"
+          :class="crafts.tableCell()"
         >
           <DatePicker.TableCellTrigger
             :class="
-              crafts.tableCellTrigger({
-                ...context.getMonthTableCellState({ value: month.value }),
-                ...theme,
-              })
+              crafts.tableCellTrigger(cxc(context.getMonthTableCellState({ value: month.value })))
             "
           >
             {{ month.label }}

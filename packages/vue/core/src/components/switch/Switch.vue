@@ -2,18 +2,17 @@
 import type { SwitchRootEmits } from '@ark-ui/vue'
 import type { SwitchProps } from '.'
 import { Switch, useForwardExpose, useForwardProps, useSwitch } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
-import { computed } from 'vue'
 
-const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<SwitchProps>()
+const { class: propsClass, theme: propsTheme, craft, ui, ...props } = defineProps<SwitchProps>()
 const emit = defineEmits<SwitchRootEmits>()
 const switchRoot = useSwitch(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSwitch())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvSwitch')
 
 // expose
 defineExpose({ $api: switchRoot })
@@ -23,11 +22,11 @@ useForwardExpose()
 <template>
   <Switch.RootProvider
     :value="switchRoot"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ThemeProvider :value="theme">
-      <Switch.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
-        <Switch.Thumb :class="crafts.thumb({ class: clsx(ui?.thumb), ...theme })" />
+      <Switch.Control :class="crafts.control(cxc(ui?.control))">
+        <Switch.Thumb :class="crafts.thumb(cxc(ui?.thumb))" />
       </Switch.Control>
       <Switch.HiddenInput />
       <slot />

@@ -3,13 +3,13 @@ import type { TabsRootEmits } from '@ark-ui/vue/tabs'
 import type { TabsProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Tabs, useTabs } from '@ark-ui/vue/tabs'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed, ref, useTemplateRef, watch } from 'vue'
 import TabsProviderEx from './TabsProviderEx.vue'
 
-const { class: propsClass, theme: propsTheme, ...props } = defineProps<TabsProps>()
+const { class: propsClass, theme: propsTheme, craft, ...props } = defineProps<TabsProps>()
 const emit = defineEmits<TabsRootEmits>()
 const forwarded = useForwardProps(props)
 const tabs = useTabs(forwarded, emit)
@@ -46,8 +46,10 @@ const index = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvTabs())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvTabs', () => ({
+  orientation: forwarded.value.orientation ?? 'horizontal',
+}))
 
 // expose
 defineExpose({ $api: tabs })
@@ -60,7 +62,7 @@ useForwardExpose()
     :value="tabs"
     :lazy-mount="forwarded.lazyMount"
     :unmount-on-exit="forwarded.unmountOnExit"
-    :class="crafts.root({ class: clsx(propsClass), ...theme })"
+    :class="crafts.root(cxc(propsClass))"
   >
     <TabsProviderEx
       :value="{

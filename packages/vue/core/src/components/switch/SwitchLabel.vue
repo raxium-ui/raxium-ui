@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import type { SwitchLabelProps } from '.'
 import { Switch } from '@ark-ui/vue/switch'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 
 const { class: propsClass, theme: propsTheme, asChild } = defineProps<SwitchLabelProps>()
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSwitch())
+const crafts = useCraft(theme, 'tvSwitch')
 </script>
 
 <template>
   <Switch.Label
-    :class="crafts.label({ class: clsx(propsClass), ...theme })"
+    :class="crafts.label(cxc(propsClass))"
     :as-child="asChild"
   >
     <slot />

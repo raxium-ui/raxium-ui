@@ -16,6 +16,7 @@ const {
   lazyMount = undefined,
   unmountOnExit = undefined,
   draggable = true,
+  craft,
   ...props
 } = defineProps<FloatingPanelProps>()
 const emit = defineEmits<FloatingPanelRootEmits>()
@@ -47,7 +48,7 @@ provideFloatingPanelAppearanceContext({
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => propsTheme, () => craft)
 
 // expose
 defineExpose({

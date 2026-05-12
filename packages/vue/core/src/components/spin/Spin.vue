@@ -2,14 +2,15 @@
 import type { VNode } from 'vue'
 import type { SpinProps, SpinRenderProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const {
   show,
   mode = 'inline',
   theme: propsTheme,
+  craft,
   delay,
   ui,
   class: propsClass,
@@ -81,23 +82,23 @@ onBeforeUnmount(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSpin())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvSpin', () => ({ mode }))
 </script>
 
 <template>
   <div
     v-show="isVisible"
     ref="spinPositionerRef"
-    :class="crafts.positioner({ class: clsx(ui?.positioner, propsClass), mode, ...theme })"
+    :class="crafts.positioner(cxc(ui?.positioner, propsClass))"
   >
-    <div :class="crafts.mask({ class: clsx(ui?.mask), ...theme })" />
-    <div :class="crafts.indicator({ class: clsx(ui?.indicator), mode, ...theme })">
+    <div :class="crafts.mask(cxc(ui?.mask))" />
+    <div :class="crafts.indicator(cxc(ui?.indicator))">
       <slot v-bind="{ mode, theme }">
         <component :is="renderIcon?.({ mode, theme })" />
       </slot>
       <ark.span
-        :class="crafts.text({ class: clsx(ui?.text), ...theme })"
+        :class="crafts.text(cxc(ui?.text))"
         as-child
       >
         <slot name="text" />

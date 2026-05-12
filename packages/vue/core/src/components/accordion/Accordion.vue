@@ -3,18 +3,17 @@ import type { AccordionRootEmits } from '@ark-ui/vue/accordion'
 import type { AccordionProps } from '.'
 import { Accordion, useAccordion } from '@ark-ui/vue/accordion'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
-import { computed } from 'vue'
 
-const { class: propsClass, theme: propsTheme, ...props } = defineProps<AccordionProps>()
+const { class: propsClass, theme: propsTheme, craft, ...props } = defineProps<AccordionProps>()
 const emit = defineEmits<AccordionRootEmits>()
 const forwarded = useForwardProps(props)
 const accordion = useAccordion(forwarded, emit)
 
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvAccordion())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvAccordion')
 
 defineExpose({ $api: accordion })
 useForwardExpose()
@@ -23,7 +22,7 @@ useForwardExpose()
 <template>
   <Accordion.RootProvider
     :value="accordion"
-    :class="crafts.root({ class: clsx(propsClass), ...theme })"
+    :class="crafts.root(cxc(propsClass))"
   >
     <ThemeProvider :value="theme">
       <slot v-bind="accordion" />

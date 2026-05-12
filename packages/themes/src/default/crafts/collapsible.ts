@@ -30,7 +30,7 @@ export const tvCollapsible = tv({
       },
     },
   },
-}, { prefix: prefix, slots: { indicator: `${prefix}-trigger-indicator` } })
+}, { prefix, slots: { indicator: `${prefix}-trigger-indicator` } })
 export type CollapsibleVariants = VariantProps<typeof tvCollapsible>
 export const tvReadMore = tv({
   slots: {

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { FloatingPanelStageTriggerProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { Minus, Square, SquareArrowOutDownLeft } from 'lucide-vue-next'
 import { computed, h } from 'vue'
@@ -28,14 +29,14 @@ const stageComponent = computed(() => {
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvFloatingPanel())
+const crafts = useCraft(theme, 'tvFloatingPanel')
 </script>
 
 <template>
   <FloatingPanel.StageTrigger
     v-bind="forwarded"
     :stage="stage"
-    :class="crafts.trigger({ class: clsx(propsClass), ...theme })"
+    :class="crafts.trigger(cxc(propsClass))"
   >
     <slot>
       <component :is="stageComponent" :style="{ width: '1lh', height: '1lh' }" />

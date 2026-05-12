@@ -2,8 +2,8 @@
 import type { RatingGroupItemProps } from '.'
 import { RatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { Star } from 'lucide-vue-next'
 import { computed } from 'vue'
 
@@ -12,19 +12,15 @@ const forwarded = useForwardProps(props)
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvRatingGroup())
-const indicatorClx = computed(() => {
-  return crafts.value.itemIndicator({ class: clsx(ui?.indicator), ...theme.value })
-})
-const iconClx = computed(() => {
-  return crafts.value.itemIndicatorIcon({ class: clsx(ui?.icon), ...theme.value })
-})
+const crafts = useCraft(theme, 'tvRatingGroup')
+const indicatorClx = computed(() => crafts.value.itemIndicator(cxc(ui?.indicator)))
+const iconClx = computed(() => crafts.value.itemIndicatorIcon(cxc(ui?.icon)))
 </script>
 
 <template>
   <RatingGroup.Item
     v-bind="forwarded"
-    :class="crafts.item({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.item(cxc(ui?.root, propsClass))"
   >
     <RatingGroup.ItemContext v-slot="{ highlighted, half, checked }">
       <slot

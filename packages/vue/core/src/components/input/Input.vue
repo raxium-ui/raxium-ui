@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputProps } from '.'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { CircleX } from 'lucide-vue-next'
 import { computed, ref, useId, useTemplateRef, watch } from 'vue'
 
@@ -9,6 +9,7 @@ const {
   id,
   class: propsClass,
   theme: propsTheme,
+  craft,
   clearable = false,
   ui,
   disabled,
@@ -89,13 +90,13 @@ function onClear() {
 }
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvInput())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvInput')
 </script>
 
 <template>
   <div
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
     :data-state="inputState"
   >
     <slot name="prefix" />
@@ -104,7 +105,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
       :id="id ?? `input:${inputId}`"
       ref="input"
       v-model="innerValue"
-      :class="crafts.input({ class: clsx(ui?.input), ...theme })"
+      :class="crafts.input(cxc(ui?.input))"
       :data-state="inputState"
       :placeholder="placeholder"
       :disabled="disabled ? true : undefined"
@@ -124,7 +125,7 @@ const crafts = computed(() => theme.value.crafts.tvInput())
     >
     <div
       v-if="inputState === 'focused' && clearable && modelValue"
-      :class="crafts.clearable({ class: clsx(ui?.clearable), ...theme })"
+      :class="crafts.clearable(cxc(ui?.clearable))"
       @mousedown.stop="onClear"
     >
       <CircleX />

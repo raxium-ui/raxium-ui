@@ -3,10 +3,10 @@ import type { SliderTooltipThumbProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSliderContext } from '@ark-ui/vue/slider'
 import { TooltipRootProvider, useTooltip } from '@ark-ui/vue/tooltip'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/components/tooltip'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
@@ -56,7 +56,7 @@ watch(
 // theme
 const theme = useTheme(() => propsTheme)
 const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
-const crafts = computed(() => theme.value.crafts.tvSlider())
+const crafts = useCraft(theme, 'tvSlider')
 
 // expose
 const { forwardRef } = useForwardExpose()
@@ -68,7 +68,7 @@ const { forwardRef } = useForwardExpose()
       <TooltipTrigger as-child>
         <Slider.Thumb
           :ref="(el) => el && forwardRef(el)"
-          :class="crafts.thumb({ class: clsx(propsClass), ...theme })"
+          :class="crafts.thumb(cxc(propsClass))"
           :data-theme-size="theme.size"
           :index="index"
           :name="name"

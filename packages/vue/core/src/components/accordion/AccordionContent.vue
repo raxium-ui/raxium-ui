@@ -2,9 +2,9 @@
 import type { AccordionContentProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Accordion } from '@ark-ui/vue/accordion'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -14,13 +14,13 @@ const {
 const forwarded = useForwardProps(props)
 
 const theme = useInheritedTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvAccordion())
+const crafts = useCraft(theme, 'tvAccordion')
 </script>
 
 <template>
   <Accordion.ItemContent
     v-bind="forwarded"
-    :class="crafts.content({ class: clsx(propsClass), ...theme })"
+    :class="crafts.content(cxc(propsClass))"
   >
     <slot />
   </Accordion.ItemContent>

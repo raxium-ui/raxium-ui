@@ -3,9 +3,9 @@ import type { CollectionItem, UseSelectProps } from '@ark-ui/vue/select'
 import type { SelectEmits, SelectProps } from '.'
 import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
@@ -13,6 +13,7 @@ import { computed, mergeProps } from 'vue'
 const {
   class: propsClass,
   theme: propsTheme,
+  craft,
   lazyMount = undefined,
   unmountOnExit = undefined,
   ...props
@@ -37,8 +38,8 @@ const selectRoot = useSelect<T>(
 )
 
 // theme
-const theme = useTheme(() => ({ ...selectConfig.value?.theme, ...propsTheme }))
-const crafts = computed(() => theme.value.crafts.tvSelect())
+const theme = useTheme(() => ({ ...selectConfig.value?.theme, ...propsTheme }), () => craft)
+const crafts = useCraft(theme, 'tvSelect')
 
 // expose
 defineExpose({ $api: selectRoot })
@@ -50,7 +51,7 @@ useForwardExpose()
     :value="selectRoot"
     :lazy-mount="selectConfig?.lazyMount"
     :unmount-on-exit="selectConfig?.unmountOnExit"
-    :class="crafts.root({ class: clsx(propsClass), ...theme })"
+    :class="crafts.root(cxc(propsClass))"
   >
     <ThemeProvider :value="theme">
       <slot />

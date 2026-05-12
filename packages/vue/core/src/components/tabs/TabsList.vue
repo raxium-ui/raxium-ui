@@ -2,9 +2,9 @@
 import type { TabsListProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Tabs, useTabsContext } from '@ark-ui/vue/tabs'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
-import { computed, useTemplateRef, watchEffect } from 'vue'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useTemplateRef, watchEffect } from 'vue'
 import { injectTabsContextEx } from './TabsProviderEx.vue'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<TabsListProps>()
@@ -90,14 +90,14 @@ watchEffect(() => {
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvTabs())
+const crafts = useCraft(theme, 'tvTabs')
 </script>
 
 <template>
   <Tabs.List
     v-bind="forwarded"
     ref="tabsList"
-    :class="crafts.list({ class: clsx(propsClass), ...theme })"
+    :class="crafts.list(cxc(propsClass))"
   >
     <slot />
   </Tabs.List>

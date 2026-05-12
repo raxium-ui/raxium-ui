@@ -3,7 +3,8 @@ import type { ResizeTriggerAxis } from '@zag-js/floating-panel'
 import type { VNode } from 'vue'
 import type { FloatingPanelContentProps } from '.'
 import { FloatingPanel } from '@ark-ui/vue'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed, h, toValue } from 'vue'
 import { injectFloatingPanelAppearanceContext } from './floating-panel-appearance-context'
@@ -19,7 +20,8 @@ const { opacity, resizeAxis } = injectFloatingPanelAppearanceContext()
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvFloatingPanel())
+const crafts = useCraft(theme, 'tvFloatingPanel')
+
 const style = computed(() => ({
   opacity: opacity.value / 100,
 }))
@@ -32,7 +34,7 @@ const resizeNodes = computed(() => {
       nodes = ['e', 'w'].map(ax =>
         h(FloatingPanel.ResizeTrigger, {
           axis: ax as ResizeTriggerAxis,
-          class: crafts.value.resizeVertical({ class: clsx(ui?.resizeVertical), ...theme }),
+          class: crafts.value.resizeVertical(cxc(ui?.resizeVertical)),
         }),
       )
       break
@@ -40,7 +42,7 @@ const resizeNodes = computed(() => {
       nodes = ['n', 's'].map(ax =>
         h(FloatingPanel.ResizeTrigger, {
           axis: ax as ResizeTriggerAxis,
-          class: crafts.value.resizeHorizontal({ class: clsx(ui?.resizeHorizontal), ...theme }),
+          class: crafts.value.resizeHorizontal(cxc(ui?.resizeHorizontal)),
         }),
       )
       break
@@ -50,8 +52,8 @@ const resizeNodes = computed(() => {
           axis: ax as ResizeTriggerAxis,
           class:
             ax === 'e' || ax === 'w'
-              ? crafts.value.resizeVertical({ class: clsx(ui?.resizeVertical), ...theme })
-              : crafts.value.resizeHorizontal({ class: clsx(ui?.resizeHorizontal), ...theme }),
+              ? crafts.value.resizeVertical(cxc(ui?.resizeVertical))
+              : crafts.value.resizeHorizontal(cxc(ui?.resizeHorizontal)),
         }),
       )
       break
@@ -63,14 +65,14 @@ const resizeNodes = computed(() => {
             axis: ax as ResizeTriggerAxis,
             class:
               ax === 'e' || ax === 'w'
-                ? crafts.value.resizeVertical({ class: clsx(ui?.resizeVertical), ...theme })
-                : crafts.value.resizeHorizontal({ class: clsx(ui?.resizeHorizontal), ...theme }),
+                ? crafts.value.resizeVertical(cxc(ui?.resizeVertical))
+                : crafts.value.resizeHorizontal(cxc(ui?.resizeHorizontal)),
           })
         }
         // corner
         return h(FloatingPanel.ResizeTrigger, {
           axis: ax as ResizeTriggerAxis,
-          class: crafts.value.resizeCorner({ class: clsx(ui?.resizeCorner), ...theme }),
+          class: crafts.value.resizeCorner(cxc(ui?.resizeCorner)),
         })
       })
       break
@@ -85,11 +87,11 @@ const resizeNodes = computed(() => {
 <template>
   <Teleport to="body">
     <FloatingPanel.Positioner
-      :class="crafts.positioner({ class: clsx(ui?.positioner, propsClass), ...theme })"
+      :class="crafts.positioner(cxc(ui?.positioner, propsClass))"
     >
       <FloatingPanel.Content
         v-bind="props"
-        :class="crafts.content({ class: clsx(ui?.content, propsClass), ...theme })"
+        :class="crafts.content(cxc(ui?.content, propsClass))"
         :style="style"
       >
         <slot />

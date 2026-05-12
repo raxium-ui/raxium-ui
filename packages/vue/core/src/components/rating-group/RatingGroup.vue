@@ -3,18 +3,17 @@ import type { RatingGroupRootEmits } from '@ark-ui/vue/rating-group'
 import type { RatingGroupProps } from '.'
 import { RatingGroup, useRatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
-import { computed } from 'vue'
 
-const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<RatingGroupProps>()
+const { class: propsClass, theme: propsTheme, craft, ui, ...props } = defineProps<RatingGroupProps>()
 const emit = defineEmits<RatingGroupRootEmits>()
 const ratingGroup = useRatingGroup(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvRatingGroup())
+const theme = useTheme(() => propsTheme, () => craft)
+const crafts = useCraft(theme, 'tvRatingGroup')
 
 // expose
 defineExpose({ $api: ratingGroup })
@@ -24,11 +23,11 @@ useForwardExpose()
 <template>
   <RatingGroup.RootProvider
     :value="ratingGroup"
-    :class="crafts.root({ class: clsx(ui?.root, propsClass), ...theme })"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
     <ThemeProvider :value="theme">
       <slot name="prefix" />
-      <RatingGroup.Control :class="crafts.control({ class: clsx(ui?.control), ...theme })">
+      <RatingGroup.Control :class="crafts.control(cxc(ui?.control))">
         <slot :items="ratingGroup.items" />
       </RatingGroup.Control>
       <slot name="suffix" />

@@ -3,10 +3,11 @@ import type { EditableInputProps } from '.'
 import { Editable, useEditableContext } from '@ark-ui/vue/editable'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { CircleX } from 'lucide-vue-next'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const {
   class: propsClass,
@@ -37,16 +38,13 @@ function onClear() {
 }
 
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvEditableInput())
+const crafts = useCraft(theme, 'tvEditableInput')
 </script>
 
 <template>
   <ark.div
     :class="
-      crafts.root({
-        class: clsx(!context.editing && 'hidden', propsClass),
-        ...theme,
-      })
+      crafts.root(cxc(!context.editing && 'hidden', propsClass))
     "
     data-scope="editable"
     data-part="input-area"
@@ -55,7 +53,7 @@ const crafts = computed(() => theme.value.crafts.tvEditableInput())
     <Editable.Input
       v-bind="forwarded"
       ref="inputRef"
-      :class="crafts.input({ class: clsx(propsClass), ...theme })"
+      :class="crafts.input(cxc(propsClass))"
       :data-state="isFocus ? 'focused' : 'idle'"
       @focus="onFocus"
       @blur="onBlur"
@@ -65,7 +63,7 @@ const crafts = computed(() => theme.value.crafts.tvEditableInput())
         v-if="clearable && context.editing && !context.empty"
         data-scope="editable"
         data-part="clear-button"
-        :class="crafts.clearable({ class: clsx(propsClass), ...theme })"
+        :class="crafts.clearable(cxc(propsClass))"
         @pointerdown.stop="onClear"
       />
     </slot>

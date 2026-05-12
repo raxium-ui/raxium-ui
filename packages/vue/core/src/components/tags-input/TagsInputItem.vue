@@ -2,8 +2,8 @@
 import type { TagsInputItemProps, TagsInputProvide } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { TagsInput, useTagsInputContext } from '@ark-ui/vue/tags-input'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { computed, inject, useTemplateRef, watchEffect } from 'vue'
 import { TAGS_INPUT_PROVIDE_KEY } from '.'
 
@@ -27,31 +27,24 @@ watchEffect(
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvTagsInput())
-const inputCrafts = computed(() => theme.value.crafts.tvInput())
+const crafts = useCraft(theme, 'tvTagsInput', () => ({ inline: inline.value }))
+const inputCrafts = useCraft(theme, 'tvInput')
 </script>
 
 <template>
   <TagsInput.Item
     v-bind="forwarded"
-    :class="crafts.item({ class: clsx(ui?.root, propsClass), inline, ...theme })"
+    :class="crafts.item(cxc(ui?.root, propsClass))"
   >
     <TagsInput.ItemPreview
       ref="preview"
-      :class="crafts.itemPreview({ class: clsx(ui?.preview), inline, ...theme })"
+      :class="crafts.itemPreview(cxc(ui?.preview))"
     >
-      <TagsInput.ItemText :class="crafts.itemText({ class: clsx(ui?.text), inline, ...theme })">
+      <TagsInput.ItemText :class="crafts.itemText(cxc(ui?.text))">
         {{ value }}
       </TagsInput.ItemText>
       <slot />
     </TagsInput.ItemPreview>
-    <TagsInput.ItemInput
-      :class="
-        inputCrafts.root({
-          class: clsx(crafts.itemInput({ inline, ...theme }), ui?.input),
-          ...theme,
-        })
-      "
-    />
+    <TagsInput.ItemInput :class="inputCrafts.root(cxc(crafts.itemInput(), ui?.input))" />
   </TagsInput.Item>
 </template>

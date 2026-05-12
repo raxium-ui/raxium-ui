@@ -8,7 +8,13 @@ import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
-const { theme: themeProps, lazyMount, unmountOnExit, ...props } = defineProps<DatePickerProps>()
+const {
+  theme: themeProps,
+  lazyMount,
+  unmountOnExit,
+  craft,
+  ...props
+} = defineProps<DatePickerProps>()
 const emit = defineEmits<DatePickerRootEmits>()
 
 const datePickerOptions = useConfig('date-picker', () => ({ unmountOnExit, lazyMount }))
@@ -27,8 +33,10 @@ const datePicker = useDatePicker(
 )
 
 // theme
-const theme = useTheme(() => ({ ...datePickerOptions.value?.theme, ...themeProps }))
-
+const theme = useTheme(
+  () => ({ ...datePickerOptions.value?.theme, ...themeProps }),
+  () => craft,
+)
 // expose
 defineExpose({ $api: datePicker })
 useForwardExpose()

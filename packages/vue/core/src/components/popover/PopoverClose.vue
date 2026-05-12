@@ -2,10 +2,9 @@
 import type { PopoverCloseProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { PopoverCloseTrigger } from '@ark-ui/vue/popover'
-import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { X } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -15,7 +14,7 @@ const {
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvPopover())
+const crafts = useCraft(theme, 'tvPopover')
 </script>
 
 <template>
@@ -23,7 +22,7 @@ const crafts = computed(() => theme.value.crafts.tvPopover())
     <slot>
       <ark.button
         v-bind="$attrs"
-        :class="crafts.close({ class: clsx(propsClass), ...theme })"
+        :class="crafts.close(cxc(propsClass))"
         :as-child="asChild"
         :data-theme-skin="theme.skin"
         :data-theme-surface="theme.surface"

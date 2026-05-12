@@ -4,10 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { MenuRadioItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { cn, clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { cxc, cn } from '@raxium/themes/utils'
+import { useCraft, useTheme } from '@raxium/vue/composables'
 import { Check, Circle } from 'lucide-vue-next'
-import { computed } from 'vue'
 
 const {
   class: propsClass,
@@ -24,16 +23,14 @@ const forwarded = useForwardProps(props)
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvMenu())
-const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
+const crafts = useCraft(theme, 'tvMenu')
+const radioCrafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
 </script>
 
 <template>
   <Menu.RadioItem
     v-bind="forwarded"
-    :class="
-      cn(crafts.item({ ...theme }), crafts.radioItem({ class: clsx(ui?.root, propsClass), ...theme }))
-    "
+    :class="cn(crafts.item(), crafts.radioItem(cxc(ui?.root, propsClass)))"
   >
     <Menu.ItemContext v-slot="context">
       <slot
@@ -46,7 +43,7 @@ const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
       >
         <Circle
           v-if="variant === 'default'"
-          :class="radioCrafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
+          :class="radioCrafts.itemIndicator(cxc(ui?.indicator))"
           data-part="indicator"
           :data-state="context.checked ? 'checked' : 'unchecked'"
           :data-variant="variant"
@@ -54,7 +51,7 @@ const radioCrafts = computed(() => theme.value.crafts.tvRadioGroup())
         />
         <Check
           v-if="variant === 'checkbox'"
-          :class="radioCrafts.itemIndicator({ class: clsx(ui?.indicator), variant, ...theme })"
+          :class="radioCrafts.itemIndicator(cxc(ui?.indicator))"
           data-part="indicator"
           :data-state="context.checked ? 'checked' : 'unchecked'"
           :data-variant="variant"

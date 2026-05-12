@@ -31,7 +31,7 @@ export const tvDialog = tv(
       ],
       close: '',
       header: ['flex', 'items-center', 'justify-between'],
-      title: [],
+      title: '',
       body: ['flex-1', 'overflow-y-auto'],
       footer: ['flex', 'items-center', 'justify-end'],
     },
@@ -87,7 +87,8 @@ export const tvDialog = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-dialog',
+  },
+  'rui-dialog',
 )
 
 export type DialogVariants = VariantProps<typeof tvDialog>
