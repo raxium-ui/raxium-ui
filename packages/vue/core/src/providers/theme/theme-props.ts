@@ -33,8 +33,6 @@ export type UIProps<K extends keyof Crafts> = Partial<
 
 /** Per-component craft override — merged with resolved crafts from config/context */
 export type CraftOverride<K extends keyof Crafts> = {
-  /** Append class to root slot */
-  class?: HTMLAttributes['class']
   /** Append classes per slot */
   slots?: Partial<Record<SlotKeysOf<Crafts[K]>, HTMLAttributes['class']>>
   /** Override default variant values */

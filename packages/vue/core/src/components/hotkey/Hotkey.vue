@@ -159,18 +159,21 @@ function onInput() {
 }
 
 /**
- * 将光标移至最后
+ * 将光标移至末尾。原生 input 上不应用 document Selection（rangeCount 常为 0，getRangeAt(0) 抛 IndexSizeError）。
  */
 function moveSelectionArchor() {
   nextTick(() => {
-    const selection = window.getSelection()
-    const range = selection?.getRangeAt(0)
-    // @ts-expect-error range have setStart method
-    range?.setStart(range.startContainer, range.startContainer.length)
-    // @ts-expect-error range have setEnd method
-    range?.setEnd(range.startContainer, range.startContainer.length)
-    selection?.removeAllRanges()
-    range && selection?.addRange(range)
+    const el = currentElement.value
+    if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLTextAreaElement))
+      return
+    try {
+      const len = el.value?.length ?? 0
+      el.focus()
+      el.setSelectionRange(len, len)
+    }
+    catch {
+      /* readonly / disabled */
+    }
   })
 }
 

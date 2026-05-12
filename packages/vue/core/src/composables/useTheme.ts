@@ -46,7 +46,6 @@ function resolveCraftOverride(
   if (!baseCraft)
     return {}
 
-  const overrideClass = override.class as string | undefined
   const overrideSlots = override.slots as Record<string, any> | undefined
   const overrideDefaults = override.defaultVariants as Record<string, any> | undefined
 
@@ -61,21 +60,19 @@ function resolveCraftOverride(
     baseCraft = tv(tvConfig as any) as any
   }
 
-  // If only tv config (no class/slots/defaults additions), return extended craft directly
-  const hasClassOverrides = overrideClass || overrideSlots || overrideDefaults
+  // If only tv config (no slots/defaults additions), return extended craft directly
+  const hasClassOverrides = overrideSlots || overrideDefaults
   if (!hasClassOverrides)
     return { [craftKey]: baseCraft } as Partial<Crafts>
 
-  // Wrap craft to inject class/slots/defaults at call time
+  // Wrap craft to inject slots/defaults at call time
   const originalFn = baseCraft as (...args: any[]) => any
   const wrappedCraft = (...args: any[]) => {
     const result = originalFn(...args)
 
-    // Base-only craft: result is a string
-    if (typeof result === 'string') {
-      const extra = clsx(overrideClass)
-      return extra ? `${result} ${extra}` : result
-    }
+    // Base-only craft: result is a string, no slot wrapping needed
+    if (typeof result === 'string')
+      return result
 
     // Slotted craft: result is { root: fn, slot: fn, ... }
     const wrapped: Record<string, any> = {}
@@ -86,9 +83,7 @@ function resolveCraftOverride(
         continue
       }
       wrapped[slotKey] = (props: any = {}) => {
-        const extraClass = slotKey === 'root'
-          ? clsx(overrideClass, overrideSlots?.root)
-          : overrideSlots?.[slotKey]
+        const extraClass = overrideSlots?.[slotKey]
 
         const mergedProps = overrideDefaults
           ? { ...overrideDefaults, ...props }
