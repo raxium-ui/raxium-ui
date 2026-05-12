@@ -76,7 +76,11 @@ contracts:
       description: 根节点 class 覆盖。
     - name: theme
       typeText: ThemeCrafts<'tvFloatingPanel'>
-      description: 浮动面板主题变量与 crafts 覆盖入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: exitComplete
       payload:
@@ -130,9 +134,6 @@ contracts:
       - name: size
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         description: 控制头部间距、触发器尺寸、缩放手柄尺寸。
-      - name: crafts
-        typeText: object
-        description: 覆盖 positioner/content/header/control/title/trigger/resize* 槽位样式。
 subComponents:
   FloatingPanelContent:
     props:

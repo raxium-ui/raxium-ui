@@ -33,7 +33,7 @@ contracts:
       description: 根节点自定义 class
     - name: theme
       typeText: ScrollAreaTheme
-      description: 根组件主题配置（含 size 与 crafts 覆盖）
+      description: 根样式对象：size 及嵌套的通用 theme/craft（见 Theme Configuration）。
     - name: ui
       typeText: '{ root?: HTMLAttributes[''class'']; viewport?: HTMLAttributes[''class''];
         content?: HTMLAttributes[''class''] }'
@@ -64,9 +64,9 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 滚动条尺寸变体（影响 scrollbar 与 thumb 厚度）
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvScrollArea crafts 配置
+      - name: craft
+        typeText: CraftOverride
+        description: 根 ScrollAreaTheme 对象中与 size 同级的嵌套字段，用于 tvScrollArea craft 覆写（见 Theme Configuration）。
   uiConfiguration:
     fields:
       - name: ui.root

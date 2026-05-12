@@ -57,7 +57,11 @@ contracts:
       description: 根节点附加 class
     - name: theme
       typeText: ThemeCrafts<'tvSelect'>
-      description: 组件主题参数与 crafts 覆盖（根组件）
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:modelValue
       payload:
@@ -120,9 +124,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 移除默认样式
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvSelect crafts 配置（仅根组件）
 behaviorModel:
   derived: {}
   transitions:

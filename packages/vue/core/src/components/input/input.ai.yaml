@@ -8,7 +8,7 @@ component:
   exportName: Input
   category: core
   description: 用于采集单行文本或数字输入，适合表单、筛选栏、搜索框等场景。基于 Ark UI Vue factory 原语（ark.div）构建输入容器，在原生输入行为之上补充
-    clearable 清空能力、prefix/suffix 插槽、theme 主题参数与 ui 局部样式覆盖入口。
+    clearable 清空能力、prefix/suffix 插槽、theme/craft 与 ui 局部样式覆盖。
   basePrimitive:
     library: '@ark-ui/vue/factory'
     primitive: ark.div
@@ -65,7 +65,11 @@ contracts:
       description: 根容器附加 class
     - name: theme
       typeText: ThemeCrafts<'tvInput'>
-      description: 主题参数与 crafts 覆写入口
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: HTMLAttributes[''class''], input?: HTMLAttributes[''class''],
         clearable?: HTMLAttributes[''class''] }'
@@ -122,9 +126,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式
-      - name: crafts
-        typeText: object
-        description: 覆写 tvInput 或注入自定义 crafts
   uiConfiguration:
     fields:
       - name: ui.root.class

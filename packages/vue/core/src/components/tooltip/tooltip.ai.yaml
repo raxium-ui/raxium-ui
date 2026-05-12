@@ -62,7 +62,11 @@ contracts:
       description: 关闭后是否卸载内容。
     - name: theme
       typeText: ThemeCrafts<'tvTooltip'>
-      description: 主题参数与 crafts 覆盖入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:open
       payload:
@@ -99,9 +103,6 @@ contracts:
         typeText: boolean
         default: false
         description: 禁用默认样式。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvTooltip 样式工艺配置。
 subComponents:
   TooltipTrigger:
     props:

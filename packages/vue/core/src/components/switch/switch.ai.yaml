@@ -67,7 +67,11 @@ contracts:
       description: 根容器自定义 class
     - name: theme
       typeText: ThemeCrafts<'tvSwitch'>
-      description: 主题参数与 crafts 覆写
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: HTMLAttributes[''class'']; control?: HTMLAttributes[''class''];
         thumb?: HTMLAttributes[''class'']; label?: HTMLAttributes[''class''] }'
@@ -95,9 +99,6 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 控制开关轨道、滑块和标签字号
-      - name: crafts
-        typeText: object
-        description: 覆写 tvSwitch 的 crafts 配置（如 root/control/thumb/label）
   uiConfiguration:
     fields:
       - name: ui.root

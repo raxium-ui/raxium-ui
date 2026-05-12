@@ -8,7 +8,7 @@ component:
   exportName: Badge
   category: core
   description: 轻量级状态标识组件，适用于标签、计数提示与角标提醒等场景。基于 Ark UI Factory 原语封装，支持 default/secondary/dot
-    变体、theme 样式能力与 as 元素切换。
+    变体、theme/craft 样式能力与 as 元素切换。
   basePrimitive:
     library: '@ark-ui/vue/factory'
     primitive: ark.div | ark.sup
@@ -35,7 +35,11 @@ contracts:
       description: 徽章变体样式。
     - name: theme
       typeText: ThemeCrafts<'tvBadge'>['theme']
-      description: 主题配置，驱动 tvBadge crafts（如 size/skin/surface/bordered/unstyled/crafts）。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: as
       typeText: '''div'' | ''sup'''
       default: div
@@ -72,9 +76,6 @@ contracts:
       - name: bordered
         typeText: boolean
         description: 是否显示边框。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvBadge 的 crafts 配置。
 behaviorModel:
   derived:
     rootPrimitive: 'as === ''div'' ? ''ark.div'' : ''ark.sup'''
@@ -101,6 +102,7 @@ generationHints:
   preferredUsageOrder:
     - variant
     - theme.size
+    - craft
     - as
   a11yChecklist:
     - 仅展示状态信息，不承载关键交互逻辑。

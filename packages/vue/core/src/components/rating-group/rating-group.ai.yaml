@@ -59,7 +59,11 @@ contracts:
       description: 根节点 class
     - name: theme
       typeText: ThemeCrafts<'tvRatingGroup'>
-      description: 主题参数与 crafts 覆盖
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: HTMLAttributes[''class'']; control?: HTMLAttributes[''class'']
         }'
@@ -116,9 +120,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 移除默认样式
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvRatingGroup 的 crafts 配置
   uiConfiguration:
     fields:
       - name: ui.root

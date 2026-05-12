@@ -61,8 +61,12 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class。
     - name: theme
-      typeText: ThemeCrafts<'tvButton'>（含 theme.size/skin/surface 等与 tvButton 变体合并）
-      description: 主题配置，驱动 tvButton crafts；展开传入 crafts.root/loading 的 ...theme。
+      typeText: ThemeCrafts<'tvButton'>
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: string | array | object, loading?: string | array | object }'
       description: 局部样式覆盖配置。
@@ -113,9 +117,6 @@ contracts:
       - name: bordered
         typeText: boolean
         description: 是否显示边框。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvButton 的 crafts 配置。
   uiConfiguration:
     fields:
       - name: ui.root

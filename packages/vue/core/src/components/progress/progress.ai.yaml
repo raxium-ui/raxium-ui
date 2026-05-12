@@ -66,7 +66,11 @@ contracts:
       description: 无障碍与值文本相关文案。
     - name: theme
       typeText: ThemeCrafts<'tvProgress'>
-      description: 主题参数与 tvProgress crafts 覆盖。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: class
       typeText: string | array | object
       description: 根节点附加 class。
@@ -106,9 +110,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
-      - name: crafts
-        typeText: object
-        description: 覆写 tvProgress crafts 配置。
 subComponents:
   ProgressLinear:
     props:

@@ -48,7 +48,11 @@ contracts:
       description: 根节点附加 class。
     - name: theme
       typeText: ThemeCrafts<'tvHotkey'>
-      description: 主题配置，驱动 tvHotkey crafts。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: class; input?: class }'
       description: 分槽位 UI class 覆盖（root、input）。
@@ -96,9 +100,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
-      - name: crafts
-        typeText: object | (() => tv)
-        description: 覆写 tvHotkey。
   uiConfiguration:
     fields:
       - name: ui.root

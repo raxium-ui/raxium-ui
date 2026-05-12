@@ -73,7 +73,11 @@ contracts:
       description: 根节点附加 class。
     - name: theme
       typeText: ThemeCrafts<'tvTree'>
-      description: 主题参数与 crafts 覆盖入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: class; tree?: class }'
       description: 根与树容器 class 覆盖。
@@ -135,9 +139,6 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 节点行高、文本和图标尺寸节奏。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvTree 及关联 crafts（branch/item/checkbox）。
   uiConfiguration:
     fields:
       - name: ui.root

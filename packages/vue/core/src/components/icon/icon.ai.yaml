@@ -7,8 +7,8 @@ component:
   importPath: '@raxium/vue/core'
   exportName: Icon
   category: core
-  description: 基于 Iconify 的通用图标组件，用于在按钮、表单、列表和状态提示中统一渲染图标。提供 theme 入口（tvIcon）与 class
-    样式覆写能力。不对应 Ark UI 官方组件，不支持 ui 配置，请使用 class 或 theme.crafts 覆写。
+  description: 基于 Iconify 的通用图标组件，用于在按钮、表单、列表和状态提示中统一渲染图标。提供 theme/craft 与 class 样式覆写；不支持
+    ui 配置，详见文档。
   basePrimitive:
     library: '@iconify/vue'
     primitive: Icon
@@ -17,8 +17,7 @@ component:
     htmlAttributes:
       - aria-*
       - data-*
-    notes: 组件不对应 Ark UI 官方组件，底层由 @iconify/vue Icon 渲染。不支持 ui，请使用 class 或 theme.crafts
-      覆写。
+    notes: 底层由 @iconify/vue Icon 渲染；不支持 ui，可用 class、根 craft 或 RUI 全局 theme.crafts 覆写样式。
   capabilities:
     - theme
     - class-override
@@ -33,9 +32,13 @@ contracts:
       typeText: HTMLAttributes['class']
       description: 图标节点附加 class，用于颜色、动画、线宽等样式控制
     - name: theme
-      typeText: Omit<ThemeCrafts<'tvIcon'>, 'size'>
-      description: 主题与 crafts 覆写入口（IconProps 对 ThemeCrafts<'tvIcon'> 做了 Omit<'size'>，不提供
-        theme.size）
+      typeText: ThemeNoCrafts['theme']
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。不提供 theme.size（类型为 Omit ThemeCrafts tvIcon 去掉
+        size）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events: []
   slots: []
   themeConfiguration:
@@ -52,9 +55,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式
-      - name: crafts
-        typeText: object | (() => tv)
-        description: 覆写 tvIcon 或注入自定义 crafts
 behaviorModel:
   derived: {}
   transitions: []
@@ -76,7 +76,7 @@ generationHints:
   preferredUsageOrder:
     - icon
     - class
-    - theme.crafts
+    - craft
   a11yChecklist:
     - 图标来源统一使用 Iconify 命名空间（如 lucide:*）
     - 交互语义（点击、提示、可访问性）应由外层按钮/链接等承载

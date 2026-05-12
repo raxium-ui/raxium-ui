@@ -75,7 +75,11 @@ contracts:
       description: 根节点自定义 class。
     - name: theme
       typeText: ThemeCrafts<'tvInput' | 'tvNumberInput'>
-      description: 主题参数与 crafts 覆盖入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: class; control?: class; input?: class; triggerGroup?: class;
         trigger?: class }'
@@ -144,9 +148,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvInput / tvNumberInput crafts。
   uiConfiguration:
     fields:
       - name: ui.root

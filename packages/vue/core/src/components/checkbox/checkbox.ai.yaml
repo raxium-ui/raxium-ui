@@ -73,7 +73,11 @@ contracts:
       description: 根节点 class 覆盖。
     - name: theme
       typeText: ThemeCrafts<'tvCheckbox'>
-      description: 主题配置，驱动 tvCheckbox crafts。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: class; control?: class; indicator?: class; label?: class }'
       description: 分槽位 UI class 覆盖。
@@ -127,9 +131,6 @@ contracts:
       - name: bordered
         typeText: boolean
         description: 是否显示边框。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvCheckbox crafts。
   uiConfiguration:
     fields:
       - name: ui.root

@@ -65,7 +65,11 @@ contracts:
       description: 注入到默认插槽的消息参数中，作为每条消息默认关闭按钮策略。
     - name: theme
       typeText: ThemeCrafts<'tvMessage'>
-      description: 全局消息主题参数与 crafts 覆盖。
+      description: 全局消息容器：通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events: []
   slots:
     - name: default
@@ -84,10 +88,7 @@ contracts:
       - name: skin
         typeText: '''razer'' | ''shadcn'''
         description: 主题皮肤。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvMessage crafts。
-subComponents:
+  subComponents:
   Message:
     props:
       - name: options

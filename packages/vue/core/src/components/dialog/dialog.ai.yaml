@@ -58,7 +58,11 @@ contracts:
       description: 根节点自定义 class
     - name: theme
       typeText: ThemeCrafts<'tvDialog'>
-      description: Dialog 主题变量（尺寸、皮肤、crafts 等）
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:open
       payload:
@@ -117,9 +121,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 去除默认样式
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvDialog 的 crafts 配置
 subComponents:
   DialogTrigger:
     props:

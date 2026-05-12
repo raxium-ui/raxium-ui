@@ -9,7 +9,7 @@ component:
   category: core
   description: 用于将内容分成多个可独立展开/收起的面板，适合 FAQ、设置分组与长内容分节。基于 Ark UI Accordion 原语封装，包含
     Accordion、AccordionItem（别名 AccordionPanel）、AccordionTrigger、AccordionContent；根组件扩展
-    theme/class，触发器扩展 indicator 与 ui。
+    theme/class/craft，触发器扩展 indicator 与 ui。
   basePrimitive:
     library: '@ark-ui/vue/accordion'
     primitive: Accordion.RootProvider
@@ -85,7 +85,11 @@ contracts:
       description: 根节点 class 覆盖。
     - name: theme
       typeText: ThemeCrafts<'tvAccordion'>
-      description: 主题参数与 tvAccordion crafts 覆盖。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:modelValue
       payload:
@@ -120,9 +124,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
-      - name: crafts
-        typeText: object
-        description: 覆写 tvAccordion 各 slot。
 subComponents:
   AccordionItem:
     props:

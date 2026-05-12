@@ -63,7 +63,11 @@ contracts:
       description: 关闭后是否卸载内容。
     - name: theme
       typeText: ThemeCrafts<'tvHoverCard'>
-      description: 根组件主题参数与 crafts 覆盖入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: openChange
       payload:
@@ -100,9 +104,6 @@ contracts:
         typeText: boolean
         default: false
         description: 禁用默认样式，便于完全自定义。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvHoverCard 的样式工艺配置。
 subComponents:
   HoverCardContent:
     props:

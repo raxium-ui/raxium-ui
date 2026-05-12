@@ -85,7 +85,11 @@ contracts:
       description: 根节点附加 class。
     - name: theme
       typeText: ThemeCrafts<'tvEditable'>
-      description: 根组件主题参数与 tvEditable crafts 覆盖。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ root?: class; area?: class }'
       description: 根与编辑区域 class 覆盖。
@@ -174,9 +178,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 移除内置样式。
-      - name: crafts
-        typeText: object | (() => tv)
-        description: 覆盖 tvEditable crafts（根组件）。
   uiConfiguration:
     fields:
       - name: ui.root

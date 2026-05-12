@@ -90,7 +90,11 @@ subComponents:
         description: 页面切后台时是否暂停计时。
       - name: theme
         typeText: ThemeCrafts<'tvToast'>
-        description: 容器下所有提示的主题参数与 crafts 覆盖。
+        description: 容器下提示：通用 theme 与组件 craft（见 Theme Configuration）。
+      - name: craft
+        typeText: CraftOverride
+        description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+          Configuration）。
     slots:
       - name: default
         slotPropsSchema:
@@ -122,13 +126,6 @@ subComponents:
           default: null
           defaultKind: unknown
           description: 主题皮肤。
-        - name: crafts
-          typeText: object
-          typeSchema:
-            type: object
-          default: null
-          defaultKind: unknown
-          description: 覆盖 tvToast crafts。
   Toast:
     props:
       - name: options

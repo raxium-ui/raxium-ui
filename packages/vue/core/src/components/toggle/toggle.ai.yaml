@@ -62,7 +62,11 @@ contracts:
       description: 根节点附加 class。
     - name: theme
       typeText: ThemeCrafts<'tvToggle'>
-      description: 主题参数与 crafts 覆写入口。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:pressed
       payload:
@@ -85,9 +89,6 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 控制按钮尺寸与内边距。
-      - name: crafts
-        typeText: object
-        description: 覆写 tvToggle crafts 生成逻辑。
 behaviorModel:
   derived:
     isPressed: pressed

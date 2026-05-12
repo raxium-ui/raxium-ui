@@ -44,7 +44,11 @@ contracts:
       description: positioner 外层节点附加 class（与 tvSpin positioner 槽合并）
     - name: theme
       typeText: ThemeCrafts<'tvSpin'>
-      description: 主题参数与 tvSpin crafts 覆盖
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
     - name: ui
       typeText: '{ positioner?: string | array | object; mask?: string | array | object; indicator?:
         string | array | object; text?: string | array | object }'
@@ -86,9 +90,6 @@ contracts:
       - name: bordered
         typeText: boolean
         description: 启用边框语义（是否生效取决于 tvSpin 具体实现）
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvSpin 的 crafts 配置
   uiConfiguration:
     fields:
       - name: ui.positioner

@@ -59,7 +59,11 @@ contracts:
       description: 根节点附加 class
     - name: theme
       typeText: ThemeCrafts<'tvMenu' | 'tvCheckbox' | 'tvRadioGroup'>
-      description: 菜单及关联选择器（checkbox/radio）的主题参数
+      description: 通用 theme 与组件 craft（见 Theme Configuration）；作用于菜单及相关 checkbox/radio 视觉合并。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: select
       payload:
@@ -90,10 +94,7 @@ contracts:
         typeText: boolean
         default: true
         description: 控制菜单内容区是否带边框
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvMenu/tvCheckbox/tvRadioGroup crafts 配置
-subComponents:
+  subComponents:
   MenuContent:
     props:
       - name: class

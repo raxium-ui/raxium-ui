@@ -54,7 +54,11 @@ contracts:
       description: 根节点附加 class
     - name: theme
       typeText: ThemeCrafts<'tvRadioGroup'>
-      description: 主题参数与 crafts 覆盖入口
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:modelValue
       payload:
@@ -83,9 +87,6 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 控制 control/indicator/text 的尺寸体系
-      - name: crafts
-        typeText: object
-        description: 深度覆写 root/item/itemControl/itemIndicator/itemText 样式
 subComponents:
   RadioGroupItem:
     props:

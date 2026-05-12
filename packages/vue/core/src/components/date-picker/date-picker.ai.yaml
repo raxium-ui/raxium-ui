@@ -8,7 +8,7 @@ component:
   exportName: DatePicker
   category: core
   description: 用于单日期与日期范围选择的复合组件，支持日/月/年多视图切换、受控状态管理、禁用日期规则与事件监听。基于 Ark UI useDatePicker
-    与 DatePicker.RootProvider 封装，在 Raxium UI 中扩展 theme 主题能力与 tvDatePicker crafts 覆盖，适用于表单录入、筛选面板与时间范围查询场景。
+    与 DatePicker.RootProvider 封装，在 Raxium UI 中扩展通用 theme/craft（见 Theme Configuration），适用于表单录入、筛选面板与时间范围查询场景。
   basePrimitive:
     library: '@ark-ui/vue'
     primitive: DatePicker.RootProvider
@@ -79,7 +79,11 @@ contracts:
       description: 本地化语言与格式设置（BCP 47 语言标签）。
     - name: theme
       typeText: ThemeCrafts<'tvDatePicker'>
-      description: Rark 主题入口，可配置尺寸、变体与 tvDatePicker crafts 覆盖。
+      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: focusChange
       payload:
@@ -129,17 +133,11 @@ contracts:
       - name: bordered
         typeText: boolean
         description: 是否给内容区启用边框样式。
-      - name: crafts
-        typeText: object
-        description: 覆写 tvDatePicker 的 slots 样式（如 control、content、contentInner）。
       - name: unstyled
         typeText: boolean
         description: 关闭默认主题样式，便于完全自定义。
   uiConfiguration:
-    fields:
-      - name: DatePicker.theme.crafts.tvDatePicker
-        typeText: object
-        description: 覆盖根组件与内容容器的 crafts slots。
+    fields: []
 subComponents:
   DatePickerControl:
     props:

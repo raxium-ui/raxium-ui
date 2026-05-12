@@ -61,8 +61,12 @@ contracts:
       typeText: string | array | object
       description: 根节点 class 覆盖。
     - name: theme
-      typeText: ThemeCrafts<'tvCollapsible'> | ThemeNoCrafts
-      description: 主题配置；Collapsible 使用 tvCollapsible，ReadMore 使用 tvReadMore。
+      typeText: ThemeCrafts<'tvCollapsible'>
+      description: 通用 theme 与组件 craft（见 Theme Configuration）；ReadMore 等同根能力复用该套 theme/craft。
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+        Configuration）。
   events:
     - name: update:open
       payload:
@@ -101,9 +105,6 @@ contracts:
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
-      - name: crafts
-        typeText: object
-        description: 覆盖 tvCollapsible/tvReadMore crafts 配置。
 subComponents:
   CollapsibleTrigger:
     props:
@@ -197,8 +198,12 @@ subComponents:
         typeText: string | array | object
         description: 根节点 class 覆盖。
       - name: theme
-        typeText: ThemeCrafts<'tvReadMore'> | ThemeNoCrafts
-        description: 主题配置，使用 tvReadMore crafts。
+        typeText: ThemeCrafts<'tvCollapsible'>
+        description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      - name: craft
+        typeText: CraftOverride
+        description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
+          Configuration）。
       - name: text.more
         typeText: string
         default: View More
@@ -235,13 +240,6 @@ subComponents:
           default: base
           defaultKind: explicit-doc
           description: 尺寸变体（影响触发器与内容节奏）。
-        - name: crafts
-          typeText: object
-          typeSchema:
-            type: object
-          default: null
-          defaultKind: unknown
-          description: 覆写 tvReadMore crafts。
     uiConfiguration:
       fields:
         - name: ui.root
