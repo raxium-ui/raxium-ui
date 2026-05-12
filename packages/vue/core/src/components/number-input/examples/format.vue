@@ -9,10 +9,10 @@ const percent = ref('0.25')
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="w-full max-w-[520px] flex flex-col gap-3">
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         locale + formatOptions（currency）
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput
           v-model="price"
           show-trigger
@@ -23,10 +23,10 @@ const percent = ref('0.25')
         />
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         clampValueOnBlur=false（允许暂时输入超范围）
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput
           v-model="percent"
           show-trigger

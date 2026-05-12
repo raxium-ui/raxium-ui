@@ -91,13 +91,13 @@ export const ThemeExample = {
         code: `<Accordion :theme="{ size: 'sm' }" collapsible>
   <AccordionItem value="sm">
     <AccordionTrigger><span class="text-rz-green">Small</span></AccordionTrigger>
-    <AccordionContent><p class="text-sm text-hcc">Small content</p></AccordionContent>
+    <AccordionContent><p class="text-sm text-gray-cc">Small content</p></AccordionContent>
   </AccordionItem>
 </Accordion>
 <Accordion :theme="{ size: 'lg' }">
   <AccordionItem value="lg">
     <AccordionTrigger><span class="text-rz-green">Large</span></AccordionTrigger>
-    <AccordionContent><p class="text-sm text-hcc">Large content</p></AccordionContent>
+    <AccordionContent><p class="text-sm text-gray-cc">Large content</p></AccordionContent>
   </AccordionItem>
 </Accordion>`,
         language: 'html',
@@ -127,7 +127,7 @@ export const ThemeExample = {
                 h(AccordionTriggerRoot, () =>
                   h('span', { class: 'text-rz-green' }, 'Small size trigger')),
                 h(AccordionContentRoot, { class: 'mt-2' }, () =>
-                  h('p', { class: 'text-sm text-hcc' }, 'Small size content')),
+                  h('p', { class: 'text-sm text-gray-cc' }, 'Small size content')),
               ]),
             ],
           ),
@@ -144,7 +144,7 @@ export const ThemeExample = {
                 h(AccordionTriggerRoot, () =>
                   h('span', { class: 'text-rz-green' }, 'Large size trigger')),
                 h(AccordionContentRoot, { class: 'mt-2' }, () =>
-                  h('p', { class: 'text-sm text-hcc' }, 'Large size content')),
+                  h('p', { class: 'text-sm text-gray-cc' }, 'Large size content')),
               ]),
             ],
           ),
@@ -162,7 +162,7 @@ export const UIExample = {
     <AccordionTrigger :ui="{ root: 'text-rz-green', indicator: 'bg-rz-blue' }">
       Trigger with custom indicator style
     </AccordionTrigger>
-    <AccordionContent><p class="text-sm text-hcc">Content</p></AccordionContent>
+    <AccordionContent><p class="text-sm text-gray-cc">Content</p></AccordionContent>
   </AccordionItem>
 </Accordion>`,
         language: 'html',
@@ -189,7 +189,7 @@ export const UIExample = {
                 () => h('span', 'Trigger with custom indicator style'),
               ),
               h(AccordionContentRoot, { class: 'mt-2' }, () =>
-                h('p', { class: 'text-sm text-hcc' }, 'Accordion content')),
+                h('p', { class: 'text-sm text-gray-cc' }, 'Accordion content')),
             ]),
           ],
         )

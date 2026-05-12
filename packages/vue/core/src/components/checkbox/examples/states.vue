@@ -14,7 +14,7 @@ const checked = ref<CheckedState>(true)
         v-model:checked="checked"
         label="Controlled (v-model)"
       />
-      <span class="text-sm text-hff">checked: {{ checked }}</span>
+      <span class="text-sm text-gray-ff">checked: {{ checked }}</span>
     </div>
 
     <div class="flex items-center gap-3">

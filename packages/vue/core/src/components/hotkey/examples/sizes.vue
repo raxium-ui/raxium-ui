@@ -9,7 +9,7 @@ const value = ref('')
 <template>
   <div class="w-full flex flex-col gap-3">
     <div v-for="size in THEME_SIZE" :key="size" class="flex items-center gap-3">
-      <div class="w-18 text-sm text-hcc">
+      <div class="w-18 text-sm text-gray-cc">
         {{ size }}
       </div>
       <Hotkey v-model:hotkey="value" class="w-80" :theme="{ size }" />

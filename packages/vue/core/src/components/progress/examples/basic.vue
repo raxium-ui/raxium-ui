@@ -15,7 +15,7 @@ const value = ref(30)
       <Button variant="outlined" @click="value = Math.min(100, value + 10)">
         +10
       </Button>
-      <span class="text-sm text-hff">value: {{ value }}</span>
+      <span class="text-sm text-gray-ff">value: {{ value }}</span>
     </div>
 
     <Progress class="w-80" :model-value="value">

@@ -16,7 +16,7 @@ import {
   <div class="w-full flex flex-col gap-2">
     <DatePicker :is-date-unavailable="(date) => date.toDate(getLocalTimeZone()) > new Date()">
       <DatePickerControl>
-        <DatePickerTrigger class="rounded-md border border-h33 px-3 py-2 text-sm text-hff">
+        <DatePickerTrigger class="rounded-md border border-gray-33 px-3 py-2 text-sm text-gray-ff">
           <DatePickerValueText placeholder="选择日期" />
         </DatePickerTrigger>
       </DatePickerControl>

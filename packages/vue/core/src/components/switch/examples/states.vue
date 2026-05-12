@@ -5,22 +5,22 @@ import { Switch } from '../index'
 <template>
   <div class="w-full flex flex-wrap items-center gap-6">
     <div class="flex items-center gap-2">
-      <span class="text-sm text-hff">unchecked</span>
+      <span class="text-sm text-gray-ff">unchecked</span>
       <Switch />
     </div>
 
     <div class="flex items-center gap-2">
-      <span class="text-sm text-hff">checked</span>
+      <span class="text-sm text-gray-ff">checked</span>
       <Switch checked />
     </div>
 
     <div class="flex items-center gap-2">
-      <span class="text-sm text-hff">disabled</span>
+      <span class="text-sm text-gray-ff">disabled</span>
       <Switch disabled />
     </div>
 
     <div class="flex items-center gap-2">
-      <span class="text-sm text-hff">disabled + checked</span>
+      <span class="text-sm text-gray-ff">disabled + checked</span>
       <Switch disabled checked />
     </div>
   </div>

@@ -1,10 +1,10 @@
 @layer components {
   .rui-scroll-area-scrollbar {
-    @apply bg-rz-neutral-950/30;
+    @apply bg-gray-03/30;
   }
 
   .rui-scroll-area-thumb {
-    @apply bg-rz-neutral-525/40;
+    @apply bg-gray-58/40;
     &[data-hover],
     &[data-scrolling],
     &[data-dragging] {

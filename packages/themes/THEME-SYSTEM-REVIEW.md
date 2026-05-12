@@ -708,7 +708,7 @@ if (__DEV__) {
 ### Phase 1: 基础改进（低风险、高回报） ✅ 已完成
 
 - [x] **统一 ui prop 接口**: 全部改为 `ClassValue` 格式，迁移 Button 等使用 `{ class: string }` 的组件
-- [x] **语义化 Token 命名**: 将 `--color-h4f` 等替换为 `--color-rz-neutral-600` 等语义名称
+- [x] **语义化 Token 命名**: 将 `--color-h4f` 等替换为 `--color-gray-4f` 等标尺名与 `--color-rui-*` 语义层
 - [x] **抽取共享 slot 常量**: 将 POPOVER_MOTION 扩展为更完整的共享 recipe 模式
 - [x] **添加 mapVariant/mapVariant2d 工具**: 减少 compoundVariants 模板代码
 

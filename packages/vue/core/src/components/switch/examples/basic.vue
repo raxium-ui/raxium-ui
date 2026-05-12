@@ -7,7 +7,7 @@ const checked = ref(false)
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hff">
+    <div class="text-sm text-gray-ff">
       checked: {{ checked }}
     </div>
     <Switch v-model:checked="checked" />

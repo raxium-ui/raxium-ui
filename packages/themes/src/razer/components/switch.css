@@ -1,13 +1,13 @@
 @layer components {
   .rui-switch-control {
-    @apply bg-rz-neutral-350
+    @apply bg-gray-78
              data-focus:shadow-(--shadow-rui-outline)
-           data-[state=unchecked]:hover:bg-rz-neutral-350/80
+           data-[state=unchecked]:hover:bg-gray-78/80
            data-[state=checked]:bg-rui-primary
            data-[state=checked]:hover:bg-rui-primary-hover
            border-transparent;
     &[data-disabled] {
-      @apply bg-rz-neutral-350 hover:bg-rz-neutral-350;
+      @apply bg-gray-78 hover:bg-gray-78;
       @apply opacity-(--disabled-opacity);
     }
     &[data-state='checked']&[data-disabled] {

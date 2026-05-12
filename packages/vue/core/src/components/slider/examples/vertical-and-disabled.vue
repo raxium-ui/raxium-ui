@@ -8,7 +8,7 @@ const verticalValue = ref([60])
 <template>
   <div class="w-full flex flex-wrap items-start gap-8">
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         vertical: {{ verticalValue[0] }}
       </div>
       <Slider
@@ -32,7 +32,7 @@ const verticalValue = ref([60])
     </div>
 
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         disabled
       </div>
       <Slider class="w-80" :default-value="[30]" disabled>

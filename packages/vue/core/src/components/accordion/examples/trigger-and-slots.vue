@@ -15,13 +15,13 @@ const content = fakerEN.lorem.sentences(2)
       <AccordionItem value="no-ind">
         <AccordionTrigger :indicator="false">
           <template #default="{ open }">
-            <div class="text-sm text-hff">
+            <div class="text-sm text-gray-ff">
               Indicator disabled (open: {{ open }})
             </div>
           </template>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>
@@ -36,18 +36,18 @@ const content = fakerEN.lorem.sentences(2)
       <AccordionItem value="custom">
         <AccordionTrigger>
           <template #default="{ open }">
-            <div class="text-sm text-hff">
+            <div class="text-sm text-gray-ff">
               Custom indicator slot (open: {{ open }})
             </div>
           </template>
           <template #indicator="{ open }">
-            <span class="text-xs text-hff">
+            <span class="text-xs text-gray-ff">
               {{ open ? '▲' : '▼' }}
             </span>
           </template>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>

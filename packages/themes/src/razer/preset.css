@@ -1,6 +1,6 @@
 @import '../css/index.css';
-@import './tokens/_primitives.css';
-@import './tokens/_semantic.css';
+@import './tokens/primitives.css';
+@import './tokens/semantic.css';
 
 @custom-variant skin-razer (&:where(html[data-theme-skin=razer], html[data-theme-skin=razer] *));
 
@@ -154,7 +154,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-rz-neutral-525/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[30px] bg-gray-58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -168,7 +168,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-rz-neutral-525/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[30px] bg-gray-58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -182,7 +182,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-rz-neutral-525/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[5px] bg-gray-58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -196,6 +196,6 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-rz-neutral-525/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[5px] bg-gray-58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }

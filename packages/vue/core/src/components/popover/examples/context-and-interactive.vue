@@ -26,10 +26,10 @@ const toggle = ref(true)
       <PopoverContext v-slot="context">
         <div class="flex flex-col gap-2">
           <PopoverClose />
-          <div class="text-sm text-hff">
+          <div class="text-sm text-gray-ff">
             open: {{ context.open ? 'open' : 'closed' }}
           </div>
-          <p v-if="toggle" class="text-sm text-hcc">
+          <p v-if="toggle" class="text-sm text-gray-cc">
             test toggle
           </p>
           <Switch v-model:checked="toggle" />

@@ -56,9 +56,9 @@ async function handleBeforeClose({ from, done }: { from: DialogTriggerFrom, done
         <DialogContent class="w-120">
           <DialogHeader>同步关闭</DialogHeader>
           <DialogBody>
-            <p class="text-sm text-hcc">
-              本例在 <code class="text-hff">beforeClose</code> 内立即调用
-              <code class="text-hff">done()</code>。
+            <p class="text-sm text-gray-cc">
+              本例在 <code class="text-gray-ff">beforeClose</code> 内立即调用
+              <code class="text-gray-ff">done()</code>。
             </p>
           </DialogBody>
           <DialogFooter />
@@ -79,8 +79,8 @@ async function handleBeforeClose({ from, done }: { from: DialogTriggerFrom, done
         <DialogContent class="w-120">
           <DialogHeader>异步关闭</DialogHeader>
           <DialogBody>
-            <p class="text-sm text-hcc">
-              点击OK后约 2000ms 后调用 <code class="text-hff">done()</code> 才真正关闭。
+            <p class="text-sm text-gray-cc">
+              点击OK后约 2000ms 后调用 <code class="text-gray-ff">done()</code> 才真正关闭。
             </p>
           </DialogBody>
           <DialogFooter />
@@ -88,7 +88,7 @@ async function handleBeforeClose({ from, done }: { from: DialogTriggerFrom, done
       </Dialog>
     </div>
 
-    <div class="text-xs font-mono text-hcc">
+    <div class="text-xs font-mono text-gray-cc">
       <div
         v-for="(line, i) in log"
         :key="i"

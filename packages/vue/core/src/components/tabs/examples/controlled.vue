@@ -18,7 +18,7 @@ const value = ref('tab-7')
       <Button variant="outlined" @click="value = 'tab-10'">
         Tab 10
       </Button>
-      <span class="text-sm text-hff">value: {{ value }}</span>
+      <span class="text-sm text-gray-ff">value: {{ value }}</span>
     </div>
 
     <Tabs v-model="value">

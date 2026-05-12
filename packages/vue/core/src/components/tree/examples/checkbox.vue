@@ -53,11 +53,11 @@ const checkedValue = ref<string[]>(['getting-started'])
 
 <template>
   <div class="w-full flex flex-col gap-2">
-    <div class="text-sm text-hcc">
-      checked: <span class="text-hff">{{ checkedValue.join(', ') || '(empty)' }}</span>
+    <div class="text-sm text-gray-cc">
+      checked: <span class="text-gray-ff">{{ checkedValue.join(', ') || '(empty)' }}</span>
     </div>
 
-    <div class="w-full max-w-[560px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[560px] rounded-md border border-gray-33 p-3">
       <Tree
         v-model:expanded-value="expandedValue"
         v-model:checked-value="checkedValue"

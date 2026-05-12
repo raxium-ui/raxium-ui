@@ -7,7 +7,7 @@ const value = ref('Editable text')
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hff">
+    <div class="text-sm text-gray-ff">
       value: {{ value }}
     </div>
 

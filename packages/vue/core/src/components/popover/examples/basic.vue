@@ -22,10 +22,10 @@ import {
         <PopoverArrow />
         <div class="flex flex-col gap-2">
           <PopoverClose />
-          <div class="text-sm text-hff">
+          <div class="text-sm text-gray-ff">
             Popover content
           </div>
-          <div class="text-sm text-hcc">
+          <div class="text-sm text-gray-cc">
             This is a basic popover example.
           </div>
         </div>

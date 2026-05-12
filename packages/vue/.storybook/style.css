@@ -5,7 +5,7 @@
 @source "../addons/**/examples/**/*.{vue,ts,tsx}";
 
 :root {
-  color: var(--color-hff);
+  color: var(--color-gray-ff);
 }
 
 .docs-story {

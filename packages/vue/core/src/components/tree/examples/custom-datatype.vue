@@ -65,16 +65,16 @@ const checkedValue = ref<string[]>(['vue'])
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-xs text-h99">
+    <div class="text-xs text-gray-99">
       数据使用自定义字段: nodeId、label、items、iconName，通过 keyMap 映射
     </div>
 
     <div class="grid gap-4 md:grid-cols-2">
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeNode 选中: <span class="text-hff">{{ selectedValue.join(', ') || '(空)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeNode 选中: <span class="text-gray-ff">{{ selectedValue.join(', ') || '(空)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedValue"
             v-model:selected-value="selectedValue"
@@ -93,10 +93,10 @@ const checkedValue = ref<string[]>(['vue'])
       </div>
 
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeCheckboxNode 勾选: <span class="text-hff">{{ checkedValue.join(', ') || '(空)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeCheckboxNode 勾选: <span class="text-gray-ff">{{ checkedValue.join(', ') || '(空)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedCheckbox"
             v-model:checked-value="checkedValue"

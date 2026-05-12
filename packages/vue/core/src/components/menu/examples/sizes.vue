@@ -20,7 +20,7 @@ const selected = ref<string | undefined>(vegetables[0])
 
 <template>
   <div class="w-full flex items-center gap-4">
-    <span class="text-sm text-hff">Selected: {{ selected }}</span>
+    <span class="text-sm text-gray-ff">Selected: {{ selected }}</span>
 
     <Menu
       v-for="size in THEME_SIZE"

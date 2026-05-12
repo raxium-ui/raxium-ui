@@ -9,7 +9,7 @@ const value = ref(65)
 <template>
   <div class="w-full flex flex-col gap-6">
     <div class="flex flex-col gap-3">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Horizontal sizes
       </div>
       <Progress
@@ -24,7 +24,7 @@ const value = ref(65)
     </div>
 
     <div class="flex flex-col gap-3">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Vertical sizes
       </div>
       <div class="flex items-end gap-6">

@@ -18,7 +18,7 @@ const value = ref<string[]>(['b'])
       <Button variant="outlined" @click="value = ['c']">
         Set C
       </Button>
-      <span class="text-sm text-hff">value: {{ value }}</span>
+      <span class="text-sm text-gray-ff">value: {{ value }}</span>
     </div>
 
     <ToggleGroup v-model="value" type="single">

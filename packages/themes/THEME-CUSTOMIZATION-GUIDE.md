@@ -68,16 +68,18 @@ Semantic tokens are purpose-driven CSS variables that all components reference. 
 
 ### 2.2 Available Semantic Token Categories
 
-| Category | Prefix | Tokens |
-|----------|--------|--------|
-| Surface / Background | `--color-rui-surface-*` | `base`, `container`, `elevated`, `sunken`, `inverse`, `disabled`, `hover` |
-| Text / Foreground | `--color-rui-text-*` | `primary`, `secondary`, `disabled`, `inverse`, `placeholder`, `on-primary` |
-| Primary (brand) | `--color-rui-primary-*` | (no suffix), `hover`, `active`, `border`, `muted` |
-| Danger | `--color-rui-danger-*` | (no suffix), `hover`, `active`, `border`, `muted` |
-| Warning | `--color-rui-warning-*` | (no suffix), `hover`, `active`, `border`, `muted` |
-| Info | `--color-rui-info-*` | (no suffix), `hover`, `active`, `border`, `muted` |
-| Border | `--color-rui-border-*` | `default`, `subtle`, `strong`, `focus` |
-| Input | `--color-rui-input-*` | `bg`, `border`, `focus-border`, `placeholder`, `disabled-bg` |
+
+| Category             | Prefix                  | Tokens                                                                     |
+| -------------------- | ----------------------- | -------------------------------------------------------------------------- |
+| Surface / Background | `--color-rui-surface-*` | `base`, `container`, `elevated`, `sunken`, `inverse`, `disabled`, `hover`  |
+| Text / Foreground    | `--color-rui-text-*`    | `primary`, `secondary`, `disabled`, `inverse`, `placeholder`, `on-primary` |
+| Primary (brand)      | `--color-rui-primary-*` | (no suffix), `hover`, `active`, `border`, `muted`                          |
+| Danger               | `--color-rui-danger-*`  | (no suffix), `hover`, `active`, `border`, `muted`                          |
+| Warning              | `--color-rui-warning-*` | (no suffix), `hover`, `active`, `border`, `muted`                          |
+| Info                 | `--color-rui-info-*`    | (no suffix), `hover`, `active`, `border`, `muted`                          |
+| Border               | `--color-rui-border-*`  | `default`, `subtle`, `strong`, `focus`                                     |
+| Input                | `--color-rui-input-*`   | `bg`, `border`, `focus-border`, `placeholder`, `disabled-bg`               |
+
 
 ### 2.3 Primitive Token Override
 
@@ -85,11 +87,11 @@ For more fundamental changes, override primitive tokens. These are the raw value
 
 ```css
 @theme {
-  /* Override the entire neutral palette for a warmer feel */
-  --color-rz-neutral-950: oklch(15% 0.02 60);
-  --color-rz-neutral-900: oklch(20% 0.02 60);
-  --color-rz-neutral-875: oklch(22% 0.02 60);
-  --color-rz-neutral-850: oklch(25% 0.02 60);
+  /* Override gray primitives for a warmer feel (examples from the Razer ramp) */
+  --color-gray-03: oklch(15% 0.02 60);
+  --color-gray-16: oklch(20% 0.02 60);
+  --color-gray-1a: oklch(22% 0.02 60);
+  --color-gray-1b: oklch(25% 0.02 60);
   /* ... */
 }
 ```
@@ -233,12 +235,14 @@ The simplest way to override styles on a single component:
 
 `craft` prop fields:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `class` | `string` | Appended to the `root` slot |
-| `slots` | `Record<SlotKey, string>` | Class overrides per slot |
-| `defaults` | `Record<VariantKey, Value>` | Override default variant values |
-| `extend` | `CraftInput` | Full craft extension (variants, compoundVariants, etc.) |
+
+| Field      | Type                        | Description                                             |
+| ---------- | --------------------------- | ------------------------------------------------------- |
+| `class`    | `string`                    | Appended to the `root` slot                             |
+| `slots`    | `Record<SlotKey, string>`   | Class overrides per slot                                |
+| `defaults` | `Record<VariantKey, Value>` | Override default variant values                         |
+| `extend`   | `CraftInput`                | Full craft extension (variants, compoundVariants, etc.) |
+
 
 ### 4.2 The `theme` Prop (Full Control)
 
@@ -305,15 +309,17 @@ Final class output = craft base classes + variant classes + `craft` additions + 
 
 ## 5. Choosing the Right Level
 
-| Scenario | Recommended Level |
-|----------|-------------------|
-| Change brand color across the app | **Level 1**: Override `--color-rui-primary-*` tokens |
-| Make all surfaces warmer/cooler | **Level 1**: Override `--color-rz-neutral-*` primitives |
-| Create a "compact" app-wide layout | **Level 2**: `definePreset` with smaller sizes |
-| Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants` |
-| Make one specific dialog wider | **Level 3**: `<DialogContent :craft="{ slots: { content: 'max-w-4xl' } }">` |
-| Add a shadow to one button | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">` |
-| Build a reusable enterprise theme | **Level 2**: Preset chain + **Level 1**: Token CSS file |
+
+| Scenario                                   | Recommended Level                                                            |
+| ------------------------------------------ | ---------------------------------------------------------------------------- |
+| Change brand color across the app          | **Level 1**: Override `--color-rui-primary-`* tokens                         |
+| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-`* primitives (or remap `--color-rui-*`) |
+| Create a "compact" app-wide layout         | **Level 2**: `definePreset` with smaller sizes                               |
+| Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants`                                   |
+| Make one specific dialog wider             | **Level 3**: `<DialogContent :craft="{ slots: { content: 'max-w-4xl' } }">`  |
+| Add a shadow to one button                 | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">`                          |
+| Build a reusable enterprise theme          | **Level 2**: Preset chain + **Level 1**: Token CSS file                      |
+
 
 ### Decision Flowchart
 
@@ -360,3 +366,4 @@ const override: CraftShorthand<'tvButton'> = {
   defaults: { variant: 'outlined' },
 }
 ```
+

@@ -8,12 +8,12 @@ const content = fakerEN.lorem.sentences(10)
 <template>
   <Collapsible class="w-full">
     <CollapsibleTrigger>
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Trigger
       </div>
     </CollapsibleTrigger>
     <CollapsibleContent class="mt-2">
-      <p class="text-sm text-hcc">
+      <p class="text-sm text-gray-cc">
         {{ content }}
       </p>
     </CollapsibleContent>

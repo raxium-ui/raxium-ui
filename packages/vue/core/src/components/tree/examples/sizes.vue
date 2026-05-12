@@ -54,7 +54,7 @@ const selectedValue = ref<string[]>(['getting-started'])
     <div
       v-for="size in THEME_SIZE"
       :key="size"
-      class="w-full max-w-[560px] rounded-md border border-h33 p-3"
+      class="w-full max-w-[560px] rounded-md border border-gray-33 p-3"
     >
       <Tree
         v-model:expanded-value="expandedValue"

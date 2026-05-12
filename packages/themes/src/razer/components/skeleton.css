@@ -1,9 +1,9 @@
 @layer components {
   .rui-skeleton {
-    @apply bg-rz-neutral-550;
+    @apply bg-gray-55;
     &[data-variant="wave"] {
       --tw-duration: 2s;
-      @apply bg-linear-to-r from-rz-neutral-750 from-8% via-rz-neutral-550 via-18% to-rz-neutral-750 to-33%;
+      @apply bg-linear-to-r from-gray-33 from-8% via-gray-55 via-18% to-gray-33 to-33%;
       background-size: 200% 100%;
       animation: skeleton-wave var(--tw-duration, 2s) linear infinite;
     }

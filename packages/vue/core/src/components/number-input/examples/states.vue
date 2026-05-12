@@ -8,31 +8,31 @@ const normal = ref('10')
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="w-full max-w-[520px] flex flex-col gap-3">
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         Normal
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput v-model="normal" show-trigger :min="0" :max="100" :step="5" />
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         Disabled
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput default-value="10" disabled show-trigger />
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         ReadOnly
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput default-value="10" read-only show-trigger />
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         Invalid（仅展示状态）
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <NumberInput default-value="10" invalid show-trigger />
       </div>
     </div>

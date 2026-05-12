@@ -15,7 +15,7 @@ const modelValue = ref<number[]>([2])
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hff">
+    <div class="text-sm text-gray-ff">
       modelValue: {{ modelValue }}
     </div>
 

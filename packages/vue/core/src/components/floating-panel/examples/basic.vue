@@ -32,7 +32,7 @@ import {
               <Popover>
                 <PopoverContext v-slot="{ open }">
                   <PopoverTrigger>
-                    <Blend class="size-[1lh]" :class="[open && 'text-hff']" />
+                    <Blend class="size-[1lh]" :class="[open && 'text-gray-ff']" />
                   </PopoverTrigger>
                   <Teleport to="body">
                     <PopoverContent>

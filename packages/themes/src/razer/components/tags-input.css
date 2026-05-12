@@ -8,7 +8,7 @@
   }
 
   .rui-tags-input-item-preview {
-    @apply bg-rui-surface-elevated hover:bg-rz-neutral-675;
+    @apply bg-rui-surface-elevated hover:bg-gray-44;
     &[data-highlighted] {
       @apply bg-rui-info text-rui-text-primary;
     }

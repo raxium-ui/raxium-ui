@@ -8,11 +8,11 @@ const value = ref<number>(3)
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       xs / sm / base / lg
     </div>
 
-    <div class="w-full max-w-[520px] flex flex-col gap-3 rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] flex flex-col gap-3 rounded-md border border-gray-33 p-3">
       <RatingGroup
         v-for="size in THEME_SIZE"
         :key="size"

@@ -4,7 +4,7 @@ import { ToggleGroup, ToggleGroupItem } from '../../toggle-group'
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <p class="text-sm text-hff">
+    <p class="text-sm text-gray-ff">
       使用 ToggleGroup 将多个 Toggle 组织为互斥选项
     </p>
 

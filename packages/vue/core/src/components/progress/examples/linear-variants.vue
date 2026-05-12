@@ -11,21 +11,21 @@ const value = ref(45)
       <Progress class="w-80" :model-value="value">
         <ProgressLinear variant="default" />
       </Progress>
-      <span class="text-sm text-hff">default</span>
+      <span class="text-sm text-gray-ff">default</span>
     </div>
 
     <div class="flex items-center gap-4">
       <Progress class="w-80" :model-value="value">
         <ProgressLinear variant="robbin" />
       </Progress>
-      <span class="text-sm text-hff">robbin</span>
+      <span class="text-sm text-gray-ff">robbin</span>
     </div>
 
     <div class="flex items-center gap-4">
       <Progress class="w-80" :model-value="value">
         <ProgressLinear variant="transfer" />
       </Progress>
-      <span class="text-sm text-hff">transfer</span>
+      <span class="text-sm text-gray-ff">transfer</span>
     </div>
   </div>
 </template>

@@ -22,7 +22,7 @@ function open() {
     <Button @click="open">
       Open (local Messager)
     </Button>
-    <span class="text-sm text-hff">max=3, overlap=false, gap=8</span>
+    <span class="text-sm text-gray-ff">max=3, overlap=false, gap=8</span>
   </div>
 
   <Messager
@@ -37,7 +37,7 @@ function open() {
       :options="message"
       :ui="{
         content: 'border border-rz-green',
-        description: 'text-hff',
+        description: 'text-gray-ff',
       }"
     />
   </Messager>

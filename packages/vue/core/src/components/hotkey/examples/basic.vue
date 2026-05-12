@@ -8,8 +8,8 @@ const hotkey = ref('')
 <template>
   <div class="w-full flex flex-col gap-2">
     <Hotkey v-model:hotkey="hotkey" class="w-80" />
-    <div class="text-sm text-hcc">
-      hotkey: <span class="text-hff">{{ hotkey || '(empty)' }}</span>
+    <div class="text-sm text-gray-cc">
+      hotkey: <span class="text-gray-ff">{{ hotkey || '(empty)' }}</span>
     </div>
   </div>
 </template>

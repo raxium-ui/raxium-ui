@@ -31,7 +31,7 @@ const content = fakerEN.lorem.sentences(2)
           ok: { text: 'Yes', variant: 'normal' },
         }"
         :ui="{
-          cancel: 'text-hff',
+          cancel: 'text-gray-ff',
           ok: 'bg-rz-green text-black',
         }"
       />

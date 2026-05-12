@@ -11,7 +11,7 @@ function openCustomDescription() {
     description: (ctx) => {
       return (
         <div class="flex flex-col gap-1">
-          <div class="text-sm text-hff">Custom description</div>
+          <div class="text-sm text-gray-ff">Custom description</div>
           <div class="text-xs opacity-75">
             type: {ctx.type}, placement: {ctx.placement}
           </div>
@@ -28,7 +28,7 @@ function openRender() {
     render: (ctx) => {
       return (
         <div class="flex items-center gap-3">
-          <div class="text-sm text-hff">
+          <div class="text-sm text-gray-ff">
             Fully custom render ({ctx.type})
           </div>
           <MessageCloseTrigger>

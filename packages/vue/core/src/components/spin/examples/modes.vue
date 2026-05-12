@@ -17,19 +17,19 @@ const showFullscreen = ref(false)
         <Button variant="outlined" @click="showFullscreen = !showFullscreen">
           Toggle fullscreen
         </Button>
-        <div class="text-sm text-hcc">
+        <div class="text-sm text-gray-cc">
           inline: {{ showInline }} / fullscreen: {{ showFullscreen }}
         </div>
       </div>
 
-      <div class="relative w-full rounded-md border border-h33 p-4">
-        <div class="text-sm text-hcc">
+      <div class="relative w-full rounded-md border border-gray-33 p-4">
+        <div class="text-sm text-gray-cc">
           Inline 模式：覆盖父元素
         </div>
         <Spin :show="showInline" mode="inline" />
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         Fullscreen 模式：覆盖全屏（点击上方按钮触发）
       </div>
       <Spin :show="showFullscreen" mode="fullscreen" />

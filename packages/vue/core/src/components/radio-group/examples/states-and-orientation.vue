@@ -8,7 +8,7 @@ const value = ref<string | undefined>('a')
 <template>
   <div class="w-full flex flex-col gap-6">
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Horizontal + disabled item
       </div>
       <RadioGroup v-model="value">
@@ -19,7 +19,7 @@ const value = ref<string | undefined>('a')
     </div>
 
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Vertical
       </div>
       <RadioGroup v-model="value" orientation="vertical" class="flex flex-col gap-2 items-start">

@@ -16,11 +16,11 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       ç›‘å¬ï¼švalue-change / highlight-change / value-invalid
     </div>
 
-    <div class="w-full max-w-[560px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[560px] rounded-md border border-gray-33 p-3">
       <TagsInput
         v-model="value"
         :max="3"
@@ -35,7 +35,7 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
             :index="index"
             :value="v"
           >
-            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-h55 hover:text-hff">
+            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-gray-55 hover:text-gray-ff">
               <X class="size-3.5" />
             </ArkTagsInput.ItemDeleteTrigger>
           </TagsInputItem>
@@ -43,6 +43,6 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
       </TagsInput>
     </div>
 
-    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{ joined }}</pre>
+    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ joined }}</pre>
   </div>
 </template>

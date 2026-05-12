@@ -17,7 +17,7 @@ const selected = ref<string | undefined>(items[0])
 
 <template>
   <div class="w-full flex items-center gap-4">
-    <span class="text-sm text-hff">Selected: {{ selected }}</span>
+    <span class="text-sm text-gray-ff">Selected: {{ selected }}</span>
 
     <Menu>
       <MenuTrigger as-child>

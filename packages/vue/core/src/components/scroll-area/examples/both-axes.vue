@@ -3,8 +3,8 @@ import { ScrollArea, ScrollAreaCorner, ScrollAreaScrollbar } from '../index'
 </script>
 
 <template>
-  <ScrollArea class="w-100 h-50 border border-h55 rounded">
-    <div class="h-200 w-200 bg-h22 p-3 text-sm text-hff">
+  <ScrollArea class="w-100 h-50 border border-gray-55 rounded">
+    <div class="h-200 w-200 bg-gray-22 p-3 text-sm text-gray-ff">
       Both scrollbars + corner
     </div>
     <ScrollAreaScrollbar />

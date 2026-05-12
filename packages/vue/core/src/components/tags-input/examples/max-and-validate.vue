@@ -20,11 +20,11 @@ function validate(details: { value: string[], inputValue: string }) {
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       max=3 + validate（去重、trim、最少 2 个字符）
     </div>
 
-    <div class="w-full max-w-[560px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[560px] rounded-md border border-gray-33 p-3">
       <TagsInput v-model="value" :max="3" :validate="validate">
         <template #default="{ items }">
           <TagsInputItem
@@ -33,7 +33,7 @@ function validate(details: { value: string[], inputValue: string }) {
             :index="index"
             :value="v"
           >
-            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-h55 hover:text-hff">
+            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-gray-55 hover:text-gray-ff">
               <X class="size-3.5" />
             </ArkTagsInput.ItemDeleteTrigger>
           </TagsInputItem>
@@ -41,7 +41,7 @@ function validate(details: { value: string[], inputValue: string }) {
       </TagsInput>
     </div>
 
-    <div class="text-xs text-h55">
+    <div class="text-xs text-gray-55">
       试试输入重复值、空格、或超过 3 个 tag；会触发 value-invalid 事件（见 Events 示例）。
     </div>
   </div>

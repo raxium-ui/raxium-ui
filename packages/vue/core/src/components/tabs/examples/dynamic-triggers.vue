@@ -30,7 +30,7 @@ watch([value, showTab2, showTab3], () => {
       >
         {{ showTab3 ? 'Hide' : 'Show' }} Tab 3
       </Button>
-      <span class="text-sm text-hff">value: {{ value }}</span>
+      <span class="text-sm text-gray-ff">value: {{ value }}</span>
     </div>
 
     <Tabs v-model="value">

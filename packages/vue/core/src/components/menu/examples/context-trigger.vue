@@ -15,11 +15,11 @@ const selected = ref<string | undefined>(undefined)
 
 <template>
   <div class="w-full flex items-center gap-4">
-    <span class="text-sm text-hff">Selected: {{ selected }}</span>
+    <span class="text-sm text-gray-ff">Selected: {{ selected }}</span>
 
     <Menu @select="selected = $event.value">
       <MenuContextTrigger as-child>
-        <div class="w-80 h-24 border border-h55 rounded flex items-center justify-center text-sm text-hff select-none">
+        <div class="w-80 h-24 border border-gray-55 rounded flex items-center justify-center text-sm text-gray-ff select-none">
           Right click here
         </div>
       </MenuContextTrigger>

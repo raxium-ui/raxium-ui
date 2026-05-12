@@ -46,7 +46,7 @@ function customRenderIcon(props: { icon: any, node: TreeNodeData, state: any, cl
   }
   return h(
     'span',
-    { class: `${props.class} inline-flex items-center justify-center w-6 h-6 rounded bg-h22` },
+    { class: `${props.class} inline-flex items-center justify-center w-6 h-6 rounded bg-gray-22` },
     [h(Icon, { icon: props.icon, class: 'w-4 h-4' })],
   )
 }
@@ -81,16 +81,16 @@ const checkedValue = ref<string[]>(['getting-started'])
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-xs text-h99">
+    <div class="text-xs text-gray-99">
       通过 TreeNode 的 <code>renderIcon</code> 和 <code>renderName</code> props 自定义渲染，不修改 node 数据
     </div>
 
     <div class="grid gap-4 md:grid-cols-2">
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeNode: <span class="text-hff">{{ selectedValue.join(', ') || '(empty)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeNode: <span class="text-gray-ff">{{ selectedValue.join(', ') || '(empty)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedValue"
             v-model:selected-value="selectedValue"
@@ -110,10 +110,10 @@ const checkedValue = ref<string[]>(['getting-started'])
       </div>
 
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeCheckboxNode: <span class="text-hff">{{ checkedValue.join(', ') || '(empty)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeCheckboxNode: <span class="text-gray-ff">{{ checkedValue.join(', ') || '(empty)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedCheckbox"
             v-model:checked-value="checkedValue"

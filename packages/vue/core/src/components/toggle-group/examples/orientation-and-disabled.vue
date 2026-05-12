@@ -5,7 +5,7 @@ import { ToggleGroup, ToggleGroupItem } from '../index'
 <template>
   <div class="w-full flex flex-wrap items-start gap-8">
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         horizontal
       </div>
       <ToggleGroup :default-value="['b']" orientation="horizontal">
@@ -22,7 +22,7 @@ import { ToggleGroup, ToggleGroupItem } from '../index'
     </div>
 
     <div class="flex flex-col gap-2">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         vertical
       </div>
       <ToggleGroup :default-value="['b']" orientation="vertical">

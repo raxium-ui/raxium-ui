@@ -15,7 +15,7 @@ const pressed = ref(false)
       <Button variant="outlined" @click="pressed = true">
         Set on
       </Button>
-      <span class="text-sm text-hff">pressed: {{ pressed }}</span>
+      <span class="text-sm text-gray-ff">pressed: {{ pressed }}</span>
     </div>
 
     <Toggle v-model:pressed="pressed">

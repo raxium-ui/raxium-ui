@@ -56,14 +56,14 @@ function push(line: string) {
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
-      expanded: <span class="text-hff">{{ expandedValue.join(', ') || '(empty)' }}</span>
-      / selected: <span class="text-hff">{{ selectedValue.join(', ') || '(empty)' }}</span>
-      / checked: <span class="text-hff">{{ checkedValue.join(', ') || '(empty)' }}</span>
-      / focused: <span class="text-hff">{{ focusedValue || '(null)' }}</span>
+    <div class="text-sm text-gray-cc">
+      expanded: <span class="text-gray-ff">{{ expandedValue.join(', ') || '(empty)' }}</span>
+      / selected: <span class="text-gray-ff">{{ selectedValue.join(', ') || '(empty)' }}</span>
+      / checked: <span class="text-gray-ff">{{ checkedValue.join(', ') || '(empty)' }}</span>
+      / focused: <span class="text-gray-ff">{{ focusedValue || '(null)' }}</span>
     </div>
 
-    <div class="w-full max-w-[560px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[560px] rounded-md border border-gray-33 p-3">
       <Tree
         v-model:expanded-value="expandedValue"
         v-model:selected-value="selectedValue"
@@ -85,6 +85,6 @@ function push(line: string) {
       </Tree>
     </div>
 
-    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{ lines.length ? lines.join('\n') : '（暂无事件）' }}</pre>
+    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ lines.length ? lines.join('\n') : '（暂无事件）' }}</pre>
   </div>
 </template>

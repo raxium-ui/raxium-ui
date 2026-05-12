@@ -25,9 +25,9 @@
   .rui-menu-item {
     @apply bg-transparent
     text-rui-text-secondary
-    data-highlighted:bg-rz-neutral-0/10
+    data-highlighted:bg-gray-ff/10
     data-highlighted:text-rui-text-primary
-    data-[state=open]:bg-rz-neutral-0/10
+    data-[state=open]:bg-gray-ff/10
     data-[state=open]:text-rui-text-primary;
 
     &[data-type='radio'] {

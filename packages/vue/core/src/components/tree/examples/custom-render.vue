@@ -33,7 +33,7 @@ function createCustomName(label: string) {
     return h('span', { class: 'flex items-center gap-2' }, [
       h(
         'span',
-        { class: 'text-xs px-1.5 py-0.5 rounded bg-(--color-rz-neutral-950) text-(--color-rz-green)' },
+        { class: 'text-xs px-1.5 py-0.5 rounded bg-(--color-gray-03) text-(--color-rz-green)' },
         tag,
       ),
       h('span', label),
@@ -98,7 +98,7 @@ const checkedValue = ref<string[]>(['main.ts'])
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-xs text-h99">
+    <div class="text-xs text-gray-99">
       custom renderIcon: node.icon 为 function，根据 type 渲染 Folder/FileCode/FileText
       <br>
       custom renderName: node.name 为 function 时渲染自定义内容（如 README 带图标）
@@ -106,10 +106,10 @@ const checkedValue = ref<string[]>(['main.ts'])
 
     <div class="grid gap-4 md:grid-cols-2">
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeNode selected: <span class="text-hff">{{ selectedValue.join(', ') || '(empty)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeNode selected: <span class="text-gray-ff">{{ selectedValue.join(', ') || '(empty)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedValue"
             v-model:selected-value="selectedValue"
@@ -127,10 +127,10 @@ const checkedValue = ref<string[]>(['main.ts'])
       </div>
 
       <div class="flex flex-col gap-2">
-        <div class="text-sm text-hcc">
-          TreeCheckboxNode checked: <span class="text-hff">{{ checkedValue.join(', ') || '(empty)' }}</span>
+        <div class="text-sm text-gray-cc">
+          TreeCheckboxNode checked: <span class="text-gray-ff">{{ checkedValue.join(', ') || '(empty)' }}</span>
         </div>
-        <div class="w-full rounded-md border border-h33 p-3">
+        <div class="w-full rounded-md border border-gray-33 p-3">
           <Tree
             v-model:expanded-value="expandedCheckbox"
             v-model:checked-value="checkedValue"

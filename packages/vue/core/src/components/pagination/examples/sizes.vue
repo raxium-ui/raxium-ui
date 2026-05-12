@@ -8,11 +8,11 @@ const page = ref(1)
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       sm / base / lg
     </div>
 
-    <div class="w-full max-w-[720px] flex flex-col gap-3 rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[720px] flex flex-col gap-3 rounded-md border border-gray-33 p-3">
       <Pagination
         v-for="size in THEME_SIZE"
         :key="size"

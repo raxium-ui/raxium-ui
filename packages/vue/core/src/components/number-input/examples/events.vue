@@ -14,11 +14,11 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       ç›‘å¬ï¼šfocus-change / value-change / value-invalid / update:modelValue
     </div>
 
-    <div class="w-full max-w-[520px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] rounded-md border border-gray-33 p-3">
       <NumberInput
         v-model="value"
         show-trigger
@@ -36,6 +36,6 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
       />
     </div>
 
-    <pre class="w-full max-w-[520px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{ joined }}</pre>
+    <pre class="w-full max-w-[520px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ joined }}</pre>
   </div>
 </template>

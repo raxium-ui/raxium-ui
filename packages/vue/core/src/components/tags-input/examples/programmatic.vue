@@ -24,12 +24,12 @@ const tagsRef = ref<any>(null)
       <Button variant="outlined" @click="tagsRef?.$api?.clearValue()">
         Clear
       </Button>
-      <div class="text-sm text-hcc">
-        value: <span class="text-hff">{{ value.join(', ') || '(empty)' }}</span>
+      <div class="text-sm text-gray-cc">
+        value: <span class="text-gray-ff">{{ value.join(', ') || '(empty)' }}</span>
       </div>
     </div>
 
-    <div class="w-full max-w-[560px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[560px] rounded-md border border-gray-33 p-3">
       <TagsInput ref="tagsRef" v-model="value">
         <template #default="{ items }">
           <TagsInputItem
@@ -38,7 +38,7 @@ const tagsRef = ref<any>(null)
             :index="index"
             :value="v"
           >
-            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-h55 hover:text-hff">
+            <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-gray-55 hover:text-gray-ff">
               <X class="size-3.5" />
             </ArkTagsInput.ItemDeleteTrigger>
           </TagsInputItem>

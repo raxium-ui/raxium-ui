@@ -7,11 +7,11 @@ const page = ref(1)
 
 <template>
   <div class="w-full flex flex-col gap-2">
-    <div class="text-sm text-hcc">
-      page: <span class="text-hff">{{ page }}</span>
+    <div class="text-sm text-gray-cc">
+      page: <span class="text-gray-ff">{{ page }}</span>
     </div>
 
-    <div class="w-full max-w-[720px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[720px] rounded-md border border-gray-33 p-3">
       <Pagination v-model:page="page" :count="80" :default-page-size="10" :sibling-count="1" />
     </div>
   </div>

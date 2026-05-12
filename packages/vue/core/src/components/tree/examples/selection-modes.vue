@@ -52,14 +52,14 @@ const selectedMultiple = ref<string[]>(['getting-started', 'api'])
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
-      single: <span class="text-hff">{{ selectedSingle.join(', ') || '(empty)' }}</span>
-      / multiple: <span class="text-hff">{{ selectedMultiple.join(', ') || '(empty)' }}</span>
+    <div class="text-sm text-gray-cc">
+      single: <span class="text-gray-ff">{{ selectedSingle.join(', ') || '(empty)' }}</span>
+      / multiple: <span class="text-gray-ff">{{ selectedMultiple.join(', ') || '(empty)' }}</span>
     </div>
 
     <div class="grid gap-3 md:grid-cols-2">
-      <div class="rounded-md border border-h33 p-3">
-        <div class="mb-2 text-sm text-hcc">
+      <div class="rounded-md border border-gray-33 p-3">
+        <div class="mb-2 text-sm text-gray-cc">
           selectionMode=single
         </div>
         <Tree
@@ -77,8 +77,8 @@ const selectedMultiple = ref<string[]>(['getting-started', 'api'])
         </Tree>
       </div>
 
-      <div class="rounded-md border border-h33 p-3">
-        <div class="mb-2 text-sm text-hcc">
+      <div class="rounded-md border border-gray-33 p-3">
+        <div class="mb-2 text-sm text-gray-cc">
           selectionMode=multiple
         </div>
         <Tree

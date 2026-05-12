@@ -15,12 +15,12 @@ const content = fakerEN.lorem.sentences(4)
     >
       <AccordionItem value="x">
         <AccordionTrigger>
-          <div class="text-hff">
+          <div class="text-gray-ff">
             XS
           </div>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>
@@ -34,12 +34,12 @@ const content = fakerEN.lorem.sentences(4)
     >
       <AccordionItem value="s">
         <AccordionTrigger>
-          <div class="text-hff">
+          <div class="text-gray-ff">
             Small
           </div>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>
@@ -53,12 +53,12 @@ const content = fakerEN.lorem.sentences(4)
     >
       <AccordionItem value="b">
         <AccordionTrigger>
-          <div class="text-hff">
+          <div class="text-gray-ff">
             Base
           </div>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>
@@ -72,12 +72,12 @@ const content = fakerEN.lorem.sentences(4)
     >
       <AccordionItem value="l">
         <AccordionTrigger>
-          <div class="text-hff">
+          <div class="text-gray-ff">
             Large
           </div>
         </AccordionTrigger>
         <AccordionContent class="mt-2">
-          <p class="text-sm text-hcc">
+          <p class="text-sm text-gray-cc">
             {{ content }}
           </p>
         </AccordionContent>

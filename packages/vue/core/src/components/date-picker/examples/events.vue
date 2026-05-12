@@ -22,11 +22,11 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : '�
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       监听：open-change / view-change / value-change / update:modelValue / update:open
     </div>
 
-    <div class="w-full max-w-[520px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] rounded-md border border-gray-33 p-3">
       <DatePicker
         v-model="value"
         v-model:open="open"
@@ -37,7 +37,7 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : '�
         @update:open="(o) => push(`update:open: ${o}`)"
       >
         <DatePickerControl>
-          <DatePickerTrigger class="rounded-md border border-h33 px-3 py-2 text-sm text-hff">
+          <DatePickerTrigger class="rounded-md border border-gray-33 px-3 py-2 text-sm text-gray-ff">
             <DatePickerValueText placeholder="选择日期" />
           </DatePickerTrigger>
         </DatePickerControl>
@@ -48,7 +48,7 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : '�
       </DatePicker>
     </div>
 
-    <pre class="w-full max-w-[520px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{
+    <pre class="w-full max-w-[520px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{
       joined
     }}</pre>
   </div>

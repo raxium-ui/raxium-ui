@@ -21,7 +21,7 @@
   }
 
   .rui-message-content {
-    @apply bg-rz-neutral-825 shadow-rui-popper;
+    @apply bg-gray-22 shadow-rui-popper;
     @apply success:border-l-rui-success error:border-l-rui-error warning:border-l-rui-warning info:border-l-rui-info loading:border-l-rui-primary;
     &[data-placement^='bottom'] {
       @apply shadow-rui-popper-top;

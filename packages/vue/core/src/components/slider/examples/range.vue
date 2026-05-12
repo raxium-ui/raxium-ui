@@ -7,7 +7,7 @@ const value = ref([20, 70])
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       defaultValue: [20, 70]
       value: {{ value }}
     </div>

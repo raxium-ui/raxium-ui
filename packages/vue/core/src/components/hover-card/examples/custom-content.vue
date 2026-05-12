@@ -17,11 +17,11 @@ const content = fakerEN.lorem.sentences(2)
     <HoverCardContent
       :ui="{
         content: 'border-rz-green',
-        inner: 'bg-h00 text-hff dark:bg-h00 dark:text-hff',
+        inner: 'bg-gray-00 text-gray-ff dark:bg-gray-00 dark:text-gray-ff',
       }"
     >
       <HoverCardArrow
-        class="[--arrow-background:var(--color-rz-green)] [--arrow-border:var(--color-rz-neutral-950)]"
+        class="[--arrow-background:var(--color-rz-green)] [--arrow-border:var(--color-gray-03)]"
         :theme="{ size: 'lg' }"
       />
       <div class="flex flex-col gap-2">

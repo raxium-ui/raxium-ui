@@ -28,7 +28,7 @@ const text = ref('')
         class="w-60"
         placeholder="v-model"
       />
-      <span class="text-sm text-hff">value: {{ text }}</span>
+      <span class="text-sm text-gray-ff">value: {{ text }}</span>
     </div>
   </div>
 </template>

@@ -4,6 +4,6 @@
   .rui-number-input {}
 
   .rui-number-input-trigger {
-    @apply hover:bg-rz-neutral-750 hover:text-rz-neutral-0;
+    @apply hover:bg-gray-33 hover:text-gray-ff;
   }
 }

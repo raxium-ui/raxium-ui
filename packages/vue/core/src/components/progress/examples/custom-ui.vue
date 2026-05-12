@@ -13,7 +13,7 @@ const value = ref(35)
     >
       <ProgressLinear
         :ui="{
-          track: 'bg-h22 border border-h55',
+          track: 'bg-gray-22 border border-gray-55',
           range: 'bg-rz-green',
         }"
       />
@@ -26,7 +26,7 @@ const value = ref(35)
       <ProgressLinear
         variant="transfer"
         :ui="{
-          track: 'bg-h22 border border-h55',
+          track: 'bg-gray-22 border border-gray-55',
           range: 'bg-rz-green',
         }"
       />

@@ -18,7 +18,7 @@ const value = ref([10])
       <Button variant="outlined" @click="value = [100]">
         Set 100
       </Button>
-      <span class="text-sm text-hff">value: {{ value[0] }}</span>
+      <span class="text-sm text-gray-ff">value: {{ value[0] }}</span>
     </div>
 
     <Slider v-model="value" class="w-90" :min="0" :max="100" :step="1">

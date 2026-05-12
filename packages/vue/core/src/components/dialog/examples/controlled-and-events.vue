@@ -22,7 +22,7 @@ const lastFrom = ref<string | null | undefined>(undefined)
       <Button @click="open = true">
         Open (v-model)
       </Button>
-      <span class="text-sm text-hff">open: {{ open }}</span>
+      <span class="text-sm text-gray-ff">open: {{ open }}</span>
       <span class="text-xs opacity-75">lastFrom: {{ lastFrom }}</span>
     </div>
 
@@ -47,8 +47,8 @@ const lastFrom = ref<string | null | undefined>(undefined)
         </DialogHeader>
         <DialogBody>
           <div class="flex flex-col gap-2">
-            <div class="text-sm text-hcc">
-              This example tracks the trigger source via <code class="text-hff">openChange.details.from</code>.
+            <div class="text-sm text-gray-cc">
+              This example tracks the trigger source via <code class="text-gray-ff">openChange.details.from</code>.
             </div>
             <div class="flex items-center gap-3">
               <DialogCloseTrigger as-child :from="TriggerFrom.CLOSE_TRIGGER">

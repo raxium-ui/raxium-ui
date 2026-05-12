@@ -18,17 +18,17 @@ const text = computed(() =>
 
 <template>
   <div class="w-full flex flex-col gap-2">
-    <div class="text-sm text-hcc">
-      range: <span class="text-hff">{{ text }}</span>
+    <div class="text-sm text-gray-cc">
+      range: <span class="text-gray-ff">{{ text }}</span>
     </div>
 
-    <div class="w-full max-w-[520px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] rounded-md border border-gray-33 p-3">
       <DatePicker
         v-model="value"
         selection-mode="range"
       >
         <DatePickerControl>
-          <DatePickerTrigger class="rounded-md border border-h33 px-3 py-2 text-sm text-hff">
+          <DatePickerTrigger class="rounded-md border border-gray-33 px-3 py-2 text-sm text-gray-ff">
             <DatePickerValueText placeholder="选择日期范围" />
           </DatePickerTrigger>
         </DatePickerControl>

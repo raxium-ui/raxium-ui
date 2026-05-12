@@ -18,7 +18,7 @@ import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '../index'
       </TooltipTrigger>
       <TooltipContent
         :ui="{
-          content: 'bg-h00 text-hff',
+          content: 'bg-gray-00 text-gray-ff',
           inner: 'px-3 py-2 text-sm',
         }"
       >

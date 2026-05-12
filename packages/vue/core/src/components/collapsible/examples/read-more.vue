@@ -11,7 +11,7 @@ const content = fakerEN.lorem.sentences(20)
       id="read-more-default"
       :collapsed-height="60"
     >
-      <p class="text-sm text-hcc">
+      <p class="text-sm text-gray-cc">
         {{ content }}
       </p>
     </ReadMore>
@@ -20,7 +20,7 @@ const content = fakerEN.lorem.sentences(20)
       id="read-more-customized"
       :collapsed-height="60"
       :text="{ more: '展开更多', less: '收起' }"
-      :ui="{ trigger: 'text-sm text-rz-green', content: 'text-hcc' }"
+      :ui="{ trigger: 'text-sm text-rz-green', content: 'text-gray-cc' }"
     >
       <p class="text-sm">
         {{ content }}

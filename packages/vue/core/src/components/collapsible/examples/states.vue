@@ -9,12 +9,12 @@ const content = fakerEN.lorem.sentences(10)
   <div class="w-full flex flex-col gap-4">
     <Collapsible class="w-full" default-open>
       <CollapsibleTrigger>
-        <div class="text-sm text-hff">
+        <div class="text-sm text-gray-ff">
           Default open
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent class="mt-2">
-        <p class="text-sm text-hcc">
+        <p class="text-sm text-gray-cc">
           {{ content }}
         </p>
       </CollapsibleContent>
@@ -22,12 +22,12 @@ const content = fakerEN.lorem.sentences(10)
 
     <Collapsible class="w-full" disabled>
       <CollapsibleTrigger>
-        <div class="text-sm text-hff">
+        <div class="text-sm text-gray-ff">
           Disabled (cannot toggle)
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent class="mt-2">
-        <p class="text-sm text-hcc">
+        <p class="text-sm text-gray-cc">
           {{ content }}
         </p>
       </CollapsibleContent>

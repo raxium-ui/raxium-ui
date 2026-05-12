@@ -37,8 +37,8 @@ function openCustomRender() {
   dialog({
     render: () => (
       <div class="flex flex-col gap-3">
-        <div class="text-sm text-hff">Custom render</div>
-        <div class="text-sm text-hcc">
+        <div class="text-sm text-gray-ff">Custom render</div>
+        <div class="text-sm text-gray-cc">
           You can fully control the content using a render function.
         </div>
       </div>

@@ -23,7 +23,7 @@ const content = fakerEN.lorem.paragraphs(8)
     <DialogContent class="w-140">
       <DialogHeader> Scrollable Dialog </DialogHeader>
       <DialogBody class="h-50">
-        <p class="whitespace-pre-wrap text-sm text-hcc">
+        <p class="whitespace-pre-wrap text-sm text-gray-cc">
           {{ content }}
         </p>
       </DialogBody>

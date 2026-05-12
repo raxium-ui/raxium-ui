@@ -5,10 +5,10 @@ import { RatingGroup, RatingGroupItem } from '../index'
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="w-full max-w-[520px] flex flex-col gap-3">
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         Disabled
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <RatingGroup :default-value="3" disabled :count="5">
           <template #default="{ items }">
             <RatingGroupItem v-for="item in items" :key="item" :index="item" />
@@ -16,10 +16,10 @@ import { RatingGroup, RatingGroupItem } from '../index'
         </RatingGroup>
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         ReadOnly
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <RatingGroup :default-value="4" read-only :count="5">
           <template #default="{ items }">
             <RatingGroupItem v-for="item in items" :key="item" :index="item" />

@@ -15,7 +15,7 @@ const checked = ref(false)
       <Button variant="outlined" @click="checked = true">
         Set true
       </Button>
-      <span class="text-sm text-hff">checked: {{ checked }}</span>
+      <span class="text-sm text-gray-ff">checked: {{ checked }}</span>
     </div>
 
     <Switch v-model:checked="checked">

@@ -7,11 +7,11 @@ const page = ref(3)
 
 <template>
   <div class="w-full flex flex-col gap-2">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       type=link（仅演示 href 生成）
     </div>
 
-    <div class="w-full max-w-[720px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[720px] rounded-md border border-gray-33 p-3">
       <Pagination
         v-model:page="page"
         type="link"

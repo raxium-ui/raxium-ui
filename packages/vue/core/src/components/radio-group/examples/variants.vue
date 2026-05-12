@@ -12,7 +12,7 @@ const value = ref<string | undefined>(items[0]?.value)
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-sm text-hff">
+    <div class="text-sm text-gray-ff">
       Mixed variants
     </div>
     <RadioGroup v-model="value">

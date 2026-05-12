@@ -17,7 +17,7 @@ function toggle(value: string, isChecked: boolean) {
 
 <template>
   <div class="w-full flex items-center gap-4">
-    <span class="text-sm text-hff">Checked: {{ label }}</span>
+    <span class="text-sm text-gray-ff">Checked: {{ label }}</span>
 
     <Menu>
       <MenuTrigger as-child>

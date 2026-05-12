@@ -9,7 +9,7 @@ const value = ref(70)
 <template>
   <div class="w-full flex flex-col gap-6">
     <div class="flex flex-col gap-3">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Circle (default)
       </div>
       <div class="flex items-center gap-4">
@@ -27,7 +27,7 @@ const value = ref(70)
     </div>
 
     <div class="flex flex-col gap-3">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Circle (transfer)
       </div>
       <div class="flex items-center gap-4">
@@ -45,7 +45,7 @@ const value = ref(70)
     </div>
 
     <div class="flex flex-col gap-3">
-      <div class="text-sm text-hff">
+      <div class="text-sm text-gray-ff">
         Arc (transfer + theta)
       </div>
       <div class="flex items-center gap-4">

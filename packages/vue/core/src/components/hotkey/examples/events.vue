@@ -24,11 +24,10 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
       @change="(codes, hk) => push(`change: [${codes.join(', ')}] -> ${hk}`)"
     />
 
-    <div class="text-sm text-hcc">
-      hotkey: <span class="text-hff">{{ hotkey || '(empty)' }}</span>
+    <div class="text-sm text-gray-cc">
+      hotkey: <span class="text-gray-ff">{{ hotkey || '(empty)' }}</span>
     </div>
 
-    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{ joined }}</pre>
+    <pre class="w-full max-w-[560px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ joined }}</pre>
   </div>
 </template>
-

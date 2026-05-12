@@ -13,7 +13,7 @@ const highlightedValue = ref<string>()
       <Button @click="open = !open">
         Toggle open: {{ open }}
       </Button>
-      <span class="text-sm text-hff">highlighted: {{ highlightedValue ?? 'null' }}</span>
+      <span class="text-sm text-gray-ff">highlighted: {{ highlightedValue ?? 'null' }}</span>
     </div>
 
     <Menu

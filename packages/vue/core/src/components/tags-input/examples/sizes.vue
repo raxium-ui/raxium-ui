@@ -10,12 +10,12 @@ const value = ref<string[]>(['Vue', 'React'])
 
 <template>
   <div class="w-full flex flex-col gap-4">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       xs / sm / base / lg
     </div>
 
     <div class="w-full max-w-[560px] flex flex-col gap-3">
-      <div v-for="size in THEME_SIZE" :key="size" class="rounded-md border border-h33 p-3">
+      <div v-for="size in THEME_SIZE" :key="size" class="rounded-md border border-gray-33 p-3">
         <TagsInput v-model="value" :theme="{ size }">
           <template #default="{ items }">
             <TagsInputItem
@@ -24,7 +24,7 @@ const value = ref<string[]>(['Vue', 'React'])
               :index="index"
               :value="v"
             >
-              <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-h55 hover:text-hff">
+              <ArkTagsInput.ItemDeleteTrigger class="ml-1 text-gray-55 hover:text-gray-ff">
                 <X class="size-3" />
               </ArkTagsInput.ItemDeleteTrigger>
             </TagsInputItem>

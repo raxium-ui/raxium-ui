@@ -22,31 +22,31 @@
    * ============================================ */
 
   /* Page-level */
-  --color-rui-surface-base: var(--color-rz-neutral-950);
+  --color-rui-surface-base: var(--color-gray-03);
 
   /* Containers & panels */
-  --color-rui-surface-container: var(--color-rz-neutral-875);
-  --color-rui-surface-elevated: var(--color-rz-neutral-825);
-  --color-rui-surface-sunken: var(--color-rz-neutral-900);
+  --color-rui-surface-container: var(--color-gray-1a);
+  --color-rui-surface-elevated: var(--color-gray-22);
+  --color-rui-surface-sunken: var(--color-gray-16);
 
   /* Inverted (light on dark theme) */
-  --color-rui-surface-inverse: var(--color-rz-neutral-0);
+  --color-rui-surface-inverse: var(--color-gray-ff);
 
   /* Disabled */
-  --color-rui-surface-disabled: var(--color-rz-neutral-910);
+  --color-rui-surface-disabled: var(--color-gray-12);
 
   /* Hover states */
-  --color-rui-surface-hover: var(--color-rz-neutral-750);
+  --color-rui-surface-hover: var(--color-gray-33);
 
   /* ============================================
    * Text / Foreground
    * ============================================ */
-  --color-rui-text-primary: var(--color-rz-neutral-0);
-  --color-rui-text-secondary: var(--color-rz-neutral-75);
-  --color-rui-text-muted: var(--color-rz-neutral-225);
-  --color-rui-text-subtle: var(--color-rz-neutral-275);
-  --color-rui-text-disabled: var(--color-rz-neutral-550);
-  --color-rui-text-inverse: var(--color-rz-neutral-950);
+  --color-rui-text-primary: var(--color-gray-ff);
+  --color-rui-text-secondary: var(--color-gray-cc);
+  --color-rui-text-muted: var(--color-gray-90);
+  --color-rui-text-subtle: var(--color-gray-88);
+  --color-rui-text-disabled: var(--color-gray-55);
+  --color-rui-text-inverse: var(--color-gray-03);
 
   /* ============================================
    * Primary Action (Brand)
@@ -55,7 +55,7 @@
   --color-rui-primary-hover: var(--color-rz-green-light);
   --color-rui-primary-active: var(--color-rz-green-dark);
   --color-rui-primary-border: var(--color-rz-green-border);
-  --color-rui-primary-fg: var(--color-rz-neutral-950);
+  --color-rui-primary-fg: var(--color-gray-03);
 
   /* ============================================
    * Danger / Error
@@ -64,7 +64,7 @@
   --color-rui-danger-hover: var(--color-rz-red-light);
   --color-rui-danger-active: var(--color-rz-red-dark);
   --color-rui-danger-border: var(--color-rz-red-border);
-  --color-rui-danger-fg: var(--color-rz-neutral-0);
+  --color-rui-danger-fg: var(--color-gray-ff);
 
   /* ============================================
    * Warning
@@ -73,7 +73,7 @@
   --color-rui-warning-hover: var(--color-rz-orange-light);
   --color-rui-warning-active: var(--color-rz-orange-dark);
   --color-rui-warning-border: var(--color-rz-orange-border);
-  --color-rui-warning-fg: var(--color-rz-neutral-0);
+  --color-rui-warning-fg: var(--color-gray-ff);
 
   /* ============================================
    * Info
@@ -82,7 +82,7 @@
   --color-rui-info-hover: var(--color-rz-blue-light);
   --color-rui-info-active: var(--color-rz-blue-dark);
   --color-rui-info-border: var(--color-rz-blue-border);
-  --color-rui-info-fg: var(--color-rz-neutral-0);
+  --color-rui-info-fg: var(--color-gray-ff);
 
   /* ============================================
    * Success (alias to primary green)
@@ -94,32 +94,32 @@
    * ============================================ */
   --color-rui-error: var(--color-rui-danger);
   --color-rui-warning: var(--color-rz-orange);
-  --color-rui-info: var(--color-rz-neutral-275);
+  --color-rui-info: var(--color-gray-88);
 
   /* ============================================
    * Border
    * ============================================ */
-  --color-rui-border: var(--color-rz-neutral-575);
-  --color-rui-border-subtle: var(--color-rz-neutral-925);
-  --color-rui-border-strong: var(--color-rz-neutral-550);
+  --color-rui-border: var(--color-gray-54);
+  --color-rui-border-subtle: var(--color-gray-0c);
+  --color-rui-border-strong: var(--color-gray-55);
   --color-rui-border-focus: var(--color-rz-green);
 
   /* ============================================
    * Form Input
    * ============================================ */
-  --color-rui-input-border: var(--color-rz-neutral-550);
-  --color-rui-input-border-hover: var(--color-rz-neutral-450);
+  --color-rui-input-border: var(--color-gray-55);
+  --color-rui-input-border-hover: var(--color-gray-66);
   --color-rui-input-border-focus: var(--color-rz-green);
-  --color-rui-input-text: var(--color-rz-neutral-100);
-  --color-rui-input-placeholder: var(--color-rz-neutral-550);
+  --color-rui-input-text: var(--color-gray-bb);
+  --color-rui-input-placeholder: var(--color-gray-55);
 
   /* ============================================
    * Interactive (close, toggle, separator)
    * ============================================ */
-  --color-rui-close: var(--color-rz-neutral-275);
-  --color-rui-close-hover: var(--color-rz-neutral-0);
-  --color-rui-toggle-text: var(--color-rz-neutral-275);
-  --color-rui-toggle-text-hover: var(--color-rz-neutral-0);
-  --color-rui-toggle-text-active: var(--color-rz-neutral-0);
-  --color-rui-separator: var(--color-rz-neutral-950);
+  --color-rui-close: var(--color-gray-88);
+  --color-rui-close-hover: var(--color-gray-ff);
+  --color-rui-toggle-text: var(--color-gray-88);
+  --color-rui-toggle-text-hover: var(--color-gray-ff);
+  --color-rui-toggle-text-active: var(--color-gray-ff);
+  --color-rui-separator: var(--color-gray-03);
 }

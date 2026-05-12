@@ -22,12 +22,12 @@ const ratingRef = ref<any>(null)
       <Button variant="outlined" @click="ratingRef?.$api?.clearValue()">
         Clear
       </Button>
-      <div class="text-sm text-hcc">
-        value: <span class="text-hff">{{ value }}</span>
+      <div class="text-sm text-gray-cc">
+        value: <span class="text-gray-ff">{{ value }}</span>
       </div>
     </div>
 
-    <div class="w-full max-w-[520px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] rounded-md border border-gray-33 p-3">
       <RatingGroup ref="ratingRef" v-model="value" :count="5">
         <template #default="{ items }">
           <RatingGroupItem v-for="item in items" :key="item" :index="item" />

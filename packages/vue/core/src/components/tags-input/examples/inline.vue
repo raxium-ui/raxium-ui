@@ -11,10 +11,10 @@ const wrapValue = ref<string[]>(['Tag-A', 'Tag-B', 'Tag-C', 'Tag-D', 'Tag-E', 'T
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="w-full max-w-[560px] flex flex-col gap-3">
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         inline=true（横向滚动）
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <TagsInput v-model="inlineValue" :inline="true">
           <template #default="{ items }">
             <TagsInputItem
@@ -27,10 +27,10 @@ const wrapValue = ref<string[]>(['Tag-A', 'Tag-B', 'Tag-C', 'Tag-D', 'Tag-E', 'T
         </TagsInput>
       </div>
 
-      <div class="text-sm text-hcc">
+      <div class="text-sm text-gray-cc">
         inline=false（自动换行）
       </div>
-      <div class="rounded-md border border-h33 p-3">
+      <div class="rounded-md border border-gray-33 p-3">
         <TagsInput v-model="wrapValue" :inline="false">
           <template #default="{ items }">
             <TagsInputItem

@@ -15,11 +15,11 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
 
 <template>
   <div class="w-full flex flex-col gap-3">
-    <div class="text-sm text-hcc">
+    <div class="text-sm text-gray-cc">
       ç›‘å¬ï¼špage-change / page-size-change / update:page / update:pageSize
     </div>
 
-    <div class="w-full max-w-[720px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[720px] rounded-md border border-gray-33 p-3">
       <Pagination
         v-model:page="page"
         v-model:page-size="pageSize"
@@ -34,7 +34,7 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
       </Pagination>
     </div>
 
-    <pre class="w-full max-w-[720px] whitespace-pre-wrap rounded-md bg-h0f p-3 text-xs text-hcc">{{ joined }}</pre>
+    <pre class="w-full max-w-[720px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ joined }}</pre>
   </div>
 </template>
 

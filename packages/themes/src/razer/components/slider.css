@@ -1,6 +1,6 @@
 @layer components {
   .rui-slider-track {
-    @apply bg-rz-neutral-750;
+    @apply bg-gray-33;
   }
 
   .rui-slider-range {
@@ -18,7 +18,7 @@
 
   .rui-slider-marker-dot {
     &[data-state="over-value"] {
-      @apply bg-rz-neutral-750;
+      @apply bg-gray-33;
     }
     &[data-state="under-value"] {
       @apply bg-rui-primary;

@@ -28,7 +28,7 @@ const open = ref(false)
         <PopoverArrow />
         <div class="flex flex-col gap-2">
           <PopoverClose />
-          <div class="text-sm text-hff">
+          <div class="text-sm text-gray-ff">
             Controlled via v-model:open
           </div>
         </div>

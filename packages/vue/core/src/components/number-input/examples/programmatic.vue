@@ -28,12 +28,12 @@ const inputRef = ref<any>(null)
       <Button variant="outlined" @click="inputRef?.$api?.clearValue()">
         Clear
       </Button>
-      <div class="text-sm text-hcc">
-        value: <span class="text-hff">{{ value || '(empty)' }}</span>
+      <div class="text-sm text-gray-cc">
+        value: <span class="text-gray-ff">{{ value || '(empty)' }}</span>
       </div>
     </div>
 
-    <div class="w-full max-w-[520px] rounded-md border border-h33 p-3">
+    <div class="w-full max-w-[520px] rounded-md border border-gray-33 p-3">
       <NumberInput ref="inputRef" v-model="value" show-trigger :min="0" :max="20" :step="5" />
     </div>
   </div>

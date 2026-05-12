@@ -19,7 +19,7 @@ const selected = ref<string | undefined>(undefined)
 
 <template>
   <div class="w-full flex items-center gap-4">
-    <span class="text-sm text-hff">Selected: {{ selected }}</span>
+    <span class="text-sm text-gray-ff">Selected: {{ selected }}</span>
 
     <Menu :theme="{ size: 'sm' }" @select="selected = $event.value">
       <MenuTrigger as-child>

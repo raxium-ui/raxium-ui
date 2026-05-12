@@ -2,13 +2,13 @@
   .rui-pagination-control {}
 
   .rui-pagination-item {
-    @apply text-rz-neutral-225 hover:text-rz-neutral-0 hover:bg-rz-neutral-950/30;
+    @apply text-gray-90 hover:text-gray-ff hover:bg-gray-03/30;
     &[data-selected] {
-      @apply text-rz-neutral-0 bg-rz-neutral-950/30;
+      @apply text-gray-ff bg-gray-03/30;
     }
   }
 
   .rui-pagination-ellipsis {
-    @apply text-rz-neutral-225;
+    @apply text-gray-90;
   }
 }
