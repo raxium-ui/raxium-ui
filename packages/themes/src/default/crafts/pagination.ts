@@ -3,6 +3,9 @@ import { tv } from '../../utils'
 
 const prefix = 'rui-pagination'
 
+/**
+ * @color razer/components/pagination.css
+ */
 export const tvPagination = tv(
   {
     slots: {
@@ -36,15 +39,7 @@ export const tvPagination = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      item: `${prefix}-item`,
-      ellipsis: `${prefix}-ellipsis`,
-    },
-  },
+  }, prefix,
 )
 
 export type PaginationVariants = VariantProps<typeof tvPagination>
@@ -74,13 +69,7 @@ export const tvPaginationGoto = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: `${prefix}-goto`,
-      input: `${prefix}-goto-input`,
-    },
-  },
+  }, `${prefix}-goto`,
 )
 export type PaginationGotoVariants = VariantProps<typeof tvPaginationGoto>
 
@@ -105,16 +94,6 @@ export const tvPaginationPageSize = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: `${prefix}-page-size`,
-      control: `${prefix}-page-size-control`,
-      trigger: `${prefix}-page-size-trigger`,
-      value: `${prefix}-page-size-value`,
-      content: `${prefix}-page-size-content`,
-      item: `${prefix}-page-size-item`,
-    },
-  },
+  }, `${prefix}-page-size`,
 )
 export type PaginationPageSizeVariants = VariantProps<typeof tvPaginationPageSize>

@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { mapVariant, tv } from '../../utils'
 import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
-
-const prefix = 'rui-hover-card'
-
+/**
+ * @color razer/components/hover-card.css
+ */
 export const tvHoverCard = tv(
   {
     slots: {
@@ -40,13 +40,7 @@ export const tvHoverCard = tv(
         },
       },
     ],
-  },
-  {
-    slots: {
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-    },
-  },
+  }, 'rui-hover-card',
 )
 
 export type HoverCardVariants = VariantProps<typeof tvHoverCard>

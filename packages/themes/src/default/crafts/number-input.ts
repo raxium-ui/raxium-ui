@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-number-input'
-
+/**
+ * @color razer/components/number-input.css
+ */
 export const tvNumberInput = tv(
   {
     slots: {
@@ -36,16 +36,7 @@ export const tvNumberInput = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      input: `${prefix}-input`,
-      triggerGroup: `${prefix}-trigger-group`,
-      trigger: `${prefix}-trigger`,
-    },
-  },
+  }, 'rui-number-input',
 )
 
 export type NumberInputVariants = VariantProps<typeof tvNumberInput>

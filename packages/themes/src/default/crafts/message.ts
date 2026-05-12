@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-message'
-
+/**
+ * @color razer/components/message.css
+ */
 export const tvMessage = tv(
   {
     slots: {
@@ -51,16 +51,7 @@ export const tvMessage = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      content: `${prefix}-content`,
-      description: `${prefix}-description`,
-      icon: `${prefix}-icon`,
-      close: `${prefix}-close`,
-    },
-  },
+  }, 'rui-message',
 )
 
 export type MessageVariants = VariantProps<typeof tvMessage>

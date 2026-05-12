@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-switch'
-
+/**
+ * @color razer/components/switch.css
+ */
 export const tvSwitch = tv({
   slots: {
     root: [
@@ -60,13 +60,6 @@ export const tvSwitch = tv({
   defaultVariants: {
     size: 'base',
   },
-}, {
-  slots: {
-    root: prefix,
-    control: `${prefix}-control`,
-    thumb: `${prefix}-thumb`,
-    label: `${prefix}-label`,
-  },
-})
+}, 'rui-switch')
 
 export type SwitchVariants = VariantProps<typeof tvSwitch>

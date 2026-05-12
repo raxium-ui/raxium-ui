@@ -5,6 +5,7 @@ import { useForwardExpose } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { getNodeCssVar } from '@raxium/shared/css'
 import { clsx } from '@raxium/themes/utils'
+import { useCraft } from '@raxium/vue/composables/useCraft'
 import { useRipple } from '@raxium/vue/composables/useRipple'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { LoaderCircle } from 'lucide-vue-next'
@@ -46,21 +47,19 @@ function onClick(event: MouseEvent) {
   emits('click', event)
 }
 
-// theme
+// theme — useCraft pre-binds variants so slot calls only need { class }
 const theme = useTheme(() => propsTheme, () => craft)
-const crafts = computed(() => theme.value.crafts.tvButton())
+const crafts = useCraft(theme, 'tvButton', () => ({
+  variant: variant as ButtonVariants['variant'],
+  color: color as ButtonVariants['color'],
+  loading,
+}))
 </script>
 
 <template>
   <ark.button
     :ref="forwardRef"
-    :class="crafts.root({
-      variant: variant as ButtonVariants['variant'],
-      color: color as ButtonVariants['color'],
-      loading,
-      class: clsx(ui?.root, propsClass),
-      ...theme,
-    })"
+    :class="crafts.root({ class: clsx(ui?.root, propsClass) })"
     :disabled="disabled"
     :data-variant="variant"
     :data-color="color"
@@ -76,12 +75,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
       name="loading"
     >
       <LoaderCircle
-        :class="crafts.loading({
-          variant: variant as ButtonVariants['variant'],
-          loading,
-          class: clsx(ui?.loading),
-          ...theme,
-        })"
+        :class="crafts.loading({ class: clsx(ui?.loading) })"
       />
     </slot>
     <slot />

@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-floating-panel'
-
+/**
+ * @color razer/components/floating-panel.css
+ */
 export const tvFloatingPanel = tv(
   {
     slots: {
@@ -52,20 +52,7 @@ export const tvFloatingPanel = tv(
         },
       },
     },
-  },
-  {
-    slots: {
-      positioner: `${prefix}-positioner`,
-      content: `${prefix}-content`,
-      header: `${prefix}-header`,
-      control: `${prefix}-control`,
-      title: `${prefix}-title`,
-      trigger: `${prefix}-trigger`,
-      resizeVertical: `${prefix}-resize-vertical`,
-      resizeHorizontal: `${prefix}-resize-horizontal`,
-      resizeCorner: `${prefix}-resize-corner`,
-    },
-  },
+  }, 'rui-floating-panel',
 )
 
 export type FloatingPanelVariants = VariantProps<typeof tvFloatingPanel>

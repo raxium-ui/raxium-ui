@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { mapVariant, tv } from '../../utils'
-
-const prefix = 'rui-checkbox'
-
+/**
+ * @color razer/components/checkbox.css
+ */
 export const tvCheckbox = tv(
   {
     slots: {
@@ -46,17 +46,7 @@ export const tvCheckbox = tv(
         lg: { control: 'size-5', label: 'text-lg', indicator: 'text-lg' },
       }),
     ],
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      indicator: `${prefix}-indicator`,
-      indicatorChecked: `${prefix}-indicator-checked`,
-      indicatorMinus: `${prefix}-indicator-minus`,
-      label: `${prefix}-label`,
-    },
-  },
+  }, 'rui-checkbox',
 )
 
 export type CheckboxVariants = VariantProps<typeof tvCheckbox>

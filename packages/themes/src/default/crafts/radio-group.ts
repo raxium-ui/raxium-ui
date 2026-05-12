@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { mapVariant, tv } from '../../utils'
-
-const prefix = 'rui-radio-group'
-
+/**
+ * @color razer/components/radio-group.css
+ */
 export const tvRadioGroup = tv(
   {
     slots: {
@@ -63,16 +63,7 @@ export const tvRadioGroup = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      item: `${prefix}-item`,
-      itemControl: `${prefix}-item-control`,
-      itemIndicator: `${prefix}-item-indicator`,
-      itemText: `${prefix}-item-text`,
-    },
-  },
+  }, 'rui-radio-group',
 )
 
 export type RadioGroupVariants = VariantProps<typeof tvRadioGroup>

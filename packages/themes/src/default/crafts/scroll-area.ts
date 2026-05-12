@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-scroll-area'
-
+/**
+ * @color razer/components/scroll-area.css
+ */
 export const tvScrollArea = tv({
   slots: {
     root: 'overflow-hidden',
@@ -102,15 +102,6 @@ export const tvScrollArea = tv({
     size: 'base',
     orientation: 'vertical',
   },
-}, {
-  slots: {
-    root: prefix,
-    viewport: `${prefix}-viewport`,
-    content: `${prefix}-content`,
-    scrollbar: `${prefix}-scrollbar`,
-    thumb: `${prefix}-thumb`,
-    corner: `${prefix}-corner`,
-  },
-})
+}, 'rui-scroll-area')
 
 export type ScrollAreaVariants = VariantProps<typeof tvScrollArea>

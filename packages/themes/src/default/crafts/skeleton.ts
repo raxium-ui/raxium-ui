@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-skeleton'
-
+/**
+ * @color razer/components/skeleton.css
+ */
 export const tvSkeleton = tv(
   {
     base: '',
@@ -16,8 +16,7 @@ export const tvSkeleton = tv(
         circle: 'rounded-full',
       },
     },
-  },
-  { class: prefix },
+  }, 'rui-skeleton',
 )
 
 export type SkeletonVariants = VariantProps<typeof tvSkeleton>

@@ -55,6 +55,40 @@ export function mapVariant<V extends string>(
  * ]
  * ```
  */
+/**
+ * Transpose per-slot size definitions into per-size slot definitions.
+ *
+ * Allows defining each slot's size progression in one place,
+ * then transposing into the format tailwind-variants expects.
+ *
+ * @example
+ * ```ts
+ * // Define per-slot (readable — see each slot's full scale):
+ * const size = slotSizes({
+ *   trigger: { xs: 'text-xs', sm: 'text-sm', base: 'text-base', lg: 'text-lg' },
+ *   item:    { xs: 'text-xs px-1.5 py-1', sm: 'text-sm px-2 py-1.5', ... },
+ * })
+ * // Returns per-size format (what tv() needs):
+ * // { xs: { trigger: 'text-xs', item: 'text-xs px-1.5 py-1' }, sm: {...}, ... }
+ * ```
+ */
+export function slotSizes<
+  Slot extends string,
+  Size extends string,
+>(
+  mapping: Record<Slot, Record<Size, ClassValue>>,
+): Record<Size, Record<Slot, ClassValue>> {
+  const result = {} as Record<Size, Record<Slot, ClassValue>>
+  for (const [slot, sizes] of Object.entries(mapping) as [Slot, Record<Size, ClassValue>][]) {
+    for (const [size, cls] of Object.entries(sizes) as [Size, ClassValue][]) {
+      if (!result[size])
+        result[size] = {} as Record<Slot, ClassValue>
+      result[size][slot] = cls
+    }
+  }
+  return result
+}
+
 export function mapVariant2d<V1 extends string, V2 extends string>(
   variant1: string,
   variant2: string,

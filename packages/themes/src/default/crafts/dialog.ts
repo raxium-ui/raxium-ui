@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 import { DIALOG_BACKDROP_MOTION, DIALOG_CONTENT_MOTION } from './_shared'
-
-const prefix = 'rui-dialog'
-
+/**
+ * @color razer/components/dialog.css
+ */
 export const tvDialog = tv(
   {
     slots: {
@@ -87,19 +87,7 @@ export const tvDialog = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      backdrop: `${prefix}-backdrop`,
-      positioner: `${prefix}-positioner`,
-      content: `${prefix}-content`,
-      header: `${prefix}-header`,
-      close: `${prefix}-close`,
-      title: `${prefix}-title`,
-      body: `${prefix}-body`,
-      footer: `${prefix}-footer`,
-    },
-  },
+  }, 'rui-dialog',
 )
 
 export type DialogVariants = VariantProps<typeof tvDialog>

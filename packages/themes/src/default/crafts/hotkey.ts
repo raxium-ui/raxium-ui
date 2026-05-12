@@ -5,6 +5,9 @@ import { tvInput } from './input'
 const inputPrefix = 'rui-input'
 const prefix = 'rui-hotkey'
 
+/**
+ * @color razer/components/hotkey.css
+ */
 export const tvHotkey = tv(
   {
     extend: tvInput,

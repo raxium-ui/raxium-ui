@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-toggle'
-
+/**
+ * @color razer/components/toggle.css
+ */
 export const tvToggle = tv({
   base: [
     'inline-flex',
@@ -27,8 +27,6 @@ export const tvToggle = tv({
   defaultVariants: {
     size: 'base',
   },
-}, {
-  class: prefix,
-})
+}, 'rui-toggle')
 
 export type ToggleVariants = VariantProps<typeof tvToggle>

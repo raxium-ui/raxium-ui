@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-toast'
-
+/**
+ * @color razer/components/toast.css
+ */
 export const tvToast = tv(
   {
     slots: {
@@ -53,18 +53,7 @@ export const tvToast = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      content: `${prefix}-content`,
-      inner: `${prefix}-inner`,
-      title: `${prefix}-title`,
-      description: `${prefix}-description`,
-      icon: `${prefix}-icon`,
-      close: `${prefix}-close`,
-    },
-  },
+  }, 'rui-toast',
 )
 
 export type ToastVariants = VariantProps<typeof tvToast>

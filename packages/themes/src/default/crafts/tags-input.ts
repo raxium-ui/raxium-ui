@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-tags-input'
-
+/**
+ * @color razer/components/tags-input.css
+ */
 export const tvTagsInput = tv(
   {
     slots: {
@@ -62,20 +62,7 @@ export const tvTagsInput = tv(
       size: 'base',
       inline: true,
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      input: `${prefix}-input`,
-      scrollArea: `${prefix}-scroll-area`,
-      scrollAreaContent: `${prefix}-scroll-area-content`,
-      item: `${prefix}-item`,
-      itemPreview: `${prefix}-item-preview`,
-      itemInput: `${prefix}-item-input`,
-      itemText: `${prefix}-item-text`,
-    },
-  },
+  }, 'rui-tags-input',
 )
 
 export type TagsInputVariants = VariantProps<typeof tvTagsInput>

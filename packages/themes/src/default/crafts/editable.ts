@@ -4,6 +4,9 @@ import { tvInput } from './input'
 
 const prefix = 'rui-editable'
 
+/**
+ * @color razer/components/editable.css
+ */
 export const tvEditable = tv(
   {
     slots: {
@@ -28,14 +31,7 @@ export const tvEditable = tv(
       }),
     ],
     defaultVariants: { size: 'base' },
-  },
-  {
-    slots: {
-      root: prefix,
-      area: `${prefix}-area`,
-      preview: `${prefix}-preview`,
-    },
-  },
+  }, prefix,
 )
 
 export const tvEditableInput = tv(
@@ -54,14 +50,7 @@ export const tvEditableInput = tv(
         lg: { root: 'px-2 py-1', clearable: 'text-lg size-[1lh]' },
       }),
     ],
-  },
-  {
-    slots: {
-      root: `${prefix}-input`,
-      input: `${prefix}-input-input`,
-      clearable: `${prefix}-input-clearable`,
-    },
-  },
+  }, `${prefix}-input`,
 )
 
 export type EditableVariants = VariantProps<typeof tvEditable>

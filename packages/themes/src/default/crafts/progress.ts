@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-progress'
-
+/**
+ * @color razer/components/progress.css
+ */
 export const tvProgress = tv(
   {
     slots: {
@@ -115,17 +115,7 @@ export const tvProgress = tv(
       size: 'base',
       orientation: 'horizontal',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      track: `${prefix}-track`,
-      range: `${prefix}-range`,
-      circle: `${prefix}-circle`,
-      circleTrack: `${prefix}-circle-track`,
-      circleRange: `${prefix}-circle-range`,
-    },
-  },
+  }, 'rui-progress',
 )
 
 export type ProgressVariants = VariantProps<typeof tvProgress>

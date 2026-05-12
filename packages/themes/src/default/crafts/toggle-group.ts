@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-toggle-group'
-
+/**
+ * @color razer/components/toggle-group.css
+ */
 export const tvToggleGroup = tv(
   {
     slots: {
@@ -45,13 +45,7 @@ export const tvToggleGroup = tv(
       size: 'base',
       orientation: 'horizontal',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      item: `${prefix}-item`,
-    },
-  },
+  }, 'rui-toggle-group',
 )
 
 export type ToggleGroupVariants = VariantProps<typeof tvToggleGroup>

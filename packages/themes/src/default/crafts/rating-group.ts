@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-rating-group'
-
+/**
+ * @color razer/components/rating-group.css
+ */
 export const tvRatingGroup = tv(
   {
     slots: {
@@ -31,16 +31,7 @@ export const tvRatingGroup = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      item: `${prefix}-item`,
-      itemIndicator: `${prefix}-item-indicator`,
-      itemIndicatorIcon: `${prefix}-item-indicator-icon`,
-    },
-  },
+  }, 'rui-rating-group',
 )
 
 export type RatingGroupVariants = VariantProps<typeof tvRatingGroup>

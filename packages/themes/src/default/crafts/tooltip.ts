@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
-
-const prefix = 'rui-tooltip'
-
+/**
+ * @color razer/components/tooltip.css
+ */
 export const tvTooltip = tv(
   {
     slots: {
@@ -38,13 +38,7 @@ export const tvTooltip = tv(
       size: 'base',
       bordered: true,
     },
-  },
-  {
-    slots: {
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-    },
-  },
+  }, 'rui-tooltip',
 )
 
 export type TooltipVariants = VariantProps<typeof tvTooltip>

@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
-
-const prefix = 'rui-menu'
-
+/**
+ * @color razer/components/menu.css
+ */
 export const tvMenu = tv(
   {
     slots: {
@@ -85,19 +85,6 @@ export const tvMenu = tv(
       },
     ],
     defaultVariants: { size: 'base', bordered: true },
-  },
-  {
-    slots: {
-      root: prefix,
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-      item: `${prefix}-item`,
-      itemGroup: `${prefix}-item-group`,
-      itemGroupLabel: `${prefix}-item-group-label`,
-      triggerItem: `${prefix}-trigger-item`,
-      triggerItemIndicator: `${prefix}-trigger-item-indicator`,
-      radioItem: `${prefix}-radio-item`,
-    },
-  },
+  }, 'rui-menu',
 )
 export type MenuVariants = VariantProps<typeof tvMenu>

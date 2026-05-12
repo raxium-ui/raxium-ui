@@ -4,6 +4,9 @@ import { COLLAPSIBLE_CONTENT_MOTION, COLLAPSIBLE_INDICATOR } from './_shared'
 
 const prefix = 'rui-accordion'
 
+/**
+ * @color razer/components/accordion.css
+ */
 /** 结构与 tvCollapsible 对齐：root / trigger / indicator / content，并增加 item 包裹层 */
 export const tvAccordion = tv({
   slots: {
@@ -29,14 +32,6 @@ export const tvAccordion = tv({
       },
     },
   },
-}, {
-  slots: {
-    root: prefix,
-    item: `${prefix}-item`,
-    trigger: `${prefix}-trigger`,
-    indicator: `${prefix}-trigger-indicator`,
-    content: `${prefix}-content`,
-  },
-})
+}, { prefix: prefix, slots: { indicator: `${prefix}-trigger-indicator` } })
 
 export type AccordionVariants = VariantProps<typeof tvAccordion>

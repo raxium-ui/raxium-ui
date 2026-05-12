@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-slider'
-
+/**
+ * @color razer/components/slider.css
+ */
 export const tvSlider = tv(
   {
     slots: {
@@ -76,18 +76,7 @@ export const tvSlider = tv(
       size: 'base',
       orientation: 'horizontal',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      control: `${prefix}-control`,
-      track: `${prefix}-track`,
-      range: `${prefix}-range`,
-      thumb: `${prefix}-thumb`,
-      marker: `${prefix}-marker`,
-      markerDot: `${prefix}-marker-dot`,
-    },
-  },
+  }, 'rui-slider',
 )
 
 export type SliderVariants = VariantProps<typeof tvSlider>

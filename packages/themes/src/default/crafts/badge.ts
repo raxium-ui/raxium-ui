@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-badge'
-
+/**
+ * @color razer/components/badge.css
+ */
 export const tvBadge = tv(
   {
     base: [
@@ -47,10 +47,7 @@ export const tvBadge = tv(
         class: ['p-0', 'size-[.5rem]'],
       },
     ],
-  },
-  {
-    class: prefix,
-  },
+  }, 'rui-badge',
 )
 
 export type BadgeVariants = VariantProps<typeof tvBadge>

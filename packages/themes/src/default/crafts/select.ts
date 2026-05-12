@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 import { POPOVER_MOTION } from './_shared'
-
-const prefix = 'rui-select'
-
+/**
+ * @color razer/components/select.css
+ */
 export const tvSelect = tv(
   {
     slots: {
@@ -91,22 +91,7 @@ export const tvSelect = tv(
       size: 'base',
       bordered: true,
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      trigger: `${prefix}-trigger`,
-      indicator: `${prefix}-indicator`,
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-      value: `${prefix}-value`,
-      item: `${prefix}-item`,
-      itemIndicator: `${prefix}-item-indicator`,
-      itemGroup: `${prefix}-item-group`,
-      itemGroupLabel: `${prefix}-item-group-label`,
-      clearTrigger: `${prefix}-clear-trigger`,
-    },
-  },
+  }, 'rui-select',
 )
 
 export type SelectVariants = VariantProps<typeof tvSelect>

@@ -1,9 +1,9 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
-
-const prefix = 'rui-popover'
-
+/**
+ * @color razer/components/popover.css
+ */
 export const tvPopover = tv(
   {
     slots: {
@@ -47,15 +47,7 @@ export const tvPopover = tv(
       size: 'base',
       bordered: true,
     },
-  },
-  {
-    slots: {
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-      close: `${prefix}-close`,
-      indicator: `${prefix}-indicator`,
-    },
-  },
+  }, 'rui-popover',
 )
 
 export type PopoverVariants = VariantProps<typeof tvPopover>

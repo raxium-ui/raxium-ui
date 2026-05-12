@@ -4,19 +4,16 @@ import { COLLAPSIBLE_CONTENT_MOTION } from './_shared'
 
 const prefix = 'rui-tree'
 
+/**
+ * @color razer/components/tree.css
+ */
 export const tvTree = tv(
   {
     slots: {
       root: '',
       tree: '',
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      tree: `${prefix}-tree`,
-    },
-  },
+  }, prefix,
 )
 
 export type TreeVariants = VariantProps<typeof tvTree>
@@ -79,21 +76,7 @@ export const tvTreeBranch = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: `${prefix}-branch`,
-      control: `${prefix}-branch-control`,
-      title: `${prefix}-branch-title`,
-      text: `${prefix}-branch-text`,
-      icon: `${prefix}-branch-icon`,
-      indicator: `${prefix}-branch-indicator`,
-      content: `${prefix}-branch-content`,
-      indentGuide: `${prefix}-branch-indent-guide`,
-      checkbox: `${prefix}-branch-checkbox`,
-      checkboxIndicator: `${prefix}-branch-checkbox-indicator`,
-    },
-  },
+  }, `${prefix}-branch`,
 )
 export type TreeBranchVariants = VariantProps<typeof tvTreeBranch>
 
@@ -146,17 +129,7 @@ export const tvTreeItem = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      root: `${prefix}-item`,
-      title: `${prefix}-item-title`,
-      icon: `${prefix}-item-icon`,
-      text: `${prefix}-item-text`,
-      checkbox: `${prefix}-item-checkbox`,
-      checkboxIndicator: `${prefix}-item-checkbox-indicator`,
-    },
-  },
+  }, `${prefix}-item`,
 )
 
 export type TreeItemVariants = VariantProps<typeof tvTreeItem>

@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-spin'
-
+/**
+ * @color razer/components/spin.css
+ */
 export const tvSpin = tv(
   {
     slots: {
@@ -53,16 +53,7 @@ export const tvSpin = tv(
         },
       },
     },
-  },
-  {
-    slots: {
-      positioner: `${prefix}-positioner`,
-      mask: `${prefix}-mask`,
-      indicator: `${prefix}-indicator`,
-      icon: `${prefix}-icon`,
-      text: `${prefix}-text`,
-    },
-  },
+  }, 'rui-spin',
 )
 
 export type SpinVariants = VariantProps<typeof tvSpin>

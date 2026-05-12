@@ -1,8 +1,8 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-
-const prefix = 'rui-tabs'
-
+/**
+ * @color razer/components/tabs.css
+ */
 export const tvTabs = tv({
   slots: {
     root: '',
@@ -111,14 +111,6 @@ export const tvTabs = tv({
     prev: false,
     next: false,
   },
-}, {
-  slots: {
-    root: prefix,
-    list: `${prefix}-list`,
-    trigger: `${prefix}-trigger`,
-    content: `${prefix}-content`,
-    indicator: `${prefix}-indicator`,
-  },
-})
+}, 'rui-tabs')
 
 export type TabsVariants = VariantProps<typeof tvTabs>

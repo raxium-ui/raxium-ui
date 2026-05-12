@@ -1,8 +1,10 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
 
-const prefix = 'rui-btn'
-
+/**
+ * Button craft — structural styling only.
+ * @color razer/components/button.css — variant × color visual styles
+ */
 export const tvButton = tv(
   {
     slots: {
@@ -73,13 +75,7 @@ export const tvButton = tv(
       size: 'base',
       loading: false,
     },
-  },
-  {
-    slots: {
-      root: prefix,
-      loading: `${prefix}-loading`,
-    },
-  },
+  }, 'rui-btn',
 )
 
 export type ButtonVariants = VariantProps<typeof tvButton>

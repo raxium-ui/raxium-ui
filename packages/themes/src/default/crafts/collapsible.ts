@@ -4,6 +4,9 @@ import { COLLAPSIBLE_CONTENT_MOTION, COLLAPSIBLE_INDICATOR } from './_shared'
 
 const prefix = 'rui-collapsible'
 
+/**
+ * @color razer/components/collapsible.css
+ */
 export const tvCollapsible = tv({
   slots: {
     root: [],
@@ -27,28 +30,13 @@ export const tvCollapsible = tv({
       },
     },
   },
-}, {
-  slots: {
-    root: prefix,
-    trigger: `${prefix}-trigger`,
-    indicator: `${prefix}-trigger-indicator`,
-    content: `${prefix}-content`,
-  },
-})
+}, { prefix: prefix, slots: { indicator: `${prefix}-trigger-indicator` } })
 export type CollapsibleVariants = VariantProps<typeof tvCollapsible>
-
-const readMorePrefix = 'rui-readmore'
 export const tvReadMore = tv({
   slots: {
     root: [],
     content: [],
     trigger: [],
   },
-}, {
-  slots: {
-    root: readMorePrefix,
-    content: `${readMorePrefix}-content`,
-    trigger: `${readMorePrefix}-trigger`,
-  },
-})
+}, 'rui-readmore')
 export type ReadMoreVariants = VariantProps<typeof tvReadMore>

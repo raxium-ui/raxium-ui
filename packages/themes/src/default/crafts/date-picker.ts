@@ -4,6 +4,9 @@ import { POPOVER_MOTION } from './_shared'
 
 const prefix = 'rui-date-picker'
 
+/**
+ * @color razer/components/date-picker.css
+ */
 export const tvDatePicker = tv(
   {
     slots: {
@@ -44,15 +47,7 @@ export const tvDatePicker = tv(
         false: '',
       },
     },
-  },
-  {
-    slots: {
-      root: `${prefix}`,
-      control: `${prefix}-control`,
-      content: `${prefix}-content`,
-      contentInner: `${prefix}-content-inner`,
-    },
-  },
+  }, prefix,
 )
 
 export type DatePickerVariants = VariantProps<typeof tvDatePicker>
@@ -231,21 +226,7 @@ export const tvDatePickerView = tv(
     defaultVariants: {
       size: 'base',
     },
-  },
-  {
-    slots: {
-      view: `${prefix}-view`,
-      viewControl: `${prefix}-view-control`,
-      viewTrigger: `${prefix}-view-trigger`,
-      viewControlTrigger: `${prefix}-view-control-trigger`,
-      table: `${prefix}-table`,
-      tableHead: `${prefix}-table-head`,
-      tableHeader: `${prefix}-table-header`,
-      tableBody: `${prefix}-table-body`,
-      tableCell: `${prefix}-table-cell`,
-      tableCellTrigger: `${prefix}-table-cell-trigger`,
-    },
-  },
+  }, prefix,
 )
 
 export type DatePickerViewVariants = VariantProps<typeof tvDatePickerView>
