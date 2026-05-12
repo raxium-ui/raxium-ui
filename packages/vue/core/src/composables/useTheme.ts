@@ -1,5 +1,5 @@
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { Crafts, CraftShorthand, ThemeProps } from '../providers/theme/theme-props'
+import type { Crafts, CraftOverride, ThemeProps } from '../providers/theme/theme-props'
 import { crafts } from '@raxium/themes/default'
 import { clsx, tv } from '@raxium/themes/utils'
 import { omitBy } from 'es-toolkit'
@@ -22,102 +22,98 @@ function clean(obj: ComputedRef<ThemeProps | undefined>) {
   return omitBy(obj.value ?? {}, value => isNil(value))
 }
 
-function resolvePropsCrafts(propsCrafts: unknown, compName: string | undefined): Partial<Crafts> {
-  if (!propsCrafts)
-    return {}
-  if (typeof propsCrafts === 'function')
-    return propsCrafts()
-  if (Object.keys(propsCrafts as object).some(k => CRAFTS_KEYS.includes(k)))
-    return pickDefined<Crafts>(propsCrafts as Crafts)
-  if (compName && CRAFTS_KEYS.includes(`tv${compName}`)) {
-    return {
-      [`tv${compName}`]: tv({
-        extend: crafts[`tv${compName}` as keyof typeof crafts],
-        ...(propsCrafts as object),
-      }),
-    }
-  }
-  return {}
-}
+/** tv() config keys that trigger a craft extend */
+const TV_CONFIG_KEYS = ['base', 'variants', 'defaultVariants', 'compoundVariants', 'compoundSlots']
 
 /**
- * Resolve a CraftShorthand into a craft override that can be merged into the crafts object.
- * Supports: class (root shortcut), slots (per-slot classes), defaults, extend.
+ * Resolve a CraftOverride into a craft function that can replace the base craft.
+ * Handles: class (root shortcut), slots (per-slot classes), defaultVariants,
+ * and full tv() config (base, variants, compoundVariants, compoundSlots).
  */
-function resolveCraftShorthand(
-  shorthand: CraftShorthand<any> | undefined,
+function resolveCraftOverride(
+  override: CraftOverride<any> | undefined,
   compName: string | undefined,
   baseCrafts: Crafts,
 ): Partial<Crafts> {
-  if (!shorthand || !compName)
+  if (!override || !compName)
     return {}
 
   const craftKey = `tv${compName}` as keyof Crafts
   if (!CRAFTS_KEYS.includes(craftKey))
     return {}
 
-  const baseCraft = baseCrafts[craftKey]
+  let baseCraft = baseCrafts[craftKey]
   if (!baseCraft)
     return {}
 
-  const shorthandClass = shorthand.class as string | undefined
-  const shorthandSlots = shorthand.slots as Record<string, any> | undefined
-  const shorthandDefaults = shorthand.defaults as Record<string, any> | undefined
-  const shorthandExtend = shorthand.extend as Record<string, any> | undefined
+  const overrideClass = override.class as string | undefined
+  const overrideSlots = override.slots as Record<string, any> | undefined
+  const overrideDefaults = override.defaultVariants as Record<string, any> | undefined
 
-  function wrapCraft(craft: any) {
-    const originalFn = craft as (...args: any[]) => any
-    return (...args: any[]) => {
-      const result = originalFn(...args)
-      const wrapped: Record<string, any> = {}
-
-      for (const slotKey of Object.keys(result)) {
-        const originalSlotFn = result[slotKey]
-        if (typeof originalSlotFn !== 'function') {
-          wrapped[slotKey] = originalSlotFn
-          continue
-        }
-
-        wrapped[slotKey] = (props: any = {}) => {
-          const extraClass = slotKey === 'root'
-            ? clsx(shorthandClass, shorthandSlots?.root)
-            : shorthandSlots?.[slotKey]
-
-          const mergedProps = shorthandDefaults
-            ? { ...shorthandDefaults, ...props }
-            : props
-
-          if (extraClass) {
-            mergedProps.class = clsx(mergedProps.class, extraClass)
-          }
-
-          return originalSlotFn(mergedProps)
-        }
-      }
-      return wrapped
+  // If tv() config keys are present, extend the base craft first
+  const hasTvConfig = TV_CONFIG_KEYS.some(k => (override as any)[k] !== undefined)
+  if (hasTvConfig) {
+    const tvConfig: Record<string, any> = { extend: baseCraft }
+    for (const k of TV_CONFIG_KEYS) {
+      if ((override as any)[k] !== undefined)
+        tvConfig[k] = (override as any)[k]
     }
+    baseCraft = tv(tvConfig as any) as any
   }
 
-  // If extend is specified, create an extended craft first, then wrap
-  if (shorthandExtend) {
-    const extendedCraft = tv({
-      extend: baseCraft as any,
-      ...shorthandExtend,
-    })
-    return { [craftKey]: wrapCraft(extendedCraft) } as Partial<Crafts>
+  // If only tv config (no class/slots/defaults additions), return extended craft directly
+  const hasClassOverrides = overrideClass || overrideSlots || overrideDefaults
+  if (!hasClassOverrides)
+    return { [craftKey]: baseCraft } as Partial<Crafts>
+
+  // Wrap craft to inject class/slots/defaults at call time
+  const originalFn = baseCraft as (...args: any[]) => any
+  const wrappedCraft = (...args: any[]) => {
+    const result = originalFn(...args)
+
+    // Base-only craft: result is a string
+    if (typeof result === 'string') {
+      const extra = clsx(overrideClass)
+      return extra ? `${result} ${extra}` : result
+    }
+
+    // Slotted craft: result is { root: fn, slot: fn, ... }
+    const wrapped: Record<string, any> = {}
+    for (const slotKey of Object.keys(result)) {
+      const originalSlotFn = result[slotKey]
+      if (typeof originalSlotFn !== 'function') {
+        wrapped[slotKey] = originalSlotFn
+        continue
+      }
+      wrapped[slotKey] = (props: any = {}) => {
+        const extraClass = slotKey === 'root'
+          ? clsx(overrideClass, overrideSlots?.root)
+          : overrideSlots?.[slotKey]
+
+        const mergedProps = overrideDefaults
+          ? { ...overrideDefaults, ...props }
+          : props
+
+        if (extraClass)
+          mergedProps.class = clsx(mergedProps.class, extraClass)
+
+        return originalSlotFn(mergedProps)
+      }
+    }
+    return wrapped
   }
 
-  return { [craftKey]: wrapCraft(baseCraft) } as Partial<Crafts>
+  return { [craftKey]: wrappedCraft } as Partial<Crafts>
 }
 
 export function useTheme(): UseThemeReturn
 export function useTheme<T = ThemeProps>(
   props?: MaybeRefOrGetter<Partial<T> | undefined>,
-  craftProp?: MaybeRefOrGetter<CraftShorthand<any> | undefined>,
+  craftProp?: MaybeRefOrGetter<CraftOverride<any> | undefined>,
 ): UseThemeReturn
 export function useTheme<T>(
   props?: MaybeRefOrGetter<Partial<T> | undefined>,
-  craftProp?: MaybeRefOrGetter<CraftShorthand<any> | undefined>,
+  craftProp?: MaybeRefOrGetter<CraftOverride<any> | undefined>,
 ): UseThemeReturn {
   const configTheme = useConfig('theme')
   const contextTheme = injectThemeContext(computed(() => ({})))
@@ -129,7 +125,8 @@ export function useTheme<T>(
   const merged = computed(() => {
     const { crafts: configCrafts, ...configRest } = clean(configTheme) as any
     const { crafts: contextCrafts, ...contextRest } = clean(contextTheme) as any
-    const { crafts: propsCrafts, ...propsRest } = clean(propsTheme) as any
+    // Component-level theme prop no longer carries crafts
+    const propsRest = clean(propsTheme) as any
 
     const themeRest = Object.assign(
       {
@@ -144,18 +141,18 @@ export function useTheme<T>(
       propsRest,
     )
 
+    // Crafts merge: base → config → context (no more props-level crafts)
     const mergedCrafts: Crafts = Object.assign(
       {},
       crafts,
       pickDefined<Crafts>(configCrafts as Crafts | undefined),
       pickDefined<Crafts>(contextCrafts as Crafts | undefined),
-      resolvePropsCrafts(propsCrafts, compName),
     ) as Crafts
 
-    // Apply craft shorthand on top of merged crafts
+    // Apply per-component craft override (highest priority)
     const craftValue = toValue(craftProp)
     if (craftValue) {
-      Object.assign(mergedCrafts, resolveCraftShorthand(craftValue, compName, mergedCrafts))
+      Object.assign(mergedCrafts, resolveCraftOverride(craftValue, compName, mergedCrafts))
     }
 
     const result = {
@@ -170,7 +167,7 @@ export function useTheme<T>(
         sources.push('config')
       if (contextCrafts || Object.keys(contextRest).length)
         sources.push('context')
-      if (propsCrafts || Object.keys(propsRest).length)
+      if (Object.keys(propsRest).length)
         sources.push('props')
       if (craftValue)
         sources.push('craft')

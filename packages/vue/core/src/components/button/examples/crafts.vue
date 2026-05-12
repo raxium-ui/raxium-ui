@@ -4,13 +4,11 @@ import { Button } from '../index'
 
 <template>
   <Button
-    :theme="{
-      crafts: {
-        variants: {
-          size: {
-            base: {
-              root: 'size-10 text-xs',
-            },
+    :craft="{
+      variants: {
+        size: {
+          base: {
+            root: 'size-10 text-xs',
           },
         },
       },
