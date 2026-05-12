@@ -728,8 +728,8 @@ if (__DEV__) {
 
 ### Phase 4: 扩展性增强（低风险、中回报）
 
-- [ ] **Preset 机制**: `definePreset` + `resolvePreset` 支持组合式主题扩展
-- [ ] **文档**: 编写主题自定义指南，覆盖 Token 覆盖 / Preset 创建 / 单组件 craft 覆盖三种场景
+- [x] **Preset 机制**: `definePreset` + `resolvePreset` 支持组合式主题扩展
+- [x] **文档**: 编写主题自定义指南，覆盖 Token 覆盖 / Preset 创建 / 单组件 craft 覆盖三种场景
 
 ---
 
