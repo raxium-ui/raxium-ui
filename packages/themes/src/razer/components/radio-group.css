@@ -5,12 +5,12 @@
     @apply data-disabled:opacity-(--disabled-opacity);
   }
   .rui-radio-group-item-control {
-    @apply bg-transparent active:bg-rz-neutral-800 border-rz-neutral-400 
+    @apply bg-transparent active:bg-rz-neutral-775 border-rz-neutral-400 
          hover:border-rui-primary active:border-rui-primary
          group-hover/item:border-rui-primary group-focus-within/item:border-rui-primary;
 
  
-    @apply data-disabled:hover:border-rz-neutral-400 data-disabled:active:bg-rz-neutral-800 data-disabled:active:border-rz-neutral-400
+    @apply data-disabled:hover:border-rz-neutral-400 data-disabled:active:bg-rz-neutral-775 data-disabled:active:border-rz-neutral-400
     data-disabled:group-hover/item:border-rz-neutral-400 data-disabled:group-focus-within/item:border-rz-neutral-400;
 
     &[data-variant='checkbox'] {

@@ -26,14 +26,14 @@
 
   /* Containers & panels */
   --color-rui-surface-container: var(--color-rz-neutral-875);
-  --color-rui-surface-elevated: var(--color-rz-neutral-850);
+  --color-rui-surface-elevated: var(--color-rz-neutral-825);
   --color-rui-surface-sunken: var(--color-rz-neutral-900);
 
   /* Inverted (light on dark theme) */
   --color-rui-surface-inverse: var(--color-rz-neutral-0);
 
   /* Disabled */
-  --color-rui-surface-disabled: var(--color-rz-neutral-860);
+  --color-rui-surface-disabled: var(--color-rz-neutral-910);
 
   /* Hover states */
   --color-rui-surface-hover: var(--color-rz-neutral-750);
