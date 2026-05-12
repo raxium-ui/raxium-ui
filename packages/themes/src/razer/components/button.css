@@ -4,33 +4,33 @@
     &[data-variant='solid'] {
       &[data-color='primary'] {
         --rui-ripple-color: var(--color-rz-green-border);
-        @apply bg-rz-green text-h00 border-rz-green-border hover:bg-rz-green-light active:bg-rz-green-dark;
+        @apply bg-rz-green text-rz-neutral-950 border-rz-green-border hover:bg-rz-green-light active:bg-rz-green-dark;
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-h4f);
-        @apply bg-rz-neutral text-hff border-rz-neutral-border
+        --rui-ripple-color: var(--color-rz-neutral-600);
+        @apply bg-rz-neutral text-rz-neutral-0 border-rz-neutral-border
           hover:bg-rz-neutral-light
           active:bg-rz-neutral-dark;
       }
 
       &[data-color='danger'] {
         --rui-ripple-color: var(--color-rz-red);
-        @apply bg-rz-red text-hff border-rz-red-border
+        @apply bg-rz-red text-rz-neutral-0 border-rz-red-border
           hover:bg-rz-red-light
           active:bg-rz-red-dark;
       }
 
       &[data-color='warning'] {
         --rui-ripple-color: var(--color-rz-orange);
-        @apply bg-rz-orange text-hff border-rz-orange-border
+        @apply bg-rz-orange text-rz-neutral-0 border-rz-orange-border
           hover:bg-rz-orange-light
           active:bg-rz-orange-dark;
       }
 
       &[data-color='info'] {
         --rui-ripple-color: var(--color-rz-blue);
-        @apply bg-rz-blue text-hff border-rz-blue-border
+        @apply bg-rz-blue text-rz-neutral-0 border-rz-blue-border
           hover:bg-rz-blue-light
           active:bg-rz-blue-dark;
       }
@@ -48,9 +48,9 @@
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-hcc);
-        @apply text-h90 border-rz-neutral-border
-          hover:border-rz-neutral-light hover:text-hff
+        --rui-ripple-color: var(--color-rz-neutral-75);
+        @apply text-rz-neutral-225 border-rz-neutral-border
+          hover:border-rz-neutral-light hover:text-rz-neutral-0
           active:border-rz-neutral-dark active:text-rz-neutral;
       }
 
@@ -88,8 +88,8 @@
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-h4f);
-        @apply bg-rz-neutral/15 text-hff
+        --rui-ripple-color: var(--color-rz-neutral-600);
+        @apply bg-rz-neutral/15 text-rz-neutral-0
           hover:bg-rz-neutral-light/30
           active:bg-rz-neutral-dark/15;
       }
@@ -128,10 +128,10 @@
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-h8f);
-        @apply text-h90
-          hover:bg-rz-neutral-light/30 hover:text-hff
-          active:bg-rz-neutral-dark/15 active:text-h90;
+        --rui-ripple-color: var(--color-rz-neutral-250);
+        @apply text-rz-neutral-225
+          hover:bg-rz-neutral-light/30 hover:text-rz-neutral-0
+          active:bg-rz-neutral-dark/15 active:text-rz-neutral-225;
       }
 
       &[data-color='danger'] {
@@ -168,10 +168,10 @@
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-h8f);
-        @apply text-h90
-          hover:text-hff
-          active:text-h90;
+        --rui-ripple-color: var(--color-rz-neutral-250);
+        @apply text-rz-neutral-225
+          hover:text-rz-neutral-0
+          active:text-rz-neutral-225;
       }
 
       &[data-color='danger'] {
@@ -208,10 +208,10 @@
       }
 
       &[data-color='default'] {
-        --rui-ripple-color: var(--color-h8f);
-        @apply text-h90
-          hover:bg-rz-neutral-light/30 hover:text-hff
-          active:bg-rz-neutral-dark/15 active:text-h90;
+        --rui-ripple-color: var(--color-rz-neutral-250);
+        @apply text-rz-neutral-225
+          hover:bg-rz-neutral-light/30 hover:text-rz-neutral-0
+          active:bg-rz-neutral-dark/15 active:text-rz-neutral-225;
       }
 
       &[data-color='danger'] {

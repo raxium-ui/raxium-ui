@@ -5,40 +5,40 @@
     @apply data-disabled:opacity-(--disabled-opacity);
   }
   .rui-radio-group-item-control {
-    @apply bg-transparent active:bg-h28 border-h70 
-         hover:border-rz-green active:border-rz-green
-         group-hover/item:border-rz-green group-focus-within/item:border-rz-green;
+    @apply bg-transparent active:bg-rz-neutral-800 border-rz-neutral-400 
+         hover:border-rui-primary active:border-rui-primary
+         group-hover/item:border-rui-primary group-focus-within/item:border-rui-primary;
 
  
-    @apply data-disabled:hover:border-h70 data-disabled:active:bg-h28 data-disabled:active:border-h70
-    data-disabled:group-hover/item:border-h70 data-disabled:group-focus-within/item:border-h70;
+    @apply data-disabled:hover:border-rz-neutral-400 data-disabled:active:bg-rz-neutral-800 data-disabled:active:border-rz-neutral-400
+    data-disabled:group-hover/item:border-rz-neutral-400 data-disabled:group-focus-within/item:border-rz-neutral-400;
 
     &[data-variant='checkbox'] {
-      @apply data-[state=checked]:bg-rz-green
-      data-[state=checked]:hover:bg-rz-green-light
-      data-[state=checked]:active:bg-rz-green-dark
-      data-[state=checked]:border-rz-green
-      data-[state=checked]:hover:border-rz-green-light
-      data-[state=checked]:active:border-rz-green;
+      @apply data-[state=checked]:bg-rui-primary
+      data-[state=checked]:hover:bg-rui-primary-hover
+      data-[state=checked]:active:bg-rui-primary-active
+      data-[state=checked]:border-rui-primary
+      data-[state=checked]:hover:border-rui-primary-hover
+      data-[state=checked]:active:border-rui-primary;
 
-      @apply data-disabled:data-[state=checked]:bg-rz-green 
-      data-disabled:data-[state=checked]:hover:bg-rz-green 
-      data-disabled:data-[state=checked]:active:bg-rz-green 
-      data-disabled:data-[state=checked]:border-rz-green 
-      data-disabled:data-[state=checked]:hover:border-rz-green 
-      data-disabled:data-[state=checked]:active:border-rz-green;
+      @apply data-disabled:data-[state=checked]:bg-rui-primary 
+      data-disabled:data-[state=checked]:hover:bg-rui-primary 
+      data-disabled:data-[state=checked]:active:bg-rui-primary 
+      data-disabled:data-[state=checked]:border-rui-primary 
+      data-disabled:data-[state=checked]:hover:border-rui-primary 
+      data-disabled:data-[state=checked]:active:border-rui-primary;
     }
   }
   .rui-radio-group-item-indicator {
-    @apply fill-rz-green stroke-rz-green;
+    @apply fill-rui-primary stroke-rui-primary;
     &[data-variant="checkbox"] {
-      @apply fill-transparent stroke-h00;
+      @apply fill-transparent stroke-rui-text-inverse;
     }
   }
 
   .rui-radio-group-item-text {
-    @apply text-hcc hover:text-hff group-hover/item:text-hff;
-    @apply data-disabled:hover:text-hcc data-disabled:group-hover/item:text-hcc;
+    @apply text-rui-text-secondary hover:text-rui-text-primary group-hover/item:text-rui-text-primary;
+    @apply data-disabled:hover:text-rui-text-secondary data-disabled:group-hover/item:text-rui-text-secondary;
     
   }
 }

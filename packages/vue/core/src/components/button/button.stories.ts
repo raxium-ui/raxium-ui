@@ -102,8 +102,8 @@ export const UIExample = {
   parameters: {
     docs: {
       source: {
-        code: `<Button :ui="{ root: { class: 'custom-btn' } }">Custom</Button>
-<Button loading :ui="{ loading: { class: 'text-blue-500' } }">Loading</Button>`,
+        code: `<Button :ui="{ root: 'custom-btn' }">Custom</Button>
+<Button loading :ui="{ loading: 'text-blue-500' }">Loading</Button>`,
         language: 'html',
       },
     },
@@ -113,8 +113,8 @@ export const UIExample = {
     setup() {
       return () =>
         h('div', { class: 'flex items-center gap-4' }, [
-          h(Button, { ui: { root: { class: 'bg-red-500' } } }, 'Custom'),
-          h(Button, { loading: true, ui: { loading: { class: 'text-blue-500' } } }, 'Loading'),
+          h(Button, { ui: { root: 'bg-red-500' } }, 'Custom'),
+          h(Button, { loading: true, ui: { loading: 'text-blue-500' } }, 'Loading'),
         ])
     },
   }),

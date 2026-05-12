@@ -1,4 +1,6 @@
 @import '../css/index.css';
+@import './tokens/_primitives.css';
+@import './tokens/_semantic.css';
 
 @custom-variant skin-razer (&:where(html[data-theme-skin=razer], html[data-theme-skin=razer] *));
 
@@ -25,108 +27,25 @@
   --breakpoint-xl: 2560px;
   --breakpoint-2xl: 3840px;
 
-  /* Colors */
-  --color-*: initial;
-  --color-tw-ring-color: transparent;
-  
-  --color-rz-green: oklch(76.87% 0.2343 141.32);
-  /* razer green dark */
-  --color-rz-green-dark: oklch(47.48% 0.2343 141.32);
-  /* razer green light */
-  --color-rz-green-light: oklch(82.45% 0.2343 141.32);
-  /* razer green border */
-  --color-rz-green-border: oklch(59.19% 0.2343 141.32);
-
-  --color-rz-orange: oklch(80.16% 0.1705 73.27);
-  /* razer orange light */
-  --color-rz-orange-light: oklch(85.98% 0.1705 73.27);
-  /* razer orange dark */
-  --color-rz-orange-dark: oklch(49.51% 0.1705 73.27);
-  /* razer orange border */
-  --color-rz-orange-border: oklch(61.72% 0.1705 73.27);
-
-  --color-rz-red: oklch(49.67% 0.202 29.03);
-  /* razer red light */
-  --color-rz-red-light: oklch(53.28% 0.202 29.03);
-  /* razer red dark */
-  --color-rz-red-dark: oklch(30.68% 0.202 29.03);
-  /* razer red border */
-  --color-rz-red-border: oklch(38.25% 0.202 29.03);
-
-  --color-rz-blue: oklch(69% 0.1282 229.93);
-  /* razer blue light */
-  --color-rz-blue-light: oklch(74.01% 0.1282 229.93);
-  /* razer blue dark */
-  --color-rz-blue-dark: oklch(42.62% 0.1282 229.93);
-  /* razer blue border */
-  --color-rz-blue-border: oklch(53.13% 0.1282 229.93);
-
-  /* razer neutral */
-  --color-rz-neutral: oklch(54.52% 0 0);
-  /* razer neutral light */
-  --color-rz-neutral-light: oklch(58.48% 0 0);
-  /* razer neutral dark */
-  --color-rz-neutral-dark: oklch(33.68% 0 0);
-  /* razer neutral border */
-  --color-rz-neutral-border: oklch(41.98% 0 0);
-
-  --color-black: oklch(0% 0 0);
-  --color-h00: oklch(0% 0 0);
-  --color-white: oklch(100% 0 0);
-  --color-hff: oklch(100% 0 0);
-  --color-h70: oklch(54.52% 0 0);
-  --color-h4f: oklch(42.76% 0 0);
-  --color-h9b: oklch(68.95% 0 0);
-  --color-h83: oklch(61% 0 0);
-  --color-h37: oklch(33.68% 0 0);
-  --color-hcc: oklch(84.52% 0 0);
-  --color-hbb: oklch(79.21% 0 0);
-  --color-h33: oklch(32.11% 0 0);
-  --color-h24: oklch(26.03% 0 0);
-  --color-h8f: oklch(65% 0 0);
-  --color-h1a: oklch(21.78% 0 0);
-  --color-ha7: oklch(72.84% 0 0);
-  --color-h5e: oklch(48.19% 0 0);
-  --color-h4c: oklch(41.65% 0 0);
-  --color-h55: oklch(44.95% 0 0);
-  --color-h54: oklch(44.59% 0 0);
-  --color-h66: oklch(51.03% 0 0);
-  --color-h58: oklch(46.04% 0 0);
-  --color-h28: oklch(27.68% 0 0);
-  --color-h78: oklch(57.27% 0 0);
-  --color-h88: oklch(62.68% 0 0);
-  --color-hee: oklch(94.91% 0 0);
-  --color-h44: oklch(38.67% 0 0);
-  --color-h22: oklch(25.2% 0 0);
-  --color-h16: oklch(20.02% 0 0);
-  --color-h11: oklch(15.26% 0 0);
-  --color-h2a: oklch(22.22% 0 0);
-  --color-h1d: oklch(19.61% 0 0);
-  --color-h47: oklch(40.64% 0 0);
-  --color-h90: oklch(65.34% 0 0);
-  --color-h70: oklch(54.52% 0 0);
-  --color-h33: oklch(32.11% 0 0);
-  --color-h99: oklch(68.3% 0 0);
-
   /* Text */
   --text-3xs: 0.5rem;
-  --text-3xs--line-height: 1.25;
+  --text-3xs--line-height: var(--text-line-height);
   --text-2xs: 0.625rem;
-  --text-2xs--line-height: 1.25;
+  --text-2xs--line-height: var(--text-line-height);
   --text-xs: 0.75rem;
-  --text-xs--line-height: 1.25;
+  --text-xs--line-height: var(--text-line-height);
   --text-sm: 0.875rem;
-  --text-sm--line-height: 1.25;
+  --text-sm--line-height: var(--text-line-height);
   --text-base: 1rem;
-  --text-base--line-height: 1.25;
+  --text-base--line-height: var(--text-line-height);
   --text-lg: 1.125rem;
-  --text-lg--line-height: 1.25;
+  --text-lg--line-height: var(--text-line-height);
   --text-xl: 1.25rem;
-  --text-xl--line-height: 1.25;
+  --text-xl--line-height: var(--text-line-height);
   --text-2xl: 1.5rem;
-  --text-2xl--line-height: 1.25;
+  --text-2xl--line-height: var(--text-line-height);
   --text-3xl: 2rem;
-  --text-3xl--line-height: 1.25;
+  --text-3xl--line-height: var(--text-line-height);
 
   /* Shadows */
   --shadow-glory: 0 0 1.5625rem 0 oklch(86.64% 0.2343 141.32 / 47%);
@@ -154,29 +73,8 @@
   --outline: 2px solid transparent;
   --disabled-opacity: var(--opacity-50, 0.5);
 
-  /* RUI Theme*/
-  --color-rui-parimary: var(--color-rz-green);
-  --color-rui-parimary-hover: var(--color-rz-green-dark-hover);
-  --color-rui-parimary-active: var(--color-rz-green-dark-active);
-
-  --color-rui-border: var(--color-h54);
-
-  --color-rui-toggle-text: var(--color-h88);
-  --color-rui-toggle-text-hover: var(--color-hff);
-  --color-rui-toggle-text-active: var(--color-hff);
-
-  --color-rui-success: var(--color-rz-green);
-  --color-rui-error: var(--color-rz-red);
-  --color-rui-info: var(--color-h88);
-  --color-rui-warning: var(--color-rz-orange);
-
-  --color-rui-close: var(--color-h88);
-  --color-rui-close-hover: var(--color-hff);
-
-  --color-rui-separator: var(--color-h00);
-
+  /* Label & Popper */
   --font-rui-label: var(--font-rob-bold);
-
   --shadow-rui-popper: 0 0.25rem 0.375rem 0 oklch(0% 0 0 / 80%);
   --shadow-rui-popper-top: 0 -0.25rem 0.375rem 0 oklch(0% 0 0 / 80%);
   --shadow-rui-outline: 0 0 0 1px oklch(76.87% 0.2343 141.32)
@@ -186,6 +84,7 @@
 }
 
 @theme static {
+  --text-line-height: normal;
 }
 
 @layer base {
@@ -255,7 +154,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-h58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[30px] bg-rz-neutral-525/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -269,7 +168,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-h58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[30px] bg-rz-neutral-525/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -283,7 +182,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-h58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[5px] bg-rz-neutral-525/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
@@ -297,6 +196,6 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-h58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-[5px] bg-rz-neutral-525/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }

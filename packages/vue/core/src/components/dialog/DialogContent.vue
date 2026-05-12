@@ -3,7 +3,7 @@ import type { DialogContentProps } from '.'
 import { Dialog } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx, cn } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { hasChildVNodeByName } from '@raxium/vue/utils/vnode'
 import { X } from 'lucide-vue-next'
 import { computed, useAttrs, useSlots } from 'vue'
@@ -27,7 +27,7 @@ const hasDialogHeader = computed(() => hasChildVNodeByName(defaultSlots.value, '
 const showContentClose = computed(() => showClose && !hasDialogHeader.value)
 
 const attrs = useAttrs()
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvDialog())
 </script>
 

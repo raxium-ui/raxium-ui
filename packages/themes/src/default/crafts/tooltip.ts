@@ -1,17 +1,14 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-import { POPOVER_MOTION } from './_shared'
+import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
 
 const prefix = 'rui-tooltip'
 
 export const tvTooltip = tv(
   {
     slots: {
-      content: [
-        'rounded-(--border-radius)',
-        ...POPOVER_MOTION,
-      ],
-      contentInner: ['relative', 'rounded-(--border-radius)', 'z-10'],
+      content: [...POPOVER_CONTENT_BASE],
+      contentInner: [...POPOVER_CONTENT_INNER_BASE],
     },
     variants: {
       size: {

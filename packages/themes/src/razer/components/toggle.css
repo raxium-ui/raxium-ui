@@ -1,13 +1,13 @@
 @layer components {
   .rui-toggle {
-    @apply text-rui-toggle-text bg-h1a border-h28
-      hover:bg-h33 hover:border-h4c hover:ring-h4c hover:text-rui-toggle-text-hover
-      active:bg-h24 active:text-rui-toggle-text-active;
+    @apply text-rui-toggle-text bg-rui-surface-container border-rz-neutral-800
+      hover:bg-rui-surface-hover hover:border-rz-neutral-625 hover:ring-rz-neutral-625 hover:text-rui-toggle-text-hover
+      active:bg-rz-neutral-825 active:text-rui-toggle-text-active;
 
     &[data-state='on'] {
-      @apply bg-rz-green-dark text-hff border-rz-green-border
-        hover:bg-rz-green hover:border-rz-green-border
-        active:bg-rz-green-dark active:text-ha7;
+      @apply bg-rui-primary-active text-rui-text-primary border-rui-primary-border
+        hover:bg-rui-primary hover:border-rui-primary-border
+        active:bg-rui-primary-active active:text-rz-neutral-150;
     }
   }
 }

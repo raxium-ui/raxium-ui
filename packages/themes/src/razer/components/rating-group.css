@@ -1,9 +1,9 @@
 @layer components {
   .rui-rating-group-item {
-    --fill-color: var(--color-h88);
-    --stroke-color: var(--color-h88);
-    --highlighted-fill-color: var(--color-hff);
-    --highlighted-stroke-color: var(--color-hff);
+    --fill-color: var(--color-rz-neutral-275);
+    --stroke-color: var(--color-rz-neutral-275);
+    --highlighted-fill-color: var(--color-rz-neutral-0);
+    --highlighted-stroke-color: var(--color-rz-neutral-0);
   }
 
   .rui-rating-group-item-indicator {

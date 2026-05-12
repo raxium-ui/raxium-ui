@@ -1,10 +1,10 @@
 @layer components {
   .rui-slider-track {
-    @apply bg-h33;
+    @apply bg-rz-neutral-750;
   }
 
   .rui-slider-range {
-    @apply bg-rz-green;
+    @apply bg-rui-primary;
   }
 
   .rui-slider-thumb {
@@ -13,15 +13,15 @@
      data-[theme-size=sm]:border-2 
      data-[theme-size=base]:border-2
      data-[theme-size=lg]:border-2;
-    @apply border-rz-green bg-h00;
+    @apply border-rui-primary bg-rui-surface-base;
   }
 
   .rui-slider-marker-dot {
     &[data-state="over-value"] {
-      @apply bg-h33;
+      @apply bg-rz-neutral-750;
     }
     &[data-state="under-value"] {
-      @apply bg-rz-green;
+      @apply bg-rui-primary;
     }
   }
 }

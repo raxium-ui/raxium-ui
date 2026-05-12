@@ -1,6 +1,6 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
-import { POPOVER_MOTION } from './_shared'
+import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
 
 const prefix = 'rui-menu'
 
@@ -8,14 +8,9 @@ export const tvMenu = tv(
   {
     slots: {
       root: '',
-      content: [
-        'rounded-(--border-radius)',
-        ...POPOVER_MOTION,
-      ],
+      content: [...POPOVER_CONTENT_BASE],
       contentInner: [
-        'relative',
-        'rounded-(--border-radius)',
-        'z-10',
+        ...POPOVER_CONTENT_INNER_BASE,
         'min-w-(--reference-width)',
       ],
       item: [

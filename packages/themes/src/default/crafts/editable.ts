@@ -1,5 +1,5 @@
 import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import { mapVariant, tv } from '../../utils'
 import { tvInput } from './input'
 
 const prefix = 'rui-editable'
@@ -20,30 +20,12 @@ export const tvEditable = tv(
       },
     },
     compoundVariants: [
-      {
-        size: 'xs',
-        class: {
-          root: 'text-xs',
-        },
-      },
-      {
-        size: 'sm',
-        class: {
-          root: 'text-sm',
-        },
-      },
-      {
-        size: 'base',
-        class: {
-          root: 'text-base',
-        },
-      },
-      {
-        size: 'lg',
-        class: {
-          root: 'text-lg',
-        },
-      },
+      ...mapVariant('size', {
+        xs: { root: 'text-xs' },
+        sm: { root: 'text-sm' },
+        base: { root: 'text-base' },
+        lg: { root: 'text-lg' },
+      }),
     ],
     defaultVariants: { size: 'base' },
   },
@@ -65,34 +47,12 @@ export const tvEditableInput = tv(
       clearable: '',
     },
     compoundVariants: [
-      {
-        size: 'xs',
-        class: {
-          root: 'px-1 py-0.25',
-          clearable: 'text-xs size-[1lh]',
-        },
-      },
-      {
-        size: 'sm',
-        class: {
-          root: 'px-1 py-0.5',
-          clearable: 'text-sm size-[1lh]',
-        },
-      },
-      {
-        size: 'base',
-        class: {
-          root: 'px-2 py-0.75',
-          clearable: 'text-base size-[1lh]',
-        },
-      },
-      {
-        size: 'lg',
-        class: {
-          root: 'px-2 py-1',
-          clearable: 'text-lg size-[1lh]',
-        },
-      },
+      ...mapVariant('size', {
+        xs: { root: 'px-1 py-0.25', clearable: 'text-xs size-[1lh]' },
+        sm: { root: 'px-1 py-0.5', clearable: 'text-sm size-[1lh]' },
+        base: { root: 'px-2 py-0.75', clearable: 'text-base size-[1lh]' },
+        lg: { root: 'px-2 py-1', clearable: 'text-lg size-[1lh]' },
+      }),
     ],
   },
   {

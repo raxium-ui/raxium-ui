@@ -1,10 +1,10 @@
 @layer components {
   .rui-badge {
     &[data-variant="default"] {
-      @apply bg-rz-green text-h00 font-rob-bold
+      @apply bg-rz-green text-rz-neutral-950 font-rob-bold
     }
     &[data-variant="secondary"] {
-      @apply bg-h00 text-rz-green
+      @apply bg-rz-neutral-950 text-rz-green
     }
     &[data-variant="dot"] {
       @apply bg-rz-red

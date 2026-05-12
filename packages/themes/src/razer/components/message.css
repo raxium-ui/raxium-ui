@@ -21,15 +21,15 @@
   }
 
   .rui-message-content {
-    @apply bg-h22 shadow-rui-popper;
-    @apply success:border-l-rui-success error:border-l-rui-error warning:border-l-rui-warning info:border-l-rui-info loading:border-l-rui-parimary;
+    @apply bg-rz-neutral-850 shadow-rui-popper;
+    @apply success:border-l-rui-success error:border-l-rui-error warning:border-l-rui-warning info:border-l-rui-info loading:border-l-rui-primary;
     &[data-placement^='bottom'] {
       @apply shadow-rui-popper-top;
     }
   }
 
   .rui-message-icon {
-    @apply success:text-rui-success error:text-rui-error warning:text-rui-warning info:text-rui-info loading:text-rui-parimary;
+    @apply success:text-rui-success error:text-rui-error warning:text-rui-warning info:text-rui-info loading:text-rui-primary;
     &[data-type='loading'] {
       @apply animate-spin;
     }

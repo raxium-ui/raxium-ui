@@ -1,5 +1,5 @@
 import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import { mapVariant, tv } from '../../utils'
 
 const prefix = 'rui-checkbox'
 
@@ -39,38 +39,12 @@ export const tvCheckbox = tv(
       size: 'base',
     },
     compoundVariants: [
-      {
-        size: 'xs',
-        class: {
-          control: 'size-3.5',
-          label: 'text-xs',
-          indicator: 'text-xs',
-        },
-      },
-      {
-        size: 'sm',
-        class: {
-          control: 'size-4',
-          label: 'text-sm',
-          indicator: 'text-sm',
-        },
-      },
-      {
-        size: 'base',
-        class: {
-          control: 'size-4.5',
-          label: 'text-base',
-          indicator: 'text-base',
-        },
-      },
-      {
-        size: 'lg',
-        class: {
-          control: 'size-5',
-          label: 'text-lg',
-          indicator: 'text-lg',
-        },
-      },
+      ...mapVariant('size', {
+        xs: { control: 'size-3.5', label: 'text-xs', indicator: 'text-xs' },
+        sm: { control: 'size-4', label: 'text-sm', indicator: 'text-sm' },
+        base: { control: 'size-4.5', label: 'text-base', indicator: 'text-base' },
+        lg: { control: 'size-5', label: 'text-lg', indicator: 'text-lg' },
+      }),
     ],
   },
   {

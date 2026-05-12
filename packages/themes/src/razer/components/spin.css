@@ -1,6 +1,6 @@
 @layer components{
   .rui-spin-mask{
-    @apply bg-h00/50;
+    @apply bg-rz-neutral-950/50;
   }
 
   .rui-spin-icon {
@@ -10,6 +10,6 @@
   }
 
   .rui-spin-text{
-    @apply text-h88;
+    @apply text-rz-neutral-275;
   }
 }

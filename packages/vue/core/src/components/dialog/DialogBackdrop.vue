@@ -4,7 +4,7 @@ import { useForwardExpose, usePresenceContext } from '@ark-ui/vue'
 import { useDialogContext } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { merge, omit } from 'es-toolkit'
 import { computed } from 'vue'
 
@@ -25,7 +25,7 @@ const mergedProps = computed(() =>
   ),
 )
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvDialog())
 
 // expose

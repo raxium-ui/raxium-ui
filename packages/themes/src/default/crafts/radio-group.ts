@@ -1,5 +1,5 @@
 import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import { mapVariant, tv } from '../../utils'
 
 const prefix = 'rui-radio-group'
 
@@ -53,34 +53,12 @@ export const tvRadioGroup = tv(
       },
     },
     compoundVariants: [
-      {
-        size: 'xs',
-        variant: 'checkbox',
-        class: {
-          itemIndicator: 'size-2',
-        },
-      },
-      {
-        size: 'sm',
-        variant: 'checkbox',
-        class: {
-          itemIndicator: 'size-2.5',
-        },
-      },
-      {
-        size: 'base',
-        variant: 'checkbox',
-        class: {
-          itemIndicator: 'size-3',
-        },
-      },
-      {
-        size: 'lg',
-        variant: 'checkbox',
-        class: {
-          itemIndicator: 'size-3.5',
-        },
-      },
+      ...mapVariant('size', {
+        xs: { itemIndicator: 'size-2' },
+        sm: { itemIndicator: 'size-2.5' },
+        base: { itemIndicator: 'size-3' },
+        lg: { itemIndicator: 'size-3.5' },
+      }).map(v => ({ ...v, variant: 'checkbox' as const })),
     ],
     defaultVariants: {
       size: 'base',

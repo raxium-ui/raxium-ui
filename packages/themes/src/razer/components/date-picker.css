@@ -1,24 +1,24 @@
 @layer components {
   .rui-date-picker-content {
-    @apply bg-h1a text-hcc border-h11 shadow-rui-popper;
+    @apply bg-rz-neutral-875 text-rz-neutral-75 border-rz-neutral-925 shadow-rui-popper;
   }
 
   .rui-date-picker-table-header {
-    @apply text-hff font-rob-bold;
+    @apply text-rz-neutral-0 font-rob-bold;
   }
 
   .rui-date-picker-view-trigger, .rui-date-picker-view-control-trigger {
-    @apply hover:bg-h33;
+    @apply hover:bg-rz-neutral-750;
   }
 
   .rui-date-picker-table-cell-trigger {
     &[data-selected],
     &[data-selected][data-outside-range] {
-      @apply bg-rz-green text-h00 ;
+      @apply bg-rz-green text-rz-neutral-950 ;
     }
 
     &[data-outside-range] {
-      @apply bg-h47;
+      @apply bg-rz-neutral-650;
     }
 
     &[data-today] {
@@ -28,19 +28,19 @@
     }
 
     &[data-in-range], &[data-in-hover-range] {
-      @apply bg-rz-green/80 text-h00;
+      @apply bg-rz-green/80 text-rz-neutral-950;
     }
 
     &[data-range-start], &[data-hover-range-start] {
-      @apply bg-rz-green text-h00;
+      @apply bg-rz-green text-rz-neutral-950;
     }
 
     &[data-range-end], &[data-hover-range-end] {
-      @apply bg-rz-green text-h00;
+      @apply bg-rz-green text-rz-neutral-950;
     }
 
     &[data-disabled] {
-      @apply bg-h47 text-h88;
+      @apply bg-rz-neutral-650 text-rz-neutral-275;
     }
   }
 }

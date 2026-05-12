@@ -8,9 +8,9 @@
   }
 
   .rui-tags-input-item-preview {
-    @apply bg-h22 hover:bg-h44;
+    @apply bg-rui-surface-elevated hover:bg-rz-neutral-675;
     &[data-highlighted] {
-      @apply bg-rz-blue text-hff;
+      @apply bg-rui-info text-rui-text-primary;
     }
   }
 }

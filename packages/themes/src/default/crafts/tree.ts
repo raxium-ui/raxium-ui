@@ -1,5 +1,6 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
+import { COLLAPSIBLE_CONTENT_MOTION } from './_shared'
 
 const prefix = 'rui-tree'
 
@@ -33,11 +34,7 @@ export const tvTreeBranch = tv(
         'data-[state=closed]:rotate-0',
         'transition-transform',
       ],
-      content: [
-        'overflow-hidden',
-        'data-[state=open]:animate-collapsible-down',
-        'data-[state=closed]:animate-collapsible-up',
-      ],
+      content: [...COLLAPSIBLE_CONTENT_MOTION],
       indentGuide: '',
       checkbox: '',
       checkboxIndicator: '',

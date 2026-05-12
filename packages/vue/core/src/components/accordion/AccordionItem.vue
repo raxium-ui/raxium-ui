@@ -3,13 +3,13 @@ import type { AccordionItemProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Accordion } from '@ark-ui/vue/accordion'
 import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { computed } from 'vue'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<AccordionItemProps>()
 const forwarded = useForwardProps(props)
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvAccordion())
 </script>
 

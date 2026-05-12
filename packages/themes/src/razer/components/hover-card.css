@@ -2,13 +2,13 @@
   .rui-hover-card-content {
     --border-radius: var(--radius);
     @apply shadow-rui-popper;
-    @apply data-theme-bordered:border-h00;
-    @apply surface-dark:data-theme-bordered:border-h33;
+    @apply data-theme-bordered:border-rui-surface-base;
+    @apply surface-dark:data-theme-bordered:border-rui-surface-hover;
   }
 
   .rui-hover-card-content,
   .rui-hover-card-content-inner {
-    @apply bg-hff text-h00;
-    @apply surface-dark:bg-h00 surface-dark:text-hff;
+    @apply bg-rui-surface-inverse text-rui-text-inverse;
+    @apply surface-dark:bg-rui-surface-base surface-dark:text-rui-text-primary;
   }
 }

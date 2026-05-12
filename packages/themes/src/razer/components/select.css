@@ -1,26 +1,26 @@
 @layer components {
   .rui-select-trigger {
-    @apply bg-h16 text-hbb border-h00 data-[state=open]:border-rz-green;
+    @apply bg-rui-surface-sunken text-rui-input-text border-rui-surface-base data-[state=open]:border-rui-primary;
 
     &:not([data-disabled]) {
-      @apply hover:border-rz-green;
+      @apply hover:border-rui-primary;
     }
   }
 
   .rui-select-content {
-    @apply bg-h1a text-hcc border-h11 shadow-rui-popper webkit-small-scrollbar;
+    @apply bg-rui-surface-container text-rui-text-secondary border-rui-border-subtle shadow-rui-popper webkit-small-scrollbar;
   }
 
   .rui-select-item {
-    @apply bg-transparent data-highlighted:bg-h28 text-hbb data-[state=checked]:text-rz-green;
+    @apply bg-transparent data-highlighted:bg-rui-surface-hover text-rui-input-text data-[state=checked]:text-rui-primary;
   }
 
   .rui-select-item-group-label {
-    @apply text-hff font-rz-bold border-h11;
+    @apply text-rui-text-primary font-rz-bold border-rui-border-subtle;
   }
 
   .rui-select-separator {
-    @apply border-h11;
+    @apply border-rui-border-subtle;
   }
 
   .rui-select-clear-trigger {

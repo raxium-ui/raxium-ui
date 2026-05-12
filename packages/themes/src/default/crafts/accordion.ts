@@ -1,5 +1,6 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
+import { COLLAPSIBLE_CONTENT_MOTION, COLLAPSIBLE_INDICATOR } from './_shared'
 
 const prefix = 'rui-accordion'
 
@@ -9,16 +10,8 @@ export const tvAccordion = tv({
     root: [],
     item: [],
     trigger: ['w-fit flex items-center'],
-    indicator: [
-      'data-[state=closed]:rotate-0',
-      'data-[state=open]:rotate-180',
-      'transition-transform',
-    ],
-    content: [
-      'overflow-hidden',
-      'data-[state=open]:animate-collapsible-down',
-      'data-[state=closed]:animate-collapsible-up',
-    ],
+    indicator: [...COLLAPSIBLE_INDICATOR],
+    content: [...COLLAPSIBLE_CONTENT_MOTION],
   },
   variants: {
     size: {

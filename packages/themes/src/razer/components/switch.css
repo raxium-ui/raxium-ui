@@ -1,25 +1,25 @@
 @layer components {
   .rui-switch-control {
-    @apply bg-h78
+    @apply bg-rz-neutral-350
              data-focus:shadow-(--shadow-rui-outline)
-           data-[state=unchecked]:hover:bg-h78/80
-           data-[state=checked]:bg-rz-green
-           data-[state=checked]:hover:bg-rz-green-light
+           data-[state=unchecked]:hover:bg-rz-neutral-350/80
+           data-[state=checked]:bg-rui-primary
+           data-[state=checked]:hover:bg-rui-primary-hover
            border-transparent;
     &[data-disabled] {
-      @apply bg-h78 hover:bg-h78;
+      @apply bg-rz-neutral-350 hover:bg-rz-neutral-350;
       @apply opacity-(--disabled-opacity);
     }
     &[data-state='checked']&[data-disabled] {
-      @apply bg-rz-green;
-      @apply hover:bg-rz-green;
+      @apply bg-rui-primary;
+      @apply hover:bg-rui-primary;
     }
   }
   .rui-switch-thumb {
-    @apply bg-h00;
+    @apply bg-rui-surface-base;
   }
   .rui-switch-label {
-    @apply text-h88;
-    @apply group-hover/switch:text-hff;
+    @apply text-rui-text-subtle;
+    @apply group-hover/switch:text-rui-text-primary;
   }
 }

@@ -15,6 +15,7 @@ const {
   color = 'primary',
   class: propsClass,
   theme: propsTheme,
+  craft,
   disabled,
   ripple = false,
   loading = false,
@@ -46,7 +47,7 @@ function onClick(event: MouseEvent) {
 }
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useTheme(() => propsTheme, () => craft)
 const crafts = computed(() => theme.value.crafts.tvButton())
 </script>
 
@@ -57,7 +58,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
       variant: variant as ButtonVariants['variant'],
       color: color as ButtonVariants['color'],
       loading,
-      class: clsx(ui?.root?.class, propsClass),
+      class: clsx(ui?.root, propsClass),
       ...theme,
     })"
     :disabled="disabled"
@@ -78,7 +79,7 @@ const crafts = computed(() => theme.value.crafts.tvButton())
         :class="crafts.loading({
           variant: variant as ButtonVariants['variant'],
           loading,
-          class: clsx(ui?.loading?.class),
+          class: clsx(ui?.loading),
           ...theme,
         })"
       />

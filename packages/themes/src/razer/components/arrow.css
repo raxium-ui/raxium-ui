@@ -1,15 +1,15 @@
 @layer components {
   *:where([data-part='arrow']) {
-    --arrow-border: var(--color-h00);
-    --arrow-background: var(--color-hff);
+    --arrow-border: var(--color-rz-neutral-950);
+    --arrow-background: var(--color-rz-neutral-0);
 
     &[data-theme-surface='dark'] {
-      --arrow-border: var(--color-h33);
-      --arrow-background: var(--color-h00);
+      --arrow-border: var(--color-rz-neutral-750);
+      --arrow-background: var(--color-rz-neutral-950);
     }
 
     &[data-theme-surface='razer'] {
-      --arrow-border: var(--color-h00);
+      --arrow-border: var(--color-rz-neutral-950);
       --arrow-background: var(--color-rz-green);
     }
   }

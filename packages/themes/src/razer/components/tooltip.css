@@ -2,15 +2,15 @@
   .rui-tooltip-content {
     --border-radius: var(--radius);
     @apply shadow-rui-popper;
-    @apply data-theme-bordered:border-h00;
-    @apply surface-dark:data-theme-bordered:border-h33;
-    @apply surface-razer:border-h00;
+    @apply data-theme-bordered:border-rui-surface-base;
+    @apply surface-dark:data-theme-bordered:border-rui-surface-hover;
+    @apply surface-razer:border-rui-surface-base;
   }
 
   .rui-tooltip-content,
   .rui-tooltip-content-inner {
-    @apply bg-hff text-h00;
-    @apply surface-dark:bg-h00 surface-dark:text-hff;
-    @apply surface-razer:bg-rz-green surface-razer:text-h00;
+    @apply bg-rui-surface-inverse text-rui-text-inverse;
+    @apply surface-dark:bg-rui-surface-base surface-dark:text-rui-text-primary;
+    @apply surface-razer:bg-rui-primary surface-razer:text-rui-text-inverse;
   }
 }

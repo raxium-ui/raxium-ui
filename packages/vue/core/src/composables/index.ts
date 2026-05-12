@@ -1,4 +1,5 @@
 export * from './useConfig'
+export * from './useInheritedTheme'
 export * from './useOverlay'
 export * from './useRipple'
 export * from './useTheme'

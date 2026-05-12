@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+/*
+ * CSS Cascade Layer Order (lowest → highest priority)
+ *
+ * - theme:      Design tokens (handled by Tailwind @theme)
+ * - base:       Reset & global styles
+ * - components:  Component-specific styles (.rui-btn, .rui-input, etc.)
+ * - utilities:  Tailwind utility classes
+ * - overrides:  User/consumer overrides — always wins
+ */
+@layer components, overrides;
+
 @source "./**/*.{ts}";
 @source "../default/**/*.{ts}";
 @source "../../../vue/core/src/**/*.{vue,ts,tsx}";

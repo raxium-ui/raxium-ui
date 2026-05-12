@@ -12,11 +12,7 @@ export interface ButtonProps extends ThemeCrafts<'tvButton'> {
   loading?: boolean
   asChild?: boolean
   ui?: {
-    root?: {
-      class?: HTMLAttributes['class']
-    }
-    loading?: {
-      class?: HTMLAttributes['class']
-    }
+    root?: HTMLAttributes['class']
+    loading?: HTMLAttributes['class']
   }
 }

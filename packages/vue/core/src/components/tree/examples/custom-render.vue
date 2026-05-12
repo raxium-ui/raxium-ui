@@ -33,7 +33,7 @@ function createCustomName(label: string) {
     return h('span', { class: 'flex items-center gap-2' }, [
       h(
         'span',
-        { class: 'text-xs px-1.5 py-0.5 rounded bg-(--color-h00) text-(--color-rz-green)' },
+        { class: 'text-xs px-1.5 py-0.5 rounded bg-(--color-rz-neutral-950) text-(--color-rz-green)' },
         tag,
       ),
       h('span', label),

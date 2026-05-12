@@ -1,5 +1,6 @@
 import type { VariantProps } from '../../utils'
 import { tv } from '../../utils'
+import { DIALOG_BACKDROP_MOTION, DIALOG_CONTENT_MOTION } from './_shared'
 
 const prefix = 'rui-dialog'
 
@@ -9,16 +10,13 @@ export const tvDialog = tv(
       backdrop: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal)+var(--layer-index,0)*2)]', // for z-index stacking
-        'data-[state=open]:motion-opacity-in',
-        'data-[state=open]:animate-backdrop-blur-in',
-        'data-[state=closed]:motion-opacity-out',
-        'data-[state=closed]:animate-backdrop-blur-out',
+        'z-[calc(var(--z-modal)+var(--layer-index,0)*2)]',
+        ...DIALOG_BACKDROP_MOTION,
       ],
       positioner: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal)+var(--layer-index,0)*2+1)]', // for z-index stacking
+        'z-[calc(var(--z-modal)+var(--layer-index,0)*2+1)]',
         'flex',
         'items-center',
         'justify-center',
@@ -29,10 +27,7 @@ export const tvDialog = tv(
         'md:max-w-[80vw]',
         'border',
         'rounded',
-        'data-[state=open]:motion-opacity-in',
-        'data-[state=open]:motion-translate-y-in',
-        'data-[state=closed]:motion-opacity-out',
-        'data-[state=closed]:motion-translate-y-out',
+        ...DIALOG_CONTENT_MOTION,
       ],
       close: '',
       header: ['flex', 'items-center', 'justify-between'],

@@ -3,7 +3,7 @@ import type { DialogFooterProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
 import { Button } from '@raxium/vue/components/button'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { computed, useId } from 'vue'
 import { DialogCloseTrigger, TriggerFrom } from '.'
 
@@ -15,7 +15,7 @@ const emits = defineEmits<{
 const id = useId()
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvDialog())
 </script>
 

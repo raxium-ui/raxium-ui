@@ -3,14 +3,14 @@ import type { DialogBodyProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { computed, useId } from 'vue'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<DialogBodyProps>()
 const forwarded = useForwardProps(props)
 
 const id = useId()
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvDialog())
 </script>
 

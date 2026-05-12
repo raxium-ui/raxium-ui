@@ -1,11 +1,11 @@
 @layer components {
   .rui-progress-track {
-    @apply bg-rz-green/30;
+    @apply bg-rui-primary/30;
   }
 
   .rui-progress-range {
     &[data-variant='default'] {
-      @apply bg-rz-green;
+      @apply bg-rui-primary;
     }
 
     &[data-variant='robbin'][data-orientation='horizontal'] {
@@ -52,12 +52,12 @@
 
 
   .rui-progress-circle-track{
-    @apply stroke-rz-green/30;
+    @apply stroke-rui-primary/30;
   }
 
   .rui-progress-circle-range{
     &[data-variant='default'] {
-      @apply stroke-rz-green;
+      @apply stroke-rui-primary;
     }
     &[data-variant='transfer'] {
       --transfer-from: oklch(76.87% 0.2343 141.32);

@@ -21,7 +21,7 @@ const content = fakerEN.lorem.sentences(2)
       }"
     >
       <HoverCardArrow
-        class="[--arrow-background:var(--color-rz-green)] [--arrow-border:var(--color-h00)]"
+        class="[--arrow-background:var(--color-rz-green)] [--arrow-border:var(--color-rz-neutral-950)]"
         :theme="{ size: 'lg' }"
       />
       <div class="flex flex-col gap-2">

@@ -64,8 +64,7 @@ contracts:
       typeText: ThemeCrafts<'tvButton'>（含 theme.size/skin/surface 等与 tvButton 变体合并）
       description: 主题配置，驱动 tvButton crafts；展开传入 crafts.root/loading 的 ...theme。
     - name: ui
-      typeText: '{ root?: { class?: string | array | object }, loading?: { class?: string
-        | array | object } }'
+      typeText: '{ root?: string | array | object, loading?: string | array | object }'
       description: 局部样式覆盖配置。
   events:
     - name: click
@@ -119,10 +118,10 @@ contracts:
         description: 覆盖 tvButton 的 crafts 配置。
   uiConfiguration:
     fields:
-      - name: ui.root.class
+      - name: ui.root
         typeText: string | array | object
         description: 根元素的自定义 class。
-      - name: ui.loading.class
+      - name: ui.loading
         typeText: string | array | object
         description: 加载图标的自定义 class。
 behaviorModel:

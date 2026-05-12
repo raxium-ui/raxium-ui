@@ -1,0 +1,125 @@
+/*
+ * Semantic Design Tokens
+ *
+ * Purpose-driven aliases that map to primitives.
+ * Component CSS should reference THESE tokens, not primitives.
+ * To create a new theme, override these variables — no need to touch component CSS.
+ *
+ * Categories:
+ *   --color-rui-surface-*   Surface / background colors
+ *   --color-rui-text-*      Foreground / text colors
+ *   --color-rui-primary-*   Primary action color (brand)
+ *   --color-rui-danger-*    Destructive action color
+ *   --color-rui-warning-*   Warning / caution color
+ *   --color-rui-info-*      Informational color
+ *   --color-rui-border-*    Border colors
+ *   --color-rui-input-*     Form input specific
+ */
+
+@theme {
+  /* ============================================
+   * Surface / Background
+   * ============================================ */
+
+  /* Page-level */
+  --color-rui-surface-base: var(--color-rz-neutral-950);
+
+  /* Containers & panels */
+  --color-rui-surface-container: var(--color-rz-neutral-875);
+  --color-rui-surface-elevated: var(--color-rz-neutral-850);
+  --color-rui-surface-sunken: var(--color-rz-neutral-900);
+
+  /* Inverted (light on dark theme) */
+  --color-rui-surface-inverse: var(--color-rz-neutral-0);
+
+  /* Disabled */
+  --color-rui-surface-disabled: var(--color-rz-neutral-860);
+
+  /* Hover states */
+  --color-rui-surface-hover: var(--color-rz-neutral-750);
+
+  /* ============================================
+   * Text / Foreground
+   * ============================================ */
+  --color-rui-text-primary: var(--color-rz-neutral-0);
+  --color-rui-text-secondary: var(--color-rz-neutral-75);
+  --color-rui-text-muted: var(--color-rz-neutral-225);
+  --color-rui-text-subtle: var(--color-rz-neutral-275);
+  --color-rui-text-disabled: var(--color-rz-neutral-550);
+  --color-rui-text-inverse: var(--color-rz-neutral-950);
+
+  /* ============================================
+   * Primary Action (Brand)
+   * ============================================ */
+  --color-rui-primary: var(--color-rz-green);
+  --color-rui-primary-hover: var(--color-rz-green-light);
+  --color-rui-primary-active: var(--color-rz-green-dark);
+  --color-rui-primary-border: var(--color-rz-green-border);
+  --color-rui-primary-fg: var(--color-rz-neutral-950);
+
+  /* ============================================
+   * Danger / Error
+   * ============================================ */
+  --color-rui-danger: var(--color-rz-red);
+  --color-rui-danger-hover: var(--color-rz-red-light);
+  --color-rui-danger-active: var(--color-rz-red-dark);
+  --color-rui-danger-border: var(--color-rz-red-border);
+  --color-rui-danger-fg: var(--color-rz-neutral-0);
+
+  /* ============================================
+   * Warning
+   * ============================================ */
+  --color-rui-warning: var(--color-rz-orange);
+  --color-rui-warning-hover: var(--color-rz-orange-light);
+  --color-rui-warning-active: var(--color-rz-orange-dark);
+  --color-rui-warning-border: var(--color-rz-orange-border);
+  --color-rui-warning-fg: var(--color-rz-neutral-0);
+
+  /* ============================================
+   * Info
+   * ============================================ */
+  --color-rui-info: var(--color-rz-blue);
+  --color-rui-info-hover: var(--color-rz-blue-light);
+  --color-rui-info-active: var(--color-rz-blue-dark);
+  --color-rui-info-border: var(--color-rz-blue-border);
+  --color-rui-info-fg: var(--color-rz-neutral-0);
+
+  /* ============================================
+   * Success (alias to primary green)
+   * ============================================ */
+  --color-rui-success: var(--color-rz-green);
+
+  /* ============================================
+   * Legacy semantic aliases (used in component CSS)
+   * ============================================ */
+  --color-rui-error: var(--color-rui-danger);
+  --color-rui-warning: var(--color-rz-orange);
+  --color-rui-info: var(--color-rz-neutral-275);
+
+  /* ============================================
+   * Border
+   * ============================================ */
+  --color-rui-border: var(--color-rz-neutral-575);
+  --color-rui-border-subtle: var(--color-rz-neutral-925);
+  --color-rui-border-strong: var(--color-rz-neutral-550);
+  --color-rui-border-focus: var(--color-rz-green);
+
+  /* ============================================
+   * Form Input
+   * ============================================ */
+  --color-rui-input-border: var(--color-rz-neutral-550);
+  --color-rui-input-border-hover: var(--color-rz-neutral-450);
+  --color-rui-input-border-focus: var(--color-rz-green);
+  --color-rui-input-text: var(--color-rz-neutral-100);
+  --color-rui-input-placeholder: var(--color-rz-neutral-550);
+
+  /* ============================================
+   * Interactive (close, toggle, separator)
+   * ============================================ */
+  --color-rui-close: var(--color-rz-neutral-275);
+  --color-rui-close-hover: var(--color-rz-neutral-0);
+  --color-rui-toggle-text: var(--color-rz-neutral-275);
+  --color-rui-toggle-text-hover: var(--color-rz-neutral-0);
+  --color-rui-toggle-text-active: var(--color-rz-neutral-0);
+  --color-rui-separator: var(--color-rz-neutral-950);
+}

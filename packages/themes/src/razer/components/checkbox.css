@@ -1,6 +1,6 @@
 @layer components {
   .rui-checkbox {
-    @apply text-hcc hover:text-hff disabled:text-hcc;
+    @apply text-rui-text-secondary hover:text-rui-text-primary disabled:text-rui-text-secondary;
     &[disabled],
     &[data-disabled] {
       @apply opacity-(--disabled-opacity);
@@ -8,32 +8,32 @@
   }
 
   .rui-checkbox-control {
-    @apply bg-transparent border-h55
-    hover:border-rz-green
-    focus:border-rz-green
+    @apply bg-transparent border-rui-border-strong
+    hover:border-rui-primary
+    focus:border-rui-primary
     data-focus:shadow-(--shadow-rui-outline)
-    active:bg-rz-green-dark
-    data-[state=checked]:bg-rz-green
-    data-[state=checked]:border-rz-green
-    data-[state=indeterminate]:bg-rz-green
-    data-[state=indeterminate]:border-rz-green;
+    active:bg-rui-primary-active
+    data-[state=checked]:bg-rui-primary
+    data-[state=checked]:border-rui-primary
+    data-[state=indeterminate]:bg-rui-primary
+    data-[state=indeterminate]:border-rui-primary;
 
     &[disabled],
     &[data-disabled] {
-      @apply border-h55 bg-transparent hover:border-h55;
-      @apply data-[state=checked]:bg-rz-green data-[state=checked]:border-rz-green;
-      @apply data-[state=indeterminate]:bg-rz-green data-[state=indeterminate]:border-rz-green;
-      @apply data-[state=checked]:hover:bg-rz-green data-[state=checked]:hover:border-rz-green data-[state=indeterminate]:hover:bg-rz-green data-[state=indeterminate]:hover:border-rz-green;
-      @apply active:border-h55 active:bg-transparent;
-      @apply data-[state=checked]:active:bg-rz-green data-[state=checked]:active:border-rz-green data-[state=indeterminate]:active:bg-rz-green data-[state=indeterminate]:active:border-rz-green;
+      @apply border-rui-border-strong bg-transparent hover:border-rui-border-strong;
+      @apply data-[state=checked]:bg-rui-primary data-[state=checked]:border-rui-primary;
+      @apply data-[state=indeterminate]:bg-rui-primary data-[state=indeterminate]:border-rui-primary;
+      @apply data-[state=checked]:hover:bg-rui-primary data-[state=checked]:hover:border-rui-primary data-[state=indeterminate]:hover:bg-rui-primary data-[state=indeterminate]:hover:border-rui-primary;
+      @apply active:border-rui-border-strong active:bg-transparent;
+      @apply data-[state=checked]:active:bg-rui-primary data-[state=checked]:active:border-rui-primary data-[state=indeterminate]:active:bg-rui-primary data-[state=indeterminate]:active:border-rui-primary;
     }
   }
 
   .rui-checkbox-label {
-    @apply text-hcc hover:text-hff;
+    @apply text-rui-text-secondary hover:text-rui-text-primary;
     &[disabled],
     &[data-disabled] {
-      @apply hover:text-hcc;
+      @apply hover:text-rui-text-secondary;
     }
   }
 }

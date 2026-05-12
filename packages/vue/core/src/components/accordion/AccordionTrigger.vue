@@ -3,7 +3,7 @@ import type { AccordionTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Accordion, useAccordionItemContext } from '@ark-ui/vue/accordion'
 import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { ChevronDown } from 'lucide-vue-next'
 import { computed } from 'vue'
 
@@ -17,7 +17,7 @@ const {
 const forwarded = useForwardProps(props)
 const itemContext = useAccordionItemContext()
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvAccordion())
 </script>
 
