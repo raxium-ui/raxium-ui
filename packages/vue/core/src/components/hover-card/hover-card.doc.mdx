@@ -108,7 +108,13 @@ import * as HoverCardStories from './hover-card.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvHoverCard'&gt;</code></td>
       <td>-</td>
-      <td>根组件主题参数与 crafts 覆盖入口</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td>其它 Ark UI Root 参数</td>
@@ -168,7 +174,7 @@ import * as HoverCardStories from './hover-card.stories'
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>继承根组件主题，也可局部覆盖（不含 crafts）</td>
+      <td>继承根组件主题，也可单独覆盖主题参数（不含 <code>craft</code>）</td>
     </tr>
     <tr>
       <td>其它 Ark UI Content 参数</td>
@@ -201,7 +207,7 @@ import * as HoverCardStories from './hover-card.stories'
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>）</td>
+      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>；无 <code>craft</code>）</td>
     </tr>
   </tbody>
 </table>
@@ -289,53 +295,47 @@ import * as HoverCardStories from './hover-card.stories'
 
 ## Theme Configuration
 
-`HoverCard` 的主题入口在根组件 `theme`（类型为 `ThemeCrafts<'tvHoverCard'>`），会通过上下文影响内容与箭头样式；`HoverCardContent` 与 `HoverCardArrow` 也支持局部 `theme` 覆盖（`ThemeNoCrafts`）。
+`HoverCard` 根组件通过合并后的 **`tvHoverCard`**（`theme` 提供通用变体，根 **`craft`** 可覆写）统一驱动浮层与箭头样式；`HoverCardContent` / `HoverCardArrow` 上的 `theme` 为 **`ThemeNoCrafts`**（无 **`craft`**）。
 
 <table>
   <thead>
     <tr>
-      <th>主题参数</th>
+      <th>属性</th>
       <th>类型</th>
       <th>默认值</th>
-      <th>影响范围</th>
+      <th>说明</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><code>theme.size</code></td>
+      <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
       <td><code>'base'</code></td>
-      <td>影响浮层尺寸节奏与箭头尺寸</td>
+      <td>浮层尺寸节奏与箭头尺度</td>
     </tr>
     <tr>
-      <td><code>theme.skin</code></td>
-      <td><code>'razer' | 'shadcn' | (string &amp; &#123;&#125;)</code></td>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
       <td>-</td>
-      <td>影响组件视觉皮肤标识</td>
+      <td>皮肤风格</td>
     </tr>
     <tr>
-      <td><code>theme.surface</code></td>
-      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
       <td>-</td>
-      <td>影响明暗表面样式</td>
+      <td>表面模式</td>
     </tr>
     <tr>
-      <td><code>theme.bordered</code></td>
+      <td><code>bordered</code></td>
       <td><code>boolean</code></td>
-      <td><code>true</code></td>
-      <td>控制内容与箭头边框表现</td>
-    </tr>
-    <tr>
-      <td><code>theme.unstyled</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>禁用默认样式，便于完全自定义</td>
-    </tr>
-    <tr>
-      <td><code>theme.crafts</code>（仅根组件）</td>
-      <td><code>ThemeCrafts&lt;'tvHoverCard'&gt;['theme']['crafts']</code></td>
       <td>-</td>
-      <td>覆盖 <code>tvHoverCard</code> 的样式工艺配置</td>
+      <td>内容与箭头边框语义</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
     </tr>
   </tbody>
 </table>

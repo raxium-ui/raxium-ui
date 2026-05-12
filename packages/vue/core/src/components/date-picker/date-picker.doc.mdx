@@ -39,11 +39,11 @@ import * as DatePickerStories from './date-picker.stories'
 
 ## ARK UI Link
 
-`DatePicker` 与 Ark UI 的关系是**部分透传 + Rark 扩展**：
+`DatePicker` 与 Ark UI 的关系是**部分透传 + Raxium 扩展**：
 
 - 根组件基于 Ark UI 的 `useDatePicker` 与 `DatePicker.RootProvider`，核心交互模型（值、视图、打开状态、可用日期判断）沿用 Ark UI。
-- `DatePicker` 根组件主要透传 `DatePickerRootBaseProps`，并新增 Rark `theme` 能力（包括 `tvDatePicker` crafts 覆盖）。
-- `DatePickerControl` / `DatePickerContent` / `DatePicker*View` 在 Ark 原语外增加了 Rark 默认结构与主题样式封装，不属于完全无差异透传。
+- `DatePicker` 根组件主要透传 `DatePickerRootBaseProps`，并新增 Raxium **`theme` / `craft`**（作用于 **`tvDatePicker`**）。
+- `DatePickerControl` / `DatePickerContent` / `DatePicker*View` 在 Ark 原语外增加了 Raxium 默认结构与主题样式封装，不属于完全无差异透传。
 
 - Ark UI 文档：[Ark UI Vue Date Picker](https://ark-ui.com/vue/docs/components/date-picker)
 
@@ -123,7 +123,13 @@ import * as DatePickerStories from './date-picker.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvDatePicker'&gt;</code></td>
       <td>-</td>
-      <td>Rark 主题入口，可配置尺寸、变体与 crafts 覆盖</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -257,7 +263,7 @@ import * as DatePickerStories from './date-picker.stories'
   </tbody>
 </table>
 
-> 完整 Ark 原生参数请参考 Ark UI Date Picker 文档，本文聚焦 Rark 常用与扩展能力。
+> 完整 Ark 原生参数请参考 Ark UI Date Picker 文档，本文聚焦 Raxium 常用与扩展能力。
 
 ### Events
 
@@ -382,7 +388,7 @@ import * as DatePickerStories from './date-picker.stories'
 
 ## Theme Configuration
 
-`DatePicker` 的主题入口在根组件 `theme`，会影响 `tvDatePicker`（根容器、控制区、弹层容器）以及视图内 `tvDatePickerView` 的尺寸和状态样式。常用参数如下：
+`DatePicker` 根组件通过合并后的 **`tvDatePicker`**（`theme` 提供通用变体，根 **`craft`** 可覆写）驱动根容器、控制区与弹层；视图内 `tvDatePickerView` 随该上下文继承尺寸与状态样式。常用 `theme` 变体如下：
 
 <table>
   <thead>
@@ -405,12 +411,6 @@ import * as DatePickerStories from './date-picker.stories'
       <td><code>boolean</code></td>
       <td>-</td>
       <td>是否给内容区启用边框样式</td>
-    </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>{'{'} tvDatePicker?: Partial&lt;...&gt; {'}'}</code></td>
-      <td>-</td>
-      <td>覆写 `tvDatePicker` 的 slots 样式（如 <code>control</code>、<code>content</code>、<code>contentInner</code>）</td>
     </tr>
     <tr>
       <td><code>unstyled</code></td>
@@ -440,10 +440,10 @@ import * as DatePickerStories from './date-picker.stories'
   </thead>
   <tbody>
     <tr>
-      <td><code>DatePicker.theme.crafts.tvDatePicker</code></td>
-      <td><code>object</code></td>
+      <td><code>DatePicker</code> 根 <code>craft</code></td>
+      <td><code>CraftOverride</code></td>
       <td>-</td>
-      <td>覆盖根组件与内容容器的 crafts slots</td>
+      <td>覆写 <code>tvDatePicker</code> 的 slots / variants，影响根区与内容容器</td>
     </tr>
     <tr>
       <td><code>DatePickerControl.class</code></td>
@@ -477,4 +477,4 @@ import * as DatePickerStories from './date-picker.stories'
 - 需要埋点时，优先监听 `valueChange` 和 `openChange`，并结合 `update:modelValue` 做业务状态同步。
 - 范围选择场景建议显式设置 `selectionMode="range"`，并在 UI 上通过 `DatePickerValueText` 或外部文本同步展示开始/结束日期。
 - 对未来日期、节假日、库存日期等限制，统一通过 `isDateUnavailable` 处理，保证禁用逻辑与键盘导航行为一致。
-- 当视觉规范要求强定制时，先用 `theme.size` 与 `crafts` 调整整体，再按需叠加 `class` 做局部覆盖，避免大量硬编码样式散落在业务层。
+- 当视觉规范要求强定制时，先用 **`theme.size`** 与根 **`craft`** 调整整体，再按需叠加 `class` 做局部覆盖，避免大量硬编码样式散落在业务层。

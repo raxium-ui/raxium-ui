@@ -1,5 +1,5 @@
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { Crafts, CraftOverride, ThemeProps } from '../providers/theme/theme-props'
+import type { CraftOverride, Crafts, ThemeProps } from '../providers/theme/theme-props'
 import { crafts } from '@raxium/themes/default'
 import { clsx, tv } from '@raxium/themes/utils'
 import { omitBy } from 'es-toolkit'

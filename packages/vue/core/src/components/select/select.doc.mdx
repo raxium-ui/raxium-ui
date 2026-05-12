@@ -109,7 +109,13 @@ import * as SelectStories from './select.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvSelect'&gt;</code></td>
       <td>-</td>
-      <td>组件主题参数与 crafts 覆盖（根组件）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -432,7 +438,7 @@ import * as SelectStories from './select.stories'
 
 ## Theme Configuration
 
-`Select` 根组件通过 `theme` 驱动 `tvSelect` crafts（影响 root/trigger/content/item/value 等部位）。`SelectTrigger`、`SelectContent`、`SelectItem`、`SelectItemGroup`、`SelectValue` 可通过 `theme` 继承或覆盖主题上下文。
+`Select` 根组件通过合并后的 **`tvSelect`**（`theme` 提供通用变体，根 **`craft`** 可覆写）联动 root/trigger/content/item/value 等部位；子组件可通过 `theme`（`ThemeNoCrafts`）继承或微调上下文。
 
 <table>
   <thead>
@@ -468,13 +474,7 @@ import * as SelectStories from './select.stories'
       <td>-</td>
       <td>移除默认样式</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆盖 <code>tvSelect</code> crafts 配置（仅根组件）</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 **示例**:

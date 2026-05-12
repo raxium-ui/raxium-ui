@@ -123,7 +123,13 @@ Ark UI 文档： [Ark UI Tags Input (Vue)](https://ark-ui.com/vue/docs/component
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvTagsInput' | 'tvInput'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖入口（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -302,13 +308,7 @@ Ark UI 文档： [Ark UI Tags Input (Vue)](https://ark-ui.com/vue/docs/component
       <td>-</td>
       <td>去除默认样式</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆盖 <code>tvTagsInput</code> / <code>tvInput</code> 样式生成逻辑</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 <Canvas of={TagsInputStories.Sizes} />

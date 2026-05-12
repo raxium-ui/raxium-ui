@@ -116,7 +116,13 @@ dialog({ title: '…' })
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvDialog'&gt;</code></td>
       <td>-</td>
-      <td>Dialog 主题变量（尺寸、皮肤、crafts 等）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -529,13 +535,7 @@ instance.close()              // 手动关闭
       <td>-</td>
       <td>去除默认样式</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆盖 <code>tvDialog</code> 的 crafts 配置</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 **示例**:

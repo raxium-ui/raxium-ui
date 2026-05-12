@@ -5,7 +5,7 @@ import * as FloatingPanelStories from './floating-panel.stories'
 
 # FloatingPanel
 
-`FloatingPanel` 是一个可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。组件基于 Ark UI Floating Panel 能力封装，根组件透传 Ark UI 常用交互参数，并扩展了 Raxium UI 的 `theme`、初始透明度（`opacity`）、固定拖拽状态（`pinned`）与缩放触发轴（`resizeAxis`）能力。
+`FloatingPanel` 是一个可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。组件基于 Ark UI Floating Panel 能力封装，根组件透传 Ark UI 常用交互参数，并扩展了 Raxium UI **`theme` / `craft`**、`opacity`、`pinned`、`resizeAxis` 等能力。
 
 ---
 
@@ -39,7 +39,7 @@ import * as FloatingPanelStories from './floating-panel.stories'
 
 - 根组件会透传 Ark UI Root 常用参数与状态机能力（如尺寸、位置、打开状态、拖拽相关配置等）。
 - `FloatingPanelTrigger` 直接导出自 `@ark-ui/vue`，保持 Ark UI 原语行为。
-- `FloatingPanelContent`、`FloatingPanelHeader`、各 Trigger 子组件在 Ark UI 原语之上补充了默认样式与 `theme/ui` 覆盖入口。
+- `FloatingPanelContent`、`FloatingPanelHeader`、各 Trigger 子组件在 Ark UI 原语之上补充了默认样式与 **`theme`（`ThemeNoCrafts`）/ `ui.*`** 覆盖入口；根 **`FloatingPanel`** 另提供 **`craft`**。
 
 Ark UI 文档： [Ark UI Floating Panel (Vue)](https://ark-ui.com/vue/docs/components/floating-panel)
 
@@ -103,7 +103,13 @@ Ark UI 文档： [Ark UI Floating Panel (Vue)](https://ark-ui.com/vue/docs/compo
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvFloatingPanel'&gt;</code></td>
       <td>-</td>
-      <td>浮动面板主题变量与 crafts 覆盖入口</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -365,29 +371,47 @@ Ark UI 文档： [Ark UI Floating Panel (Vue)](https://ark-ui.com/vue/docs/compo
 
 ## Theme Configuration
 
-`FloatingPanel` 的主题入口在根组件 `theme`，并由子组件继承。核心样式由 `tvFloatingPanel` 提供槽位与尺寸变体。
+`FloatingPanel` 根组件通过合并后的 **`tvFloatingPanel`**（`theme` 提供通用变体，根 **`craft`** 可覆写）驱动 positioner/content/header/control 等槽位与子组件默认外观；内容区/header 亦可使用 **`ThemeNoCrafts`** 微调上下文。
 
 <table>
   <thead>
     <tr>
-      <th>配置项</th>
+      <th>属性</th>
       <th>类型</th>
       <th>默认值</th>
-      <th>影响范围</th>
+      <th>说明</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><code>theme.size</code></td>
+      <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
       <td>-</td>
       <td>控制头部间距、触发器尺寸、缩放手柄尺寸</td>
     </tr>
     <tr>
-      <td><code>theme.crafts.tvFloatingPanel</code></td>
-      <td><code>Partial&lt;...&gt;</code></td>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
       <td>-</td>
-      <td>覆盖 <code>positioner/content/header/control/title/trigger/resize*</code> 槽位样式</td>
+      <td>皮肤风格</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
     </tr>
   </tbody>
 </table>

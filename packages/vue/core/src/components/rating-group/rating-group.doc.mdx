@@ -113,7 +113,13 @@ Ark UI 文档： [Ark UI Rating Group (Vue)](https://ark-ui.com/vue/docs/compone
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvRatingGroup'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -256,13 +262,7 @@ Ark UI 文档： [Ark UI Rating Group (Vue)](https://ark-ui.com/vue/docs/compone
       <td>-</td>
       <td>移除默认样式</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆盖 <code>tvRatingGroup</code> 的 crafts 配置</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 <Canvas of={RatingGroupStories.Sizes} />

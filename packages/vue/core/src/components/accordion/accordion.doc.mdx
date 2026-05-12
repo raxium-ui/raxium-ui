@@ -111,7 +111,14 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvAccordion'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -129,26 +136,48 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>value</code></td>
-      <td><code>string</code></td>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
       <td>-</td>
-      <td>必填；在根组件的 <code>modelValue</code> / <code>defaultValue</code> 中引用</td>
+      <td>
+        必填；在根组件的 <code>modelValue</code> / <code>defaultValue</code> 中引用
+      </td>
     </tr>
     <tr>
-      <td><code>disabled</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
       <td>是否禁用该面板切换</td>
     </tr>
     <tr>
-      <td><code>asChild</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
+      <td>
+        <code>asChild</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
       <td>将行为合并到子元素（Ark UI 原语能力）</td>
     </tr>
     <tr>
-      <td><code>class</code></td>
-      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>
+        <code>class</code>
+      </td>
+      <td>
+        <code>string | string[] | Record&lt;string, boolean&gt;</code>
+      </td>
       <td>-</td>
       <td>单项外层 class 覆盖</td>
     </tr>
@@ -168,26 +197,46 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>indicator</code></td>
-      <td><code>boolean</code></td>
-      <td><code>true</code></td>
+      <td>
+        <code>indicator</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>true</code>
+      </td>
       <td>是否渲染默认箭头指示器</td>
     </tr>
     <tr>
-      <td><code>asChild</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
+      <td>
+        <code>asChild</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
       <td>将行为合并到子元素（Ark UI 原语能力）</td>
     </tr>
     <tr>
-      <td><code>class</code></td>
-      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>
+        <code>class</code>
+      </td>
+      <td>
+        <code>string | string[] | Record&lt;string, boolean&gt;</code>
+      </td>
       <td>-</td>
       <td>触发器根节点 class 覆盖</td>
     </tr>
     <tr>
-      <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td>
+        <code>theme</code>
+      </td>
+      <td>
+        <code>ThemeNoCrafts</code>
+      </td>
       <td>-</td>
       <td>继承主题上下文，也可单独覆盖主题参数</td>
     </tr>
@@ -207,20 +256,34 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>asChild</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
+      <td>
+        <code>asChild</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
       <td>将行为合并到子元素（Ark UI 原语能力）</td>
     </tr>
     <tr>
-      <td><code>class</code></td>
-      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>
+        <code>class</code>
+      </td>
+      <td>
+        <code>string | string[] | Record&lt;string, boolean&gt;</code>
+      </td>
       <td>-</td>
       <td>内容区 class 覆盖</td>
     </tr>
     <tr>
-      <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td>
+        <code>theme</code>
+      </td>
+      <td>
+        <code>ThemeNoCrafts</code>
+      </td>
       <td>-</td>
       <td>继承主题上下文，也可单独覆盖主题参数</td>
     </tr>
@@ -241,18 +304,30 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>Accordion: update:modelValue</code></td>
-      <td><code>(value: string[])</code></td>
+      <td>
+        <code>Accordion: update:modelValue</code>
+      </td>
+      <td>
+        <code>(value: string[])</code>
+      </td>
       <td>受控模式下展开项列表同步</td>
     </tr>
     <tr>
-      <td><code>Accordion: valueChange</code></td>
-      <td><code>(details: ValueChangeDetails)</code></td>
+      <td>
+        <code>Accordion: valueChange</code>
+      </td>
+      <td>
+        <code>(details: ValueChangeDetails)</code>
+      </td>
       <td>展开项变化（详见 Ark 类型定义）</td>
     </tr>
     <tr>
-      <td><code>Accordion: focusChange</code></td>
-      <td><code>(details: FocusChangeDetails)</code></td>
+      <td>
+        <code>Accordion: focusChange</code>
+      </td>
+      <td>
+        <code>(details: FocusChangeDetails)</code>
+      </td>
       <td>焦点在 item 间移动时触发</td>
     </tr>
   </tbody>
@@ -270,28 +345,56 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>Accordion</code></td>
-      <td><code>default</code></td>
-      <td>根插槽，作用域为 Ark <code>useAccordion</code> 返回的 API（用于高级组合或透传）</td>
+      <td>
+        <code>Accordion</code>
+      </td>
+      <td>
+        <code>default</code>
+      </td>
+      <td>
+        根插槽，作用域为 Ark <code>useAccordion</code> 返回的 API（用于高级组合或透传）
+      </td>
     </tr>
     <tr>
-      <td><code>AccordionItem</code></td>
-      <td><code>default</code></td>
-      <td>单面板内：通常放 <code>AccordionTrigger</code> 与 <code>AccordionContent</code></td>
+      <td>
+        <code>AccordionItem</code>
+      </td>
+      <td>
+        <code>default</code>
+      </td>
+      <td>
+        单面板内：通常放 <code>AccordionTrigger</code> 与 <code>AccordionContent</code>
+      </td>
     </tr>
     <tr>
-      <td><code>AccordionTrigger</code></td>
-      <td><code>default</code></td>
-      <td>触发器主内容，作用域含 <code>open</code>、<code>visible</code></td>
+      <td>
+        <code>AccordionTrigger</code>
+      </td>
+      <td>
+        <code>default</code>
+      </td>
+      <td>
+        触发器主内容，作用域含 <code>open</code>、<code>visible</code>
+      </td>
     </tr>
     <tr>
-      <td><code>AccordionTrigger</code></td>
-      <td><code>indicator</code></td>
-      <td>自定义指示器，作用域含 <code>open</code>、<code>visible</code></td>
+      <td>
+        <code>AccordionTrigger</code>
+      </td>
+      <td>
+        <code>indicator</code>
+      </td>
+      <td>
+        自定义指示器，作用域含 <code>open</code>、<code>visible</code>
+      </td>
     </tr>
     <tr>
-      <td><code>AccordionContent</code></td>
-      <td><code>default</code></td>
+      <td>
+        <code>AccordionContent</code>
+      </td>
+      <td>
+        <code>default</code>
+      </td>
       <td>折叠内容区域</td>
     </tr>
   </tbody>
@@ -301,7 +404,7 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
 
 ## Theme Configuration
 
-`Accordion` 根组件通过 `theme` 使用 `tvAccordion` crafts，主要驱动根、单项、触发器、指示器与内容区的尺寸与动效；`AccordionContent` / `AccordionTrigger` 上的 `theme` 为 `ThemeNoCrafts`，用于继承或微调主题上下文。
+`Accordion` 根组件通过合并后的 **`tvAccordion`**（`theme` 提供通用变体，根 **`craft`** 可覆写）驱动根、单项、触发器、指示器与内容区的尺寸与动效；`AccordionContent` / `AccordionTrigger` 上的 `theme` 为 **`ThemeNoCrafts`**（无 `craft`），用于继承或微调主题上下文。
 
 <table>
   <thead>
@@ -314,40 +417,56 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>size</code></td>
-      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
-      <td><code>'base'</code></td>
+      <td>
+        <code>size</code>
+      </td>
+      <td>
+        <code>'xs' | 'sm' | 'base' | 'lg'</code>
+      </td>
+      <td>
+        <code>'base'</code>
+      </td>
       <td>尺寸变体（主要影响触发器字号与间距）</td>
     </tr>
     <tr>
-      <td><code>skin</code></td>
-      <td><code>'razer' | 'shadcn'</code></td>
+      <td>
+        <code>skin</code>
+      </td>
+      <td>
+        <code>'razer' | 'shadcn'</code>
+      </td>
       <td>-</td>
       <td>皮肤风格</td>
     </tr>
     <tr>
-      <td><code>surface</code></td>
-      <td><code>'light' | 'dark'</code></td>
+      <td>
+        <code>surface</code>
+      </td>
+      <td>
+        <code>'light' | 'dark'</code>
+      </td>
       <td>-</td>
       <td>表面模式</td>
     </tr>
     <tr>
-      <td><code>bordered</code></td>
-      <td><code>boolean</code></td>
+      <td>
+        <code>bordered</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
       <td>-</td>
       <td>是否启用边框样式</td>
     </tr>
     <tr>
-      <td><code>unstyled</code></td>
-      <td><code>boolean</code></td>
+      <td>
+        <code>unstyled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
       <td>-</td>
       <td>是否移除内置样式</td>
-    </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆写 <code>tvAccordion</code> 各 slot</td>
     </tr>
   </tbody>
 </table>
@@ -371,14 +490,22 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
   </thead>
   <tbody>
     <tr>
-      <td><code>AccordionTrigger.ui.root</code></td>
-      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>
+        <code>AccordionTrigger.ui.root</code>
+      </td>
+      <td>
+        <code>string | string[] | Record&lt;string, boolean&gt;</code>
+      </td>
       <td>-</td>
       <td>触发器根节点 class 覆盖</td>
     </tr>
     <tr>
-      <td><code>AccordionTrigger.ui.indicator</code></td>
-      <td><code>string | string[] | Record&lt;string, boolean&gt;</code></td>
+      <td>
+        <code>AccordionTrigger.ui.indicator</code>
+      </td>
+      <td>
+        <code>string | string[] | Record&lt;string, boolean&gt;</code>
+      </td>
       <td>-</td>
       <td>指示器容器 class 覆盖</td>
     </tr>
@@ -396,4 +523,4 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
 - **受控同步**：与路由或表单状态绑定时使用 `modelValue` + `update:modelValue`，在 `valueChange` 中做埋点或副作用，避免双源状态。
 - **禁用粒度**：整组禁用用根 `disabled`；仅某一节不可点用对应 `AccordionItem` 的 `disabled`。
 - **长内容**：内容区仍可用常规布局与滚动容器；避免在触发器内塞入过多交互控件，以免与键盘/屏幕阅读器焦点模型冲突。
-- **样式分层**：全局节奏用根 `theme.size`，局部差异用 `AccordionTrigger` 的 `ui` 或 `class`；需要整体换肤时再考虑 `crafts` 覆写以降低升级成本。
+- **样式分层**：全局节奏用根 `theme.size`，局部差异用 `AccordionTrigger` 的 `ui` 或 `class`；需要整体换肤时再考虑组件 `craft` 覆写以降低升级成本。

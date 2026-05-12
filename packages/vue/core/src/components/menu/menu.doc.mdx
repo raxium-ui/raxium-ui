@@ -101,7 +101,13 @@ import * as MenuStories from './menu.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvMenu' | 'tvCheckbox' | 'tvRadioGroup'&gt;</code></td>
       <td>-</td>
-      <td>菜单及关联选择器（checkbox/radio）的主题参数</td>
+      <td>菜单主体与内置 checkbox/radio 项的统一 <code>theme</code> 入口（详见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code>（对齐根 <code>tvMenu</code>）</td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code>（内置 Checkbox/Radio 另见全局 <code>theme.crafts</code> 合并）</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -419,12 +425,12 @@ import * as MenuStories from './menu.stories'
 
 ## Theme Configuration
 
-`Menu` 的主题入口在根组件 `theme`，并会影响 `MenuContent`、`MenuItem`、`MenuItemGroup`、`MenuTriggerItem`，以及菜单内置的 checkbox/radio 指示器样式。
+`Menu` 根组件通过合并后的 **`tvMenu`**（`theme` 提供通用变体，根 **`craft`** 可覆写）影响 `MenuContent`、`MenuItem`、`MenuItemGroup`、`MenuTriggerItem` 等默认外观；内置 `MenuCheckboxItem` / `MenuRadioItem` 另走 **`tvCheckbox`** / **`tvRadioGroup`** 的工艺合并。
 
 <table>
   <thead>
     <tr>
-      <th>主题路径</th>
+      <th>属性</th>
       <th>类型</th>
       <th>默认值</th>
       <th>说明</th>
@@ -432,34 +438,40 @@ import * as MenuStories from './menu.stories'
   </thead>
   <tbody>
     <tr>
-      <td><code>theme.size</code></td>
+      <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
       <td><code>'base'</code></td>
       <td>控制菜单项字号、内边距与间距</td>
     </tr>
     <tr>
-      <td><code>theme.bordered</code></td>
+      <td><code>bordered</code></td>
       <td><code>boolean</code></td>
       <td><code>true</code></td>
-      <td>控制菜单内容区是否带边框</td>
+      <td>菜单内容区是否带边框</td>
     </tr>
     <tr>
-      <td><code>theme.crafts.tvMenu</code></td>
-      <td><code>craft 覆盖对象</code></td>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
       <td>-</td>
-      <td>覆盖菜单主结构样式（content/item/group 等）</td>
+      <td>皮肤风格</td>
     </tr>
     <tr>
-      <td><code>theme.crafts.tvCheckbox</code></td>
-      <td><code>craft 覆盖对象</code></td>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
       <td>-</td>
-      <td>覆盖 <code>MenuCheckboxItem</code> 内置 Checkbox 样式</td>
+      <td>表面模式</td>
     </tr>
     <tr>
-      <td><code>theme.crafts.tvRadioGroup</code></td>
-      <td><code>craft 覆盖对象</code></td>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
       <td>-</td>
-      <td>覆盖 <code>MenuRadioItem</code> 指示器样式</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td>内置 Checkbox / Radio 菜单项</td>
+      <td>（上下文）</td>
+      <td>-</td>
+      <td>分别对齐 <code>tvCheckbox</code> / <code>tvRadioGroup</code>；与主题包默认值、全局 **`theme.crafts`** 一并合并</td>
     </tr>
   </tbody>
 </table>

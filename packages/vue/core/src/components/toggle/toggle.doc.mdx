@@ -100,7 +100,13 @@ import * as ToggleStories from './toggle.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvToggle'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆写入口（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -172,13 +178,7 @@ import * as ToggleStories from './toggle.stories'
       <td><code>'base'</code></td>
       <td>控制按钮尺寸与内边距</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆写 <code>tvToggle</code> crafts 生成逻辑</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 <Canvas of={ToggleStories.Sizes} />

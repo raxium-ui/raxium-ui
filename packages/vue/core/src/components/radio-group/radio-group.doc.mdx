@@ -103,7 +103,13 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvRadioGroup'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖入口（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -154,7 +160,7 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>继承或覆盖主题上下文</td>
+      <td>继承主题上下文，也可单独覆盖主题参数</td>
     </tr>
   </tbody>
 </table>
@@ -242,12 +248,12 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
 
 ## Theme Configuration
 
-`RadioGroup` 的主题入口在根组件 `theme`，用于驱动 `tvRadioGroup` crafts，覆盖组根节点、单选项、控制区、指示器与文本节点样式。
+`RadioGroup` 根组件通过合并后的 **`tvRadioGroup`**（`theme` 提供通用变体，根 **`craft`** 可覆写）驱动组根、`RadioGroupItem`、control、indicator 与文案等样式；子项上的 `theme` 为 **`ThemeNoCrafts`**（无 **`craft`**），用于继承或微调主题上下文。
 
 <table>
   <thead>
     <tr>
-      <th>主题路径</th>
+      <th>属性</th>
       <th>类型</th>
       <th>默认值</th>
       <th>说明</th>
@@ -255,16 +261,34 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
   </thead>
   <tbody>
     <tr>
-      <td><code>theme.size</code></td>
+      <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
       <td><code>'base'</code></td>
-      <td>控制 control/indicator/text 的尺寸体系</td>
+      <td>尺寸变体，串联 control / indicator / text 的视觉尺度</td>
     </tr>
     <tr>
-      <td><code>theme.crafts.tvRadioGroup</code></td>
-      <td><code>craft 覆盖对象</code></td>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
       <td>-</td>
-      <td>深度覆写 `root/item/itemControl/itemIndicator/itemText` 样式</td>
+      <td>皮肤风格</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
     </tr>
   </tbody>
 </table>

@@ -5,7 +5,7 @@ import * as TooltipStories from './tooltip.stories'
 
 # Tooltip
 
-`Tooltip` 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。组件基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略，并扩展了 Raxium UI 的 `theme` 与局部 `ui` 样式覆盖能力。
+`Tooltip` 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。组件基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略，并扩展了 Raxium UI 的根级 **`theme` / `craft`** 与子组件 **`theme`** / `ui` 样式覆盖能力。
 
 ---
 
@@ -43,7 +43,7 @@ import * as TooltipStories from './tooltip.stories'
 
 - `Tooltip` 根组件基于 Ark UI Root，通过 `useTooltip` 管理状态，透传 Root 常用参数（如 `open/defaultOpen`、`disabled`、`positioning`、`openDelay/closeDelay`、`lazyMount/unmountOnExit`），并扩展 `theme`。
 - `TooltipTrigger` 直接导出自 Ark UI 原语，交互行为与 Ark UI 保持一致（默认支持 hover/focus 触发）。
-- `TooltipContent` 与 `TooltipArrow` 在 Ark UI 原语基础上增加 Raxium UI 主题与 `ui` 覆盖入口。
+- `TooltipContent` 与 `TooltipArrow` 在 Ark UI 原语基础上提供 **`ThemeNoCrafts`**（无 **`craft`**）与 `ui.*`；根组件 **`Tooltip`** 提供 **`ThemeCrafts<'tvTooltip'>`** 对应的 **`theme` / `craft`**。
 
 Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/tooltip)
 
@@ -119,7 +119,13 @@ Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/t
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvTooltip'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖入口</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td>其它 Ark UI Root 参数</td>
@@ -179,7 +185,7 @@ Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/t
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>继承根组件主题，也可局部覆盖（不含 crafts）</td>
+      <td>继承主题上下文，也可单独覆盖主题参数（不含 <code>craft</code>）</td>
     </tr>
     <tr>
       <td><code>ui.positioner</code></td>
@@ -224,7 +230,7 @@ Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/t
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>）</td>
+      <td>箭头主题参数（如 <code>size</code>、<code>surface</code>、<code>bordered</code>；无 <code>craft</code>）</td>
     </tr>
     <tr>
       <td><code>ui.arrow</code></td>
@@ -324,12 +330,12 @@ Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/t
 
 ## Theme Configuration
 
-`Tooltip` 的主题入口在根组件 `theme`（`ThemeCrafts<'tvTooltip'>`），用于统一驱动提示内容与箭头样式；`TooltipContent` / `TooltipArrow` 也支持局部 `theme` 覆盖（`ThemeNoCrafts`）。
+`Tooltip` 根组件通过合并后的 **`tvTooltip`**（`theme` 提供通用变体，根 **`craft`** 可覆写）统一驱动内容与箭头样式；`TooltipContent` / `TooltipArrow` 上的 `theme` 为 **`ThemeNoCrafts`**（无 **`craft`**），用于继承或微调主题上下文。
 
 <table>
   <thead>
     <tr>
-      <th>主题路径</th>
+      <th>属性</th>
       <th>类型</th>
       <th>默认值</th>
       <th>说明</th>
@@ -337,40 +343,34 @@ Ark UI 文档： [Ark UI Tooltip (Vue)](https://ark-ui.com/vue/docs/components/t
   </thead>
   <tbody>
     <tr>
-      <td><code>theme.size</code></td>
+      <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
       <td><code>'base'</code></td>
-      <td>控制内容与箭头尺寸节奏</td>
+      <td>提示内容、箭头及相关槽位的尺寸节奏</td>
     </tr>
     <tr>
-      <td><code>theme.surface</code></td>
-      <td><code>'light' | 'dark' | (string &amp; &#123;&#125;)</code></td>
+      <td><code>skin</code></td>
+      <td><code>'razer' | 'shadcn'</code></td>
       <td>-</td>
-      <td>控制明暗表面语义</td>
+      <td>皮肤风格</td>
     </tr>
     <tr>
-      <td><code>theme.skin</code></td>
-      <td><code>'razer' | 'shadcn' | (string &amp; &#123;&#125;)</code></td>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark'</code></td>
       <td>-</td>
-      <td>控制皮肤语义</td>
+      <td>表面模式</td>
     </tr>
     <tr>
-      <td><code>theme.bordered</code></td>
+      <td><code>bordered</code></td>
       <td><code>boolean</code></td>
-      <td><code>true</code></td>
-      <td>控制内容与箭头边框表现</td>
-    </tr>
-    <tr>
-      <td><code>theme.unstyled</code></td>
-      <td><code>boolean</code></td>
-      <td><code>false</code></td>
-      <td>禁用默认样式，便于完全自定义</td>
-    </tr>
-    <tr>
-      <td><code>theme.crafts</code>（仅根组件）</td>
-      <td><code>ThemeCrafts&lt;'tvTooltip'&gt;['theme']['crafts']</code></td>
       <td>-</td>
-      <td>覆盖 <code>tvTooltip</code> 样式工艺配置</td>
+      <td>是否启用内容与箭头边框语义</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
     </tr>
   </tbody>
 </table>

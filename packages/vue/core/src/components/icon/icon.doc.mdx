@@ -64,9 +64,15 @@ import * as IconStories from './icon.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>Omit&lt;ThemeProps, 'crafts'&gt; &amp; &#123; crafts?: CraftInput&lt;tvIcon&gt; | (() =&gt; tv) | Crafts &#125;</code></td>
+      <td><code>ThemeNoCrafts['theme']</code></td>
       <td>-</td>
-      <td>主题与 crafts 覆写入口（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -115,7 +121,7 @@ import * as IconStories from './icon.stories'
 
 ## Theme Configuration
 
-`Icon` 支持通过 `theme` 参与 Raxium UI 统一主题系统，并由 `tvIcon` 生成最终 class。`tvIcon` 当前默认基线样式为 <code>size-[1lh]</code>，可通过 `theme.crafts` 覆写。
+`Icon` 支持通过 `theme` 参与 Raxium UI 统一主题系统，并由 `tvIcon` 生成最终 class。`tvIcon` 当前默认基线样式为 <code>size-[1lh]</code>，可通过根 <code>craft</code> 或 RUI 全局 <code>theme.crafts</code> 覆写生成逻辑。
 
 <table>
   <thead>
@@ -151,13 +157,7 @@ import * as IconStories from './icon.stories'
       <td>-</td>
       <td>是否移除内置样式</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object | (() =&gt; tv)</code></td>
-      <td>-</td>
-      <td>覆写 <code>tvIcon</code> 或注入自定义 crafts</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 > 说明：`IconProps` 对 `ThemeCrafts&lt;'tvIcon'&gt;` 做了 `Omit&lt;'size'&gt;` 处理，因此不提供 `theme.size` 入口。
@@ -184,7 +184,7 @@ import * as IconStories from './icon.stories'
       <td><code>ui</code></td>
       <td>-</td>
       <td>-</td>
-      <td>不支持；请使用 <code>class</code> 或 <code>theme.crafts</code> 进行样式覆写</td>
+      <td>不支持；请使用 <code>class</code>、根 <code>craft</code> 或 RUI 全局 <code>theme.crafts</code> 覆写样式</td>
     </tr>
   </tbody>
 </table>
@@ -197,6 +197,6 @@ import * as IconStories from './icon.stories'
 
 - 图标来源统一使用 Iconify 命名空间（如 `lucide:*`），避免团队内多套图标源并行导致视觉不一致。
 - 需要与文本行高对齐时，优先通过字体级别（如父级 `text-sm/text-base`）控制尺寸，利用 `tvIcon` 的 `size-[1lh]` 保持对齐。
-- 优先使用 `class` 完成颜色、动画、描边等单点样式调整；多页面复用样式再考虑沉淀到 `theme.crafts`。
+- 优先使用 `class` 完成颜色、动画、描边等单点样式调整；多页面复用样式再考虑沉淀到根 `craft` 或 RUI 全局 `theme.crafts`。
 - 组件不提供事件与插槽，交互语义（点击、提示、可访问性）应由外层按钮/链接等语义组件承载。
 - 若业务需要固定像素尺寸或其它 Iconify 参数，先在项目中约定统一传参策略，避免不同页面出现图标比例漂移。

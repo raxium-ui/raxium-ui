@@ -118,7 +118,13 @@ import * as SwitchStories from './switch.stories'
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvSwitch'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆写（见 Theme Configuration）</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -247,13 +253,7 @@ import * as SwitchStories from './switch.stories'
       <td><code>'base'</code></td>
       <td>控制开关轨道、滑块和标签字号</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆写 <code>tvSwitch</code> 的 crafts 配置（如 <code>root/control/thumb/label</code>）</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 **示例**:

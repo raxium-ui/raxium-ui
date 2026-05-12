@@ -133,7 +133,13 @@ Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components
       <td><code>theme</code></td>
       <td><code>ThemeCrafts&lt;'tvTree'&gt;</code></td>
       <td>-</td>
-      <td>主题参数与 crafts 覆盖入口</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
   </tbody>
 </table>
@@ -359,13 +365,7 @@ Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components
       <td><code>'base'</code></td>
       <td>节点行高、文本和图标尺寸节奏</td>
     </tr>
-    <tr>
-      <td><code>crafts</code></td>
-      <td><code>object</code></td>
-      <td>-</td>
-      <td>覆盖 <code>tvTree</code> 及关联 crafts（branch/item/checkbox）</td>
-    </tr>
-  </tbody>
+    </tbody>
 </table>
 
 <Canvas of={TreeStories.Sizes} />
