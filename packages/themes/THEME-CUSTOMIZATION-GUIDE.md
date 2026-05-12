@@ -9,7 +9,7 @@
 1. [Architecture Overview](#1-architecture-overview)
 2. [Level 1: Token Override (CSS Custom Properties)](#2-level-1-token-override)
 3. [Level 2: Preset Creation (Composable Theme Extension)](#3-level-2-preset-creation)
-4. [Level 3: Single-Component Craft Override](#4-level-3-single-component-craft-override)
+4. [Level 3: Component theme, craft, and ui](#4-level-3-component-theme-craft-and-ui)
 5. [Choosing the Right Level](#5-choosing-the-right-level)
 
 ---
@@ -21,7 +21,7 @@ Raxium UI's theme system has three layers:
 ```
 ┌──────────────────────────────────────────────────┐
 │  Tokens (CSS Custom Properties)                  │  ← Lowest level: raw colors, spacing
-│  tokens/_primitives.css → tokens/_semantic.css    │
+│  tokens/primitives.css → tokens/semantic.css     │
 ├──────────────────────────────────────────────────┤
 │  Crafts (tailwind-variants definitions)          │  ← Structural: layout, sizing, states
 │  34 craft files in default/crafts/               │
@@ -33,10 +33,15 @@ Raxium UI's theme system has three layers:
 
 **Theme resolution order** (lowest → highest priority):
 
-1. Default crafts (`@raxium/themes/default`)
-2. Global config (`RUIConfigProvider` → `theme.crafts`)
-3. Context (`ThemeProvider`)
-4. Component props (`theme` / `craft` prop)
+1. Default crafts and theme defaults from `@raxium/themes/default`.
+2. **Global config** (`RUIConfigProvider` `config.theme`): merges `**theme.crafts`** (into the crafts map) and `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**` where components read them.
+3. **Theme context** (`ThemeProvider` `value`): same `ThemeProps` shape as above — `**crafts`** and variant fields merge with config.
+4. **Component `theme` prop**: variant fields only (**no `crafts`**).
+5. **Component `craft` prop**: `**CraftOverride`** merged last into that component’s resolved craft.
+
+At render, `**ui**` slot classes and the root `**class**` attach on top (see component docs).
+
+> **Consumers**: Put app-wide overrides in `**RUIConfigProvider :config="{ theme: { crafts, … } }"`** or `**ThemeProvider :value**`; use `**:craft**` on a single instance — **not** `:theme="{ crafts: … }"` on the component.
 
 ---
 
@@ -205,75 +210,65 @@ const resolved = mergePresets([compactPreset, roundedPreset], crafts)
 
 ---
 
-## 4. Level 3: Single-Component Craft Override
+## 4. Level 3: Component theme, craft, and ui
 
-**When to use**: Customize a specific component instance without affecting others.
+**When to use**: Tune one instance — **variants** (`theme`), **craft shape** (`craft`), or **quick slot classes** (`ui`).
 
-### 4.1 The `craft` Prop (Recommended)
+### 4.1 The `theme` Prop (Variants Only)
 
-The simplest way to override styles on a single component:
+The `**theme`** prop mirrors `**ThemeCrafts<'tv…'>['theme']**`: `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**`. It merges with config and parent context; it **must not** include `**crafts`**.
 
 ```vue
-<!-- Append a class to the root slot -->
-<Button :craft="{ class: 'h-10 rounded-full' }">Tall Round Button</Button>
-
-<!-- Override per-slot classes -->
-<Button :craft="{ slots: { root: 'h-10', loading: 'size-6' } }">
-  Custom Slots
-</Button>
-
-<!-- Change default variant values -->
-<Button :craft="{ defaults: { variant: 'outlined', size: 'lg' } }">
-  Default Outlined Large
-</Button>
-
-<!-- Deep extend with new variants (advanced) -->
-<Button :craft="{ extend: { variants: { size: { xl: { root: 'h-12 text-xl px-8' } } } } }">
-  Extended
-</Button>
+<Button :theme="{ size: 'sm', skin: 'razer' }">Smaller</Button>
+<Input :theme="{ bordered: false, surface: 'light' }" />
 ```
 
-`craft` prop fields:
+Use this when you only need semantic / size knobs, not a new variant branch on the underlying `tv*` function.
 
+### 4.2 The `craft` Prop (`CraftOverride`)
 
-| Field      | Type                        | Description                                             |
-| ---------- | --------------------------- | ------------------------------------------------------- |
-| `class`    | `string`                    | Appended to the `root` slot                             |
-| `slots`    | `Record<SlotKey, string>`   | Class overrides per slot                                |
-| `defaults` | `Record<VariantKey, Value>` | Override default variant values                         |
-| `extend`   | `CraftInput`                | Full craft extension (variants, compoundVariants, etc.) |
-
-
-### 4.2 The `theme` Prop (Full Control)
-
-For more complex overrides, use the `theme` prop:
+Use `**craft**` for per-component craft changes: slot class patches, `**defaultVariants**`, or full `**tv()**`-style keys (`**base**`, `**variants**`, `**compoundVariants**`, `**compoundSlots**`). Runtime resolution extends the resolved craft for **that** component (e.g. `Button` → `tvButton`).
 
 ```vue
-<!-- Override via CraftInput (variants/slots/compoundVariants) -->
+<!-- Per-slot classes (merged at call time) -->
+<Button :craft="{ slots: { root: 'h-10 rounded-full', loading: 'size-6' } }">
+  Tall round
+</Button>
+
+<!-- Default variant values for this instance -->
+<Button :craft="{ defaultVariants: { variant: 'outlined', size: 'lg' } }">
+  Defaults
+</Button>
+
+<!-- Extra variant branch (advanced) -->
 <Button
-  :theme="{
-    crafts: {
-      variants: {
-        size: {
-          xl: { root: 'h-12 text-xl px-8' },
-        },
+  :craft="{
+    variants: {
+      size: {
+        xl: { root: 'h-12 text-xl px-8' },
       },
     },
   }"
 >
-  Custom Size XL
+  XL
 </Button>
 
-<!-- Pass a factory function -->
-<Button
-  :theme="{
-    crafts: () => tv({
-      extend: tvButton,
-      slots: { root: 'shadow-lg' },
-    }),
-  }"
-/>
+<!-- Base layer tweak -->
+<Button :craft="{ base: 'shadow-lg' }">Shadow</Button>
 ```
+
+`CraftOverride` fields (implementation: `packages/vue/core/src/providers/theme/theme-props.ts`):
+
+
+| Field              | Description                                   |
+| ------------------ | --------------------------------------------- |
+| `slots`            | Per-slot classes merged into slot functions   |
+| `defaultVariants`  | Default variant map merged into craft calls   |
+| `base`             | Passed into `tv({ extend: baseCraft, base })` |
+| `variants`         | Extend or replace variant definitions         |
+| `compoundVariants` | Additional compound variant rules             |
+| `compoundSlots`    | Additional compound slot rules                |
+
 
 ### 4.3 The `ui` Prop (Per-Slot Class Shortcuts)
 
@@ -291,19 +286,19 @@ For quick per-slot class additions without touching craft logic:
 
 > **Tip**: `ui` classes are merged at render time via `clsx()`, so they combine with (rather than replace) craft classes.
 
-### 4.4 Priority
+### 4.4 Priority (Mental Model)
 
-When multiple override mechanisms are used together:
+Merged **theme props** (`skin`, `surface`, `size`, …):
 
-```
-craft.class → merged into slot call's `class` param
-craft.defaults → used as fallback variant values
-craft.extend → creates new tv() with base craft extended
-ui.{slot} → appended via clsx() at render time
-theme.crafts → resolved via resolvePropsCrafts (deepest override)
-```
+`defaults` ← `RUIConfigProvider` ← `ThemeProvider` ← component `**theme`**
 
-Final class output = craft base classes + variant classes + `craft` additions + `ui` additions + `class` prop
+Merged **craft functions** (`crafts` map):
+
+`library defaults` ← `theme.crafts` (config/context) ← component `**craft`** (`resolveCraftOverride`)
+
+Then each render merges `**craft` slot/default tweaks**, `**ui`**, and the root `**class**` via `clsx` / `cxc` as documented per component.
+
+**Do not** put `**crafts`** on a component `**theme**` prop — use `**craft**` or global `**theme.crafts**`.
 
 ---
 
@@ -313,7 +308,7 @@ Final class output = craft base classes + variant classes + `craft` additions + 
 | Scenario                                   | Recommended Level                                                            |
 | ------------------------------------------ | ---------------------------------------------------------------------------- |
 | Change brand color across the app          | **Level 1**: Override `--color-rui-primary-`* tokens                         |
-| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-`* primitives (or remap `--color-rui-*`) |
+| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-`* primitives (or remap `--color-rui-`*) |
 | Create a "compact" app-wide layout         | **Level 2**: `definePreset` with smaller sizes                               |
 | Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants`                                   |
 | Make one specific dialog wider             | **Level 3**: `<DialogContent :craft="{ slots: { content: 'max-w-4xl' } }">`  |
@@ -355,15 +350,16 @@ type ButtonSlots = SlotKeysOf<Crafts['tvButton']>
 // → 'root' | 'loading'
 ```
 
-### `CraftShorthand<K>` — Type for the `craft` prop
+### `CraftOverride<K>` — Type for the `craft` prop
 
 ```ts
-import type { CraftShorthand } from '@raxium/vue/providers'
+import type { CraftOverride } from '@raxium/vue/providers'
 
-const override: CraftShorthand<'tvButton'> = {
-  class: 'h-10',
-  slots: { loading: 'size-6' },
-  defaults: { variant: 'outlined' },
+const override: CraftOverride<'tvButton'> = {
+  base: 'shadow-md',
+  slots: { root: 'h-10', loading: 'size-6' },
+  defaultVariants: { variant: 'outlined', size: 'lg' },
 }
 ```
 
+Vue component props bundle `**theme**` and `**craft**` via `**ThemeCrafts<'tvButton'>**` (see `@raxium/vue/core` exports).
