@@ -10,6 +10,7 @@ import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
+import { createBoundaryClamp } from './boundary-clamp'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 
 const {
@@ -26,6 +27,7 @@ const context = useSliderContext()
 const boundary = injectSliderBoundaryContext()
 const tooltipForwarded = useForwardProps(props)
 const configs = useConfig('tooltip')
+const boundaryClamp = createBoundaryClamp(boundary)
 const tooltip = useTooltip(
   computed(() =>
     merge(
@@ -37,6 +39,7 @@ const tooltip = useTooltip(
           placement: 'top',
           shift: 0,
           flip: false,
+          updatePosition: boundaryClamp,
         },
       },
       configs.value,
