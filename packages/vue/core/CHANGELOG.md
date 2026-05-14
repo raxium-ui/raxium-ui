@@ -1,5 +1,15 @@
 # @raxium/vue
 
+## 0.2.20
+
+### Patch Changes
+
+- 6810d5f: FIX: input $attrs bind
+- 3ee9dc4: FIX: functional dialog options theme type
+- 9c7b018: FEAT: Add ui & widget props in slider marker and tooltip marker
+- Updated dependencies [9c7b018]
+  - @raxium/themes@0.1.15
+
 ## 0.2.19
 
 ### Patch Changes
