@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.2.21
+
+### Patch Changes
+
+- 75b6b13: FIX: slider tooltip widget prop type
+
 ## 0.2.20
 
 ### Patch Changes
