@@ -1,8 +1,4 @@
-/* FIXME: @raxium/themes/razer/index.css css 无法走 alias 引入 */
-@import '../../themes/src/razer/index.css';
-
-@source "../core/src/**/examples/**/*.{vue,ts,tsx}";
-@source "../addons/**/examples/**/*.{vue,ts,tsx}";
+@import './razer-storybook.css';
 
 :root {
   color: var(--color-hff);

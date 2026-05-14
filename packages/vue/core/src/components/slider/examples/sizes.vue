@@ -4,7 +4,7 @@ import { Slider, SliderTooltipThumb } from '../index'
 </script>
 
 <template>
-  <div class="w-full flex flex-col gap-4">
+  <div class="w-full flex flex-col gap-10">
     <Slider
       v-for="size in THEME_SIZE"
       :key="String(size)"

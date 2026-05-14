@@ -1,0 +1,13 @@
+/*
+ * Storybook-only Tailwind entry: scans vue/core (including example demos) and addons examples.
+ * Production theme stays in @raxium/themes (razer/index.css uses @source not for example folders).
+ */
+@import 'tailwindcss';
+
+@source "../../themes/src/razer/**/*.{ts}";
+@source "../../themes/src/default/**/*.{ts}";
+@source "../core/src/**/*.{vue,ts,tsx}";
+@source "../addons/**/examples/**/*.{vue,ts,tsx}";
+
+@import '../../themes/src/razer/preset.css';
+@import '../../themes/src/razer/components.css';
