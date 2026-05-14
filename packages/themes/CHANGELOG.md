@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.1.15
+
+### Patch Changes
+
+- 9c7b018: FEAT: Add ui & widget props in slider marker and tooltip marker
+
 ## 0.1.14
 
 ### Patch Changes

@@ -1,4 +1,12 @@
-import type { SliderMarkerBaseProps, SliderRootBaseProps, SliderThumbBaseProps, TooltipArrow, TooltipContent, TooltipRootBaseProps, UseSliderContext } from '@ark-ui/vue'
+import type {
+  SliderMarkerBaseProps,
+  SliderRootBaseProps,
+  SliderThumbBaseProps,
+  TooltipArrow,
+  TooltipContent,
+  TooltipRootBaseProps,
+  UseSliderContext,
+} from '@ark-ui/vue'
 import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes, UnwrapRef } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
@@ -15,6 +23,11 @@ export interface SliderProps extends SliderRootBaseProps, ThemeCrafts<'tvSlider'
 
 export interface SliderMarkerProps extends SliderMarkerBaseProps, ThemeNoCrafts {
   class?: HTMLAttributes['class']
+  ui?: {
+    root?: HTMLAttributes['class']
+    dot?: HTMLAttributes['class']
+    value?: HTMLAttributes['class']
+  }
 }
 export interface SliderThumbProps extends SliderThumbBaseProps, ThemeNoCrafts {
   class?: HTMLAttributes['class']
@@ -24,6 +37,15 @@ export interface SliderTooltipMarkerProps
   Omit<TooltipRootBaseProps, 'open'>,
   ThemeNoCrafts {
   class?: HTMLAttributes['class']
+  ui?: {
+    root?: HTMLAttributes['class']
+    dot?: HTMLAttributes['class']
+    value?: HTMLAttributes['class']
+  }
+  widget?: {
+    tooltipContent?: ComponentProps<typeof TooltipContent>
+    tooltipArrow?: ComponentProps<typeof TooltipArrow>
+  }
   open?: (context: UnwrapRef<UseSliderContext>) => boolean
 }
 

@@ -7,7 +7,7 @@ import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { pick } from 'es-toolkit'
 
-const { class: propsClass, theme: propsTheme, ...props } = defineProps<SliderMarkerProps>()
+const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<SliderMarkerProps>()
 const forwarded = useForwardProps(props)
 const context = useSliderContext()
 
@@ -19,18 +19,25 @@ const crafts = useCraft(theme, 'tvSlider')
 <template>
   <Slider.Marker
     v-bind="forwarded"
-    :class="crafts.marker(cxc(propsClass))"
+    :class="crafts.marker(cxc(ui?.root, propsClass))"
   >
-    <slot name="default" :value="forwarded.value">
+    <slot
+      name="default"
+      :value="forwarded.value"
+    >
       <div
-        :class="crafts.markerDot()"
+        v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
+        :class="crafts.markerDot(cxc(ui?.dot))"
         data-scope="slider"
         data-part="marker-dot"
-        v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
       />
-      <slot name="value" :value="forwarded.value">
+      <slot
+        name="value"
+        :value="forwarded.value"
+      >
         <span
           v-bind="pick(context.getMarkerProps(forwarded), ['data-state' as keyof HTMLAttributes])"
+          :class="crafts.markerValue(cxc(ui?.value))"
         >
           {{ forwarded.value }}
         </span>

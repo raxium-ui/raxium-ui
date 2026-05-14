@@ -4,6 +4,7 @@ import type { SliderTooltipMarkerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Slider, useSliderContext } from '@ark-ui/vue/slider'
 import { TooltipRootProvider, useTooltip } from '@ark-ui/vue/tooltip'
+import { cxc } from '@raxium/themes/utils'
 import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/components/tooltip'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useConfig } from '@raxium/vue/composables/useConfig'
@@ -17,6 +18,9 @@ const {
   theme: propsTheme,
   value,
   open, // tooltip prop
+  class: propsClass,
+  ui,
+  widget,
   ...props
 } = defineProps<SliderTooltipMarkerProps>()
 const context = useSliderContext()
@@ -53,24 +57,50 @@ const crafts = useCraft(theme, 'tvSlider')
   <ThemeProvider :value="theme">
     <TooltipRootProvider :value="tooltip">
       <TooltipTrigger as-child>
-        <Slider.Marker :value="value">
+        <Slider.Marker
+          :value="value"
+          :class="crafts.marker(cxc(ui?.root, propsClass))"
+        >
           <slot>
             <div
-              :class="crafts.markerDot()"
+              v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
+              :class="crafts.markerDot(cxc(ui?.dot))"
               data-scope="slider"
               data-part="marker-dot"
-              v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
             />
           </slot>
         </Slider.Marker>
       </TooltipTrigger>
       <ThemeProvider :value="tooltipTheme">
-        <TooltipContent>
+        <Teleport
+          v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
+          to="body"
+        >
+          <TooltipContent v-bind="widget?.tooltipContent">
+            <slot name="arrow">
+              <TooltipArrow v-bind="widget?.tooltipArrow" />
+            </slot>
+            <slot name="content">
+              <span :class="crafts.markerValue(cxc(ui?.value))">
+                {{ value }}
+              </span>
+            </slot>
+          </TooltipContent>
+        </Teleport>
+        <TooltipContent
+          v-else
+          v-bind="widget?.tooltipContent"
+        >
           <slot name="arrow">
-            <TooltipArrow />
+            <TooltipArrow v-bind="widget?.tooltipArrow" />
           </slot>
           <slot name="content">
-            {{ value }}
+            <span
+              v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
+              :class="crafts.markerValue(cxc(ui?.value))"
+            >
+              {{ value }}
+            </span>
           </slot>
         </TooltipContent>
       </ThemeProvider>

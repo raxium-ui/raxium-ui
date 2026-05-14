@@ -13,6 +13,7 @@ export const tvSlider = tv(
       thumb: ['relative', 'z-10', 'rounded-full', 'data-dragging:scale-120', 'transition-transform'],
       marker: '',
       markerDot: ['absolute', 'left-1/2', '-translate-x-1/2', 'rounded-full'],
+      markerValue: '',
     },
     variants: {
       size: {
@@ -25,6 +26,7 @@ export const tvSlider = tv(
             'h-[max(var(--slider-thumb-height),.5rem)]',
           ],
           markerDot: 'size-1.5 -top-[calc(max(var(--slider-thumb-height),.5rem)/2+var(--spacing)*0.75)]',
+          markerValue: 'text-xs',
         },
         sm: {
           control: 'h-[max(var(--slider-thumb-height),.75rem)]',
@@ -35,6 +37,7 @@ export const tvSlider = tv(
             'h-[max(var(--slider-thumb-height),.75rem)]',
           ],
           markerDot: 'size-2 -top-[calc(max(var(--slider-thumb-height),.75rem)/2+var(--spacing))]',
+          markerValue: 'text-sm',
         },
         base: {
           control: 'h-[max(var(--slider-thumb-height),1rem)]',
@@ -76,7 +79,8 @@ export const tvSlider = tv(
       size: 'base',
       orientation: 'horizontal',
     },
-  }, 'rui-slider',
+  },
+  'rui-slider',
 )
 
 export type SliderVariants = VariantProps<typeof tvSlider>
