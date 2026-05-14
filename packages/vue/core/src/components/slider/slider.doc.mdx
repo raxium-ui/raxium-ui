@@ -5,7 +5,7 @@ import * as SliderStories from './slider.stories'
 
 # Slider
 
-`Slider` 是用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。组件基于 Ark UI Slider 构建，根组件在透传 Ark UI Root 常用能力的同时，扩展了 Raxium UI 的 `theme` 与 `ui` 样式配置入口。
+`Slider` 是用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。组件基于 Ark UI Slider 构建，根组件在透传 Ark UI Root 常用能力的同时，叠加 Raxium UI 的 **`theme` / `craft`**、`ui` 与各子组件上的 **`theme`（仅 variant，无 `craft`）**。
 
 ---
 
@@ -104,16 +104,22 @@ import * as SliderStories from './slider.stories'
       <td>只读模式（可聚焦但不修改值）</td>
     </tr>
     <tr>
-      <td><code>theme</code></td>
-      <td><code>ThemeCrafts&lt;'tvSlider'&gt;</code></td>
+      <td><code>ui</code></td>
+      <td><code>{ root?, control?, track?, range? }</code></td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>根与控制区分槽 class（见 UI Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ThemeProps,'crafts'&gt;</code>（见 Theme Configuration）</td>
+      <td>-</td>
+      <td><code>skin</code> / <code>surface</code> / <code>size</code> 等与全局合并；<strong>不含</strong> <code>crafts</code></td>
     </tr>
     <tr>
       <td><code>craft</code></td>
-      <td><code>CraftOverride</code></td>
+      <td><code>CraftOverride&lt;'tvSlider'&gt;</code></td>
       <td>-</td>
-      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
+      <td>覆写 <code>tvSlider</code>：<code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -152,13 +158,13 @@ import * as SliderStories from './slider.stories'
       <td><code>class</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>Thumb 样式覆盖</td>
+      <td>追加到 thumb 槽（与 <code>tvSlider</code> 合并结果叠加）</td>
     </tr>
     <tr>
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆写主题参数</td>
+      <td>仅 variant 字段（<code>skin</code> / <code>surface</code> / <code>size</code> 等），与根 <code>Slider</code> 的 <code>ThemeProvider</code> 合并；无 <code>craft</code></td>
     </tr>
   </tbody>
 </table>
@@ -182,16 +188,22 @@ import * as SliderStories from './slider.stories'
       <td>刻度值位置</td>
     </tr>
     <tr>
+      <td><code>ui</code></td>
+      <td><code>{ root?, dot?, value? }</code></td>
+      <td>-</td>
+      <td>刻度根、圆点与数值文本的分槽 class（见 UI Configuration）</td>
+    </tr>
+    <tr>
       <td><code>class</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>Marker 根节点样式覆盖</td>
+      <td>追加到 marker 根槽</td>
     </tr>
     <tr>
       <td><code>theme</code></td>
       <td><code>ThemeNoCrafts</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆写主题参数</td>
+      <td>仅 variant 字段，与根主题合并；无 <code>craft</code></td>
     </tr>
   </tbody>
 </table>
@@ -239,10 +251,16 @@ import * as SliderStories from './slider.stories'
       <td>透传给 TooltipArrow 的属性</td>
     </tr>
     <tr>
-      <td><code>class / theme</code></td>
-      <td><code>同 SliderThumb</code></td>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>Thumb 样式与主题覆盖</td>
+      <td>同 <code>SliderThumb</code>，追加到 thumb 槽</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>同 <code>SliderThumb</code>；无 <code>craft</code></td>
     </tr>
   </tbody>
 </table>
@@ -272,10 +290,22 @@ import * as SliderStories from './slider.stories'
       <td>Tooltip 定位参数（默认偏向底部显示）</td>
     </tr>
     <tr>
-      <td><code>class / theme</code></td>
-      <td><code>同 SliderMarker</code></td>
+      <td><code>ui</code></td>
+      <td><code>{ root?, dot?, value? }</code></td>
       <td>-</td>
-      <td>Marker 样式与主题覆盖</td>
+      <td>同 <code>SliderMarker</code>（见 UI Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>追加到 marker 根槽</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeNoCrafts</code></td>
+      <td>-</td>
+      <td>仅 variant 字段；无 <code>craft</code></td>
     </tr>
   </tbody>
 </table>
@@ -379,7 +409,13 @@ import * as SliderStories from './slider.stories'
 
 ## Theme Configuration
 
-`Slider` 根组件通过 `theme` 驱动 `tvSlider` crafts，影响 `root/control/track/range/thumb/marker` 等部位。`SliderThumb`、`SliderMarker` 与 Tooltip 扩展组件会继承该主题，并支持局部覆写。
+`Slider` 根由内层 **`ThemeProvider`** 把合并后的 **`theme`** 上下文提供给 Thumb、Marker、Tooltip 系列子组件；全局 **`tvSlider`** 合并顺序与 `useTheme` 一致（默认值 ← `RUIConfigProvider` / `ThemeProvider` ← 根 `theme`，再由根 **`craft`** 覆写该组件实例的 slider craft）。
+
+- **`theme`（根与子组件共用语义）**：仅 **`skin`、`surface`、`size`、`unstyled`、`bordered`** 等与 `ThemeProps` 对齐的字段，**不要把 `crafts` 写在组件的 `theme` prop 上**；应用级批量改 craft 请用 **`RUIConfigProvider` / preset 的 `theme.crafts`**。
+- **`craft`（仅根 `Slider`）**：`CraftOverride<'tvSlider'>`，用于调整 `tvSlider` 的槽位与变体（见下表槽位列表）。
+- **`ThemeNoCrafts` 子组件**（`SliderThumb`、`SliderMarker`、`SliderTooltipThumb`、`SliderTooltipMarker`）：只可传 **variant 形式的 `theme`**，**没有根级 `craft` prop**；样式结构仍来自同一套 **`tvSlider`**。
+
+`tvSlider` 槽位：<code>root</code> / <code>control</code> / <code>track</code> / <code>range</code> / <code>thumb</code> / <code>marker</code> / <code>markerDot</code> / <code>markerValue</code>。根上通过 `useCraft(..., { orientation })` 会把 Ark 的 **`orientation`** 一并喂给变体（水平/垂直布局）。
 
 <table>
   <thead>
@@ -394,28 +430,34 @@ import * as SliderStories from './slider.stories'
     <tr>
       <td><code>size</code></td>
       <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
-      <td><code>'base'</code></td>
-      <td>滑块尺寸体系（轨道、Thumb、刻度节奏）</td>
+      <td>由上下文合并，常见为 <code>'base'</code></td>
+      <td>滑块尺寸体系（轨道、Thumb、刻度）</td>
     </tr>
     <tr>
       <td><code>skin</code></td>
-      <td><code>'razer' | 'shadcn'</code></td>
-      <td>-</td>
+      <td><code>'default' | 'razer' | 'shadcn'</code> 等（见 <code>ThemeProps</code>）</td>
+      <td>由上下文合并</td>
       <td>主题皮肤</td>
     </tr>
     <tr>
       <td><code>surface</code></td>
-      <td><code>'light' | 'dark' | 'razer'</code></td>
-      <td>-</td>
-      <td>表面语义（可在 Tooltip 子组件局部覆盖）</td>
+      <td><code>'light' | 'dark' | 'razer'</code> 等（见 <code>ThemeProps</code>）</td>
+      <td>由上下文合并</td>
+      <td>表面语义；可在 Tooltip 子组件局部覆写</td>
     </tr>
     <tr>
       <td><code>unstyled</code></td>
       <td><code>boolean</code></td>
-      <td>-</td>
+      <td><code>false</code></td>
       <td>是否移除内置样式</td>
     </tr>
-    </tbody>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>由上下文合并</td>
+      <td>是否显示边框等与主题相关的描边行为</td>
+    </tr>
+  </tbody>
 </table>
 
 **示例**:
@@ -426,7 +468,9 @@ import * as SliderStories from './slider.stories'
 
 ## UI Configuration
 
-`Slider` 根组件提供分槽位 `ui` 配置；其余扩展子组件不提供 `ui` 对象，通常通过 `class` 或 `theme` 调整样式。
+分槽追加 class，在渲染时与对应 `tvSlider` 槽结果合并（`clsx` / `cxc`）。
+
+### Slider（根）
 
 <table>
   <thead>
@@ -442,28 +486,63 @@ import * as SliderStories from './slider.stories'
       <td><code>ui.root</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>根容器 class 覆盖</td>
+      <td>根容器（RootProvider）</td>
     </tr>
     <tr>
       <td><code>ui.control</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>控制区 class 覆盖</td>
+      <td>控制区（Control）</td>
     </tr>
     <tr>
       <td><code>ui.track</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>轨道 class 覆盖</td>
+      <td>轨道（Track）</td>
     </tr>
     <tr>
       <td><code>ui.range</code></td>
       <td><code>string | array | object</code></td>
       <td>-</td>
-      <td>已选区间 class 覆盖</td>
+      <td>已选区间（Range）</td>
     </tr>
   </tbody>
 </table>
+
+### SliderMarker / SliderTooltipMarker
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td><code>Slider.Marker</code> 根节点</td>
+    </tr>
+    <tr>
+      <td><code>ui.dot</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>默认圆点（未自定义 default 槽时）</td>
+    </tr>
+    <tr>
+      <td><code>ui.value</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>默认刻度数值文案（未自定义 value 槽时）</td>
+    </tr>
+  </tbody>
+</table>
+
+`SliderThumb`、`SliderTooltipThumb` Props 未提供 `ui`，请使用根或子项上的 **`class`** / **`theme.size`** 等调整 thumb 观感。
 
 **示例**:
 
@@ -478,4 +557,4 @@ import * as SliderStories from './slider.stories'
 - 范围模式务必为每个 Thumb 明确设置 `index`，并在需要时配置 `minStepsBetweenThumbs` 防止手柄过度重叠。
 - 垂直布局不要只改 `orientation`，同时调整容器高度与 `ui.control/ui.track/ui.range`，保证命中区与视觉一致。
 - Tooltip 建议用于精确反馈场景：高频拖拽时可监听 `valueChange` 做实时预览，提交动作优先放在 `valueChangeEnd`。
-- 样式定制按层次处理：全局风格优先 `theme`，局部结构优先 `ui`，仅在设计系统级改造时使用 `crafts` 覆写。
+- 样式定制分层：单次布局/间距优先 **`ui.*` / `class`**；整条产品线改尺寸与槽位语义优先 **`theme.size`**（及 Provider）；需要改 **`tvSlider`** 结构时再使用根 **`craft`** 或全局 **`theme.crafts`** / preset。

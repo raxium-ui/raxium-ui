@@ -7,8 +7,9 @@ component:
   importPath: '@raxium/vue/core'
   exportName: Slider
   category: core
-  description: 用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。基于 Ark
-    UI Slider 构建，扩展 theme 与 ui 配置。
+  description: 用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。基于
+    Ark UI Slider 构建；根组件扩展 theme、craft（仅根）与 ui，子组件为 ThemeNoCrafts（仅有 variant 式 theme），SliderMarker /
+    SliderTooltipMarker 另有分槽 ui。
   basePrimitive:
     library: '@ark-ui/vue/slider'
     primitive: Slider.RootProvider
@@ -19,10 +20,11 @@ component:
       - readOnly
       - aria-*
       - data-*
-    notes: 透传 Ark UI SliderRootBaseProps；theme、ui 为 Rark 扩展。
+    notes: 透传 Ark UI SliderRootBaseProps；theme/craft/ui 为 Raxium 扩展（子组件仅 theme，无 craft）。
   capabilities:
     - v-model
     - theme
+    - craft
     - ui-override
     - programmatic-api
   subComponents:
@@ -66,19 +68,20 @@ contracts:
       typeText: boolean
       default: false
       description: 只读模式（可聚焦但不修改值）。
+    - name: ui
+      typeText: '{ root?: string | array | object; control?: string | array | object; track?: string |
+        array | object; range?: string | array | object }'
+      description: 根与控制区分槽追加 class。
+    - name: theme
+      typeText: 'Omit<ThemeProps, ''crafts''>'
+      description: variant 字段（skin/surface/size/unstyled/bordered）与全局合并；勿在组件 theme 上挂载 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvSlider'>
+      description: 仅根 Slider；slots、defaultVariants、base、variants、compoundVariants、compoundSlots；
+        批量改 tvSlider 可用 RUIConfigProvider theme.crafts 或 preset。
     - name: class
       typeText: string | array | object
       description: 根节点附加 class。
-    - name: theme
-      typeText: ThemeCrafts<'tvSlider'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
-    - name: craft
-      typeText: CraftOverride
-      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
-        Configuration）。
-    - name: ui
-      typeText: '{ root?: class; control?: class; track?: class; range?: class }'
-      description: 各结构节点 class 覆盖。
   events:
     - name: update:modelValue
       payload:
@@ -120,13 +123,16 @@ contracts:
       - name: size
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
-        description: 滑块尺寸体系（轨道、Thumb、刻度节奏）。
+        description: 滑块尺寸（tvSlider size；useTheme 合并后常见为 base）。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
-        description: 主题皮肤。
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 主题皮肤（与 ThemeProps 对齐）。
       - name: surface
         typeText: '''light'' | ''dark'' | ''razer'''
-        description: 表面语义（可在 Tooltip 子组件局部覆盖）。
+        description: 表面语义；可在 TooltipMarker 等子组件局部覆写。
+      - name: bordered
+        typeText: boolean
+        description: 是否显示边框等与主题相关的描边行为。
       - name: unstyled
         typeText: boolean
         description: 是否移除内置样式。
@@ -134,16 +140,16 @@ contracts:
     fields:
       - name: ui.root
         typeText: string | array | object
-        description: 根容器 class 覆盖
+        description: 根容器（RootProvider）。
       - name: ui.control
         typeText: string | array | object
-        description: 控制区 class 覆盖
+        description: 控制区（Control）。
       - name: ui.track
         typeText: string | array | object
-        description: 轨道 class 覆盖
+        description: 轨道（Track）。
       - name: ui.range
         typeText: string | array | object
-        description: 已选区间 class 覆盖
+        description: 已选区间（Range）。
 subComponents:
   SliderThumb:
     props:
@@ -155,10 +161,10 @@ subComponents:
         description: 表单字段名（透传到底层 HiddenInput）。
       - name: class
         typeText: string | array | object
-        description: Thumb 样式覆盖。
+        description: 追加到 thumb 槽（与 tvSlider 合并）。
       - name: theme
         typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆写主题参数。
+        description: 仅 variant 字段；与根 Slider ThemeProvider 合并；无 craft prop。
     slots:
       - name: default
         slotPropsSchema:
@@ -173,12 +179,16 @@ subComponents:
         requiredSource: doc
         typeText: number
         description: 刻度值位置。
+      - name: ui
+        typeText: '{ root?: string | array | object; dot?: string | array | object; value?: string | array |
+          object }'
+        description: 刻度根、圆点与默认数值文案的分槽 class。
       - name: class
         typeText: string | array | object
-        description: Marker 根节点样式覆盖。
+        description: 追加到 marker 根槽。
       - name: theme
         typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆写主题参数。
+        description: 仅 variant 字段；与根主题合并；无 craft。
     slots:
       - name: default
         slotPropsSchema:
@@ -187,6 +197,17 @@ subComponents:
           additionalProperties: false
         fallback: 默认圆点 + 数值文本
         description: 自定义刻度内容；不传时渲染默认圆点 + 数值文本。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string | array | object
+          description: Slider.Marker 根节点。
+        - name: ui.dot
+          typeText: string | array | object
+          description: 默认圆点（未自定义 default 槽）。
+        - name: ui.value
+          typeText: string | array | object
+          description: 默认刻度数值文案（未自定义 value 槽）。
   SliderTooltipThumb:
     props:
       - name: index
@@ -206,10 +227,10 @@ subComponents:
         description: 透传给 TooltipArrow 的属性。
       - name: class
         typeText: string | array | object
-        description: Thumb 样式覆盖。
+        description: 同 SliderThumb；追加到 thumb 槽。
       - name: theme
         typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆写主题参数。
+        description: 同 SliderThumb；无 craft。
     slots:
       - name: default
         slotPropsSchema:
@@ -235,12 +256,16 @@ subComponents:
       - name: positioning
         typeText: TooltipRootBaseProps['positioning']
         description: Tooltip 定位参数（默认偏向底部显示）。
+      - name: ui
+        typeText: '{ root?: string | array | object; dot?: string | array | object; value?: string | array |
+          object }'
+        description: 同 SliderMarker 分槽 ui。
       - name: class
         typeText: string | array | object
-        description: Marker 样式覆盖。
+        description: 追加到 marker 根槽。
       - name: theme
         typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆写主题参数。
+        description: 仅 variant 字段；无 craft。
     slots:
       - name: default
         slotPropsSchema:
@@ -263,6 +288,17 @@ subComponents:
           additionalProperties: false
         fallback: TooltipArrow
         description: 自定义 Tooltip 箭头。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string | array | object
+          description: Slider.Marker 根节点。
+        - name: ui.dot
+          typeText: string | array | object
+          description: 默认圆点（未自定义 default 槽）。
+        - name: ui.value
+          typeText: string | array | object
+          description: 默认刻度数值文案（未自定义 value 槽）。
 behaviorModel:
   derived:
     valuePercent: value.map(v => (v - min) / (max - min) * 100)
@@ -302,6 +338,7 @@ generationHints:
     - min/max/step
     - orientation
     - theme
+    - craft
   a11yChecklist:
     - 范围模式务必为每个 Thumb 明确设置 index
     - 垂直布局需同时调整容器高度与 ui
@@ -317,9 +354,10 @@ generationHints:
     controlled: <Slider v-model="value" @value-change-end="onCommit"><SliderTooltipThumb
       :index="0" /></Slider>
   antiPatterns:
-    - <Slider v-model="value" :default-value="[0]" />
-    - <Slider v-model="value" orientation="vertical" class="h-4" />
-    - <Slider v-model="value"><SliderTooltipThumb /></Slider>
+    - '<Slider v-model="value" :default-value="[0]" />'
+    - '<Slider v-model="value" orientation="vertical" class="h-4" />'
+    - '<Slider v-model="value"><SliderTooltipThumb /></Slider>'
+    - '<SliderMarker :craft="{ ... }" />'
 provenance:
   sources:
     - path: ./slider.doc.mdx
