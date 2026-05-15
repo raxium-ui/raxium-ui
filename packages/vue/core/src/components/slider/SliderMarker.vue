@@ -7,6 +7,7 @@ import { clsx } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { pick } from 'es-toolkit'
 import { computed } from 'vue'
+import { resolveSliderTv } from './slider-tv-instance'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<SliderMarkerProps>()
 const forwarded = useForwardProps(props)
@@ -14,7 +15,7 @@ const context = useSliderContext()
 
 // theme
 const theme = useTheme(() => propsTheme)
-const crafts = computed(() => theme.value.crafts.tvSlider())
+const crafts = computed(() => resolveSliderTv(theme.value.crafts.tvSlider()))
 </script>
 
 <template>

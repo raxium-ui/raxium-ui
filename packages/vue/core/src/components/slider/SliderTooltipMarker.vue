@@ -12,6 +12,7 @@ import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { pick } from 'es-toolkit'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
+import { resolveSliderTv } from './slider-tv-instance'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 
 const {
@@ -64,7 +65,7 @@ watch(
 // theme
 const theme = useTheme(() => propsTheme)
 const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
-const crafts = computed(() => theme.value.crafts.tvSlider())
+const crafts = computed(() => resolveSliderTv(theme.value.crafts.tvSlider()))
 </script>
 
 <template>
