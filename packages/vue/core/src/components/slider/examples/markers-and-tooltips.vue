@@ -51,7 +51,7 @@ const value = ref([100])
 
       <Slider
         v-model="value"
-        class="w-90"
+        class="w-full"
         :theme="{ size: 'lg' }"
       >
         <SliderTooltipThumb

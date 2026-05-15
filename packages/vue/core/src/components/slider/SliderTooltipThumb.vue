@@ -32,14 +32,13 @@ const tooltip = useTooltip(
       {
         open: open?.(context.value) ?? context.value.dragging,
         positioning: {
-          boundary: boundary.value,
+          boundary: () => boundary.value,
           overflowPadding: 0,
           placement: 'top',
           flip: false,
           shift: true,
           slide: true,
           overlap: false,
-          listeners: false, // important, off popper auto update
         },
       },
       configs.value,

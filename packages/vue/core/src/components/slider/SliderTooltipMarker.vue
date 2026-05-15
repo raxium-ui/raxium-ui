@@ -34,14 +34,13 @@ const tooltip = useTooltip(
       {
         open: true,
         positioning: {
-          boundary: boundary.value,
+          boundary: () => boundary.value,
           overflowPadding: 0,
           placement: 'bottom',
           flip: false,
           shift: true,
           slide: true,
           overlap: false,
-          listeners: false,
         },
       },
       configs.value,
