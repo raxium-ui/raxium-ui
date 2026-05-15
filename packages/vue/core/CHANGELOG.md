@@ -1,5 +1,12 @@
 # @raxium/vue
 
+## 0.2.22
+
+### Patch Changes
+
+- 1ce5fb6: FIX: slider tooltip positioning shift bugs
+- 97a4e82: FIX: zag.js popper shift/clip eagerly snapshots boundary
+
 ## 0.2.21
 
 ### Patch Changes
