@@ -1,5 +1,26 @@
 # @raxium/vue
 
+## 0.2.23
+
+### Patch Changes
+
+- 8c71ff0: publish
+- Updated dependencies [8c71ff0]
+  - @raxium/themes@0.1.16
+
+## 0.2.22
+
+### Patch Changes
+
+- 1ce5fb6: FIX: slider tooltip positioning shift bugs
+- 97a4e82: FIX: zag.js popper shift/clip eagerly snapshots boundary
+
+## 0.2.21
+
+### Patch Changes
+
+- 75b6b13: FIX: slider tooltip widget prop type
+
 ## 0.2.20
 
 ### Patch Changes

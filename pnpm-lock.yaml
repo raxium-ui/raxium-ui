@@ -7,6 +7,11 @@ settings:
 overrides:
   lightningcss: ^1.31.0
 
+patchedDependencies:
+  '@zag-js/popper@1.40.0':
+    hash: 45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c
+    path: patches/@zag-js__popper@1.40.0.patch
+
 importers:
 
   .:
@@ -351,7 +356,7 @@ importers:
         version: 1.40.0
       '@zag-js/popper':
         specifier: 1.40.0
-        version: 1.40.0
+        version: 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/select':
         specifier: 1.40.0
         version: 1.40.0
@@ -6147,8 +6152,8 @@ packages:
   vue-component-type-helpers@3.2.6:
     resolution: {integrity: sha512-O02tnvIfOQVmnvoWwuSydwRoHjZVt8UEBR+2p4rT35p8GAy5VTlWP8o5qXfJR/GWCN0nVZoYWsVUvx2jwgdBmQ==}
 
-  vue-component-type-helpers@3.2.7:
-    resolution: {integrity: sha512-+gPp5YGmhfsj1IN+xUo7y0fb4clfnOiiUA39y07yW1VzCRjzVgwLbtmdWlghh7mXrPsEaYc7rrIir/HT6C8vYQ==}
+  vue-component-type-helpers@3.2.9:
+    resolution: {integrity: sha512-S3BiWYaLSzHxTpln665ELSrMR9UYmrIDUmhik7nVZxmJjTKL2/a+ew1hvGxksKelivm0ujjWfG1fYOiU/2e8rA==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -8169,7 +8174,7 @@ snapshots:
       storybook: 10.3.0(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       type-fest: 2.19.0
       vue: 3.5.30(typescript@5.9.3)
-      vue-component-type-helpers: 3.2.7
+      vue-component-type-helpers: 3.2.9
 
   '@stylistic/eslint-plugin@5.10.0(eslint@9.39.4(jiti@2.6.1))':
     dependencies:
@@ -8904,7 +8909,7 @@ snapshots:
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-visible': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/rect-utils': 1.40.0
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
@@ -8985,7 +8990,7 @@ snapshots:
       '@zag-js/core': 1.40.0
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9019,7 +9024,7 @@ snapshots:
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-visible': 1.40.0
       '@zag-js/live-region': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9066,7 +9071,7 @@ snapshots:
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/live-region': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9208,7 +9213,7 @@ snapshots:
       '@zag-js/anatomy': 1.40.0
       '@zag-js/core': 1.40.0
       '@zag-js/dom-query': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/rect-utils': 1.40.0
       '@zag-js/store': 1.40.0
       '@zag-js/types': 1.40.0
@@ -9250,7 +9255,7 @@ snapshots:
       '@zag-js/core': 1.40.0
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9351,7 +9356,7 @@ snapshots:
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-visible': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/rect-utils': 1.40.0
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
@@ -9461,7 +9466,7 @@ snapshots:
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-trap': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/remove-scroll': 1.40.0
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
@@ -9472,7 +9477,7 @@ snapshots:
       '@zag-js/dom-query': 1.35.3
       '@zag-js/utils': 1.35.3
 
-  '@zag-js/popper@1.40.0':
+  '@zag-js/popper@1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)':
     dependencies:
       '@floating-ui/dom': 1.7.6
       '@zag-js/dom-query': 1.40.0
@@ -9616,7 +9621,7 @@ snapshots:
       '@zag-js/dismissable': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-visible': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9832,7 +9837,7 @@ snapshots:
       '@zag-js/core': 1.40.0
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-visible': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -9856,7 +9861,7 @@ snapshots:
       '@zag-js/dom-query': 1.40.0
       '@zag-js/focus-trap': 1.40.0
       '@zag-js/interact-outside': 1.40.0
-      '@zag-js/popper': 1.40.0
+      '@zag-js/popper': 1.40.0(patch_hash=45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c)
       '@zag-js/types': 1.40.0
       '@zag-js/utils': 1.40.0
 
@@ -13086,7 +13091,7 @@ snapshots:
 
   vue-component-type-helpers@3.2.6: {}
 
-  vue-component-type-helpers@3.2.7: {}
+  vue-component-type-helpers@3.2.9: {}
 
   vue-demi@0.14.10(vue@3.5.30(typescript@5.9.3)):
     dependencies:

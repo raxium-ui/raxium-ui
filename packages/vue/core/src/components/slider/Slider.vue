@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { SliderRootEmits } from '@ark-ui/vue/slider'
+import type { ComponentPublicInstance } from 'vue'
 import type { SliderProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSlider } from '@ark-ui/vue/slider'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
-import { useTemplateRef } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import SliderBoundaryProvider from './SliderBoundaryProvider.vue'
 
 const { class: propsClass, theme: propsTheme, craft, ui, ...props } = defineProps<SliderProps>()
@@ -14,7 +15,11 @@ const emit = defineEmits<SliderRootEmits>()
 const forwarded = useForwardProps(props)
 
 const slider = useSlider(forwarded, emit)
-const controlRef = useTemplateRef('control')
+const controlRef = useTemplateRef<ComponentPublicInstance | null>('control')
+const controlEl = computed((): HTMLElement | undefined => {
+  const root = controlRef.value?.$el
+  return root instanceof HTMLElement ? root : undefined
+})
 
 const theme = useTheme(() => propsTheme, () => craft)
 const crafts = useCraft(theme, 'tvSlider', () => ({
@@ -34,7 +39,7 @@ useForwardExpose()
     "
   >
     <ThemeProvider :value="theme">
-      <SliderBoundaryProvider :boundary="controlRef?.$el ?? 'clipping-ancestors'">
+      <SliderBoundaryProvider :boundary="controlEl">
         <slot name="prefix" />
         <Slider.Control
           ref="control"

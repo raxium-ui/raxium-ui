@@ -48,6 +48,7 @@ export const tvSlider = tv(
             'h-[max(var(--slider-thumb-height),1rem)]',
           ],
           markerDot: 'size-2.5 -top-[calc(max(var(--slider-thumb-height),1rem)/2+var(--spacing)*1.25)]',
+          markerValue: 'text-sm',
         },
         lg: {
           control: 'h-[max(var(--slider-thumb-height),1.25rem)]',
@@ -58,6 +59,7 @@ export const tvSlider = tv(
             'h-[max(var(--slider-thumb-height),1.25rem)]',
           ],
           markerDot: 'size-3 -top-[calc(max(var(--slider-thumb-height),1.25rem)/2+var(--spacing)*1.5)]',
+          markerValue: 'text-base',
         },
       },
       orientation: {

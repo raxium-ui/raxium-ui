@@ -32,11 +32,13 @@ const tooltip = useTooltip(
       {
         open: open?.(context.value) ?? context.value.dragging,
         positioning: {
-          boundary: boundary.value,
+          boundary: () => boundary.value,
           overflowPadding: 0,
           placement: 'top',
-          shift: 0,
           flip: false,
+          shift: true,
+          slide: true,
+          overlap: false,
         },
       },
       configs.value,
@@ -45,6 +47,17 @@ const tooltip = useTooltip(
   ),
 )
 
+watch(
+  () => boundary.value,
+  (val) => {
+    if (val instanceof Element || Array.isArray(val)) {
+      // trackPositioning uses raf (defer: true) to snapshot options on first placement.
+      // setTimeout ensures reposition runs after that raf completes with the correct boundary.
+      setTimeout(() => tooltip.value.reposition())
+    }
+  },
+  { once: true },
+)
 watch(
   () => context.value.value,
   () => {

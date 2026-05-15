@@ -2,11 +2,10 @@ import type {
   SliderMarkerBaseProps,
   SliderRootBaseProps,
   SliderThumbBaseProps,
-  TooltipArrow,
-  TooltipContent,
   TooltipRootBaseProps,
   UseSliderContext,
 } from '@ark-ui/vue'
+import type { TooltipArrow, TooltipContentProps } from '@raxium/vue/components/tooltip'
 import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes, UnwrapRef } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
@@ -43,7 +42,7 @@ export interface SliderTooltipMarkerProps
     value?: HTMLAttributes['class']
   }
   widget?: {
-    tooltipContent?: ComponentProps<typeof TooltipContent>
+    tooltipContent?: TooltipContentProps
     tooltipArrow?: ComponentProps<typeof TooltipArrow>
   }
   open?: (context: UnwrapRef<UseSliderContext>) => boolean
@@ -56,7 +55,7 @@ export interface SliderTooltipThumbProps
   class?: HTMLAttributes['class']
   open?: (context: UnwrapRef<UseSliderContext>) => boolean
   widget?: {
-    tooltipContent?: ComponentProps<typeof TooltipContent>
+    tooltipContent?: TooltipContentProps
     tooltipArrow?: ComponentProps<typeof TooltipArrow>
   }
 }

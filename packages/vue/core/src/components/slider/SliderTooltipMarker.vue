@@ -11,7 +11,7 @@ import { useConfig } from '@raxium/vue/composables/useConfig'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { pick } from 'es-toolkit'
 import { merge } from 'es-toolkit/compat'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 
 const {
@@ -34,17 +34,31 @@ const tooltip = useTooltip(
       {
         open: true,
         positioning: {
-          boundary: boundary.value,
+          boundary: () => boundary.value,
           overflowPadding: 0,
           placement: 'bottom',
-          shift: 0,
           flip: false,
+          shift: true,
+          slide: true,
+          overlap: false,
         },
       },
       configs.value,
       tooltipForwarded.value,
     ),
   ),
+)
+
+watch(
+  () => boundary.value,
+  (val) => {
+    if (val instanceof Element || Array.isArray(val)) {
+      // trackPositioning uses raf (defer: true) to snapshot options on first placement.
+      // setTimeout ensures reposition runs after that raf completes with the correct boundary.
+      setTimeout(() => tooltip.value.reposition())
+    }
+  },
+  { once: true },
 )
 
 // theme

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "composite": true,
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
     "target": "ES2020",
 
     "jsx": "preserve",
