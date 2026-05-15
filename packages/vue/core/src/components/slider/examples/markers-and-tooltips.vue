@@ -8,7 +8,7 @@ import {
   SliderTooltipThumb,
 } from '../index'
 
-const value = ref([40])
+const value = ref([100])
 </script>
 
 <template>

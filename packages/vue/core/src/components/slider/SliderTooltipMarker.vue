@@ -11,8 +11,7 @@ import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { pick } from 'es-toolkit'
 import { merge } from 'es-toolkit/compat'
-import { computed } from 'vue'
-import { createBoundaryClamp } from './boundary-clamp'
+import { computed, watch } from 'vue'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 
 const {
@@ -29,7 +28,6 @@ const context = useSliderContext()
 const boundary = injectSliderBoundaryContext()
 const tooltipForwarded = useForwardProps(props)
 const configs = useConfig('tooltip')
-const boundaryClamp = createBoundaryClamp(boundary)
 const tooltip = useTooltip(
   computed(() =>
     merge(
@@ -39,15 +37,29 @@ const tooltip = useTooltip(
           boundary: boundary.value,
           overflowPadding: 0,
           placement: 'bottom',
-          shift: 0,
           flip: false,
-          updatePosition: boundaryClamp,
+          shift: true,
+          slide: true,
+          overlap: false,
+          listeners: false,
         },
       },
       configs.value,
       tooltipForwarded.value,
     ),
   ),
+)
+
+watch(
+  () => boundary.value,
+  (val) => {
+    if (val instanceof Element || Array.isArray(val)) {
+      // trackPositioning uses raf (defer: true) to snapshot options on first placement.
+      // setTimeout ensures reposition runs after that raf completes with the correct boundary.
+      setTimeout(() => tooltip.value.reposition())
+    }
+  },
+  { once: true },
 )
 
 // theme
@@ -90,7 +102,10 @@ const crafts = computed(() => theme.value.crafts.tvSlider())
             </slot>
           </TooltipContent>
         </Teleport>
-        <TooltipContent v-else v-bind="widget?.tooltipContent">
+        <TooltipContent
+          v-else
+          v-bind="widget?.tooltipContent"
+        >
           <slot name="arrow">
             <TooltipArrow v-bind="widget?.tooltipArrow" />
           </slot>

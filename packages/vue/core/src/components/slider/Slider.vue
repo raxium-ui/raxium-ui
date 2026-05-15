@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SliderRootEmits } from '@ark-ui/vue/slider'
+import type { ComponentPublicInstance } from 'vue'
 import type { SliderProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSlider } from '@ark-ui/vue/slider'
@@ -14,8 +15,13 @@ const emit = defineEmits<SliderRootEmits>()
 const forwarded = useForwardProps(props)
 
 const slider = useSlider(forwarded, emit)
-const controlRef = useTemplateRef('control')
+const controlRef = useTemplateRef<ComponentPublicInstance | null>('control')
+const controlEl = computed((): HTMLElement | undefined => {
+  const root = controlRef.value?.$el
+  return root instanceof HTMLElement ? root : undefined
+})
 
+// themes
 const theme = useTheme(() => propsTheme)
 const crafts = computed(() => theme.value.crafts.tvSlider())
 
@@ -36,7 +42,7 @@ useForwardExpose()
     "
   >
     <ThemeProvider :value="theme">
-      <SliderBoundaryProvider :boundary="controlRef?.$el ?? 'clipping-ancestors'">
+      <SliderBoundaryProvider :boundary="controlEl">
         <slot name="prefix" />
         <Slider.Control
           ref="control"

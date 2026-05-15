@@ -1,7 +1,7 @@
 <script lang="ts">
 import { createContext } from '@ark-ui/vue'
 
-type Boundary = 'clippingAncestors' | Element | Array<Element>
+type Boundary = 'clippingAncestors' | Element | Array<Element> | undefined
 const [provideSliderBoundaryContext, injectSliderBoundaryContext]
   = createContext<ComputedRef<Boundary>>('SliderBoundaryProvider')
 

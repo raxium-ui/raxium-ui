@@ -10,7 +10,6 @@ import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
-import { createBoundaryClamp } from './boundary-clamp'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 
 const {
@@ -27,7 +26,6 @@ const context = useSliderContext()
 const boundary = injectSliderBoundaryContext()
 const tooltipForwarded = useForwardProps(props)
 const configs = useConfig('tooltip')
-const boundaryClamp = createBoundaryClamp(boundary)
 const tooltip = useTooltip(
   computed(() =>
     merge(
@@ -37,9 +35,11 @@ const tooltip = useTooltip(
           boundary: boundary.value,
           overflowPadding: 0,
           placement: 'top',
-          shift: 0,
           flip: false,
-          updatePosition: boundaryClamp,
+          shift: true,
+          slide: true,
+          overlap: false,
+          listeners: false, // important, off popper auto update
         },
       },
       configs.value,
@@ -48,6 +48,17 @@ const tooltip = useTooltip(
   ),
 )
 
+watch(
+  () => boundary.value,
+  (val) => {
+    if (val instanceof Element || Array.isArray(val)) {
+      // trackPositioning uses raf (defer: true) to snapshot options on first placement.
+      // setTimeout ensures reposition runs after that raf completes with the correct boundary.
+      setTimeout(() => tooltip.value.reposition())
+    }
+  },
+  { once: true },
+)
 watch(
   () => context.value.value,
   () => {
