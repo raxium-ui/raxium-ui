@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.2.0
+
+### Minor Changes
+
+- 810718c: themes system v2
+
 ## 0.1.16
 
 ### Patch Changes
