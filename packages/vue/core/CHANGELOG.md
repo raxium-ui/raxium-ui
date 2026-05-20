@@ -1,5 +1,16 @@
 # @raxium/vue
 
+## 0.3.0
+
+### Minor Changes
+
+- 810718c: themes system v2
+
+### Patch Changes
+
+- Updated dependencies [810718c]
+  - @raxium/themes@0.2.0
+
 ## 0.2.23
 
 ### Patch Changes
