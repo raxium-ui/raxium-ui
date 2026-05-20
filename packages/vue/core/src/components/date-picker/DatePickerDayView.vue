@@ -32,7 +32,7 @@ const theme = useTheme(() =>
     weekDayType,
   }),
 )
-const crafts = useCraft(theme, 'tvDatePickerView')
+const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'day' as const }))
 </script>
 
 <template>
@@ -86,7 +86,7 @@ const crafts = useCraft(theme, 'tvDatePickerView')
           :class="crafts.tableCell()"
         >
           <DatePicker.TableCellTrigger
-            :class="crafts.tableCellTrigger(cxc(context.getDayTableCellState({ value: day })))"
+            :class="crafts.tableCellTrigger(context.getDayTableCellState({ value: day }))"
           >
             {{ day.day }}
           </DatePicker.TableCellTrigger>

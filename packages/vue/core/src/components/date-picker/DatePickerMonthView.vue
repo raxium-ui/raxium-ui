@@ -30,7 +30,7 @@ const theme = useTheme(() =>
     monthType,
   }),
 )
-const crafts = useCraft(theme, 'tvDatePickerView')
+const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'month' as const }))
 </script>
 
 <template>
@@ -72,9 +72,7 @@ const crafts = useCraft(theme, 'tvDatePickerView')
           :class="crafts.tableCell()"
         >
           <DatePicker.TableCellTrigger
-            :class="
-              crafts.tableCellTrigger(cxc(context.getMonthTableCellState({ value: month.value })))
-            "
+            :class="crafts.tableCellTrigger(context.getMonthTableCellState({ value: month.value }))"
           >
             {{ month.label }}
           </DatePicker.TableCellTrigger>

@@ -12,7 +12,7 @@ const context = useDatePickerContext()
 
 // theme
 const theme = useTheme(() => Object.assign({}, propsTheme, { view: 'year' }))
-const crafts = useCraft(theme, 'tvDatePickerView')
+const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'year' as const }))
 </script>
 
 <template>
@@ -48,9 +48,7 @@ const crafts = useCraft(theme, 'tvDatePickerView')
           :class="crafts.tableCell()"
         >
           <DatePicker.TableCellTrigger
-            :class="
-              crafts.tableCellTrigger(cxc(context.getYearTableCellState({ value: year.value })))
-            "
+            :class="crafts.tableCellTrigger(context.getYearTableCellState({ value: year.value }))"
           >
             {{ year.label }}
           </DatePicker.TableCellTrigger>
