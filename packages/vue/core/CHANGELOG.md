@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.3.1
+
+### Patch Changes
+
+- 38ce9b4: - Fix date-picker: improve theme and slot styling for DatePicker and DatePickerView components
+
 ## 0.3.0
 
 ### Minor Changes
