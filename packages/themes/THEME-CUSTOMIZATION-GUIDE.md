@@ -73,7 +73,6 @@ Semantic tokens are purpose-driven CSS variables that all components reference. 
 
 ### 2.2 Available Semantic Token Categories
 
-
 | Category             | Prefix                  | Tokens                                                                     |
 | -------------------- | ----------------------- | -------------------------------------------------------------------------- |
 | Surface / Background | `--color-rui-surface-*` | `base`, `container`, `elevated`, `sunken`, `inverse`, `disabled`, `hover`  |
@@ -84,7 +83,6 @@ Semantic tokens are purpose-driven CSS variables that all components reference. 
 | Info                 | `--color-rui-info-*`    | (no suffix), `hover`, `active`, `border`, `muted`                          |
 | Border               | `--color-rui-border-*`  | `default`, `subtle`, `strong`, `focus`                                     |
 | Input                | `--color-rui-input-*`   | `bg`, `border`, `focus-border`, `placeholder`, `disabled-bg`               |
-
 
 ### 2.3 Primitive Token Override
 
@@ -219,7 +217,10 @@ const resolved = mergePresets([compactPreset, roundedPreset], crafts)
 The `**theme`** prop mirrors `**ThemeCrafts<'tv…'>['theme']**`: `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**`. It merges with config and parent context; it **must not** include `**crafts`**.
 
 ```vue
-<Button :theme="{ size: 'sm', skin: 'razer' }">Smaller</Button>
+<Button :theme="{ size: 'sm', skin: 'razer' }">
+Smaller
+</Button>
+
 <Input :theme="{ bordered: false, surface: 'light' }" />
 ```
 
@@ -254,11 +255,12 @@ Use `**craft**` for per-component craft changes: slot class patches, `**defaultV
 </Button>
 
 <!-- Base layer tweak -->
-<Button :craft="{ base: 'shadow-lg' }">Shadow</Button>
+<Button :craft="{ base: 'shadow-lg' }">
+Shadow
+</Button>
 ```
 
 `CraftOverride` fields (implementation: `packages/vue/core/src/providers/theme/theme-props.ts`):
-
 
 | Field              | Description                                   |
 | ------------------ | --------------------------------------------- |
@@ -268,7 +270,6 @@ Use `**craft**` for per-component craft changes: slot class patches, `**defaultV
 | `variants`         | Extend or replace variant definitions         |
 | `compoundVariants` | Additional compound variant rules             |
 | `compoundSlots`    | Additional compound slot rules                |
-
 
 ### 4.3 The `ui` Prop (Per-Slot Class Shortcuts)
 
@@ -304,7 +305,6 @@ Then each render merges `**craft` slot/default tweaks**, `**ui`**, and the root 
 
 ## 5. Choosing the Right Level
 
-
 | Scenario                                   | Recommended Level                                                            |
 | ------------------------------------------ | ---------------------------------------------------------------------------- |
 | Change brand color across the app          | **Level 1**: Override `--color-rui-primary-`* tokens                         |
@@ -314,7 +314,6 @@ Then each render merges `**craft` slot/default tweaks**, `**ui`**, and the root 
 | Make one specific dialog wider             | **Level 3**: `<DialogContent :craft="{ slots: { content: 'max-w-4xl' } }">`  |
 | Add a shadow to one button                 | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">`                          |
 | Build a reusable enterprise theme          | **Level 2**: Preset chain + **Level 1**: Token CSS file                      |
-
 
 ### Decision Flowchart
 
@@ -344,7 +343,7 @@ interface MyComponentProps {
 ### `SlotKeysOf<T>` — Extract slot keys from a craft
 
 ```ts
-import type { SlotKeysOf, Crafts } from '@raxium/vue/providers'
+import type { Crafts, SlotKeysOf } from '@raxium/vue/providers'
 
 type ButtonSlots = SlotKeysOf<Crafts['tvButton']>
 // → 'root' | 'loading'

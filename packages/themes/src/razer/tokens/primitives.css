@@ -8,8 +8,8 @@
  * Naming: --color-rz-{hue}-{modifier}
  *   hue: green | red | orange | blue | neutral (interaction roles only)
  *
- * Neutral gray ramp: --color-gray-{hh} uniform sRGB #hh…hh (primitive only).
- *   Use semantic tokens (--color-rui-*) or --color-rz-neutral{,-light,-dark,-border} in components.
+ * Neutral gray ramp: --color-gray-{hex nibbles} uniform sRGB #hh…hh (primitive only).
+ *   Use semantic tokens --color-gray-{hex nibbles} in components.
  */
 
 @theme {
