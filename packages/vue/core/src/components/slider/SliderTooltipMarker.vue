@@ -17,12 +17,19 @@ import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'
 const {
   theme: propsTheme,
   value,
+  index = 0,
   open, // tooltip prop
   class: propsClass,
   ui,
   widget,
+  interactive,
   ...props
 } = defineProps<SliderTooltipMarkerProps>()
+
+const emit = defineEmits<{
+  tooltipClick: [event: MouseEvent]
+}>()
+
 const context = useSliderContext()
 
 const boundary = injectSliderBoundaryContext()
@@ -45,6 +52,7 @@ const tooltip = useTooltip(
       },
       configs.value,
       tooltipForwarded.value,
+      { interactive },
     ),
   ),
 )
@@ -61,10 +69,15 @@ watch(
   { once: true },
 )
 
-// theme
 const theme = useTheme(() => propsTheme)
 const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
 const crafts = useCraft(theme, 'tvSlider')
+
+function handleTooltipContentClick(event: MouseEvent) {
+  emit('tooltipClick', event)
+  if (interactive)
+    context.value.setThumbValue(index, value)
+}
 </script>
 
 <template>
@@ -90,7 +103,10 @@ const crafts = useCraft(theme, 'tvSlider')
           v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
           to="body"
         >
-          <TooltipContent v-bind="widget?.tooltipContent">
+          <TooltipContent
+            v-bind="widget?.tooltipContent"
+            @click="handleTooltipContentClick"
+          >
             <slot name="arrow">
               <TooltipArrow v-bind="widget?.tooltipArrow" />
             </slot>
@@ -104,6 +120,7 @@ const crafts = useCraft(theme, 'tvSlider')
         <TooltipContent
           v-else
           v-bind="widget?.tooltipContent"
+          @click="handleTooltipContentClick"
         >
           <slot name="arrow">
             <TooltipArrow v-bind="widget?.tooltipArrow" />

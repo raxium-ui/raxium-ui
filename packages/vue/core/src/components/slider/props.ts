@@ -27,6 +27,8 @@ export interface SliderMarkerProps extends SliderMarkerBaseProps, ThemeNoCrafts 
     dot?: HTMLAttributes['class']
     value?: HTMLAttributes['class']
   }
+  interactive?: boolean
+  index?: number
 }
 export interface SliderThumbProps extends SliderThumbBaseProps, ThemeNoCrafts {
   class?: HTMLAttributes['class']
@@ -46,6 +48,8 @@ export interface SliderTooltipMarkerProps
     tooltipArrow?: ComponentProps<typeof TooltipArrow>
   }
   open?: (context: UnwrapRef<UseSliderContext>) => boolean
+  interactive?: boolean
+  index?: number
 }
 
 export interface SliderTooltipThumbProps

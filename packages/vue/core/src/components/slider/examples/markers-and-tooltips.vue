@@ -63,18 +63,18 @@ const value = ref([100])
         />
         <template #suffix>
           <SliderMarkerGroup>
-            <SliderMarker :value="10" />
+            <SliderMarker :value="10" interactive />
             <SliderTooltipMarker
               :value="20"
               :theme="{ surface: 'razer' }"
+              interactive
             />
             <SliderTooltipMarker
               :value="50"
               :theme="{ surface: value[0] >= 50 ? 'razer' : 'dark' }"
+              interactive
             />
-            <SliderTooltipMarker
-              :value="100"
-            />
+            <SliderTooltipMarker :value="100" />
           </SliderMarkerGroup>
         </template>
       </Slider>
