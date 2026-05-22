@@ -4,7 +4,11 @@
   }
 
   .rui-dialog-content {
-    @apply text-rui-text-primary bg-rui-surface-container border-rui-border-subtle webkit-small-scrollbar
+    /** default */
+    @apply text-rui-text-primary bg-rui-surface-container border-rui-border-subtle webkit-small-scrollbar;
+
+    /** surface: razer */
+    @apply surface-razer:bg-gray-01 surface-razer:border-gray-33 surface-razer:rounded-md;
   }
 
   .rui-dialog-close{
@@ -12,15 +16,25 @@
   }
 
   .rui-dialog-header{
+    /** default */
     @apply text-rui-text-primary bg-rui-surface-elevated font-rob-bold;
+
+    /** surface: razer */
+    @apply surface-razer:bg-gray-01;
   }
 
   .rui-dialog-footer{
+    /** default */
     @apply bg-rui-surface-sunken;
+
+    /** surface: razer */
+    @apply surface-razer:bg-gray-01;
   }
 
   .rui-dialog-body{
-    @apply -outline-offset-2;
+
+    /** surface: razer */
+    @apply surface-razer:bg-gray-01;
   }
 
   .rui-dialog-content-close{

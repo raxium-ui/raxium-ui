@@ -21,8 +21,9 @@ import { Message, Messager } from '@raxium/vue/components/message'
 import { OverlayProvider } from '@raxium/vue/components/overlay'
 import { SpinProvider } from '@raxium/vue/components/spin'
 import { ToasterManager } from '@raxium/vue/components/toast'
+import { usePreferredColorScheme } from '@raxium/vue/composables/usePreferredColorScheme'
 import { omit } from 'es-toolkit'
-import { computed, useTemplateRef } from 'vue'
+import { computed, useTemplateRef, watchEffect } from 'vue'
 import { ThemeProvider } from '../theme'
 import { provideRUIConfigContext } from './rui-config-context'
 
@@ -103,6 +104,26 @@ props.iconify?.addAPIProviders?.forEach(([provider, config]) => {
 
 const toasterManagerExpose = useTemplateRef<ToasterManagerExpose>('toasterManager')
 const messagerExpose = useTemplateRef<MessagerExpose>('messager')
+const systemSurface = usePreferredColorScheme()
+
+// Sync skin & surface to <html> so CSS custom variants cascade globally.
+// skin:    html[data-theme-skin=razer] *  → matches all descendants
+// surface: [data-theme-surface=dark] *    → matches all descendants (global default)
+watchEffect(() => {
+  const el = document.documentElement
+  const { skin, surface } = props.theme ?? {}
+  if (skin)
+    el.dataset.themeSkin = skin
+  else
+    delete el.dataset.themeSkin
+  if (surface) {
+    // Resolve 'system' → actual OS color scheme
+    el.dataset.themeSurface = surface === 'system' ? systemSurface.value : surface
+  }
+  else {
+    delete el.dataset.themeSurface
+  }
+})
 
 provideRUIConfigContext(
   computed(() => ({

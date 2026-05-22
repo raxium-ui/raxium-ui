@@ -26,7 +26,6 @@ const crafts = useCraft(theme, 'tvDialog')
     :class="crafts.footer(cxc(ui?.root, propsClass))"
     data-scope="dialog"
     data-part="footer"
-    :data-surface="theme.surface"
   >
     <slot>
       <DialogCloseTrigger

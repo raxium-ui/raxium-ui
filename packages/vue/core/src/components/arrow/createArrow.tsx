@@ -2,6 +2,7 @@ import type { ThemeNoCrafts, ThemeProps } from '@raxium/vue/providers/theme'
 import type { DefineComponent, HTMLAttributes, PropType } from 'vue'
 import { cn } from '@raxium/themes/utils'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeAttrs } from '@raxium/vue/composables/useThemeAttrs'
 import { computed, defineComponent } from 'vue'
 
 export interface ArrowProps extends ThemeNoCrafts {
@@ -34,6 +35,7 @@ export function createArrow(
     },
     setup(props: ArrowProps) {
       const theme = useTheme(() => props.theme)
+      const themeAttrs = useThemeAttrs(theme)
       const arrowSize = computed(() => {
         switch (theme.value.size) {
           case 'xs':
@@ -52,8 +54,7 @@ export function createArrow(
         return (
           <ArrowNode
             class={cn(props.ui?.arrow, props.class)}
-            data-theme-skin={theme.value.skin}
-            data-theme-surface={theme.value.surface}
+            {...themeAttrs.value}
             style={{
               'overflow': 'visible',
               'zIndex': 0,
@@ -62,9 +63,6 @@ export function createArrow(
           >
             <ArrowTipNode
               class={cn(theme.value.bordered && 'border', props.ui?.arrowTip)}
-              data-theme-skin={theme.value.skin}
-              data-theme-surface={theme.value.surface}
-              data-theme-bordered={theme.value.bordered ? '' : undefined}
             />
           </ArrowNode>
         )

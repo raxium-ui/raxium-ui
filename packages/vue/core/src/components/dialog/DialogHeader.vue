@@ -23,18 +23,15 @@ const crafts = useCraft(theme, 'tvDialog')
     :class="crafts.header(cxc(ui?.root, propsClass))"
     data-scope="dialog"
     data-part="header"
-    :data-surface="theme.surface"
   >
     <Dialog.Title
       :class="crafts.title(cxc(ui?.title))"
-      :data-surface="theme.surface"
     >
       <slot />
     </Dialog.Title>
     <DialogCloseTrigger as-child>
       <ark.button
         :class="crafts.close(cxc(ui?.close))"
-        :data-surface="theme.surface"
       >
         <X :style="{ width: '1lh', height: '1lh' }" />
         <span class="sr-only">Close</span>

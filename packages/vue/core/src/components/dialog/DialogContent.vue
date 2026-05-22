@@ -5,6 +5,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { cn, cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
+import { useThemeAttrs } from '@raxium/vue/composables/useThemeAttrs'
 import { hasChildVNodeByName } from '@raxium/vue/utils/vnode'
 import { X } from 'lucide-vue-next'
 import { computed, useAttrs, useSlots } from 'vue'
@@ -30,6 +31,7 @@ const showContentClose = computed(() => showClose && !hasDialogHeader.value)
 const attrs = useAttrs()
 const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvDialog')
+const themeAttrs = useThemeAttrs(theme)
 </script>
 
 <template>
@@ -37,16 +39,15 @@ const crafts = useCraft(theme, 'tvDialog')
     <DialogBackdrop
       :class="crafts.backdrop(cxc(ui?.backdrop))"
       :theme="theme"
-      :data-surface="theme.surface"
+      v-bind="themeAttrs"
     />
     <Dialog.Positioner
       :class="crafts.positioner(cxc(ui?.positioner))"
-      :data-surface="theme.surface"
+      v-bind="themeAttrs"
     >
       <Dialog.Content
-        v-bind="attrs"
+        v-bind="{ ...attrs, ...themeAttrs }"
         :class="crafts.content(cxc(ui?.content, propsClass))"
-        :data-surface="theme.surface"
       >
         <slot />
         <slot name="close">
@@ -62,7 +63,6 @@ const crafts = useCraft(theme, 'tvDialog')
                 )
               "
               data-variant="content-close"
-              :data-surface="theme.surface"
             >
               <X :style="{ width: '1lh', height: '1lh' }" />
               <span class="sr-only">Close</span>

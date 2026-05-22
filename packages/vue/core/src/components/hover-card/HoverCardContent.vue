@@ -3,7 +3,7 @@ import type { HoverCardContentProps } from '.'
 import { HoverCard } from '@ark-ui/vue/hover-card'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeAttrs } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -22,25 +22,19 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'Hover
 // theme
 const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvHoverCard')
+const themeAttrs = useThemeAttrs(theme)
 </script>
 
 <template>
   <HoverCard.Positioner :class="clsx(ui?.positioner)">
     <HoverCard.Content
-      v-bind="forwarded"
+      v-bind="{ ...forwarded, ...themeAttrs }"
       :class="crafts.content(cxc(ui?.content, propsClass))"
-      :data-theme-bordered="theme.bordered ? '' : undefined"
-      :data-theme-skin="theme.skin"
-      :data-theme-surface="theme.surface"
     >
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div
-        :class="crafts.contentInner(cxc(ui?.inner))"
-        :data-theme-skin="theme.skin"
-        :data-theme-surface="theme.surface"
-      >
+      <div :class="crafts.contentInner(cxc(ui?.inner))">
         <template
           v-for="node in otherNodes"
           :key="node.key"

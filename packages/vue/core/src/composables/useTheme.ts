@@ -7,6 +7,7 @@ import { isNil, keysIn } from 'es-toolkit/compat'
 import { computed, getCurrentInstance, toValue } from 'vue'
 import { injectThemeContext } from '../providers/theme/theme-props'
 import { useConfig } from './useConfig'
+import { usePreferredColorScheme } from './usePreferredColorScheme'
 
 type UseThemeReturn = ComputedRef<Omit<ThemeProps, 'crafts'> & { crafts: Crafts }>
 
@@ -101,6 +102,14 @@ function resolveCraftOverride(
   return { [craftKey]: wrappedCraft } as Partial<Crafts>
 }
 
+/**
+ * Resolve and merge theme props from three levels: Config → Context → Props.
+ *
+ * `skin` and `surface` are consumed exclusively by CSS custom variants via
+ * data-attributes (`data-theme-skin`, `data-theme-surface`), NOT by tv() variants.
+ * They are spread into craft calls only to maintain a uniform API surface; the
+ * actual visual effect comes from CSS selectors defined in the theme preset.
+ */
 export function useTheme(): UseThemeReturn
 export function useTheme<T = ThemeProps>(
   props?: MaybeRefOrGetter<Partial<T> | undefined>,
@@ -113,6 +122,7 @@ export function useTheme<T>(
   const configTheme = useConfig('theme')
   const contextTheme = injectThemeContext(computed(() => ({})))
   const propsTheme = computed(() => toValue(props) ?? {})
+  const systemSurface = usePreferredColorScheme()
 
   const vm = getCurrentInstance()
   const compName = vm?.type.__name ?? vm?.type.name
@@ -135,6 +145,10 @@ export function useTheme<T>(
       contextRest,
       propsRest,
     )
+
+    // Resolve surface: 'system' → actual OS preference
+    if (themeRest.surface === 'system')
+      themeRest.surface = systemSurface.value
 
     // Crafts merge: base → config → context (no more props-level crafts)
     const mergedCrafts: Crafts = Object.assign(

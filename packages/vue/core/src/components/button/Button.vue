@@ -65,7 +65,6 @@ const crafts = useCraft(theme, 'tvButton', () => ({
     :disabled="disabled"
     :data-variant="variant"
     :data-color="color"
-    :data-surface="theme.surface"
     :data-ripple="ripple ? true : undefined"
     :data-loading="loading ? true : undefined"
     :data-size="theme.size"

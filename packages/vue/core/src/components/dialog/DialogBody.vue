@@ -22,7 +22,6 @@ const crafts = useCraft(theme, 'tvDialog')
     :class="crafts.body(cxc(propsClass))"
     data-scope="dialog"
     data-part="body"
-    :data-surface="theme.surface"
   >
     <slot />
   </ark.div>

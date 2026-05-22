@@ -3,7 +3,7 @@ import type { ComputedRef, HTMLAttributes } from 'vue'
 import { createContext } from '@ark-ui/vue/utils'
 
 export type Skin = 'default' | 'razer' | 'shadcn'
-export type Surface = 'light' | 'dark' | (string & {})
+export type Surface = 'light' | 'dark' | 'system' | (string & {})
 export type Crafts = typeof crafts
 export interface ThemeProps {
   skin?: Skin

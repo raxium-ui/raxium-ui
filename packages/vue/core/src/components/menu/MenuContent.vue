@@ -3,7 +3,7 @@ import type { MenuContentProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeAttrs } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -30,6 +30,7 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'MenuA
 // theme
 const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvMenu')
+const themeAttrs = useThemeAttrs(theme)
 </script>
 
 <template>
@@ -38,9 +39,8 @@ const crafts = useCraft(theme, 'tvMenu')
     :style="{ zIndex: `var(--z-dropdown, --z-index)` }"
   >
     <Menu.Content
-      v-bind="forwarded"
+      v-bind="{ ...forwarded, ...themeAttrs }"
       :class="crafts.content(cxc(ui?.content, propsClass))"
-      :data-theme-bordered="theme.bordered ? '' : undefined"
     >
       <template v-if="arrowNode">
         <component :is="arrowNode" />
