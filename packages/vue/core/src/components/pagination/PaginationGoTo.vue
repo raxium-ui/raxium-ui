@@ -3,7 +3,7 @@ import type { PaginationGoToProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
 import { NumberInput } from '@raxium/vue/components/number-input'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { provide, ref, watch } from 'vue'
 import { PAGINATION_GO_TO_PROVIDE_KEY } from '.'
 
@@ -33,7 +33,7 @@ function goInputPage() {
 }
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvPaginationGoto')
 
 provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })

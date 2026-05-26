@@ -3,7 +3,7 @@ import type { DatePickerContentProvide, DatePickerDayViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { flatten } from 'es-toolkit'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
@@ -26,7 +26,7 @@ const { viewsState } = inject<DatePickerContentProvide>(DATE_PICKER_CONTENT_PROV
 const context = useDatePickerContext()
 
 // theme
-const theme = useTheme(() =>
+const theme = useInheritedTheme(() =>
   Object.assign({}, propsTheme, {
     view: 'day',
     weekDayType,

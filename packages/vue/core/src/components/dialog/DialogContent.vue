@@ -31,7 +31,8 @@ const showContentClose = computed(() => showClose && !hasDialogHeader.value)
 
 const attrs = useAttrs()
 const theme = useInheritedTheme(() => propsTheme)
-useProvideComponentTheme(theme, () => propsTheme)
+// DialogContent theme should style dialog internals only, not override nested independent components.
+useProvideComponentTheme(theme, () => propsTheme, { provideScopeFromPropsTheme: false })
 const crafts = useCraft(theme, 'tvDialog')
 const themeAttrs = useThemeAttrs(theme)
 </script>

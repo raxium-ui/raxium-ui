@@ -3,7 +3,7 @@ import type { DatePickerContentProvide, DatePickerMonthViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
 import { DATE_PICKER_CONTENT_PROVIDE_KEY } from '.'
@@ -24,7 +24,7 @@ const { viewsState } = inject<DatePickerContentProvide>(DATE_PICKER_CONTENT_PROV
 const context = useDatePickerContext()
 
 // theme
-const theme = useTheme(() =>
+const theme = useInheritedTheme(() =>
   Object.assign({}, propsTheme, {
     view: 'month',
     monthType,

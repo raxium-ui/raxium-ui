@@ -5,7 +5,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { CircleX } from 'lucide-vue-next'
 import { ref } from 'vue'
 
@@ -37,7 +37,7 @@ function onClear() {
   })
 }
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvEditableInput')
 </script>
 

@@ -3,7 +3,7 @@ import type { PaginationPageSizeProps } from '.'
 import { usePaginationContext } from '@ark-ui/vue'
 import { createListCollection } from '@ark-ui/vue/collection'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { uniq } from 'es-toolkit'
 import { computed, ref, watch } from 'vue'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../select'
@@ -27,7 +27,7 @@ const sizeItems = computed(() => {
 const collection = computed(() => createListCollection({ items: sizeItems.value }))
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvPaginationPageSize')
 </script>
 

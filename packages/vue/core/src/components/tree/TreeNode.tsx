@@ -4,7 +4,7 @@ import type { TreeKeyMap, TreeNodeData } from './props'
 import { TreeView } from '@ark-ui/vue'
 import { clsx } from '@raxium/themes/utils'
 import { Icon } from '@raxium/vue/components/icon'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { ChevronRight } from 'lucide-vue-next'
 import { cloneVNode, computed, defineComponent, isVNode, toRefs, unref } from 'vue'
 import { TreeNode } from '.'
@@ -121,7 +121,7 @@ export default defineComponent({
 
   setup(props, { attrs, slots }) {
     const { node, nodeIndent, indexPath, keyMap, ui } = toRefs(props)
-    const theme = useTheme()
+    const theme = useInheritedTheme()
     const { branchCrafts, itemCrafts } = injectTreeContext()
 
     const branchClx = computed(() => {

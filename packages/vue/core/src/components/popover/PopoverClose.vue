@@ -3,7 +3,7 @@ import type { PopoverCloseProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { PopoverCloseTrigger } from '@ark-ui/vue/popover'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme, useThemeAttrs } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
 import { X } from 'lucide-vue-next'
 
 const {
@@ -13,7 +13,7 @@ const {
 } = defineProps<PopoverCloseProps>()
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvPopover')
 const themeAttrs = useThemeAttrs(theme)
 </script>

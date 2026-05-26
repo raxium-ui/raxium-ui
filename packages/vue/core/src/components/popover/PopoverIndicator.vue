@@ -2,7 +2,7 @@
 import type { PopoverIndicatorProps } from '.'
 import { PopoverIndicator } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { ChevronDown } from 'lucide-vue-next'
 
 const {
@@ -10,7 +10,7 @@ const {
   theme: propsTheme,
   asChild = true,
 } = defineProps<PopoverIndicatorProps>()
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 
 const crafts = useCraft(theme, 'tvPopover')
 </script>

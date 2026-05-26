@@ -5,7 +5,7 @@ import { Slider, useSliderContext } from '@ark-ui/vue/slider'
 import { TooltipRootProvider, useTooltip } from '@ark-ui/vue/tooltip'
 import { cxc } from '@raxium/themes/utils'
 import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/components/tooltip'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme, useTheme } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { merge } from 'es-toolkit/compat'
@@ -67,8 +67,9 @@ watch(
 )
 
 // theme
-const theme = useTheme(() => propsTheme)
-useProvideComponentTheme(theme, () => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
+// Structural sub-component: keep theme inheritance for slider internals only.
+useProvideComponentTheme(theme, () => propsTheme, { provideScopeFromPropsTheme: false })
 const tooltipTheme = useTheme(() => propsTheme, () => configs.value?.theme)
 const crafts = useCraft(theme, 'tvSlider')
 

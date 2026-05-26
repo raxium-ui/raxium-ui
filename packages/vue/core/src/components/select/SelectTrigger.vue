@@ -3,7 +3,7 @@ import type { SelectTriggerProps } from '.'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { ChevronDown, CircleX } from 'lucide-vue-next'
 
 const {
@@ -14,7 +14,7 @@ const {
 } = defineProps<SelectTriggerProps>()
 const forwarded = useForwardProps(props)
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvSelect')
 </script>
 

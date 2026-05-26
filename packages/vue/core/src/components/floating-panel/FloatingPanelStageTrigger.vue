@@ -3,7 +3,7 @@ import type { FloatingPanelStageTriggerProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { Minus, Square, SquareArrowOutDownLeft } from 'lucide-vue-next'
 import { computed, h } from 'vue'
 
@@ -28,7 +28,7 @@ const stageComponent = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvFloatingPanel')
 </script>
 

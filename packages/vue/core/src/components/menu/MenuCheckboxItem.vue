@@ -5,7 +5,7 @@ import type { MenuCheckboxItemProps } from '.'
 import { Menu, MenuItemIndicator } from '@ark-ui/vue/menu'
 import { useForwardPropsEmits } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { Check } from 'lucide-vue-next'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<MenuCheckboxItemProps>()
@@ -17,7 +17,7 @@ defineSlots<{
 const forwarded = useForwardPropsEmits(props, emit)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvMenu')
 const checkboxCrafts = useCraft(theme, 'tvCheckbox')
 </script>

@@ -3,7 +3,7 @@ import type { h, HTMLAttributes, PropType, SlotsType, UnwrapRef, VNode } from 'v
 import type { TreeKeyMap, TreeNodeData } from './props'
 import { TreeView, useTreeViewContext } from '@ark-ui/vue'
 import { clsx } from '@raxium/themes/utils'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { Check, ChevronRight, Minus } from 'lucide-vue-next'
 import { cloneVNode, computed, defineComponent, isVNode, toRefs, unref } from 'vue'
 import { TreeCheckboxNode } from '.'
@@ -148,7 +148,7 @@ export default defineComponent({
     const { node, nodeIndent, indexPath, keyMap, ui } = toRefs(props)
     const treeViewContext = useTreeViewContext()
 
-    const theme = useTheme()
+    const theme = useInheritedTheme()
     const { branchCrafts, itemCrafts, checkboxCrafts } = injectTreeContext()
 
     const branchClx = computed(() => {

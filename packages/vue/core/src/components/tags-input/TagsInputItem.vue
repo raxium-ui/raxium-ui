@@ -3,7 +3,7 @@ import type { TagsInputItemProps, TagsInputProvide } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { TagsInput, useTagsInputContext } from '@ark-ui/vue/tags-input'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { computed, inject, useTemplateRef, watchEffect } from 'vue'
 import { TAGS_INPUT_PROVIDE_KEY } from '.'
 
@@ -26,7 +26,7 @@ watchEffect(
 )
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvTagsInput', () => ({ inline: inline.value }))
 const inputCrafts = useCraft(theme, 'tvInput')
 </script>

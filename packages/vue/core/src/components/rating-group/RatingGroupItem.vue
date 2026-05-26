@@ -3,7 +3,7 @@ import type { RatingGroupItemProps } from '.'
 import { RatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { Star } from 'lucide-vue-next'
 import { computed } from 'vue'
 
@@ -11,7 +11,7 @@ const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<Ratin
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvRatingGroup')
 const indicatorClx = computed(() => crafts.value.itemIndicator(cxc(ui?.indicator)))
 const iconClx = computed(() => crafts.value.itemIndicatorIcon(cxc(ui?.icon)))

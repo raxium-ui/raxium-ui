@@ -5,7 +5,7 @@ import type { MenuRadioItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc, cn } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { Check, Circle } from 'lucide-vue-next'
 
 const {
@@ -22,7 +22,7 @@ defineSlots<{
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvMenu')
 const radioCrafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
 </script>

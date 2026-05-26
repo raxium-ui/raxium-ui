@@ -5,7 +5,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { findVNodeByName, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { compact, isNil } from 'es-toolkit'
 import { computed, provide, useSlots } from 'vue'
@@ -35,7 +35,7 @@ const viewsState = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvDatePicker')
 
 // provide

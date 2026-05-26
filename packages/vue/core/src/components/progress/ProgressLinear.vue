@@ -3,7 +3,7 @@ import type { ProgressLinearProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Progress, useProgressContext } from '@ark-ui/vue/progress'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { computed, useTemplateRef } from 'vue'
 import { useRangeTransfer } from './useRangeTransfer'
 
@@ -26,7 +26,7 @@ const { styles: transferStyles } = useRangeTransfer(
 )
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvProgress', () => ({
   orientation: itemProps.value['data-orientation'] ?? 'horizontal',
   variant,

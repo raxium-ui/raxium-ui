@@ -3,7 +3,7 @@ import type { SelectValueProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { Select } from '@ark-ui/vue/select'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
@@ -12,7 +12,7 @@ const {
   placeholder,
 } = defineProps<SelectValueProps>()
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvSelect')
 </script>
 

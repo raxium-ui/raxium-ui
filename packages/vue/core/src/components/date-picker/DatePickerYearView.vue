@@ -3,7 +3,7 @@ import type { DatePickerYearViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { flatten } from 'es-toolkit'
 import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
@@ -11,7 +11,7 @@ const { class: propsClass, theme: propsTheme } = defineProps<DatePickerYearViewP
 const context = useDatePickerContext()
 
 // theme
-const theme = useTheme(() => Object.assign({}, propsTheme, { view: 'year' }))
+const theme = useInheritedTheme(() => Object.assign({}, propsTheme, { view: 'year' }))
 const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'year' as const }))
 </script>
 

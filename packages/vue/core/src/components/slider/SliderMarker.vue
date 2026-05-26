@@ -4,7 +4,7 @@ import type { SliderMarkerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Slider, useSliderContext } from '@ark-ui/vue/slider'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { pick } from 'es-toolkit'
 import { computed } from 'vue'
 
@@ -20,7 +20,7 @@ const {
 const forwarded = useForwardProps(props)
 const context = useSliderContext()
 
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvSlider')
 
 /**

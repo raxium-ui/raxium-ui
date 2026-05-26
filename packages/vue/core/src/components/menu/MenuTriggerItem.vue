@@ -3,14 +3,14 @@ import type { MenuTriggerItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc, cn } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { ChevronRight } from 'lucide-vue-next'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<MenuTriggerItemProps>()
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvMenu')
 </script>
 

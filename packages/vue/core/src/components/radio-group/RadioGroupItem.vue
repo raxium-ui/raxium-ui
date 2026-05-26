@@ -5,7 +5,7 @@ import type { RadioGroupItemProps } from '.'
 import { RadioGroup } from '@ark-ui/vue/radio-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { Check, Circle } from 'lucide-vue-next'
 
 const {
@@ -23,7 +23,7 @@ defineSlots<{
 const forwarded = useForwardProps<RadioGroupItemProps, RadioGroupItemBaseProps>(props)
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
 </script>
 

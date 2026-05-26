@@ -2,12 +2,12 @@
 import type { SwitchLabelProps } from '.'
 import { Switch } from '@ark-ui/vue/switch'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 
 const { class: propsClass, theme: propsTheme, asChild } = defineProps<SwitchLabelProps>()
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvSwitch')
 </script>
 

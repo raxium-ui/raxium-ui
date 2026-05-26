@@ -3,7 +3,7 @@ import type { TabsListProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Tabs, useTabsContext } from '@ark-ui/vue/tabs'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { useTemplateRef, watchEffect } from 'vue'
 import { injectTabsContextEx } from './TabsProviderEx.vue'
 
@@ -89,7 +89,7 @@ watchEffect(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvTabs')
 </script>
 

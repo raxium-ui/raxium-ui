@@ -5,7 +5,7 @@ import { clsx, tv } from '@raxium/themes/utils'
 import { omitBy } from 'es-toolkit'
 import { isNil, keysIn } from 'es-toolkit/compat'
 import { computed, getCurrentInstance, toValue } from 'vue'
-import { injectComponentTheme, injectScopeTheme } from '../providers/theme/theme-props'
+import { injectScopeTheme } from '../providers/theme/theme-props'
 import { useConfig } from './useConfig'
 import { usePreferredColorScheme } from './usePreferredColorScheme'
 
@@ -103,8 +103,8 @@ function resolveCraftOverride(
 }
 
 /**
- * Resolve and merge theme props from six levels:
- * Defaults → Global Config → Parent Theme → Component Config → Scope Theme → Props.
+ * Resolve and merge theme props from five levels:
+ * Defaults → Global Config → Component Config → Scope Theme → Props.
  *
  * `skin` and `surface` are consumed exclusively by CSS custom variants via
  * data-attributes (`data-theme-skin`, `data-theme-surface`), NOT by tv() variants.
@@ -135,7 +135,6 @@ export function useTheme<T>(
   craftProp?: MaybeRefOrGetter<CraftOverride<any> | undefined>,
 ): UseThemeReturn {
   const configTheme = useConfig('theme')
-  const parentTheme = injectComponentTheme(computed(() => ({})))
   const contextTheme = injectScopeTheme(computed(() => ({})))
   const componentConfigTheme = computed(() => toValue(componentConfig) ?? {})
   const propsTheme = computed(() => toValue(props) ?? {})
@@ -146,7 +145,6 @@ export function useTheme<T>(
 
   const merged = computed(() => {
     const { crafts: configCrafts, ...configRest } = clean(configTheme) as any
-    const { crafts: parentCrafts, ...parentRest } = clean(parentTheme) as any
     const { crafts: componentCrafts, ...componentRest } = clean(componentConfigTheme) as any
     const { crafts: contextCrafts, ...contextRest } = clean(contextTheme) as any
     const propsRest = clean(propsTheme) as any
@@ -160,7 +158,6 @@ export function useTheme<T>(
         bordered: true,
       },
       configRest,
-      parentRest,
       componentRest,
       contextRest,
       propsRest,
@@ -170,12 +167,11 @@ export function useTheme<T>(
     if (themeRest.surface === 'system')
       themeRest.surface = systemSurface.value
 
-    // Crafts merge: base → global config → parent → component config → context → craftProp
+    // Crafts merge: base → global config → component config → context → craftProp
     const mergedCrafts: Crafts = Object.assign(
       {},
       crafts,
       pickDefined<Crafts>(configCrafts as Crafts | undefined),
-      pickDefined<Crafts>(parentCrafts as Crafts | undefined),
       pickDefined<Crafts>(componentCrafts as Crafts | undefined),
       pickDefined<Crafts>(contextCrafts as Crafts | undefined),
     ) as Crafts
@@ -196,8 +192,6 @@ export function useTheme<T>(
       const sources: string[] = []
       if (configCrafts || Object.keys(configRest).length)
         sources.push('config')
-      if (parentCrafts || Object.keys(parentRest).length)
-        sources.push('parent')
       if (componentCrafts || Object.keys(componentRest).length)
         sources.push('component-config')
       if (contextCrafts || Object.keys(contextRest).length)

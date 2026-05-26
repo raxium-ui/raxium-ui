@@ -4,7 +4,7 @@ import { useForwardProps } from '@ark-ui/vue'
 import { Collapsible, useCollapsibleContext } from '@ark-ui/vue/collapsible'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { ChevronDown } from 'lucide-vue-next'
 
 const {
@@ -18,7 +18,7 @@ const forwarded = useForwardProps(props)
 const context = useCollapsibleContext()
 
 // theme
-const theme = useTheme(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvCollapsible')
 </script>
 
