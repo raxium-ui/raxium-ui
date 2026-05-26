@@ -5,7 +5,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { cn, cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { useProvideStructuralComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useThemeAttrs } from '@raxium/vue/composables/useThemeAttrs'
 import { hasChildVNodeByName } from '@raxium/vue/utils/vnode'
 import { X } from 'lucide-vue-next'
@@ -31,8 +31,7 @@ const showContentClose = computed(() => showClose && !hasDialogHeader.value)
 
 const attrs = useAttrs()
 const theme = useInheritedTheme(() => propsTheme)
-// DialogContent theme should style dialog internals only, not override nested independent components.
-useProvideComponentTheme(theme, () => propsTheme, { provideScopeFromPropsTheme: false })
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvDialog')
 const themeAttrs = useThemeAttrs(theme)
 </script>

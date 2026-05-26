@@ -3,7 +3,12 @@ import type { MenuContentProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
+import {
+  useCraft,
+  useInheritedTheme,
+  useProvideStructuralComponentTheme,
+  useThemeAttrs,
+} from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -29,6 +34,7 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'MenuA
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvMenu')
 const themeAttrs = useThemeAttrs(theme)
 </script>

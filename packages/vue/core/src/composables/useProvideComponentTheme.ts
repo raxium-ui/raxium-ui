@@ -14,6 +14,10 @@ interface ProvideComponentThemeOptions {
 
 /**
  * Provides the two-channel theme context for a component root node.
+ * Prefer:
+ * - `useProvideComponentTheme` for independent/root components
+ * - `useProvideStructuralComponentTheme` for structural sub-components
+ *   that should not leak local `:theme` into Scope Theme.
  *
  * - **Component Theme** (always provided): consumed by sub-components via
  *   `useInheritedTheme` (e.g. DialogContent, AccordionItem). Carries the
@@ -56,4 +60,15 @@ export function useProvideComponentTheme(
   if (hasExplicitTheme.value) {
     provideScopeTheme(theme)
   }
+}
+
+/**
+ * Structural sub-components should not leak their local `:theme` to Scope Theme.
+ * They still provide Component Theme so internals can inherit correctly.
+ */
+export function useProvideStructuralComponentTheme(
+  theme: ResolvedTheme,
+  getPropsTheme?: MaybeRefOrGetter<Partial<ThemeProps> | undefined>,
+) {
+  useProvideComponentTheme(theme, getPropsTheme, { provideScopeFromPropsTheme: false })
 }

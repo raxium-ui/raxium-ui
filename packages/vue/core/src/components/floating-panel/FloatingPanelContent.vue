@@ -4,7 +4,7 @@ import type { VNode } from 'vue'
 import type { FloatingPanelContentProps } from '.'
 import { FloatingPanel } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft } from '@raxium/vue/composables'
+import { useCraft, useProvideStructuralComponentTheme } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { computed, h, toValue } from 'vue'
 import { injectFloatingPanelAppearanceContext } from './floating-panel-appearance-context'
@@ -20,6 +20,7 @@ const { opacity, resizeAxis } = injectFloatingPanelAppearanceContext()
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvFloatingPanel')
 
 const style = computed(() => ({

@@ -1,6 +1,7 @@
 import type { ThemeNoCrafts, ThemeProps } from '@raxium/vue/providers/theme'
 import type { DefineComponent, HTMLAttributes, PropType } from 'vue'
 import { cn } from '@raxium/themes/utils'
+import { useProvideStructuralComponentTheme } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { useThemeAttrs } from '@raxium/vue/composables/useThemeAttrs'
 import { computed, defineComponent } from 'vue'
@@ -35,6 +36,7 @@ export function createArrow(
     },
     setup(props: ArrowProps) {
       const theme = useInheritedTheme(() => props.theme)
+      useProvideStructuralComponentTheme(theme, () => props.theme)
       const themeAttrs = useThemeAttrs(theme)
       const arrowSize = computed(() => {
         switch (theme.value.size) {

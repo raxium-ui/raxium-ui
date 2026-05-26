@@ -30,5 +30,7 @@ useForwardExpose()
     :class="
       crafts.root(cxc(propsClass))
     "
-  >      <slot />  </ToggleGroup.RootProvider>
+  >
+    <slot />
+  </ToggleGroup.RootProvider>
 </template>

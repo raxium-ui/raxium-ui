@@ -4,12 +4,13 @@ import { ark } from '@ark-ui/vue/factory'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme, useProvideStructuralComponentTheme } from '@raxium/vue/composables'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<SelectContentProps>()
 const forwarded = useForwardProps(props)
 
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvSelect')
 </script>
 

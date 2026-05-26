@@ -3,7 +3,7 @@ import type { TooltipContentProps } from '.'
 import { Tooltip } from '@ark-ui/vue/tooltip'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme, useProvideStructuralComponentTheme, useThemeAttrs } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -22,6 +22,7 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'Toolt
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvTooltip')
 const themeAttrs = useThemeAttrs(theme)
 </script>

@@ -3,7 +3,12 @@ import type { PopoverContentProps } from '.'
 import { Popover } from '@ark-ui/vue/popover'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
+import {
+  useCraft,
+  useInheritedTheme,
+  useProvideStructuralComponentTheme,
+  useThemeAttrs,
+} from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -21,6 +26,7 @@ const arrowNode = computed(() => findVNodeByName(defaultSlots.value, 'PopoverArr
 const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'PopoverArrow'))
 
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvPopover')
 const themeAttrs = useThemeAttrs(theme)
 </script>

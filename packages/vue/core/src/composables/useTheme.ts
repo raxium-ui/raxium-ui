@@ -106,6 +106,10 @@ function resolveCraftOverride(
  * Resolve and merge theme props from five levels:
  * Defaults → Global Config → Component Config → Scope Theme → Props.
  *
+ * Intended for independent/root components (Tooltip, Popover, Dialog, etc.)
+ * that define their own theming boundary and should react to Scope Theme.
+ * Structural sub-components should prefer `useInheritedTheme()`.
+ *
  * `skin` and `surface` are consumed exclusively by CSS custom variants via
  * data-attributes (`data-theme-skin`, `data-theme-surface`), NOT by tv() variants.
  * They are spread into craft calls only to maintain a uniform API surface; the

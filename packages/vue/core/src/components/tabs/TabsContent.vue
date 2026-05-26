@@ -3,7 +3,11 @@ import type { TabsContentProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Tabs } from '@ark-ui/vue/tabs'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
+import {
+  useCraft,
+  useInheritedTheme,
+  useProvideStructuralComponentTheme,
+} from '@raxium/vue/composables'
 import { ref, watch } from 'vue'
 import { injectTabsContextEx } from './TabsProviderEx.vue'
 
@@ -17,6 +21,7 @@ watch(() => contextEx.value.index, (index, oldIndex) => {
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvTabs', () => ({
   prev: direction.value < 0,
   next: direction.value > 0,

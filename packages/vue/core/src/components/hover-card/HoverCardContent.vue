@@ -3,7 +3,12 @@ import type { HoverCardContentProps } from '.'
 import { HoverCard } from '@ark-ui/vue/hover-card'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { clsx, cxc } from '@raxium/themes/utils'
-import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
+import {
+  useCraft,
+  useInheritedTheme,
+  useProvideStructuralComponentTheme,
+  useThemeAttrs,
+} from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,
   excludeVNodesByName,
@@ -21,6 +26,7 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'Hover
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvHoverCard')
 const themeAttrs = useThemeAttrs(theme)
 </script>
