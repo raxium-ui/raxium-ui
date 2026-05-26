@@ -1,0 +1,21 @@
+# Theme 边界约束
+
+## 目标
+- 统一 root 组件与 structural 组件的 theme 处理，避免 scope 泄漏和嵌套覆盖错误。
+
+## Root 组件（独立边界）
+- 使用 `useTheme(...)` 解析完整 merge 链路。
+- 使用 `useProvideComponentTheme(...)` 提供上下文。
+- 典型：`Dialog.vue`、`Tooltip.vue`、`Popover.vue`、`Menu.vue`、`Select.vue`、`DatePicker.vue`。
+
+## Structural 组件（内部结构）
+- 使用 `useInheritedTheme(...)` 继承父组件已解析主题。
+- 如果该组件还承载子节点（如 `*Content` / `Arrow`），使用 `useProvideStructuralComponentTheme(...)` 向下传递，但**不得**泄漏到 Scope Theme。
+- 不要在 structural 组件中使用 `useTheme` 或 `useProvideComponentTheme`。
+
+## 快速判断
+- 会被单独使用、可定义自身配置（`RUIConfig.xxx.theme`）的一般是 root。
+- 仅作为某 root 的内部部件（`*Content/*Item/*Trigger/*Header/*Footer`）的一般是 structural。
+
+## 例外处理
+- 如果组件命名符合 structural 但语义属于 root，必须在 PR 说明里明确原因，并更新此规则或 ESLint 配置。
