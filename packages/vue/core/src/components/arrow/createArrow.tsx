@@ -63,6 +63,7 @@ export function createArrow(
           >
             <ArrowTipNode
               class={cn(theme.value.bordered && 'border', props.ui?.arrowTip)}
+              {...themeAttrs.value}
             />
           </ArrowNode>
         )

@@ -70,7 +70,7 @@ watch(
 )
 
 const theme = useTheme(() => propsTheme)
-const tooltipTheme = useTheme(() => ({ ...configs.value?.theme, ...propsTheme }))
+const tooltipTheme = useTheme(() => propsTheme, () => configs.value?.theme)
 const crafts = useCraft(theme, 'tvSlider')
 
 function handleTooltipContentClick(event: MouseEvent) {

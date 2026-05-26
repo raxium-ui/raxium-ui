@@ -32,7 +32,7 @@ const menu = useMenu(
 )
 
 // theme
-const theme = useTheme(() => ({ ...menuConfig.value?.theme, ...propsTheme }))
+const theme = useTheme(() => propsTheme, () => menuConfig.value?.theme)
 
 // expose
 defineExpose({ $api: menu })

@@ -13,7 +13,7 @@ const forwarded = useForwardProps(props)
 const toggleGroup = useToggleGroup(forwarded, emit)
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvToggleGroup', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))

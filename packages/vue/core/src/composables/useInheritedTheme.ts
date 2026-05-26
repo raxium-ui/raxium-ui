@@ -10,7 +10,8 @@ type UseThemeReturn = import('vue').ComputedRef<Omit<ThemeProps, 'crafts'> & { c
 /**
  * Lightweight theme composable for sub-components (e.g., AccordionTrigger, DialogContent).
  *
- * Unlike `useTheme()` which performs full 3-level merge (config → context → props),
+ * Unlike `useTheme()` which performs full merge (defaults → global config →
+ * component config → context → props),
  * this simply reads the parent theme from ThemeProvider context and merges only
  * the component's own prop overrides. Much cheaper for sub-components that don't
  * need craft overrides.

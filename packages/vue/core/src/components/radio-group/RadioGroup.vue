@@ -12,7 +12,7 @@ const emit = defineEmits<RadioGroupRootEmits>()
 const radioGroup = useRadioGroup(useForwardProps(props) as unknown as UseRadioGroupProps, emit)
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvRadioGroup')
 
 // expose

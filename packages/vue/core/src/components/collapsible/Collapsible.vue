@@ -22,6 +22,7 @@ const collapsiable = useCollapsible(forwarded, emit)
 // theme
 const theme = useTheme(
   () => propsTheme,
+  undefined,
   () => craft,
 )
 const crafts = useCraft(theme, 'tvCollapsible')

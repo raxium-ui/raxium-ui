@@ -21,7 +21,7 @@ const controlEl = computed((): HTMLElement | undefined => {
   return root instanceof HTMLElement ? root : undefined
 })
 
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvSlider', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))

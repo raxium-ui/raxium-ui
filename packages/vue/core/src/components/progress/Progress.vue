@@ -13,7 +13,7 @@ const forwarded = useForwardProps(props)
 const progress = useProgress(forwarded, emit)
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvProgress', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))

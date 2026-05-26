@@ -18,6 +18,8 @@ import StackedFunctionalExample from './examples/stacked-functional.vue'
 import StackedFunctionalExampleRaw from './examples/stacked-functional.vue?raw'
 import StackedExample from './examples/stacked.vue'
 import StackedExampleRaw from './examples/stacked.vue?raw'
+import TooltipSurfaceExample from './examples/tooltip-surface.vue'
+import TooltipSurfaceExampleRaw from './examples/tooltip-surface.vue?raw'
 import VariantsExample from './examples/variants.vue'
 import VariantsExampleRaw from './examples/variants.vue?raw'
 
@@ -173,6 +175,21 @@ export const StackedFunctional = {
   },
   render: () => ({
     components: { Component: StackedFunctionalExample },
+    template: '<Component />',
+  }),
+}
+
+export const TooltipSurface = {
+  parameters: {
+    docs: {
+      source: {
+        code: TooltipSurfaceExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: TooltipSurfaceExample },
     template: '<Component />',
   }),
 }

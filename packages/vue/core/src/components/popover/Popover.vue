@@ -33,7 +33,7 @@ const popover = usePopover(
 )
 
 // theme
-const theme = useTheme(() => ({ ...popoverConfig.value?.theme, ...propsTheme }))
+const theme = useTheme(() => propsTheme, () => popoverConfig.value?.theme)
 
 // expose
 defineExpose({ $api: popover as UsePopoverReturn })

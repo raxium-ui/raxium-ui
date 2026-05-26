@@ -38,7 +38,7 @@ const selectRoot = useSelect<T>(
 )
 
 // theme
-const theme = useTheme(() => ({ ...selectConfig.value?.theme, ...propsTheme }), () => craft)
+const theme = useTheme(() => propsTheme, () => selectConfig.value?.theme, () => craft)
 const crafts = useCraft(theme, 'tvSelect')
 
 // expose

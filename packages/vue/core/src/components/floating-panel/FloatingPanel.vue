@@ -48,7 +48,7 @@ provideFloatingPanelAppearanceContext({
 })
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 
 // expose
 defineExpose({

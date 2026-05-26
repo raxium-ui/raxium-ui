@@ -82,7 +82,7 @@ onBeforeUnmount(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvSpin', () => ({ mode }))
 </script>
 

@@ -11,6 +11,7 @@ const forwarded = useForwardProps(props)
 // theme
 const theme = useTheme(
   () => propsTheme,
+  undefined,
   () => craft,
 )
 const crafts = useCraft(theme, 'tvIcon')

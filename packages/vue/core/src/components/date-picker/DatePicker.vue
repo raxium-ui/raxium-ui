@@ -34,7 +34,8 @@ const datePicker = useDatePicker(
 
 // theme
 const theme = useTheme(
-  () => ({ ...datePickerOptions.value?.theme, ...themeProps }),
+  () => themeProps,
+  () => datePickerOptions.value?.theme,
   () => craft,
 )
 // expose

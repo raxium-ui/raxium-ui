@@ -12,7 +12,7 @@ const emit = defineEmits<AccordionRootEmits>()
 const forwarded = useForwardProps(props)
 const accordion = useAccordion(forwarded, emit)
 
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvAccordion')
 
 defineExpose({ $api: accordion })

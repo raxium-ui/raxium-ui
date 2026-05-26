@@ -39,7 +39,7 @@ watch(
 )
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const inputCrafts = useCraft(theme, 'tvInput')
 const crafts = useCraft(theme, 'tvTagsInput', () => ({
   inline,

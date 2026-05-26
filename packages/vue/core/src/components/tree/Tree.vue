@@ -20,7 +20,7 @@ const forwarded = useForwardProps<TreeProps<T>, any>(props)
 const treeView = useTreeView<T>(forwarded, emits)
 
 // theme（根节点统一 provide，供 TreeNode/TreeCheckboxNode inject，避免每节点 useTheme）
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvTree')
 
 // context

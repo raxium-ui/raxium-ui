@@ -30,6 +30,7 @@ const {
   ...props
 } = defineProps<DialogProps>()
 const emits = defineEmits<DialogEmits>()
+
 const dialogConfig = useConfig(
   'dialog',
   computed(() => ({ lazyMount, unmountOnExit })),
@@ -111,7 +112,8 @@ const dialog = useDialog(
 
 // theme
 const theme = useTheme(
-  () => ({ ...dialogConfig.value?.theme, ...propsTheme }),
+  () => propsTheme,
+  () => dialogConfig.value?.theme,
   () => craft,
 )
 

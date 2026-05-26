@@ -43,7 +43,8 @@ const hoverCard = useHoverCard(
 
 // theme
 const theme = useTheme(
-  () => ({ ...hoverCardConfig.value?.theme, ...propsTheme }),
+  () => propsTheme,
+  () => hoverCardConfig.value?.theme,
   () => craft,
 )
 

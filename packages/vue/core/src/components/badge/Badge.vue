@@ -18,7 +18,7 @@ const {
 const forwarded = useForwardProps(props)
 
 // theme — tvBadge is base-only, so crafts() returns a string
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvBadge', () => ({ variant }))
 </script>
 

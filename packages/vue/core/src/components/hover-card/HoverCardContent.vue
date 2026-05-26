@@ -34,7 +34,7 @@ const themeAttrs = useThemeAttrs(theme)
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div :class="crafts.contentInner(cxc(ui?.inner))">
+      <div :class="crafts.contentInner(cxc(ui?.inner))" v-bind="themeAttrs">
         <template
           v-for="node in otherNodes"
           :key="node.key"

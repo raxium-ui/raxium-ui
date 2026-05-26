@@ -25,6 +25,7 @@ const pagination = usePagination(useForwardProps(props), emit)
 // theme
 const theme = useTheme(
   () => propsTheme,
+  undefined,
   () => craft,
 )
 const crafts = useCraft(theme, 'tvPagination')

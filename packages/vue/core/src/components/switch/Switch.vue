@@ -11,7 +11,7 @@ const emit = defineEmits<SwitchRootEmits>()
 const switchRoot = useSwitch(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme, () => craft)
+const theme = useTheme(() => propsTheme, undefined, () => craft)
 const crafts = useCraft(theme, 'tvSwitch')
 
 // expose

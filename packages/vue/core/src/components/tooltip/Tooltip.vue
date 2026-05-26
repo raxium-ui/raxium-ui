@@ -38,7 +38,7 @@ const tooltip = useTooltip(
 )
 
 // theme
-const theme = useTheme(() => ({ ...tooltipConfig.value?.theme, ...propsTheme }))
+const theme = useTheme(() => propsTheme, () => tooltipConfig.value?.theme)
 
 // expose
 defineExpose({ $api: tooltip })

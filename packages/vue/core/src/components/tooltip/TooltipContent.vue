@@ -20,13 +20,17 @@ checkContextVNodePosition(defaultSlots.value, 'TooltipContext', 'TooltipContent'
 const arrowNode = computed(() => findVNodeByName(defaultSlots.value, 'TooltipArrow'))
 const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'TooltipArrow'))
 
+// theme
 const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvTooltip')
 const themeAttrs = useThemeAttrs(theme)
 </script>
 
 <template>
-  <Tooltip.Positioner :class="clsx(ui?.positioner)" :style="{ zIndex: `var(--z-tooltip, --z-index)` }">
+  <Tooltip.Positioner
+    :class="clsx(ui?.positioner)"
+    :style="{ zIndex: `var(--z-tooltip, --z-index)` }"
+  >
     <Tooltip.Content
       v-bind="{ ...forwarded, ...themeAttrs }"
       :class="crafts.content(cxc(ui?.content, propsClass))"
@@ -34,8 +38,14 @@ const themeAttrs = useThemeAttrs(theme)
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div :class="crafts.contentInner(cxc(ui?.inner))">
-        <template v-for="node in otherNodes" :key="node.key">
+      <div
+        :class="crafts.contentInner(cxc(ui?.inner))"
+        v-bind="themeAttrs"
+      >
+        <template
+          v-for="node in otherNodes"
+          :key="node.key"
+        >
           <component :is="node" />
         </template>
       </div>

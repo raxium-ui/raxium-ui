@@ -103,7 +103,8 @@ function resolveCraftOverride(
 }
 
 /**
- * Resolve and merge theme props from three levels: Config → Context → Props.
+ * Resolve and merge theme props from five levels:
+ * Defaults → Global Config → Component Config → Context → Props.
  *
  * `skin` and `surface` are consumed exclusively by CSS custom variants via
  * data-attributes (`data-theme-skin`, `data-theme-surface`), NOT by tv() variants.
@@ -113,14 +114,29 @@ function resolveCraftOverride(
 export function useTheme(): UseThemeReturn
 export function useTheme<T = ThemeProps>(
   props?: MaybeRefOrGetter<Partial<T> | undefined>,
+  componentConfig?: MaybeRefOrGetter<Partial<T> | undefined>,
   craftProp?: MaybeRefOrGetter<CraftOverride<any> | undefined>,
 ): UseThemeReturn
+/**
+ * @param props - Instance-level theme overrides from the component's `:theme` prop.
+ *   Highest priority in the merge chain; wins over all lower layers.
+ * @param componentConfig - Component-type defaults from `RUIConfig` (e.g.
+ *   `RUIConfig.tooltip.theme`, `RUIConfig.dialog.theme`). Lower priority than
+ *   ancestor `ThemeProvider` context so nested surfaces (Dialog, Popover, etc.)
+ *   can override app-wide component defaults.
+ * @param craftProp - Per-component craft override for the current component instance.
+ *   Applied after theme props and crafts are merged; extends or wraps the resolved
+ *   `tv*` craft for the calling component (identified via `__name` / `name`).
+ * @returns A computed ref of the fully merged theme, including resolved `crafts`.
+ */
 export function useTheme<T>(
   props?: MaybeRefOrGetter<Partial<T> | undefined>,
+  componentConfig?: MaybeRefOrGetter<Partial<T> | undefined>,
   craftProp?: MaybeRefOrGetter<CraftOverride<any> | undefined>,
 ): UseThemeReturn {
   const configTheme = useConfig('theme')
   const contextTheme = injectThemeContext(computed(() => ({})))
+  const componentConfigTheme = computed(() => toValue(componentConfig) ?? {})
   const propsTheme = computed(() => toValue(props) ?? {})
   const systemSurface = usePreferredColorScheme()
 
@@ -129,8 +145,8 @@ export function useTheme<T>(
 
   const merged = computed(() => {
     const { crafts: configCrafts, ...configRest } = clean(configTheme) as any
+    const { crafts: componentCrafts, ...componentRest } = clean(componentConfigTheme) as any
     const { crafts: contextCrafts, ...contextRest } = clean(contextTheme) as any
-    // Component-level theme prop no longer carries crafts
     const propsRest = clean(propsTheme) as any
 
     const themeRest = Object.assign(
@@ -142,6 +158,7 @@ export function useTheme<T>(
         bordered: true,
       },
       configRest,
+      componentRest,
       contextRest,
       propsRest,
     )
@@ -150,11 +167,12 @@ export function useTheme<T>(
     if (themeRest.surface === 'system')
       themeRest.surface = systemSurface.value
 
-    // Crafts merge: base → config → context (no more props-level crafts)
+    // Crafts merge: base → global config → component config → context → craftProp
     const mergedCrafts: Crafts = Object.assign(
       {},
       crafts,
       pickDefined<Crafts>(configCrafts as Crafts | undefined),
+      pickDefined<Crafts>(componentCrafts as Crafts | undefined),
       pickDefined<Crafts>(contextCrafts as Crafts | undefined),
     ) as Crafts
 
@@ -174,6 +192,8 @@ export function useTheme<T>(
       const sources: string[] = []
       if (configCrafts || Object.keys(configRest).length)
         sources.push('config')
+      if (componentCrafts || Object.keys(componentRest).length)
+        sources.push('component-config')
       if (contextCrafts || Object.keys(contextRest).length)
         sources.push('context')
       if (Object.keys(propsRest).length)

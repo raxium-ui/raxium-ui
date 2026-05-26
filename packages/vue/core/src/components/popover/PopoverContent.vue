@@ -11,12 +11,7 @@ import {
 } from '@raxium/vue/utils/vnode'
 import { computed, useSlots } from 'vue'
 
-const {
-  class: propsClass,
-  theme: propsTheme,
-  ui,
-  ...props
-} = defineProps<PopoverContentProps>()
+const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<PopoverContentProps>()
 const forwarded = useForwardProps(props)
 
 const slots = useSlots()
@@ -42,8 +37,14 @@ const themeAttrs = useThemeAttrs(theme)
       <template v-if="arrowNode">
         <component :is="arrowNode" />
       </template>
-      <div :class="crafts.contentInner(cxc(ui?.inner))">
-        <template v-for="node in otherNodes" :key="node.key">
+      <div
+        :class="crafts.contentInner(cxc(ui?.inner))"
+        v-bind="themeAttrs"
+      >
+        <template
+          v-for="node in otherNodes"
+          :key="node.key"
+        >
           <component :is="node" />
         </template>
       </div>
