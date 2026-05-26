@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.2.2
+
+### Patch Changes
+
+- d899447: FIX: 修复主题系统在合并Crafts时优先级错误，确保组件级Crafts覆盖全局设置。
+
 ## 0.2.1
 
 ### Patch Changes
