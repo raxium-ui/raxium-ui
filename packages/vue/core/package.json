@@ -78,7 +78,7 @@
   "devDependencies": {
     "@ark-ui/vue": "5.36.1",
     "@iconify/vue": "^5.0.0",
-    "@internationalized/date": "^3.10.1",
+    "@internationalized/date": "^3.12.1",
     "@raxium/shared": "workspace:*",
     "@raxium/themes": "workspace:*",
     "@rsbuild/plugin-babel": "^1.0.6",
