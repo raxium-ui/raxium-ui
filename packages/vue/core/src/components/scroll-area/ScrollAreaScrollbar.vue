@@ -14,7 +14,7 @@ const {
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme<ScrollAreaTheme>(() => propsTheme, () => propsTheme?.craft)
+const theme = useTheme<ScrollAreaTheme>(() => propsTheme, undefined, () => propsTheme?.craft)
 const crafts = useCraft(theme, 'tvScrollArea', () => ({
   orientation: forwarded.value.orientation ?? 'vertical',
 }))
