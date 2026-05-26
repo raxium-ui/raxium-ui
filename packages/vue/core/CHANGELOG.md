@@ -1,5 +1,15 @@
 # @raxium/vue
 
+## 0.3.2
+
+### Patch Changes
+
+- 1175d81: - 优化 Dialog 组件结构，确保 body 部分始终渲染于 surface-razer 主题下使用正确的背景色（bg-gray-01）。
+  - 调整 themes 中对 dialog 相关样式，确保 body、content、footer 在 surface-razer 主题一致性。
+- 575e7d9: - 修复：Dialog 组件主题透传、Dialog 内 Ark/Dialog 的 unmountOnExit/lazyMount 透传问题
+- Updated dependencies [1175d81]
+  - @raxium/themes@0.2.1
+
 ## 0.3.1
 
 ### Patch Changes
