@@ -8,6 +8,9 @@ overrides:
   lightningcss: ^1.31.0
 
 patchedDependencies:
+  '@ark-ui/vue@5.36.1':
+    hash: 50912afc21a9d898037103c335151ab97a49b21aaced6c58969bd9da1be4dd38
+    path: patches/@ark-ui__vue@5.36.1.patch
   '@zag-js/popper@1.40.0':
     hash: 45fccd84124400011a2c82cadfa8322cba8fed42806cf31aed9c0e2908c09c6c
     path: patches/@zag-js__popper@1.40.0.patch
@@ -332,7 +335,7 @@ importers:
     devDependencies:
       '@ark-ui/vue':
         specifier: 5.36.1
-        version: 5.36.1(vue@3.5.30(typescript@5.9.3))
+        version: 5.36.1(patch_hash=50912afc21a9d898037103c335151ab97a49b21aaced6c58969bd9da1be4dd38)(vue@3.5.30(typescript@5.9.3))
       '@internationalized/date':
         specifier: ^3.10.1
         version: 3.12.0
@@ -6152,8 +6155,8 @@ packages:
   vue-component-type-helpers@3.2.6:
     resolution: {integrity: sha512-O02tnvIfOQVmnvoWwuSydwRoHjZVt8UEBR+2p4rT35p8GAy5VTlWP8o5qXfJR/GWCN0nVZoYWsVUvx2jwgdBmQ==}
 
-  vue-component-type-helpers@3.2.9:
-    resolution: {integrity: sha512-S3BiWYaLSzHxTpln665ELSrMR9UYmrIDUmhik7nVZxmJjTKL2/a+ew1hvGxksKelivm0ujjWfG1fYOiU/2e8rA==}
+  vue-component-type-helpers@3.3.2:
+    resolution: {integrity: sha512-l4Z2Y34m7nFMlx8vrslJaVtXxUpzgDMSESC7TakG/c5kwjYT/do+E0NcT2/vWDzaoIhsShg/2OKwX7Q4nbzC0g==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -6433,7 +6436,7 @@ snapshots:
       '@zag-js/vue': 1.35.3(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
-  '@ark-ui/vue@5.36.1(vue@3.5.30(typescript@5.9.3))':
+  '@ark-ui/vue@5.36.1(patch_hash=50912afc21a9d898037103c335151ab97a49b21aaced6c58969bd9da1be4dd38)(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@internationalized/date': 3.12.0
       '@zag-js/accordion': 1.40.0
@@ -8174,7 +8177,7 @@ snapshots:
       storybook: 10.3.0(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       type-fest: 2.19.0
       vue: 3.5.30(typescript@5.9.3)
-      vue-component-type-helpers: 3.2.9
+      vue-component-type-helpers: 3.3.2
 
   '@stylistic/eslint-plugin@5.10.0(eslint@9.39.4(jiti@2.6.1))':
     dependencies:
@@ -13091,7 +13094,7 @@ snapshots:
 
   vue-component-type-helpers@3.2.6: {}
 
-  vue-component-type-helpers@3.2.9: {}
+  vue-component-type-helpers@3.3.2: {}
 
   vue-demi@0.14.10(vue@3.5.30(typescript@5.9.3)):
     dependencies:

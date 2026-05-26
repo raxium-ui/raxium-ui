@@ -11,12 +11,13 @@ trustPolicyExclude:
 packages:
   - packages/**
   - playground/*
-  - website/*
+  - website/**
 
 overrides:
   lightningcss: ^1.31.0
 
 patchedDependencies:
+  '@ark-ui/vue@5.36.1': patches/@ark-ui__vue@5.36.1.patch
   '@zag-js/popper@1.40.0': patches/@zag-js__popper@1.40.0.patch
 
 ignoredBuiltDependencies:

@@ -30,7 +30,10 @@ import {
         Open Razer Dialog
       </Button>
     </DialogTrigger>
-    <DialogContent class="w-120" :theme="{ surface: 'razer' }">
+    <DialogContent
+      class="w-120"
+      :theme="{ surface: 'razer' }"
+    >
       <DialogHeader> Dialog Title </DialogHeader>
       <DialogBody> Dialog Body </DialogBody>
       <DialogFooter />

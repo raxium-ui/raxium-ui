@@ -1,0 +1,26 @@
+diff --git a/dist/components/dialog/use-dialog.cjs b/dist/components/dialog/use-dialog.cjs
+index 1a13040a6e09992bf5cd65c2a58f3675e14d2356..e122fdd6bf4ff0ad0c257c8a9974bfd2ac23c069 100644
+--- a/dist/components/dialog/use-dialog.cjs
++++ b/dist/components/dialog/use-dialog.cjs
+@@ -17,7 +17,7 @@ var useDialog = (props = {}, emit) => {
+ 			id,
+ 			dir: locale.value.dir,
+ 			getRootNode: env?.value.getRootNode,
+-			...require_clean_props.cleanProps(props),
++			...require_clean_props.cleanProps(localeProps),
+ 			onOpenChange: (details) => {
+ 				emit?.("openChange", details);
+ 				emit?.("update:open", details.open);
+diff --git a/dist/components/dialog/use-dialog.js b/dist/components/dialog/use-dialog.js
+index 6623cc42a21e0f325e3318612579a913d9943696..86e64af37a4e902a01a836b63760e7b9ca1008db 100644
+--- a/dist/components/dialog/use-dialog.js
++++ b/dist/components/dialog/use-dialog.js
+@@ -15,7 +15,7 @@ var useDialog = (props = {}, emit) => {
+ 			id,
+ 			dir: locale.value.dir,
+ 			getRootNode: env?.value.getRootNode,
+-			...cleanProps(props),
++			...cleanProps(localeProps),
+ 			onOpenChange: (details) => {
+ 				emit?.("openChange", details);
+ 				emit?.("update:open", details.open);

@@ -16,7 +16,7 @@ import { Dialog, useDialog } from '@ark-ui/vue/dialog'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { ThemeProvider } from '@raxium/vue/providers/theme'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { TriggerFrom } from './dialog-intercept-context'
 import DialogInterceptProvider from './DialogInterceptProvider.vue'
 
@@ -107,29 +107,6 @@ const dialog = useDialog(
       forwarded.value.onRequestDismiss?.(event)
     },
   })),
-)
-
-const initialized = ref(false)
-watch(
-  () => [forwarded.value.open, forwarded.value.defaultOpen],
-  async ([open, defaultOpen]) => {
-    if (!initialized.value) {
-      initialized.value = true
-      await nextTick()
-      if (typeof open === 'undefined') {
-        dialog.value.setOpen(!!defaultOpen)
-      }
-      else {
-        dialog.value.setOpen(!!open)
-      }
-      return
-    }
-    if (typeof open !== 'undefined') {
-      await nextTick()
-      dialog.value.setOpen(!!open)
-    }
-  },
-  { immediate: true },
 )
 
 // theme
