@@ -83,7 +83,7 @@
     "@raxium/themes": "workspace:*",
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
-    "@rslib/core": "^0.21.2",
+    "@rslib/core": "^0.21.3",
     "@zag-js/checkbox": "1.40.0",
     "@zag-js/date-picker": "1.40.0",
     "@zag-js/floating-panel": "1.40.0",
