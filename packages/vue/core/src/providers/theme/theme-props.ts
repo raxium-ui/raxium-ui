@@ -60,13 +60,6 @@ export interface ThemeNoCrafts {
 }
 
 /**
- * @deprecated Use `provideComponentTheme` / `injectComponentTheme` or
- * `provideScopeTheme` / `injectScopeTheme` instead.
- */
-export const [privideThemeContext, injectThemeContext]
-  = createContext<ComputedRef<ThemeProps>>('theme')
-
-/**
  * Component Theme — internal channel.
  * Provided by every component root node (Dialog, Tooltip, Accordion, …).
  * Consumed by sub-components via `useInheritedTheme` (e.g. DialogContent, AccordionItem).

@@ -19,8 +19,8 @@ function pickDefined<T extends Record<string, any>>(obj?: T) {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as Partial<T>
 }
 
-function clean(obj: ComputedRef<ThemeProps | undefined>) {
-  return omitBy(obj.value ?? {}, value => isNil(value))
+function clean(obj: ComputedRef<ThemeProps | undefined>): Partial<ThemeProps> {
+  return omitBy(obj.value ?? {}, value => isNil(value)) as Partial<ThemeProps>
 }
 
 /** tv() config keys that trigger a craft extend */
@@ -148,10 +148,10 @@ export function useTheme<T>(
   const compName = vm?.type.__name ?? vm?.type.name
 
   const merged = computed(() => {
-    const { crafts: configCrafts, ...configRest } = clean(configTheme) as any
-    const { crafts: componentCrafts, ...componentRest } = clean(componentConfigTheme) as any
-    const { crafts: contextCrafts, ...contextRest } = clean(contextTheme) as any
-    const propsRest = clean(propsTheme) as any
+    const { crafts: configCrafts, ...configRest } = clean(configTheme)
+    const { crafts: componentCrafts, ...componentRest } = clean(componentConfigTheme)
+    const { crafts: contextCrafts, ...contextRest } = clean(contextTheme)
+    const { crafts: _propsCrafts, ...propsRest } = clean(propsTheme)
 
     const themeRest = Object.assign(
       {
@@ -175,9 +175,9 @@ export function useTheme<T>(
     const mergedCrafts: Crafts = Object.assign(
       {},
       crafts,
-      pickDefined<Crafts>(configCrafts as Crafts | undefined),
-      pickDefined<Crafts>(componentCrafts as Crafts | undefined),
-      pickDefined<Crafts>(contextCrafts as Crafts | undefined),
+      pickDefined<Partial<Crafts>>(configCrafts),
+      pickDefined<Partial<Crafts>>(componentCrafts),
+      pickDefined<Partial<Crafts>>(contextCrafts),
     ) as Crafts
 
     // Apply per-component craft override (highest priority)
@@ -216,8 +216,4 @@ export function useTheme<T>(
   })
 
   return merged
-}
-
-export function useCustomTheme<T>(props?: MaybeRefOrGetter<T | undefined>): UseThemeReturn {
-  return useTheme<T>(props ?? {})
 }

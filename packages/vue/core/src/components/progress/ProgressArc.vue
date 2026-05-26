@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { ProgressArcProps, ProgressCircleTheme } from '.'
+import type { ProgressArcProps } from '.'
+import type { ThemeProps } from '@raxium/vue/providers/theme'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Progress, useProgressContext } from '@ark-ui/vue/progress'
 import { getNodeCssVar } from '@raxium/shared/css'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useCustomTheme } from '@raxium/vue/composables/useTheme'
+import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { computed, useTemplateRef } from 'vue'
 import { useRangeTransfer } from './useRangeTransfer'
 
@@ -54,7 +55,7 @@ const { styles: transferStyles } = useRangeTransfer(
 )
 
 // theme
-const theme = useCustomTheme<ProgressCircleTheme>(() => propsTheme)
+const theme = useInheritedTheme(() => propsTheme as Partial<ThemeProps> | undefined)
 const crafts = useCraft(theme, 'tvProgress', () => ({
   size: typeof theme.value.size === 'string' ? theme.value.size : 'base',
 }))
