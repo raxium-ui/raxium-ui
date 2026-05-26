@@ -1,5 +1,13 @@
 # @raxium/vue
 
+## 0.3.3
+
+### Patch Changes
+
+- d899447: FIX: 修复主题系统在合并Crafts时优先级错误，确保组件级Crafts覆盖全局设置。
+- Updated dependencies [d899447]
+  - @raxium/themes@0.2.2
+
 ## 0.3.2
 
 ### Patch Changes
