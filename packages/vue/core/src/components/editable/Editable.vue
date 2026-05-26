@@ -7,7 +7,7 @@ import { findUp } from '@raxium/shared/dom'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed } from 'vue'
 
 type SlotProps = {
@@ -66,6 +66,7 @@ const slotProps = computed<SlotProps>(() => {
 
 // theme
 const theme = useTheme(() => propsTheme, undefined, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvEditable')
 
 // expose
@@ -77,9 +78,7 @@ useForwardExpose()
   <EditableRootProvider
     :value="editable"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <slot
+  >      <slot
         name="prefix"
         v-bind="slotProps"
       />
@@ -89,7 +88,5 @@ useForwardExpose()
       <slot
         name="suffix"
         v-bind="slotProps"
-      />
-    </ThemeProvider>
-  </EditableRootProvider>
+      />  </EditableRootProvider>
 </template>

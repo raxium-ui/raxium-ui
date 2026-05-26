@@ -5,7 +5,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { TagsInput, useTagsInput } from '@ark-ui/vue/tags-input'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed, nextTick, provide, useTemplateRef, watch } from 'vue'
 import { TAGS_INPUT_PROVIDE_KEY } from '.'
 import { ScrollArea, ScrollAreaScrollbar } from '../scroll-area'
@@ -40,6 +40,7 @@ watch(
 
 // theme
 const theme = useTheme(() => propsTheme, undefined, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const inputCrafts = useCraft(theme, 'tvInput')
 const crafts = useCraft(theme, 'tvTagsInput', () => ({
   inline,
@@ -60,9 +61,7 @@ useForwardExpose()
   <TagsInput.RootProvider
     :value="tagsInput"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <slot name="prefix" />
+  >      <slot name="prefix" />
       <TagsInput.Control :class="inputCrafts.root(cxc(crafts.control(), ui?.control))">
         <ScrollArea
           v-if="inline"
@@ -82,8 +81,6 @@ useForwardExpose()
         />
         <TagsInput.Input :class="inputCrafts.input(cxc(crafts.input(), ui?.input))" />
       </TagsInput.Control>
-      <slot name="suffix" />
-    </ThemeProvider>
-    <TagsInput.HiddenInput />
+      <slot name="suffix" />    <TagsInput.HiddenInput />
   </TagsInput.RootProvider>
 </template>

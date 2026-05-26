@@ -14,8 +14,8 @@ import type {
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Dialog, useDialog } from '@ark-ui/vue/dialog'
 import { useConfig } from '@raxium/vue/composables/useConfig'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { computed, nextTick, ref } from 'vue'
 import { TriggerFrom } from './dialog-intercept-context'
 import DialogInterceptProvider from './DialogInterceptProvider.vue'
@@ -116,6 +116,7 @@ const theme = useTheme(
   () => dialogConfig.value?.theme,
   () => craft,
 )
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({ $api: dialog as UseDialogReturn })
@@ -135,9 +136,7 @@ useForwardExpose()
     "
   >
     <DialogInterceptProvider :value="dialogInterceptContext">
-      <ThemeProvider :value="theme">
-        <slot />
-      </ThemeProvider>
+      <slot />
     </DialogInterceptProvider>
   </Dialog.RootProvider>
 </template>

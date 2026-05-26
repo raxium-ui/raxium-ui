@@ -5,7 +5,7 @@ import { Tooltip, useTooltip } from '@ark-ui/vue/tooltip'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -39,6 +39,7 @@ const tooltip = useTooltip(
 
 // theme
 const theme = useTheme(() => propsTheme, () => tooltipConfig.value?.theme)
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({ $api: tooltip })
@@ -50,9 +51,5 @@ useForwardExpose()
     :value="tooltip"
     :lazy-mount="tooltipConfig?.lazyMount"
     :unmount-on-exit="tooltipConfig?.unmountOnExit"
-  >
-    <ThemeProvider :value="theme">
-      <slot />
-    </ThemeProvider>
-  </Tooltip.RootProvider>
+  >      <slot />  </Tooltip.RootProvider>
 </template>

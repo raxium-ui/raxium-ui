@@ -2,7 +2,7 @@
 import type { FloatingPanelProps, FloatingPanelRootEmits } from '.'
 import { FloatingPanel, useFloatingPanel, useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { clamp } from 'es-toolkit'
 import { computed, ref } from 'vue'
 import { provideFloatingPanelAppearanceContext } from './floating-panel-appearance-context'
@@ -49,6 +49,7 @@ provideFloatingPanelAppearanceContext({
 
 // theme
 const theme = useTheme(() => propsTheme, undefined, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({
@@ -67,9 +68,5 @@ useForwardExpose()
 </script>
 
 <template>
-  <FloatingPanel.RootProvider :value="floatingPanel">
-    <ThemeProvider :value="theme">
-      <slot />
-    </ThemeProvider>
-  </FloatingPanel.RootProvider>
+  <FloatingPanel.RootProvider :value="floatingPanel">      <slot />  </FloatingPanel.RootProvider>
 </template>

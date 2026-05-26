@@ -5,8 +5,8 @@ import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -39,6 +39,7 @@ const selectRoot = useSelect<T>(
 
 // theme
 const theme = useTheme(() => propsTheme, () => selectConfig.value?.theme, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvSelect')
 
 // expose
@@ -52,10 +53,6 @@ useForwardExpose()
     :lazy-mount="selectConfig?.lazyMount"
     :unmount-on-exit="selectConfig?.unmountOnExit"
     :class="crafts.root(cxc(propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <slot />
-    </ThemeProvider>
-    <Select.HiddenSelect />
+  >      <slot />    <Select.HiddenSelect />
   </Select.RootProvider>
 </template>

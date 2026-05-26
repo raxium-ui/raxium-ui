@@ -59,5 +59,27 @@ export interface ThemeNoCrafts {
   theme?: Omit<ThemeProps, 'crafts'>
 }
 
+/**
+ * @deprecated Use `provideComponentTheme` / `injectComponentTheme` or
+ * `provideScopeTheme` / `injectScopeTheme` instead.
+ */
 export const [privideThemeContext, injectThemeContext]
   = createContext<ComputedRef<ThemeProps>>('theme')
+
+/**
+ * Component Theme — internal channel.
+ * Provided by every component root node (Dialog, Tooltip, Accordion, …).
+ * Consumed by sub-components via `useInheritedTheme` (e.g. DialogContent, AccordionItem).
+ */
+export const [provideComponentTheme, injectComponentTheme]
+  = createContext<ComputedRef<ThemeProps>>('componentTheme')
+
+/**
+ * Scope Theme — user intent channel.
+ * Provided only when the user explicitly sets a `:theme` prop on a component,
+ * or by a user-placed `<ThemeProvider>` / `RUIConfigProvider`.
+ * Consumed by `useTheme` in independent components (Button, Tooltip, Input, …).
+ * Not provided = does not shadow parent scope, allowing componentConfig to win.
+ */
+export const [provideScopeTheme, injectScopeTheme]
+  = createContext<ComputedRef<ThemeProps>>('scopeTheme')

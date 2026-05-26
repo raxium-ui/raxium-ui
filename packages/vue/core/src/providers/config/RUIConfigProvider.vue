@@ -24,7 +24,6 @@ import { ToasterManager } from '@raxium/vue/components/toast'
 import { usePreferredColorScheme } from '@raxium/vue/composables/usePreferredColorScheme'
 import { omit } from 'es-toolkit'
 import { computed, useTemplateRef, watchEffect } from 'vue'
-import { ThemeProvider } from '../theme'
 import { provideRUIConfigContext } from './rui-config-context'
 
 const props = withDefaults(defineProps<RUIConfigProps>(), {
@@ -135,32 +134,30 @@ provideRUIConfigContext(
 </script>
 
 <template>
-  <ThemeProvider :value="props.theme">
-    <SpinProvider>
-      <slot />
-      <template #icon>
-        <slot name="spin-icon" />
-      </template>
-    </SpinProvider>
-    <ToasterManager
-      ref="toasterManager"
-      v-bind="props.toasterManager"
+  <SpinProvider>
+    <slot />
+    <template #icon>
+      <slot name="spin-icon" />
+    </template>
+  </SpinProvider>
+  <ToasterManager
+    ref="toasterManager"
+    v-bind="props.toasterManager"
+  >
+    <slot name="toaster" />
+  </ToasterManager>
+  <Messager
+    ref="messager"
+    v-slot="{ message }"
+    overlap
+    v-bind="props.messager"
+  >
+    <slot
+      name="message"
+      :message="message"
     >
-      <slot name="toaster" />
-    </ToasterManager>
-    <Messager
-      ref="messager"
-      v-slot="{ message }"
-      overlap
-      v-bind="props.messager"
-    >
-      <slot
-        name="message"
-        :message="message"
-      >
-        <Message :options="message" />
-      </slot>
-    </Messager>
-    <OverlayProvider />
-  </ThemeProvider>
+      <Message :options="message" />
+    </slot>
+  </Messager>
+  <OverlayProvider />
 </template>

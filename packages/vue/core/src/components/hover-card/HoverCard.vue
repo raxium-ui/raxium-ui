@@ -5,7 +5,7 @@ import { HoverCard, useHoverCard } from '@ark-ui/vue/hover-card'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -47,6 +47,7 @@ const theme = useTheme(
   () => hoverCardConfig.value?.theme,
   () => craft,
 )
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({ $api: hoverCard })
@@ -58,9 +59,5 @@ useForwardExpose()
     :value="hoverCard"
     :lazy-mount="hoverCardConfig?.lazyMount"
     :unmount-on-exit="hoverCardConfig?.unmountOnExit"
-  >
-    <ThemeProvider :value="theme">
-      <slot />
-    </ThemeProvider>
-  </HoverCard.RootProvider>
+  >      <slot />  </HoverCard.RootProvider>
 </template>

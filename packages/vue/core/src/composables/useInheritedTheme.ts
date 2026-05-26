@@ -3,7 +3,7 @@ import type { Crafts, ThemeProps } from '../providers/theme/theme-props'
 import { omitBy } from 'es-toolkit'
 import { isNil } from 'es-toolkit/compat'
 import { computed, toValue } from 'vue'
-import { injectThemeContext } from '../providers/theme/theme-props'
+import { injectComponentTheme } from '../providers/theme/theme-props'
 
 type UseThemeReturn = import('vue').ComputedRef<Omit<ThemeProps, 'crafts'> & { crafts: Crafts }>
 
@@ -19,7 +19,7 @@ type UseThemeReturn = import('vue').ComputedRef<Omit<ThemeProps, 'crafts'> & { c
 export function useInheritedTheme(
   props?: MaybeRefOrGetter<Partial<ThemeProps> | undefined>,
 ): UseThemeReturn {
-  const parentTheme = injectThemeContext(computed(() => ({})))
+  const parentTheme = injectComponentTheme(computed(() => ({})))
 
   if (!props) {
     return parentTheme as UseThemeReturn

@@ -7,8 +7,8 @@ import { TooltipRootProvider, useTooltip } from '@ark-ui/vue/tooltip'
 import { cxc } from '@raxium/themes/utils'
 import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/components/tooltip'
 import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { pick } from 'es-toolkit'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
@@ -70,6 +70,7 @@ watch(
 )
 
 const theme = useTheme(() => propsTheme)
+useProvideComponentTheme(theme, () => propsTheme)
 const tooltipTheme = useTheme(() => propsTheme, () => configs.value?.theme)
 const crafts = useCraft(theme, 'tvSlider')
 
@@ -81,44 +82,28 @@ function handleTooltipContentClick(event: MouseEvent) {
 </script>
 
 <template>
-  <ThemeProvider :value="theme">
-    <TooltipRootProvider :value="tooltip">
-      <TooltipTrigger as-child>
-        <Slider.Marker
-          :value="value"
-          :class="crafts.marker(cxc(ui?.root, propsClass))"
-        >
-          <slot>
-            <div
-              v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
-              :class="crafts.markerDot(cxc(ui?.dot))"
-              data-scope="slider"
-              data-part="marker-dot"
-            />
-          </slot>
-        </Slider.Marker>
-      </TooltipTrigger>
-      <ThemeProvider :value="tooltipTheme">
-        <Teleport
-          v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
-          to="body"
-        >
-          <TooltipContent
-            v-bind="widget?.tooltipContent"
-            @click="handleTooltipContentClick"
-          >
-            <slot name="arrow">
-              <TooltipArrow v-bind="widget?.tooltipArrow" />
-            </slot>
-            <slot name="content">
-              <span :class="crafts.markerValue(cxc(ui?.value))">
-                {{ value }}
-              </span>
-            </slot>
-          </TooltipContent>
-        </Teleport>
+  <TooltipRootProvider :value="tooltip">
+    <TooltipTrigger as-child>
+      <Slider.Marker
+        :value="value"
+        :class="crafts.marker(cxc(ui?.root, propsClass))"
+      >
+        <slot>
+          <div
+            v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
+            :class="crafts.markerDot(cxc(ui?.dot))"
+            data-scope="slider"
+            data-part="marker-dot"
+          />
+        </slot>
+      </Slider.Marker>
+    </TooltipTrigger>
+    <ThemeProvider :value="tooltipTheme">
+      <Teleport
+        v-if="tooltipForwarded.positioning?.strategy === 'fixed'"
+        to="body"
+      >
         <TooltipContent
-          v-else
           v-bind="widget?.tooltipContent"
           @click="handleTooltipContentClick"
         >
@@ -126,15 +111,29 @@ function handleTooltipContentClick(event: MouseEvent) {
             <TooltipArrow v-bind="widget?.tooltipArrow" />
           </slot>
           <slot name="content">
-            <span
-              v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
-              :class="crafts.markerValue(cxc(ui?.value))"
-            >
+            <span :class="crafts.markerValue(cxc(ui?.value))">
               {{ value }}
             </span>
           </slot>
         </TooltipContent>
-      </ThemeProvider>
-    </TooltipRootProvider>
-  </ThemeProvider>
+      </Teleport>
+      <TooltipContent
+        v-else
+        v-bind="widget?.tooltipContent"
+        @click="handleTooltipContentClick"
+      >
+        <slot name="arrow">
+          <TooltipArrow v-bind="widget?.tooltipArrow" />
+        </slot>
+        <slot name="content">
+          <span
+            v-bind="pick(context.getMarkerProps({ value }), ['data-state' as keyof HTMLAttributes])"
+            :class="crafts.markerValue(cxc(ui?.value))"
+          >
+            {{ value }}
+          </span>
+        </slot>
+      </TooltipContent>
+    </ThemeProvider>
+  </TooltipRootProvider>
 </template>

@@ -6,7 +6,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSlider } from '@ark-ui/vue/slider'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed, useTemplateRef } from 'vue'
 import SliderBoundaryProvider from './SliderBoundaryProvider.vue'
 
@@ -22,6 +22,7 @@ const controlEl = computed((): HTMLElement | undefined => {
 })
 
 const theme = useTheme(() => propsTheme, undefined, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvSlider', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))
@@ -37,9 +38,7 @@ useForwardExpose()
     :class="
       crafts.root(cxc(ui?.root, propsClass))
     "
-  >
-    <ThemeProvider :value="theme">
-      <SliderBoundaryProvider :boundary="controlEl">
+  >      <SliderBoundaryProvider :boundary="controlEl">
         <slot name="prefix" />
         <Slider.Control
           ref="control"
@@ -61,7 +60,5 @@ useForwardExpose()
           <slot />
         </Slider.Control>
         <slot name="suffix" />
-      </SliderBoundaryProvider>
-    </ThemeProvider>
-  </Slider.RootProvider>
+      </SliderBoundaryProvider>  </Slider.RootProvider>
 </template>

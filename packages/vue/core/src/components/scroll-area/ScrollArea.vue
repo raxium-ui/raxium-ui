@@ -4,7 +4,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ScrollArea, useScrollArea } from '@ark-ui/vue/scroll-area'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { excludeVNodesByNames, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { useElementSize } from '@vueuse/core'
 import { computed, useSlots, useTemplateRef } from 'vue'
@@ -35,6 +35,7 @@ const isShowScrollbars = computed(() => ({
 
 // theme
 const theme = useTheme<ScrollAreaTheme>(() => propsTheme, undefined, () => propsTheme?.craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvScrollArea')
 
 // expose
@@ -46,9 +47,7 @@ useForwardExpose()
   <ScrollArea.RootProvider
     :value="scrollArea"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <ScrollArea.Viewport
+  >      <ScrollArea.Viewport
         ref="viewport"
         :class="crafts.viewport(cxc(ui?.viewport))"
         @scrollstart="emits('scrollstart', $event)"
@@ -87,7 +86,5 @@ useForwardExpose()
         :is="node"
         v-for="node in cornerNodes"
         :key="node.key"
-      />
-    </ThemeProvider>
-  </ScrollArea.RootProvider>
+      />  </ScrollArea.RootProvider>
 </template>

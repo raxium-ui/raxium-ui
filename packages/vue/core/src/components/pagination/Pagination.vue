@@ -6,7 +6,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
 import { cn, cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
 import { computed } from 'vue'
 
@@ -28,6 +28,7 @@ const theme = useTheme(
   undefined,
   () => craft,
 )
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvPagination')
 const itemClx = computed(() => crafts.value.item())
 
@@ -54,9 +55,7 @@ useForwardExpose()
   <Pagination.RootProvider
     :value="pagination"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <ark.div
+  >      <ark.div
         :class="crafts.control(cxc(ui?.control))"
         data-scope="pagination"
         data-part="control"
@@ -99,7 +98,5 @@ useForwardExpose()
           <ChevronsRight :style="{ width: '1lh', height: '1lh' }" />
         </ark.button>
       </ark.div>
-      <slot />
-    </ThemeProvider>
-  </Pagination.RootProvider>
+      <slot />  </Pagination.RootProvider>
 </template>

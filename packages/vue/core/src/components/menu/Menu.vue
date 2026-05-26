@@ -5,7 +5,7 @@ import { Menu, useMenu } from '@ark-ui/vue/menu'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -33,6 +33,7 @@ const menu = useMenu(
 
 // theme
 const theme = useTheme(() => propsTheme, () => menuConfig.value?.theme)
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({ $api: menu })
@@ -44,9 +45,5 @@ useForwardExpose()
     :value="menu"
     :lazy-mount="menuConfig?.lazyMount"
     :unmount-on-exit="menuConfig?.unmountOnExit"
-  >
-    <ThemeProvider :value="theme">
-      <slot />
-    </ThemeProvider>
-  </Menu.RootProvider>
+  >      <slot />  </Menu.RootProvider>
 </template>

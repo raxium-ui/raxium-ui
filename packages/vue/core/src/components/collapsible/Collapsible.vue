@@ -6,7 +6,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 
 const {
   class: propsClass,
@@ -25,6 +25,7 @@ const theme = useTheme(
   undefined,
   () => craft,
 )
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvCollapsible')
 
 // expose
@@ -36,9 +37,5 @@ useForwardExpose()
   <Collapsible.RootProvider
     :value="collapsiable"
     :class="crafts.root(cxc(propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <slot v-bind="collapsiable" />
-    </ThemeProvider>
-  </Collapsible.RootProvider>
+  >      <slot v-bind="collapsiable" />  </Collapsible.RootProvider>
 </template>

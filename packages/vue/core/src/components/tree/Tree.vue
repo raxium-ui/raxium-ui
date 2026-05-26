@@ -5,7 +5,7 @@ import { useForwardProps } from '@ark-ui/vue'
 import { TreeView, useTreeView } from '@ark-ui/vue/tree-view'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { provideTreeContext } from './tree-context'
 
 const {
@@ -21,6 +21,7 @@ const treeView = useTreeView<T>(forwarded, emits)
 
 // theme（根节点统一 provide，供 TreeNode/TreeCheckboxNode inject，避免每节点 useTheme）
 const theme = useTheme(() => propsTheme, undefined, () => craft)
+useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvTree')
 
 // context
@@ -35,13 +36,9 @@ provideTreeContext({
   <TreeView.RootProvider
     :value="treeView"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >
-    <ThemeProvider :value="theme">
-      <slot name="prefix" />
+  >      <slot name="prefix" />
       <TreeView.Tree :class="crafts.tree(cxc(ui?.tree))">
         <slot />
       </TreeView.Tree>
-      <slot name="suffix" />
-    </ThemeProvider>
-  </TreeView.RootProvider>
+      <slot name="suffix" />  </TreeView.RootProvider>
 </template>

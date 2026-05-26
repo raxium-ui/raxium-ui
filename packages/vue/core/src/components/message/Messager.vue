@@ -2,7 +2,7 @@
 import type { MessageOptions, MessagerProps } from '.'
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { ThemeProvider } from '@raxium/vue/providers/theme'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
 
 const { theme: propsTheme, showClose = true, ...props } = defineProps<MessagerProps>()
@@ -16,6 +16,7 @@ const messager = createToaster({
 
 // theme
 const theme = useTheme(() => propsTheme)
+useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({
@@ -27,9 +28,5 @@ defineExpose({
   <Toaster
     v-slot="message"
     :toaster="messager"
-  >
-    <ThemeProvider :value="theme">
-      <slot :message="defaults(message, { showClose })" />
-    </ThemeProvider>
-  </Toaster>
+  >      <slot :message="defaults(message, { showClose })" />  </Toaster>
 </template>

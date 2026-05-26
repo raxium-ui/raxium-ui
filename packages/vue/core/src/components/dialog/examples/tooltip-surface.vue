@@ -38,7 +38,7 @@ import {
           </TooltipTrigger>
           <TooltipContent>
             <TooltipArrow />
-            This tooltip inherits the dialog's dark surface
+            This tooltip should use component config theme, which is light surface
           </TooltipContent>
         </Tooltip>
       </DialogBody>
@@ -75,7 +75,7 @@ import {
           </TooltipTrigger>
           <TooltipContent>
             <TooltipArrow />
-            This tooltip inherits the dialog's razer surface
+            This tooltip should use component config theme, which is razer surface
           </TooltipContent>
         </Tooltip>
       </DialogBody>
