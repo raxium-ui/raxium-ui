@@ -59,7 +59,7 @@ import {
     >
       <DialogHeader>Razer Dialog</DialogHeader>
       <DialogBody class="flex gap-4">
-        <Tooltip :theme="{ surface: 'light' }">
+        <Tooltip :theme="{ surface: 'dark' }">
           <TooltipTrigger as-child>
             <Button>Light Tooltip</Button>
           </TooltipTrigger>
@@ -75,7 +75,7 @@ import {
           </TooltipTrigger>
           <TooltipContent>
             <TooltipArrow />
-            This tooltip should use component config theme, which is razer surface
+            This tooltip should use component config theme, which is light surface
           </TooltipContent>
         </Tooltip>
       </DialogBody>
