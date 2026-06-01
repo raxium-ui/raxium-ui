@@ -29,11 +29,13 @@ const crafts = useCraft(theme, 'tvSelect')
         v-if="clearable"
         :class="crafts.clearTrigger()"
       >
-        <CircleX :style="{ width: '1lh', height: '1lh' }" />
+        <slot name="clearIcon">
+          <CircleX />
+        </slot>
       </Select.ClearTrigger>
       <Select.Indicator :class="crafts.indicator()">
         <slot name="indicator">
-          <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
+          <ChevronDown />
         </slot>
       </Select.Indicator>
     </Select.Trigger>

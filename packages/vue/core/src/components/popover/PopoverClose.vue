@@ -26,7 +26,7 @@ const themeAttrs = useThemeAttrs(theme)
         :class="crafts.close(cxc(propsClass))"
         :as-child="asChild"
       >
-        <X :style="{ width: '1lh', height: '1lh' }" />
+        <X />
       </ark.button>
     </slot>
   </PopoverCloseTrigger>

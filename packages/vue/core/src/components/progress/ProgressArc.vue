@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ProgressArcProps } from '.'
 import type { ThemeProps } from '@raxium/vue/providers/theme'
+import type { ProgressArcProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Progress, useProgressContext } from '@ark-ui/vue/progress'

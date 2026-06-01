@@ -36,7 +36,7 @@ const crafts = useCraft(theme, 'tvCollapsible')
         v-if="indicator"
         :class="crafts.indicator(cxc(ui?.indicator))"
       >
-        <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronDown />
       </Collapsible.Indicator>
     </slot>
   </Collapsible.Trigger>

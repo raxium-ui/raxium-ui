@@ -47,7 +47,8 @@ export const tvDatePicker = tv(
         false: '',
       },
     },
-  }, prefix,
+  },
+  prefix,
 )
 
 export type DatePickerVariants = VariantProps<typeof tvDatePicker>
@@ -56,8 +57,8 @@ export const tvDatePickerView = tv(
   {
     slots: {
       view: 'flex flex-col gap-2',
-      viewControl: ['flex', 'items-center', 'justify-between', 'w-full'],
-      viewControlTrigger: '',
+      viewControl: 'flex items-center justify-between w-full',
+      viewControlTrigger: '[&_svg]:size-[0.75lh]',
       viewTrigger: 'rounded',
       table: 'grid gap-2',
       tableHead: 'grid',
@@ -226,7 +227,8 @@ export const tvDatePickerView = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, prefix,
+  },
+  prefix,
 )
 
 export type DatePickerViewVariants = VariantProps<typeof tvDatePickerView>

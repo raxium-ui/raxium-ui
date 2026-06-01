@@ -12,7 +12,7 @@ export const tvToast = tv(
       title: '',
       description: '',
       icon: 'size-[1lh]',
-      close: '',
+      close: '[&_svg]:size-[1lh]',
     },
     variants: {
       size: {
@@ -53,7 +53,8 @@ export const tvToast = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-toast',
+  },
+  'rui-toast',
 )
 
 export type ToastVariants = VariantProps<typeof tvToast>

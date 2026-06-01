@@ -246,7 +246,7 @@ export default defineComponent({
                                 <TreeView.BranchIndicator
                                   class={branchClx.value.indicator}
                                 >
-                                  <ChevronRight style={{ width: '1lh', height: '1lh' }} />
+                                  <ChevronRight />
                                 </TreeView.BranchIndicator>
                               </>
                             )}

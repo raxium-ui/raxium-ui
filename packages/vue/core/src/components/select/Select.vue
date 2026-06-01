@@ -5,8 +5,8 @@ import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useConfig } from '@raxium/vue/composables/useConfig'
+import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -24,21 +24,22 @@ const forwarded = useForwardProps(props)
 const selectRoot = useSelect<T>(
   computed(
     () =>
-      mergeProps(
-        forwarded.value as Record<string, unknown>,
-        {
-          positioning: defaults(
-            { ...(forwarded.value.positioning ?? {}) },
-            { placement: selectConfig.value?.placement },
-          ),
-        },
-      ) as unknown as UseSelectProps<T>,
+      mergeProps(forwarded.value as Record<string, unknown>, {
+        positioning: defaults(
+          { ...(forwarded.value.positioning ?? {}) },
+          { placement: selectConfig.value?.placement },
+        ),
+      }) as unknown as UseSelectProps<T>,
   ),
   emits,
 )
 
 // theme
-const theme = useTheme(() => propsTheme, () => selectConfig.value?.theme, () => craft)
+const theme = useTheme(
+  () => propsTheme,
+  () => selectConfig.value?.theme,
+  () => craft,
+)
 useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvSelect')
 
@@ -53,6 +54,8 @@ useForwardExpose()
     :lazy-mount="selectConfig?.lazyMount"
     :unmount-on-exit="selectConfig?.unmountOnExit"
     :class="crafts.root(cxc(propsClass))"
-  >      <slot />    <Select.HiddenSelect />
+  >
+    <slot />
+    <Select.HiddenSelect />
   </Select.RootProvider>
 </template>

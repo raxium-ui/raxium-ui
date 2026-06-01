@@ -10,7 +10,7 @@ export const tvMessage = tv(
       content: ['flex', 'items-center', 'rounded-md'],
       description: 'w-max',
       icon: 'size-[1lh]',
-      close: '',
+      close: '[&_svg]:size-[1lh]',
     },
     variants: {
       size: {
@@ -51,7 +51,8 @@ export const tvMessage = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-message',
+  },
+  'rui-message',
 )
 
 export type MessageVariants = VariantProps<typeof tvMessage>

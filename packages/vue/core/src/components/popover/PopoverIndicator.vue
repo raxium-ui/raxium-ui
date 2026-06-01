@@ -21,7 +21,7 @@ const crafts = useCraft(theme, 'tvPopover')
     :class="crafts.indicator(cxc(propsClass))"
   >
     <slot>
-      <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
+      <ChevronDown />
     </slot>
   </PopoverIndicator>
 </template>

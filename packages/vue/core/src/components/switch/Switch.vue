@@ -11,7 +11,11 @@ const emit = defineEmits<SwitchRootEmits>()
 const switchRoot = useSwitch(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
+const theme = useTheme(
+  () => propsTheme,
+  undefined,
+  () => craft,
+)
 useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvSwitch')
 
@@ -24,9 +28,11 @@ useForwardExpose()
   <Switch.RootProvider
     :value="switchRoot"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <Switch.Control :class="crafts.control(cxc(ui?.control))">
-        <Switch.Thumb :class="crafts.thumb(cxc(ui?.thumb))" />
-      </Switch.Control>
-      <Switch.HiddenInput />
-      <slot />  </Switch.RootProvider>
+  >
+    <Switch.Control :class="crafts.control(cxc(ui?.control))">
+      <Switch.Thumb :class="crafts.thumb(cxc(ui?.thumb))" />
+    </Switch.Control>
+    <Switch.HiddenInput />
+    <slot />
+  </Switch.RootProvider>
 </template>

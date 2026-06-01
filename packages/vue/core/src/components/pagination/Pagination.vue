@@ -4,7 +4,7 @@ import type { PaginationProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
-import { cn, cxc } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
@@ -55,48 +55,50 @@ useForwardExpose()
   <Pagination.RootProvider
     :value="pagination"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <ark.div
-        :class="crafts.control(cxc(ui?.control))"
-        data-scope="pagination"
-        data-part="control"
+  >
+    <ark.div
+      :class="crafts.control(cxc(ui?.control))"
+      data-scope="pagination"
+      data-part="control"
+    >
+      <ark.button
+        :class="[itemClx, ui?.firstPage]"
+        @click="pagination.goToFirstPage"
       >
-        <ark.button
-          :class="cn(itemClx, ui?.firstPage)"
-          @click="pagination.goToFirstPage"
+        <ChevronsLeft />
+      </ark.button>
+      <Pagination.PrevTrigger :class="[itemClx, ui?.prevPage]">
+        <ChevronLeft />
+      </Pagination.PrevTrigger>
+      <template
+        v-for="(page, index) in isDynamicPageEnd ? dynamicPages : pagination.pages"
+        :key="index"
+      >
+        <Pagination.Item
+          v-if="page.type === 'page'"
+          v-bind="page"
+          :class="[itemClx, ui?.item]"
         >
-          <ChevronsLeft :style="{ width: '1lh', height: '1lh' }" />
-        </ark.button>
-        <Pagination.PrevTrigger :class="cn(itemClx, ui?.prevPage)">
-          <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
-        </Pagination.PrevTrigger>
-        <template
-          v-for="(page, index) in isDynamicPageEnd ? dynamicPages : pagination.pages"
-          :key="index"
+          {{ page.value }}
+        </Pagination.Item>
+        <Pagination.Ellipsis
+          v-else
+          :index="index"
+          :class="crafts.ellipsis(cxc(ui?.ellipsis))"
         >
-          <Pagination.Item
-            v-if="page.type === 'page'"
-            v-bind="page"
-            :class="cn(itemClx, ui?.item)"
-          >
-            {{ page.value }}
-          </Pagination.Item>
-          <Pagination.Ellipsis
-            v-else
-            :index="index"
-            :class="crafts.ellipsis(cxc(ui?.ellipsis))"
-          >
-            &#8230;
-          </Pagination.Ellipsis>
-        </template>
-        <Pagination.NextTrigger :class="cn(itemClx, ui?.nextPage)">
-          <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
-        </Pagination.NextTrigger>
-        <ark.button
-          :class="cn(itemClx, ui?.lastPage)"
-          @click="pagination.goToLastPage"
-        >
-          <ChevronsRight :style="{ width: '1lh', height: '1lh' }" />
-        </ark.button>
-      </ark.div>
-      <slot />  </Pagination.RootProvider>
+          &#8230;
+        </Pagination.Ellipsis>
+      </template>
+      <Pagination.NextTrigger :class="[itemClx, ui?.nextPage]">
+        <ChevronRight />
+      </Pagination.NextTrigger>
+      <ark.button
+        :class="[itemClx, ui?.lastPage]"
+        @click="pagination.goToLastPage"
+      >
+        <ChevronsRight />
+      </ark.button>
+    </ark.div>
+    <slot />
+  </Pagination.RootProvider>
 </template>

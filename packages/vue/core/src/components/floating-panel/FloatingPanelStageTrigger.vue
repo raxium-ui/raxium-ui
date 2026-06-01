@@ -39,7 +39,7 @@ const crafts = useCraft(theme, 'tvFloatingPanel')
     :class="crafts.trigger(cxc(propsClass))"
   >
     <slot>
-      <component :is="stageComponent" :style="{ width: '1lh', height: '1lh' }" />
+      <component :is="stageComponent" />
     </slot>
   </FloatingPanel.StageTrigger>
 </template>

@@ -2,7 +2,7 @@
 import type { MenuTriggerItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { cxc, cn } from '@raxium/themes/utils'
+import { cn, cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { ChevronRight } from 'lucide-vue-next'
 
@@ -23,7 +23,7 @@ const crafts = useCraft(theme, 'tvMenu')
       <slot />
     </Menu.ItemText>
     <Menu.Indicator :class="crafts.triggerItemIndicator()">
-      <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
+      <ChevronRight />
     </Menu.Indicator>
   </Menu.TriggerItem>
 </template>

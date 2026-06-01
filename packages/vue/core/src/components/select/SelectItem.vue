@@ -24,7 +24,7 @@ const crafts = useCraft(theme, 'tvSelect')
     </Select.ItemText>
     <slot name="indicator">
       <Select.ItemIndicator :class="crafts.itemIndicator()">
-        <Check :style="{ width: '0.875lh', height: '0.875lh' }" />
+        <Check />
       </Select.ItemIndicator>
     </slot>
   </Select.Item>

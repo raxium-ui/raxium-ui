@@ -37,14 +37,8 @@ const crafts = useCraft(theme, 'tvFloatingPanel')
     @click="handleClick"
   >
     <slot v-bind="{ pinned, setPinned }">
-      <PinOff
-        v-if="pinned"
-        :style="{ width: '1lh', height: '1lh' }"
-      />
-      <Pin
-        v-else
-        :style="{ width: '1lh', height: '1lh' }"
-      />
+      <PinOff v-if="pinned" />
+      <Pin v-else />
     </slot>
   </ark.button>
 </template>

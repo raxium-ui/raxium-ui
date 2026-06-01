@@ -35,7 +35,7 @@ const crafts = useCraft(theme, 'tvAccordion')
         v-if="indicator"
         :class="crafts.indicator(cxc(ui?.indicator))"
       >
-        <ChevronDown :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronDown />
       </Accordion.ItemIndicator>
     </slot>
   </Accordion.ItemTrigger>

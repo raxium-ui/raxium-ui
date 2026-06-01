@@ -29,6 +29,7 @@ export const tvMenu = tv(
       triggerItemIndicator: [
         'transition-transform',
         'data-[state=open]:rotate-180',
+        '[&_svg]:size-[0.75lh]',
       ],
       radioItem: 'justify-between',
     },
@@ -85,6 +86,7 @@ export const tvMenu = tv(
       },
     ],
     defaultVariants: { size: 'base', bordered: true },
-  }, 'rui-menu',
+  },
+  'rui-menu',
 )
 export type MenuVariants = VariantProps<typeof tvMenu>

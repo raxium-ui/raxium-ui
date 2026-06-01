@@ -45,7 +45,7 @@ const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'day' as const
         as-child
         :class="crafts.viewControlTrigger()"
       >
-        <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronLeft />
       </DatePicker.PrevTrigger>
       <DatePicker.ViewTrigger
         v-if="viewsState.count > 1 && viewsState.hasMonthView"
@@ -58,7 +58,7 @@ const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'day' as const
         as-child
         :class="crafts.viewControlTrigger()"
       >
-        <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronRight />
       </DatePicker.NextTrigger>
     </DatePicker.ViewControl>
     <DatePicker.Table :class="crafts.table()">

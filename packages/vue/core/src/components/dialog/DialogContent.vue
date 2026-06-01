@@ -66,7 +66,7 @@ const themeAttrs = useThemeAttrs(theme)
               "
               data-variant="content-close"
             >
-              <X :style="{ width: '1lh', height: '1lh' }" />
+              <X />
               <span class="sr-only">Close</span>
             </ark.button>
           </DialogCloseTrigger>

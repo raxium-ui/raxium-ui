@@ -29,7 +29,7 @@ export const tvDialog = tv(
         'rounded',
         ...DIALOG_CONTENT_MOTION,
       ],
-      close: '',
+      close: '[&_svg]:size-[1lh]',
       header: ['flex', 'items-center', 'justify-between'],
       title: '',
       body: ['flex-1', 'overflow-y-auto'],

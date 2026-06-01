@@ -13,7 +13,8 @@ export const tvTree = tv(
       root: '',
       tree: '',
     },
-  }, prefix,
+  },
+  prefix,
 )
 
 export type TreeVariants = VariantProps<typeof tvTree>
@@ -30,6 +31,7 @@ export const tvTreeBranch = tv(
         'data-[state=open]:rotate-90',
         'data-[state=closed]:rotate-0',
         'transition-transform',
+        '[&_svg]:size-[0.75lh]',
       ],
       content: [...COLLAPSIBLE_CONTENT_MOTION],
       indentGuide: '',
@@ -76,7 +78,8 @@ export const tvTreeBranch = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, `${prefix}-branch`,
+  },
+  `${prefix}-branch`,
 )
 export type TreeBranchVariants = VariantProps<typeof tvTreeBranch>
 
@@ -129,7 +132,8 @@ export const tvTreeItem = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, `${prefix}-item`,
+  },
+  `${prefix}-item`,
 )
 
 export type TreeItemVariants = VariantProps<typeof tvTreeItem>

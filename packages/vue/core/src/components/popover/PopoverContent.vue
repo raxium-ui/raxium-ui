@@ -33,8 +33,8 @@ const themeAttrs = useThemeAttrs(theme)
 
 <template>
   <Popover.Positioner
-    :class="clsx(ui?.positioner)"
-    :style="{ zIndex: `var(--z-popover, --z-index)` }"
+    class="z-[var(--z-popover, --z-index)]"
+    :class="[ui?.positioner]"
   >
     <Popover.Content
       v-bind="{ ...forwarded, ...themeAttrs }"

@@ -11,7 +11,7 @@ export const tvFloatingPanel = tv(
       header: 'w-full flex items-center justify-between',
       control: 'flex items-center gap-2',
       title: '',
-      trigger: 'flex items-center justify-center',
+      trigger: 'flex items-center justify-center [&_svg]:size-[1lh]',
       resizeVertical: 'h-full w-2',
       resizeHorizontal: 'w-full h-2',
       resizeCorner: 'size-2',
@@ -52,7 +52,8 @@ export const tvFloatingPanel = tv(
         },
       },
     },
-  }, 'rui-floating-panel',
+  },
+  'rui-floating-panel',
 )
 
 export type FloatingPanelVariants = VariantProps<typeof tvFloatingPanel>

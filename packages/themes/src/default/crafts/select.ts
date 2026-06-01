@@ -22,7 +22,7 @@ export const tvSelect = tv(
         'data-[disabled]:pointer-events-none',
         'data-[disabled]:opacity-(--disabled-opacity)',
       ],
-      indicator: ['data-[state=open]:rotate-180', 'transition-transform'],
+      indicator: ['data-[state=open]:rotate-180', 'transition-transform', '[&_svg]:size-[0.75lh]'],
       value: 'flex-1 flex items-center [&>span]:truncate',
       content: [
         'relative',
@@ -47,10 +47,10 @@ export const tvSelect = tv(
         'data-[disabled]:pointer-events-none',
         'data-[disabled]:opacity-(--disabled-opacity)',
       ],
-      itemIndicator: '[&_path]:animate-check-dash',
+      itemIndicator: '[&_path]:animate-check-dash [&_svg]:size-[0.875lh]',
       itemGroup: '',
       itemGroupLabel: 'relative border-b',
-      clearTrigger: ['flex', 'items-center', 'justify-center'],
+      clearTrigger: ['flex', 'items-center', 'justify-center', '[&_svg]:size-[1lh]'],
     },
     variants: {
       size: {
@@ -91,7 +91,8 @@ export const tvSelect = tv(
       size: 'base',
       bordered: true,
     },
-  }, 'rui-select',
+  },
+  'rui-select',
 )
 
 export type SelectVariants = VariantProps<typeof tvSelect>

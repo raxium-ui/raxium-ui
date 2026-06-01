@@ -24,7 +24,7 @@ const crafts = useCraft(theme, 'tvFloatingPanel')
     :class="crafts.trigger(cxc(propsClass))"
   >
     <slot>
-      <X :style="{ width: '1lh', height: '1lh' }" />
+      <X />
     </slot>
   </FloatingPanel.CloseTrigger>
 </template>

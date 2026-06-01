@@ -9,10 +9,11 @@ export const tvPopover = tv(
     slots: {
       content: [...POPOVER_CONTENT_BASE],
       contentInner: [...POPOVER_CONTENT_INNER_BASE],
-      close: 'inline-flex w-fit items-center justify-center',
+      close: 'inline-flex w-fit items-center justify-center [&_svg]:size-[1lh]',
       indicator: [
         'data-[state=open]:motion-rotate-out-180',
         'data-[state=closed]:motion-rotate-in-180',
+        '[&_svg]:size-[0.75lh]',
       ],
     },
     variants: {
@@ -47,7 +48,8 @@ export const tvPopover = tv(
       size: 'base',
       bordered: true,
     },
-  }, 'rui-popover',
+  },
+  'rui-popover',
 )
 
 export type PopoverVariants = VariantProps<typeof tvPopover>

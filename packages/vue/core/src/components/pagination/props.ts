@@ -1,6 +1,8 @@
 import type { PaginationRootBaseProps, PolymorphicProps } from '@ark-ui/vue'
 import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
+import type { ComponentProps } from 'vue-component-type-helpers'
+import type { NumberInput } from '../number-input'
 
 export const PAGINATION_GO_TO_PROVIDE_KEY = Symbol('PAGINATION_GO_TO_PROVIDE_KEY')
 
@@ -24,6 +26,9 @@ export interface PaginationGoToProps extends ThemeNoCrafts {
   ui?: {
     root?: HTMLAttributes['class']
     input?: HTMLAttributes['class']
+  }
+  widget?: {
+    input?: ComponentProps<typeof NumberInput>
   }
 }
 

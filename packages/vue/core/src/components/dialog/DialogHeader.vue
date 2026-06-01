@@ -33,7 +33,7 @@ const crafts = useCraft(theme, 'tvDialog')
       <ark.button
         :class="crafts.close(cxc(ui?.close))"
       >
-        <X :style="{ width: '1lh', height: '1lh' }" />
+        <X />
         <span class="sr-only">Close</span>
       </ark.button>
     </DialogCloseTrigger>

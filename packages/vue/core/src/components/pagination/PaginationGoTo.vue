@@ -7,7 +7,7 @@ import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { provide, ref, watch } from 'vue'
 import { PAGINATION_GO_TO_PROVIDE_KEY } from '.'
 
-const { class: propsClass, theme: propsTheme, ui } = defineProps<PaginationGoToProps>()
+const { class: propsClass, theme: propsTheme, ui, widget } = defineProps<PaginationGoToProps>()
 
 const context = usePaginationContext()
 const innerValue = ref<string>(`${context.value.page}`)
@@ -47,10 +47,10 @@ provide(PAGINATION_GO_TO_PROVIDE_KEY, { goInputPage })
   >
     <slot name="prefix" />
     <NumberInput
-      v-bind="theme"
+      v-bind="widget?.input"
       v-model="innerValue"
-      :class="crafts.input(cxc(ui?.input))"
-      :ui="ui ? { input: ui.input } : undefined"
+      :theme="theme"
+      :class="crafts.input(cxc(widget?.input?.class, ui?.input))"
       :min="1"
       :max="context.totalPages"
       clamp-value-on-blur

@@ -25,14 +25,14 @@ const crafts = useCraft(theme, 'tvDatePickerView', () => ({ view: 'year' as cons
         as-child
         :class="crafts.viewControlTrigger()"
       >
-        <ChevronLeft :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronLeft />
       </DatePicker.PrevTrigger>
       <DatePicker.RangeText />
       <DatePicker.NextTrigger
         as-child
         :class="crafts.viewControlTrigger()"
       >
-        <ChevronRight :style="{ width: '1lh', height: '1lh' }" />
+        <ChevronRight />
       </DatePicker.NextTrigger>
     </DatePicker.ViewControl>
 

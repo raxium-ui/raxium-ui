@@ -16,15 +16,8 @@ import {
 } from '@raxium/vue/utils/vnode'
 import { computed, useSlots } from 'vue'
 
-const {
-  class: propsClass,
-  theme: propsTheme,
-  ui,
-  ...props
-} = defineProps<MenuContentProps>()
-const forwarded = useForwardProps<MenuContentProps, { asChild?: boolean }>(
-  props,
-)
+const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<MenuContentProps>()
+const forwarded = useForwardProps<MenuContentProps, { asChild?: boolean }>(props)
 
 const slots = useSlots()
 const defaultSlots = computed(() => slots.default?.())
@@ -41,8 +34,8 @@ const themeAttrs = useThemeAttrs(theme)
 
 <template>
   <Menu.Positioner
-    :class="clsx(ui?.positioner)"
-    :style="{ zIndex: `var(--z-dropdown, --z-index)` }"
+    class="z-[var(--z-dropdown, --z-index)]"
+    :class="[ui?.positioner]"
   >
     <Menu.Content
       v-bind="{ ...forwarded, ...themeAttrs }"
@@ -52,7 +45,10 @@ const themeAttrs = useThemeAttrs(theme)
         <component :is="arrowNode" />
       </template>
       <div :class="crafts.contentInner(cxc(ui?.inner))">
-        <template v-for="node in otherNodes" :key="node.key">
+        <template
+          v-for="node in otherNodes"
+          :key="node.key"
+        >
           <component :is="node" />
         </template>
       </div>

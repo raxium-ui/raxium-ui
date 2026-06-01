@@ -29,8 +29,8 @@ const themeAttrs = useThemeAttrs(theme)
 
 <template>
   <Tooltip.Positioner
-    :class="clsx(ui?.positioner)"
-    :style="{ zIndex: `var(--z-tooltip, --z-index)` }"
+    class="z-[var(--z-tooltip, --z-index)]"
+    :class="[ui?.positioner]"
   >
     <Tooltip.Content
       v-bind="{ ...forwarded, ...themeAttrs }"

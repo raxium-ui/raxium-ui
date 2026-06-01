@@ -11,7 +11,14 @@ export const tvPagination = tv(
     slots: {
       root: 'flex items-center gap-2',
       control: 'flex items-center gap-2',
-      item: ['inline-flex', 'items-center', 'justify-center', 'transition-all', 'rounded'],
+      item: [
+        'inline-flex',
+        'items-center',
+        'justify-center',
+        'transition-all',
+        'rounded',
+        '[&_svg]:size-[1lh]',
+      ],
       ellipsis: 'inline-flex items-center justify-center',
     },
 
@@ -39,7 +46,8 @@ export const tvPagination = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, prefix,
+  },
+  prefix,
 )
 
 export type PaginationVariants = VariantProps<typeof tvPagination>
@@ -53,23 +61,24 @@ export const tvPaginationGoto = tv(
     variants: {
       size: {
         xs: {
-          input: 'text-xs size-6',
+          input: 'text-xs w-6',
         },
         sm: {
-          input: 'text-sm size-8',
+          input: 'text-sm w-8',
         },
         base: {
-          input: 'text-base size-10',
+          input: 'text-base w-10',
         },
         lg: {
-          input: 'text-lg size-12',
+          input: 'text-lg w-12',
         },
       },
     },
     defaultVariants: {
       size: 'base',
     },
-  }, `${prefix}-goto`,
+  },
+  `${prefix}-goto`,
 )
 export type PaginationGotoVariants = VariantProps<typeof tvPaginationGoto>
 
@@ -78,22 +87,31 @@ export const tvPaginationPageSize = tv(
     slots: {
       root: 'flex items-center gap-2',
       control: '',
-      trigger: 'min-w-0',
-      value: '',
+      trigger: ['min-w-0', 'justify-center'],
+      value: 'text-center',
       content: '',
       item: '',
     },
     variants: {
       size: {
-        xs: '',
-        sm: '',
-        base: '',
-        lg: '',
+        xs: {
+          trigger: 'text-xs',
+        },
+        sm: {
+          trigger: 'text-sm',
+        },
+        base: {
+          trigger: 'text-base',
+        },
+        lg: {
+          trigger: 'text-lg',
+        },
       },
     },
     defaultVariants: {
       size: 'base',
     },
-  }, `${prefix}-page-size`,
+  },
+  `${prefix}-page-size`,
 )
 export type PaginationPageSizeVariants = VariantProps<typeof tvPaginationPageSize>

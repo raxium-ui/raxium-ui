@@ -39,8 +39,8 @@ const crafts = useCraft(theme, 'tvPaginationPageSize')
   >
     <slot name="prefix" />
     <Select
-      v-bind="theme"
       v-model="modelValue"
+      :theme="theme"
       :collection="collection"
       :class="crafts.control(cxc(ui?.control))"
     >
@@ -49,6 +49,7 @@ const crafts = useCraft(theme, 'tvPaginationPageSize')
           :class="crafts.value(cxc(ui?.value))"
           :placeholder="placeholder ?? 'Page size'"
         />
+        <SelectIndicator />
       </SelectTrigger>
       <SelectContent :class="crafts.content(cxc(ui?.content))">
         <SelectItem

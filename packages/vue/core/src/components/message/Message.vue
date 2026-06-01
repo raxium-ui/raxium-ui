@@ -132,7 +132,7 @@ const iconVNode = computed(() => {
             v-if="messageContext.type !== 'loading'"
             :class="crafts.close(cxc(ui?.close))"
           >
-            <X class="size-[1lh]" />
+            <X />
           </Toast.CloseTrigger>
         </slot>
       </slot>
