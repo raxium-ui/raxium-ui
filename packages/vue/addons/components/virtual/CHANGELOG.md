@@ -1,5 +1,11 @@
 # @raxium/vue-addons-virtual
 
+## 0.1.6
+
+### Patch Changes
+
+- aa12ff1: - lucide 图标依赖从 `lucide-next` 更换为 `lucide/vue`。
+
 ## 0.1.5
 
 ### Patch Changes
