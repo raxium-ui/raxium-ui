@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.2.3
+
+### Patch Changes
+
+- 85a2ac0: FIX: Centralize Lucide icon sizing in tv crafts (`[&_svg]:size-*`) and align Pagination goto/page-size sizing with theme scale.
+
 ## 0.2.2
 
 ### Patch Changes
