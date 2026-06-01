@@ -2,7 +2,7 @@
 import type { TooltipContentProps } from '.'
 import { Tooltip } from '@ark-ui/vue/tooltip'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx, cxc } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme, useProvideStructuralComponentTheme, useThemeAttrs } from '@raxium/vue/composables'
 import {
   checkContextVNodePosition,

@@ -2,7 +2,7 @@
 import type { MenuContentProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx, cxc } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import {
   useCraft,
   useInheritedTheme,

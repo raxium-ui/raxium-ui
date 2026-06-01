@@ -2,7 +2,7 @@
 import type { PopoverContentProps } from '.'
 import { Popover } from '@ark-ui/vue/popover'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { clsx, cxc } from '@raxium/themes/utils'
+import { cxc } from '@raxium/themes/utils'
 import {
   useCraft,
   useInheritedTheme,
