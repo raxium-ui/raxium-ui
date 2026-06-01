@@ -34,8 +34,8 @@ const themeAttrs = useThemeAttrs(theme)
 
 <template>
   <Menu.Positioner
-    class="z-[var(--z-dropdown, --z-index)]"
     :class="[ui?.positioner]"
+    :style="{ zIndex: 'var(--z-dropdown, --z-index)' }"
   >
     <Menu.Content
       v-bind="{ ...forwarded, ...themeAttrs }"
