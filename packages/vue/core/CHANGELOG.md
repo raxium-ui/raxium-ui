@@ -1,5 +1,14 @@
 # @raxium/vue
 
+## 0.3.5
+
+### Patch Changes
+
+- 85a2ac0: FIX: Centralize Lucide icon sizing in tv crafts (`[&_svg]:size-*`) and align Pagination goto/page-size sizing with theme scale.
+- a594654: 升级依赖：更新 ark-ui 和 zagjs 至新版本，提升兼容性与功能完善。
+- Updated dependencies [85a2ac0]
+  - @raxium/themes@0.2.3
+
 ## 0.3.4
 
 ### Patch Changes
