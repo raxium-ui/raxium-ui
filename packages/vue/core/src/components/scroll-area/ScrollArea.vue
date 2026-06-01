@@ -47,44 +47,46 @@ useForwardExpose()
   <ScrollArea.RootProvider
     :value="scrollArea"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <ScrollArea.Viewport
-        ref="viewport"
-        :class="crafts.viewport(cxc(ui?.viewport))"
-        @scrollstart="emits('scrollstart', $event)"
-        @scrollend="emits('scrollend', $event)"
-        @scroll="emits('scroll', $event)"
-      >
-        <ScrollArea.Content
-          ref="content"
-          :class="crafts.content(cxc(ui?.content))"
-        >
-          <component
-            :is="node"
-            v-for="node in otherNodes"
-            :key="node.key"
-          />
-        </ScrollArea.Content>
-      </ScrollArea.Viewport>
-      <template
-        v-for="(node, index) in scrollbarNodes"
-        :key="node.key ?? index"
+  >
+    <ScrollArea.Viewport
+      ref="viewport"
+      :class="crafts.viewport(cxc(ui?.viewport))"
+      @scrollstart="emits('scrollstart', $event)"
+      @scrollend="emits('scrollend', $event)"
+      @scroll="emits('scroll', $event)"
+    >
+      <ScrollArea.Content
+        ref="content"
+        :class="crafts.content(cxc(ui?.content))"
       >
         <component
           :is="node"
-          v-if="
-            isShowScrollbars.vertical
-              && (node.props?.orientation === 'vertical' || !node.props?.orientation)
-          "
+          v-for="node in otherNodes"
+          :key="node.key"
         />
-        <component
-          :is="node"
-          v-if="isShowScrollbars.horizontal && node.props?.orientation === 'horizontal'"
-          :data-test="node.props?.orientation"
-        />
-      </template>
+      </ScrollArea.Content>
+    </ScrollArea.Viewport>
+    <template
+      v-for="(node, index) in scrollbarNodes"
+      :key="node.key ?? index"
+    >
       <component
         :is="node"
-        v-for="node in cornerNodes"
-        :key="node.key"
-      />  </ScrollArea.RootProvider>
+        v-if="
+          isShowScrollbars.vertical
+            && (node.props?.orientation === 'vertical' || !node.props?.orientation)
+        "
+      />
+      <component
+        :is="node"
+        v-if="isShowScrollbars.horizontal && node.props?.orientation === 'horizontal'"
+        :data-test="node.props?.orientation"
+      />
+    </template>
+    <component
+      :is="node"
+      v-for="node in cornerNodes"
+      :key="node.key"
+    />
+  </ScrollArea.RootProvider>
 </template>

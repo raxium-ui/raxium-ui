@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TagsInput as ArkTagsInput } from '@ark-ui/vue/tags-input'
-import { X } from 'lucide-vue-next'
+import { X } from '@lucide/vue'
 import { ref } from 'vue'
 import { Button } from '../../button'
 import { TagsInput, TagsInputItem } from '../index'

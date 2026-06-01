@@ -2,9 +2,9 @@
 import type { SelectTriggerProps } from '.'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { ChevronDown, CircleX } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { ChevronDown, CircleX } from 'lucide-vue-next'
 
 const {
   class: propsClass,

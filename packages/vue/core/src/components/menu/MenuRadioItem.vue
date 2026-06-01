@@ -4,9 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { MenuRadioItemProps } from '.'
 import { Menu } from '@ark-ui/vue/menu'
 import { useForwardProps } from '@ark-ui/vue/utils'
-import { cxc, cn } from '@raxium/themes/utils'
+import { Check, Circle } from '@lucide/vue'
+import { cn, cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { Check, Circle } from 'lucide-vue-next'
 
 const {
   class: propsClass,

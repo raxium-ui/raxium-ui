@@ -22,4 +22,3 @@ const page = ref(3)
     </div>
   </div>
 </template>
-

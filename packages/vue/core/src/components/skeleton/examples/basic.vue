@@ -9,4 +9,3 @@ import { Skeleton } from '../index'
     <Skeleton class="h-4 w-64" />
   </div>
 </template>
-

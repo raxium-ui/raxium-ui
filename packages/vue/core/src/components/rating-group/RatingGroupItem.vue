@@ -2,9 +2,9 @@
 import type { RatingGroupItemProps } from '.'
 import { RatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { Star } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { Star } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<RatingGroupItemProps>()

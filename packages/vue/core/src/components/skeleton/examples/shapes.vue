@@ -19,4 +19,3 @@ import { Skeleton } from '../index'
     </div>
   </div>
 </template>
-

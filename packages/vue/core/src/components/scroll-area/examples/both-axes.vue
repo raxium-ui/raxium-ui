@@ -12,4 +12,3 @@ import { ScrollArea, ScrollAreaCorner, ScrollAreaScrollbar } from '../index'
     <ScrollAreaCorner />
   </ScrollArea>
 </template>
-

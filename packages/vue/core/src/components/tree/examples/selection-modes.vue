@@ -63,10 +63,10 @@ const selectedMultiple = ref<string[]>(['getting-started', 'api'])
           selectionMode=single
         </div>
         <Tree
-          :collection="collection"
-          selection-mode="single"
           v-model:expanded-value="expanded1"
           v-model:selected-value="selectedSingle"
+          :collection="collection"
+          selection-mode="single"
         >
           <TreeNode
             v-for="(node, index) in rootNode.children"
@@ -82,10 +82,10 @@ const selectedMultiple = ref<string[]>(['getting-started', 'api'])
           selectionMode=multiple
         </div>
         <Tree
-          :collection="collection"
-          selection-mode="multiple"
           v-model:expanded-value="expanded2"
           v-model:selected-value="selectedMultiple"
+          :collection="collection"
+          selection-mode="multiple"
         >
           <TreeNode
             v-for="(node, index) in rootNode.children"
@@ -98,4 +98,3 @@ const selectedMultiple = ref<string[]>(['getting-started', 'api'])
     </div>
   </div>
 </template>
-

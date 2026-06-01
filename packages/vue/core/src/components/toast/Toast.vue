@@ -4,9 +4,9 @@ import type { ToastProps, UseToastContext } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Toast, useToastContext } from '@ark-ui/vue/toast'
+import { CircleAlert, CircleCheck, CircleX, Info, LoaderCircle, X } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { CircleAlert, CircleCheck, CircleX, Info, LoaderCircle, X } from 'lucide-vue-next'
 import { computed, h } from 'vue'
 
 const { class: propsClass, theme: propsTheme, options, ui, ...props } = defineProps<ToastProps>()

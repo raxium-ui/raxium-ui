@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { InputProps } from '.'
+import { CircleX } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { CircleX } from 'lucide-vue-next'
 import { computed, ref, useId, useTemplateRef, watch } from 'vue'
 
 const {

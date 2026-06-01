@@ -13,4 +13,3 @@ const hotkey = ref('')
     </div>
   </div>
 </template>
-

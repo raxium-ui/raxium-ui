@@ -25,6 +25,8 @@ useForwardExpose()
   <RadioGroup.RootProvider
     :value="radioGroup"
     :class="crafts.root(cxc(propsClass))"
-  >      <slot name="label" />
-      <slot />  </RadioGroup.RootProvider>
+  >
+    <slot name="label" />
+    <slot />
+  </RadioGroup.RootProvider>
 </template>

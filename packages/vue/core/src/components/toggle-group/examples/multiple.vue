@@ -24,4 +24,3 @@ const value = ref<string[]>(['b'])
     </ToggleGroup>
   </div>
 </template>
-

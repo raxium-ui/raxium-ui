@@ -20,4 +20,3 @@ const value = ref<number>(2.5)
     </div>
   </div>
 </template>
-

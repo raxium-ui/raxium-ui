@@ -29,4 +29,3 @@ import { RatingGroup, RatingGroupItem } from '../index'
     </div>
   </div>
 </template>
-

@@ -13,7 +13,12 @@ function openCustomDescription() {
         <div class="flex flex-col gap-1">
           <div class="text-sm text-gray-ff">Custom description</div>
           <div class="text-xs opacity-75">
-            type: {ctx.type}, placement: {ctx.placement}
+            type:
+            {' '}
+            {ctx.type}
+            , placement:
+            {' '}
+            {ctx.placement}
           </div>
         </div>
       )
@@ -29,7 +34,9 @@ function openRender() {
       return (
         <div class="flex items-center gap-3">
           <div class="text-sm text-gray-ff">
-            Fully custom render ({ctx.type})
+            Fully custom render (
+            {ctx.type}
+            )
           </div>
           <MessageCloseTrigger>
             <button class="text-xs text-rz-green">Close</button>
@@ -51,4 +58,3 @@ function openRender() {
     </Button>
   </div>
 </template>
-

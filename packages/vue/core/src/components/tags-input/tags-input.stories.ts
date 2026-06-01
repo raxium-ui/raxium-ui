@@ -125,4 +125,3 @@ export const Programmatic = {
     template: '<Component />',
   }),
 }
-

@@ -36,4 +36,3 @@ const totalPages = computed(() => Math.max(1, Math.ceil(total / pageSize.value))
     </div>
   </div>
 </template>
-

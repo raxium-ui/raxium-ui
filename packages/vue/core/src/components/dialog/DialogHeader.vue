@@ -2,10 +2,10 @@
 import type { DialogHeaderProps } from '.'
 import { Dialog } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
+import { X } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { X } from 'lucide-vue-next'
 import { useId } from 'vue'
 import { DialogCloseTrigger } from '.'
 

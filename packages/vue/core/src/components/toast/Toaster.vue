@@ -2,8 +2,8 @@
 import type { CreateToasterProps } from '@ark-ui/vue/toast'
 import type { ToasterProps, ToastOptions } from '.'
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
-import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { useTheme } from '@raxium/vue/composables/useTheme'
 
 const { toasterId, theme: propsTheme, ...props } = defineProps<ToasterProps>()
 // slots
@@ -28,5 +28,7 @@ defineExpose({
   <Toaster
     v-slot="toast"
     :toaster="toaster"
-  >      <slot :toast="toast" />  </Toaster>
+  >
+    <slot :toast="toast" />
+  </Toaster>
 </template>

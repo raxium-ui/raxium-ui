@@ -12,4 +12,3 @@ const normal = ref('Ctrl + Shift + K')
     <Hotkey hotkey="Ctrl + Shift + P" class="w-80" readonly />
   </div>
 </template>
-

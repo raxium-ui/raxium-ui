@@ -33,4 +33,3 @@ const value = ref(35)
     </Progress>
   </div>
 </template>
-

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ProgressCircleProps } from '.'
 import type { ThemeProps } from '@raxium/vue/providers/theme'
+import type { ProgressCircleProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Progress } from '@ark-ui/vue/progress'
 import { cxc } from '@raxium/themes/utils'

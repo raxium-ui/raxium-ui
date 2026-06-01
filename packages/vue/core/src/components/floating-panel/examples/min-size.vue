@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Button } from '../../button'
 import {
   FloatingPanel,
@@ -7,7 +8,6 @@ import {
   FloatingPanelHeader,
   FloatingPanelTrigger,
 } from '../index'
-import { ref } from 'vue'
 
 const minSize = ref({ width: 360, height: 240 })
 </script>

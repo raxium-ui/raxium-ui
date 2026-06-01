@@ -36,9 +36,11 @@ provideTreeContext({
   <TreeView.RootProvider
     :value="treeView"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <slot name="prefix" />
-      <TreeView.Tree :class="crafts.tree(cxc(ui?.tree))">
-        <slot />
-      </TreeView.Tree>
-      <slot name="suffix" />  </TreeView.RootProvider>
+  >
+    <slot name="prefix" />
+    <TreeView.Tree :class="crafts.tree(cxc(ui?.tree))">
+      <slot />
+    </TreeView.Tree>
+    <slot name="suffix" />
+  </TreeView.RootProvider>
 </template>

@@ -1,9 +1,9 @@
 import type { Meta } from 'storybook-vue3-rsbuild'
 
-import BasicExample from './examples/basic.vue'
-import BasicExampleRaw from './examples/basic.vue?raw'
 import AllowHalfExample from './examples/allow-half.vue'
 import AllowHalfExampleRaw from './examples/allow-half.vue?raw'
+import BasicExample from './examples/basic.vue'
+import BasicExampleRaw from './examples/basic.vue?raw'
 import EventsExample from './examples/events.vue'
 import EventsExampleRaw from './examples/events.vue?raw'
 import ProgrammaticExample from './examples/programmatic.vue'
@@ -108,4 +108,3 @@ export const Programmatic = {
     template: '<Component />',
   }),
 }
-

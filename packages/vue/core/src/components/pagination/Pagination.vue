@@ -4,10 +4,10 @@ import type { PaginationProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 const {

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { FloatingPanelCloseTriggerProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
+import { X } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { X } from 'lucide-vue-next'
 
 const {
   class: propsClass,

@@ -57,4 +57,3 @@ export const ColorAndClass = {
     template: '<Component />',
   }),
 }
-

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { PopoverIndicatorProps } from '.'
 import { PopoverIndicator } from '@ark-ui/vue'
+import { ChevronDown } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { ChevronDown } from 'lucide-vue-next'
 
 const {
   class: propsClass,

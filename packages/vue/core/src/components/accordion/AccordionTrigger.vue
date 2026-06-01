@@ -2,10 +2,10 @@
 import type { AccordionTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Accordion, useAccordionItemContext } from '@ark-ui/vue/accordion'
+import { ChevronDown } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { ChevronDown } from 'lucide-vue-next'
 
 const {
   class: propsClass,

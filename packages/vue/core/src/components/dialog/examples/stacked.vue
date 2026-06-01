@@ -28,7 +28,9 @@ import {
         <!-- Dialog 2 ── layer-index: 1 → backdrop z-902 / positioner z-903 -->
         <Dialog lazy-mount unmount-on-exit>
           <DialogTrigger as-child>
-            <Button variant="outlined">打开 Dialog 2</Button>
+            <Button variant="outlined">
+              打开 Dialog 2
+            </Button>
           </DialogTrigger>
           <DialogContent class="w-96">
             <DialogHeader>
@@ -44,7 +46,9 @@ import {
               <!-- Dialog 3 ── layer-index: 2 → backdrop z-904 / positioner z-905 -->
               <Dialog lazy-mount unmount-on-exit>
                 <DialogTrigger as-child>
-                  <Button variant="text" size="sm">打开 Dialog 3</Button>
+                  <Button variant="text" size="sm">
+                    打开 Dialog 3
+                  </Button>
                 </DialogTrigger>
                 <DialogContent class="w-80">
                   <DialogHeader>

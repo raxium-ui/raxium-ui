@@ -4,9 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { RadioGroupItemProps } from '.'
 import { RadioGroup } from '@ark-ui/vue/radio-group'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { Check, Circle } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { Check, Circle } from 'lucide-vue-next'
 
 const {
   class: propsClass,

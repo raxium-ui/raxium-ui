@@ -4,9 +4,9 @@ import type { UnwrapRef } from 'vue'
 import type { MenuCheckboxItemProps } from '.'
 import { Menu, MenuItemIndicator } from '@ark-ui/vue/menu'
 import { useForwardPropsEmits } from '@ark-ui/vue/utils'
+import { Check } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { Check } from 'lucide-vue-next'
 
 const { class: propsClass, theme: propsTheme, ui, ...props } = defineProps<MenuCheckboxItemProps>()
 const emit = defineEmits<MenuCheckboxItemEmits>()

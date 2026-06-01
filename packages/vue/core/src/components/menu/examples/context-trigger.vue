@@ -35,4 +35,3 @@ const selected = ref<string | undefined>(undefined)
     </Menu>
   </div>
 </template>
-

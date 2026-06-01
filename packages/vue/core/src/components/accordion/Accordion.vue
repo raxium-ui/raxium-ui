@@ -24,5 +24,7 @@ useForwardExpose()
   <Accordion.RootProvider
     :value="accordion"
     :class="crafts.root(cxc(propsClass))"
-  >      <slot v-bind="accordion" />  </Accordion.RootProvider>
+  >
+    <slot v-bind="accordion" />
+  </Accordion.RootProvider>
 </template>

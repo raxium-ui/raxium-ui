@@ -6,8 +6,8 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { findUp } from '@raxium/shared/dom'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
-import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
 
 type SlotProps = {
@@ -78,15 +78,17 @@ useForwardExpose()
   <EditableRootProvider
     :value="editable"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <slot
-        name="prefix"
-        v-bind="slotProps"
-      />
-      <EditableArea :class="crafts.area(cxc(ui?.area, propsClass))">
-        <slot v-bind="slotProps" />
-      </EditableArea>
-      <slot
-        name="suffix"
-        v-bind="slotProps"
-      />  </EditableRootProvider>
+  >
+    <slot
+      name="prefix"
+      v-bind="slotProps"
+    />
+    <EditableArea :class="crafts.area(cxc(ui?.area, propsClass))">
+      <slot v-bind="slotProps" />
+    </EditableArea>
+    <slot
+      name="suffix"
+      v-bind="slotProps"
+    />
+  </EditableRootProvider>
 </template>

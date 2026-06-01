@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Check, Pencil, X } from 'lucide-vue-next'
+import { Check, Pencil, X } from '@lucide/vue'
 import { Button } from '../../button'
 import {
   Editable,

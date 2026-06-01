@@ -91,4 +91,3 @@ export const CustomSlots = {
     template: '<Component />',
   }),
 }
-

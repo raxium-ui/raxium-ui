@@ -14,4 +14,3 @@ import { Spin, SpinProvider } from '../index'
     </div>
   </SpinProvider>
 </template>
-

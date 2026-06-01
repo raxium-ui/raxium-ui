@@ -1,9 +1,9 @@
 import type { SlotsType, VNode } from 'vue'
 import type { SpinRenderProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
+import { LoaderCircle } from '@lucide/vue'
 import { clsx } from '@raxium/themes/utils'
 import { isEmptyVNode } from '@raxium/vue/utils'
-import { LoaderCircle } from 'lucide-vue-next'
 import { computed, defineComponent, provide } from 'vue'
 
 /**

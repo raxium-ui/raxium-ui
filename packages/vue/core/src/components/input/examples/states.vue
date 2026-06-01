@@ -9,4 +9,3 @@ import { Input } from '../index'
     <Input class="w-60" placeholder="Readonly" readonly default-value="1234567890" :maxlength="10" />
   </div>
 </template>
-

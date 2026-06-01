@@ -12,4 +12,3 @@ import { Toggle } from '../index'
     </ToggleContext>
   </Toggle>
 </template>
-

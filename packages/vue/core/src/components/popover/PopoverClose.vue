@@ -2,9 +2,9 @@
 import type { PopoverCloseProps } from '.'
 import { ark } from '@ark-ui/vue/factory'
 import { PopoverCloseTrigger } from '@ark-ui/vue/popover'
+import { X } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme, useThemeAttrs } from '@raxium/vue/composables'
-import { X } from 'lucide-vue-next'
 
 const {
   class: propsClass,

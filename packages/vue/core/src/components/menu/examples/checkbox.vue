@@ -38,4 +38,3 @@ function toggle(value: string, isChecked: boolean) {
     </Menu>
   </div>
 </template>
-

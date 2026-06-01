@@ -108,4 +108,3 @@ export const Controlled = {
     template: '<Component />',
   }),
 }
-

@@ -2,10 +2,10 @@
 import type { FloatingPanelPinTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
+import { Pin, PinOff } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { Pin, PinOff } from 'lucide-vue-next'
 import { injectFloatingPanelAppearanceContext } from './floating-panel-appearance-context'
 
 const {

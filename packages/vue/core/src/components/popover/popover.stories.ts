@@ -91,4 +91,3 @@ export const ControlledOpen = {
     template: '<Component />',
   }),
 }
-

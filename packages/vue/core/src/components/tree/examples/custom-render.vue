@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TreeCollection } from '@ark-ui/vue/tree-view'
 import { createTreeCollection } from '@ark-ui/vue/tree-view'
-import { FileCode, FileText, Folder } from 'lucide-vue-next'
+import { FileCode, FileText, Folder } from '@lucide/vue'
 import { computed, h, ref } from 'vue'
 import { Icon } from '../../icon'
 import { Tree, TreeCheckboxNode, TreeNode } from '../index'

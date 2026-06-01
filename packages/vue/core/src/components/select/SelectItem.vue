@@ -2,9 +2,9 @@
 import type { SelectItemProps } from '.'
 import { Select } from '@ark-ui/vue/select'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { Check } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
-import { Check } from 'lucide-vue-next'
 
 const { class: propsClass, theme: propsTheme, ...props } = defineProps<SelectItemProps>()
 const forwarded = useForwardProps(props)

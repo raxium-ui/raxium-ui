@@ -38,4 +38,3 @@ const normal = ref('10')
     </div>
   </div>
 </template>
-

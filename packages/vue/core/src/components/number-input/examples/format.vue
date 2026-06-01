@@ -39,4 +39,3 @@ const percent = ref('0.25')
     </div>
   </div>
 </template>
-

@@ -26,4 +26,3 @@ const value = ref<string[]>(['Vue', 'React'])
     </div>
   </div>
 </template>
-

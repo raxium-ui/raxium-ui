@@ -28,5 +28,7 @@ useForwardExpose()
   <Progress.RootProvider
     :value="progress"
     :class="crafts.root(cxc(propsClass))"
-  >      <slot />  </Progress.RootProvider>
+  >
+    <slot />
+  </Progress.RootProvider>
 </template>

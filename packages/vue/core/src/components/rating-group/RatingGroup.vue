@@ -25,9 +25,11 @@ useForwardExpose()
   <RatingGroup.RootProvider
     :value="ratingGroup"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <slot name="prefix" />
-      <RatingGroup.Control :class="crafts.control(cxc(ui?.control))">
-        <slot :items="ratingGroup.items" />
-      </RatingGroup.Control>
-      <slot name="suffix" />  </RatingGroup.RootProvider>
+  >
+    <slot name="prefix" />
+    <RatingGroup.Control :class="crafts.control(cxc(ui?.control))">
+      <slot :items="ratingGroup.items" />
+    </RatingGroup.Control>
+    <slot name="suffix" />
+  </RatingGroup.RootProvider>
 </template>

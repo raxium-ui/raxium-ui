@@ -15,4 +15,3 @@ import { ToggleGroup, ToggleGroupItem } from '../index'
     </ToggleGroupItem>
   </ToggleGroup>
 </template>
-

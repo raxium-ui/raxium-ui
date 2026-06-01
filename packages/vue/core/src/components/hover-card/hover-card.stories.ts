@@ -91,4 +91,3 @@ export const CustomContent = {
     template: '<Component />',
   }),
 }
-

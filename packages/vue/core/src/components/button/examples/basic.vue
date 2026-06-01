@@ -7,4 +7,3 @@ import { Button } from '../index'
     Default
   </Button>
 </template>
-

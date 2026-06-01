@@ -17,4 +17,3 @@ const value = ref('Editable text')
     </Editable>
   </div>
 </template>
-

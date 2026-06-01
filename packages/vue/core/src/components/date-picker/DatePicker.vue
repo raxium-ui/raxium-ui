@@ -3,8 +3,8 @@ import type { UseDatePickerProps } from '@ark-ui/vue'
 import type { DatePickerProps, DatePickerRootEmits } from '.'
 import { DatePicker, useDatePicker, useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { useTheme } from '@raxium/vue/composables/useTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -49,5 +49,7 @@ useForwardExpose()
     :value="datePicker"
     :lazy-mount="datePickerOptions?.lazyMount"
     :unmount-on-exit="datePickerOptions?.unmountOnExit"
-  >      <slot />  </DatePicker.RootProvider>
+  >
+    <slot />
+  </DatePicker.RootProvider>
 </template>

@@ -34,4 +34,3 @@ const joined = computed(() => (lines.value.length ? lines.value.join('\n') : 'ï¼
     <pre class="w-full max-w-[520px] whitespace-pre-wrap rounded-md bg-gray-0c p-3 text-xs text-gray-cc">{{ joined }}</pre>
   </div>
 </template>
-

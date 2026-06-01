@@ -16,4 +16,3 @@ const page = ref(1)
     </div>
   </div>
 </template>
-

@@ -6,8 +6,8 @@ import type { PopoverProps } from '.'
 import { Popover, usePopover } from '@ark-ui/vue/popover'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
-import { useTheme } from '@raxium/vue/composables/useTheme'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { useTheme } from '@raxium/vue/composables/useTheme'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -46,5 +46,7 @@ useForwardExpose()
     :value="popover"
     :lazy-mount="popoverConfig?.lazyMount"
     :unmount-on-exit="popoverConfig?.unmountOnExit"
-  >      <slot />  </Popover.RootProvider>
+  >
+    <slot />
+  </Popover.RootProvider>
 </template>

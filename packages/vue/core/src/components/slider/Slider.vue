@@ -38,27 +38,29 @@ useForwardExpose()
     :class="
       crafts.root(cxc(ui?.root, propsClass))
     "
-  >      <SliderBoundaryProvider :boundary="controlEl">
-        <slot name="prefix" />
-        <Slider.Control
-          ref="control"
+  >
+    <SliderBoundaryProvider :boundary="controlEl">
+      <slot name="prefix" />
+      <Slider.Control
+        ref="control"
+        :class="
+          crafts.control(cxc(ui?.control))
+        "
+      >
+        <Slider.Track
           :class="
-            crafts.control(cxc(ui?.control))
+            crafts.track(cxc(ui?.track))
           "
         >
-          <Slider.Track
+          <Slider.Range
             :class="
-              crafts.track(cxc(ui?.track))
+              crafts.range(cxc(ui?.range))
             "
-          >
-            <Slider.Range
-              :class="
-                crafts.range(cxc(ui?.range))
-              "
-            />
-          </Slider.Track>
-          <slot />
-        </Slider.Control>
-        <slot name="suffix" />
-      </SliderBoundaryProvider>  </Slider.RootProvider>
+          />
+        </Slider.Track>
+        <slot />
+      </Slider.Control>
+      <slot name="suffix" />
+    </SliderBoundaryProvider>
+  </Slider.RootProvider>
 </template>

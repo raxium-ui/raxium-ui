@@ -2,12 +2,12 @@
 import type { ButtonProps } from '.'
 import { useForwardExpose } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
+import { LoaderCircle } from '@lucide/vue'
 import { getNodeCssVar } from '@raxium/shared/css'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables/useCraft'
 import { useRipple } from '@raxium/vue/composables/useRipple'
 import { useTheme } from '@raxium/vue/composables/useTheme'
-import { LoaderCircle } from 'lucide-vue-next'
 import { computed } from 'vue'
 
 const {

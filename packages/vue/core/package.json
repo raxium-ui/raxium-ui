@@ -60,7 +60,8 @@
   ],
   "scripts": {
     "build": "rslib build --tsconfig ./tsconfig.build.json && vue-tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "lint": "eslint src --fix"
   },
   "peerDependencies": {
     "@ark-ui/vue": "^5.35.0",
@@ -68,11 +69,11 @@
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
+    "@lucide/vue": "^1.17.0",
     "@raxium/shared": "workspace:*",
     "@raxium/themes": "workspace:*",
     "@vueuse/core": "^14.1.0",
     "es-toolkit": "^1.44.0",
-    "lucide-vue-next": "^1.0.0",
     "vue-component-type-helpers": "^3.2.1"
   },
   "devDependencies": {

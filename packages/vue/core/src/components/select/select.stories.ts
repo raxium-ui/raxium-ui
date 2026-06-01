@@ -91,4 +91,3 @@ export const ControlledOpenAndHighlight = {
     template: '<Component />',
   }),
 }
-

@@ -13,4 +13,3 @@ const checked = ref(false)
     <Switch v-model:checked="checked" />
   </div>
 </template>
-

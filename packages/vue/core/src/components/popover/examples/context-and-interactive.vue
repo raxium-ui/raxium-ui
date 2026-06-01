@@ -38,4 +38,3 @@ const toggle = ref(true)
     </PopoverContent>
   </Popover>
 </template>
-

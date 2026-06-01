@@ -33,4 +33,3 @@ function open(type: 'info' | 'success' | 'warning' | 'error' | 'loading') {
     </Button>
   </div>
 </template>
-

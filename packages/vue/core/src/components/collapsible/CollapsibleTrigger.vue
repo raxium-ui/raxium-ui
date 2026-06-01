@@ -2,10 +2,10 @@
 import type { CollapsibleTriggerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { Collapsible, useCollapsibleContext } from '@ark-ui/vue/collapsible'
+import { ChevronDown } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { ChevronDown } from 'lucide-vue-next'
 
 const {
   class: propsClass,

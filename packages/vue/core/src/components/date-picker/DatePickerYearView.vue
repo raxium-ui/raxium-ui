@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { DatePickerYearViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
+import { ChevronLeft, ChevronRight } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { flatten } from 'es-toolkit'
-import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 
 const { class: propsClass, theme: propsTheme } = defineProps<DatePickerYearViewProps>()
 const context = useDatePickerContext()

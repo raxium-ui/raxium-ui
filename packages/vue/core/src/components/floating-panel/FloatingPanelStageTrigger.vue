@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { FloatingPanelStageTriggerProps } from '.'
 import { FloatingPanel, useForwardProps } from '@ark-ui/vue'
+import { Minus, Square, SquareArrowOutDownLeft } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { Minus, Square, SquareArrowOutDownLeft } from 'lucide-vue-next'
 import { computed, h } from 'vue'
 
 const {

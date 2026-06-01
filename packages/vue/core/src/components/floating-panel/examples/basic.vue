@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PopoverContext, SliderValueText } from '@ark-ui/vue'
-import { Blend } from 'lucide-vue-next'
+import { Blend } from '@lucide/vue'
 import { Button } from '../../button'
 import { Popover, PopoverContent, PopoverTrigger } from '../../popover'
 import { Slider, SliderThumb } from '../../slider'

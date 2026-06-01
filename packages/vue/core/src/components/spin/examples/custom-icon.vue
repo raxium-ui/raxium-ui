@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CircleDashed } from 'lucide-vue-next'
+import { CircleDashed } from '@lucide/vue'
 import { Spin, SpinProvider } from '../index'
 </script>
 

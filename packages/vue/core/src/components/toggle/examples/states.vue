@@ -18,4 +18,3 @@ import { Toggle } from '../index'
     </Toggle>
   </div>
 </template>
-

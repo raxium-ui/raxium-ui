@@ -3,10 +3,10 @@ import type { EditableInputProps } from '.'
 import { Editable, useEditableContext } from '@ark-ui/vue/editable'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
+import { CircleX } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { CircleX } from 'lucide-vue-next'
 import { ref } from 'vue'
 
 const {

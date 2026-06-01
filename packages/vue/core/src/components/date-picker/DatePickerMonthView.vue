@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { DatePickerContentProvide, DatePickerMonthViewProps } from '.'
 import { DatePicker, useDatePickerContext } from '@ark-ui/vue'
+import { ChevronLeft, ChevronRight } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { computed, inject } from 'vue'
 import { DATE_PICKER_CONTENT_PROVIDE_KEY } from '.'
 

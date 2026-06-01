@@ -61,26 +61,27 @@ useForwardExpose()
   <TagsInput.RootProvider
     :value="tagsInput"
     :class="crafts.root(cxc(ui?.root, propsClass))"
-  >      <slot name="prefix" />
-      <TagsInput.Control :class="inputCrafts.root(cxc(crafts.control(), ui?.control))">
-        <ScrollArea
-          v-if="inline"
-          ref="scrollArea"
-          :class="crafts.scrollArea()"
-          :ui="{ content: crafts.scrollAreaContent() }"
-        >
-          <slot :items="tagsInput.value" />
-          <ScrollAreaScrollbar
-            orientation="horizontal"
-            :theme="{ size: theme.size === 'sm' ? 'xs' : 'sm' }"
-          />
-        </ScrollArea>
-        <slot
-          v-else
-          :items="tagsInput.value"
+  >
+    <slot name="prefix" />
+    <TagsInput.Control :class="inputCrafts.root(cxc(crafts.control(), ui?.control))">
+      <ScrollArea
+        v-if="inline"
+        ref="scrollArea"
+        :class="crafts.scrollArea()"
+        :ui="{ content: crafts.scrollAreaContent() }"
+      >
+        <slot :items="tagsInput.value" />
+        <ScrollAreaScrollbar
+          orientation="horizontal"
+          :theme="{ size: theme.size === 'sm' ? 'xs' : 'sm' }"
         />
-        <TagsInput.Input :class="inputCrafts.input(cxc(crafts.input(), ui?.input))" />
-      </TagsInput.Control>
-      <slot name="suffix" />    <TagsInput.HiddenInput />
+      </ScrollArea>
+      <slot
+        v-else
+        :items="tagsInput.value"
+      />
+      <TagsInput.Input :class="inputCrafts.input(cxc(crafts.input(), ui?.input))" />
+    </TagsInput.Control>
+    <slot name="suffix" />    <TagsInput.HiddenInput />
   </TagsInput.RootProvider>
 </template>
