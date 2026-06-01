@@ -10,7 +10,7 @@ export const tvMessage = tv(
       content: ['flex', 'items-center', 'rounded-md'],
       description: 'w-max',
       icon: 'size-[1lh]',
-      close: '[&_svg]:size-[1lh]',
+      close: '[&_svg]:size-[0.875lh]',
     },
     variants: {
       size: {
