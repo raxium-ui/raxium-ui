@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { NavigationEvents } from 'swiper/types'
 import type { SwiperNavigationProps } from '.'
+import { ChevronRight } from '@lucide/vue'
 import { cn, useForwardProps } from '@raxium/vue-addons-shared'
 import { merge } from 'es-toolkit/compat'
-import { ChevronRight } from 'lucide-vue-next'
 import { useSwiper } from 'swiper/vue'
 import { computed, useTemplateRef, watch } from 'vue'
 import { useRegistSwiperEmits, useSwiperModule, useSwiperToggleEnabled } from './utils'

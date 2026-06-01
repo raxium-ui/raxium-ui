@@ -36,10 +36,10 @@
     "vue": "^3.5.27"
   },
   "dependencies": {
+    "@lucide/vue": "^1.17.0",
     "@raxium/vue-addons-shared": "workspace:*",
     "@tanstack/vue-virtual": "^3.13.19",
-    "es-toolkit": "^1.44.0",
-    "lucide-vue-next": "^1.0.0"
+    "es-toolkit": "^1.44.0"
   },
   "devDependencies": {
     "@rsbuild/plugin-babel": "^1.0.6",

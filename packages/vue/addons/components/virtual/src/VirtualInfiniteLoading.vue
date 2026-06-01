@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { HTMLAttributes } from 'vue'
 import type { LoadingStateHandler } from '.'
+import { LoaderCircle } from '@lucide/vue'
 import { cn, useForwardExpose } from '@raxium/vue-addons-shared'
-import { LoaderCircle } from 'lucide-vue-next'
 import { onMounted, onUnmounted, shallowRef } from 'vue'
 import { injectVirtualContext, LOADING_STATE } from '.'
 
