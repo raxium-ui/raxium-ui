@@ -1,5 +1,14 @@
 # @raxium/vue
 
+## 0.3.6
+
+### Patch Changes
+
+- 7d28fb0: - 修复 MenuContent 组件内容区域样式与结构逻辑，提升与 TooltipContent 结构一致性
+- 59d338a: - 将 `lucide-next` 替换为 `@lucide/vue` 作为图标库依赖，提高兼容性与一致性。
+- Updated dependencies [a2a0a9a]
+  - @raxium/themes@0.2.4
+
 ## 0.3.5
 
 ### Patch Changes
