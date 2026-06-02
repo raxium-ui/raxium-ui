@@ -22,13 +22,17 @@ import type {
 // types
 export type DialogOpenChangeDetails = OpenChangeDetails & { from: DialogTriggerFrom }
 
-/** 关闭前钩子：调用 `done()` 后才会完成关闭（与 Ark 的 `onOpenChange` 透传可同时使用，关闭流程会先经过此处） */
+/** 关闭前钩子：调用 `done()` 后才会完成关闭；调用 `resume()` 可取消本次拦截并允许再次触发 beforeClose */
 export type DialogBeforeCloseHandler = ({
   from,
   done,
+  resume,
 }: {
   from: DialogTriggerFrom
+  /** `autoClose === false` 时等价于 `resume()` */
   done: (autoClose?: boolean) => void
+  /** 取消本次关闭拦截，Dialog 保持打开，之后可再次进入 beforeClose */
+  resume: () => void
 }) => void
 
 export interface DialogProps extends DialogRootBaseProps, ThemeCrafts<'tvDialog'> {

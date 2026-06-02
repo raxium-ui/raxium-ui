@@ -51,8 +51,8 @@ contracts:
       typeText: boolean
       description: 关闭后卸载内容
     - name: beforeClose
-      typeText: '(done: () => void) => void'
-      description: 关闭前回调；在回调内调用 done() 后才会真正关闭
+      typeText: '({ from, done, resume }) => void'
+      description: 关闭前回调；调用 done() 后才会真正关闭；调用 resume() 取消本次拦截并保持打开，之后可再次触发 beforeClose
     - name: class
       typeText: string | array | object
       description: 根节点自定义 class

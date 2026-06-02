@@ -66,14 +66,15 @@ const dialog = useDialog(
         dialog.value.setOpen(true)
         beforeClose({
           from: triggerFrom.value,
+          resume: resumeBeforeClose,
           done: (autoClose = true) => {
             if (!beforeClosePending.value)
               return
-            beforeClosePending.value = false
             if (!autoClose) {
-              bypassBeforeClose.value = false
+              resumeBeforeClose()
               return
             }
+            beforeClosePending.value = false
             bypassBeforeClose.value = true
             dialog.value.setOpen(false)
             nextTick(() => {
@@ -110,6 +111,14 @@ const dialog = useDialog(
   })),
 )
 
+function resumeBeforeClose() {
+  if (!beforeClosePending.value)
+    return
+  beforeClosePending.value = false
+  bypassBeforeClose.value = false
+  dialog.value.setOpen(true)
+}
+
 // theme
 const theme = useTheme(
   () => propsTheme,
@@ -119,7 +128,11 @@ const theme = useTheme(
 useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
-defineExpose({ $api: dialog as UseDialogReturn })
+const dialogApi = computed(() => ({
+  ...dialog.value,
+  resumeBeforeClose,
+}))
+defineExpose({ $api: dialogApi as UseDialogReturn })
 useForwardExpose()
 </script>
 

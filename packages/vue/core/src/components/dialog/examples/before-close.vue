@@ -14,6 +14,8 @@ import {
 
 const openSync = ref(false)
 const openAsync = ref(false)
+const openResume = ref(false)
+const resumeHandler = ref<(() => void) | null>(null)
 const log = ref<string[]>([])
 
 function push(msg: string) {
@@ -82,6 +84,48 @@ async function handleBeforeClose({ from, done }: { from: DialogTriggerFrom, done
             <p class="text-sm text-gray-cc">
               点击OK后约 2000ms 后调用 <code class="text-gray-ff">done()</code> 才真正关闭。
             </p>
+          </DialogBody>
+          <DialogFooter />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        v-model:open="openResume"
+        lazy-mount
+        unmount-on-exit
+        :before-close="
+          ({ from, done, resume }) => {
+            push(`beforeClose (resume) from=${from ?? 'unknown'}`)
+            resumeHandler = resume
+          }
+        "
+      >
+        <DialogTrigger as-child>
+          <Button variant="outlined">
+            beforeClose resume
+          </Button>
+        </DialogTrigger>
+        <DialogContent class="w-120">
+          <DialogHeader>resume 取消拦截</DialogHeader>
+          <DialogBody>
+            <p class="text-sm text-gray-cc">
+              尝试关闭（Esc / 遮罩 / Cancel）会进入 beforeClose 且不自动 done。点击「继续编辑」调用
+              <code class="text-gray-ff">resume()</code> 后可再次触发 beforeClose。
+            </p>
+            <Button
+              v-if="resumeHandler"
+              class="mt-3"
+              variant="outlined"
+              @click="
+                () => {
+                  resumeHandler?.()
+                  resumeHandler = null
+                  push('resume()')
+                }
+              "
+            >
+              继续编辑
+            </Button>
           </DialogBody>
           <DialogFooter />
         </DialogContent>
