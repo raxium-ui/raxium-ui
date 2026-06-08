@@ -372,6 +372,7 @@ export default defineComponent({
                               keyMap={uKeyMap}
                               renderIcon={props.renderIcon}
                               renderName={props.renderName}
+                              ui={ui.value}
                             />
                           )
                         })}
