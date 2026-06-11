@@ -77,5 +77,5 @@ export const POPOVER_CONTENT_BASE = [
 export const POPOVER_CONTENT_INNER_BASE = [
   'relative',
   'rounded-(--border-radius)',
-  'z-10',
+  'z-base',
 ] as const

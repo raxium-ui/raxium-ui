@@ -28,7 +28,7 @@ export const tvSpin = tv(
     variants: {
       mode: {
         fullscreen: {
-          positioner: ['fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'z-(--z-loading)'],
+          positioner: ['fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'z-loading'],
         },
         inline: {
           positioner: ['absolute', 'inset-0'],
@@ -53,7 +53,8 @@ export const tvSpin = tv(
         },
       },
     },
-  }, 'rui-spin',
+  },
+  'rui-spin',
 )
 
 export type SpinVariants = VariantProps<typeof tvSpin>

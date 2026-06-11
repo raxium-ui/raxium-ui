@@ -15,11 +15,10 @@ export const tvDatePicker = tv(
       content: [
         'group/content',
         'relative',
-        'z-auto',
         'min-w-(--reference-width)',
         'rounded',
         'p-0',
-        'z-(--z-popover)',
+        'z-popover',
         ...POPOVER_MOTION,
       ],
       contentInner: '',

@@ -29,6 +29,20 @@
   /* Spacing */
   --spacing: 0.25rem;
 
+  /* z-index */
+  --z-index-base: var(--z-base);
+  --z-index-sticky: var(--z-sticky);
+  --z-index-dropdown: var(--z-dropdown);
+  --z-index-tooltip: var(--z-tooltip);
+  --z-index-fixed: var(--z-fixed);
+  --z-index-overlay: var(--z-overlay);
+  --z-index-modal: var(--z-modal);
+  --z-index-popover: var(--z-popover);
+  --z-index-toast: var(--z-toast);
+  --z-index-loading: var(--z-loading);
+  --z-index-devtools: var(--z-devtools);
+  --z-index-max: var(--z-max);
+
   /* Breakpoints */
   --breakpoint-sm: 1024px;
   --breakpoint-md: 1440px;

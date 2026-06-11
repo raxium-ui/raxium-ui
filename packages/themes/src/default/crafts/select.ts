@@ -26,11 +26,10 @@ export const tvSelect = tv(
       value: 'flex-1 flex items-center [&>span]:truncate',
       content: [
         'relative',
-        'z-auto',
         'min-w-(--reference-width)',
         'rounded',
         'p-0',
-        'z-(--z-popover)',
+        'z-popover',
         ...POPOVER_MOTION,
       ],
       contentInner: '',
