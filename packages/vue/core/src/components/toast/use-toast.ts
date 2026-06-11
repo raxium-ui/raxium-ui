@@ -33,9 +33,9 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       console.warn('[RUI] there is no toaster found, please check your toast iteratee function')
       return
     }
-    const toastID = toasterWrap.toaster.create(options as toast.Options)
+    const toastId = toasterWrap.toaster.create(options as toast.Options)
     return {
-      toastID,
+      toastId,
       toaster: toasterWrap.toaster,
     }
   }
@@ -43,7 +43,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
   function promise<T, V extends VNodeChild>(
     promise: Promise<T> | (() => Promise<T>),
     options: toast.PromiseOptions<T, V>,
-    shared?: Omit<ToastOptions<V>, 'type' | 'title' | 'description'>,
+    shared?: Omit<ToastOptions<V>, 'type'>,
     iteratee?: (t: ToasterWrap) => boolean,
   ) {
     const toasterWrap = findToaster(shared, iteratee)
@@ -56,7 +56,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       unwrap: () => Promise.resolve(undefined),
     }
     return {
-      toastID: id,
+      toastId: id,
       toaster: toasterWrap?.toaster,
       unwrap,
     }

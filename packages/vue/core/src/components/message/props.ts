@@ -4,7 +4,7 @@ import type * as toast from '@zag-js/toast'
 import type { HTMLAttributes, UnwrapRef, VNode, VNodeChild } from 'vue'
 
 export interface MessagerExpose {
-  messager: CreateToasterReturn
+  messager: RaxiumMessager
 }
 
 export interface MessageOptions<T = any> extends Omit<toast.Options<T>, 'title' | 'description'> {
@@ -28,6 +28,25 @@ export interface MessageProps extends ToastRootBaseProps, ThemeNoCrafts {
 
 export interface MessagerProps extends MessagerStoreProps, ThemeCrafts<'tvMessage'> {
   showClose?: boolean
+}
+
+// same as RaxiumToaster, but params is MessageOptions
+export type RaxiumMessager = Omit<
+  CreateToasterReturn,
+  'create' | 'update' | 'error' | 'success' | 'info' | 'warning' | 'loading' | 'promise'
+> & {
+  create: (data: MessageOptions) => string
+  update: (id: string, data: Partial<MessageOptions>) => string
+  error: (data?: Partial<MessageOptions>) => void
+  success: (data?: Partial<MessageOptions>) => void
+  info: (data?: Partial<MessageOptions>) => void
+  warning: (data?: Partial<MessageOptions>) => void
+  loading: (data?: Partial<MessageOptions>) => void
+  promise: <T>(
+    promise: Promise<T> | (() => Promise<T>),
+    options: toast.PromiseOptions<T, VNodeChild>,
+    shared?: Omit<MessageOptions, 'type'>,
+  ) => ReturnType<CreateToasterReturn['promise']>
 }
 
 /**

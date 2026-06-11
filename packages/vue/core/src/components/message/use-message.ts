@@ -1,12 +1,11 @@
-import type { CreateToasterReturn } from '@ark-ui/vue'
 import type * as toast from '@zag-js/toast'
 import type { VNodeChild } from 'vue'
-import type { MessageOptions } from '.'
+import type { MessageOptions, RaxiumMessager } from '.'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { isEmpty } from 'es-toolkit/compat'
 import { computed } from 'vue'
 
-function useMessage(messager?: CreateToasterReturn) {
+function useMessage(messager?: RaxiumMessager) {
   const configMessager = useConfig('messager')
   const _messager = computed(() => messager ?? configMessager.value?.messager)
 
@@ -17,9 +16,9 @@ function useMessage(messager?: CreateToasterReturn) {
       )
       return
     }
-    const toastID = _messager.value?.create(options as toast.Options)
+    const messageId = _messager.value?.create(options as toast.Options)
     return {
-      ID: toastID,
+      messageId,
       messager: _messager.value,
     }
   }
@@ -27,7 +26,7 @@ function useMessage(messager?: CreateToasterReturn) {
   function promise<T, V extends VNodeChild>(
     promise: Promise<T> | (() => Promise<T>),
     options: toast.PromiseOptions<T, V>,
-    shared?: Omit<MessageOptions<V>, 'type' | 'title' | 'description'>,
+    shared?: Omit<MessageOptions<V>, 'type'>,
   ) {
     if (isEmpty(_messager.value)) {
       console.warn(
@@ -44,9 +43,9 @@ function useMessage(messager?: CreateToasterReturn) {
       unwrap: () => Promise.resolve(undefined),
     }
     return {
-      ID: id,
-      unwrap,
+      messageId: id,
       messager: _messager.value,
+      unwrap,
     }
   }
 

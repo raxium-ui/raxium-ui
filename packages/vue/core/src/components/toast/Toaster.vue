@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CreateToasterProps } from '@ark-ui/vue/toast'
-import type { ToasterProps, ToastOptions } from '.'
+import type { RaxiumToaster, ToasterProps, ToastOptions } from '.'
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
@@ -20,7 +20,7 @@ useProvideComponentTheme(theme, () => propsTheme)
 // expose
 defineExpose({
   toasterId,
-  toaster,
+  toaster: toaster as RaxiumToaster,
 })
 </script>
 

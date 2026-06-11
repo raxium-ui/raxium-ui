@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MessageOptions, MessagerProps } from '.'
+import type { MessageOptions, MessagerProps, RaxiumMessager } from '.'
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
@@ -20,7 +20,7 @@ useProvideComponentTheme(theme, () => propsTheme)
 
 // expose
 defineExpose({
-  messager,
+  messager: messager as RaxiumMessager,
 })
 </script>
 

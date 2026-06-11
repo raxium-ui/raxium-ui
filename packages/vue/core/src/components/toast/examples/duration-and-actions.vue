@@ -39,10 +39,17 @@ function createPersistentWithActions() {
 
 <template>
   <div class="flex flex-wrap items-center gap-2">
-    <Button :theme="{ size: 'sm' }" @click="createShortDuration">
+    <Button
+      :theme="{ size: 'sm' }"
+      @click="createShortDuration"
+    >
       duration=1200ms
     </Button>
-    <Button :theme="{ size: 'sm' }" variant="outlined" @click="createPersistentWithActions">
+    <Button
+      :theme="{ size: 'sm' }"
+      variant="outlined"
+      @click="createPersistentWithActions"
+    >
       操作按钮与手动关闭
     </Button>
   </div>

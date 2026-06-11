@@ -33,7 +33,7 @@ export interface ToasterManagerExpose {
 }
 export interface ToasterWrap {
   toasterId?: string
-  toaster: CreateToasterReturn
+  toaster: RaxiumToaster
 }
 
 export interface ToastProps extends ToastRootBaseProps, ThemeNoCrafts {
@@ -57,6 +57,24 @@ export interface ToasterManagerProps {
 
 export interface ToasterProps extends ToastStoreProps, ThemeCrafts<'tvToast'> {
   toasterId?: string
+}
+
+export type RaxiumToaster = Omit<
+  CreateToasterReturn,
+  'create' | 'update' | 'error' | 'success' | 'info' | 'warning' | 'loading' | 'promise'
+> & {
+  create: (data: ToastOptions) => string
+  update: (id: string, data: Partial<ToastOptions>) => string
+  error: (data?: Partial<ToastOptions>) => void
+  success: (data?: Partial<ToastOptions>) => void
+  info: (data?: Partial<ToastOptions>) => void
+  warning: (data?: Partial<ToastOptions>) => void
+  loading: (data?: Partial<ToastOptions>) => void
+  promise: <T>(
+    promise: Promise<T> | (() => Promise<T>),
+    options: toast.PromiseOptions<T, VNodeChild>,
+    shared?: Omit<ToastOptions, 'type'>,
+  ) => ReturnType<CreateToasterReturn['promise']>
 }
 
 /**
