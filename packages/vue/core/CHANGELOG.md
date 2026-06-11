@@ -1,5 +1,11 @@
 # @raxium/vue
 
+## 0.3.8
+
+### Patch Changes
+
+- 23858c1: chore: update parameter types for toast and message components
+
 ## 0.3.7
 
 ### Patch Changes
