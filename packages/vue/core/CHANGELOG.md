@@ -1,5 +1,15 @@
 # @raxium/vue
 
+## 0.3.7
+
+### Patch Changes
+
+- b984bc0: - Add more consistent indicator slot usage and styling for branch and leaf checkboxes in TreeCheckboxNode and TreeNode components.
+- f2b6c95: ### Added
+  - Support for resuming dialog close sequence with a `resumeBeforeClose` method in the dialog API (`Dialog.vue`). This allows dialogs that use a `beforeClose` hook to be manually continued without auto-closing, giving more control over the close flow.
+
+- d6fa7a2: - Fixed use-toast return params name
+
 ## 0.3.6
 
 ### Patch Changes
