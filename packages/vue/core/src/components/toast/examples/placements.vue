@@ -14,28 +14,87 @@ const { toast } = useToast(manager)
 <template>
   <div class="w-full flex flex-col gap-4">
     <div class="flex flex-wrap items-center gap-2">
-      <Button @click="() => toast.create({ title: 'Top end', description: 'placement=top-end', placement: 'top-end' })">
+      <Button
+        @click="
+          () =>
+            toast.create({
+              title: 'Top end',
+              description: 'placement=top-end',
+              placement: 'top-end',
+            })
+        "
+      >
         top-end
       </Button>
-      <Button @click="() => toast.create({ title: 'Top start', description: 'placement=top-start', placement: 'top-start' })">
+      <Button
+        @click="
+          () =>
+            toast.create({
+              title: 'Top start',
+              description: 'placement=top-start',
+              placement: 'top-start',
+            })
+        "
+      >
         top-start
       </Button>
-      <Button @click="() => toast.create({ title: 'Bottom end', description: 'placement=bottom-end', placement: 'bottom-end' })">
+      <Button
+        @click="
+          () => {
+            toast.create({
+              title: 'Bottom end 1',
+              description: 'placement=bottom-end',
+              placement: 'bottom-end',
+              duration: Infinity,
+            })
+            toast.create({
+              title: 'Bottom end 2',
+              description: 'placement=bottom-end',
+              placement: 'bottom-end',
+              duration: Infinity,
+            })
+          }
+        "
+      >
         bottom-end
       </Button>
-      <Button @click="() => toast.create({ title: 'Bottom start', description: 'placement=bottom-start', placement: 'bottom-start' })">
+      <Button
+        @click="
+          () =>
+            toast.create({
+              title: 'Bottom start',
+              description: 'placement=bottom-start',
+              placement: 'bottom-start',
+            })
+        "
+      >
         bottom-start
       </Button>
     </div>
 
     <ToasterManager ref="manager">
-      <Toaster v-slot="{ toast: toastOptions }" toaster-id="top-end" placement="top-end" overlap>
+      <Toaster
+        v-slot="{ toast: toastOptions }"
+        toaster-id="top-end"
+        placement="top-end"
+        overlap
+      >
         <Toast :options="toastOptions" />
       </Toaster>
-      <Toaster v-slot="{ toast: toastOptions }" toaster-id="top-start" placement="top-start" overlap>
+      <Toaster
+        v-slot="{ toast: toastOptions }"
+        toaster-id="top-start"
+        placement="top-start"
+        overlap
+      >
         <Toast :options="toastOptions" />
       </Toaster>
-      <Toaster v-slot="{ toast: toastOptions }" toaster-id="bottom-start" placement="bottom-start" overlap>
+      <Toaster
+        v-slot="{ toast: toastOptions }"
+        toaster-id="bottom-start"
+        placement="bottom-start"
+        overlap
+      >
         <Toast :options="toastOptions" />
       </Toaster>
     </ToasterManager>

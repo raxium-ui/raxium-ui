@@ -1,0 +1,106 @@
+diff --git a/dist/toast.machine.js b/dist/toast.machine.js
+index bdad6dbb9341283b8fc64fa8c685d7683e41c9db..9725ffae626401e978198bdd7ae322b32ced2c27 100644
+--- a/dist/toast.machine.js
++++ b/dist/toast.machine.js
+@@ -205,10 +205,7 @@ var machine = (0, import_core.createMachine)({
+           const rootEl = dom.getRootEl(scope);
+           if (!rootEl) return;
+           const syncHeight = () => {
+-            const originalHeight = rootEl.style.height;
+-            rootEl.style.height = "auto";
+-            const height = rootEl.getBoundingClientRect().height;
+-            rootEl.style.height = originalHeight;
++            const height = measureUntransformedHeight(rootEl);
+             const item = { id: prop("id"), height };
+             setHeight(prop("parent"), item);
+           };
+@@ -238,10 +235,7 @@ var machine = (0, import_core.createMachine)({
+         queueMicrotask(() => {
+           const rootEl = dom.getRootEl(scope);
+           if (!rootEl) return;
+-          const originalHeight = rootEl.style.height;
+-          rootEl.style.height = "auto";
+-          const height = rootEl.getBoundingClientRect().height;
+-          rootEl.style.height = originalHeight;
++          const height = measureUntransformedHeight(rootEl);
+           context.set("initialHeight", height);
+           const item = { id: prop("id"), height };
+           setHeight(prop("parent"), item);
+@@ -278,6 +272,24 @@ var machine = (0, import_core.createMachine)({
+     }
+   }
+ });
++function measureUntransformedHeight(rootEl) {
++  const { height, scale, transform, translate, boxSizing, transition } = rootEl.style;
++  rootEl.style.transition = "none";
++  rootEl.style.boxSizing = "border-box";
++  rootEl.style.height = "auto";
++  rootEl.style.scale = "1";
++  rootEl.style.transform = "none";
++  rootEl.style.translate = "none";
++  void rootEl.offsetHeight;
++  const measuredHeight = rootEl.getBoundingClientRect().height;
++  rootEl.style.height = height;
++  rootEl.style.scale = scale;
++  rootEl.style.transform = transform;
++  rootEl.style.translate = translate;
++  rootEl.style.boxSizing = boxSizing;
++  rootEl.style.transition = transition;
++  return measuredHeight;
++}
+ function setHeight(parent, item) {
+   const { id, height } = item;
+   parent.context.set("heights", (prev) => {
+diff --git a/dist/toast.machine.mjs b/dist/toast.machine.mjs
+index 48d70e93bf635a6199ba114c9ae83f73d2b2d6a1..fd3a2603ba84d4776e3c797a70ab595f013d903b 100644
+--- a/dist/toast.machine.mjs
++++ b/dist/toast.machine.mjs
+@@ -171,10 +171,7 @@ var machine = createMachine({
+           const rootEl = dom.getRootEl(scope);
+           if (!rootEl) return;
+           const syncHeight = () => {
+-            const originalHeight = rootEl.style.height;
+-            rootEl.style.height = "auto";
+-            const height = rootEl.getBoundingClientRect().height;
+-            rootEl.style.height = originalHeight;
++            const height = measureUntransformedHeight(rootEl);
+             const item = { id: prop("id"), height };
+             setHeight(prop("parent"), item);
+           };
+@@ -204,10 +201,7 @@ var machine = createMachine({
+         queueMicrotask(() => {
+           const rootEl = dom.getRootEl(scope);
+           if (!rootEl) return;
+-          const originalHeight = rootEl.style.height;
+-          rootEl.style.height = "auto";
+-          const height = rootEl.getBoundingClientRect().height;
+-          rootEl.style.height = originalHeight;
++          const height = measureUntransformedHeight(rootEl);
+           context.set("initialHeight", height);
+           const item = { id: prop("id"), height };
+           setHeight(prop("parent"), item);
+@@ -244,6 +238,24 @@ var machine = createMachine({
+     }
+   }
+ });
++function measureUntransformedHeight(rootEl) {
++  const { height, scale, transform, translate, boxSizing, transition } = rootEl.style;
++  rootEl.style.transition = "none";
++  rootEl.style.boxSizing = "border-box";
++  rootEl.style.height = "auto";
++  rootEl.style.scale = "1";
++  rootEl.style.transform = "none";
++  rootEl.style.translate = "none";
++  void rootEl.offsetHeight;
++  const measuredHeight = rootEl.getBoundingClientRect().height;
++  rootEl.style.height = height;
++  rootEl.style.scale = scale;
++  rootEl.style.transform = transform;
++  rootEl.style.translate = translate;
++  rootEl.style.boxSizing = boxSizing;
++  rootEl.style.transition = transition;
++  return measuredHeight;
++}
+ function setHeight(parent, item) {
+   const { id, height } = item;
+   parent.context.set("heights", (prev) => {

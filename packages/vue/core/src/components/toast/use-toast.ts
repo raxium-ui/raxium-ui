@@ -8,14 +8,9 @@ import { DEFAULT_TOASTER_ID } from '.'
 
 function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
   const toasterManager = useConfig('toaster-manager')
-  const toasters = computed(
-    () => unref(manager)?.toasters ?? toasterManager.value?.toasters ?? [],
-  )
+  const toasters = computed(() => unref(manager)?.toasters ?? toasterManager.value?.toasters ?? [])
 
-  function findToaster(
-    options?: Partial<ToastOptions>,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function findToaster(options?: Partial<ToastOptions>, iteratee?: (t: ToasterWrap) => boolean) {
     if (isEmpty(toasters.value)) {
       console.warn(
         '[RUI] there is no toaster found, please make sure you have at least one toaster in <RUIConfigProvider> \'s <slot name="toaster" />',
@@ -32,21 +27,16 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
     })
   }
 
-  function create(
-    options: ToastOptions,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function create(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
     const toasterWrap = findToaster(options, iteratee)
     if (isEmpty(toasterWrap)) {
-      console.warn(
-        '[RUI] there is no toaster found, please check your toast iteratee function',
-      )
+      console.warn('[RUI] there is no toaster found, please check your toast iteratee function')
       return
     }
-    const toastID = toasterWrap?.toaster.create(options as toast.Options)
+    const toastID = toasterWrap.toaster.create(options as toast.Options)
     return {
-      ID: toastID,
-      toaster: toasterWrap?.toaster,
+      toastID,
+      toaster: toasterWrap.toaster,
     }
   }
 
@@ -58,30 +48,21 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
   ) {
     const toasterWrap = findToaster(shared, iteratee)
     if (isEmpty(toasterWrap)) {
-      console.warn(
-        '[RUI] there is no toaster found, please check your toast iteratee function',
-      )
+      console.warn('[RUI] there is no toaster found, please check your toast iteratee function')
       return
     }
-    const { id, unwrap } = toasterWrap?.toaster.promise(
-      promise,
-      options,
-      shared,
-    ) ?? {
+    const { id, unwrap } = toasterWrap?.toaster.promise(promise, options, shared) ?? {
       id: undefined,
       unwrap: () => Promise.resolve(undefined),
     }
     return {
-      ID: id,
-      unwrap,
+      toastID: id,
       toaster: toasterWrap?.toaster,
+      unwrap,
     }
   }
 
-  function success(
-    options: ToastOptions,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function success(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
     return create(
       {
         ...options,
@@ -90,10 +71,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       iteratee,
     )
   }
-  function error(
-    options: ToastOptions,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function error(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
     return create(
       {
         ...options,
@@ -111,10 +89,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       iteratee,
     )
   }
-  function warning(
-    options: ToastOptions,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function warning(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
     return create(
       {
         ...options,
@@ -123,10 +98,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       iteratee,
     )
   }
-  function loading(
-    options: ToastOptions,
-    iteratee?: (t: ToasterWrap) => boolean,
-  ) {
+  function loading(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
     return create(
       {
         ...options,

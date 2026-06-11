@@ -30,7 +30,15 @@ const rootNode: Node = {
       name: 'Examples',
       icon: 'lucide:folder',
       children: [
-        { id: 'basic', name: 'Basic', icon: 'lucide:sparkles' },
+        {
+          id: 'basic',
+          name: 'Basic',
+          icon: 'lucide:sparkles',
+          children: [
+            { id: 'basic-1', name: 'Basic 1', icon: 'lucide:sparkles' },
+            { id: 'basic-2', name: 'Basic 2', icon: 'lucide:sparkles' },
+          ],
+        },
         { id: 'advanced', name: 'Advanced', icon: 'lucide:settings' },
       ],
     },
@@ -69,6 +77,10 @@ const checkedValue = ref<string[]>(['getting-started'])
           :key="node.id"
           :node="node"
           :index-path="[index]"
+          :ui="{
+            branchTitle: 'bg-rz-orange',
+            itemTitle: 'bg-rz-blue',
+          }"
         />
       </Tree>
     </div>
