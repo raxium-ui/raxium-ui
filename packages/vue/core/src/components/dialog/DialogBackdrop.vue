@@ -25,6 +25,7 @@ const mergedProps = computed(() =>
     omit(presence.value.presenceProps, ['ref']),
   ),
 )
+
 // theme
 const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvDialog')

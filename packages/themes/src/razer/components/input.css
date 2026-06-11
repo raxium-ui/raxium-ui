@@ -3,17 +3,29 @@
     --default-border-color: var(--color-rui-input-border);
     --hover-border-color: var(--color-rui-input-border-hover);
     --focus-border-color: var(--color-rui-input-border-focus);
-    @apply bg-transparent border-(--default-border-color) text-rui-input-text transition-colors;
-    @apply hover:border-(--hover-border-color) focus:border-(--focus-border-color);
-    @apply data-[state=focused]:border-(--focus-border-color) 
-      data-[state=focused]:hover:border-(--focus-border-color) 
-        data-[state=focused]:ring-2
-        data-[state=focused]:ring-(--focus-border-color)/30;
-    @apply data-[state=disabled]:hover:border-(--default-border-color) data-[state=disabled]:bg-rui-surface-disabled;
-    @apply data-[state=readonly]:bg-rui-surface-disabled;
 
-    &[data-focus] {
+    @apply bg-transparent border-(--default-border-color) text-rui-input-text transition-colors;
+    @apply hover:border-(--hover-border-color);
+
+    &[data-state=disabled] {
+      @apply hover:border-(--default-border-color) bg-rui-surface-disabled;
+    }
+
+    &[data-state=readonly] {
+      @apply bg-rui-surface-disabled;
+    }
+
+    &:focus,
+    &[data-state=focused] {
       @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
+    }
+
+    &[data-state=invalid] {
+      @apply border-rui-error ring-2 ring-rui-error/30;
+      &:focus,
+      &[data-state=focused] {
+        @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
+      }
     }
   }
 

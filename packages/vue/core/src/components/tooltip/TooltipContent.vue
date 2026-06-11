@@ -22,9 +22,9 @@ const otherNodes = computed(() => excludeVNodesByName(defaultSlots.value, 'Toolt
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
-useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvTooltip')
 const themeAttrs = useThemeAttrs(theme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 </script>
 
 <template>

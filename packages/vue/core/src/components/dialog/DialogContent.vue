@@ -26,14 +26,14 @@ const {
 const slots = useSlots()
 const defaultSlots = computed(() => slots.default?.())
 const hasDialogHeader = computed(() => hasChildVNodeByName(defaultSlots.value, 'DialogHeader'))
-
 const showContentClose = computed(() => showClose && !hasDialogHeader.value)
 
+// theme
 const attrs = useAttrs()
 const theme = useInheritedTheme(() => propsTheme)
-useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvDialog')
 const themeAttrs = useThemeAttrs(theme)
+useProvideStructuralComponentTheme(theme, () => propsTheme)
 </script>
 
 <template>
