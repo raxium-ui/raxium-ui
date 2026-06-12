@@ -29,16 +29,16 @@ export const tvPagination = tv(
           ellipsis: 'size-6',
         },
         sm: {
-          item: ['h-8', 'min-w-8', 'text-sm'],
-          ellipsis: 'size-8',
+          item: ['h-7', 'min-w-7', 'text-sm'],
+          ellipsis: 'size-7',
         },
         base: {
-          item: ['h-10', 'min-w-10', 'text-base'],
-          ellipsis: 'size-10',
+          item: ['h-8', 'min-w-8', 'text-base'],
+          ellipsis: 'size-8',
         },
         lg: {
-          item: ['h-12', 'min-w-12', 'text-lg'],
-          ellipsis: 'size-12',
+          item: ['h-10', 'min-w-10', 'text-lg'],
+          ellipsis: 'size-10',
         },
       },
     },
@@ -61,10 +61,10 @@ export const tvPaginationGoto = tv(
     variants: {
       size: {
         xs: {
-          input: 'text-xs w-6',
+          input: 'text-xs w-8',
         },
         sm: {
-          input: 'text-sm w-8',
+          input: 'text-sm w-9',
         },
         base: {
           input: 'text-base w-10',
@@ -90,21 +90,21 @@ export const tvPaginationPageSize = tv(
       trigger: ['min-w-0', 'justify-center'],
       value: 'text-center',
       content: '',
-      item: '',
+      item: 'justify-center',
     },
     variants: {
       size: {
         xs: {
-          trigger: 'text-xs',
+          trigger: 'text-xs gap-1',
         },
         sm: {
-          trigger: 'text-sm',
+          trigger: 'text-sm gap-1.5',
         },
         base: {
-          trigger: 'text-base',
+          trigger: 'text-base gap-2',
         },
         lg: {
-          trigger: 'text-lg',
+          trigger: 'text-lg gap-2.5',
         },
       },
     },

@@ -32,17 +32,17 @@ export const tvPinInput = tv(
         },
         sm: {
           label: 'text-sm',
-          input: 'w-8 h-8 text-sm',
+          input: 'w-7 h-7 text-sm',
           separator: 'text-sm',
         },
         base: {
           label: 'text-base',
-          input: 'w-10 h-10 text-base',
+          input: 'w-8 h-8 text-base',
           separator: 'text-base',
         },
         lg: {
           label: 'text-base',
-          input: 'w-12 h-12 text-lg',
+          input: 'w-10 h-10 text-lg',
           separator: 'text-lg',
         },
       },

@@ -31,7 +31,8 @@ export const tvEditable = tv(
       }),
     ],
     defaultVariants: { size: 'base' },
-  }, prefix,
+  },
+  prefix,
 )
 
 export const tvEditableInput = tv(
@@ -50,7 +51,8 @@ export const tvEditableInput = tv(
         lg: { root: 'px-2 py-1', clearable: 'text-lg size-[1lh]' },
       }),
     ],
-  }, `${prefix}-input`,
+  },
+  `${prefix}-input`,
 )
 
 export type EditableVariants = VariantProps<typeof tvEditable>

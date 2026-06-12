@@ -8,30 +8,31 @@ export const tvRatingGroup = tv(
     slots: {
       root: '',
       control: ['flex', 'items-center', 'gap-0.5'],
-      item: ['inline-flex', 'outline-none'],
-      itemIndicator: ['relative'],
+      item: ['inline-flex', 'items-center', 'justify-center', 'outline-none', 'size-[1lh]'],
+      itemIndicator: ['relative', 'size-[87.5%]'],
       itemIndicatorIcon: ['absolute', 'block', 'size-full'],
     },
     variants: {
       size: {
         xs: {
-          itemIndicator: 'size-3',
+          control: 'text-xs',
         },
         sm: {
-          itemIndicator: 'size-3.5',
+          control: 'text-sm',
         },
         base: {
-          itemIndicator: 'size-4',
+          control: 'text-base',
         },
         lg: {
-          itemIndicator: 'size-4.5',
+          control: 'text-lg',
         },
       },
     },
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-rating-group',
+  },
+  'rui-rating-group',
 )
 
 export type RatingGroupVariants = VariantProps<typeof tvRatingGroup>

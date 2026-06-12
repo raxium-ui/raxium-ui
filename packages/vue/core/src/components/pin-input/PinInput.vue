@@ -47,12 +47,19 @@ useForwardExpose()
     </PinInput.Label>
     <PinInput.Control :class="crafts.control(cxc(ui?.control))">
       <slot name="prefix" />
-      <slot name="default" :count="count">
+      <slot
+        name="default"
+        :count="count"
+      >
         <template
           v-for="(num, index) in count"
           :key="num"
         >
-          <slot name="separator" :number="num" :index="index">
+          <slot
+            name="separator"
+            :number="num"
+            :index="index"
+          >
             <span
               v-if="separator && index > 0"
               :class="crafts.separator(cxc(ui?.separator))"
@@ -62,8 +69,8 @@ useForwardExpose()
             </span>
           </slot>
           <PinInput.Input
-            :index="index"
             :class="crafts.input(cxc(ui?.input))"
+            :index="index"
           />
         </template>
       </slot>

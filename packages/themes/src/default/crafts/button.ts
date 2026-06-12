@@ -40,16 +40,16 @@ export const tvButton = tv(
       },
       size: {
         xs: {
-          root: 'h-6 px-3 gap-1.5 text-xs',
+          root: 'h-6 px-3 gap-1.5 text-xs', // h-4 < xs: leading-normal
         },
         sm: {
-          root: 'h-7 px-4 gap-2 text-sm',
+          root: 'h-7 px-3.5 gap-2 text-sm',
         },
         base: {
-          root: 'h-8 px-5 gap-2.5 text-base',
+          root: 'h-8 px-4 gap-2.5 text-base',
         },
         lg: {
-          root: 'h-9 px-6 gap-3 text-lg',
+          root: 'h-10 px-5 gap-3 text-lg',
         },
       },
       loading: {
@@ -75,7 +75,8 @@ export const tvButton = tv(
       size: 'base',
       loading: false,
     },
-  }, 'rui-btn',
+  },
+  'rui-btn',
 )
 
 export type ButtonVariants = VariantProps<typeof tvButton>

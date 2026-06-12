@@ -14,7 +14,8 @@ export const tvSwitch = tv({
       'relative',
     ],
     control: [
-      'block',
+      'flex',
+      'items-center',
       'shrink-0',
       'rounded-full',
       'border-2',
@@ -24,7 +25,6 @@ export const tvSwitch = tv({
     thumb: [
       'pointer-events-none',
       'block',
-      'size-3.5',
       'rounded-full',
       'origin-center',
       'transition-transform',
@@ -36,24 +36,20 @@ export const tvSwitch = tv({
   variants: {
     size: {
       xs: {
-        control: 'w-7 h-4',
-        thumb: 'size-3',
-        label: 'text-xs',
+        control: 'text-xs w-8 h-[calc(4.326*var(--spacing))]',
+        thumb: 'size-3.5',
       },
       sm: {
-        control: 'w-8 h-4.5',
-        thumb: 'size-3.5',
-        label: 'text-sm',
+        control: 'text-sm w-9 h-[calc(4.944*var(--spacing))]',
+        thumb: 'size-4',
       },
       base: {
-        control: 'w-9 h-5',
-        thumb: 'size-4',
-        label: 'text-base',
+        control: 'text-base w-10 h-[calc(5.562*var(--spacing))]',
+        thumb: 'size-4.5',
       },
       lg: {
-        control: 'w-10 h-5.5',
-        thumb: 'size-4.5',
-        label: 'text-lg',
+        control: 'text-lg w-11 h-[calc(6.18*var(--spacing))]',
+        thumb: 'size-5',
       },
     },
   },

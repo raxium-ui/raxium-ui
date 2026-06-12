@@ -39,7 +39,7 @@ import {
                       <div class="flex items-center gap-2">
                         <Slider
                           :model-value="[opacityGetter()]"
-                          class="flex-row items-center gap-2"
+                          class="flex-row items-center gap-2 w-25"
                           :min="30"
                           :max="100"
                           :step="1"

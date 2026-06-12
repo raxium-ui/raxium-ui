@@ -7,7 +7,7 @@ export const tvNumberInput = tv(
   {
     slots: {
       root: '',
-      control: 'p-0',
+      control: '',
       input: '',
       triggerGroup: 'flex flex-col',
       trigger: '[&>svg]:size-full',
@@ -16,19 +16,19 @@ export const tvNumberInput = tv(
       size: {
         xs: {
           input: 'text-xs',
-          trigger: 'h-3 w-6 [&>svg]:size-full',
+          trigger: 'h-2 w-6 [&>svg]:size-full',
         },
         sm: {
           input: 'text-sm',
-          trigger: 'h-4 w-8 [&>svg]:size-full',
+          trigger: 'h-2.5 w-6 [&>svg]:size-full',
         },
         base: {
           input: 'text-base',
-          trigger: 'h-4.5 w-8 [&>svg]:size-full',
+          trigger: 'h-3 w-6 [&>svg]:size-full',
         },
         lg: {
           input: 'text-lg',
-          trigger: 'h-5 w-10 [&>svg]:size-full',
+          trigger: 'h-3.5 w-6 [&>svg]:size-full',
         },
       },
     },
@@ -36,7 +36,8 @@ export const tvNumberInput = tv(
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-number-input',
+  },
+  'rui-number-input',
 )
 
 export type NumberInputVariants = VariantProps<typeof tvNumberInput>

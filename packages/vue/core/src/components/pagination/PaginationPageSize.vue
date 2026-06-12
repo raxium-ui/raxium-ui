@@ -60,7 +60,7 @@ const crafts = useCraft(theme, 'tvPaginationPageSize')
         >
           {{ item.label }}
           <template #indicator>
-            <span />
+            {{ "" }}
           </template>
         </SelectItem>
       </SelectContent>

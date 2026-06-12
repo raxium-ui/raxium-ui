@@ -21,7 +21,7 @@ export const tvToggleGroup = tv(
           item: 'size-8 text-base',
         },
         lg: {
-          item: 'size-9 text-lg',
+          item: 'size-10 text-lg',
         },
       },
       orientation: {
@@ -45,7 +45,8 @@ export const tvToggleGroup = tv(
       size: 'base',
       orientation: 'horizontal',
     },
-  }, 'rui-toggle-group',
+  },
+  'rui-toggle-group',
 )
 
 export type ToggleGroupVariants = VariantProps<typeof tvToggleGroup>

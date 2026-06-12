@@ -10,7 +10,13 @@ export const tvSlider = tv(
       control: '',
       track: '',
       range: '',
-      thumb: ['relative', 'z-base', 'rounded-full', 'data-dragging:scale-120', 'transition-transform'],
+      thumb: [
+        'relative',
+        'z-base',
+        'rounded-full',
+        'data-dragging:scale-120',
+        'transition-transform',
+      ],
       marker: '',
       markerDot: ['absolute', 'left-1/2', '-translate-x-1/2', 'rounded-full'],
       markerValue: '',
@@ -25,7 +31,8 @@ export const tvSlider = tv(
             'w-[max(var(--slider-thumb-width),.5rem)]',
             'h-[max(var(--slider-thumb-height),.5rem)]',
           ],
-          markerDot: 'size-1.5 -top-[calc(max(var(--slider-thumb-height),.5rem)/2+var(--spacing)*0.75)]',
+          markerDot:
+            'size-1.5 -top-[calc(max(var(--slider-thumb-height),.5rem)/2+var(--spacing)*0.75)]',
           markerValue: 'text-xs',
         },
         sm: {
@@ -47,7 +54,8 @@ export const tvSlider = tv(
             'w-[max(var(--slider-thumb-width),1rem)]',
             'h-[max(var(--slider-thumb-height),1rem)]',
           ],
-          markerDot: 'size-2.5 -top-[calc(max(var(--slider-thumb-height),1rem)/2+var(--spacing)*1.25)]',
+          markerDot:
+            'size-2.5 -top-[calc(max(var(--slider-thumb-height),1rem)/2+var(--spacing)*1.25)]',
           markerValue: 'text-sm',
         },
         lg: {
@@ -58,7 +66,8 @@ export const tvSlider = tv(
             'w-[max(var(--slider-thumb-width),1.25rem)]',
             'h-[max(var(--slider-thumb-height),1.25rem)]',
           ],
-          markerDot: 'size-3 -top-[calc(max(var(--slider-thumb-height),1.25rem)/2+var(--spacing)*1.5)]',
+          markerDot:
+            'size-3 -top-[calc(max(var(--slider-thumb-height),1.25rem)/2+var(--spacing)*1.5)]',
           markerValue: 'text-base',
         },
       },

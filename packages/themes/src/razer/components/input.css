@@ -16,6 +16,7 @@
     }
 
     &:focus,
+    &[data-focus],
     &[data-state=focused] {
       @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
     }
@@ -23,6 +24,7 @@
     &[data-state=invalid] {
       @apply border-rui-error ring-2 ring-rui-error/30;
       &:focus,
+      &[data-focus],
       &[data-state=focused] {
         @apply border-(--focus-border-color) hover:border-(--focus-border-color) ring-2 ring-(--focus-border-color)/30;
       }

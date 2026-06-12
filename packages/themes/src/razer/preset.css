@@ -107,7 +107,7 @@
 }
 
 @theme static {
-  --text-line-height: normal;
+  --text-line-height: 1.2;
 }
 
 @layer base {

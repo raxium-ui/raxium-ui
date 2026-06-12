@@ -8,8 +8,8 @@ export const tvTagsInput = tv(
     slots: {
       root: ['flex flex-col', 'relative'],
       control: ['flex', 'items-center'],
-      scrollArea: '',
-      scrollAreaContent: '',
+      scrollArea: 'h-full',
+      scrollAreaContent: 'h-full flex items-center',
       input: ['focus:outline-none', 'bg-transparent'],
       item: '',
       itemPreview: 'flex items-center gap-1 rounded-full cursor-default',
@@ -20,24 +20,24 @@ export const tvTagsInput = tv(
     variants: {
       size: {
         xs: {
-          input: 'text-xs',
-          itemPreview: 'text-xs px-1.5',
-          itemInput: 'text-xs px-0.5',
+          control: 'text-xs',
+          itemPreview: 'px-1.5',
+          itemInput: 'px-0.5',
         },
         sm: {
-          input: 'text-sm',
-          itemPreview: 'text-sm px-2',
-          itemInput: 'text-sm px-1',
+          control: 'text-sm',
+          itemPreview: 'px-2',
+          itemInput: 'px-1',
         },
         base: {
-          input: 'text-base',
-          itemPreview: 'text-base px-2.5',
-          itemInput: 'text-base px-1.5',
+          control: 'text-base',
+          itemPreview: 'px-2.5',
+          itemInput: 'px-1.5',
         },
         lg: {
-          input: 'text-lg',
-          itemPreview: 'text-lg px-2.5',
-          itemInput: 'text-lg px-1.5',
+          control: 'text-lg',
+          itemPreview: 'px-2.5',
+          itemInput: 'px-1.5',
         },
       },
       inline: {
@@ -58,11 +58,47 @@ export const tvTagsInput = tv(
         },
       },
     },
+
+    compoundVariants: [
+      {
+        size: 'xs',
+        inline: true,
+        class: {
+          control: 'h-6 px-2 py-0',
+          input: 'p-0 h-full',
+        },
+      },
+      {
+        size: 'sm',
+        inline: true,
+        class: {
+          control: 'h-7 px-2 py-0',
+          input: 'p-0 h-full',
+        },
+      },
+      {
+        size: 'base',
+        inline: true,
+        class: {
+          control: 'h-8 px-2 py-0',
+          input: 'p-0 h-full',
+        },
+      },
+      {
+        size: 'lg',
+        inline: true,
+        class: {
+          control: 'h-10 px-2 py-0',
+          input: 'p-0 h-full',
+        },
+      },
+    ],
     defaultVariants: {
       size: 'base',
       inline: true,
     },
-  }, 'rui-tags-input',
+  },
+  'rui-tags-input',
 )
 
 export type TagsInputVariants = VariantProps<typeof tvTagsInput>

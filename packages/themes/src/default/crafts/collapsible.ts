@@ -38,9 +38,9 @@ export type CollapsibleVariants = VariantProps<typeof tvCollapsible>
 export const tvReadMore = tv(
   {
     slots: {
-      root: [],
-      content: [],
-      trigger: [],
+      root: '',
+      content: '',
+      trigger: '',
     },
   },
   'rui-readmore',

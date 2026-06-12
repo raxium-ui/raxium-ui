@@ -21,19 +21,19 @@ export const tvInput = tv({
   variants: {
     size: {
       xs: {
-        root: 'px-2 py-1 gap-1.5 text-xs',
+        root: 'px-2 h-6 gap-1.5 text-xs',
         input: 'placeholder:text-xs',
       },
       sm: {
-        root: 'px-2 py-1.5 gap-2 text-sm',
+        root: 'px-2 h-7 gap-2 text-sm',
         input: 'placeholder:text-sm',
       },
       base: {
-        root: 'px-2 py-2 gap-2.5 text-base',
+        root: 'px-2 h-8 gap-2.5 text-base',
         input: 'placeholder:text-base',
       },
       lg: {
-        root: 'px-2 py-2.5 gap-3 text-lg',
+        root: 'px-2 h-10 gap-3 text-lg',
         input: 'placeholder:text-lg',
       },
     },

@@ -1,5 +1,5 @@
 import type { VariantProps } from '../../utils'
-import { mapVariant, tv } from '../../utils'
+import { tv } from '../../utils'
 /**
  * @color razer/components/radio-group.css
  */
@@ -16,6 +16,7 @@ export const tvRadioGroup = tv(
         'shrink-0',
         'rounded-full',
         'border',
+        'size-[0.875lh]',
       ],
       itemIndicator: '',
       itemText: '',
@@ -23,47 +24,33 @@ export const tvRadioGroup = tv(
     variants: {
       size: {
         xs: {
-          itemControl: 'size-3',
-          itemIndicator: 'size-1.5',
-          itemText: 'text-xs',
+          item: 'text-xs',
         },
         sm: {
-          itemControl: 'size-3.5',
-          itemIndicator: 'size-1.75',
-          itemText: 'text-sm',
+          item: 'text-sm',
         },
         base: {
-          itemControl: 'size-4',
-          itemIndicator: 'size-2',
-          itemText: 'text-base',
+          item: 'text-base',
         },
         lg: {
-          itemControl: 'size-4.5',
-          itemIndicator: 'size-2.25',
-          itemText: 'text-lg',
+          item: 'text-lg',
         },
       },
       variant: {
         default: {
-          itemIndicator: 'motion-scale-in-0',
+          itemIndicator: 'size-[61.8%] motion-scale-in-0',
         },
         checkbox: {
-          itemIndicator: 'stroke-[.125rem] [&>path]:animate-check-dash',
+          itemIndicator: 'size-[87.5%] stroke-[.125rem] [&>path]:animate-check-dash',
         },
       },
     },
-    compoundVariants: [
-      ...mapVariant('size', {
-        xs: { itemIndicator: 'size-2' },
-        sm: { itemIndicator: 'size-2.5' },
-        base: { itemIndicator: 'size-3' },
-        lg: { itemIndicator: 'size-3.5' },
-      }).map(v => ({ ...v, variant: 'checkbox' as const })),
-    ],
+
     defaultVariants: {
       size: 'base',
     },
-  }, 'rui-radio-group',
+  },
+  'rui-radio-group',
 )
 
 export type RadioGroupVariants = VariantProps<typeof tvRadioGroup>

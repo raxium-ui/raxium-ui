@@ -52,7 +52,7 @@ export const tvTreeBranch = tv(
         sm: {
           control: [
             'text-sm',
-            'min-h-8',
+            'min-h-7',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*4)))]',
           ],
           title: 'gap-2.5',
@@ -60,7 +60,7 @@ export const tvTreeBranch = tv(
         base: {
           control: [
             'text-base',
-            'min-h-10',
+            'min-h-8',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*4.5)))]',
           ],
           title: 'gap-3',
@@ -68,7 +68,7 @@ export const tvTreeBranch = tv(
         lg: {
           control: [
             'text-lg',
-            'min-h-12',
+            'min-h-10',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*5)))]',
           ],
           title: 'gap-3.5',
@@ -106,7 +106,7 @@ export const tvTreeItem = tv(
         sm: {
           title: [
             'gap-2.5',
-            'min-h-8',
+            'min-h-7',
             'text-sm',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*4)))]',
           ],
@@ -114,7 +114,7 @@ export const tvTreeItem = tv(
         base: {
           title: [
             'gap-3',
-            'min-h-10',
+            'min-h-8',
             'text-base',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*4.5)))]',
           ],
@@ -122,7 +122,7 @@ export const tvTreeItem = tv(
         lg: {
           title: [
             'gap-3.5',
-            'min-h-12',
+            'min-h-10',
             'text-lg',
             'pl-[calc((var(--depth)-1)*var(--indent,calc(var(--spacing)*5)))]',
           ],
