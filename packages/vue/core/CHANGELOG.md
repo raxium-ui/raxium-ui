@@ -1,5 +1,20 @@
 # @raxium/vue
 
+## 0.3.9
+
+### Patch Changes
+
+- ba94175: Introduce new `pin-input` component.
+  - Added a new `pin-input` component to the design system, allowing users to enter and manage PIN codes or similar discrete character inputs.
+
+  This update adds `pin-input` to both `@raxium/vue` and `@raxium/themes` packages.
+
+- 2765cff: Adjusted the sizing options for multiple theme components to improve consistency and visual alignment. Updated the size scales, spacing, and padding for Tree and Pin Input components, ensuring better alignment across different sizes (xs, sm, base, lg). These changes improve overall appearance and usability throughout the UI.
+- Updated dependencies [4c0e86b]
+- Updated dependencies [ba94175]
+- Updated dependencies [2765cff]
+  - @raxium/themes@0.2.5
+
 ## 0.3.8
 
 ### Patch Changes
