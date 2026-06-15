@@ -1,5 +1,14 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.4
+
+### Patch Changes
+
+- 86fb2a8: fix: improve gradient image handling in v-lazy directive
+  - Enhanced logic for background gradients during loading and error states
+  - Ensured correct fallback to placeholders when gradients or images are missing
+  - Fixed some edge cases affecting natural size reporting in lazy-loaded elements
+
 ## 0.1.3
 
 ### Patch Changes
