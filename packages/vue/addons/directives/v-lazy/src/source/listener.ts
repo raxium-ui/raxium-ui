@@ -3,7 +3,7 @@ import type {
   ImageCache,
 } from './util'
 import { isArray } from 'es-toolkit/compat'
-import { isMissingLazySrc } from '../utils'
+import { isMissingLazySrc, isLazyPreloadableImageSrc } from '../utils'
 import {
   loadImageAsync,
   noop,
@@ -181,8 +181,19 @@ export default class ReactiveListener {
    */
   renderLoading(cb: Function) {
     this.state.loading = true
+
+    const loading = String(this.loading ?? '').trim()
+
+    // 空 placeholder、CSS gradient、非图片 URL：直接渲染 loading 状态，不预加载
+    if (!loading || !isLazyPreloadableImageSrc(loading)) {
+      this.render('loading', false)
+      this.state.loading = false
+      cb()
+      return
+    }
+
     loadImageAsync({
-      src: this.loading,
+      src: loading,
       cors: this.cors,
     }, () => {
       this.render('loading', false)
@@ -193,7 +204,7 @@ export default class ReactiveListener {
       cb()
       this.state.loading = false
       if (!this.options.silent)
-        console.warn(`VueLazyload log: load failed with loading image(${this.loading})`)
+        console.warn(`VueLazyload log: load failed with loading image(${loading})`)
     })
   }
 

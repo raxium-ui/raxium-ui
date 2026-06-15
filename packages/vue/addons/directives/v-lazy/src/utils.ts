@@ -13,7 +13,21 @@ export function isMissingLazySrc(src: string | string[]): boolean {
 /** 应整段赋给 background / background-image 的渐变（避免误把含 "gradient" 的 URL 当渐变） */
 export function isCssGradientBackgroundValue(value: string): boolean {
   const s = value.trim().toLowerCase()
-  return /^(?:(?:-webkit-)?(?:linear|radial)-gradient|(?:linear|radial|conic|repeating-linear|repeating-radial|repeating-conic)-gradient)\(/i.test(s)
+  return /^(?:(?:-webkit-)?(?:linear|radial)-gradient|(?:conic|repeating-linear|repeating-radial|repeating-conic)-gradient)\(/i.test(s)
+}
+
+/** 是否应通过 new Image() 预加载的 placeholder（排除 CSS gradient、空值等） */
+export function isLazyPreloadableImageSrc(value: string): boolean {
+  const s = String(value ?? '').trim()
+  if (!s)
+    return false
+  if (isCssGradientBackgroundValue(s))
+    return false
+  // data / blob 可直接作为 Image.src
+  if (/^(?:data:image\/|blob:)/i.test(s))
+    return true
+  // 与 Cortex10 对齐：仅常见图片扩展名才预加载
+  return /\.(?:png|jpe?g|gif|webp|svg|avif)(?:\?|#|$)/i.test(s)
 }
 
 export function loadImageArrAsync(
