@@ -29,23 +29,23 @@ export const tvCheckbox = tv(
         false: '',
       },
       size: {
-        xs: '',
-        sm: '',
-        base: '',
-        lg: '',
+        xs: {
+          root: 'text-xs',
+        },
+        sm: {
+          root: 'text-sm',
+        },
+        base: {
+          root: 'text-base',
+        },
+        lg: {
+          root: 'text-lg',
+        },
       },
     },
     defaultVariants: {
       size: 'base',
     },
-    compoundVariants: [
-      ...mapVariant('size', {
-        xs: { root: 'text-xs' },
-        sm: { root: 'text-sm' },
-        base: { root: 'text-base' },
-        lg: { control: 'text-lg' },
-      }),
-    ],
   },
   'rui-checkbox',
 )
