@@ -44,6 +44,7 @@ export default class ReactiveListener {
 
   rect: DOMRect
   _imageCache: ImageCache
+  destroyed = false
   constructor(
     el: HTMLElement,
     src: string | string[],
@@ -196,10 +197,14 @@ export default class ReactiveListener {
       src: loading,
       cors: this.cors,
     }, () => {
+      if (this.destroyed)
+        return
       this.render('loading', false)
       this.state.loading = false
       cb()
     }, () => {
+      if (this.destroyed)
+        return
       // handler `loading image` load failed
       cb()
       this.state.loading = false
@@ -213,6 +218,10 @@ export default class ReactiveListener {
    * @return
    */
   load(onFinish = noop) {
+    if (this.destroyed) {
+      onFinish()
+      return
+    }
     if ((this.attempt > this.options.attempt! - 1) && this.state.error) {
       if (!this.options.silent)
         console.log(`VueLazyload log: ${this.src} tried too more than ${this.options.attempt} times`)
@@ -244,6 +253,10 @@ export default class ReactiveListener {
     }
 
     this.renderLoading(() => {
+      if (this.destroyed) {
+        onFinish()
+        return
+      }
       this.attempt++
 
       this.options.adapter.beforeLoad && this.options.adapter.beforeLoad(this, this.options)
@@ -259,6 +272,10 @@ export default class ReactiveListener {
           src: string
         },
       ) => {
+        if (this.destroyed) {
+          onFinish()
+          return
+        }
         this.naturalHeight = data.naturalHeight
         this.naturalWidth = data.naturalWidth
         this.state.loaded = true
@@ -269,6 +286,8 @@ export default class ReactiveListener {
         this._imageCache.add(this.src as string)
         onFinish()
       }, (err: Error) => {
+        if (this.destroyed)
+          return
         !this.options.silent && console.error(err)
         this.state.error = true
         this.state.loaded = false
@@ -284,6 +303,8 @@ export default class ReactiveListener {
    * @return
    */
   render(state: string, cache: boolean) {
+    if (this.destroyed || !this.el)
+      return
     this.elRenderer(this, state, cache)
   }
 
@@ -315,11 +336,14 @@ export default class ReactiveListener {
    * @return
    */
   $destroy() {
+    this.destroyed = true
     this.el = null
     this.src = ''
     this.error = null
     this.loading = ''
     this.bindType = null
     this.attempt = 0
+    this.elRenderer = noop
+    this.$parent = null
   }
 }

@@ -47,6 +47,8 @@ type Tlistener = {
   rect: object
   checkInView: () => boolean
   load: () => void
+  destroyed?: boolean
+  $destroy?: () => void
 }
 
 export type TvalueFormatterParam = string | Pick<VueLazyloadOptions, 'loading' | 'error'> & { src: string }
@@ -62,6 +64,7 @@ class Lazy {
   _imageCache: any
   _observer?: IntersectionObserver | null
   lazyContainerMananger: LazyContainerMananger | null
+  protected _pendingAdds = new Set<HTMLElement>()
   Event!: {
     listeners: {
       loading: Array<any>
@@ -74,6 +77,7 @@ class Lazy {
   $once!: (event: TeventType, func: Function) => void
   $off!: (event: TeventType, func: Function) => void
   $emit!: (event: TeventType, context: any, inCache: boolean) => void
+  protected _boundElRenderer: (listener: ReactiveListener, state: TeventType, cache: boolean) => void
   constructor({
     preLoad,
     error,
@@ -116,6 +120,7 @@ class Lazy {
     this._initEvent()
     this._imageCache = new ImageCache(200)
     this.lazyLoadHandler = throttle(this._lazyLoadHandler.bind(this), this.options.throttleWait!)
+    this._boundElRenderer = this._elRenderer.bind(this)
 
     this.setMode(this.options.observer ? modeType.observer : modeType.event)
   }
@@ -163,7 +168,15 @@ class Lazy {
 
     let { src, loading, error, cors } = this._valueFormatter(binding.value)
 
+    this._pendingAdds.add(el)
     nextTick(() => {
+      if (!this._pendingAdds.has(el))
+        return
+      this._pendingAdds.delete(el)
+
+      if (!el.isConnected)
+        return
+
       src = getBestSelectionFromSrcset(el, this.options.scale as number) || src
       this._observer && this._observer.observe(el)
 
@@ -190,7 +203,7 @@ class Lazy {
         $parent,
         this.options,
         cors!,
-        this._elRenderer.bind(this),
+        this._boundElRenderer,
         this._imageCache,
       )
 
@@ -245,6 +258,7 @@ class Lazy {
   remove(el: HTMLElement) {
     if (!el)
       return
+    this._pendingAdds.delete(el)
     this._observer && this._observer.unobserve(el)
     const existItem = this.ListenerQueue.find(item => item.el === el)
     if (existItem) {
@@ -253,6 +267,7 @@ class Lazy {
       remove(this.ListenerQueue, existItem)
       existItem.$destroy && existItem.$destroy()
     }
+    this._purgeDetachedListeners()
   }
 
   /*
@@ -399,6 +414,22 @@ class Lazy {
   }
 
   /**
+   * remove detached or completed listeners from queue
+   */
+  _purgeDetachedListeners() {
+    const freeList: Array<Tlistener> = []
+    this.ListenerQueue.forEach((listener) => {
+      if (!listener.el || !listener.el.parentNode || listener.state.loaded) {
+        freeList.push(listener)
+      }
+    })
+    freeList.forEach((item) => {
+      remove(this.ListenerQueue, item)
+      item.$destroy && item.$destroy()
+    })
+  }
+
+  /**
    * find nodes which in viewport and trigger load
    * @return
    */
@@ -408,6 +439,8 @@ class Lazy {
       if (!listener.el || !listener.el.parentNode || listener.state.loaded) {
         freeList.push(listener)
       }
+      if (!listener.el || listener.destroyed)
+        return
       const catIn = listener.checkInView()
       if (!catIn)
         return

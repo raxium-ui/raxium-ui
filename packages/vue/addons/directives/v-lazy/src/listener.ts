@@ -39,6 +39,10 @@ class ReactiveListenerEx extends ReactiveListener {
   }
 
   load(onFinish = () => {}) {
+    if (this.destroyed) {
+      onFinish()
+      return
+    }
     if (this.attempt > this.options.attempt! - 1 && this.state.error) {
       if (!this.options.silent) {
         console.log(
@@ -94,6 +98,10 @@ class ReactiveListenerEx extends ReactiveListener {
     }
 
     this.renderLoading(() => {
+      if (this.destroyed) {
+        onFinish()
+        return
+      }
       this.attempt++
 
       this.options.adapter.beforeLoad && this.options.adapter.beforeLoad(this, this.options)
@@ -101,6 +109,8 @@ class ReactiveListenerEx extends ReactiveListener {
 
       if (isArray(this.src)) {
         const _onResolve = (data: { naturalHeight: number, naturalWidth: number, src: string }) => {
+          if (this.destroyed)
+            return onFinish()
           this.naturalHeight = data.naturalHeight
           this.naturalWidth = data.naturalWidth
           this.state.loaded = true
@@ -113,6 +123,8 @@ class ReactiveListenerEx extends ReactiveListener {
           return onFinish()
         }
         const _onReject = (curIndex: number, err: Error) => {
+          if (this.destroyed)
+            return
           if (!isEmpty(this.src) && curIndex < this.src.length) {
             loadImageArrAsync(this.src as unknown as string[], curIndex, _onResolve, _onReject)
           }
@@ -132,6 +144,10 @@ class ReactiveListenerEx extends ReactiveListener {
             cors: this.cors,
           },
           (data: { naturalHeight: number, naturalWidth: number, src: string }) => {
+            if (this.destroyed) {
+              onFinish()
+              return
+            }
             this.naturalHeight = data.naturalHeight
             this.naturalWidth = data.naturalWidth
             this.state.loaded = true
@@ -143,6 +159,8 @@ class ReactiveListenerEx extends ReactiveListener {
             onFinish()
           },
           (err: Error) => {
+            if (this.destroyed)
+              return
             !this.options.silent && console.error(err)
             this.state.error = true
             this.state.loaded = false

@@ -1,4 +1,5 @@
 import type { DirectiveBinding, VNode } from 'vue'
+import type ReactiveListener from './source/listener'
 import type { VueLazyloadOptionsEx } from './types'
 import { isArray, merge } from 'es-toolkit/compat'
 import { nextTick } from 'vue'
@@ -27,11 +28,36 @@ function applyLazyBackground(el: HTMLElement, bindType: string, src: string | nu
 }
 
 class LazyEx extends Lazy {
-  loadingDelayTimer: ReturnType<typeof setTimeout> | null = null
+  loadingDelayTimers = new Map<HTMLElement, ReturnType<typeof setTimeout>>()
 
   constructor(options: VueLazyloadOptionsEx) {
     super(options)
     this.options = merge({}, this.options, { useCache: true, loadingDelay: 0 }, options)
+    this._boundElRenderer = this._elRenderer.bind(this)
+  }
+
+  _clearLoadingDelayTimer(el: HTMLElement) {
+    const timer = this.loadingDelayTimers.get(el)
+    if (timer != null) {
+      clearTimeout(timer)
+      this.loadingDelayTimers.delete(el)
+    }
+  }
+
+  _scheduleLoadingDelay(el: HTMLElement, callback: () => void) {
+    this._clearLoadingDelayTimer(el)
+    const delay = (this.options as VueLazyloadOptionsEx).loadingDelay
+    if (!delay) {
+      callback()
+      return
+    }
+    const timer = setTimeout(() => {
+      this.loadingDelayTimers.delete(el)
+      if (!el.isConnected)
+        return
+      callback()
+    }, delay)
+    this.loadingDelayTimers.set(el, timer)
   }
 
   add(el: HTMLElement, binding: DirectiveBinding, _: VNode) {
@@ -42,7 +68,15 @@ class LazyEx extends Lazy {
 
     let { src, loading, error, cors } = this._valueFormatter(binding.value)
 
+    this._pendingAdds.add(el)
     nextTick(() => {
+      if (!this._pendingAdds.has(el))
+        return
+      this._pendingAdds.delete(el)
+
+      if (!el.isConnected)
+        return
+
       src = getBestSelectionFromSrcset(el, this.options.scale as number) || src
       this._observer && this._observer.observe(el)
 
@@ -69,7 +103,7 @@ class LazyEx extends Lazy {
         $parent,
         merge({}, this.options, { useCache: !noCache }),
         cors!,
-        this._elRenderer.bind(this),
+        this._boundElRenderer,
         this._imageCache,
       )
 
@@ -84,29 +118,30 @@ class LazyEx extends Lazy {
     })
   }
 
-  _elRenderer(listener: ReactiveListenerEx, state: TeventType, cache: boolean) {
-    if (!listener.el)
+  _elRenderer(listener: ReactiveListener, state: TeventType, cache: boolean) {
+    const listenerEx = listener as ReactiveListenerEx
+    if (!listenerEx.el || listenerEx.destroyed)
       return
-    const { el, bindType } = listener
+    const { el, bindType } = listenerEx
 
     let src
     let srcIndex = 'src'
 
     switch (state) {
       case 'loading':
-        src = listener.loading
+        src = listenerEx.loading
         break
       case 'error':
-        src = listener.error
+        src = listenerEx.error
         break
       case 'loaded':
       default:
-        if (isArray(listener.src)) {
-          src = listener.src[listener.renderIndex]
-          srcIndex += listener.renderIndex
+        if (isArray(listenerEx.src)) {
+          src = listenerEx.src[listenerEx.renderIndex]
+          srcIndex += listenerEx.renderIndex
         }
         else {
-          src = listener.src
+          src = listenerEx.src
         }
         break
     }
@@ -125,62 +160,45 @@ class LazyEx extends Lazy {
         applyLazyBackground(el, bindType, src)
       }
       else {
-        if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
-          this.loadingDelayTimer = setTimeout(() => {
-            applyLazyBackground(el, bindType, src)
-            if (srcIndex !== 'src') {
-              el.setAttribute('src-index', srcIndex)
-            }
-          }, (this.options as VueLazyloadOptionsEx).loadingDelay)
-        }
-        else {
+        this._scheduleLoadingDelay(el, () => {
           applyLazyBackground(el, bindType, src)
           if (srcIndex !== 'src') {
             el.setAttribute('src-index', srcIndex)
           }
-        }
+        })
       }
     }
     else if (bindType === 'xlink:href' || bindType === 'href') {
       const attrSrc = src ?? ''
-      if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
-        this.loadingDelayTimer = setTimeout(() => {
-          el.setAttribute(bindType, attrSrc)
-        }, (this.options as VueLazyloadOptionsEx).loadingDelay)
-      }
-      else {
+      this._scheduleLoadingDelay(el, () => {
         el.setAttribute(bindType, attrSrc)
-      }
+      })
     }
     else if (el.getAttribute('src') !== (src ?? '')) {
       const imgSrc = src ?? ''
-      if ((this.options as VueLazyloadOptionsEx).loadingDelay) {
-        this.loadingDelayTimer = setTimeout(() => {
-          el.setAttribute('src', imgSrc)
-        }, (this.options as VueLazyloadOptionsEx).loadingDelay)
-      }
-      else {
+      this._scheduleLoadingDelay(el, () => {
         el.setAttribute('src', imgSrc)
-      }
+      })
     }
 
     el.setAttribute('lazy', state)
-    el.setAttribute('src-size', `${listener.naturalWidth}x${listener.naturalHeight}`)
+    el.setAttribute('src-size', `${listenerEx.naturalWidth}x${listenerEx.naturalHeight}`)
 
-    this.$emit(state, listener, cache)
-    this.options.adapter[state] && this.options.adapter[state](listener, this.options)
+    this.$emit(state, listenerEx, cache)
+    this.options.adapter[state] && this.options.adapter[state](listenerEx, this.options)
 
     if (this.options.dispatchEvent) {
       const event = new CustomEvent(state, {
-        detail: listener,
+        detail: listenerEx,
       })
       el.dispatchEvent(event)
     }
   }
 
   remove(el: HTMLElement) {
-    this.loadingDelayTimer && clearTimeout(this.loadingDelayTimer)
+    this._clearLoadingDelayTimer(el)
     super.remove(el)
+    this._purgeDetachedListeners()
   }
 }
 
