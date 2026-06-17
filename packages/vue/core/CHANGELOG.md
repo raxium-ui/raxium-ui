@@ -1,5 +1,18 @@
 # @raxium/vue
 
+## 0.3.10
+
+### Patch Changes
+
+- f7b8915: feat(RadioGroup): update props; add RadioGroupLayout for flexible arrangement
+  - Enhanced RadioGroup props for more flexible configurations.
+  - Introduced RadioGroupLayout component to support inline and stack layouts.
+  - Improved group layout customization and alignment options.
+
+- Updated dependencies [91039a4]
+- Updated dependencies [f7b8915]
+  - @raxium/themes@0.2.6
+
 ## 0.3.9
 
 ### Patch Changes

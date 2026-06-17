@@ -1,5 +1,15 @@
 # @raxium/themes
 
+## 0.2.6
+
+### Patch Changes
+
+- 91039a4: changelog: update checkbox crafts
+- f7b8915: feat(RadioGroup): update props; add RadioGroupLayout for flexible arrangement
+  - Enhanced RadioGroup props for more flexible configurations.
+  - Introduced RadioGroupLayout component to support inline and stack layouts.
+  - Improved group layout customization and alignment options.
+
 ## 0.2.5
 
 ### Patch Changes
