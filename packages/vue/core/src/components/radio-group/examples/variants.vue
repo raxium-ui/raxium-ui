@@ -5,7 +5,7 @@ import { RadioGroup, RadioGroupItem } from '../index'
 
 const items = Array.from({ length: 6 }, () => {
   const fruit = fakerEN.food.fruit()
-  return { label: fruit, value: fruit }
+  return { text: fruit, value: fruit }
 })
 const value = ref<string | undefined>(items[0]?.value)
 </script>
@@ -20,7 +20,7 @@ const value = ref<string | undefined>(items[0]?.value)
         v-for="(item, index) in items"
         :key="item.value"
         :variant="index % 2 === 0 ? 'default' : 'checkbox'"
-        :label="item.label"
+        :text="item.text"
         :value="item.value"
       />
     </RadioGroup>

@@ -7,12 +7,23 @@ import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 
-const { class: propsClass, theme: propsTheme, craft, ...props } = defineProps<RadioGroupProps>()
+const {
+  class: propsClass,
+  theme: propsTheme,
+  craft,
+  ui,
+  label,
+  ...props
+} = defineProps<RadioGroupProps>()
 const emit = defineEmits<RadioGroupRootEmits>()
 const radioGroup = useRadioGroup(useForwardProps(props) as unknown as UseRadioGroupProps, emit)
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
+const theme = useTheme(
+  () => propsTheme,
+  undefined,
+  () => craft,
+)
 useProvideComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvRadioGroup')
 
@@ -24,9 +35,16 @@ useForwardExpose()
 <template>
   <RadioGroup.RootProvider
     :value="radioGroup"
-    :class="crafts.root(cxc(propsClass))"
+    :class="crafts.root(cxc(ui?.root, propsClass))"
   >
-    <slot name="label" />
+    <RadioGroup.Label
+      v-if="label || $slots.label"
+      :class="crafts.label(cxc(ui?.label))"
+    >
+      <slot name="label">
+        {{ label }}
+      </slot>
+    </RadioGroup.Label>
     <slot />
   </RadioGroup.RootProvider>
 </template>

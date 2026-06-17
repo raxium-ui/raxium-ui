@@ -13,6 +13,11 @@ export interface RadioGroupProps
   class?: HTMLAttributes['class']
   modelValue?: RadioGroupValueType
   defaultValue?: RadioGroupValueType
+  label?: string
+  ui?: {
+    root?: HTMLAttributes['class']
+    label?: HTMLAttributes['class']
+  }
 }
 
 export interface RadioGroupRootEmits {
@@ -28,7 +33,7 @@ export interface RadioGroupRootEmits {
 
 export interface RadioGroupItemProps extends Omit<RadioGroupItemBaseProps, 'value'>, ThemeNoCrafts {
   class?: HTMLAttributes['class']
-  label?: string
+  text?: string
   variant?: RadioGroupVariants['variant']
   ui?: {
     root?: HTMLAttributes['class']
@@ -37,4 +42,9 @@ export interface RadioGroupItemProps extends Omit<RadioGroupItemBaseProps, 'valu
     text?: HTMLAttributes['class']
   }
   value: RadioGroupValueType
+}
+
+export interface RadioGroupLayoutProps {
+  class?: HTMLAttributes['class']
+  layout?: 'stack' | 'inline'
 }

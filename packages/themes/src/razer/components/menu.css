@@ -46,7 +46,7 @@
   }
 
   .rui-menu-item-group-label {
-    @apply text-rui-text-primary font-rz-bold border-rui-border-subtle;
+    @apply text-rui-text-primary font-rob-bold border-rui-border-subtle;
   }
 
   .rui-menu-separator {

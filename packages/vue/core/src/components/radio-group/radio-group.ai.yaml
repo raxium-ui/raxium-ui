@@ -8,8 +8,8 @@ component:
   exportName: RadioGroup
   category: core
   description: 用于管理单选集合场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展
-    theme、variant 以及 ui 样式入口。由 RadioGroup（根）与 RadioGroupItem（子组件）组成；RadioGroupItem
-    承载单选项，扩展 label、variant 与 ui 样式入口。
+    theme、variant 以及 ui 样式入口。由 RadioGroup（根）、RadioGroupLayout（布局）与 RadioGroupItem（子项）组成；根组件提供组级
+    label 与 theme/craft，布局组件控制 stack/inline 排列，子项承载 text、variant 与 ui 样式入口。
   basePrimitive:
     library: '@ark-ui/vue/radio-group'
     primitive: RadioGroup.RootProvider
@@ -18,14 +18,17 @@ component:
     htmlAttributes:
       - aria-*
       - data-*
-    notes: 组件基于 Ark UI Radio Group 封装，通过 useRadioGroup 承接组值状态。
+    notes: 组件基于 Ark UI Radio Group 封装，通过 useRadioGroup 承接组值状态。RadioGroupLayout 为 Raxium 扩展布局容器，不参与
+      Ark 状态管理。
   capabilities:
     - v-model
     - theme
     - ui-override
     - orientation
     - composite-item
+    - layout-container
   subComponents:
+    - RadioGroupLayout
     - RadioGroupItem
 contracts:
   props:
@@ -39,10 +42,13 @@ contracts:
       conflictsWith:
         - modelValue
       description: 非受控模式下的初始值
+    - name: label
+      typeText: string
+      description: 组级标题文案；也可用 label 插槽完全自定义
     - name: orientation
       typeText: '''horizontal'' | ''vertical'''
       default: horizontal
-      description: 布局方向
+      description: Ark UI 组方向（影响 roving focus 等；视觉排列优先用 RadioGroupLayout）
     - name: disabled
       typeText: boolean
       description: 禁用整组交互
@@ -59,6 +65,9 @@ contracts:
       typeText: CraftOverride
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
+    - name: ui
+      typeText: '{ root?: HTMLAttributes[''class'']; label?: HTMLAttributes[''class''] }'
+      description: 组根节点与组级标签的 class 覆盖
   events:
     - name: update:modelValue
       payload:
@@ -74,7 +83,7 @@ contracts:
         type: object
         properties: {}
         additionalProperties: false
-      description: 组内容器插槽，通常放置多个 RadioGroupItem
+      description: 组内容器插槽，通常放置 RadioGroupLayout 或直接放置多个 RadioGroupItem
     - name: label
       slotPropsSchema:
         type: object
@@ -86,8 +95,32 @@ contracts:
       - name: size
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
-        description: 控制 control/indicator/text 的尺寸体系
+        description: 控制 label/item/control/indicator/text 的尺寸体系
+      - name: variant
+        typeText: '''default'' | ''checkbox'''
+        default: default
+        description: 由 RadioGroupItem.variant 驱动的指示器样式
+      - name: layout
+        typeText: '''stack'' | ''inline'''
+        default: stack
+        description: 由 RadioGroupLayout.layout 驱动的选项排列方向
 subComponents:
+  RadioGroupLayout:
+    props:
+      - name: layout
+        typeText: '''stack'' | ''inline'''
+        default: stack
+        description: 选项视觉排列：stack 纵向、inline 横向
+      - name: class
+        typeText: string | array | object
+        description: 布局容器附加 class
+    slots:
+      - name: default
+        slotPropsSchema:
+          type: object
+          properties: {}
+          additionalProperties: false
+        description: 布局容器插槽，包裹多个 RadioGroupItem
   RadioGroupItem:
     props:
       - name: value
@@ -95,7 +128,7 @@ subComponents:
         requiredSource: doc
         typeText: string | number | symbol | bigint | null
         description: 单选项值（必填）
-      - name: label
+      - name: text
         typeText: string
         description: 默认文本标签；也可用默认插槽完全自定义
       - name: variant
@@ -165,7 +198,7 @@ exampleDefaults:
       componentName: RadioGroup
 examples:
   - id: basic
-    description: 基础用法
+    description: 基础用法（含 RadioGroupLayout、label、inline/stack）
   - id: variants
     description: 变体（圆点 / 勾选）
   - id: sizes
@@ -177,45 +210,67 @@ examples:
 generationHints:
   preferredUsageOrder:
     - modelValue / defaultValue
+    - RadioGroup.label
+    - RadioGroupLayout.layout
     - orientation
     - theme.size
     - RadioGroupItem.value
+    - RadioGroupItem.text
     - RadioGroupItem.variant
     - RadioGroupItem.ui
   a11yChecklist:
     - 同一组选项保持 value 类型一致
-    - 组级 label 插槽或 aria-label 提供可访问性说明
+    - 组级 label prop 或 label 插槽提供可访问性说明
     - disabled 状态需提供可感知视觉反馈
+    - 视觉排列用 RadioGroupLayout，键盘导航语义用 orientation
   codegenTemplates:
     minimal: |-
       <RadioGroup v-model="value">
-        <RadioGroupItem value="a" label="A" />
-        <RadioGroupItem value="b" label="B" />
+        <RadioGroupLayout>
+          <RadioGroupItem value="a" text="A" />
+          <RadioGroupItem value="b" text="B" />
+        </RadioGroupLayout>
+      </RadioGroup>
+    withLabelAndLayout: |-
+      <RadioGroup v-model="value" label="Choose one">
+        <RadioGroupLayout layout="inline">
+          <RadioGroupItem value="a" text="A" />
+          <RadioGroupItem value="b" text="B" />
+        </RadioGroupLayout>
       </RadioGroup>
     controlled: |-
-      <RadioGroup v-model="selected" orientation="vertical">
-        <RadioGroupItem value="1" label="选项 1" />
-        <RadioGroupItem value="2" label="选项 2" />
+      <RadioGroup v-model="selected" orientation="vertical" label="Options">
+        <RadioGroupLayout layout="stack">
+          <RadioGroupItem value="1" text="选项 1" />
+          <RadioGroupItem value="2" text="选项 2" />
+        </RadioGroupLayout>
       </RadioGroup>
     withUi: |-
       <RadioGroup v-model="value">
-        <RadioGroupItem value="a" label="A" :ui="{ indicator: 'ring-2' }" />
-        <RadioGroupItem value="b" label="B" />
+        <RadioGroupLayout>
+          <RadioGroupItem value="a" text="A" :ui="{ indicator: 'ring-2' }" />
+          <RadioGroupItem value="b" text="B" />
+        </RadioGroupLayout>
       </RadioGroup>
     customSlots: |-
       <RadioGroup v-model="value">
-        <RadioGroupItem value="a">
-          <template #default="{ checked }">{{ checked ? '已选 A' : 'A' }}</template>
-        </RadioGroupItem>
-        <RadioGroupItem value="b" label="B" />
+        <RadioGroupLayout>
+          <RadioGroupItem value="a">
+            <template #default="{ checked }">{{ checked ? '已选 A' : 'A' }}</template>
+          </RadioGroupItem>
+          <RadioGroupItem value="b" text="B" />
+        </RadioGroupLayout>
       </RadioGroup>
   antiPatterns:
     - <RadioGroup v-model="v" :default-value="'x'">...</RadioGroup> modelValue 与 defaultValue
       同时使用（受控与非受控互斥）
     - <RadioGroup><RadioGroupItem value="1" /> <RadioGroupItem value="two" /> </RadioGroup>
       同一组内 value 类型混用（应统一为 string 或 number）
-    - <RadioGroupItem value="a" /> 未使用 label 或默认插槽导致选项无文本（应提供 label 或 default slot）
+    - <RadioGroupItem value="a" /> 未使用 text 或默认插槽导致选项无文本（应提供 text 或 default slot）
+    - <RadioGroupItem value="a" label="A" /> 使用已废弃的 label prop（应改为 text）
     - <RadioGroupItem value="a" class="opacity-50" /> 仅靠视觉样式模拟禁用（应使用 disabled）
+    - 仅用 orientation 或手动 flex class 控制视觉排列而忽略 RadioGroupLayout（应优先用 layout="stack"
+      | "inline"）
 provenance:
   sources:
     - path: ./radio-group.doc.mdx
@@ -223,6 +278,8 @@ provenance:
     - path: ./props.ts
       kind: type
     - path: ./RadioGroup.vue
+      kind: runtime
+    - path: ./RadioGroupLayout.vue
       kind: runtime
     - path: ./RadioGroupItem.vue
       kind: runtime

@@ -1,9 +1,12 @@
 @layer components {
-  .rui-radio-group-root {
+  .rui-radio-group-label {
+    @apply text-rui-text-primary font-rob-bold;
   }
+
   .rui-radio-group-item {
     @apply data-disabled:opacity-(--disabled-opacity);
   }
+
   .rui-radio-group-item-control {
     @apply bg-transparent active:bg-gray-28 border-gray-70 
          hover:border-rui-primary active:border-rui-primary
@@ -39,6 +42,5 @@
   .rui-radio-group-item-text {
     @apply text-rui-text-secondary hover:text-rui-text-primary group-hover/item:text-rui-text-primary;
     @apply data-disabled:hover:text-rui-text-secondary data-disabled:group-hover/item:text-rui-text-secondary;
-    
   }
 }

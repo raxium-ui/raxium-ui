@@ -12,9 +12,9 @@ const value = ref<string | undefined>('a')
         Horizontal + disabled item
       </div>
       <RadioGroup v-model="value">
-        <RadioGroupItem label="Option A" value="a" />
-        <RadioGroupItem label="Option B (disabled)" value="b" disabled />
-        <RadioGroupItem label="Option C" value="c" />
+        <RadioGroupItem text="Option A" value="a" />
+        <RadioGroupItem text="Option B (disabled)" value="b" disabled />
+        <RadioGroupItem text="Option C" value="c" />
       </RadioGroup>
     </div>
 
@@ -23,9 +23,9 @@ const value = ref<string | undefined>('a')
         Vertical
       </div>
       <RadioGroup v-model="value" orientation="vertical" class="flex flex-col gap-2 items-start">
-        <RadioGroupItem label="Option A" value="a" />
-        <RadioGroupItem label="Option B" value="b" />
-        <RadioGroupItem label="Option C" value="c" />
+        <RadioGroupItem text="Option A" value="a" />
+        <RadioGroupItem text="Option B" value="b" />
+        <RadioGroupItem text="Option C" value="c" />
       </RadioGroup>
     </div>
   </div>

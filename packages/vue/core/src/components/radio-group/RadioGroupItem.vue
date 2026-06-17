@@ -11,8 +11,8 @@ import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 const {
   class: propsClass,
   theme: propsTheme,
-  label,
   ui,
+  text,
   variant = 'default',
   ...props
 } = defineProps<RadioGroupItemProps>()
@@ -62,10 +62,10 @@ const crafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
         v-bind="context"
       >
         <RadioGroup.ItemText
-          v-if="label"
+          v-if="text"
           :class="crafts.itemText(cxc(ui?.text))"
         >
-          {{ label }}
+          {{ text }}
         </RadioGroup.ItemText>
       </slot>
       <RadioGroup.ItemHiddenInput />

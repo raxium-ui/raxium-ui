@@ -6,7 +6,9 @@ import { tv } from '../../utils'
 export const tvRadioGroup = tv(
   {
     slots: {
-      root: ['flex', 'items-center'],
+      root: ['flex', 'flex-col', 'items-start', 'gap-2'],
+      layout: ['flex', 'gap-2'],
+      label: '',
       item: ['relative', 'inline-flex', 'items-center', 'w-fit', 'gap-2', 'group/item'],
       itemControl: [
         'flex',
@@ -24,15 +26,19 @@ export const tvRadioGroup = tv(
     variants: {
       size: {
         xs: {
+          label: 'text-xs',
           item: 'text-xs',
         },
         sm: {
+          label: 'text-sm',
           item: 'text-sm',
         },
         base: {
+          label: 'text-base',
           item: 'text-base',
         },
         lg: {
+          label: 'text-lg',
           item: 'text-lg',
         },
       },
@@ -42,6 +48,14 @@ export const tvRadioGroup = tv(
         },
         checkbox: {
           itemIndicator: 'size-[87.5%] stroke-[.125rem] [&>path]:animate-check-dash',
+        },
+      },
+      layout: {
+        stack: {
+          layout: 'flex-col',
+        },
+        inline: {
+          layout: 'flex-row',
         },
       },
     },
