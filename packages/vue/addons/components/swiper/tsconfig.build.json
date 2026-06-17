@@ -20,6 +20,7 @@
     "node_modules",
     "dist",
     "src/swiper.stories.ts",
-    "src/examples/**/*.vue"
+    "src/examples/**/*.vue",
+    "src/**/__test__/**"
   ]
 }

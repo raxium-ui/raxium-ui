@@ -31,7 +31,7 @@
   "scripts": {
     "copy:css": "bun -e \"import { mkdir } from 'node:fs/promises'; await mkdir('./dist', { recursive: true }); await Bun.write('./dist/index.css', Bun.file('./src/index.css'));\"",
     "build": "rslib build --tsconfig ./tsconfig.build.json && vue-tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json && bun run copy:css",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run"
   },
   "peerDependencies": {
     "vue": "^3.5.27"
@@ -44,11 +44,16 @@
     "swiper": "^12.1.2"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.1",
     "@rsbuild/plugin-babel": "^1.0.6",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
     "@rslib/core": "0.20.0",
+    "@vue/test-utils": "^2.4.6",
+    "happy-dom": "^20.0.11",
     "rsbuild-plugin-unplugin-vue": "^0.2.0",
     "tsc-alias": "^1.8.16",
+    "vitest": "^4.1.1",
+    "vue": "^3.5.27",
     "vue-tsc": "^3.2.5"
   },
   "publishConfig": {

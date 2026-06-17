@@ -1,7 +1,7 @@
 import type { Swiper } from 'swiper/types'
-import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import type { ComputedRef, MaybeRef, Ref, ShallowRef } from 'vue'
 import type { SwiperEmits } from '.'
-import { ref, unref, watchEffect } from 'vue'
+import { onActivated, onBeforeUnmount, onDeactivated, ref, unref, watchEffect } from 'vue'
 
 type MaybeEmptySwiper = Swiper | null | undefined
 
@@ -54,6 +54,50 @@ export function useSwiperToggleEnabled(swiperRef: Ref<MaybeEmptySwiper>) {
   })
 
   return { isCanPrev, isCanNext }
+}
+
+/**
+ * Keep-Alive lifecycle: destroy Swiper on deactivate and rebuild on activate
+ * to avoid detached DOM references and background autoplay timers.
+ */
+export function useSwiperKeepAlive({
+  swiperInstance,
+  swiperEl,
+  hasModule,
+}: {
+  swiperInstance: ShallowRef<MaybeEmptySwiper>
+  swiperEl: Ref<HTMLElement | undefined>
+  hasModule: (moduleName: string) => boolean
+}) {
+  const isAlive = ref(true)
+
+  function destroySwiper() {
+    const swiper = swiperInstance.value
+    if (!swiper)
+      return
+
+    if (hasModule('Autoplay'))
+      swiper.autoplay?.stop()
+
+    swiper.destroy(true, true)
+    swiperInstance.value = null
+    swiperEl.value = undefined
+  }
+
+  onDeactivated(() => {
+    destroySwiper()
+    isAlive.value = false
+  })
+
+  onActivated(() => {
+    isAlive.value = true
+  })
+
+  onBeforeUnmount(() => {
+    destroySwiper()
+  })
+
+  return { isAlive, destroySwiper }
 }
 
 export function useRegistSwiperEmits({

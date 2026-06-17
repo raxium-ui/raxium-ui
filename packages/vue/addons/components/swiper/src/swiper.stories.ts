@@ -4,6 +4,8 @@ import AutoplayExample from './examples/autoplay.vue'
 import AutoplayExampleRaw from './examples/autoplay.vue?raw'
 import BasicExample from './examples/basic.vue'
 import BasicExampleRaw from './examples/basic.vue?raw'
+import KeepAliveExample from './examples/keep-alive.vue'
+import KeepAliveExampleRaw from './examples/keep-alive.vue?raw'
 import LoopExample from './examples/loop.vue'
 import LoopExampleRaw from './examples/loop.vue?raw'
 import MultipleSlidesExample from './examples/multiple-slides.vue'
@@ -158,6 +160,21 @@ export const MultipleSlides = {
   },
   render: () => ({
     components: { Component: MultipleSlidesExample },
+    template: '<Component />',
+  }),
+}
+
+export const KeepAlive = {
+  parameters: {
+    docs: {
+      source: {
+        code: KeepAliveExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: KeepAliveExample },
     template: '<Component />',
   }),
 }

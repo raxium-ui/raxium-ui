@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperInstance } from 'swiper/types'
+import type { Component } from 'vue'
 import type { SwiperEmits, SwiperProps, SwiperSlots } from '.'
 import { cn, useForwardPropsEmits } from '@raxium/vue-addons-shared'
 import { Swiper } from 'swiper/vue'
-import { ref, shallowRef } from 'vue'
-import { useSwiperModule } from './utils'
+import { h, ref, shallowRef, useAttrs, useSlots } from 'vue'
+import { useSwiperKeepAlive, useSwiperModule } from './utils'
 
 defineOptions({
   inheritAttrs: false,
@@ -15,10 +16,13 @@ const emits = defineEmits<SwiperEmits>()
 defineSlots<SwiperSlots>()
 
 const forwarded = useForwardPropsEmits(props, emits)
+const slots = useSlots()
+const attrs = useAttrs()
 
 const swiperInstance = shallowRef<SwiperInstance | null>(null)
 const swiperEl = ref<HTMLElement>()
 const { hasModule } = useSwiperModule(swiperInstance)
+const { isAlive } = useSwiperKeepAlive({ swiperInstance, swiperEl, hasModule })
 
 function onSwiperInit(swiper: SwiperInstance) {
   swiperEl.value = swiper.el
@@ -51,6 +55,26 @@ function onKeyDown(event: KeyboardEvent) {
   }
 }
 
+/** Pass slots directly to swiper/vue to avoid template re-wrap triggering slot-outside-render warnings. */
+function SwiperRoot() {
+  if (!isAlive.value)
+    return null
+
+  return h(
+    Swiper as Component,
+    {
+      ...forwarded.value,
+      ...attrs,
+      class: cn('rui-swiper', propsClass),
+      direction,
+      onSwiper: onSwiperInit,
+      'data-scope': 'swiper',
+      'data-part': 'root',
+    },
+    slots,
+  )
+}
+
 defineExpose({ swiper: swiperInstance, $el: swiperEl })
 </script>
 
@@ -66,45 +90,6 @@ defineExpose({ swiper: swiperInstance, $el: swiperEl })
     @focusout="onFocusOut"
     @keydown="onKeyDown"
   >
-    <!-- @vue-expect-error -->
-    <Swiper
-      v-bind="{ ...forwarded, ...$attrs }"
-      :class="cn('rui-swiper', propsClass)"
-      :direction="direction"
-      data-scope="swiper"
-      data-part="root"
-      @swiper="onSwiperInit"
-    >
-      <template
-        v-if="$slots.default"
-        #default
-      >
-        <slot />
-      </template>
-      <template
-        v-if="$slots['container-start']"
-        #container-start
-      >
-        <slot name="container-start" />
-      </template>
-      <template
-        v-if="$slots['container-end']"
-        #container-end
-      >
-        <slot name="container-end" />
-      </template>
-      <template
-        v-if="$slots['wrapper-start']"
-        #wrapper-start
-      >
-        <slot name="wrapper-start" />
-      </template>
-      <template
-        v-if="$slots['wrapper-end']"
-        #wrapper-end
-      >
-        <slot name="wrapper-end" />
-      </template>
-    </Swiper>
+    <SwiperRoot />
   </div>
 </template>
