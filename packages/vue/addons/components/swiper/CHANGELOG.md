@@ -1,5 +1,11 @@
 # @raxium/vue-addons-swiper
 
+## 0.1.7
+
+### Patch Changes
+
+- d385f66: Fix handling of Swiper's activated and deactivated lifecycle within Keep-Alive context.
+
 ## 0.1.6
 
 ### Patch Changes
