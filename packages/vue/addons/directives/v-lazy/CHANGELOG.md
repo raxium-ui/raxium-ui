@@ -1,5 +1,12 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.5
+
+### Patch Changes
+
+- ccffc0f: Fix memory issue caused by v-lazy listener bindings.
+  Ensure listeners are properly cleaned up to prevent memory leaks.
+
 ## 0.1.4
 
 ### Patch Changes
