@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.8
+
+### Patch Changes
+
+- 3ec26e1: 修复 v-lazy 中 error后的detached 行为
+
 ## 0.1.7
 
 ### Patch Changes
