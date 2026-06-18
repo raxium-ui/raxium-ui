@@ -7,14 +7,40 @@ class TitleTooltip {
   titleTipNode: HTMLDivElement
   titleTipTextNode: Text
   showTimer: number = 0
-  /** 延迟展示尚未触发时，当前排队的宿主（用于在卸载/切换时只取消自己） */
-  pendingForEl: Element | null = null
-  /** 浮层已显示时，与之对应的宿主 */
-  activeEl: Element | null = null
   private io: IntersectionObserver | null = null
   /** 使过时异步路径（如 computePosition 返回后）不更新浮层 */
   private token: number = 0
   private showAbortController: AbortController | null = null
+
+  /** WeakRef wrappers — allow GC to reclaim detached host elements */
+  private _pendingRef: WeakRef<Element> | null = null
+  private _activeRef: WeakRef<Element> | null = null
+
+  get pendingForEl(): Element | null {
+    const el = this._pendingRef?.deref() ?? null
+    if (el && !el.isConnected) {
+      this._pendingRef = null
+      return null
+    }
+    return el
+  }
+
+  set pendingForEl(el: Element | null) {
+    this._pendingRef = el ? new WeakRef(el) : null
+  }
+
+  get activeEl(): Element | null {
+    const el = this._activeRef?.deref() ?? null
+    if (el && !el.isConnected) {
+      this._activeRef = null
+      return null
+    }
+    return el
+  }
+
+  set activeEl(el: Element | null) {
+    this._activeRef = el ? new WeakRef(el) : null
+  }
 
   constructor() {
     this.titleTipNode = document.createElement('div')
@@ -44,8 +70,8 @@ class TitleTooltip {
   }
 
   private clearPendingFor(el: Element) {
-    if (this.pendingForEl === el) {
-      this.pendingForEl = null
+    if (this._pendingRef?.deref() === el) {
+      this._pendingRef = null
     }
   }
 
@@ -79,6 +105,13 @@ class TitleTooltip {
     if (this.showTimer) {
       clearTimeout(this.showTimer)
       this.showTimer = 0
+    }
+    // Clear previous active element to release its DOM reference immediately
+    if (this.activeEl && this.activeEl !== el) {
+      this.stopTrackingVisibility()
+      this.activeEl = null
+      this.titleTipNode.style.visibility = 'hidden'
+      this.titleTipNode.style.display = 'none'
     }
     this.pendingForEl = el
     this.showTimer = setTimeout(async () => {
@@ -160,26 +193,21 @@ class TitleTooltip {
 
   /** 宿主从 DOM 移除等场景：不干扰其它元素上的排队/显示 */
   dismissForReference(el: Element) {
-    const isPending = this.pendingForEl === el
-    const isActive = this.activeEl === el
+    const isPending = this._pendingRef?.deref() === el
+    const isActive = this._activeRef?.deref() === el
 
     if (isPending) {
       if (this.showTimer) {
         clearTimeout(this.showTimer)
         this.showTimer = 0
       }
-      this.pendingForEl = null
+      this._pendingRef = null
       this.token++
       this.abortShowCycle()
     }
 
     if (isActive) {
       this.onMouseLeave()
-      return
-    }
-
-    if (isPending) {
-      this.stopTrackingVisibility()
     }
   }
 }

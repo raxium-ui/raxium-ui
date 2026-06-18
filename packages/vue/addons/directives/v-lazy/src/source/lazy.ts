@@ -65,6 +65,11 @@ class Lazy {
   _observer?: IntersectionObserver | null
   lazyContainerMananger: LazyContainerMananger | null
   protected _pendingAdds = new Set<HTMLElement>()
+  /**
+   * Safety net: when a host element is GC'd without proper cleanup (e.g. missed unmounted),
+   * the FinalizationRegistry callback purges the orphaned listener from the queue.
+   */
+  protected _elRegistry: FinalizationRegistry<Tlistener> | null = null
   Event!: {
     listeners: {
       loading: Array<any>
@@ -121,6 +126,21 @@ class Lazy {
     this._imageCache = new ImageCache(200)
     this.lazyLoadHandler = throttle(this._lazyLoadHandler.bind(this), this.options.throttleWait!)
     this._boundElRenderer = this._elRenderer.bind(this)
+
+    // FinalizationRegistry: auto-purge listeners whose host elements have been GC'd
+    if (typeof FinalizationRegistry !== 'undefined') {
+      this._elRegistry = new FinalizationRegistry((listener: Tlistener) => {
+        if (!this.ListenerQueue.includes(listener))
+          return
+        // Element was GC'd — clean up the orphaned listener
+        if (listener.$parent) {
+          this._removeListenerTarget(listener.$parent)
+        }
+        this._removeListenerTarget(window)
+        remove(this.ListenerQueue, listener)
+        listener.$destroy && listener.$destroy()
+      })
+    }
 
     this.setMode(this.options.observer ? modeType.observer : modeType.event)
   }
@@ -208,6 +228,7 @@ class Lazy {
       )
 
       this.ListenerQueue.push(newListener)
+      this._elRegistry?.register(el, newListener, el)
 
       if (inBrowser) {
         this._addListenerTarget(window)
@@ -260,6 +281,7 @@ class Lazy {
       return
     this._pendingAdds.delete(el)
     this._observer && this._observer.unobserve(el)
+    this._elRegistry?.unregister(el)
     const existItem = this.ListenerQueue.find(item => item.el === el)
     if (existItem) {
       this._removeListenerTarget(existItem.$parent)
@@ -420,6 +442,15 @@ class Lazy {
 
   _releaseListeners(listeners: Array<Tlistener>) {
     listeners.forEach((item) => {
+      // Unobserve from IntersectionObserver before destroying (el is still available)
+      if (this._observer && item.el) {
+        this._observer.unobserve(item.el as Element)
+      }
+      // Decrement TargetQueue reference counts to release event listeners on $parent
+      if (item.$parent) {
+        this._removeListenerTarget(item.$parent)
+      }
+      this._removeListenerTarget(window)
       remove(this.ListenerQueue, item)
       item.$destroy && item.$destroy()
     })

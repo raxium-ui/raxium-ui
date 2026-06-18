@@ -108,6 +108,7 @@ class LazyEx extends Lazy {
       )
 
       this.ListenerQueue.push(newListener)
+      this._elRegistry?.register(el, newListener, el)
 
       if (inBrowser) {
         this._addListenerTarget(window)
