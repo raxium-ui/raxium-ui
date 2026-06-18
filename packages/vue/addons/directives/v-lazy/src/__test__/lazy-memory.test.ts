@@ -267,3 +267,70 @@ describe('v-lazy directive integration', () => {
     expect(lazy.ListenerQueue).toHaveLength(0)
   })
 })
+
+describe('lazyEx bulk v-for cleanup', () => {
+  it('cleans up 100 v-lazy items after parent unmount', async () => {
+    const lazy = new LazyEx({ silent: true, throttleWait: 0, observer: false })
+    const addSpy = vi.spyOn(lazy, 'add')
+
+    const Comp = defineComponent({
+      directives: { lazy: createLazyDirective(lazy) },
+      props: { items: { type: Array, required: true } },
+      template: `
+        <div>
+          <img v-for="(item, i) in items" :key="i" v-lazy="item" />
+        </div>
+      `,
+    })
+
+    const items = Array.from({ length: 100 }, () => TINY_PNG)
+    const wrapper = mount(Comp, { props: { items }, attachTo: document.body })
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    expect(addSpy).toHaveBeenCalledTimes(100)
+
+    wrapper.unmount()
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    expect(lazy.ListenerQueue).toHaveLength(0)
+    expect(lazy.ListenerQueue.every(item => item.el == null)).toBe(true)
+    addSpy.mockRestore()
+  })
+
+  it('does not reload detached listeners when lazyLoadHandler runs after unmount', async () => {
+    const lazy = new LazyEx({ silent: true, throttleWait: 0, observer: false })
+    const loadSpy = vi.spyOn(ReactiveListenerEx.prototype, 'load')
+
+    const Comp = defineComponent({
+      directives: { lazy: createLazyDirective(lazy) },
+      props: { items: { type: Array, required: true } },
+      template: `
+        <div>
+          <img v-for="(item, i) in items" :key="i" v-lazy="item" />
+        </div>
+      `,
+    })
+
+    const items = Array.from({ length: 100 }, () => TINY_PNG)
+    const wrapper = mount(Comp, { props: { items } })
+    await flushPromises()
+    await nextTick()
+    await nextTick()
+
+    wrapper.unmount()
+    await flushPromises()
+    await nextTick()
+
+    loadSpy.mockClear()
+    lazy.lazyLoadHandler()
+    await flushPromises()
+
+    expect(lazy.ListenerQueue).toHaveLength(0)
+    expect(loadSpy).not.toHaveBeenCalled()
+    loadSpy.mockRestore()
+  })
+})

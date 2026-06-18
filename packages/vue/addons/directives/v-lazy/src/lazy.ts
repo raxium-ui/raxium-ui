@@ -120,7 +120,7 @@ class LazyEx extends Lazy {
 
   _elRenderer(listener: ReactiveListener, state: TeventType, cache: boolean) {
     const listenerEx = listener as ReactiveListenerEx
-    if (!listenerEx.el || listenerEx.destroyed)
+    if (!listenerEx.el || listenerEx.destroyed || !listenerEx.el.isConnected)
       return
     const { el, bindType } = listenerEx
 

@@ -39,7 +39,7 @@ class ReactiveListenerEx extends ReactiveListener {
   }
 
   load(onFinish = () => {}) {
-    if (this.destroyed) {
+    if (this.destroyed || !this.el?.isConnected) {
       onFinish()
       return
     }
@@ -126,7 +126,9 @@ class ReactiveListenerEx extends ReactiveListener {
           if (this.destroyed)
             return
           if (!isEmpty(this.src) && curIndex < this.src.length) {
-            loadImageArrAsync(this.src as unknown as string[], curIndex, _onResolve, _onReject)
+            loadImageArrAsync(this.src as unknown as string[], curIndex, _onResolve, _onReject, (abort) => {
+              this._loadAbort = abort
+            })
           }
           else {
             !this.options.silent && console.error(err)
@@ -135,7 +137,9 @@ class ReactiveListenerEx extends ReactiveListener {
             this.render('error', false)
           }
         }
-        loadImageArrAsync(this.src, 0, _onResolve, _onReject)
+        loadImageArrAsync(this.src, 0, _onResolve, _onReject, (abort) => {
+          this._loadAbort = abort
+        })
       }
       else {
         loadImageAsync(
@@ -165,6 +169,9 @@ class ReactiveListenerEx extends ReactiveListener {
             this.state.error = true
             this.state.loaded = false
             this.render('error', false)
+          },
+          (abort) => {
+            this._loadAbort = abort
           },
         )
       }

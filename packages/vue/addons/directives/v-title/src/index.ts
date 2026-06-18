@@ -14,6 +14,7 @@ class TitleTooltip {
   private io: IntersectionObserver | null = null
   /** 使过时异步路径（如 computePosition 返回后）不更新浮层 */
   private token: number = 0
+  private showAbortController: AbortController | null = null
 
   constructor() {
     this.titleTipNode = document.createElement('div')
@@ -26,6 +27,15 @@ class TitleTooltip {
         this.onMouseLeave()
       }
     })
+  }
+
+  private abortShowCycle() {
+    this.showAbortController?.abort()
+    this.showAbortController = null
+  }
+
+  private assertHostConnected(el: Element): boolean {
+    return el.isConnected
   }
 
   private stopTrackingVisibility() {
@@ -44,7 +54,13 @@ class TitleTooltip {
     this.io = new IntersectionObserver(
       (entries) => {
         const entry = entries[0]
-        if (entry && !entry.isIntersecting) {
+        if (!entry)
+          return
+        if (!entry.target.isConnected) {
+          this.onMouseLeave()
+          return
+        }
+        if (!entry.isIntersecting) {
           this.onMouseLeave()
         }
       },
@@ -53,8 +69,13 @@ class TitleTooltip {
     this.io.observe(el)
   }
 
-  async onMouseEnter(el: Element, binding: DirectiveBinding) {
+  async onMouseEnter(el: Element) {
+    this.abortShowCycle()
     const t = ++this.token
+    const abortController = new AbortController()
+    this.showAbortController = abortController
+    const { signal } = abortController
+
     if (this.showTimer) {
       clearTimeout(this.showTimer)
       this.showTimer = 0
@@ -63,15 +84,15 @@ class TitleTooltip {
     this.showTimer = setTimeout(async () => {
       this.showTimer = 0
       try {
-        if (t !== this.token) {
+        if (signal.aborted || t !== this.token) {
           return
         }
-        if (!el.isConnected) {
+        if (!this.assertHostConnected(el)) {
           this.clearPendingFor(el)
           return
         }
-        const cur = bindingMap.get(el as HTMLElement) ?? binding
-        if (!cur.value) {
+        const cur = bindingMap.get(el as HTMLElement)
+        if (!cur?.value) {
           this.clearPendingFor(el)
           this.titleTipNode.style.visibility = 'hidden'
           this.titleTipNode.style.display = 'block'
@@ -89,11 +110,11 @@ class TitleTooltip {
           placement: 'bottom',
           middleware: [flip(), shift(), offset(4), hide()],
         })
-        if (t !== this.token) {
+        if (signal.aborted || t !== this.token) {
           this.clearPendingFor(el)
           return
         }
-        if (!el.isConnected) {
+        if (!this.assertHostConnected(el)) {
           this.onMouseLeave()
           return
         }
@@ -115,14 +136,17 @@ class TitleTooltip {
         }
       }
       catch (error) {
-        this.clearPendingFor(el)
-        console.error(error)
+        if (!signal.aborted) {
+          this.clearPendingFor(el)
+          console.error(error)
+        }
       }
     }, 500) as unknown as number
   }
 
   onMouseLeave() {
     this.token++
+    this.abortShowCycle()
     if (this.showTimer) {
       clearTimeout(this.showTimer)
       this.showTimer = 0
@@ -136,16 +160,26 @@ class TitleTooltip {
 
   /** 宿主从 DOM 移除等场景：不干扰其它元素上的排队/显示 */
   dismissForReference(el: Element) {
-    if (this.pendingForEl === el) {
+    const isPending = this.pendingForEl === el
+    const isActive = this.activeEl === el
+
+    if (isPending) {
       if (this.showTimer) {
         clearTimeout(this.showTimer)
         this.showTimer = 0
       }
       this.pendingForEl = null
       this.token++
+      this.abortShowCycle()
     }
-    if (this.activeEl === el) {
+
+    if (isActive) {
       this.onMouseLeave()
+      return
+    }
+
+    if (isPending) {
+      this.stopTrackingVisibility()
     }
   }
 }
@@ -155,13 +189,18 @@ if (typeof window !== 'undefined') {
   instance = new TitleTooltip()
 }
 
+// eslint-disable-next-line jsdoc/empty-tags
+/** @internal For unit tests only */
+export function __getTitleTooltipForTest() {
+  return instance
+}
+
 function onVTitleEnter(this: HTMLElement) {
   if (!instance) {
     return
   }
-  const b = bindingMap.get(this)
-  if (b) {
-    void instance.onMouseEnter(this, b)
+  if (bindingMap.get(this)) {
+    void instance.onMouseEnter(this)
   }
 }
 

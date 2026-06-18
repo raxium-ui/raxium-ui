@@ -35,24 +35,48 @@ export function loadImageArrAsync(
   index: number,
   resolve: Function,
   reject: Function,
+  onHandle?: (abort: () => void) => void,
 ) {
-  const image = new Image()
+  let image: HTMLImageElement | null = new Image()
+  let aborted = false
+
+  const abort = () => {
+    if (aborted)
+      return
+    aborted = true
+    if (image) {
+      image.onload = null
+      image.onerror = null
+      image.src = ''
+      image = null
+    }
+  }
+
+  onHandle?.(abort)
+
   if (isEmpty(arr)) {
     const err = new Error('image src is required')
+    abort()
     return reject(0, err)
   }
   if (isEmpty(arr[index])) {
+    abort()
     return reject(index + 1, new Error('will load next'))
   }
   image.src = arr[index]
   image.onload = function () {
+    if (aborted)
+      return
     resolve({
-      naturalHeight: image.naturalHeight,
-      naturalWidth: image.naturalWidth,
+      naturalHeight: image!.naturalHeight,
+      naturalWidth: image!.naturalWidth,
       src: arr[index],
     })
+    image = null
   }
   image.onerror = function (e) {
+    if (aborted)
+      return
     reject(index + 1, e)
   }
 }

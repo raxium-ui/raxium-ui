@@ -45,6 +45,7 @@ export default class ReactiveListener {
   rect: DOMRect
   _imageCache: ImageCache
   destroyed = false
+  protected _loadAbort: (() => void) | null = null
   constructor(
     el: HTMLElement,
     src: string | string[],
@@ -159,6 +160,8 @@ export default class ReactiveListener {
    * @return {Boolean} el is in view
    */
   checkInView() {
+    if (!this.el?.isConnected)
+      return false
     this.getRect()
     return this.rect.top < window.innerHeight * this.options.preLoad!
       && this.rect.bottom > this.options.preLoadTop!
@@ -210,7 +213,14 @@ export default class ReactiveListener {
       this.state.loading = false
       if (!this.options.silent)
         console.warn(`VueLazyload log: load failed with loading image(${loading})`)
+    }, (abort) => {
+      this._loadAbort = abort
     })
+  }
+
+  _abortLoad() {
+    this._loadAbort?.()
+    this._loadAbort = null
   }
 
   /*
@@ -218,7 +228,7 @@ export default class ReactiveListener {
    * @return
    */
   load(onFinish = noop) {
-    if (this.destroyed) {
+    if (this.destroyed || !this.el?.isConnected) {
       onFinish()
       return
     }
@@ -292,6 +302,8 @@ export default class ReactiveListener {
         this.state.error = true
         this.state.loaded = false
         this.render('error', false)
+      }, (abort) => {
+        this._loadAbort = abort
       })
     })
   }
@@ -303,7 +315,7 @@ export default class ReactiveListener {
    * @return
    */
   render(state: string, cache: boolean) {
-    if (this.destroyed || !this.el)
+    if (this.destroyed || !this.el?.isConnected)
       return
     this.elRenderer(this, state, cache)
   }
@@ -336,6 +348,7 @@ export default class ReactiveListener {
    * @return
    */
   $destroy() {
+    this._abortLoad()
     this.destroyed = true
     this.el = null
     this.src = ''

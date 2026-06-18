@@ -413,20 +413,29 @@ class Lazy {
     }
   }
 
+  _shouldReleaseListener(listener: Tlistener) {
+    const el = listener.el as HTMLElement | null | undefined
+    return !el || !el.isConnected || listener.state.loaded || listener.destroyed
+  }
+
+  _releaseListeners(listeners: Array<Tlistener>) {
+    listeners.forEach((item) => {
+      remove(this.ListenerQueue, item)
+      item.$destroy && item.$destroy()
+    })
+  }
+
   /**
    * remove detached or completed listeners from queue
    */
   _purgeDetachedListeners() {
     const freeList: Array<Tlistener> = []
     this.ListenerQueue.forEach((listener) => {
-      if (!listener.el || !listener.el.parentNode || listener.state.loaded) {
+      if (this._shouldReleaseListener(listener)) {
         freeList.push(listener)
       }
     })
-    freeList.forEach((item) => {
-      remove(this.ListenerQueue, item)
-      item.$destroy && item.$destroy()
-    })
+    this._releaseListeners(freeList)
   }
 
   /**
@@ -435,22 +444,18 @@ class Lazy {
    */
   _lazyLoadHandler() {
     const freeList: Array<Tlistener> = []
-    this.ListenerQueue.forEach((listener, index) => {
-      if (!listener.el || !listener.el.parentNode || listener.state.loaded) {
+    this.ListenerQueue.forEach((listener) => {
+      if (this._shouldReleaseListener(listener)) {
         freeList.push(listener)
-      }
-      if (!listener.el || listener.destroyed)
         return
+      }
       const catIn = listener.checkInView()
       if (!catIn)
         return
       if (!listener.state.loaded)
         listener.load()
     })
-    freeList.forEach((item) => {
-      remove(this.ListenerQueue, item)
-      item.$destroy && item.$destroy()
-    })
+    this._releaseListeners(freeList)
   }
 
   /**
@@ -479,6 +484,13 @@ class Lazy {
       if (entry.isIntersecting) {
         this.ListenerQueue.forEach((listener) => {
           if (listener.el === entry.target) {
+            const el = listener.el as HTMLElement | null
+            if (!el?.isConnected) {
+              this._observer!.unobserve(entry.target)
+              listener.$destroy && listener.$destroy()
+              remove(this.ListenerQueue, listener)
+              return
+            }
             if (listener.state.loaded)
               return this._observer!.unobserve(listener.el as Element)
             listener.load()

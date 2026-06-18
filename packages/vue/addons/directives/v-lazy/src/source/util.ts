@@ -202,10 +202,32 @@ const _ = {
   },
 }
 
-function loadImageAsync(item: loadImageAsyncOption, resolve: Function, reject: Function) {
+function loadImageAsync(
+  item: loadImageAsyncOption,
+  resolve: Function,
+  reject: Function,
+  onHandle?: (abort: () => void) => void,
+) {
   let image: HTMLImageElement | null = new Image()
+  let aborted = false
+
+  const abort = () => {
+    if (aborted)
+      return
+    aborted = true
+    if (image) {
+      image.onload = null
+      image.onerror = null
+      image.src = ''
+      image = null
+    }
+  }
+
+  onHandle?.(abort)
+
   if (!item || !item.src) {
     const err = new Error('image src is required')
+    abort()
     return reject(err)
   }
 
@@ -216,6 +238,8 @@ function loadImageAsync(item: loadImageAsyncOption, resolve: Function, reject: F
   image.src = item.src
 
   image.onload = function () {
+    if (aborted)
+      return
     resolve({
       naturalHeight: image!.naturalHeight,
       naturalWidth: image!.naturalWidth,
@@ -225,6 +249,8 @@ function loadImageAsync(item: loadImageAsyncOption, resolve: Function, reject: F
   }
 
   image.onerror = function (e) {
+    if (aborted)
+      return
     reject(e)
   }
 }
