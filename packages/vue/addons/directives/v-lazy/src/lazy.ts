@@ -201,6 +201,16 @@ class LazyEx extends Lazy {
     super.remove(el)
     this._purgeDetachedListeners()
   }
+
+  _releaseListeners(listeners: Array<any>) {
+    // Clear loading delay timers before base class destroys the listeners
+    listeners.forEach((item) => {
+      if (item.el) {
+        this._clearLoadingDelayTimer(item.el)
+      }
+    })
+    super._releaseListeners(listeners)
+  }
 }
 
 export default LazyEx

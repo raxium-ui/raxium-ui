@@ -437,7 +437,12 @@ class Lazy {
 
   _shouldReleaseListener(listener: Tlistener) {
     const el = listener.el as HTMLElement | null | undefined
-    return !el || !el.isConnected || listener.state.loaded || listener.destroyed
+    if (!el || !el.isConnected || listener.state.loaded || listener.destroyed)
+      return true
+    // Permanently errored: exhausted all retry attempts, will never load again
+    if (listener.state.error && (listener.attempt ?? 0) > ((listener as any).options?.attempt ?? 3) - 1)
+      return true
+    return false
   }
 
   _releaseListeners(listeners: Array<Tlistener>) {
@@ -522,8 +527,10 @@ class Lazy {
               remove(this.ListenerQueue, listener)
               return
             }
-            if (listener.state.loaded)
-              return this._observer!.unobserve(listener.el as Element)
+            if (this._shouldReleaseListener(listener)) {
+              this._observer!.unobserve(listener.el as Element)
+              return
+            }
             listener.load()
           }
         })
