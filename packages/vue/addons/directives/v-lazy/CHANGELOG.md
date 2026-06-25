@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.9
+
+### Patch Changes
+
+- c15cbb2: fix: fix a memory leak in the v-lazy directive by ensuring event listeners and timers are properly cleaned up when elements are removed.
+
 ## 0.1.8
 
 ### Patch Changes
