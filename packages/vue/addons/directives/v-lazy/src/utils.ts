@@ -40,16 +40,20 @@ export function loadImageArrAsync(
   let image: HTMLImageElement | null = new Image()
   let aborted = false
 
-  const abort = () => {
-    if (aborted)
-      return
-    aborted = true
+  const teardown = () => {
     if (image) {
       image.onload = null
       image.onerror = null
       image.src = ''
       image = null
     }
+  }
+
+  const abort = () => {
+    if (aborted)
+      return
+    aborted = true
+    teardown()
   }
 
   onHandle?.(abort)
@@ -67,16 +71,20 @@ export function loadImageArrAsync(
   image.onload = function () {
     if (aborted)
       return
-    resolve({
+    aborted = true
+    const result = {
       naturalHeight: image!.naturalHeight,
       naturalWidth: image!.naturalWidth,
       src: arr[index],
-    })
-    image = null
+    }
+    teardown()
+    resolve(result)
   }
   image.onerror = function (e) {
     if (aborted)
       return
+    aborted = true
+    teardown()
     reject(index + 1, e)
   }
 }

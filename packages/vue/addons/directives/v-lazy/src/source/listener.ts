@@ -3,7 +3,7 @@ import type {
   ImageCache,
 } from './util'
 import { isArray } from 'es-toolkit/compat'
-import { isMissingLazySrc, isLazyPreloadableImageSrc } from '../utils'
+import { isLazyPreloadableImageSrc, isMissingLazySrc } from '../utils'
 import {
   loadImageAsync,
   noop,

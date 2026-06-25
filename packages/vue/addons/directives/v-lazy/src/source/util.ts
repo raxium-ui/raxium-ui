@@ -211,16 +211,20 @@ function loadImageAsync(
   let image: HTMLImageElement | null = new Image()
   let aborted = false
 
-  const abort = () => {
-    if (aborted)
-      return
-    aborted = true
+  const teardown = () => {
     if (image) {
       image.onload = null
       image.onerror = null
       image.src = ''
       image = null
     }
+  }
+
+  const abort = () => {
+    if (aborted)
+      return
+    aborted = true
+    teardown()
   }
 
   onHandle?.(abort)
@@ -240,17 +244,21 @@ function loadImageAsync(
   image.onload = function () {
     if (aborted)
       return
-    resolve({
+    aborted = true
+    const result = {
       naturalHeight: image!.naturalHeight,
       naturalWidth: image!.naturalWidth,
       src: image!.src,
-    })
-    image = null
+    }
+    teardown()
+    resolve(result)
   }
 
   image.onerror = function (e) {
     if (aborted)
       return
+    aborted = true
+    teardown()
     reject(e)
   }
 }
