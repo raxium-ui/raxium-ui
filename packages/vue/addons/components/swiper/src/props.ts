@@ -32,8 +32,15 @@ export interface SwiperProps extends SwiperOptions {
   class?: HTMLAttributes['class']
 }
 
-export interface SwiperEmits extends SwiperEvents {
-  swiper: (swiper: Swiper) => void
+export type SwiperEmitArgs<T> = T extends (...args: infer A) => any ? A : never
+
+/** Vue emit tuples derived from SwiperEvents, plus the wrapper-only `swiper` emit. */
+export type SwiperEmits = {
+  [K in keyof SwiperEvents | 'swiper']: K extends 'swiper'
+    ? [swiper: Swiper]
+    : K extends keyof SwiperEvents
+      ? SwiperEmitArgs<NonNullable<SwiperEvents[K]>>
+      : never
 }
 
 export interface SwiperSlots {

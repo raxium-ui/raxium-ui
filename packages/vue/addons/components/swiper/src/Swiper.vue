@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Swiper as SwiperInstance } from 'swiper/types'
-import type { Component } from 'vue'
+import type { Component, EmitFn } from 'vue'
 import type { SwiperEmits, SwiperProps, SwiperSlots } from '.'
 import { cn, useForwardPropsEmits } from '@raxium/vue-addons-shared'
 import { Swiper } from 'swiper/vue'
@@ -12,10 +12,12 @@ defineOptions({
 })
 
 const { class: propsClass, direction = 'horizontal', ...props } = defineProps<SwiperProps>()
-const emits = defineEmits<SwiperEmits>()
+const emits = defineEmits<{
+  swiper: [swiper: SwiperInstance]
+}>()
 defineSlots<SwiperSlots>()
 
-const forwarded = useForwardPropsEmits(props, emits)
+const forwarded = useForwardPropsEmits(props, emits as EmitFn<SwiperEmits>)
 const slots = useSlots()
 const attrs = useAttrs()
 
@@ -27,6 +29,7 @@ const { isAlive } = useSwiperKeepAlive({ swiperInstance, swiperEl, hasModule })
 function onSwiperInit(swiper: SwiperInstance) {
   swiperEl.value = swiper.el
   swiperInstance.value = swiper
+  emits('swiper', swiper)
 }
 
 function onFocusIn() {
@@ -65,9 +68,9 @@ function SwiperRoot() {
     {
       ...forwarded.value,
       ...attrs,
-      class: cn('rui-swiper', propsClass),
+      'class': cn('rui-swiper', propsClass),
       direction,
-      onSwiper: onSwiperInit,
+      'onSwiper': onSwiperInit,
       'data-scope': 'swiper',
       'data-part': 'root',
     },
