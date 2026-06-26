@@ -1,0 +1,30 @@
+diff --git a/dist/components/presence/use-presence.cjs b/dist/components/presence/use-presence.cjs
+index d9fd7b1644bebcd7a4485ed324dffd5290d37bbc..317940134644f9f5d6998574a098aceb06e58553 100644
+--- a/dist/components/presence/use-presence.cjs
++++ b/dist/components/presence/use-presence.cjs
+@@ -22,6 +22,10 @@ var usePresence = (props, emit) => {
+ 		if (nodeRef.value) {
+ 			const node = nodeRef.value.$el ? nodeRef.value.$el : nodeRef.value;
+ 			if (node) api.value.setNode(node);
++		} else {
++			// PATCH: release machine refs when element unmounts so detached DOM can be GC'd
++			service.refs.set("node", null);
++			service.refs.set("styles", null);
+ 		}
+ 	});
+ 	return (0, vue.computed)(() => {
+diff --git a/dist/components/presence/use-presence.js b/dist/components/presence/use-presence.js
+index 3ed606b125c77397f26bf1675e5fd4cf29ffba9d..40bafeb459e3c36822485d03bb4152dc294b4a7f 100644
+--- a/dist/components/presence/use-presence.js
++++ b/dist/components/presence/use-presence.js
+@@ -20,6 +20,10 @@ var usePresence = (props, emit) => {
+ 		if (nodeRef.value) {
+ 			const node = nodeRef.value.$el ? nodeRef.value.$el : nodeRef.value;
+ 			if (node) api.value.setNode(node);
++		} else {
++			// PATCH: release machine refs when element unmounts so detached DOM can be GC'd
++			service.refs.set("node", null);
++			service.refs.set("styles", null);
+ 		}
+ 	});
+ 	return computed(() => {

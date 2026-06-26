@@ -8,6 +8,9 @@ overrides:
   lightningcss: ^1.31.0
 
 patchedDependencies:
+  '@ark-ui/vue@5.37.0':
+    hash: be2122c757fe971fc63d45a5e522df59935bda161a345e91313c83ab57567773
+    path: patches/@ark-ui__vue@5.37.0.patch
   '@zag-js/toast@1.41.1':
     hash: c4c51291868aa3101db359c5e87b069f697e4f3327424b653d1914d97d856266
     path: patches/@zag-js__toast@1.41.1.patch
@@ -172,10 +175,10 @@ importers:
     devDependencies:
       '@rsbuild/plugin-babel':
         specifier: ^1.0.6
-        version: 1.1.2(@rsbuild/core@2.0.0-rc.3(core-js@3.47.0))
+        version: 1.1.2(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))
       '@rsbuild/plugin-vue-jsx':
         specifier: ^1.1.2
-        version: 1.1.2(@babel/core@7.29.0)(@rsbuild/core@2.0.0-rc.3(core-js@3.47.0))
+        version: 1.1.2(@babel/core@7.29.0)(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))
       '@rslib/core':
         specifier: 0.20.0
         version: 0.20.0(core-js@3.47.0)(typescript@5.9.3)
@@ -190,7 +193,7 @@ importers:
         version: 20.10.5
       rsbuild-plugin-unplugin-vue:
         specifier: ^0.2.0
-        version: 0.2.0(@rsbuild/core@2.0.0-rc.3(core-js@3.47.0))(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.1)(tsx@4.21.0)(vue@3.5.30(typescript@5.9.3))(yaml@2.8.2)
+        version: 0.2.0(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.1)(tsx@4.21.0)(vue@3.5.30(typescript@5.9.3))(yaml@2.8.2)
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
@@ -356,7 +359,7 @@ importers:
     devDependencies:
       '@ark-ui/vue':
         specifier: 5.37.0
-        version: 5.37.0(vue@3.5.30(typescript@5.9.3))
+        version: 5.37.0(patch_hash=be2122c757fe971fc63d45a5e522df59935bda161a345e91313c83ab57567773)(vue@3.5.30(typescript@5.9.3))
       '@internationalized/date':
         specifier: ^3.10.1
         version: 3.12.0
@@ -6637,7 +6640,7 @@ snapshots:
       '@zag-js/vue': 1.35.3(vue@3.5.30(typescript@5.9.3))
       vue: 3.5.30(typescript@5.9.3)
 
-  '@ark-ui/vue@5.37.0(vue@3.5.30(typescript@5.9.3))':
+  '@ark-ui/vue@5.37.0(patch_hash=be2122c757fe971fc63d45a5e522df59935bda161a345e91313c83ab57567773)(vue@3.5.30(typescript@5.9.3))':
     dependencies:
       '@internationalized/date': 3.12.0
       '@zag-js/accordion': 1.41.1
@@ -8037,6 +8040,19 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@rsbuild/plugin-babel@1.1.2(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))':
+    dependencies:
+      '@babel/core': 7.29.0
+      '@babel/plugin-proposal-decorators': 7.29.0(@babel/core@7.29.0)
+      '@babel/plugin-transform-class-properties': 7.28.6(@babel/core@7.29.0)
+      '@babel/preset-typescript': 7.28.5(@babel/core@7.29.0)
+      '@types/babel__core': 7.20.5
+      reduce-configs: 1.1.1
+    optionalDependencies:
+      '@rsbuild/core': 2.0.0-beta.8(core-js@3.47.0)
+    transitivePeerDependencies:
+      - supports-color
+
   '@rsbuild/plugin-babel@1.1.2(@rsbuild/core@2.0.0-rc.3(core-js@3.47.0))':
     dependencies:
       '@babel/core': 7.29.0
@@ -8080,6 +8096,17 @@ snapshots:
       babel-plugin-vue-jsx-hmr: 1.0.0
     optionalDependencies:
       '@rsbuild/core': 1.7.3
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+
+  '@rsbuild/plugin-vue-jsx@1.1.2(@babel/core@7.29.0)(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))':
+    dependencies:
+      '@rsbuild/plugin-babel': 1.1.2(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))
+      '@vue/babel-plugin-jsx': 1.5.0(@babel/core@7.29.0)
+      babel-plugin-vue-jsx-hmr: 1.0.0
+    optionalDependencies:
+      '@rsbuild/core': 2.0.0-beta.8(core-js@3.47.0)
     transitivePeerDependencies:
       - '@babel/core'
       - supports-color
@@ -12642,6 +12669,26 @@ snapshots:
       html-minifier-terser: 7.2.0
     optionalDependencies:
       '@rsbuild/core': 1.7.3
+
+  rsbuild-plugin-unplugin-vue@0.2.0(@rsbuild/core@2.0.0-beta.8(core-js@3.47.0))(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.1)(tsx@4.21.0)(vue@3.5.30(typescript@5.9.3))(yaml@2.8.2):
+    dependencies:
+      unplugin-vue: 7.1.1(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.1)(tsx@4.21.0)(vue@3.5.30(typescript@5.9.3))(yaml@2.8.2)
+    optionalDependencies:
+      '@rsbuild/core': 2.0.0-beta.8(core-js@3.47.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - '@vitejs/devtools'
+      - esbuild
+      - jiti
+      - less
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - vue
+      - yaml
 
   rsbuild-plugin-unplugin-vue@0.2.0(@rsbuild/core@2.0.0-rc.3(core-js@3.47.0))(@types/node@25.5.0)(esbuild@0.27.4)(jiti@2.6.1)(sass-embedded@1.98.0)(sass@1.98.0)(terser@5.46.1)(tsx@4.21.0)(vue@3.5.30(typescript@5.9.3))(yaml@2.8.2):
     dependencies:
