@@ -1,5 +1,11 @@
 # @raxium/vue-addons-swiper
 
+## 0.1.8
+
+### Patch Changes
+
+- 5c3fe58: fix: improve and correct emitted events for the swiper component to ensure proper event typing and emissions
+
 ## 0.1.7
 
 ### Patch Changes
