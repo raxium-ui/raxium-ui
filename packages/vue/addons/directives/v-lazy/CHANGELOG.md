@@ -1,5 +1,11 @@
 # @raxium/vue-addons-v-lazy
 
+## 0.1.10
+
+### Patch Changes
+
+- f7cde25: Fix a memory leak issue by ensuring that components are properly deregistered and cleaned up when unmounted or when their source changes, preventing retained references in internal lazy-loading queues.
+
 ## 0.1.9
 
 ### Patch Changes
