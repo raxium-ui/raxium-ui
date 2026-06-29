@@ -28,7 +28,18 @@ function applyLazyBackground(el: HTMLElement, bindType: string, src: string | nu
 }
 
 class LazyEx extends Lazy {
-  loadingDelayTimers = new Map<HTMLElement, ReturnType<typeof setTimeout>>()
+  /**
+   * Track per-element loading-delay timers.
+   *
+   * Uses `WeakMap` to avoid strong-pinning host elements as keys; combined
+   * with `ReactiveListener`'s WeakRef-based `el`, this allows host elements
+   * to be GC'd when no other strong reference exists, which in turn lets
+   * the `FinalizationRegistry` safety net in `Lazy` reclaim orphan listeners.
+   *
+   * Note: the timer's own closure transiently captures `el` strongly, but
+   * only for the duration of `loadingDelay` ms.
+   */
+  loadingDelayTimers = new WeakMap<HTMLElement, ReturnType<typeof setTimeout>>()
 
   constructor(options: VueLazyloadOptionsEx) {
     super(options)

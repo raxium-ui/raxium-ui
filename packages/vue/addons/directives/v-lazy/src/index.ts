@@ -47,10 +47,42 @@ const plugin: Plugin<[options?: VueLazyloadOptionsEx]> = {
 }
 export { plugin }
 
-const dirLazy = new LazyEx({})
-export const vLazy: Directive = {
-  beforeMount: dirLazy.add.bind(dirLazy),
-  beforeUpdate: dirLazy.update.bind(dirLazy),
-  updated: dirLazy.lazyLoadHandler.bind(dirLazy),
-  unmounted: dirLazy.remove.bind(dirLazy),
+/**
+ * Create a fresh `v-lazy` directive backed by an isolated `LazyEx` instance.
+ *
+ * Useful when consumers need lifecycle control (SSR, tests, multi-tenant
+ * apps, micro-frontends) or want non-default options without going through
+ * the `plugin` install path.
+ *
+ * The returned `directive` and `lazy` share state; call `lazy` methods
+ * directly (e.g. `lazy.lazyLoadHandler()`) for advanced use.
+ */
+export function createVLazy(options: VueLazyloadOptionsEx = {}): {
+  directive: Directive
+  lazy: LazyEx
+} {
+  const lazy = new LazyEx(options)
+  const directive: Directive = {
+    beforeMount: lazy.add.bind(lazy),
+    beforeUpdate: lazy.update.bind(lazy),
+    updated: lazy.lazyLoadHandler.bind(lazy),
+    unmounted: lazy.remove.bind(lazy),
+  }
+  return { directive, lazy }
 }
+
+/**
+ * Module-level singleton `v-lazy` directive.
+ *
+ * ⚠️ Lifecycle caveat: this `LazyEx` instance is created at module load and
+ * lives for the lifetime of the JS context. Its `ListenerQueue`,
+ * `TargetQueue`, image cache, IntersectionObserver and FinalizationRegistry
+ * are reused across the entire app and never disposed.
+ *
+ * Normal Vue `unmounted` hooks keep things balanced, but for SSR, isolated
+ * tests, HMR-prone setups, or apps that need a dedicated configuration
+ * (e.g. `observer: true`), prefer {@link createVLazy} to obtain an isolated
+ * instance you can control.
+ */
+const { directive: vLazy } = createVLazy({})
+export { vLazy }

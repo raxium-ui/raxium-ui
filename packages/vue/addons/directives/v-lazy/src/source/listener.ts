@@ -17,7 +17,37 @@ import {
 // }
 
 export default class ReactiveListener {
-  el: HTMLElement | null
+  /**
+   * Weak reference to the host element.
+   *
+   * `el` is exposed as a getter/setter that derefs a `WeakRef` internally.
+   * This is critical for the FinalizationRegistry-based safety net in `Lazy`:
+   * if the listener strongly referenced `el`, then `el` would remain
+   * reachable through `Lazy.ListenerQueue → listener.el`, the FR target
+   * would never become unreachable, and the cleanup callback would never
+   * fire. Holding `el` weakly here breaks that chain so orphan listeners
+   * can be reclaimed when the host element is GC'd.
+   *
+   * In environments without `WeakRef` (very old runtimes), we fall back to
+   * a strong reference; the FR safety net simply becomes a no-op there.
+   */
+  protected _elRef: WeakRef<HTMLElement> | null = null
+  protected _elStrong: HTMLElement | null = null
+  get el(): HTMLElement | null {
+    return this._elRef ? (this._elRef.deref() ?? null) : this._elStrong
+  }
+
+  set el(value: HTMLElement | null) {
+    if (typeof WeakRef !== 'undefined') {
+      this._elRef = value ? new WeakRef(value) : null
+      this._elStrong = null
+    }
+    else {
+      this._elStrong = value
+      this._elRef = null
+    }
+  }
+
   src: string | string[]
   error: string | null
   loading: string
@@ -99,12 +129,15 @@ export default class ReactiveListener {
    * @return
    */
   initState() {
+    const el = this.el
     const serialized = isArray(this.src) ? (this.src as string[]).join(',') : String(this.src)
-    if ('dataset' in this.el!) {
-      this.el.dataset.src = serialized
-    }
-    else {
-      this.el!.setAttribute('data-src', serialized)
+    if (el) {
+      if ('dataset' in el && el.dataset) {
+        el.dataset.src = serialized
+      }
+      else {
+        (el as HTMLElement).setAttribute('data-src', serialized)
+      }
     }
 
     this.state = {
@@ -152,7 +185,9 @@ export default class ReactiveListener {
    * @return
    */
   getRect() {
-    this.rect = this.el!.getBoundingClientRect()
+    const el = this.el
+    if (el)
+      this.rect = el.getBoundingClientRect()
   }
 
   /*
@@ -160,9 +195,10 @@ export default class ReactiveListener {
    * @return {Boolean} el is in view
    */
   checkInView() {
-    if (!this.el?.isConnected)
+    const el = this.el
+    if (!el?.isConnected)
       return false
-    this.getRect()
+    this.rect = el.getBoundingClientRect()
     return this.rect.top < window.innerHeight * this.options.preLoad!
       && this.rect.bottom > this.options.preLoadTop!
       && this.rect.left < window.innerWidth * this.options.preLoad!

@@ -66,8 +66,15 @@ class Lazy {
   lazyContainerMananger: LazyContainerMananger | null
   protected _pendingAdds = new Set<HTMLElement>()
   /**
-   * Safety net: when a host element is GC'd without proper cleanup (e.g. missed unmounted),
-   * the FinalizationRegistry callback purges the orphaned listener from the queue.
+   * Safety net: when a host element is GC'd without proper cleanup (e.g. a
+   * missed `unmounted` hook from HMR / abnormal teardown), the
+   * `FinalizationRegistry` callback purges the orphaned listener from the
+   * queue and releases its event listener targets.
+   *
+   * This relies on `ReactiveListener.el` being a `WeakRef` so the listener
+   * does not strongly pin its host element; otherwise the FR target would
+   * remain reachable via `ListenerQueue → listener.el` and the callback
+   * would never fire.
    */
   protected _elRegistry: FinalizationRegistry<Tlistener> | null = null
   Event!: {

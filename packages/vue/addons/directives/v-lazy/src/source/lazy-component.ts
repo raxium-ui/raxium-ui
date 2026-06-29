@@ -35,13 +35,23 @@ export default (lazy: Lazy) => {
         }
       })
 
+      // Track the exact vm reference registered with the lazy manager. `vm`
+      // is a computed and may yield a fresh object identity each time `.value`
+      // is read (state mutations invalidate it), so calling `removeComponent`
+      // with a later `vm.value` would miss the original entry and leak it.
+      let registered: any = null
+
       onMounted(() => {
-        lazy.addLazyBox(vm.value)
+        registered = vm.value
+        lazy.addLazyBox(registered)
         lazy.lazyLoadHandler()
       })
 
       onUnmounted(() => {
-        lazy.removeComponent(vm.value)
+        if (registered) {
+          lazy.removeComponent(registered)
+          registered = null
+        }
       })
 
       return () =>

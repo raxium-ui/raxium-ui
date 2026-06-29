@@ -133,7 +133,8 @@ describe('lazyEx loadingDelay timers', () => {
     lazy._scheduleLoadingDelay(el1, () => el1.setAttribute('done', '1'))
     lazy._scheduleLoadingDelay(el2, () => el2.setAttribute('done', '1'))
 
-    expect(lazy.loadingDelayTimers.size).toBe(2)
+    expect(lazy.loadingDelayTimers.has(el1)).toBe(true)
+    expect(lazy.loadingDelayTimers.has(el2)).toBe(true)
 
     lazy.remove(el1)
 
@@ -152,7 +153,7 @@ describe('lazyEx loadingDelay timers', () => {
     vi.advanceTimersByTime(200)
 
     expect(el.getAttribute('done')).toBeNull()
-    expect(lazy.loadingDelayTimers.size).toBe(0)
+    expect(lazy.loadingDelayTimers.has(el)).toBe(false)
   })
 
   it('replaces pending timer for the same element without orphaning', () => {
@@ -162,7 +163,7 @@ describe('lazyEx loadingDelay timers', () => {
     lazy._scheduleLoadingDelay(el, () => el.setAttribute('done', 'first'))
     lazy._scheduleLoadingDelay(el, () => el.setAttribute('done', 'second'))
 
-    expect(lazy.loadingDelayTimers.size).toBe(1)
+    expect(lazy.loadingDelayTimers.has(el)).toBe(true)
 
     vi.advanceTimersByTime(100)
 

@@ -64,13 +64,12 @@ export default (lazy: Lazy) => {
         }
       })
 
-      onMounted(() => {
-        lazy.addLazyBox(vm.value)
-        lazy.lazyLoadHandler()
-      })
-      onUnmounted(() => {
-        lazy.removeComponent(vm.value)
-      })
+      // Track the exact vm reference that was registered with the lazy manager
+      // so we can remove the same object on unmount / src change. Without this,
+      // `vm` (a computed) may yield a fresh object identity on each access,
+      // causing `removeComponent` to miss the original entry and leak it in
+      // ListenerQueue + TargetQueue refcount.
+      let registered: any = null
 
       const init = () => {
         const { src, loading, error } = lazy._valueFormatter(props.src)
@@ -81,15 +80,37 @@ export default (lazy: Lazy) => {
         renderSrc.value = options.loading
       }
 
+      // Initialize options synchronously so the first render has the loading
+      // placeholder set. Do NOT register with lazy here — onMounted owns it.
+      init()
+
+      onMounted(() => {
+        registered = vm.value
+        lazy.addLazyBox(registered)
+        lazy.lazyLoadHandler()
+      })
+
+      onUnmounted(() => {
+        if (registered) {
+          lazy.removeComponent(registered)
+          registered = null
+        }
+      })
+
       watch(
         () => props.src,
-        () => {
+        (newSrc, oldSrc) => {
+          if (newSrc === oldSrc)
+            return
           init()
-          lazy.addLazyBox(vm.value)
-          lazy.lazyLoadHandler()
-        },
-        {
-          immediate: true,
+          if (registered) {
+            // Remove the previous registration before re-adding to avoid
+            // ListenerQueue duplicates and unbalanced TargetQueue refcounts.
+            lazy.removeComponent(registered)
+            registered = vm.value
+            lazy.addLazyBox(registered)
+            lazy.lazyLoadHandler()
+          }
         },
       )
 
