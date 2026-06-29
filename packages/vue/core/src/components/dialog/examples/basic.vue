@@ -39,4 +39,25 @@ import {
       <DialogFooter />
     </DialogContent>
   </Dialog>
+
+  <Dialog
+    :lazy-mount="false"
+    :unmount-on-exit="false"
+  >
+    <DialogTrigger as-child>
+      <Button class="w-fit">
+        Open input dialog
+      </Button>
+    </DialogTrigger>
+    <DialogContent class="w-120">
+      <DialogHeader> Dialog Title </DialogHeader>
+      <DialogBody>
+        <input
+          type="text"
+          class="w-full"
+        >
+      </DialogBody>
+      <DialogFooter />
+    </DialogContent>
+  </Dialog>
 </template>
