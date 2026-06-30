@@ -84,7 +84,7 @@ const dialog = useDialog(
         })
         return
       }
-      emitOpenChange(details)
+      !beforeClosePending.value && emitOpenChange(details)
     },
     onEscapeKeyDown: (event: KeyboardEvent) => {
       triggerFrom.value = TriggerFrom.ESCAPE
