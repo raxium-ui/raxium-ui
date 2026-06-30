@@ -74,7 +74,10 @@ async function autoCycle(target: 'baseline' | 'patched', times: number) {
       </div>
       <ol class="ml-4 list-decimal space-y-1">
         <li>DevTools → <b>Memory</b>.</li>
-        <li>Run <b>Baseline ×10</b>, then <b>Collect garbage</b>, take a snapshot, filter <code>Detached &lt;input&gt;</code> → expect ~10.</li>
+        <li>
+          Run <b>Baseline ×10</b>, then <b>Collect garbage</b>, take a snapshot, filter
+          <code>Detached &lt;input&gt;</code> → expect ~10.
+        </li>
         <li>Reload the page (to clear retained roots).</li>
         <li>Run <b>Patched ×10</b>, GC, snapshot → expect 0 (or sharply reduced).</li>
         <li>If counts match, the workaround is viable.</li>
@@ -110,7 +113,11 @@ async function autoCycle(target: 'baseline' | 'patched', times: number) {
           </Button>
         </DialogTrigger>
         <DialogContent class="w-120">
-          <DialogHeader> Baseline Dialog </DialogHeader>
+          <input
+            type="text"
+            placeholder="auto-focused; will leak"
+            class="w-full border border-gray-44 px-2 py-1"
+          >
           <DialogBody>
             <input
               type="text"
@@ -127,13 +134,6 @@ async function autoCycle(target: 'baseline' | 'patched', times: number) {
         v-model:open="openPatched"
         lazy-mount
         unmount-on-exit
-        :before-close="
-          async ({ done }) => {
-            await transferFocusBeforeClose()
-            push('focus transferred → done()')
-            done()
-          }
-        "
       >
         <DialogTrigger as-child>
           <Button variant="outlined">
