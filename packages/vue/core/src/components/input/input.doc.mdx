@@ -65,15 +65,21 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
     </tr>
     <tr>
       <td><code>modelValue</code></td>
-      <td><code>string | number</code></td>
+      <td><code>string</code></td>
       <td>-</td>
       <td>受控值（配合 <code>v-model</code> 使用）</td>
     </tr>
     <tr>
       <td><code>defaultValue</code></td>
-      <td><code>string | number</code></td>
+      <td><code>string</code></td>
       <td>-</td>
       <td>非受控模式初始值</td>
+    </tr>
+    <tr>
+      <td><code>type</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>原生 input <code>type</code>（如 <code>text</code>、<code>password</code>、<code>number</code>、<code>email</code> 等）</td>
     </tr>
     <tr>
       <td><code>placeholder</code></td>
@@ -86,6 +92,12 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
       <td><code>number</code></td>
       <td>-</td>
       <td>输入最大长度</td>
+    </tr>
+    <tr>
+      <td><code>minlength</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>输入最小长度</td>
     </tr>
     <tr>
       <td><code>clearable</code></td>
@@ -141,28 +153,48 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
   <tbody>
     <tr>
       <td><code>update:modelValue</code></td>
-      <td><code>(value: string | number)</code></td>
+      <td><code>(value: string | undefined)</code></td>
       <td>输入值变化时触发，用于 <code>v-model</code> 同步</td>
     </tr>
     <tr>
-      <td><code>focus</code></td>
-      <td><code>(event: Event)</code></td>
-      <td>输入框获得焦点时触发</td>
+      <td><code>focus</code> / <code>focusin</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>输入框获得焦点时触发（<code>focus</code> 与 <code>focusin</code> 一同抛出）</td>
     </tr>
     <tr>
-      <td><code>blur</code></td>
-      <td><code>(event: Event)</code></td>
-      <td>输入框失焦时触发</td>
+      <td><code>blur</code> / <code>focusout</code></td>
+      <td><code>(event: FocusEvent)</code></td>
+      <td>输入框失焦时触发（<code>blur</code> 与 <code>focusout</code> 一同抛出）</td>
     </tr>
     <tr>
       <td><code>input</code></td>
-      <td><code>(event: Event, value: string | number | undefined)</code></td>
+      <td><code>(event: InputEvent, value: string | undefined)</code></td>
       <td>原生输入事件回调，并返回当前值</td>
     </tr>
     <tr>
       <td><code>change</code></td>
-      <td><code>(event: Event, value: string | number | undefined)</code></td>
+      <td><code>(event: Event, value: string | undefined)</code></td>
       <td>原生 change 事件回调，并返回当前值</td>
+    </tr>
+    <tr>
+      <td><code>clear</code></td>
+      <td><code>(event: Event, value: string | undefined)</code></td>
+      <td>点击清空按钮后触发（<code>clearable</code> 生效时）</td>
+    </tr>
+    <tr>
+      <td><code>beforeInput</code></td>
+      <td><code>(event: InputEvent, value: string | undefined)</code></td>
+      <td>原生 <code>beforeinput</code> 事件，可用于拦截或校验</td>
+    </tr>
+    <tr>
+      <td><code>compositionStart</code> / <code>compositionEnd</code></td>
+      <td><code>(event: CompositionEvent)</code></td>
+      <td>中文/IME 输入合成开始与结束</td>
+    </tr>
+    <tr>
+      <td><code>keydown</code> / <code>keyup</code></td>
+      <td><code>(event: KeyboardEvent)</code></td>
+      <td>键盘事件透传</td>
     </tr>
   </tbody>
 </table>
@@ -290,3 +322,4 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
 - 清空能力配合输入反馈：启用 `clearable` 时建议同时监听 `input` 或 `update:modelValue`，保证清空后的业务状态同步。
 - 插槽与样式分层：结构扩展优先使用 `prefix/suffix` 插槽，样式细化通过 `ui.root/ui.input/ui.clearable` 覆盖，避免直接改内部结构。
 - 主题定制优先 `theme`：尺寸、皮肤与全局风格差异优先走 `theme`，局部临时差异再走 `ui`，便于后续主题升级。
+- 原生 `<input>` 属性可通过 `$attrs` 透传（如 `autocomplete`、`inputmode`、`name`、`aria-*`、`data-*`），无需在组件上显式声明。

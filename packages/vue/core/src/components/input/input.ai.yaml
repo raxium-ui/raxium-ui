@@ -18,11 +18,16 @@ component:
       - id
       - placeholder
       - maxlength
+      - minlength
       - disabled
       - readonly
+      - type
+      - autocomplete
+      - inputmode
+      - name
       - aria-*
       - data-*
-    notes: 组件基于 factory 原语封装，内部使用原生 input 元素，非 Ark UI 独立业务组件。
+    notes: 组件基于 factory 原语封装，内部使用原生 input 元素；未在 props 中显式声明的原生属性通过 $attrs 透传到内部 <input>。
   capabilities:
     - v-model
     - clearable
@@ -35,21 +40,27 @@ contracts:
       typeText: string
       description: 输入框 id；未传时内部自动生成
     - name: modelValue
-      typeText: string | number
+      typeText: string
       conflictsWith:
         - defaultValue
       description: 受控值（配合 v-model 使用）
     - name: defaultValue
-      typeText: string | number
+      typeText: string
       conflictsWith:
         - modelValue
       description: 非受控模式初始值
+    - name: type
+      typeText: string
+      description: 原生 input type（如 text、password、number、email 等）
     - name: placeholder
       typeText: string
       description: 占位文案
     - name: maxlength
       typeText: number
       description: 输入最大长度
+    - name: minlength
+      typeText: number
+      description: 输入最小长度
     - name: clearable
       typeText: boolean
       default: false
@@ -77,24 +88,56 @@ contracts:
   events:
     - name: update:modelValue
       payload:
-        typeText: '(value: string | number)'
+        typeText: '(value: string | undefined)'
       description: 输入值变化时触发，用于 v-model 同步
     - name: focus
       payload:
-        typeText: '(event: Event)'
-      description: 输入框获得焦点时触发
+        typeText: '(event: FocusEvent)'
+      description: 输入框获得焦点时触发（与 focusin 一同抛出）
+    - name: focusin
+      payload:
+        typeText: '(event: FocusEvent)'
+      description: 原生 focusin 事件
     - name: blur
       payload:
-        typeText: '(event: Event)'
-      description: 输入框失焦时触发
+        typeText: '(event: FocusEvent)'
+      description: 输入框失焦时触发（与 focusout 一同抛出）
+    - name: focusout
+      payload:
+        typeText: '(event: FocusEvent)'
+      description: 原生 focusout 事件
     - name: input
       payload:
-        typeText: '(event: Event, value: string | number | undefined)'
+        typeText: '(event: InputEvent, value: string | undefined)'
       description: 原生输入事件回调，并返回当前值
     - name: change
       payload:
-        typeText: '(event: Event, value: string | number | undefined)'
+        typeText: '(event: Event, value: string | undefined)'
       description: 原生 change 事件回调，并返回当前值
+    - name: clear
+      payload:
+        typeText: '(event: Event, value: string | undefined)'
+      description: 点击清空按钮后触发（clearable 生效时）
+    - name: beforeInput
+      payload:
+        typeText: '(event: InputEvent, value: string | undefined)'
+      description: 原生 beforeinput 事件，可用于拦截或校验
+    - name: compositionStart
+      payload:
+        typeText: '(event: CompositionEvent)'
+      description: 中文/IME 输入合成开始
+    - name: compositionEnd
+      payload:
+        typeText: '(event: CompositionEvent)'
+      description: 中文/IME 输入合成结束
+    - name: keydown
+      payload:
+        typeText: '(event: KeyboardEvent)'
+      description: 键盘按下事件
+    - name: keyup
+      payload:
+        typeText: '(event: KeyboardEvent)'
+      description: 键盘抬起事件
   slots:
     - name: prefix
       slotPropsSchema:
@@ -183,21 +226,27 @@ examples:
 generationHints:
   preferredUsageOrder:
     - modelValue / defaultValue
+    - type
     - placeholder
     - clearable
     - theme.size
     - disabled / readonly
+    - maxlength / minlength
   a11yChecklist:
     - placeholder 不能替代 label，需配合 label 或 aria-label 使用
     - disabled/readonly 状态需提供可感知视觉反馈
     - maxlength 建议配合 aria-describedby 提示剩余字数
+    - IME 场景应用 compositionStart/compositionEnd 判断合成状态，避免拼音过程中误触发校验
   codegenTemplates:
     minimal: <Input v-model="value" placeholder="请输入" />
     controlled: <Input v-model="value" placeholder="请输入" :clearable="true" />
+    password: <Input v-model="password" type="password" placeholder="请输入密码" />
+    withPrefixSuffix: '<Input v-model="q" placeholder="搜索"><template #prefix><SearchIcon /></template></Input>'
   antiPatterns:
     - <Input placeholder="请输入" /> 未配合 label 或 aria-label
     - 同时设置 :readonly="true" :disabled="true" 导致语义不清
     - <Input v-model="q" :clearable="true" /> 未监听 @update:modelValue 导致业务状态不同步
+    - 通过 ui.input 覆盖 padding/height 而不是使用 theme.size，破坏尺寸主题一致性
 provenance:
   sources:
     - path: ./input.doc.mdx
