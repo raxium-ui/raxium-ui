@@ -25,6 +25,7 @@ export const tvMenu = tv(
       ],
       itemGroup: '',
       itemGroupLabel: 'relative border-b',
+      itemIndicator: 'inline-flex items-center justify-center size-[0.875lh]',
       triggerItem: 'justify-between',
       triggerItemIndicator: [
         'transition-transform',

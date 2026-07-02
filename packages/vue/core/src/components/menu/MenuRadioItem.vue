@@ -41,22 +41,24 @@ const radioCrafts = useCraft(theme, 'tvRadioGroup', () => ({ variant }))
         name="indicator"
         v-bind="context"
       >
-        <Circle
-          v-if="variant === 'default'"
-          :class="radioCrafts.itemIndicator(cxc(ui?.indicator))"
-          data-part="indicator"
-          :data-state="context.checked ? 'checked' : 'unchecked'"
-          :data-variant="variant"
-          :hidden="context.checked ? undefined : true"
-        />
-        <Check
-          v-if="variant === 'checkbox'"
-          :class="radioCrafts.itemIndicator(cxc(ui?.indicator))"
-          data-part="indicator"
-          :data-state="context.checked ? 'checked' : 'unchecked'"
-          :data-variant="variant"
-          :hidden="context.checked ? undefined : true"
-        />
+        <span :class="crafts.itemIndicator(cxc(ui?.indicator))">
+          <Circle
+            v-if="variant === 'default'"
+            :class="radioCrafts.itemIndicator()"
+            data-part="indicator"
+            :data-state="context.checked ? 'checked' : 'unchecked'"
+            :data-variant="variant"
+            :hidden="context.checked ? undefined : true"
+          />
+          <Check
+            v-if="variant === 'checkbox'"
+            :class="radioCrafts.itemIndicator()"
+            data-part="indicator"
+            :data-state="context.checked ? 'checked' : 'unchecked'"
+            :data-variant="variant"
+            :hidden="context.checked ? undefined : true"
+          />
+        </span>
       </slot>
     </Menu.ItemContext>
   </Menu.RadioItem>
