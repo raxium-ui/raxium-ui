@@ -309,7 +309,7 @@ Ark UI 文档： [Ark UI Toast (Vue)](https://ark-ui.com/vue/docs/components/toa
     <tr>
       <td><code>Toaster</code></td>
       <td><code>default</code>（scoped）</td>
-      <td>返回 <code>{'{'} toast {'}'}</code>，用于将当前消息对象绑定到 <code>Toast</code> 渲染</td>
+      <td>返回 <code>{'{'} toast, props {'}'}</code>：<code>toast</code> 为当前消息对象，<code>props</code> 为通过 <code>toast.create(options, props)</code> 传入的单条 <code>Toast</code> props 覆盖（可能为 <code>undefined</code>）；需在 <code>&lt;Toast :options="toast" v-bind="props" /&gt;</code> 上绑定才能生效</td>
     </tr>
     <tr>
       <td><code>Toast</code></td>
@@ -455,6 +455,44 @@ Ark UI 文档： [Ark UI Toast (Vue)](https://ark-ui.com/vue/docs/components/toa
 ## 编程式调用
 
 `useToast()` 返回 `toast` 对象，包含以下常用方法：`create`、`success`、`error`、`info`、`warning`、`loading`、`promise`。
+
+所有方法都支持第二个可选参数 `props`，用于**只对当前这一条 toast** 覆盖 `<Toast>` 组件的 props（`class`、`theme`、`ui`、`ToastRootBaseProps` 等 —— 即 `Omit<ToastProps, 'options'>`）：
+
+```ts
+const { toast } = useToast()
+
+// 单条覆盖 class / theme / ui
+toast.create(
+  { title: '上传成功', type: 'success' },
+  { class: 'ring-2 ring-primary', theme: { size: 'lg' }, ui: { title: 'font-bold' } },
+)
+
+// update 合并 props（同名字段覆盖）
+const { toastId, toaster } = toast.create(
+  { title: '处理中', duration: Infinity },
+  { class: 'ring-2 ring-warning' },
+) ?? {}
+toaster?.update(
+  toastId,
+  { title: '完成', duration: 3000 },
+  { class: 'ring-2 ring-success' },
+)
+
+// promise（第 4 个参数）
+toast.promise(fetchData(), { loading: '加载中', success: '完成', error: '失败' }, undefined, {
+  class: 'ring-2 ring-primary',
+})
+```
+
+`ToasterManager` 内置的默认 `<Toaster>` 已经把 `props` bind 到 `<Toast>` 上，普通用户零成本升级；**自定义 `<Toaster>` 插槽**的用户需要显式接收并 v-bind：
+
+```html
+<Toaster v-slot="{ toast, props }" placement="top-end" overlap>
+  <Toast :options="toast" v-bind="props" />
+</Toaster>
+```
+
+优先级：`options.theme` > `props.theme` > `Toast.theme` > `Toaster.theme`（沿用现有主题分层）。
 
 <Canvas of={ToastStories.Promise} />
 

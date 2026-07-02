@@ -79,7 +79,12 @@ contracts:
           message:
             type: object
             description: MessageOptions，含 showClose 等合并后的消息对象
-      description: 返回 { message }，用于将当前消息对象绑定到 Message 渲染。
+          props:
+            type: object
+            description: 通过 message.create(options, props) 传入的单条 Message props 覆盖（Omit<MessageProps,
+              'options'>），可能为 undefined；需在 <Message :options="message" v-bind="props"
+              /> 上绑定才能生效
+      description: 返回 { message, props }，将当前消息对象与单条 props 覆盖绑定到 Message 渲染。
   themeConfiguration:
     fields:
       - name: size
@@ -234,26 +239,41 @@ generationHints:
     - options.type
     - options.description
     - options.showClose
+    - 'message.create(options, props?) 第二参 props 用于单条 Message 组件级覆盖（class / theme / ui）'
+  imperativeApi:
+    signatures:
+      - 'message.create(options: MessageOptions, props?: Omit<MessageProps, ''options''>): { messageId, messager } | undefined'
+      - 'message.success | error | info | warning | loading(options, props?): 同 create'
+      - 'messager.update(id, data: Partial<MessageOptions>, props?): string  // props 合并到已有条目'
+      - 'message.promise(promise, options, shared?, props?): { messageId, messager, unwrap }'
+    notes:
+      - 第二参 props 覆盖仅作用于该条 message；RUIConfigProvider 内置默认 <Messager> 已经 v-bind 到 <Message>。
+      - '自定义 <Messager> 插槽或覆写 #message slot 时必须写 v-slot="{ message, props }" 且 <Message :options="message" v-bind="props" />。'
+      - theme 优先级：options.theme > props.theme > Message.theme > Messager.theme。
   a11yChecklist:
     - 应用根部至少挂载一个 Messager
     - 消息类型需提供可感知的视觉反馈
     - loading 类型默认不显示关闭按钮
     - 'duration: Infinity 时应提供可见关闭入口'
   codegenTemplates:
-    minimal: '<Messager><template #default="{ message }"><Message :options="message"
-      /></template></Messager>'
+    minimal: '<Messager><template #default="{ message, props }"><Message :options="message"
+      v-bind="props" /></template></Messager>'
     withUseMessage: 'const { message } = useMessage(); message.success({ description:
       ''操作成功'' });'
+    withUseMessageAndProps: 'const { message } = useMessage(); message.create({ type:
+      ''info'', description: ''已保存'' }, { class: ''ring-2 ring-primary'', theme: {
+      size: ''lg'' } });'
     useMessagePromise: 'const { message } = useMessage(); message.promise(fetchData(),
       { loading: ''加载中...'', success: ''完成'', error: ''失败'' });'
-    fullSetup: '<Messager :show-close="true" :max="24"><template #default="{ message
-      }"><Message :options="message" /></template></Messager>'
+    fullSetup: '<Messager :show-close="true" :max="24"><template #default="{ message,
+      props }"><Message :options="message" v-bind="props" /></template></Messager>'
   antiPatterns:
     - '在未挂载 <Messager /> 的组件树中调用 useMessage().message.success({ description: ''ok''
       })'
     - 'message.create({ description: ''失败'' }) 未设置 type: ''error'''
     - 手动 try/catch 分别调用 loading/success/error 而非 message.promise(p, { loading, success,
       error })
+    - '自定义 <Messager> 插槽只写 v-slot="{ message }" 不接收 props，导致 message.create 第二参 props 失效'
 provenance:
   sources:
     - path: ./message.doc.mdx

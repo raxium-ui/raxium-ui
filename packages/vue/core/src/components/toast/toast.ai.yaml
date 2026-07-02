@@ -103,7 +103,12 @@ subComponents:
             toast:
               type: object
               description: ToastOptions
-        description: 返回 { toast }，用于将当前消息对象绑定到 Toast 渲染。
+            props:
+              type: object
+              description: 通过 toast.create(options, props) 传入的单条 Toast props 覆盖（Omit<ToastProps,
+                'options'>），可能为 undefined；需在 <Toast :options="toast" v-bind="props" />
+                上绑定才能生效
+        description: 返回 { toast, props }，将当前消息对象与单条 props 覆盖绑定到 Toast 渲染。
     themeConfiguration:
       fields:
         - name: size
@@ -273,6 +278,17 @@ generationHints:
     - useToast().toast.create/success/error/info/warning/loading
     - ToasterManager + Toaster + Toast
     - options.type + options.title + options.description
+    - 'toast.create(options, props?) 第二参 props 用于单条 Toast 组件级覆盖（class / theme / ui）'
+  imperativeApi:
+    signatures:
+      - 'toast.create(options: ToastOptions, props?: Omit<ToastProps, ''options''>): { toastId, toaster } | undefined'
+      - 'toast.success | error | info | warning | loading(options, props?): 同 create'
+      - 'toaster.update(id, data: Partial<ToastOptions>, props?): string  // props 合并到已有条目'
+      - 'toast.promise(promise, options, shared?, props?): { toastId, toaster, unwrap }'
+    notes:
+      - 第二参 props 覆盖仅作用于该条 toast；ToasterManager 内置默认 Toaster 已经 v-bind 到 <Toast>。
+      - '自定义 <Toaster> 插槽时必须写 v-slot="{ toast, props }" 且 <Toast :options="toast" v-bind="props" />。'
+      - theme 优先级：options.theme > props.theme > Toast.theme > Toaster.theme。
   a11yChecklist:
     - 'duration: Infinity 时应提供可见关闭入口'
     - 关键流程建议使用 title + description 双层信息
@@ -281,20 +297,24 @@ generationHints:
     minimal: |-
       <ToasterManager />
       // 在子组件中: const { toast } = useToast(); toast.create({ title: '提示', type: 'info' })
-    withToasterManager: <ToasterManager><Toaster v-slot="{ toast }"><Toast :options="toast"
-      /></Toaster></ToasterManager>
+    withToasterManager: <ToasterManager><Toaster v-slot="{ toast, props }"><Toast
+      :options="toast" v-bind="props" /></Toaster></ToasterManager>
     useToastCreate: 'const { toast } = useToast(); toast.create({ title: ''提示'', type:
       ''info'' })'
+    useToastCreateWithProps: 'const { toast } = useToast(); toast.create({ title:
+      ''提示'', type: ''info'' }, { class: ''ring-2 ring-primary'', theme: { size: ''lg''
+      } })'
     useToastSuccess: 'const { toast } = useToast(); toast.success({ title: ''成功'',
       description: ''操作已完成'' })'
     multiPlacement: <ToasterManager :disable-default-toaster="true"><Toaster v-slot="{
-      toast }" toaster-id="top-end" placement="top-end" overlap><Toast :options="toast"
-      /></Toaster><Toaster v-slot="{ toast }" toaster-id="bottom-start" placement="bottom-start"
-      overlap><Toast :options="toast" /></Toaster></ToasterManager>
+      toast, props }" toaster-id="top-end" placement="top-end" overlap><Toast :options="toast"
+      v-bind="props" /></Toaster><Toaster v-slot="{ toast, props }" toaster-id="bottom-start"
+      placement="bottom-start" overlap><Toast :options="toast" v-bind="props" /></Toaster></ToasterManager>
   antiPatterns:
     - 'const { toast } = useToast(); toast.create({ type: ''error'' })'
     - const { toast } = useToast(); toast.create({})
     - '<div><Button @click="() => useToast().toast.create({ title: ''x'' })" /></div>'
+    - '自定义 <Toaster> 插槽只写 v-slot="{ toast }" 不接收 props，导致 toast.create 第二参 props 失效'
 provenance:
   sources:
     - path: ./toast.doc.mdx

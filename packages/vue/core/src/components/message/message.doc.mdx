@@ -257,7 +257,7 @@ Ark UI 文档： [Ark UI Toast (Vue)](https://ark-ui.com/vue/docs/components/toa
     <tr>
       <td><code>Messager</code></td>
       <td><code>default</code>（scoped）</td>
-      <td>返回 <code>{'{'} message {'}'}</code>，用于将当前消息对象绑定到 <code>Message</code> 渲染</td>
+      <td>返回 <code>{'{'} message, props {'}'}</code>：<code>message</code> 为当前消息对象（合并了 <code>Messager.showClose</code> 默认值），<code>props</code> 为通过 <code>message.create(options, props)</code> 传入的单条 <code>Message</code> props 覆盖（可能为 <code>undefined</code>）；需在 <code>&lt;Message :options="message" v-bind="props" /&gt;</code> 上绑定才能生效</td>
     </tr>
     <tr>
       <td><code>Message</code></td>
@@ -386,3 +386,47 @@ Ark UI 文档： [Ark UI Toast (Vue)](https://ark-ui.com/vue/docs/components/toa
 - 关闭按钮策略建议分层：全局默认用 `Messager.showClose`，单条特例再用 `options.showClose` 覆盖。
 - 样式调整优先走 `theme`，需要精确节点覆盖时再用 `ui.*`，避免大量业务 class 直接侵入组件结构。
 - `loading` 类型默认不显示关闭按钮；若业务需要可提供自定义 `render` 并配合 `MessageCloseTrigger` 管理关闭行为。
+
+---
+
+## 编程式调用
+
+`useMessage()` 返回 `message` 对象，包含常用方法：`create`、`success`、`error`、`info`、`warning`、`loading`、`promise`。
+
+所有方法都支持第二个可选参数 `props`，用于**只对当前这一条消息** 覆盖 `<Message>` 组件的 props（`class`、`theme`、`ui`、`ToastRootBaseProps` 等 —— 即 `Omit<MessageProps, 'options'>`）：
+
+```ts
+const { message } = useMessage()
+
+// 单条覆盖 class / theme / ui
+message.create(
+  { type: 'info', description: '已保存' },
+  { class: 'ring-2 ring-primary', theme: { size: 'lg' }, ui: { description: 'font-bold' } },
+)
+
+// update 合并 props（同名字段覆盖）
+const { messageId, messager } = message.create(
+  { type: 'loading', description: '加载中', duration: Infinity },
+  { class: 'ring-2 ring-warning' },
+) ?? {}
+messager?.update(
+  messageId,
+  { type: 'success', description: '完成', duration: 3000 },
+  { class: 'ring-2 ring-success' },
+)
+
+// promise（第 4 个参数）
+message.promise(fetchData(), { loading: '加载中', success: '完成', error: '失败' }, undefined, {
+  class: 'ring-2 ring-primary',
+})
+```
+
+`RUIConfigProvider` 内置的默认 `<Messager>` 渲染已经把 `props` bind 到 `<Message>` 上，普通用户零成本升级；**自定义 `<Messager>` 插槽或覆写 `#message` slot** 的用户需要显式接收并 v-bind：
+
+```html
+<Messager v-slot="{ message, props }">
+  <Message :options="message" v-bind="props" />
+</Messager>
+```
+
+优先级：`options.theme` > `props.theme` > `Message.theme` > `Messager.theme`（沿用现有主题分层）。
