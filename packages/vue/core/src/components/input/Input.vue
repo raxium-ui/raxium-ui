@@ -83,8 +83,6 @@ function onFocusout(event: FocusEvent) {
 }
 
 function onClear() {
-  rejectBlur.value = true
-  inputRef.value?.focus()
   innerValue.value = undefined
   emits('clear', new CustomEvent('clear'), innerValue.value)
 }
@@ -124,7 +122,7 @@ const crafts = useCraft(theme, 'tvInput')
       @keyup="emits('keyup', $event)"
     >
     <div
-      v-if="inputState === 'focused' && clearable && modelValue"
+      v-if="inputState === 'focused' && clearable && innerValue"
       :class="crafts.clearable(cxc(ui?.clearable))"
       @mousedown.stop="onClear"
     >
