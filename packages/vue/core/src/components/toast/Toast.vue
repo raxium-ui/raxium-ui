@@ -102,17 +102,17 @@ const iconVNode = computed(() => {
             <template v-if="typeof options?.title === 'function'">
               <component :is="options?.title(toastContext)" />
             </template>
-            <template v-else>
+            <template v-else-if="options?.title">
               <Toast.Title :class="crafts.title(cxc(ui?.title))">
-                {{ options?.title }}
+                {{ options.title }}
               </Toast.Title>
             </template>
             <template v-if="typeof options?.description === 'function'">
               <component :is="options?.description(toastContext)" />
             </template>
-            <template v-else>
+            <template v-else-if="options?.description">
               <Toast.Description :class="crafts.description(cxc(ui?.description))">
-                {{ options?.description }}
+                {{ options.description }}
               </Toast.Description>
             </template>
           </slot>

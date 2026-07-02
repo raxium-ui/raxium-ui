@@ -1,6 +1,6 @@
 import type * as toast from '@zag-js/toast'
 import type { MaybeRef, VNodeChild } from 'vue'
-import type { ToasterManagerExpose, ToasterWrap, ToastOptions } from '.'
+import type { ToasterManagerExpose, ToasterWrap, ToastExtraProps, ToastOptions } from '.'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { isEmpty } from 'es-toolkit/compat'
 import { computed, unref } from 'vue'
@@ -27,13 +27,17 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
     })
   }
 
-  function create(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
+  function create(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
     const toasterWrap = findToaster(options, iteratee)
     if (isEmpty(toasterWrap)) {
       console.warn('[RUI] there is no toaster found, please check your toast iteratee function')
       return
     }
-    const toastId = toasterWrap.toaster.create(options as toast.Options)
+    const toastId = toasterWrap.toaster.create(options, props)
     return {
       toastId,
       toaster: toasterWrap.toaster,
@@ -44,6 +48,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
     promise: Promise<T> | (() => Promise<T>),
     options: toast.PromiseOptions<T, V>,
     shared?: Omit<ToastOptions<V>, 'type'>,
+    props?: ToastExtraProps,
     iteratee?: (t: ToasterWrap) => boolean,
   ) {
     const toasterWrap = findToaster(shared, iteratee)
@@ -51,7 +56,7 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
       console.warn('[RUI] there is no toaster found, please check your toast iteratee function')
       return
     }
-    const { id, unwrap } = toasterWrap?.toaster.promise(promise, options, shared) ?? {
+    const { id, unwrap } = toasterWrap?.toaster.promise(promise, options, shared, props) ?? {
       id: undefined,
       unwrap: () => Promise.resolve(undefined),
     }
@@ -62,50 +67,40 @@ function useToast(manager?: MaybeRef<ToasterManagerExpose | null | undefined>) {
     }
   }
 
-  function success(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
-    return create(
-      {
-        ...options,
-        type: 'success',
-      },
-      iteratee,
-    )
+  function success(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
+    return create({ ...options, type: 'success' }, props, iteratee)
   }
-  function error(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
-    return create(
-      {
-        ...options,
-        type: 'error',
-      },
-      iteratee,
-    )
+  function error(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
+    return create({ ...options, type: 'error' }, props, iteratee)
   }
-  function info(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
-    return create(
-      {
-        ...options,
-        type: 'info',
-      },
-      iteratee,
-    )
+  function info(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
+    return create({ ...options, type: 'info' }, props, iteratee)
   }
-  function warning(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
-    return create(
-      {
-        ...options,
-        type: 'warning',
-      },
-      iteratee,
-    )
+  function warning(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
+    return create({ ...options, type: 'warning' }, props, iteratee)
   }
-  function loading(options: ToastOptions, iteratee?: (t: ToasterWrap) => boolean) {
-    return create(
-      {
-        ...options,
-        type: 'loading',
-      },
-      iteratee,
-    )
+  function loading(
+    options: ToastOptions,
+    props?: ToastExtraProps,
+    iteratee?: (t: ToasterWrap) => boolean,
+  ) {
+    return create({ ...options, type: 'loading' }, props, iteratee)
   }
 
   return {

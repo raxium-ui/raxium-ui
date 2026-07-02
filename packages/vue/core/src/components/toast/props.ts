@@ -59,21 +59,24 @@ export interface ToasterProps extends ToastStoreProps, ThemeCrafts<'tvToast'> {
   toasterId?: string
 }
 
+export type ToastExtraProps = Omit<ToastProps, 'options'>
+
 export type RaxiumToaster = Omit<
   CreateToasterReturn,
   'create' | 'update' | 'error' | 'success' | 'info' | 'warning' | 'loading' | 'promise'
 > & {
-  create: (data: ToastOptions) => string
-  update: (id: string, data: Partial<ToastOptions>) => string
-  error: (data?: Partial<ToastOptions>) => void
-  success: (data?: Partial<ToastOptions>) => void
-  info: (data?: Partial<ToastOptions>) => void
-  warning: (data?: Partial<ToastOptions>) => void
-  loading: (data?: Partial<ToastOptions>) => void
+  create: (data: ToastOptions, props?: Omit<ToastProps, 'options'>) => string
+  update: (id: string, data: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => string
+  error: (data?: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => void
+  success: (data?: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => void
+  info: (data?: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => void
+  warning: (data?: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => void
+  loading: (data?: Partial<ToastOptions>, props?: Omit<ToastProps, 'options'>) => void
   promise: <T>(
     promise: Promise<T> | (() => Promise<T>),
     options: toast.PromiseOptions<T, VNodeChild>,
     shared?: Omit<ToastOptions, 'type'>,
+    props?: Omit<ToastProps, 'options'>,
   ) => ReturnType<CreateToasterReturn['promise']>
 }
 

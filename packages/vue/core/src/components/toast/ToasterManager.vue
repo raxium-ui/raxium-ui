@@ -41,13 +41,16 @@ defineExpose({
   </template>
   <Toaster
     v-if="!disableDefaultToaster"
-    v-slot="{ toast }"
+    v-slot="{ toast, props }"
     ref="defaultToaster"
     placement="bottom-end"
     overlap
     v-bind="defaultToasterProps"
     :toaster-id="DEFAULT_TOASTER_ID"
   >
-    <Toast :options="toast" />
+    <Toast
+      :options="toast"
+      v-bind="props"
+    />
   </Toaster>
 </template>

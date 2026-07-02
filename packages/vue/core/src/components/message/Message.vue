@@ -117,9 +117,9 @@ const iconVNode = computed(() => {
           <template v-if="typeof options?.description === 'function'">
             <component :is="options?.description(messageContext)" />
           </template>
-          <template v-else>
+          <template v-else-if="options?.description">
             <Toast.Description :class="crafts.description(cxc(ui?.description))">
-              {{ options?.description }}
+              {{ options.description }}
             </Toast.Description>
           </template>
         </slot>

@@ -35,17 +35,18 @@ export type RaxiumMessager = Omit<
   CreateToasterReturn,
   'create' | 'update' | 'error' | 'success' | 'info' | 'warning' | 'loading' | 'promise'
 > & {
-  create: (data: MessageOptions) => string
-  update: (id: string, data: Partial<MessageOptions>) => string
-  error: (data?: Partial<MessageOptions>) => void
-  success: (data?: Partial<MessageOptions>) => void
-  info: (data?: Partial<MessageOptions>) => void
-  warning: (data?: Partial<MessageOptions>) => void
-  loading: (data?: Partial<MessageOptions>) => void
+  create: (data: MessageOptions, props?: Omit<MessageProps, 'options'>) => string
+  update: (id: string, data: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => string
+  error: (data?: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => void
+  success: (data?: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => void
+  info: (data?: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => void
+  warning: (data?: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => void
+  loading: (data?: Partial<MessageOptions>, props?: Omit<MessageProps, 'options'>) => void
   promise: <T>(
     promise: Promise<T> | (() => Promise<T>),
     options: toast.PromiseOptions<T, VNodeChild>,
     shared?: Omit<MessageOptions, 'type'>,
+    props?: Omit<MessageProps, 'options'>,
   ) => ReturnType<CreateToasterReturn['promise']>
 }
 

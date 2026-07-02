@@ -148,15 +148,19 @@ provideRUIConfigContext(
   </ToasterManager>
   <Messager
     ref="messager"
-    v-slot="{ message }"
+    v-slot="{ message, props: messageProps }"
     overlap
     v-bind="props.messager"
   >
     <slot
       name="message"
       :message="message"
+      :props="messageProps"
     >
-      <Message :options="message" />
+      <Message
+        :options="message"
+        v-bind="messageProps"
+      />
     </slot>
   </Messager>
   <OverlayProvider />
