@@ -1,5 +1,12 @@
 # @raxium/vue
 
+## 0.3.11
+
+### Patch Changes
+
+- c579771: Fix an issue where the Dialog component did not properly emit a "change" event before closing. The "beforeclose" event now correctly triggers a change event to notify listeners.
+- 856add6: feat: Implement support for passing additional props to toast and message components programmatically. This enhancement allows for more flexible customization of individual toast and message instances, improving usability and design options.
+
 ## 0.3.10
 
 ### Patch Changes
