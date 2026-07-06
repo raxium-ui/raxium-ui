@@ -1,5 +1,11 @@
 # @raxium/themes
 
+## 0.2.7
+
+### Patch Changes
+
+- c60c60b: Fix the size of the radio item indicator in the menu component so that it is sized correctly and visually consistent with other elements.
+
 ## 0.2.6
 
 ### Patch Changes

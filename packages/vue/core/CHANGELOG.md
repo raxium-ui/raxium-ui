@@ -1,5 +1,15 @@
 # @raxium/vue
 
+## 0.3.12
+
+### Patch Changes
+
+- 58e3cff: fix: Refactor Dialog component to introduce new passthrough props for enhanced customization and flexibility #74.
+- 5d90b7b: Fix: Resolved issue #78 where clearing the input did not emit the correct value.
+- c60c60b: Fix the size of the radio item indicator in the menu component so that it is sized correctly and visually consistent with other elements.
+- Updated dependencies [c60c60b]
+  - @raxium/themes@0.2.7
+
 ## 0.3.11
 
 ### Patch Changes
