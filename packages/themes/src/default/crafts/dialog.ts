@@ -11,6 +11,7 @@ export const tvDialog = tv(
         'fixed',
         'inset-0',
         'z-[calc(var(--z-modal)+var(--layer-index,0)*2)]',
+        'pointer-events-auto', // see: https://github.com/chakra-ui/zag/issues/3203
         ...DIALOG_BACKDROP_MOTION,
       ],
       positioner: [
