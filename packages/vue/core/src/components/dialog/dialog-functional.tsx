@@ -3,30 +3,57 @@
  */
 import type { UseDialogContext } from '@ark-ui/vue/dialog'
 import type { ThemeCrafts } from '@raxium/vue/providers/theme'
-import type { AppContext, PropType } from 'vue'
+import type { AppContext, HTMLAttributes, PropType } from 'vue'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import type {
-  DialogBeforeCloseHandler,
-  DialogOpenChangeDetails,
-} from '.'
-import type {
-  DialogTriggerFrom,
-  OpenChangeDetails,
-} from './dialog-intercept-context'
-import { createVNode, defineComponent, getCurrentInstance, reactive, ref, render as vueRender } from 'vue'
+import type { DialogBeforeCloseHandler, DialogOpenChangeDetails } from '.'
+import type { DialogTriggerFrom, OpenChangeDetails } from './dialog-intercept-context'
 import {
-  Dialog,
-  DialogBody,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-} from '.'
+  createVNode,
+  defineComponent,
+  getCurrentInstance,
+  reactive,
+  ref,
+  render as vueRender,
+} from 'vue'
+import { Dialog, DialogBody, DialogContent, DialogFooter, DialogHeader } from '.'
 
 type OpenChangeDetailsWithFrom = OpenChangeDetails & { from: DialogTriggerFrom }
 
 let fnDialogCounter = 0
 
-interface DialogOptions extends ThemeCrafts<'tvDialog'> {
+/** 可透传至底层 `<Dialog>` 的 props（对齐 `DialogProps`，不含 open 等由函数式 API 托管的字段） */
+interface DialogPassthroughProps extends ThemeCrafts<'tvDialog'> {
+  'class'?: HTMLAttributes['class']
+  'beforeClose'?: DialogBeforeCloseHandler
+  'lazyMount'?: boolean
+  'unmountOnExit'?: boolean
+  'modal'?: boolean
+  'closeOnEscape'?: boolean
+  'closeOnInteractOutside'?: boolean
+  'role'?: 'dialog' | 'alertdialog'
+  'trapFocus'?: boolean
+  'preventScroll'?: boolean
+  'restoreFocus'?: boolean
+  'id'?: string
+  'ids'?: Partial<{
+    trigger: string
+    positioner: string
+    backdrop: string
+    content: string
+    closeTrigger: string
+    title: string
+    description: string
+  }>
+  'initialFocusEl'?: () => HTMLElement | null
+  'finalFocusEl'?: () => HTMLElement | null
+  'persistentElements'?: (() => Element | null)[]
+  'triggerValue'?: string | null
+  'defaultTriggerValue'?: string | null
+  'aria-label'?: string
+}
+
+/** 函数式 API 专属字段，不透传给底层 `<Dialog>` */
+interface DialogFunctionalFields {
   title?: string | ((context: UseDialogContext) => any)
   content?: string | ((context: UseDialogContext) => any)
   footer?: boolean | ((context: UseDialogContext) => any)
@@ -37,12 +64,15 @@ interface DialogOptions extends ThemeCrafts<'tvDialog'> {
     body?: ComponentProps<typeof DialogBody>
     footer?: ComponentProps<typeof DialogFooter>
   }
-  beforeClose?: DialogBeforeCloseHandler
-  onOpenChange?: (details: OpenChangeDetailsWithFrom) => void
+  /** 关闭动画结束后（对应 `<Dialog @exit-complete />`） */
   onAfterClose?: (details: OpenChangeDetailsWithFrom) => void
   onOk?: (event: MouseEvent) => void
   onCancel?: (event: MouseEvent) => void
+  /** 打开状态变化（含 `from` 来源，对应 `<Dialog @open-change />`） */
+  onOpenChange?: (details: OpenChangeDetailsWithFrom) => void
 }
+
+export type DialogOptions = DialogPassthroughProps & DialogFunctionalFields
 
 export interface DialogFunctionalHandle {
   /** 与传入对象同一 reactive 引用，修改字段可使弹窗内容同步更新 */
@@ -60,9 +90,7 @@ export function dialog(
     name: 'Dialog',
     props: {
       onAfterClose: {
-        type: Function as PropType<
-          (details: OpenChangeDetailsWithFrom) => void
-        >,
+        type: Function as PropType<(details: OpenChangeDetailsWithFrom) => void>,
         default: () => {},
       },
     },
@@ -70,68 +98,71 @@ export function dialog(
       const openChangeDetail = ref<OpenChangeDetails & { from: DialogTriggerFrom }>()
 
       return () => {
-        const footerShown = opts.footer ?? true
+        const {
+          title,
+          content,
+          footer,
+          render,
+          widget,
+          onOk,
+          onCancel,
+          onOpenChange,
+          onAfterClose,
+          ...dialogProps
+        } = opts
+        const footerShown = footer ?? true
         return (
           <Dialog
+            {...(dialogProps as Record<string, unknown>)}
             v-model={[open.value, 'open']}
-            lazy-mount
-            unmount-on-exit
-            theme={opts.theme}
-            beforeClose={opts.beforeClose}
             onOpenChange={(details: DialogOpenChangeDetails) => {
               openChangeDetail.value = details
-              opts.onOpenChange?.(details)
+              onOpenChange?.(details)
             }}
             onExitComplete={() => {
               const details = openChangeDetail.value ?? { open: false, from: undefined }
               props.onAfterClose?.(details)
-              opts.onAfterClose?.(details)
+              onAfterClose?.(details)
             }}
           >
             {{
               default: (context: UseDialogContext) => {
-                if (opts.render) {
+                if (render) {
                   return (
-                    <DialogContent {...(opts.widget?.content as Record<string, unknown>)}>
-                      {opts.render(context)}
+                    <DialogContent {...(widget?.content as Record<string, unknown>)}>
+                      {render(context)}
                     </DialogContent>
                   )
                 }
                 return (
-                  <DialogContent {...(opts.widget?.content as Record<string, unknown>)}>
-                    {opts.title && (
-                      <DialogHeader {...(opts.widget?.header as Record<string, unknown>)}>
+                  <DialogContent {...(widget?.content as Record<string, unknown>)}>
+                    {title && (
+                      <DialogHeader {...(widget?.header as Record<string, unknown>)}>
                         {{
                           default: () => {
-                            return typeof opts.title === 'function'
-                              ? opts.title(context)
-                              : opts.title
+                            return typeof title === 'function' ? title(context) : title
                           },
                         }}
                       </DialogHeader>
                     )}
-                    {opts.content && (
-                      <DialogBody {...(opts.widget?.body as Record<string, unknown>)}>
+                    {content && (
+                      <DialogBody {...(widget?.body as Record<string, unknown>)}>
                         {{
                           default: () => {
-                            return typeof opts.content === 'function'
-                              ? opts.content(context)
-                              : opts.content
+                            return typeof content === 'function' ? content(context) : content
                           },
                         }}
                       </DialogBody>
                     )}
                     {footerShown && (
                       <DialogFooter
-                        {...(opts.widget?.footer as Record<string, unknown>)}
-                        onOk={opts.onOk}
-                        onCancel={opts.onCancel}
+                        {...(widget?.footer as Record<string, unknown>)}
+                        onOk={onOk}
+                        onCancel={onCancel}
                       >
                         {{
                           default: () => {
-                            return typeof opts.footer === 'function'
-                              ? opts.footer(context)
-                              : null
+                            return typeof footer === 'function' ? footer(context) : null
                           },
                         }}
                       </DialogFooter>
@@ -167,8 +198,8 @@ export function dialog(
     close: () => {
       open.value = false
     },
-    options: opts as DialogOptions,
-  }
+    options: opts,
+  } as unknown as DialogFunctionalHandle
 }
 
 /**

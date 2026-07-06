@@ -3,7 +3,7 @@ import type { InputProps } from '.'
 import { CircleX } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft, useTheme } from '@raxium/vue/composables'
-import { computed, ref, useId, useTemplateRef, watch } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 
 const {
   id,
@@ -61,9 +61,7 @@ const inputState = computed(() => {
   return isFocus.value ? 'focused' : 'blur'
 })
 
-const inputRef = useTemplateRef<HTMLInputElement | null>('input')
 const rejectBlur = ref(false)
-
 function onFocusin(event: FocusEvent) {
   isFocus.value = true
   emits('focusin', event)
@@ -101,7 +99,6 @@ const crafts = useCraft(theme, 'tvInput')
     <input
       v-bind="$attrs"
       :id="id ?? `input:${inputId}`"
-      ref="input"
       v-model="innerValue"
       :class="crafts.input(cxc(ui?.input))"
       :data-state="inputState"
