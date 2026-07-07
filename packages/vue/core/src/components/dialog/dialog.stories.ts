@@ -8,10 +8,6 @@ import ContentCloseExample from './examples/content-close.vue'
 import ContentCloseExampleRaw from './examples/content-close.vue?raw'
 import ControlledAndEventsExample from './examples/controlled-and-events.vue'
 import ControlledAndEventsExampleRaw from './examples/controlled-and-events.vue?raw'
-import DetachedDomLeakWorkaroundExample from './examples/detached-dom-leak-workaround.vue'
-import DetachedDomLeakWorkaroundExampleRaw from './examples/detached-dom-leak-workaround.vue?raw'
-import DetachedDomLeakExample from './examples/detached-dom-leak.vue'
-import DetachedDomLeakExampleRaw from './examples/detached-dom-leak.vue?raw'
 import FooterWidgetExample from './examples/footer-widget.vue'
 import FooterWidgetExampleRaw from './examples/footer-widget.vue?raw'
 import FunctionalExample from './examples/functional.vue'
@@ -194,36 +190,6 @@ export const TooltipSurface = {
   },
   render: () => ({
     components: { Component: TooltipSurfaceExample },
-    template: '<Component />',
-  }),
-}
-
-export const DetachedDomLeak = {
-  parameters: {
-    docs: {
-      source: {
-        code: DetachedDomLeakExampleRaw,
-        language: 'html',
-      },
-    },
-  },
-  render: () => ({
-    components: { Component: DetachedDomLeakExample },
-    template: '<Component />',
-  }),
-}
-
-export const DetachedDomLeakWorkaround = {
-  parameters: {
-    docs: {
-      source: {
-        code: DetachedDomLeakWorkaroundExampleRaw,
-        language: 'html',
-      },
-    },
-  },
-  render: () => ({
-    components: { Component: DetachedDomLeakWorkaroundExample },
     template: '<Component />',
   }),
 }
