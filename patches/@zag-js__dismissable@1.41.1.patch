@@ -1,0 +1,62 @@
+diff --git a/dist/layer-stack.js b/dist/layer-stack.js
+index 80321b2502f519f3b36acb6659acff00a66371ea..451e07d04a8bcf759692f39daec64ca691d92ff0 100644
+--- a/dist/layer-stack.js
++++ b/dist/layer-stack.js
+@@ -96,6 +96,16 @@ var layerStack = {
+     layer.styleTargets?.forEach((getTarget) => {
+       const target = getTarget();
+       if (target) {
++        // PATCH: freeze the resolved z-index before clearing the layer CSS vars.
++        // remove() runs on close-start (effect cleanup) while the layer node may still
++        // be mounted and playing its exit animation. Clearing --layer-index collapses
++        // the layer's z-index to the base band, so still-open lower layers with a higher
++        // --layer-index paint over it and hide the exit animation. Pinning the current
++        // computed z-index keeps its stacking order until it unmounts.
++        const { zIndex } = (0, import_dom_query.getComputedStyle)(target);
++        if (zIndex && zIndex !== "auto") {
++          target.style.setProperty("z-index", zIndex);
++        }
+         clearLayerStyleMirror(target);
+       }
+     });
+@@ -118,6 +128,9 @@ var layerStack = {
+       layer.styleTargets?.forEach((getTarget) => {
+         const target = getTarget();
+         if (!target || target === layer.node) return;
++        // PATCH: clear any frozen exit z-index so a reused/re-activated layer
++        // resumes class-based stacking (see freeze in remove()).
++        target.style.removeProperty("z-index");
+         applyLayerStackMetadata(layer, index, target);
+         const { zIndex } = (0, import_dom_query.getComputedStyle)(layer.node);
+         target.style.setProperty("--z-index", zIndex);
+diff --git a/dist/layer-stack.mjs b/dist/layer-stack.mjs
+index 4e31d3c0a5f70d9a4251a641675191af299e8f7a..38bf05167e4160848540965161cc319ba1221588 100644
+--- a/dist/layer-stack.mjs
++++ b/dist/layer-stack.mjs
+@@ -72,6 +72,16 @@ var layerStack = {
+     layer.styleTargets?.forEach((getTarget) => {
+       const target = getTarget();
+       if (target) {
++        // PATCH: freeze the resolved z-index before clearing the layer CSS vars.
++        // remove() runs on close-start (effect cleanup) while the layer node may still
++        // be mounted and playing its exit animation. Clearing --layer-index collapses
++        // the layer's z-index to the base band, so still-open lower layers with a higher
++        // --layer-index paint over it and hide the exit animation. Pinning the current
++        // computed z-index keeps its stacking order until it unmounts.
++        const { zIndex } = getComputedStyle(target);
++        if (zIndex && zIndex !== "auto") {
++          target.style.setProperty("z-index", zIndex);
++        }
+         clearLayerStyleMirror(target);
+       }
+     });
+@@ -94,6 +104,9 @@ var layerStack = {
+       layer.styleTargets?.forEach((getTarget) => {
+         const target = getTarget();
+         if (!target || target === layer.node) return;
++        // PATCH: clear any frozen exit z-index so a reused/re-activated layer
++        // resumes class-based stacking (see freeze in remove()).
++        target.style.removeProperty("z-index");
+         applyLayerStackMetadata(layer, index, target);
+         const { zIndex } = getComputedStyle(layer.node);
+         target.style.setProperty("--z-index", zIndex);

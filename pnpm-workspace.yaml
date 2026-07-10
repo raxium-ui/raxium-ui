@@ -18,6 +18,7 @@ overrides:
 
 patchedDependencies:
   '@ark-ui/vue@5.37.0': patches/@ark-ui__vue@5.37.0.patch
+  '@zag-js/dismissable@1.41.1': patches/@zag-js__dismissable@1.41.1.patch
   '@zag-js/toast@1.41.1': patches/@zag-js__toast@1.41.1.patch
 
 ignoredBuiltDependencies:

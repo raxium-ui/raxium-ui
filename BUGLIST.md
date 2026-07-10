@@ -16,3 +16,5 @@
 [x] 使用方向键切换Tabs过程中: 例如有3个Tab, Tab3 -> Tab1的过程中 tab1的content 会将tab3的content挤到下方后, tab3 content消失, 造成闪烁
 [x] v-lazy 没有对src为空字符处理
 [x] *.ai.json 应该转为 yaml 形式更适合AI阅读, 并且更新 agents
+[x] dialog 要重新确定/计算堆叠情况下的z-index排布, 避免退出动画被遮住 (zagjs patch)
+[] dialog / tooltip 等一系列组件的 z-index 竞争问题

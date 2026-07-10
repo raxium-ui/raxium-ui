@@ -11,6 +11,9 @@ patchedDependencies:
   '@ark-ui/vue@5.37.0':
     hash: be2122c757fe971fc63d45a5e522df59935bda161a345e91313c83ab57567773
     path: patches/@ark-ui__vue@5.37.0.patch
+  '@zag-js/dismissable@1.41.1':
+    hash: bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8
+    path: patches/@zag-js__dismissable@1.41.1.patch
   '@zag-js/toast@1.41.1':
     hash: c4c51291868aa3101db359c5e87b069f697e4f3327424b653d1914d97d856266
     path: patches/@zag-js__toast@1.41.1.patch
@@ -35,6 +38,9 @@ importers:
       eslint:
         specifier: ^9.39.3
         version: 9.39.4(jiti@2.6.1)
+      playwright-core:
+        specifier: ^1.61.1
+        version: 1.61.1
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -5230,6 +5236,11 @@ packages:
   pkg-types@2.3.0:
     resolution: {integrity: sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==}
 
+  playwright-core@1.61.1:
+    resolution: {integrity: sha512-h7Qlt6m4REp25qvIdvbDtVmD4LqVXfpRxhORv9L0jzETM05p4fuPJ3dKyuSXQxDSbXnmS79HAgi9589lGSpLkg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
   plimit-lit@1.6.1:
     resolution: {integrity: sha512-B7+VDyb8Tl6oMJT9oSO2CW8XC/T4UcJGrwOVoNGwOQsQYhlpfajmrMj5xeejqaASq3V/EqThyOeATEOMuSEXiA==}
     engines: {node: '>=12'}
@@ -6335,8 +6346,8 @@ packages:
   vue-component-type-helpers@3.3.4:
     resolution: {integrity: sha512-joip1uZTaQR0nD23N400gIdJ7xY+WiiiMA/BCKz842gvGBknqDQAzklUvDEhqFvvrhQY8S2ZANBMu4X70VMFGw==}
 
-  vue-component-type-helpers@3.3.5:
-    resolution: {integrity: sha512-Fe1jyPJoUGpJOYKOri44jduR7My4yYINOMJISuMAbmrs+L5LbIDUc8NTWZYY3EJLK0yPLuCmcd5zoCsE4k2/KA==}
+  vue-component-type-helpers@3.3.7:
+    resolution: {integrity: sha512-Skkhw9agYSgsWqv7bxSOGJZa9SaiJbZVGdXuFWnrzKaQYHnw9qbjD630rw6RyMqDbp54nfLCLw5SZA55if7JLg==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -8405,7 +8416,7 @@ snapshots:
       storybook: 10.3.0(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       type-fest: 2.19.0
       vue: 3.5.30(typescript@5.9.3)
-      vue-component-type-helpers: 3.3.5
+      vue-component-type-helpers: 3.3.7
 
   '@stylistic/eslint-plugin@5.10.0(eslint@9.39.4(jiti@2.6.1))':
     dependencies:
@@ -9158,7 +9169,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/collection': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-visible': 1.41.1
       '@zag-js/popper': 1.41.1
@@ -9240,7 +9251,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/color-utils': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/popper': 1.41.1
       '@zag-js/types': 1.41.1
@@ -9272,7 +9283,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/collection': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-visible': 1.41.1
       '@zag-js/live-region': 1.41.1
@@ -9320,7 +9331,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
       '@zag-js/date-utils': 1.41.1(@internationalized/date@3.12.0)
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/live-region': 1.41.1
       '@zag-js/popper': 1.41.1
@@ -9352,7 +9363,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/aria-hidden': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-trap': 1.41.1
       '@zag-js/remove-scroll': 1.41.1
@@ -9365,7 +9376,7 @@ snapshots:
       '@zag-js/interact-outside': 1.35.3
       '@zag-js/utils': 1.35.3
 
-  '@zag-js/dismissable@1.41.1':
+  '@zag-js/dismissable@1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)':
     dependencies:
       '@zag-js/dom-query': 1.41.1
       '@zag-js/interact-outside': 1.41.1
@@ -9396,7 +9407,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/aria-hidden': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-trap': 1.41.1
       '@zag-js/remove-scroll': 1.41.1
@@ -9505,7 +9516,7 @@ snapshots:
     dependencies:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/popper': 1.41.1
       '@zag-js/types': 1.41.1
@@ -9605,7 +9616,7 @@ snapshots:
     dependencies:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-visible': 1.41.1
       '@zag-js/popper': 1.41.1
@@ -9626,7 +9637,7 @@ snapshots:
     dependencies:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/types': 1.41.1
       '@zag-js/utils': 1.41.1
@@ -9715,7 +9726,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/aria-hidden': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-trap': 1.41.1
       '@zag-js/popper': 1.41.1
@@ -9870,7 +9881,7 @@ snapshots:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/collection': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-visible': 1.41.1
       '@zag-js/popper': 1.41.1
@@ -10036,7 +10047,7 @@ snapshots:
     dependencies:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/types': 1.41.1
       '@zag-js/utils': 1.41.1
@@ -10109,7 +10120,7 @@ snapshots:
     dependencies:
       '@zag-js/anatomy': 1.41.1
       '@zag-js/core': 1.41.1
-      '@zag-js/dismissable': 1.41.1
+      '@zag-js/dismissable': 1.41.1(patch_hash=bc51c5210cd064421112cadaea0fa7e8ff6a7f1d97170d5ac6215afe693055f8)
       '@zag-js/dom-query': 1.41.1
       '@zag-js/focus-trap': 1.41.1
       '@zag-js/interact-outside': 1.41.1
@@ -12339,6 +12350,8 @@ snapshots:
       exsolve: 1.0.8
       pathe: 2.0.3
 
+  playwright-core@1.61.1: {}
+
   plimit-lit@1.6.1:
     dependencies:
       queue-lit: 1.5.2
@@ -13464,7 +13477,7 @@ snapshots:
 
   vue-component-type-helpers@3.3.4: {}
 
-  vue-component-type-helpers@3.3.5: {}
+  vue-component-type-helpers@3.3.7: {}
 
   vue-demi@0.14.10(vue@3.5.30(typescript@5.9.3)):
     dependencies:
