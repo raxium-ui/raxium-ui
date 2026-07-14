@@ -4,7 +4,12 @@ import { DatePicker } from '@ark-ui/vue'
 import { ark } from '@ark-ui/vue/factory'
 import { useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useProvideStructuralComponentTheme } from '@raxium/vue/composables'
+import {
+  useCraft,
+  useProvideStructuralComponentTheme,
+  useTeleportDetection,
+  useTeleportedDepthOwner,
+} from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { findVNodeByName, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { compact, isNil } from 'es-toolkit'
@@ -34,17 +39,31 @@ const viewsState = computed(() => {
   return state
 })
 
+// teleport detection
+const { isTeleported, setElementRef: setPositionerRef } = useTeleportDetection()
+const depth = useTeleportedDepthOwner({
+  type: 'popover',
+  active: isTeleported,
+  fallbackZIndex: 'var(--z-popover, var(--z-index))',
+})
+
 // theme
 const theme = useInheritedTheme(() => propsTheme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvDatePicker')
+const positionerStyle = computed(() => ({
+  zIndex: isTeleported.value ? depth.zIndex.value : 'auto',
+}))
 
 // provide
 provide<DatePickerContentProvide>(DATE_PICKER_CONTENT_PROVIDE_KEY, { viewsState })
 </script>
 
 <template>
-  <DatePicker.Positioner>
+  <DatePicker.Positioner
+    :ref="setPositionerRef"
+    :style="positionerStyle"
+  >
     <DatePicker.Content
       v-bind="forwarded"
       :class="crafts.content(cxc(propsClass))"

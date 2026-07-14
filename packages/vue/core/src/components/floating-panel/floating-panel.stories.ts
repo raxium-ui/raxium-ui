@@ -8,8 +8,12 @@ import MinSizeExample from './examples/min-size.vue'
 import MinSizeExampleRaw from './examples/min-size.vue?raw'
 import MinimalExample from './examples/minimal.vue'
 import MinimalExampleRaw from './examples/minimal.vue?raw'
+import MultipleExample from './examples/multiple.vue'
+import MultipleExampleRaw from './examples/multiple.vue?raw'
 import ResizeAxisExample from './examples/resize-axis.vue'
 import ResizeAxisExampleRaw from './examples/resize-axis.vue?raw'
+import WithDialogExample from './examples/with-dialog.vue'
+import WithDialogExampleRaw from './examples/with-dialog.vue?raw'
 
 const meta: Meta = {
   title: 'Components/FloatingPanel',
@@ -88,6 +92,36 @@ export const InitialState = {
   },
   render: () => ({
     components: { Component: InitialStateExample },
+    template: '<Component />',
+  }),
+}
+
+export const Multiple = {
+  parameters: {
+    docs: {
+      source: {
+        code: MultipleExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: MultipleExample },
+    template: '<Component />',
+  }),
+}
+
+export const WithDialog = {
+  parameters: {
+    docs: {
+      source: {
+        code: WithDialogExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: WithDialogExample },
     template: '<Component />',
   }),
 }

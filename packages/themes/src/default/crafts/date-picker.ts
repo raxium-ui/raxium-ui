@@ -12,6 +12,7 @@ export const tvDatePicker = tv(
     slots: {
       root: '',
       control: ['flex', 'items-center', 'gap-2', 'w-fit'],
+      positioner: '',
       content: [
         'group/content',
         'relative',

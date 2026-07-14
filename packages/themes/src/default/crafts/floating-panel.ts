@@ -11,7 +11,7 @@ export const tvFloatingPanel = tv(
       header: 'w-full flex items-center justify-between',
       control: 'flex items-center gap-2',
       title: '',
-      trigger: 'flex items-center justify-center size-[1lh]',
+      trigger: 'flex items-center justify-center size-[0.875lh]',
       resizeVertical: 'h-full w-2',
       resizeHorizontal: 'w-full h-2',
       resizeCorner: 'size-2',

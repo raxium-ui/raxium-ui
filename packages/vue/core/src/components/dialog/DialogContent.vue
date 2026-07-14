@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { DialogContentProps } from '.'
-import { Dialog } from '@ark-ui/vue/dialog'
+import { Dialog, useDialogContext } from '@ark-ui/vue/dialog'
 import { ark } from '@ark-ui/vue/factory'
 import { X } from '@lucide/vue'
 import { cn, cxc } from '@raxium/themes/utils'
-import { useCraft } from '@raxium/vue/composables'
+import { provideDepthOwner, useCraft, useDepthOwner } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { useProvideStructuralComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useThemeAttrs } from '@raxium/vue/composables/useThemeAttrs'
@@ -27,6 +27,8 @@ const slots = useSlots()
 const defaultSlots = computed(() => slots.default?.())
 const hasDialogHeader = computed(() => hasChildVNodeByName(defaultSlots.value, 'DialogHeader'))
 const showContentClose = computed(() => showClose && !hasDialogHeader.value)
+const dialog = useDialogContext()
+const open = computed(() => dialog.value.open)
 
 // theme
 const attrs = useAttrs()
@@ -34,21 +36,33 @@ const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvDialog')
 const themeAttrs = useThemeAttrs(theme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
+
+// depth
+const depthOwner = useDepthOwner('dialog', { active: open })
+provideDepthOwner(depthOwner)
+const backdropStyle = computed(() => ({
+  '--rui-z-index': depthOwner.backdropZIndex.value,
+}))
+const positionerStyle = computed(() => ({
+  '--rui-z-index': depthOwner.contentZIndex.value,
+}))
 </script>
 
 <template>
   <Teleport to="body">
     <DialogBackdrop
+      v-bind="themeAttrs"
       :class="crafts.backdrop(cxc(ui?.backdrop))"
       :theme="theme"
-      v-bind="themeAttrs"
+      :style="backdropStyle"
     />
     <Dialog.Positioner
-      :class="crafts.positioner(cxc(ui?.positioner))"
       v-bind="themeAttrs"
+      :class="crafts.positioner(cxc(ui?.positioner))"
+      :style="positionerStyle"
     >
       <Dialog.Content
-        v-bind="{ ...attrs, ...themeAttrs }"
+        v-bind="{ ...attrs, ...themeAttrs, ...positionerStyle }"
         :class="crafts.content(cxc(ui?.content, propsClass))"
       >
         <slot />
@@ -58,12 +72,7 @@ useProvideStructuralComponentTheme(theme, () => propsTheme)
             as-child
           >
             <ark.button
-              :class="
-                cn(
-                  ['absolute', 'top-0', 'right-0'],
-                  crafts.close(cxc(ui?.close)),
-                )
-              "
+              :class="cn(['absolute', 'top-0', 'right-0'], crafts.close(cxc(ui?.close)))"
               data-variant="content-close"
             >
               <X />

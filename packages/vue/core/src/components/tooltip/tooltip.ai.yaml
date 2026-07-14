@@ -262,6 +262,8 @@ examples:
     description: 延迟与受控打开（Click 联动）
   - id: ui-and-fixed-strategy
     description: UI 覆盖与 fixed 定位策略
+  - id: teleport-z-index
+    description: Teleport 到 body 时自动使用全局 depth manager z-index；未 Teleport 时使用 z-auto
   - id: disabled
     description: 禁用状态
 generationHints:

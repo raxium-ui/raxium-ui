@@ -7,6 +7,7 @@ import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
 export const tvTooltip = tv(
   {
     slots: {
+      positioner: '',
       content: [...POPOVER_CONTENT_BASE],
       contentInner: [...POPOVER_CONTENT_INNER_BASE],
     },
@@ -38,7 +39,8 @@ export const tvTooltip = tv(
       size: 'base',
       bordered: true,
     },
-  }, 'rui-tooltip',
+  },
+  'rui-tooltip',
 )
 
 export type TooltipVariants = VariantProps<typeof tvTooltip>

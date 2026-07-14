@@ -1,8 +1,20 @@
 diff --git a/dist/layer-stack.js b/dist/layer-stack.js
-index 80321b2502f519f3b36acb6659acff00a66371ea..451e07d04a8bcf759692f39daec64ca691d92ff0 100644
+index 80321b2502f519f3b36acb6659acff00a66371ea..7a63e7b6ee7b4551d83d8f1ffd48e111b2961e4f 100644
 --- a/dist/layer-stack.js
 +++ b/dist/layer-stack.js
-@@ -96,6 +96,16 @@ var layerStack = {
+@@ -25,6 +25,11 @@ __export(layer_stack_exports, {
+ module.exports = __toCommonJS(layer_stack_exports);
+ var import_dom_query = require("@zag-js/dom-query");
+ var LAYER_REQUEST_DISMISS_EVENT = "layer:request-dismiss";
++// PATCH: tracks inline `z-index` values that this patch itself froze during
++// `remove()`. `syncLayers()` uses it to restore/clear ONLY the frozen values,
++// so consumer-provided inline `z-index` (e.g. `:style="{ zIndex }"`) survives
++// untouched across layer add / dismiss / re-activate cycles.
++var frozenZIndex = /* @__PURE__ */ new WeakMap();
+ var layerStack = {
+   layers: [],
+   branches: [],
+@@ -96,6 +101,20 @@ var layerStack = {
      layer.styleTargets?.forEach((getTarget) => {
        const target = getTarget();
        if (target) {
@@ -12,28 +24,54 @@ index 80321b2502f519f3b36acb6659acff00a66371ea..451e07d04a8bcf759692f39daec64ca6
 +        // the layer's z-index to the base band, so still-open lower layers with a higher
 +        // --layer-index paint over it and hide the exit animation. Pinning the current
 +        // computed z-index keeps its stacking order until it unmounts.
++        // Record the target's PRIOR inline z-index (may be an empty string) so that
++        // syncLayers() can precisely restore it and never stomps consumer-provided
++        // inline z-index.
 +        const { zIndex } = (0, import_dom_query.getComputedStyle)(target);
 +        if (zIndex && zIndex !== "auto") {
++          frozenZIndex.set(target, target.style.getPropertyValue("z-index"));
 +          target.style.setProperty("z-index", zIndex);
 +        }
          clearLayerStyleMirror(target);
        }
      });
-@@ -118,6 +128,9 @@ var layerStack = {
+@@ -118,6 +137,19 @@ var layerStack = {
        layer.styleTargets?.forEach((getTarget) => {
          const target = getTarget();
          if (!target || target === layer.node) return;
-+        // PATCH: clear any frozen exit z-index so a reused/re-activated layer
-+        // resumes class-based stacking (see freeze in remove()).
-+        target.style.removeProperty("z-index");
++        // PATCH: only restore/clear the inline z-index if THIS patch previously
++        // froze one for this target. Restore the pre-freeze value (which may be
++        // empty, meaning "no inline z-index") so the layer resumes class-based
++        // stacking without stomping any consumer-provided inline z-index.
++        if (frozenZIndex.has(target)) {
++          const prior = frozenZIndex.get(target);
++          if (prior) {
++            target.style.setProperty("z-index", prior);
++          } else {
++            target.style.removeProperty("z-index");
++          }
++          frozenZIndex.delete(target);
++        }
          applyLayerStackMetadata(layer, index, target);
          const { zIndex } = (0, import_dom_query.getComputedStyle)(layer.node);
          target.style.setProperty("--z-index", zIndex);
 diff --git a/dist/layer-stack.mjs b/dist/layer-stack.mjs
-index 4e31d3c0a5f70d9a4251a641675191af299e8f7a..38bf05167e4160848540965161cc319ba1221588 100644
+index 4e31d3c0a5f70d9a4251a641675191af299e8f7a..2b3e63d518a36791c18e8ed1cfe82473d2eb1d97 100644
 --- a/dist/layer-stack.mjs
 +++ b/dist/layer-stack.mjs
-@@ -72,6 +72,16 @@ var layerStack = {
+@@ -1,6 +1,11 @@
+ // src/layer-stack.ts
+ import { contains, nextTick, getComputedStyle } from "@zag-js/dom-query";
+ var LAYER_REQUEST_DISMISS_EVENT = "layer:request-dismiss";
++// PATCH: tracks inline `z-index` values that this patch itself froze during
++// `remove()`. `syncLayers()` uses it to restore/clear ONLY the frozen values,
++// so consumer-provided inline `z-index` (e.g. `:style="{ zIndex }"`) survives
++// untouched across layer add / dismiss / re-activate cycles.
++var frozenZIndex = /* @__PURE__ */ new WeakMap();
+ var layerStack = {
+   layers: [],
+   branches: [],
+@@ -72,6 +77,20 @@ var layerStack = {
      layer.styleTargets?.forEach((getTarget) => {
        const target = getTarget();
        if (target) {
@@ -43,20 +81,34 @@ index 4e31d3c0a5f70d9a4251a641675191af299e8f7a..38bf05167e4160848540965161cc319b
 +        // the layer's z-index to the base band, so still-open lower layers with a higher
 +        // --layer-index paint over it and hide the exit animation. Pinning the current
 +        // computed z-index keeps its stacking order until it unmounts.
++        // Record the target's PRIOR inline z-index (may be an empty string) so that
++        // syncLayers() can precisely restore it and never stomps consumer-provided
++        // inline z-index.
 +        const { zIndex } = getComputedStyle(target);
 +        if (zIndex && zIndex !== "auto") {
++          frozenZIndex.set(target, target.style.getPropertyValue("z-index"));
 +          target.style.setProperty("z-index", zIndex);
 +        }
          clearLayerStyleMirror(target);
        }
      });
-@@ -94,6 +104,9 @@ var layerStack = {
+@@ -94,6 +113,19 @@ var layerStack = {
        layer.styleTargets?.forEach((getTarget) => {
          const target = getTarget();
          if (!target || target === layer.node) return;
-+        // PATCH: clear any frozen exit z-index so a reused/re-activated layer
-+        // resumes class-based stacking (see freeze in remove()).
-+        target.style.removeProperty("z-index");
++        // PATCH: only restore/clear the inline z-index if THIS patch previously
++        // froze one for this target. Restore the pre-freeze value (which may be
++        // empty, meaning "no inline z-index") so the layer resumes class-based
++        // stacking without stomping any consumer-provided inline z-index.
++        if (frozenZIndex.has(target)) {
++          const prior = frozenZIndex.get(target);
++          if (prior) {
++            target.style.setProperty("z-index", prior);
++          } else {
++            target.style.removeProperty("z-index");
++          }
++          frozenZIndex.delete(target);
++        }
          applyLayerStackMetadata(layer, index, target);
          const { zIndex } = getComputedStyle(layer.node);
          target.style.setProperty("--z-index", zIndex);

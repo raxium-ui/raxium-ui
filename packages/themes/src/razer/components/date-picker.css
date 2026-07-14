@@ -7,14 +7,15 @@
     @apply text-gray-ff font-rob-bold;
   }
 
-  .rui-date-picker-view-trigger, .rui-date-picker-view-control-trigger {
+  .rui-date-picker-view-trigger,
+  .rui-date-picker-view-control-trigger {
     @apply hover:bg-gray-33;
   }
 
   .rui-date-picker-table-cell-trigger {
     &[data-selected],
     &[data-selected][data-outside-range] {
-      @apply bg-rz-green text-gray-03 ;
+      @apply bg-rz-green text-gray-03;
     }
 
     &[data-outside-range] {
@@ -23,24 +24,31 @@
 
     &[data-today] {
       &:after {
-        @apply  bg-rz-green;
+        @apply bg-rz-green;
       }
     }
 
-    &[data-in-range], &[data-in-hover-range] {
+    &[data-in-range],
+    &[data-in-hover-range] {
       @apply bg-rz-green/80 text-gray-03;
     }
 
-    &[data-range-start], &[data-hover-range-start] {
+    &[data-range-start],
+    &[data-hover-range-start] {
       @apply bg-rz-green text-gray-03;
     }
 
-    &[data-range-end], &[data-hover-range-end] {
+    &[data-range-end],
+    &[data-hover-range-end] {
       @apply bg-rz-green text-gray-03;
     }
 
     &[data-disabled] {
-      @apply bg-gray-49 text-gray-88;
+      @apply bg-gray-49/50 text-gray-88;
+    }
+
+    &:not([data-disabled]):not([data-selected]):not([data-in-range]):not([data-outside-range]) {
+      @apply hover:text-white;
     }
   }
 }

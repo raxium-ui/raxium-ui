@@ -10,6 +10,8 @@ import PlacementsAndSkinsExample from './examples/placements-and-skins.vue'
 import PlacementsAndSkinsExampleRaw from './examples/placements-and-skins.vue?raw'
 import SizesAndBorderedExample from './examples/sizes-and-bordered.vue'
 import SizesAndBorderedExampleRaw from './examples/sizes-and-bordered.vue?raw'
+import TeleportZIndexExample from './examples/teleport-z-index.vue'
+import TeleportZIndexExampleRaw from './examples/teleport-z-index.vue?raw'
 import UiAndFixedStrategyExample from './examples/ui-and-fixed-strategy.vue'
 import UiAndFixedStrategyExampleRaw from './examples/ui-and-fixed-strategy.vue?raw'
 
@@ -105,6 +107,21 @@ export const UiAndFixedStrategy = {
   },
   render: () => ({
     components: { Component: UiAndFixedStrategyExample },
+    template: '<Component />',
+  }),
+}
+
+export const TeleportZIndex = {
+  parameters: {
+    docs: {
+      source: {
+        code: TeleportZIndexExampleRaw,
+        language: 'html',
+      },
+    },
+  },
+  render: () => ({
+    components: { Component: TeleportZIndexExample },
     template: '<Component />',
   }),
 }

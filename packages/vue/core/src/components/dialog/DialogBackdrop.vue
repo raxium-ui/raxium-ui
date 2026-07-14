@@ -7,22 +7,30 @@ import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
 import { merge, omit } from 'es-toolkit'
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
+
+defineOptions({
+  inheritAttrs: false,
+})
 
 const { class: propsClass, theme: propsTheme, asChild } = defineProps<DialogBackdropProps>()
 
 const dialog = useDialogContext()
 const presence = usePresenceContext()
+const attrs = useAttrs()
 
 const mergedProps = computed(() =>
   merge(
-    dialog.value.getBackdropProps(),
-    /*
-     * Here we omit the ref because there should be only one ref to control the global presence state
-     * and that is DialogContent
-     * @see DialogContent.vue
-     */
-    omit(presence.value.presenceProps, ['ref']),
+    merge(
+      dialog.value.getBackdropProps(),
+      /*
+       * Here we omit the ref because there should be only one ref to control the global presence state
+       * and that is DialogContent
+       * @see DialogContent.vue
+       */
+      omit(presence.value.presenceProps, ['ref']),
+    ),
+    attrs,
   ),
 )
 

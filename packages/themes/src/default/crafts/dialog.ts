@@ -10,17 +10,17 @@ export const tvDialog = tv(
       backdrop: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal)+var(--layer-index,0)*2)]',
         'pointer-events-auto', // see: https://github.com/chakra-ui/zag/issues/3203
+        'z-[var(--rui-z-index,calc(var(--z-modal)+var(--layer-index,0)*2))]',
         ...DIALOG_BACKDROP_MOTION,
       ],
       positioner: [
         'fixed',
         'inset-0',
-        'z-[calc(var(--z-modal)+var(--layer-index,0)*2+1)]',
         'flex',
         'items-center',
         'justify-center',
+        'z-[var(--rui-z-index,calc(var(--z-modal)+var(--layer-index,0)*2+1))]',
       ],
       content: [
         'relative',
@@ -28,6 +28,7 @@ export const tvDialog = tv(
         'md:max-w-[80vw]',
         'border',
         'rounded',
+        'z-[var(--rui-z-index,calc(var(--z-modal)+var(--layer-index,0)*2+1))]',
         ...DIALOG_CONTENT_MOTION,
       ],
       close: '[&_svg]:size-[1lh]',

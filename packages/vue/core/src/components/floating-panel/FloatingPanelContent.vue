@@ -2,11 +2,17 @@
 import type { ResizeTriggerAxis } from '@zag-js/floating-panel'
 import type { VNode } from 'vue'
 import type { FloatingPanelContentProps } from '.'
-import { FloatingPanel } from '@ark-ui/vue'
+import { FloatingPanel, useFloatingPanelContext } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useProvideStructuralComponentTheme } from '@raxium/vue/composables'
+import {
+  provideDepthOwner,
+  useCraft,
+  useDepthOwner,
+  useProvideStructuralComponentTheme,
+} from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { computed, h, toValue } from 'vue'
+import { isNil } from 'es-toolkit'
+import { computed, h, toValue, watch } from 'vue'
 import { injectFloatingPanelAppearanceContext } from './floating-panel-appearance-context'
 
 const {
@@ -17,14 +23,31 @@ const {
 } = defineProps<FloatingPanelContentProps>()
 
 const { opacity, resizeAxis } = injectFloatingPanelAppearanceContext()
+const api = useFloatingPanelContext()
+
+// depth
+const depthOwner = useDepthOwner('floating-panel', { active: true })
+provideDepthOwner(depthOwner)
+watch(
+  () => {
+    return !isNil((api.value.getContentProps() as Record<string, unknown>)['data-topmost'])
+  },
+  (topmost, prev) => {
+    if (topmost && !prev)
+      depthOwner.bringToFront()
+  },
+  { immediate: true },
+)
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvFloatingPanel')
-
 const style = computed(() => ({
   opacity: opacity.value / 100,
+}))
+const positionerStyle = computed(() => ({
+  zIndex: depthOwner.contentZIndex.value,
 }))
 
 const resizeNodes = computed(() => {
@@ -89,6 +112,7 @@ const resizeNodes = computed(() => {
   <Teleport to="body">
     <FloatingPanel.Positioner
       :class="crafts.positioner(cxc(ui?.positioner, propsClass))"
+      :style="positionerStyle"
     >
       <FloatingPanel.Content
         v-bind="props"
