@@ -52,7 +52,7 @@ const theme = useInheritedTheme(() => propsTheme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvDatePicker')
 const positionerStyle = computed(() => ({
-  zIndex: isTeleported.value ? depth.zIndex.value : 'auto',
+  '--rui-z-index': isTeleported.value ? depth.zIndex.value : 'auto',
 }))
 
 // provide

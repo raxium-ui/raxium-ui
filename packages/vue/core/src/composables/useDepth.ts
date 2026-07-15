@@ -1,5 +1,6 @@
 import type { ComputedRef, InjectionKey, MaybeRefOrGetter } from 'vue'
 import { computed, inject, onBeforeUnmount, provide, reactive, shallowRef, toValue, watch } from 'vue'
+import { useConfig } from './useConfig'
 
 type DepthOwnerType = 'dialog' | 'popover' | 'menu' | 'hover-card' | 'floating-panel'
 type DepthFloatingType = 'tooltip' | 'popover' | 'menu' | 'hover-card' | 'floating-panel'
@@ -45,8 +46,8 @@ export interface UseTeleportedDepthOwnerOptions {
 }
 
 const DEPTH_OWNER_KEY: InjectionKey<DepthOwner> = Symbol('RaxiumDepthOwner')
-const DEPTH_BASE_VAR = 'var(--z-modal)'
-const DEPTH_STEP = 10
+const DEFAULT_DEPTH_BASE_VAR = 'var(--z-modal)'
+const DEFAULT_DEPTH_STEP = 10
 let idSeed = 0
 
 const ownerRecords = reactive<Array<{ id: string, type: DepthOwnerType }>>([])
@@ -73,12 +74,19 @@ function indexOfRootFloating(id: string) {
   return Math.max(0, rootRecords.findIndex(layer => layer.id === id))
 }
 
-function zIndexAt(index: number, offset: number) {
-  return `calc(${DEPTH_BASE_VAR} + ${index * DEPTH_STEP + offset})`
+function zIndexAt(index: number, offset: number, baseVar: string, step: number) {
+  return `calc(${baseVar} + ${index * step + offset})`
 }
 
 function addZIndexOffset(zIndex: string, offset: number) {
   return offset === 0 ? zIndex : `calc(${zIndex} + ${offset})`
+}
+
+function useDepthTokens(): { baseVar: ComputedRef<string>, step: ComputedRef<number> } {
+  const config = useConfig('depth')
+  const baseVar = computed(() => config.value?.baseZIndex ?? DEFAULT_DEPTH_BASE_VAR)
+  const step = computed(() => config.value?.step ?? DEFAULT_DEPTH_STEP)
+  return { baseVar, step }
 }
 
 function ownerById(id: string | undefined) {
@@ -117,6 +125,7 @@ export function useDepthOwner(
   const root = computed(() => toValue(options.root) ?? !toValue(options.baseZIndex))
   const contentOffset = computed(() => toValue(options.contentOffset) ?? (type === 'dialog' ? 1 : 0))
   const floatingOffset = computed(() => toValue(options.floatingOffset) ?? (type === 'dialog' ? 2 : 1))
+  const { baseVar, step } = useDepthTokens()
 
   function registerOwner() {
     if (!ownerRecords.some(owner => owner.id === id)) {
@@ -137,7 +146,7 @@ export function useDepthOwner(
   }
 
   const index = computed(() => indexOfOwner(id))
-  const baseZIndex = computed(() => toValue(options.baseZIndex) ?? zIndexAt(index.value, 0))
+  const baseZIndex = computed(() => toValue(options.baseZIndex) ?? zIndexAt(index.value, 0, baseVar.value, step.value))
 
   function bringToFront() {
     const rootIndex = rootRecords.findIndex(record => record.id === id)
@@ -163,15 +172,17 @@ export function useDepthOwner(
   if (active.value)
     registerOwner()
 
+  // Owners stay in the stack for the entire mount lifecycle. Activation only
+  // affects ordering (bring-to-front), never removal. This keeps z-index stable
+  // for closed-but-still-mounted content (e.g. unmountOnExit=false) so stale
+  // overlays never leap above active ones.
   watch(
     active,
     (isActive) => {
       if (isActive) {
         registerOwner()
-        return
+        bringToFront()
       }
-
-      unregisterOwner()
     },
   )
 
@@ -187,7 +198,12 @@ export function useDepthOwner(
   return owner
 }
 
-function registerFloatingLayer(type: DepthFloatingType, ownerId?: string): DepthFloatingLayer {
+function registerFloatingLayer(
+  type: DepthFloatingType,
+  ownerId: string | undefined,
+  baseVar: ComputedRef<string>,
+  step: ComputedRef<number>,
+): DepthFloatingLayer {
   const id = createDepthId(type)
   const activeOwnerId = ownerById(ownerId)?.id
   const layerRecord = { id, type, ownerId: activeOwnerId }
@@ -199,7 +215,7 @@ function registerFloatingLayer(type: DepthFloatingType, ownerId?: string): Depth
   const zIndex = computed(() => {
     const owner = ownerById(activeOwnerId)
     if (!owner)
-      return zIndexAt(indexOfRootFloating(id), 0)
+      return zIndexAt(indexOfRootFloating(id), 0, baseVar.value, step.value)
 
     return addZIndexOffset(owner.floatingBaseZIndex.value, order.value)
   })
@@ -227,6 +243,7 @@ export function useTeleportedDepth(options: UseTeleportedDepthOptions) {
   const owner = inject(DEPTH_OWNER_KEY, undefined)
   const layer = shallowRef<DepthFloatingLayer>()
   const ownerId = computed(() => resolveActiveOwner(owner)?.id)
+  const { baseVar, step } = useDepthTokens()
 
   function unregister() {
     if (!layer.value)
@@ -243,7 +260,7 @@ export function useTeleportedDepth(options: UseTeleportedDepthOptions) {
         unregister()
 
       if (active) {
-        layer.value ??= registerFloatingLayer(options.type, activeOwnerId)
+        layer.value ??= registerFloatingLayer(options.type, activeOwnerId, baseVar, step)
         return
       }
 

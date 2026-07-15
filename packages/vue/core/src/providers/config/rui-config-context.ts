@@ -58,6 +58,20 @@ export interface RUIConfigContext {
     addCollections?: Array<[IconifyJSON, string | undefined]>
     addAPIProviders?: Array<[string, PartialIconifyAPIConfig]>
   }
+  'depth'?: {
+    /**
+     * Base z-index for the depth stack. Accepts any valid CSS z-index value
+     * (raw number as string, `calc(...)`, or `var(--...)`). Defaults to
+     * `var(--z-modal)`.
+     */
+    baseZIndex?: string
+    /**
+     * Amount added per depth index. Each root owner claims a `step`-sized band
+     * inside which slot offsets (backdrop / content / floating) live. Defaults
+     * to `10`.
+     */
+    step?: number
+  }
   'toaster-manager'?: ToasterManagerExpose | null
   'messager'?: MessagerExpose | null
 }

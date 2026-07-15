@@ -6,8 +6,8 @@ import { ark } from '@ark-ui/vue/factory'
 import { cxc } from '@raxium/themes/utils'
 import { useCraft } from '@raxium/vue/composables'
 import { useInheritedTheme } from '@raxium/vue/composables/useInheritedTheme'
-import { merge, omit } from 'es-toolkit'
-import { computed, useAttrs } from 'vue'
+import { omit } from 'es-toolkit'
+import { computed, mergeProps, useAttrs } from 'vue'
 
 defineOptions({
   inheritAttrs: false,
@@ -19,20 +19,19 @@ const dialog = useDialogContext()
 const presence = usePresenceContext()
 const attrs = useAttrs()
 
-const mergedProps = computed(() =>
-  merge(
-    merge(
-      dialog.value.getBackdropProps(),
-      /*
-       * Here we omit the ref because there should be only one ref to control the global presence state
-       * and that is DialogContent
-       * @see DialogContent.vue
-       */
-      omit(presence.value.presenceProps, ['ref']),
-    ),
-    attrs,
-  ),
-)
+const mergedProps = computed(() => {
+  const parts: Array<Record<string, unknown>> = [
+    dialog.value.getBackdropProps() as Record<string, unknown>,
+    /*
+     * Here we omit the ref because there should be only one ref to control the global presence state
+     * and that is DialogContent
+     * @see DialogContent.vue
+     */
+    omit(presence.value.presenceProps, ['ref']) as Record<string, unknown>,
+    attrs as unknown as Record<string, unknown>,
+  ]
+  return mergeProps(...parts)
+})
 
 // theme
 const theme = useInheritedTheme(() => propsTheme)

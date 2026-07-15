@@ -41,8 +41,8 @@ const theme = useInheritedTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvTooltip')
 const themeAttrs = useThemeAttrs(theme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
-const positionerStyle = computed(() => ({
-  zIndex: isTeleported.value ? depth.zIndex.value : 'auto',
+const contentStyle = computed(() => ({
+  '--rui-z-index': isTeleported.value ? depth.zIndex.value : 'auto',
 }))
 
 // forward expose
@@ -53,12 +53,12 @@ const { forwardRef } = useForwardExpose()
   <Tooltip.Positioner
     :ref="setPositionerRef"
     :class="crafts.positioner(cxc(ui?.positioner))"
-    :style="positionerStyle"
   >
     <Tooltip.Content
       v-bind="{ ...forwarded, ...themeAttrs }"
       :ref="forwardRef"
       :class="crafts.content(cxc(ui?.content, propsClass))"
+      :style="contentStyle"
     >
       <template v-if="arrowNode">
         <component :is="arrowNode" />

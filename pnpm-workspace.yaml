@@ -1,3 +1,23 @@
+packages:
+  - packages/**
+  - playground/*
+  - website/**
+
+ignoredBuiltDependencies:
+  - core-js
+
+onlyBuiltDependencies:
+  - esbuild
+  - vue-demi
+
+overrides:
+  lightningcss: ^1.31.0
+
+patchedDependencies:
+  '@ark-ui/vue@5.37.0': patches/@ark-ui__vue@5.37.0.patch
+  '@zag-js/aria-hidden@1.41.1': patches/@zag-js__aria-hidden@1.41.1.patch
+  '@zag-js/toast@1.41.1': patches/@zag-js__toast@1.41.1.patch
+
 shellEmulator: true
 
 trustPolicy: no-downgrade
@@ -7,25 +27,5 @@ trustPolicyExclude:
   - vite@6.4.1
   - semver@5.7.2
   - semver@6.3.1
-
-packages:
-  - packages/**
-  - playground/*
-  - website/**
-
-overrides:
-  lightningcss: ^1.31.0
-
-patchedDependencies:
-  '@ark-ui/vue@5.37.0': patches/@ark-ui__vue@5.37.0.patch
-  '@zag-js/dismissable@1.41.1': patches/@zag-js__dismissable@1.41.1.patch
-  '@zag-js/toast@1.41.1': patches/@zag-js__toast@1.41.1.patch
-
-ignoredBuiltDependencies:
-  - core-js
-
-onlyBuiltDependencies:
-  - esbuild
-  - vue-demi
 
 trustPolicyIgnoreAfter: 1051200

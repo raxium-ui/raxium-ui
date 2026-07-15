@@ -1,0 +1,93 @@
+diff --git a/dist/walk-tree-outside.js b/dist/walk-tree-outside.js
+index 0043f7fb98fcf49a9cfb9f639d90e5c4c2ed9258..c04572eee2b9c5912a5e7961db0e31271ac05ea8 100644
+--- a/dist/walk-tree-outside.js
++++ b/dist/walk-tree-outside.js
+@@ -66,6 +66,19 @@ var walkTreeOutside = (originalTarget, props) => {
+       });
+     }
+   });
++  // PATCH: suspend stale controlAttribute on kept nodes previously inerted by
++  // an earlier walker (see walk-tree-outside.mjs for the full rationale).
++  const suspendedNodes = [];
++  elementsToKeep.forEach((keepNode) => {
++    if (!keepNode || typeof keepNode.getAttribute !== "function") return;
++    if ((markerCounter.get(keepNode) || 0) > 0) {
++      const priorAttr = keepNode.getAttribute(controlAttribute);
++      const priorMarker = keepNode.getAttribute(markerName);
++      suspendedNodes.push({ node: keepNode, priorAttr, priorMarker });
++      keepNode.removeAttribute(controlAttribute);
++      keepNode.removeAttribute(markerName);
++    }
++  });
+   const deep = (parent) => {
+     if (!parent || elementsToStop.has(parent)) {
+       return;
+@@ -117,6 +130,18 @@ var walkTreeOutside = (originalTarget, props) => {
+         node.removeAttribute(markerName);
+       }
+     });
++    // PATCH: Restore any suspended controlAttribute values if the node is
++    // still being held by another live walker (marker counter > 0).
++    suspendedNodes.forEach(({ node, priorAttr, priorMarker }) => {
++      if ((markerCounter.get(node) || 0) > 0) {
++        if (priorAttr !== null) {
++          node.setAttribute(controlAttribute, priorAttr);
++        }
++        if (priorMarker !== null) {
++          node.setAttribute(markerName, priorMarker);
++        }
++      }
++    });
+     lockCount--;
+     if (!lockCount) {
+       counterMap = /* @__PURE__ */ new WeakMap();
+diff --git a/dist/walk-tree-outside.mjs b/dist/walk-tree-outside.mjs
+index a5705a6fc49af7bc9c716a9835ae89a60665b114..bfad7cbe111dae4dcc6c72b61a120e3126f2aa29 100644
+--- a/dist/walk-tree-outside.mjs
++++ b/dist/walk-tree-outside.mjs
+@@ -42,6 +42,26 @@ var walkTreeOutside = (originalTarget, props) => {
+       });
+     }
+   });
++  // PATCH: When a node in `elementsToKeep` was previously inerted/hidden by an
++  // earlier `walkTreeOutside` invocation (e.g. an outer Dialog opened first and
++  // inerted this Dialog's Positioner because it was a body-sibling, then this
++  // Dialog opens and needs to keep its own Positioner), the stock walker just
++  // skips it and leaves the stale inert/aria-hidden attribute in place — making
++  // the newly-opened dialog unclickable.
++  //
++  // Suspend the attribute for the lifetime of this walker; restore on cleanup
++  // if any other walker still holds a marker counter for the node.
++  const suspendedNodes = [];
++  elementsToKeep.forEach((keepNode) => {
++    if (!keepNode || typeof keepNode.getAttribute !== "function") return;
++    if ((markerCounter.get(keepNode) || 0) > 0) {
++      const priorAttr = keepNode.getAttribute(controlAttribute);
++      const priorMarker = keepNode.getAttribute(markerName);
++      suspendedNodes.push({ node: keepNode, priorAttr, priorMarker });
++      keepNode.removeAttribute(controlAttribute);
++      keepNode.removeAttribute(markerName);
++    }
++  });
+   const deep = (parent) => {
+     if (!parent || elementsToStop.has(parent)) {
+       return;
+@@ -93,6 +113,18 @@ var walkTreeOutside = (originalTarget, props) => {
+         node.removeAttribute(markerName);
+       }
+     });
++    // PATCH: Restore any suspended controlAttribute values if the node is
++    // still being held by another live walker (marker counter > 0).
++    suspendedNodes.forEach(({ node, priorAttr, priorMarker }) => {
++      if ((markerCounter.get(node) || 0) > 0) {
++        if (priorAttr !== null) {
++          node.setAttribute(controlAttribute, priorAttr);
++        }
++        if (priorMarker !== null) {
++          node.setAttribute(markerName, priorMarker);
++        }
++      }
++    });
+     lockCount--;
+     if (!lockCount) {
+       counterMap = /* @__PURE__ */ new WeakMap();

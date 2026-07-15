@@ -66,6 +66,7 @@ export const COLLAPSIBLE_INDICATOR = [
  * Used by: tooltip, hover-card, popover, menu, select, date-picker
  */
 export const POPOVER_CONTENT_BASE = [
+  'z-(--rui-z-index)',
   'rounded-(--border-radius)',
   ...POPOVER_MOTION,
 ] as const

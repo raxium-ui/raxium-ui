@@ -42,7 +42,7 @@ useProvideStructuralComponentTheme(theme, () => propsTheme)
 const crafts = useCraft(theme, 'tvPopover')
 const themeAttrs = useThemeAttrs(theme)
 const positionerStyle = computed(() => ({
-  zIndex: isTeleported.value ? depth.zIndex.value : 'auto',
+  '--rui-z-index': isTeleported.value ? depth.zIndex.value : 'auto',
 }))
 
 // forward expose

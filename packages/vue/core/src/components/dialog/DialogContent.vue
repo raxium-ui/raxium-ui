@@ -40,6 +40,10 @@ useProvideStructuralComponentTheme(theme, () => propsTheme)
 // depth
 const depthOwner = useDepthOwner('dialog', { active: open })
 provideDepthOwner(depthOwner)
+// Single source of truth: expose z-index only as a CSS custom property.
+// The dialog theme (`tvDialog`) references `var(--rui-z-index)` to set the actual
+// `z-index`, so we cannot end up with an inline `z-index` that disagrees with
+// the custom property.
 const backdropStyle = computed(() => ({
   '--rui-z-index': depthOwner.backdropZIndex.value,
 }))
@@ -62,7 +66,7 @@ const positionerStyle = computed(() => ({
       :style="positionerStyle"
     >
       <Dialog.Content
-        v-bind="{ ...attrs, ...themeAttrs, ...positionerStyle }"
+        v-bind="{ ...attrs, ...themeAttrs }"
         :class="crafts.content(cxc(ui?.content, propsClass))"
       >
         <slot />
