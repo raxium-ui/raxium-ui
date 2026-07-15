@@ -1,5 +1,43 @@
 # @raxium/themes
 
+## 0.3.0
+
+### Minor Changes
+
+- b4437f0: Refine overlay depth stacking: unify z-index via `--rui-z-index`, stabilize owner lifecycle, and fix nested dialog inert conflicts.
+
+  ### @raxium/vue
+  - Drive overlay z-index through a single CSS custom property (`--rui-z-index`) instead of inline `zIndex` styles, avoiding conflicts between inline values and theme classes.
+  - `useDepthOwner`: keep owners registered for their full mount lifecycle; re-activation only calls `bringToFront()` instead of unregistering, preventing closed-but-mounted overlays (`unmountOnExit=false`) from jumping above active layers.
+  - Add `depth` config to `RUIConfigContext` (`baseZIndex`, `step`) for global depth-stack tuning.
+  - Update Dialog, Popover, Menu, HoverCard, Tooltip, and DatePicker content components to set `--rui-z-index`; Tooltip applies it on `Content` rather than `Positioner`.
+  - `DialogBackdrop`: switch prop merging to Vue `mergeProps`.
+  - Replace `@zag-js/dismissable` patch with `@zag-js/aria-hidden` patch — fixes nested Dialogs becoming unclickable when an outer layer leaves stale `inert` / `aria-hidden` on a sibling positioner.
+
+  ### @raxium/themes
+  - Dialog backdrop/positioner crafts use `z-(--rui-z-index)` as the sole z-index source (remove zag `--layer-index` fallback from class strings).
+  - `POPOVER_CONTENT_BASE` adds `z-(--rui-z-index)` so Popover, Menu, HoverCard, Tooltip, and DatePicker share the same depth-aware stacking pattern.
+  - DatePicker content craft switches from `z-popover` to `z-(--rui-z-index)`.
+
+- c1992bf: Add unified overlay depth management for stacked teleported layers (Dialog, Popover, Menu, HoverCard, Tooltip, DatePicker, FloatingPanel).
+
+  ### @raxium/vue
+  - Add `useDepthOwner`, `useTeleportedDepth`, and `useTeleportedDepthOwner` composables to coordinate backdrop/content/floating z-index via `--rui-z-index` and parent-child depth injection.
+  - Add `useTeleportDetection` composable to detect when a positioner is teleported to `body`, so z-index is only applied when needed.
+  - Integrate depth stacking into `DialogContent` / `DialogBackdrop`, `PopoverContent`, `MenuContent`, `HoverCardContent`, `TooltipContent`, `DatePickerContent`, and `FloatingPanelContent` (with `bringToFront` on topmost panel).
+  - Patch `@zag-js/dismissable` to freeze inline z-index during layer close/exit animation, preventing lower layers from painting over the closing overlay.
+  - Add Storybook examples: FloatingPanel multiple panels / with Dialog, Tooltip teleport z-index.
+
+  ### @raxium/themes
+  - Dialog backdrop/positioner/content crafts now read `z-[var(--rui-z-index, …)]` for depth-aware stacking while preserving the previous zag `--layer-index` fallback.
+  - DatePicker positioner craft adds popover-layer z-index baseline.
+  - Razer DatePicker: fix table cell hover styles (`:not()` selectors chained with AND instead of OR).
+  - FloatingPanel: slightly reduce header control trigger size (`0.875lh`).
+
+### Patch Changes
+
+- 2b15811: fix: A hack solution with https://github.com/chakra-ui/zag/issues/3203
+
 ## 0.2.7
 
 ### Patch Changes
