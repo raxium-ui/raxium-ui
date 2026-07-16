@@ -1,0 +1,92 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as DrawerStories from './drawer.stories'
+
+<Meta of={DrawerStories} />
+
+# Drawer
+
+Drawer 是从屏幕边缘滑入的面板，适合导航、筛选与表单编辑。基于 Ark UI Drawer，支持四向 `side`、swipe dismiss、`beforeClose` 关闭拦截，并与 Dialog 共用 modal depth band。
+
+首版为**声明式**复合 API；不含函数式 `drawer()` / Indent 嵌套缩进视觉。
+
+---
+
+## Examples
+
+### 基础用法（右侧）
+
+<Canvas of={DrawerStories.Basic} />
+
+### 四向 Side
+
+<Canvas of={DrawerStories.Sides} />
+
+### Header / Body / Footer + 表单
+
+<Canvas of={DrawerStories.WithForm} />
+
+### Grabber（底部 swipe dismiss）
+
+<Canvas of={DrawerStories.Grabber} />
+
+### 与 Dialog 嵌套（depth）
+
+<Canvas of={DrawerStories.NestedWithDialog} />
+
+### 受控 + beforeClose
+
+<Canvas of={DrawerStories.ControlledAndBeforeClose} />
+
+---
+
+## ARK UI Link
+
+- **相关文档**: [Ark UI Drawer (Vue)](https://ark-ui.com/vue/docs/components/drawer)
+- **说明**: `DrawerProps` 扩展 `DrawerRootBaseProps` 并增加 `side` / `beforeClose` / `theme` / `craft`。`DrawerContent` 负责 Teleport、Backdrop、Positioner 与 depth z-index。
+
+---
+
+## Theme / UI / Craft
+
+| 层级 | 用途 |
+| --- | --- |
+| `class` / `:ui` | **单实例**加宽、内边距、局部样式（优先） |
+| `:theme` | tokens：`size` / `surface` / `skin` 等 |
+| `:craft` | 覆盖 `tvDrawer` 的 slots / variants（应用级预设或复杂定制） |
+
+`side` 驱动 craft 对齐与滑入动效，并默认映射 Ark 逻辑 `swipeDirection`（`right→end`、`left→start`、`top→up`、`bottom→down`）。显式传入 `swipeDirection` 可覆盖映射。
+
+---
+
+## API（常用）
+
+### Drawer
+
+| 属性 | 类型 | 默认 | 说明 |
+| --- | --- | --- | --- |
+| `open` / `v-model:open` | `boolean` | - | 受控打开 |
+| `side` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` | 视觉边缘 + 默认 swipe |
+| `swipeDirection` | `'up' \| 'down' \| 'start' \| 'end'` | 由 `side` 映射 | 可覆盖 |
+| `beforeClose` | `({ from, done, resume }) => void` | - | 关闭拦截 |
+| `lazyMount` / `unmountOnExit` | `boolean` | 见 `RUIConfig.drawer` | 挂载策略 |
+| `theme` / `craft` | ThemeCrafts | - | 主题 |
+
+### DrawerContent
+
+| 属性 | 说明 |
+| --- | --- |
+| `class` / `ui` | 定制 content / backdrop / positioner 等 |
+| `showClose` | 无 Header 时是否显示角上关闭按钮 |
+| `draggable` | 透传 Ark Content `draggable` |
+
+### 结构子件
+
+`DrawerTrigger` · `DrawerCloseTrigger` · `DrawerBackdrop` · `DrawerHeader` · `DrawerBody` · `DrawerFooter` · `DrawerGrabber`
+
+---
+
+## Best practices
+
+1. 单次加宽 / 内边距：优先 `class` 或 `:ui="{ content: '…' }"`，不要一上来 `:craft`。
+2. 底部 / 顶部抽屉需要手势条时放 `<DrawerGrabber />`；无 grabber 仍可用遮罩与 CloseTrigger 关闭。
+3. 与 Dialog 同屏时依赖 `useDepthOwner('drawer'|'dialog')`，勿手写全局 `z-index` 硬编码。

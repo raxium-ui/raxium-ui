@@ -18,3 +18,4 @@
 [x] *.ai.json 应该转为 yaml 形式更适合AI阅读, 并且更新 agents
 [x] dialog 要重新确定/计算堆叠情况下的z-index排布, 避免退出动画被遮住 (zagjs patch)
 [x] dialog / tooltip 等一系列组件的 z-index 竞争问题
+[] ark-ui/vue -> 5.37.2  zagjs -> 1.41.2

@@ -3,6 +3,7 @@ export interface RUIConfigProps {
   theme?: RUIConfigContext['theme']
   tooltip?: RUIConfigContext['tooltip']
   dialog?: RUIConfigContext['dialog']
+  drawer?: RUIConfigContext['drawer']
   hoverCard?: RUIConfigContext['hover-card']
   popover?: RUIConfigContext['popover']
   menu?: RUIConfigContext['menu']
@@ -54,6 +55,12 @@ const props = withDefaults(defineProps<RUIConfigProps>(), {
     lazyMount: true,
     unmountOnExit: true,
     theme: undefined,
+  }),
+  drawer: () => ({
+    lazyMount: true,
+    unmountOnExit: true,
+    theme: undefined,
+    side: 'right',
   }),
   popover: () => ({
     lazyMount: true,

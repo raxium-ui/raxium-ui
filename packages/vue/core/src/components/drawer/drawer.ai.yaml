@@ -1,0 +1,116 @@
+schemaVersion: 2.0.0
+docId: rark.vue.drawer
+component:
+  name: Drawer
+  framework: vue
+  package: '@raxium/vue/core'
+  importPath: '@raxium/vue/components/drawer'
+  exportName: Drawer
+  category: core
+  description: 从屏幕边缘滑入的面板，适合导航、筛选与表单。基于 Ark UI Drawer，支持四向 side、swipe dismiss、beforeClose 与 modal depth。
+  basePrimitive:
+    library: '@ark-ui/vue/drawer'
+    primitive: Drawer.RootProvider
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: DrawerProps extends DrawerRootBaseProps，并扩展 side / beforeClose / theme / craft。
+  capabilities:
+    - theme
+    - controlled-open
+    - from-tracking
+    - structured-content
+    - swipe-dismiss
+  subComponents:
+    - DrawerTrigger
+    - DrawerCloseTrigger
+    - DrawerBackdrop
+    - DrawerContent
+    - DrawerHeader
+    - DrawerBody
+    - DrawerFooter
+    - DrawerGrabber
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态（配合 v-model:open）
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控初始状态
+    - name: side
+      typeText: "'left' | 'right' | 'top' | 'bottom'"
+      default: right
+      description: 面板附着边缘；同时设置 craft side，并默认映射 swipeDirection
+    - name: swipeDirection
+      typeText: "'up' | 'down' | 'start' | 'end'"
+      description: Ark 逻辑滑动方向；未传时由 side 映射（left→start, right→end, top→up, bottom→down）
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载内容
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后卸载内容
+    - name: beforeClose
+      typeText: '({ from, done, resume }) => void'
+      description: 关闭前回调；调用 done() 后才会真正关闭；resume() 取消本次拦截
+    - name: class
+      typeText: string | array | object
+      description: 根节点自定义 class（Root 本身无 DOM 面板，样式主要在 Content）
+    - name: theme
+      typeText: ThemeProps
+      description: 通用 theme tokens（见 Theme Configuration）
+    - name: craft
+      typeText: CraftOverride
+      description: 可选 slots、defaultVariants 等（见 Theme Configuration）
+  events:
+    - name: update:open
+      payload:
+        typeText: '(open: boolean)'
+      description: 受控状态同步
+    - name: openChange
+      payload:
+        typeText: '(details: { open: boolean; from: DrawerTriggerFrom })'
+      description: 打开状态变化（含触发来源）
+    - name: escapeKeyDown
+      payload:
+        typeText: '(event: KeyboardEvent)'
+      description: 按下 ESC
+    - name: interactOutside
+      payload:
+        typeText: '(event: InteractOutsideEvent)'
+      description: 外部交互
+    - name: exitComplete
+      payload:
+        typeText: '()'
+      description: 关闭动画结束
+  slots:
+    - name: default
+      description: Trigger + Content 等子件
+guidance:
+  whenToUse:
+    - 侧栏导航、筛选、编辑表单等边缘面板
+    - 需要 swipe dismiss 的底部/顶部 sheet
+  whenNotToUse:
+    - 居中模态确认 → 使用 Dialog
+    - 需要命令式唤起 → 首版未提供 drawer()，请用声明式或后续版本
+  composition:
+    - Drawer > DrawerTrigger + DrawerContent
+    - DrawerContent > [DrawerGrabber?] + DrawerHeader + DrawerBody + DrawerFooter
+  styling:
+    - 单实例宽高/内边距优先 class 或 :ui，避免一上来 :craft
+    - side 控制边缘与默认滑动方向
+  depth:
+    - useDepthOwner('drawer')，与 dialog 同属 modal band
+related:
+  - Dialog
+  - Popover
+links:
+  ark: https://ark-ui.com/vue/docs/components/drawer

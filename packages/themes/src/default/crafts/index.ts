@@ -15,6 +15,7 @@ export {
   tvDatePickerView,
 } from './date-picker'
 export { type DialogVariants, tvDialog } from './dialog'
+export { type DrawerVariants, tvDrawer } from './drawer'
 export {
   type EditableInputVariants,
   type EditableVariants,

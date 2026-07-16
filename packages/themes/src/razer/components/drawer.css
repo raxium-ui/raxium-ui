@@ -1,0 +1,36 @@
+@layer components {
+  .rui-drawer-backdrop {
+    @apply bg-rui-surface-base/80 data-[variant=scroll]:webkit-scrollbar-self;
+  }
+
+  .rui-drawer-content {
+    @apply text-rui-text-primary bg-rui-surface-container border-rui-border-subtle webkit-small-scrollbar;
+    @apply surface-razer:bg-gray-01 surface-razer:border-gray-33;
+  }
+
+  .rui-drawer-close {
+    @apply text-rui-close hover:text-rui-close-hover;
+  }
+
+  .rui-drawer-header {
+    @apply text-rui-text-primary bg-rui-surface-elevated font-rob-bold;
+    @apply surface-razer:bg-gray-01;
+  }
+
+  .rui-drawer-footer {
+    @apply bg-rui-surface-sunken;
+    @apply surface-razer:bg-gray-01;
+  }
+
+  .rui-drawer-body {
+    @apply surface-razer:bg-gray-01;
+  }
+
+  .rui-drawer-grabber-indicator {
+    @apply bg-rui-border-subtle;
+  }
+
+  .rui-drawer-description {
+    @apply text-rui-text-secondary;
+  }
+}

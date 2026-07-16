@@ -1,3 +1,88 @@
+diff --git a/dist/components/drawer/drawer-root-provider.vue.d.ts b/dist/components/drawer/drawer-root-provider.vue.d.ts
+index 77db4ade2c64956e005e215aff72c64b8069f373..701f558f57d7b4005cffcdd37f71a4de8f86ebba 100644
+--- a/dist/components/drawer/drawer-root-provider.vue.d.ts
++++ b/dist/components/drawer/drawer-root-provider.vue.d.ts
+@@ -1,6 +1,7 @@
+ import { UnwrapRef, DefineComponent, ComponentOptionsMixin, PublicProps, ComponentProvideOptions } from 'vue';
+ import { RenderStrategyProps } from '../../utils/use-render-strategy.js';
+ import { UseDrawerReturn } from './use-drawer.js';
++import { RootEmits as PresenceEmits } from '../presence/presence.types.js';
+ interface RootProviderProps {
+     value: UnwrapRef<UseDrawerReturn>;
+ }
+@@ -8,7 +9,13 @@ export interface DrawerRootProviderBaseProps extends RootProviderProps, RenderSt
+ }
+ export interface DrawerRootProviderProps extends DrawerRootProviderBaseProps {
+ }
+-declare const _default: __VLS_WithTemplateSlots< DefineComponent<DrawerRootProviderProps, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {}, string, PublicProps, Readonly<DrawerRootProviderProps> & Readonly<{}>, {}, {}, {}, {}, string, ComponentProvideOptions, false, {}, any>, {
++export interface DrawerRootProviderEmits extends PresenceEmits {
++}
++declare const _default: __VLS_WithTemplateSlots< DefineComponent<DrawerRootProviderProps, {}, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
++    exitComplete: () => any;
++}, string, PublicProps, Readonly<DrawerRootProviderProps> & Readonly<{
++    onExitComplete?: (() => any) | undefined;
++}>, {}, {}, {}, {}, string, ComponentProvideOptions, false, {}, any>, {
+     default?(_: {}): any;
+ }>;
+ export default _default;
+diff --git a/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.cjs b/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.cjs
+index f5c1bcc436eed77c6caca8bd95db5f5e173aff8e..d2f17a58aeb8262759922a6b71d44d332f0a47f2 100644
+--- a/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.cjs
++++ b/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.cjs
+@@ -13,15 +13,22 @@ var drawer_root_provider_vue_vue_type_script_setup_true_lang_default = /* @__PUR
+ 		lazyMount: { type: Boolean },
+ 		unmountOnExit: { type: Boolean }
+ 	},
+-	setup(__props) {
++	emits: ["exitComplete"],
++	setup(__props, { emit: __emit }) {
+ 		const props = __props;
++		const emits = __emit;
+ 		const drawer = (0, vue.computed)(() => props.value);
++		const presence = require_use_presence.usePresence((0, vue.computed)(() => ({
++			present: drawer.value.open,
++			lazyMount: props.lazyMount,
++			unmountOnExit: props.unmountOnExit
++		})), emits);
+ 		require_use_drawer_context.DrawerProvider(drawer);
++		require_use_presence_context.PresenceProvider(presence);
+ 		require_use_render_strategy.RenderStrategyPropsProvider((0, vue.computed)(() => ({
+ 			lazyMount: props.lazyMount,
+ 			unmountOnExit: props.unmountOnExit
+ 		})));
+-		require_use_presence_context.PresenceProvider(require_use_presence.usePresence((0, vue.computed)(() => ({ present: drawer.value.open }))));
+ 		require_use_forward_expose.useForwardExpose();
+ 		return (_ctx, _cache) => {
+ 			return (0, vue.renderSlot)(_ctx.$slots, "default");
+diff --git a/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.js b/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.js
+index 199c161487ceb4fea31e2486f258e7fc622255fe..b4b4b4b879408f7782df4ab582a7f638c535690f 100644
+--- a/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.js
++++ b/dist/components/drawer/drawer-root-provider.vue_vue_type_script_setup_true_lang.js
+@@ -12,15 +12,22 @@ var drawer_root_provider_vue_vue_type_script_setup_true_lang_default = /* @__PUR
+ 		lazyMount: { type: Boolean },
+ 		unmountOnExit: { type: Boolean }
+ 	},
+-	setup(__props) {
++	emits: ["exitComplete"],
++	setup(__props, { emit: __emit }) {
+ 		const props = __props;
++		const emits = __emit;
+ 		const drawer = computed(() => props.value);
++		const presence = usePresence(computed(() => ({
++			present: drawer.value.open,
++			lazyMount: props.lazyMount,
++			unmountOnExit: props.unmountOnExit
++		})), emits);
+ 		DrawerProvider(drawer);
++		PresenceProvider(presence);
+ 		RenderStrategyPropsProvider(computed(() => ({
+ 			lazyMount: props.lazyMount,
+ 			unmountOnExit: props.unmountOnExit
+ 		})));
+-		PresenceProvider(usePresence(computed(() => ({ present: drawer.value.open }))));
+ 		useForwardExpose();
+ 		return (_ctx, _cache) => {
+ 			return renderSlot(_ctx.$slots, "default");
 diff --git a/dist/components/presence/use-presence.cjs b/dist/components/presence/use-presence.cjs
 index d9fd7b1644bebcd7a4485ed324dffd5290d37bbc..317940134644f9f5d6998574a098aceb06e58553 100644
 --- a/dist/components/presence/use-presence.cjs

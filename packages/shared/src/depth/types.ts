@@ -1,5 +1,6 @@
 export type DepthOwnerType =
   | 'dialog'
+  | 'drawer'
   | 'popover'
   | 'menu'
   | 'hover-card'

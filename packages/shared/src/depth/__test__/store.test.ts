@@ -23,6 +23,13 @@ describe('createDepthStore', () => {
     ])
   })
 
+  it('accepts drawer as a depth owner type', () => {
+    const store = createDepthStore()
+    store.registerOwner('d1', 'drawer', true)
+    expect(store.hasOwner('d1')).toBe(true)
+    expect(store.getOwners()[0]?.type).toBe('drawer')
+  })
+
   it('does not put non-root owners into the root stack', () => {
     const store = createDepthStore()
     store.registerOwner('nested', 'popover', false)

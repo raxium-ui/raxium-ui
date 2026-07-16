@@ -40,6 +40,12 @@ export interface RUIConfigContext {
     unmountOnExit?: boolean
     theme?: ThemeCrafts<'tvDialog'>['theme']
   }
+  'drawer'?: {
+    lazyMount?: boolean
+    unmountOnExit?: boolean
+    theme?: ThemeCrafts<'tvDrawer'>['theme']
+    side?: 'left' | 'right' | 'top' | 'bottom'
+  }
   'popover'?: {
     lazyMount?: boolean
     unmountOnExit?: boolean

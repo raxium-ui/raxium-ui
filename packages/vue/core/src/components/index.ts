@@ -5,6 +5,33 @@ export * from './checkbox'
 export * from './collapsible'
 export * from './date-picker'
 export * from './dialog'
+export {
+  Drawer,
+  DrawerBackdrop,
+  DrawerBody,
+  DrawerCloseTrigger,
+  DrawerContent,
+  DrawerContext,
+  DrawerFooter,
+  DrawerGrabber,
+  DrawerHeader,
+  DrawerTrigger,
+  DrawerTriggerFromEnum,
+  type DrawerBeforeCloseHandler,
+  type DrawerBodyProps,
+  type DrawerCloseTriggerProps,
+  type DrawerContentProps,
+  type DrawerEmits,
+  type DrawerFooterProps,
+  type DrawerGrabberProps,
+  type DrawerHeaderProps,
+  type DrawerOpenChangeDetails,
+  type DrawerProps,
+  type DrawerSide,
+  type DrawerTriggerFrom,
+  type DrawerTriggerProps,
+  type DrawerBackdropProps,
+} from './drawer'
 export * from './editable'
 export * from './floating-panel'
 export * from './hotkey'
