@@ -247,7 +247,7 @@ import * as NumberInputStories from './number-input.stories'
 
 ## Theme Configuration
 
-`NumberInput` 通过 `:theme` 驱动 tokens，根 `:craft` 覆写 **`tvNumberInput`**（步进区等）；输入框基线仍用 **`tvInput`**（应用级 `theme.crafts.tvInput`）。
+`NumberInput` 通过 `:theme` 驱动 tokens。单实例样式优先 `ui.*` / `class`；根 `:craft` 仅在需要改 **`tvNumberInput`** 结构时使用。输入框基线 **`tvInput`** 走应用级 `theme.crafts.tvInput`。
 
 <table>
   <thead>

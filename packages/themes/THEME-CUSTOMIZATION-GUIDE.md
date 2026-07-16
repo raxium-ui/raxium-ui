@@ -48,7 +48,7 @@ Raxium UI's theme system has three layers:
 
 At render, **`ui`** slot classes and the root **`class`** attach on top (see component docs).
 
-> **Consumers**: Put app-wide craft overrides in **`RUIConfigProvider :config="{ theme: { crafts, … } }"`**; use **`:craft`** on a single instance. **`ThemeProvider`** and component **`:theme`** do **not** accept `crafts`.
+> **Consumers**: Put app-wide craft overrides in **`RUIConfigProvider :config="{ theme: { crafts, … } }"`**. For a single instance, prefer **`class` / `:ui`**; use **`:craft`** only when changing `tv*` structure / variants. **`ThemeProvider`** and component **`:theme`** do **not** accept `crafts`.
 
 **Type shapes** (from `@raxium/themes/runtime`, re-exported via `@raxium/vue/providers`):
 
@@ -225,11 +225,11 @@ const resolved = mergePresets([compactPreset, roundedPreset], crafts)
 
 ## 4. Level 3: Component theme, craft, and ui
 
-**When to use**: Tune one instance — **variants** (`theme`), **craft shape** (`craft`), or **quick slot classes** (`ui`).
+**When to use**: Tune one instance. Prefer **`class` / `:ui`** for layout and slot classes; use **`theme`** for tokens (`size` / `skin` / …); reach for **`:craft`** only when you must change `tv*` structure, `defaultVariants`, or compound rules.
 
 ### 4.1 The `theme` Prop (Variants Only)
 
-The `**theme`** prop mirrors `**ThemeCrafts<'tv…'>['theme']**`: `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**`. It merges with config and parent context; it **must not** include `**crafts`**.
+The `**theme**` prop mirrors `**ThemeCrafts<'tv…'>['theme']**`: `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**`. It merges with config and parent context; it **must not** include `**crafts**`.
 
 ```vue
 <Button :theme="{ size: 'sm', skin: 'razer' }">
@@ -241,16 +241,27 @@ Smaller
 
 Use this when you only need semantic / size knobs, not a new variant branch on the underlying `tv*` function.
 
-### 4.2 The `craft` Prop (`CraftOverride`)
+### 4.2 The `ui` Prop / `class` (Prefer for one-off styling)
 
-Use `**craft**` for per-component craft changes: slot class patches, `**defaultVariants**`, or full `**tv()**`-style keys (`**base**`, `**variants**`, `**compoundVariants**`, `**compoundSlots**`). Runtime resolution extends the resolved craft for **that** component (e.g. `Button` → `tvButton`).
+For quick per-slot or root class additions without touching craft logic:
 
 ```vue
-<!-- Per-slot classes (merged at call time) -->
-<Button :craft="{ slots: { root: 'h-10 rounded-full', loading: 'size-6' } }">
-  Tall round
+<Button :ui="{ root: 'shadow-lg', loading: 'text-blue-500' }">
+  Styled Slots
 </Button>
 
+<DialogContent class="max-w-4xl" :ui="{ backdrop: 'bg-black/80' }">
+  Wide Dialog
+</DialogContent>
+```
+
+> **Tip**: Prefer `class` / `:ui` for most single-instance tweaks (width, shadow, spacing). `ui` classes merge at render time via `clsx()`, so they combine with (rather than replace) craft classes.
+
+### 4.3 The `craft` Prop (`CraftOverride`)
+
+Use `**craft**` only when `class` / `:ui` cannot express the change — e.g. new size branches, `defaultVariants`, or compound rules. Runtime resolution extends the resolved craft for **that** component (e.g. `Button` → `tvButton`).
+
+```vue
 <!-- Default variant values for this instance -->
 <Button :craft="{ defaultVariants: { variant: 'outlined', size: 'lg' } }">
   Defaults
@@ -268,12 +279,9 @@ Use `**craft**` for per-component craft changes: slot class patches, `**defaultV
 >
   XL
 </Button>
-
-<!-- Base layer tweak -->
-<Button :craft="{ base: 'shadow-lg' }">
-Shadow
-</Button>
 ```
+
+> **Avoid** using `:craft="{ slots: … }"` or `:craft="{ base: … }"` just to append classes — use `:ui` / `class` instead.
 
 `CraftOverride` fields (implementation: `@raxium/themes/runtime`):
 
@@ -286,22 +294,6 @@ Shadow
 | `compoundVariants` | Additional compound variant rules             |
 | `compoundSlots`    | Additional compound slot rules                |
 
-### 4.3 The `ui` Prop (Per-Slot Class Shortcuts)
-
-For quick per-slot class additions without touching craft logic:
-
-```vue
-<Button :ui="{ root: 'shadow-lg', loading: 'text-blue-500' }">
-  Styled Slots
-</Button>
-
-<DialogContent :ui="{ content: 'max-w-[800px]', backdrop: 'bg-black/80' }">
-  Wide Dialog
-</DialogContent>
-```
-
-> **Tip**: `ui` classes are merged at render time via `clsx()`, so they combine with (rather than replace) craft classes.
-
 ### 4.4 Priority (Mental Model)
 
 Merged **theme tokens** (`skin`, `surface`, `size`, …):
@@ -312,9 +304,9 @@ Merged **craft functions** (`crafts` map):
 
 `library defaults` ← `RUIConfig.theme.crafts` ← component `**craft**` (`resolveCraftOverride`)
 
-Then each render merges `**craft` slot/default tweaks**, `**ui**`, and the root `**class**` via `clsx` / `cxc` as documented per component.
+Then each render merges `**ui**` and the root `**class**` via `clsx` / `cxc` (preferred for one-off styling).
 
-`**ThemeProvider**` and component `**:theme**` are tokens-only — use `**craft**` or global `**theme.crafts**` for craft changes.
+`**ThemeProvider**` and component `**:theme**` are tokens-only — structural craft changes use `**craft**` or global `**theme.crafts**`, not `:theme`.
 
 
 ---

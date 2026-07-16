@@ -17,6 +17,7 @@ alwaysApply: false
 - **不要**在 `ThemeProps` / Scope / 组件 `:theme` 上挂 `crafts`。
 - Props mixin：`ThemeCrafts<'tvXxx'>`（`theme` + 单 key `craft`）；结构子件用 `ThemeNoCrafts`（仅 `theme`）。
 - `ThemeCrafts` **只绑一个主 craft key**（禁止 `'tvA' | 'tvB'` union）。内嵌原语（如 Menu 内 checkbox、TagsInput 内 input）改结构走应用级 `RUIConfig.theme.crafts`。
+- **单实例样式**：优先 `class` / `:ui`；只有改 `tv*` 结构 / `defaultVariants` / compound 时才用 `:craft`。
 
 ## Crafts 两层
 

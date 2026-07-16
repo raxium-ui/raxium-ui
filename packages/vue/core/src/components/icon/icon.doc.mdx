@@ -121,7 +121,7 @@ import * as IconStories from './icon.stories'
 
 ## Theme Configuration
 
-`Icon` 支持通过 `theme` 参与 Raxium UI 统一主题系统，并由 `tvIcon` 生成最终 class。`tvIcon` 当前默认基线样式为 <code>size-[1lh]</code>，可通过根 <code>craft</code> 或 RUI 全局 <code>theme.crafts</code> 覆写生成逻辑。
+`Icon` 支持通过 `theme` 参与 Raxium UI 统一主题系统，并由 `tvIcon` 生成最终 class。`tvIcon` 当前默认基线样式为 <code>size-[1lh]</code>。单实例优先 <code>class</code>；需要改生成逻辑时再用根 <code>craft</code> 或全局 <code>theme.crafts</code>。
 
 <table>
   <thead>
@@ -184,7 +184,7 @@ import * as IconStories from './icon.stories'
       <td><code>ui</code></td>
       <td>-</td>
       <td>-</td>
-      <td>不支持；请使用 <code>class</code>、根 <code>craft</code> 或 RUI 全局 <code>theme.crafts</code> 覆写样式</td>
+      <td>不支持；请优先使用 <code>class</code>；改 <code>tvIcon</code> 结构时再用根 <code>craft</code> 或全局 <code>theme.crafts</code></td>
     </tr>
   </tbody>
 </table>

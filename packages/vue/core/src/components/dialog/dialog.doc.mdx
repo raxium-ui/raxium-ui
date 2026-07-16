@@ -610,4 +610,4 @@ instance.close()              // 手动关闭
 - 复杂业务推荐使用受控模式（`v-model:open`），将弹窗状态与页面逻辑保持单一数据源。
 - 内容较长时限制 `DialogBody` 高度并开启滚动，避免整页滚动与焦点管理混乱。
 - 若需快速确认弹窗，优先使用组件内的 `useDialog()` 组合式 API（自动继承 App 插件上下文）；在组件外（路由守卫、utils）调用时使用 `dialog(options, appContext)`，并手动传入 `appContext`。
-- 当自定义关闭区时，使用 `DialogContent` 的 `close` 插槽并显式设置 `show-close="false"`，避免重复关闭按钮。
+- 若只需加宽/改间距等，优先 `DialogContent` 的 `class` / `ui.content`，不要一上来用根 `craft`。

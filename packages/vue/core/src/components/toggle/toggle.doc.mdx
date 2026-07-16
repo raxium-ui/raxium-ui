@@ -160,7 +160,7 @@ import * as ToggleStories from './toggle.stories'
 
 ## Theme Configuration
 
-`Toggle` 通过 `theme` 驱动 `tvToggle` crafts。常见场景可用 `theme.size` 统一尺寸，也可通过 `theme.crafts` 深度覆盖样式生成逻辑。
+`Toggle` 通过 `theme` 驱动 `tvToggle`。常见场景用 `theme.size` 统一尺寸，单实例样式优先 `class`；需要改 `tvToggle` 结构时再用根 `craft` 或全局 `theme.crafts`。
 
 <table>
   <thead>
@@ -187,7 +187,7 @@ import * as ToggleStories from './toggle.stories'
 
 ## UI Configuration
 
-`Toggle` 当前不提供 `ui.*` 分槽位配置入口。若需局部样式覆盖，建议优先使用 `class`；若需体系化样式调整，建议使用 `theme` / `theme.crafts`。
+`Toggle` 当前不提供 `ui.*` 分槽位配置入口。局部样式优先 `class`；体系化尺寸用 `theme.size`；改 `tvToggle` 结构再用根 `craft` / 全局 `theme.crafts`。
 
 <table>
   <thead>

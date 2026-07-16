@@ -235,7 +235,7 @@ import * as SwitchStories from './switch.stories'
 
 ## Theme Configuration
 
-`Switch` 使用 `theme` 驱动 `tvSwitch` crafts。当前内置变体以 `size` 为核心；如需深度定制可通过 `crafts` 覆写对应槽位样式。
+`Switch` 使用 `theme` 驱动 `tvSwitch`。内置变体以 `size` 为核心；单实例优先 `ui.*` / `class`，需要改 `tvSwitch` 结构时再用根 `craft` 或全局 `theme.crafts`。
 
 <table>
   <thead>
@@ -314,5 +314,5 @@ import * as SwitchStories from './switch.stories'
 - 单个布尔状态优先使用 `v-model:checked`，外部需要强制回写时再切换到完全受控模式。
 - 在表单中使用时补齐 `name`、`value`、`required`，保证提交语义与校验一致。
 - 标签内容建议放在 `SwitchLabel` 中，避免把说明文本直接塞进 `Switch` 根节点造成结构不清晰。
-- 样式调整优先按层次处理：全局风格使用 `theme.size/crafts`，局部差异使用 `ui.root/control/thumb`。
+- 样式调整分层：单实例用 `ui.root/control/thumb` 或 `class`；产品线尺寸用 `theme.size`；改 `tvSwitch` 结构再用根 `craft` / 全局 `theme.crafts`。
 - 禁用与只读要区分：禁止交互用 `disabled`，仅阻止编辑但保留可读语义用 `readOnly`。

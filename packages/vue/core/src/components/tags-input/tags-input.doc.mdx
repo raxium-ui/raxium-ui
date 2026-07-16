@@ -272,7 +272,7 @@ Ark UI 文档： [Ark UI Tags Input (Vue)](https://ark-ui.com/vue/docs/component
 
 ## Theme Configuration
 
-`TagsInput` 的主题入口在根组件：`:theme` 驱动 tokens，根 `:craft` 覆写 **`tvTagsInput`**；内嵌输入框仍用 **`tvInput`**（应用级 `theme.crafts.tvInput`，不受根 `craft` 影响）。
+`TagsInput` 的主题入口在根组件：`:theme` 驱动 tokens。单实例优先 `ui.*` / `class`；根 `:craft` 仅在需要改 **`tvTagsInput`** 结构时使用。内嵌输入框 **`tvInput`** 走应用级 `theme.crafts.tvInput`。
 
 <table>
   <thead>

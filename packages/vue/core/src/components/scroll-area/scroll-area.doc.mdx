@@ -314,6 +314,6 @@ import * as ScrollAreaStories from './scroll-area.stories'
 - 推荐按 `ScrollArea + ScrollAreaScrollbar (+ ScrollAreaCorner)` 的固定结构组合，避免遗漏滚动条节点导致“可滚动但无反馈”。
 - 单轴滚动场景仅保留一个 `ScrollAreaScrollbar`，双轴场景再补充 `orientation="horizontal"` 与 `ScrollAreaCorner`。
 - 业务上需要监听滚动行为时，优先使用 `scrollstart/scroll/scrollend` 在根组件统一收敛事件，不在内容节点重复绑定。
-- 全局风格差异优先用 `theme.size` 或 `theme.crafts`，局部微调再使用 `ui.*`，降低样式维护成本。
+- 单次布局/间距优先 `ui.*` / `class`；产品线尺寸用 `theme.size`；需要改 `tvScrollArea` 结构时再用根 `craft` 或全局 `theme.crafts`。
 - 对超大内容建议限制容器尺寸并把布局交给 `Viewport`，不要依赖外层页面滚动替代局部滚动区域。
 - 当内容宽高不确定时，先使用 `BothAxes` 场景验证横纵滚动与角落显示，再落地到业务页面。

@@ -17,7 +17,7 @@ component:
     htmlAttributes:
       - aria-*
       - data-*
-    notes: 底层由 @iconify/vue Icon 渲染；不支持 ui，可用 class、根 craft 或 RUI 全局 theme.crafts 覆写样式。
+    notes: 底层由 @iconify/vue Icon 渲染；不支持 ui。单实例优先 class；改 tvIcon 结构再用根 craft 或全局 theme.crafts。
   capabilities:
     - theme
     - class-override
