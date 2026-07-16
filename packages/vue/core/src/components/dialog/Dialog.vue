@@ -16,6 +16,7 @@ import { Dialog, useDialog } from '@ark-ui/vue/dialog'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { computed, nextTick, ref } from 'vue'
 import { TriggerFrom } from './dialog-intercept-context'
 import DialogInterceptProvider from './DialogInterceptProvider.vue'
@@ -123,9 +124,9 @@ function resumeBeforeClose() {
 const theme = useTheme(
   () => propsTheme,
   () => dialogConfig.value?.theme,
-  () => craft,
 )
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvDialog', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 const dialogApi = computed(() => ({

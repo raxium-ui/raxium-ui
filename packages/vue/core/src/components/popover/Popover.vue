@@ -8,11 +8,13 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
 const {
   theme: propsTheme,
+  craft,
   unmountOnExit = undefined,
   lazyMount = undefined,
   ...props
@@ -34,7 +36,8 @@ const popover = usePopover(
 
 // theme
 const theme = useTheme(() => propsTheme, () => popoverConfig.value?.theme)
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvPopover', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 defineExpose({ $api: popover as UsePopoverReturn })

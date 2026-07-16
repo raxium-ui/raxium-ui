@@ -5,7 +5,7 @@ import type { SliderProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Slider, useSlider } from '@ark-ui/vue/slider'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed, useTemplateRef } from 'vue'
 import SliderBoundaryProvider from './SliderBoundaryProvider.vue'
@@ -21,9 +21,10 @@ const controlEl = computed((): HTMLElement | undefined => {
   return root instanceof HTMLElement ? root : undefined
 })
 
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvSlider', () => ({
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvSlider', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvSlider', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))
 

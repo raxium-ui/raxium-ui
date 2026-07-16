@@ -6,9 +6,10 @@ import type { RaxiumToaster, ToasterProps, ToastExtraProps, ToastOptions } from 
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { shallowReactive } from 'vue'
 
-const { toasterId, theme: propsTheme, ...props } = defineProps<ToasterProps>()
+const { toasterId, theme: propsTheme, craft, ...props } = defineProps<ToasterProps>()
 
 // slots
 defineSlots<{
@@ -110,7 +111,8 @@ const toaster: RaxiumToaster = {
 
 // theme
 const theme = useTheme(() => propsTheme)
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvToast', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 defineExpose({

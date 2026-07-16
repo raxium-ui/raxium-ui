@@ -4,7 +4,7 @@ import type { CollapsibleProps } from '.'
 import { Collapsible, useCollapsible } from '@ark-ui/vue/collapsible'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft } from '@raxium/vue/composables'
+import { useCraft, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 
@@ -20,13 +20,10 @@ const forwarded = useForwardProps(props)
 const collapsiable = useCollapsible(forwarded, emit)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvCollapsible')
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvCollapsible', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvCollapsible')
 
 // expose
 defineExpose({ $api: collapsiable })

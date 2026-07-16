@@ -35,9 +35,9 @@ function onFocusout(event: FocusEvent) {
 }
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
+const theme = useTheme(() => propsTheme)
 const inputCrafts = useCraft(theme, 'tvInput')
-const crafts = useCraft(theme, 'tvNumberInput')
+const crafts = useCraft(theme, 'tvNumberInput', undefined, () => craft)
 
 // expose
 defineExpose({ $api: numberInput })

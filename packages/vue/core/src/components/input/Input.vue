@@ -86,8 +86,8 @@ function onClear() {
 }
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-const crafts = useCraft(theme, 'tvInput')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvInput', undefined, () => craft)
 </script>
 
 <template>

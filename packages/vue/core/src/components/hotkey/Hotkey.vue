@@ -262,8 +262,8 @@ watchEffect((cleanup) => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-const crafts = useCraft(theme, 'tvHotkey')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvHotkey', undefined, () => craft)
 </script>
 
 <template>

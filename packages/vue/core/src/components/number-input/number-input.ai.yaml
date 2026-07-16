@@ -74,8 +74,8 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class。
     - name: theme
-      typeText: ThemeCrafts<'tvInput' | 'tvNumberInput'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeCrafts<'tvNumberInput'>
+      description: 通用 theme 与组件 craft（见 Theme Configuration）；根 craft 仅覆写 tvNumberInput。输入框基线样式走全局 theme.crafts.tvInput。
     - name: craft
       typeText: CraftOverride
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme

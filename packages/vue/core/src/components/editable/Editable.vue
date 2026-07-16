@@ -5,7 +5,7 @@ import { EditableArea, EditableRootProvider, useEditable } from '@ark-ui/vue/edi
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { findUp } from '@raxium/shared/dom'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft } from '@raxium/vue/composables'
+import { useCraft, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
 import { computed } from 'vue'
@@ -65,9 +65,10 @@ const slotProps = computed<SlotProps>(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvEditable')
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvEditable', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvEditable')
 
 // expose
 defineExpose({ $api: editable })

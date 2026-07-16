@@ -4,7 +4,7 @@ import type { TabsProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { Tabs, useTabs } from '@ark-ui/vue/tabs'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed, ref, useTemplateRef, watch } from 'vue'
 import TabsProviderEx from './TabsProviderEx.vue'
@@ -46,9 +46,10 @@ const index = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvTabs', () => ({
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvTabs', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvTabs', () => ({
   orientation: forwarded.value.orientation ?? 'horizontal',
 }))
 

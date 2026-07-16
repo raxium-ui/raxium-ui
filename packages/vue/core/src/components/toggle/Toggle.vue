@@ -10,8 +10,8 @@ const { class: propsClass, theme: propsTheme, craft, ...props } = defineProps<To
 const emit = defineEmits<ToggleRootEmits>()
 const forwarded = useForwardPropsEmits(props, emit)
 
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-const crafts = useCraft(theme, 'tvToggle')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvToggle', undefined, () => craft)
 </script>
 
 <template>

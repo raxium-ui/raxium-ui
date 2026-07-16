@@ -20,7 +20,7 @@ export interface ProgressArcProps extends ProgressCircleBaseProps {
     circleTrack?: HTMLAttributes['class']
     circleRange?: HTMLAttributes['class']
   }
-  theme?: Omit<ProgressCircleTheme, 'crafts'>
+  theme?: ProgressCircleTheme
 }
 
 export interface ProgressCircleProps extends ProgressCircleBaseProps {
@@ -31,7 +31,7 @@ export interface ProgressCircleProps extends ProgressCircleBaseProps {
     circleTrack?: HTMLAttributes['class']
     circleRange?: HTMLAttributes['class']
   }
-  theme?: Omit<ProgressCircleTheme, 'crafts'>
+  theme?: ProgressCircleTheme
 }
 
 export interface ProgressLinearProps extends ProgressTrackBaseProps, ThemeNoCrafts {

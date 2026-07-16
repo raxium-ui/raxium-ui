@@ -26,14 +26,10 @@ const forwarded = useForwardProps<CheckboxProps, UseCheckboxProps>(props)
 const checkbox = useCheckbox(forwarded, emit)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
+const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvCheckbox', () => ({
   disabled: forwarded.value.disabled,
-}))
+}), () => craft)
 
 // expose
 defineExpose({ $api: checkbox as UseCheckboxReturn })

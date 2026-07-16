@@ -62,8 +62,8 @@ contracts:
       typeText: HTMLAttributes['class']
       description: 根节点附加 class。
     - name: theme
-      typeText: ThemeCrafts<'tvTagsInput' | 'tvInput'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeCrafts<'tvTagsInput'>
+      description: 通用 theme 与组件 craft（见 Theme Configuration）；根 craft 仅覆写 tvTagsInput。内嵌输入框样式走全局 theme.crafts.tvInput。
     - name: craft
       typeText: CraftOverride
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme

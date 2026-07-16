@@ -33,15 +33,30 @@ Raxium UI's theme system has three layers:
 
 **Theme resolution order** (lowest → highest priority):
 
-1. Default crafts and theme defaults from `@raxium/themes/default`.
-2. **Global config** (`RUIConfigProvider` `config.theme`): merges `**theme.crafts`** (into the crafts map) and `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**` where components read them.
-3. **Theme context** (`ThemeProvider` `value`): same `ThemeProps` shape as above — `**crafts`** and variant fields merge with config.
-4. **Component `theme` prop**: variant fields only (**no `crafts`**).
-5. **Component `craft` prop**: `**CraftOverride`** merged last into that component’s resolved craft.
+**Tokens** (`skin`, `surface`, `size`, `unstyled`, `bordered`):
 
-At render, `**ui**` slot classes and the root `**class**` attach on top (see component docs).
+1. Library defaults from `@raxium/themes`.
+2. **Global config** (`RUIConfigProvider` `config.theme` token fields).
+3. **Theme context** (`ThemeProvider` `value` — tokens only).
+4. **Component `theme` prop** (tokens only).
 
-> **Consumers**: Put app-wide overrides in `**RUIConfigProvider :config="{ theme: { crafts, … } }"`** or `**ThemeProvider :value**`; use `**:craft**` on a single instance — **not** `:theme="{ crafts: … }"` on the component.
+**Crafts table** (`tv*` map):
+
+1. Library defaults from `@raxium/themes/default`.
+2. **`RUIConfig.theme.crafts` only** (presets / skin packs).
+3. **Component `craft` prop** (`CraftOverride`) merged last for that instance.
+
+At render, **`ui`** slot classes and the root **`class`** attach on top (see component docs).
+
+> **Consumers**: Put app-wide craft overrides in **`RUIConfigProvider :config="{ theme: { crafts, … } }"`**; use **`:craft`** on a single instance. **`ThemeProvider`** and component **`:theme`** do **not** accept `crafts`.
+
+**Type shapes** (from `@raxium/themes/runtime`, re-exported via `@raxium/vue/providers`):
+
+| Type | Shape | Used by |
+| --- | --- | --- |
+| `ThemeProps` | tokens only (`skin` / `surface` / `size` / …) | `ThemeProvider`, Scope Theme, component `:theme` |
+| `ThemeConfig` | `ThemeProps` + optional `crafts?` | `RUIConfig.theme` |
+| `ResolvedTheme` | `ThemeProps` + required `crafts` | `useTheme` / Component Theme inject |
 
 ---
 
@@ -260,7 +275,7 @@ Shadow
 </Button>
 ```
 
-`CraftOverride` fields (implementation: `packages/vue/core/src/providers/theme/theme-props.ts`):
+`CraftOverride` fields (implementation: `@raxium/themes/runtime`):
 
 | Field              | Description                                   |
 | ------------------ | --------------------------------------------- |
@@ -289,17 +304,18 @@ For quick per-slot class additions without touching craft logic:
 
 ### 4.4 Priority (Mental Model)
 
-Merged **theme props** (`skin`, `surface`, `size`, …):
+Merged **theme tokens** (`skin`, `surface`, `size`, …):
 
-`defaults` ← `RUIConfigProvider` ← `ThemeProvider` ← component `**theme`**
+`defaults` ← `RUIConfigProvider` ← `ThemeProvider` ← component `**theme**`
 
 Merged **craft functions** (`crafts` map):
 
-`library defaults` ← `theme.crafts` (config/context) ← component `**craft`** (`resolveCraftOverride`)
+`library defaults` ← `RUIConfig.theme.crafts` ← component `**craft**` (`resolveCraftOverride`)
 
-Then each render merges `**craft` slot/default tweaks**, `**ui`**, and the root `**class**` via `clsx` / `cxc` as documented per component.
+Then each render merges `**craft` slot/default tweaks**, `**ui**`, and the root `**class**` via `clsx` / `cxc` as documented per component.
 
-**Do not** put `**crafts`** on a component `**theme**` prop — use `**craft**` or global `**theme.crafts**`.
+`**ThemeProvider**` and component `**:theme**` are tokens-only — use `**craft**` or global `**theme.crafts**` for craft changes.
+
 
 ---
 

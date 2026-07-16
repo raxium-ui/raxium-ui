@@ -1,5 +1,6 @@
+import type { CraftOverride, Crafts } from '../providers/theme/theme-props'
+import { resolveCraftOverride } from '@raxium/themes/runtime'
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { Crafts } from '../providers/theme/theme-props'
 import { computed, toValue } from 'vue'
 
 /** Theme properties that get auto-injected into craft calls */
@@ -20,7 +21,7 @@ type CraftReturnType<K extends keyof Crafts>
  *
  * For **slotted** crafts, returns typed slot functions:
  * ```ts
- * const craft = useCraft(theme, 'tvButton', () => ({ variant, color }))
+ * const craft = useCraft(theme, 'tvButton', () => ({ variant, color }), () => craftProp)
  * craft.root({ class: extra })   // ✅ autocomplete for .root, .loading
  * ```
  *
@@ -29,21 +30,30 @@ type CraftReturnType<K extends keyof Crafts>
  * const craft = useCraft(theme, 'tvBadge', () => ({ variant }))
  * craft({ class: extra })        // ✅ returns string
  * ```
+ *
+ * @param craftOverride - Optional instance-level craft override for this `craftKey`.
+ *   Prefer this over baking overrides in `useTheme`. For roots that provide theme
+ *   to children, use `useThemeCraft` instead so descendants inherit the override.
  */
 export function useCraft<K extends keyof Crafts>(
   theme: ComputedRef<{ crafts: Crafts } & Record<string, any>>,
   craftKey: K,
   variants?: MaybeRefOrGetter<Record<string, any>>,
+  /** `NoInfer` keeps `craftKey` as the source of truth for `K` (e.g. ThemeCrafts<'tvInput' | 'tvNumberInput'>) */
+  craftOverride?: MaybeRefOrGetter<CraftOverride<NoInfer<K>> | undefined>,
 ): ComputedRef<CraftReturnType<K>> {
   return computed(() => {
     const t = theme.value
-    const craftFn = t.crafts?.[craftKey]
-    if (!craftFn) {
+    const baseCraftFn = t.crafts?.[craftKey]
+    if (!baseCraftFn) {
       if (import.meta.env.DEV) {
-        console.warn(`[useCraft] Craft "${craftKey}" not found in theme`)
+        console.warn(`[useCraft] Craft "${String(craftKey)}" not found in theme`)
       }
       return (() => '') as CraftReturnType<K>
     }
+
+    const override = craftOverride ? toValue(craftOverride) : undefined
+    const craftFn = resolveCraftOverride(craftKey, override, baseCraftFn)
 
     // Theme props first, then user variants (user overrides theme)
     const themeProps: Record<string, any> = {}

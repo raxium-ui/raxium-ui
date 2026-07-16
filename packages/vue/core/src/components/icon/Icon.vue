@@ -9,12 +9,8 @@ const { class: propsClass, theme: propsTheme, icon, craft, ...props } = definePr
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
-const crafts = useCraft(theme, 'tvIcon')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvIcon', undefined, () => craft)
 </script>
 
 <template>

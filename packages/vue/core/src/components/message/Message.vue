@@ -27,7 +27,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { Toast, useToastContext } from '@ark-ui/vue/toast'
 import { CircleAlert, CircleCheck, CircleX, Info, LoaderCircle, X } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 import { computed, h } from 'vue'
 
 const { class: propsClass, theme: propsTheme, options, ui, ...props } = defineProps<MessageProps>()
@@ -44,7 +44,7 @@ const slotBindings = computed(() => ({
   context: messageContext.value,
 }))
 
-const theme = useTheme(() => Object.assign({}, propsTheme, options?.theme))
+const theme = useInheritedTheme(() => Object.assign({}, propsTheme, options?.theme))
 const crafts = useCraft(theme, 'tvMessage')
 const iconVNode = computed(() => {
   const className = crafts.value.icon(cxc(ui?.icon))

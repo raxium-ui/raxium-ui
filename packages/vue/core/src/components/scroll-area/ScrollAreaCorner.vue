@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { ScrollAreaCornerProps, ScrollAreaTheme } from '.'
+import type { ScrollAreaCornerProps } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { ScrollArea } from '@ark-ui/vue/scroll-area'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useInheritedTheme } from '@raxium/vue/composables'
 
 const {
   class: propsClass,
@@ -13,8 +13,8 @@ const {
 const forwarded = useForwardProps(props)
 
 // theme
-const theme = useTheme<ScrollAreaTheme>(() => propsTheme, undefined, () => propsTheme?.craft)
-const crafts = useCraft(theme, 'tvScrollArea')
+const theme = useInheritedTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvScrollArea', undefined, () => propsTheme?.craft)
 </script>
 
 <template>

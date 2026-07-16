@@ -4,7 +4,7 @@ import type { SelectEmits, SelectProps } from '.'
 import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { defaults } from 'es-toolkit/compat'
@@ -38,10 +38,10 @@ const selectRoot = useSelect<T>(
 const theme = useTheme(
   () => propsTheme,
   () => selectConfig.value?.theme,
-  () => craft,
 )
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvSelect')
+const themed = useThemeCraft(theme, 'tvSelect', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvSelect')
 
 // expose
 defineExpose({ $api: selectRoot })

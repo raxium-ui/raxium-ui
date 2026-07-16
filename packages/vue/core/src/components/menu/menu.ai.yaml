@@ -58,8 +58,8 @@ contracts:
       typeText: string | array | object
       description: 根节点附加 class
     - name: theme
-      typeText: ThemeCrafts<'tvMenu' | 'tvCheckbox' | 'tvRadioGroup'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）；作用于菜单及相关 checkbox/radio 视觉合并。
+      typeText: ThemeCrafts<'tvMenu'>
+      description: 通用 theme 与组件 craft（见 Theme Configuration）；根 craft 仅覆写 tvMenu。内置 Checkbox/Radio 项请用全局 theme.crafts。
     - name: craft
       typeText: CraftOverride
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme

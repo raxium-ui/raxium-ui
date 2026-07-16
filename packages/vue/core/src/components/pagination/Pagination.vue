@@ -6,7 +6,7 @@ import { ark } from '@ark-ui/vue/factory'
 import { Pagination, usePagination } from '@ark-ui/vue/pagination'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from '@lucide/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed } from 'vue'
 
@@ -23,13 +23,10 @@ const emit = defineEmits<PaginationRootEmits>()
 const pagination = usePagination(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvPagination')
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvPagination', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvPagination')
 const itemClx = computed(() => crafts.value.item())
 
 // dynamic page end

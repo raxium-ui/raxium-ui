@@ -3,11 +3,16 @@ import type { MessagerExpose } from '@raxium/vue/components/message'
 import type { ToasterManagerExpose } from '@raxium/vue/components/toast'
 import type * as popper from '@zag-js/popper'
 import type { ComputedRef } from 'vue'
-import type { ThemeCrafts, ThemeProps } from '../theme/theme-props'
+import type { ThemeConfig, ThemeCrafts } from '../theme/theme-props'
 import { createContext } from '@ark-ui/vue'
 
 export interface RUIConfigContext {
-  'theme'?: ThemeProps
+  /**
+   * App theme: tokens (`skin` / `surface` / …) plus optional `crafts` table
+   * overrides (presets). Crafts are merged only from this field — not from
+   * ThemeProvider or component `:theme`.
+   */
+  'theme'?: ThemeConfig
   'tooltip'?: {
     closeDelay?: number
     openDelay?: number

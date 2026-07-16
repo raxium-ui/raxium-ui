@@ -12,11 +12,11 @@ const {
 } = defineProps<SkeletonProps>()
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
+const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvSkeleton', () => ({
   variant,
   shape,
-}))
+}), () => craft)
 </script>
 
 <template>

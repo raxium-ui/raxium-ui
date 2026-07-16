@@ -8,7 +8,7 @@ export type TagsInputProvide = {
   inline: ComputedRef<boolean>
 }
 
-export interface TagsInputProps extends TagsInputRootBaseProps, ThemeCrafts<'tvTagsInput' | 'tvInput'> {
+export interface TagsInputProps extends TagsInputRootBaseProps, ThemeCrafts<'tvTagsInput'> {
   class?: HTMLAttributes['class']
   inline?: TagsInputVariants['inline']
   ui?: {

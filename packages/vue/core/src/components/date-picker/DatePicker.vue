@@ -5,6 +5,7 @@ import { DatePicker, useDatePicker, useForwardExpose, useForwardProps } from '@a
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -36,9 +37,9 @@ const datePicker = useDatePicker(
 const theme = useTheme(
   () => themeProps,
   () => datePickerOptions.value?.theme,
-  () => craft,
 )
-useProvideComponentTheme(theme, () => themeProps)
+const themed = useThemeCraft(theme, 'tvDatePicker', () => craft)
+useProvideComponentTheme(themed, () => themeProps)
 // expose
 defineExpose({ $api: datePicker })
 useForwardExpose()

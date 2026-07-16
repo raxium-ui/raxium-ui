@@ -1,9 +1,8 @@
 import type { ComputedRef, MaybeRefOrGetter } from 'vue'
-import type { ThemeProps } from '../providers/theme/theme-props'
+import type { ResolvedTheme, ThemeProps } from '../providers/theme/theme-props'
 import { computed, toValue } from 'vue'
 import { provideComponentTheme, provideScopeTheme } from '../providers/theme/theme-props'
 
-type ResolvedTheme = ComputedRef<ThemeProps>
 interface ProvideComponentThemeOptions {
   /**
    * Whether to provide Scope Theme when the component has explicit `:theme`.
@@ -21,23 +20,19 @@ interface ProvideComponentThemeOptions {
  *
  * - **Component Theme** (always provided): consumed by sub-components via
  *   `useInheritedTheme` (e.g. DialogContent, AccordionItem). Carries the
- *   component's fully-resolved theme so its own children inherit it correctly.
+ *   component's fully-resolved theme (tokens + crafts) so children inherit it.
  *
- * - **Scope Theme** (conditional): consumed by independent descendant components
- *   via `useTheme` (e.g. a Tooltip nested inside a Dialog). Only provided when
- *   the component received an explicit `:theme` prop, so it does NOT shadow a
- *   parent user-scoped ThemeProvider when the component itself has no explicit
- *   theme set. This allows `componentConfig` to win over intermediate container
- *   context in the priority chain. Can be disabled for structural sub-components
- *   via `options.provideScopeFromPropsTheme = false`.
+ * - **Scope Theme** (conditional, tokens only): consumed by independent
+ *   descendant components via `useTheme` (e.g. a Tooltip nested inside a Dialog).
+ *   Only provided when the component received an explicit `:theme` prop.
+ *   Does not include crafts — crafts come from `RUIConfig.theme.crafts`.
  *
- * @param theme   Fully resolved theme from `useTheme()`.
+ * @param theme   Fully resolved theme from `useTheme()` / `useThemeCraft()`.
  * @param getPropsTheme  Getter that returns the raw `:theme` prop value.
- *   When `undefined` / not provided, Scope Theme is not provided.
  * @param options  Optional behavior flags for Scope Theme provisioning.
  */
 export function useProvideComponentTheme(
-  theme: ResolvedTheme,
+  theme: ComputedRef<ResolvedTheme>,
   getPropsTheme?: MaybeRefOrGetter<Partial<ThemeProps> | undefined>,
   options: ProvideComponentThemeOptions = {},
 ) {
@@ -58,7 +53,11 @@ export function useProvideComponentTheme(
   })
 
   if (hasExplicitTheme.value) {
-    provideScopeTheme(theme)
+    // Tokens only — never leak crafts into Scope Theme
+    provideScopeTheme(computed(() => {
+      const { skin, surface, size, unstyled, bordered } = theme.value
+      return { skin, surface, size, unstyled, bordered }
+    }))
   }
 }
 
@@ -67,7 +66,7 @@ export function useProvideComponentTheme(
  * They still provide Component Theme so internals can inherit correctly.
  */
 export function useProvideStructuralComponentTheme(
-  theme: ResolvedTheme,
+  theme: ComputedRef<ResolvedTheme>,
   getPropsTheme?: MaybeRefOrGetter<Partial<ThemeProps> | undefined>,
 ) {
   useProvideComponentTheme(theme, getPropsTheme, { provideScopeFromPropsTheme: false })

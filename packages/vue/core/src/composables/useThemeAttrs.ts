@@ -2,7 +2,7 @@ import type { ComputedRef } from 'vue'
 import type { ThemeProps } from '../providers/theme/theme-props'
 import { computed } from 'vue'
 
-type ThemeLike = ComputedRef<Omit<ThemeProps, 'crafts'>>
+type ThemeLike = ComputedRef<ThemeProps>
 
 /**
  * Returns reactive data-attributes for portal / teleported elements that live

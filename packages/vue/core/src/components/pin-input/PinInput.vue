@@ -23,12 +23,8 @@ const forwarded = useForwardProps(computed(() => ({ ...props, count })))
 const pinInput = usePinInput(forwarded, emits)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
-const crafts = useCraft(theme, 'tvPinInput')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvPinInput', undefined, () => craft)
 // expose
 defineExpose({ $api: pinInput })
 useForwardExpose()

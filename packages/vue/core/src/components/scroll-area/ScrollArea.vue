@@ -3,7 +3,7 @@ import type { ScrollAreaEmits, ScrollAreaProps, ScrollAreaTheme } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { ScrollArea, useScrollArea } from '@ark-ui/vue/scroll-area'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { excludeVNodesByNames, findVNodesByName } from '@raxium/vue/utils/vnode'
 import { useElementSize } from '@vueuse/core'
@@ -34,9 +34,10 @@ const isShowScrollbars = computed(() => ({
 }))
 
 // theme
-const theme = useTheme<ScrollAreaTheme>(() => propsTheme, undefined, () => propsTheme?.craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvScrollArea')
+const theme = useTheme<ScrollAreaTheme>(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvScrollArea', () => propsTheme?.craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvScrollArea')
 
 // expose
 defineExpose({ $api: scrollArea })

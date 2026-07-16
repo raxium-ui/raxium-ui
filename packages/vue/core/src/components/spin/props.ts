@@ -1,8 +1,10 @@
 import type { PolymorphicProps } from '@ark-ui/vue'
-import type { Theme, ThemeCrafts } from '@raxium/vue/providers'
+import type { ResolvedTheme, ThemeCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
 
-export interface SpinRenderProps extends Theme {
+export interface SpinRenderProps {
+  /** Merged theme from `useTheme` (tokens + crafts). */
+  theme?: ResolvedTheme
   class?: HTMLAttributes['class']
   mode?: 'fullscreen' | 'inline'
 }

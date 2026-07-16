@@ -4,7 +4,7 @@ import type { RatingGroupProps } from '.'
 import { RatingGroup, useRatingGroup } from '@ark-ui/vue/rating-group'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 
 const { class: propsClass, theme: propsTheme, craft, ui, ...props } = defineProps<RatingGroupProps>()
@@ -12,9 +12,10 @@ const emit = defineEmits<RatingGroupRootEmits>()
 const ratingGroup = useRatingGroup(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvRatingGroup')
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvRatingGroup', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvRatingGroup')
 
 // expose
 defineExpose({ $api: ratingGroup })

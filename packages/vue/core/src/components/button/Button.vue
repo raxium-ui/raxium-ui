@@ -47,16 +47,12 @@ function onClick(event: MouseEvent) {
 }
 
 // theme — useCraft pre-binds variants so slot calls only need { class }
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
+const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvButton', () => ({
   variant,
   color,
   loading,
-}))
+}), () => craft)
 </script>
 
 <template>

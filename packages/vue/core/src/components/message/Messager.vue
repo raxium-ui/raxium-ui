@@ -5,10 +5,11 @@ import type { MessageOptions, MessageProps, MessagerProps, RaxiumMessager } from
 import { createToaster, Toaster } from '@ark-ui/vue/toast'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { defaults } from 'es-toolkit/compat'
 import { shallowReactive } from 'vue'
 
-const { theme: propsTheme, showClose = true, ...props } = defineProps<MessagerProps>()
+const { theme: propsTheme, craft, showClose = true, ...props } = defineProps<MessagerProps>()
 
 // slots
 defineSlots<{
@@ -110,7 +111,8 @@ const messager: RaxiumMessager = {
 
 // theme
 const theme = useTheme(() => propsTheme)
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvMessage', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 defineExpose({

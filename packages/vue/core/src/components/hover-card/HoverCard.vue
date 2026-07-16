@@ -6,6 +6,7 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
@@ -45,9 +46,9 @@ const hoverCard = useHoverCard(
 const theme = useTheme(
   () => propsTheme,
   () => hoverCardConfig.value?.theme,
-  () => craft,
 )
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvHoverCard', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 defineExpose({ $api: hoverCard })

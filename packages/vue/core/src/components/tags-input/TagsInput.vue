@@ -4,7 +4,7 @@ import type { TagsInputProps } from '.'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { TagsInput, useTagsInput } from '@ark-ui/vue/tags-input'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { computed, nextTick, provide, useTemplateRef, watch } from 'vue'
 import { TAGS_INPUT_PROVIDE_KEY } from '.'
@@ -39,10 +39,11 @@ watch(
 )
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-useProvideComponentTheme(theme, () => propsTheme)
-const inputCrafts = useCraft(theme, 'tvInput')
-const crafts = useCraft(theme, 'tvTagsInput', () => ({
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvTagsInput', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const inputCrafts = useCraft(themed, 'tvInput')
+const crafts = useCraft(themed, 'tvTagsInput', () => ({
   inline,
   empty: tagsInput.value.value.length === 0,
 }))

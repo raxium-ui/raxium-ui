@@ -25,12 +25,12 @@ export type ScrollAreaEmits = {
 
 export interface ScrollAreaCornerProps extends ScrollAreaCornerBaseProps {
   class?: HTMLAttributes['class']
-  theme?: Omit<ScrollAreaTheme, 'crafts'>
+  theme?: ScrollAreaTheme
 }
 
 export interface ScrollAreaScrollbarProps extends ScrollAreaScrollbarBaseProps {
   class?: HTMLAttributes['class']
-  theme?: Omit<ScrollAreaTheme, 'crafts'>
+  theme?: ScrollAreaTheme
   ui?: {
     root?: HTMLAttributes['class']
     thumb?: HTMLAttributes['class']

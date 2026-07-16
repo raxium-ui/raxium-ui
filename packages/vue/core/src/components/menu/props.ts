@@ -3,7 +3,7 @@ import type { RadioGroupVariants } from '@raxium/themes/default'
 import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
 
-export interface MenuProps extends MenuRootBaseProps, ThemeCrafts<'tvMenu' | 'tvCheckbox' | 'tvRadioGroup'> {
+export interface MenuProps extends MenuRootBaseProps, ThemeCrafts<'tvMenu'> {
   class?: HTMLAttributes['class']
 }
 

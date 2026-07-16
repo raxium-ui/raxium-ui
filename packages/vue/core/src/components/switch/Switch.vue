@@ -3,7 +3,7 @@ import type { SwitchRootEmits } from '@ark-ui/vue'
 import type { SwitchProps } from '.'
 import { Switch, useForwardExpose, useForwardProps, useSwitch } from '@ark-ui/vue'
 import { cxc } from '@raxium/themes/utils'
-import { useCraft, useTheme } from '@raxium/vue/composables'
+import { useCraft, useTheme, useThemeCraft } from '@raxium/vue/composables'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 
 const { class: propsClass, theme: propsTheme, craft, ui, ...props } = defineProps<SwitchProps>()
@@ -11,13 +11,10 @@ const emit = defineEmits<SwitchRootEmits>()
 const switchRoot = useSwitch(useForwardProps(props), emit)
 
 // theme
-const theme = useTheme(
-  () => propsTheme,
-  undefined,
-  () => craft,
-)
-useProvideComponentTheme(theme, () => propsTheme)
-const crafts = useCraft(theme, 'tvSwitch')
+const theme = useTheme(() => propsTheme)
+const themed = useThemeCraft(theme, 'tvSwitch', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
+const crafts = useCraft(themed, 'tvSwitch')
 
 // expose
 defineExpose({ $api: switchRoot })

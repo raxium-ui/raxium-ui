@@ -6,12 +6,14 @@ import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
 import { useTheme } from '@raxium/vue/composables/useTheme'
+import { useThemeCraft } from '@raxium/vue/composables/useThemeCraft'
 import { defaults } from 'es-toolkit/compat'
 import { computed, mergeProps } from 'vue'
 
 const {
   class: propsClass,
   theme: propsTheme,
+  craft,
   lazyMount = undefined,
   unmountOnExit = undefined,
   ...props
@@ -33,7 +35,8 @@ const menu = useMenu(
 
 // theme
 const theme = useTheme(() => propsTheme, () => menuConfig.value?.theme)
-useProvideComponentTheme(theme, () => propsTheme)
+const themed = useThemeCraft(theme, 'tvMenu', () => craft)
+useProvideComponentTheme(themed, () => propsTheme)
 
 // expose
 defineExpose({ $api: menu })

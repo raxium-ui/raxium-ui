@@ -33,8 +33,8 @@ const isShowTrigger = computed(() => {
 })
 
 // theme
-const theme = useTheme(() => propsTheme, undefined, () => craft)
-const crafts = useCraft(theme, 'tvReadMore')
+const theme = useTheme(() => propsTheme)
+const crafts = useCraft(theme, 'tvReadMore', undefined, () => craft)
 </script>
 
 <template>
