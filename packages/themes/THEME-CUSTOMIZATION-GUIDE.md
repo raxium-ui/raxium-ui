@@ -321,24 +321,30 @@ Then each render merges `**craft` slot/default tweaks**, `**ui**`, and the root 
 
 ## 5. Choosing the Right Level
 
-| Scenario                                   | Recommended Level                                                            |
-| ------------------------------------------ | ---------------------------------------------------------------------------- |
-| Change brand color across the app          | **Level 1**: Override `--color-rui-primary-`* tokens                         |
-| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-`* primitives (or remap `--color-rui-`*) |
-| Create a "compact" app-wide layout         | **Level 2**: `definePreset` with smaller sizes                               |
-| Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants`                                   |
-| Make one specific dialog wider             | **Level 3**: `<DialogContent :craft="{ slots: { content: 'max-w-4xl' } }">`  |
-| Add a shadow to one button                 | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">`                          |
-| Build a reusable enterprise theme          | **Level 2**: Preset chain + **Level 1**: Token CSS file                      |
+Prefer the **lowest** level that solves the problem. For a single instance, start with **`class` / `:ui`** — do **not** reach for `:craft` or `theme.crafts` first.
+
+| Scenario                                   | Recommended Level                                                                 |
+| ------------------------------------------ | --------------------------------------------------------------------------------- |
+| Change brand color across the app          | **Level 1**: Override `--color-rui-primary-*` tokens                              |
+| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-*` primitives (or remap `--color-rui-*`)      |
+| Create a "compact" app-wide layout         | **Level 2**: `definePreset` with smaller sizes                                    |
+| Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants`                                        |
+| Make one specific dialog wider             | **Level 3**: `<DialogContent class="max-w-4xl">` or `:ui="{ content: 'max-w-4xl' }"` |
+| Add a shadow to one button                 | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">` or `class`                    |
+| Change `tv*` structure / variants for one instance | **Level 3**: `:craft` only when `class` / `:ui` cannot express it          |
+| App-wide `tv*` structure change            | **Level 2**: preset → `RUIConfig.theme.crafts`                                    |
+| Build a reusable enterprise theme          | **Level 2**: Preset chain + **Level 1**: Token CSS file                           |
 
 ### Decision Flowchart
 
 ```
 Is it a color/spacing/typography change?
 ├── Yes → Level 1 (Token Override)
-└── No → Does it affect multiple components?
-    ├── Yes → Level 2 (Preset)
-    └── No → Level 3 (craft / ui / theme prop)
+└── No → Does it affect many components / the whole app?
+    ├── Yes → Level 2 (Preset → RUIConfig.theme.crafts)
+    └── No → One instance only?
+        ├── Can class / :ui cover it? → Prefer class / :ui
+        └── Needs tv* structure / variants / compounds → :craft
 ```
 
 ---
