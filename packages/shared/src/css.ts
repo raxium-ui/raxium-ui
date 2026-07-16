@@ -13,21 +13,25 @@ export function px2rem(px: number | string) {
 export function rem2px(rem: number | string) {
   const base = parseFloat(window.getComputedStyle(document.documentElement).fontSize || '16px')
   if (typeof rem === 'string') {
-    if (rem.endsWith('px')) {
+    if (rem.endsWith('px'))
       return parseFloat(rem)
-    }
-    else {
-      rem = parseFloat(rem) * base
-    }
+    // rem / bare number string → already converted to px; do not multiply again
+    return parseFloat(rem) * base
   }
   if (!rem)
-    rem = 0
+    return 0
   return rem * base
 }
 
 export function spaceTimes(times: number) {
-  const spacing = parseFloat(getCssVar('--spacing') ?? '.25rem')
-  return times * rem2px(spacing)
+  const raw = getCssVar('--spacing') || '.25rem'
+  const n = parseFloat(raw)
+  if (Number.isNaN(n))
+    return 0
+  // getNodeCssVar may already resolve rem/calc to a unitless px string
+  if (/^-?\d*\.?\d+$/.test(raw.trim()) || raw.trim().endsWith('px'))
+    return times * n
+  return times * rem2px(raw)
 }
 
 export function alignPx(px: number, dpr = window.devicePixelRatio, round = true) {

@@ -1,9 +1,24 @@
-import type { ComputedRef, InjectionKey, MaybeRefOrGetter } from 'vue'
-import { computed, inject, onBeforeUnmount, provide, reactive, shallowRef, toValue, watch } from 'vue'
+import type { DepthFloatingType, DepthOwnerType } from '@raxium/shared/depth'
+import {
+  addZIndexOffset,
+  createDepthStore,
+  DEFAULT_DEPTH_BASE_VAR,
+  DEFAULT_DEPTH_STEP,
+  zIndexAt,
+} from '@raxium/shared/depth'
+import type { ComputedRef, InjectionKey, MaybeRefOrGetter, ShallowRef } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  provide,
+  shallowRef,
+  toValue,
+  watch,
+} from 'vue'
 import { useConfig } from './useConfig'
 
-type DepthOwnerType = 'dialog' | 'popover' | 'menu' | 'hover-card' | 'floating-panel'
-type DepthFloatingType = 'tooltip' | 'popover' | 'menu' | 'hover-card' | 'floating-panel'
+export type { DepthFloatingType, DepthOwnerType } from '@raxium/shared/depth'
 
 export interface DepthOwner {
   id: string
@@ -46,40 +61,20 @@ export interface UseTeleportedDepthOwnerOptions {
 }
 
 const DEPTH_OWNER_KEY: InjectionKey<DepthOwner> = Symbol('RaxiumDepthOwner')
-const DEFAULT_DEPTH_BASE_VAR = 'var(--z-modal)'
-const DEFAULT_DEPTH_STEP = 10
-let idSeed = 0
 
-const ownerRecords = reactive<Array<{ id: string, type: DepthOwnerType }>>([])
-const floatingRecords = reactive<Array<{ id: string, type: DepthFloatingType, ownerId?: string }>>([])
-const rootRecords = reactive<Array<{ id: string, kind: 'owner' | 'floating' }>>([])
+/** Vue-package singleton store (stack state). */
+const depthStore = createDepthStore()
+
+/** Bumps when the shared stack mutates so Vue computeds re-run. */
+const depthRevision = shallowRef(0)
+depthStore.subscribe(() => {
+  depthRevision.value += 1
+})
+
 const ownerInstances = new Map<string, DepthOwner>()
 
-function createDepthId(type: string) {
-  idSeed += 1
-  return `${type}-${idSeed}`
-}
-
-function indexOfOwner(id: string) {
-  return Math.max(0, rootRecords.findIndex(layer => layer.id === id))
-}
-
-function orderOfFloating(id: string, ownerId?: string) {
-  return floatingRecords
-    .filter(layer => layer.ownerId === ownerId)
-    .findIndex(layer => layer.id === id)
-}
-
-function indexOfRootFloating(id: string) {
-  return Math.max(0, rootRecords.findIndex(layer => layer.id === id))
-}
-
-function zIndexAt(index: number, offset: number, baseVar: string, step: number) {
-  return `calc(${baseVar} + ${index * step + offset})`
-}
-
-function addZIndexOffset(zIndex: string, offset: number) {
-  return offset === 0 ? zIndex : `calc(${zIndex} + ${offset})`
+function trackDepth() {
+  void depthRevision.value
 }
 
 function useDepthTokens(): { baseVar: ComputedRef<string>, step: ComputedRef<number> } {
@@ -89,18 +84,12 @@ function useDepthTokens(): { baseVar: ComputedRef<string>, step: ComputedRef<num
   return { baseVar, step }
 }
 
-function ownerById(id: string | undefined) {
-  if (!id || !ownerRecords.some(owner => owner.id === id))
-    return undefined
-
-  return ownerInstances.get(id)
-}
-
 function resolveActiveOwner(owner: DepthOwner | undefined): DepthOwner | undefined {
   if (!owner)
     return undefined
 
-  if (owner.active.value && ownerById(owner.id))
+  trackDepth()
+  if (owner.active.value && depthStore.hasOwner(owner.id))
     return owner
 
   return resolveActiveOwner(owner.parent)
@@ -118,8 +107,7 @@ export function useDepthOwner(
   type: DepthOwnerType,
   options: UseDepthOwnerOptions = {},
 ): DepthOwner {
-  const id = createDepthId(type)
-  const ownerRecord = { id, type }
+  const id = depthStore.createId(type)
   const active = computed(() => toValue(options.active) ?? true)
   const parent = inject(DEPTH_OWNER_KEY, undefined)
   const root = computed(() => toValue(options.root) ?? !toValue(options.baseZIndex))
@@ -128,32 +116,23 @@ export function useDepthOwner(
   const { baseVar, step } = useDepthTokens()
 
   function registerOwner() {
-    if (!ownerRecords.some(owner => owner.id === id)) {
-      ownerRecords.push(ownerRecord)
-      if (root.value)
-        rootRecords.push({ id, kind: 'owner' })
-    }
+    depthStore.registerOwner(id, type, root.value)
   }
 
   function unregisterOwner() {
-    const ownerIndex = ownerRecords.findIndex(owner => owner.id === id)
-    if (ownerIndex !== -1)
-      ownerRecords.splice(ownerIndex, 1)
-
-    const rootIndex = rootRecords.findIndex(owner => owner.id === id)
-    if (rootIndex !== -1)
-      rootRecords.splice(rootIndex, 1)
+    depthStore.unregisterOwner(id)
   }
 
-  const index = computed(() => indexOfOwner(id))
-  const baseZIndex = computed(() => toValue(options.baseZIndex) ?? zIndexAt(index.value, 0, baseVar.value, step.value))
+  const index = computed(() => {
+    trackDepth()
+    return Math.max(0, depthStore.indexOfOwner(id))
+  })
+  const baseZIndex = computed(() =>
+    toValue(options.baseZIndex) ?? zIndexAt(index.value, 0, baseVar.value, step.value),
+  )
 
   function bringToFront() {
-    const rootIndex = rootRecords.findIndex(record => record.id === id)
-    if (rootIndex === -1 || rootIndex === rootRecords.length - 1)
-      return
-    const [record] = rootRecords.splice(rootIndex, 1)
-    rootRecords.push(record)
+    depthStore.bringOwnerToFront(id)
   }
 
   const owner: DepthOwner = {
@@ -189,10 +168,7 @@ export function useDepthOwner(
   onBeforeUnmount(() => {
     unregisterOwner()
     ownerInstances.delete(id)
-    for (let i = floatingRecords.length - 1; i >= 0; i -= 1) {
-      if (floatingRecords[i].ownerId === id)
-        floatingRecords.splice(i, 1)
-    }
+    depthStore.unregisterFloatingsByOwner(id)
   })
 
   return owner
@@ -204,20 +180,28 @@ function registerFloatingLayer(
   baseVar: ComputedRef<string>,
   step: ComputedRef<number>,
 ): DepthFloatingLayer {
-  const id = createDepthId(type)
-  const activeOwnerId = ownerById(ownerId)?.id
-  const layerRecord = { id, type, ownerId: activeOwnerId }
-  floatingRecords.push(layerRecord)
-  if (!activeOwnerId)
-    rootRecords.push({ id, kind: 'floating' })
+  const id = depthStore.createId(type)
+  const registered = depthStore.registerFloating(id, type, ownerId)
+  const activeOwnerId = registered.ownerId
 
-  const order = computed(() => Math.max(0, orderOfFloating(id, activeOwnerId)))
+  const order = computed(() => {
+    trackDepth()
+    return Math.max(0, depthStore.orderOfFloating(id, activeOwnerId))
+  })
   const zIndex = computed(() => {
-    const owner = ownerById(activeOwnerId)
-    if (!owner)
-      return zIndexAt(indexOfRootFloating(id), 0, baseVar.value, step.value)
+    trackDepth()
+    const owner = activeOwnerId ? ownerInstances.get(activeOwnerId) : undefined
+    if (owner && depthStore.hasOwner(activeOwnerId!))
+      return addZIndexOffset(owner.floatingBaseZIndex.value, order.value)
 
-    return addZIndexOffset(owner.floatingBaseZIndex.value, order.value)
+    const rootIndex = depthStore.indexOfRootFloating(id)
+    if (rootIndex >= 0)
+      return zIndexAt(rootIndex, 0, baseVar.value, step.value)
+
+    // Owned floating whose owner left the stack (briefly before unregister):
+    // do not clamp a missing root index to 0 (that collapses every orphan onto
+    // the first band). Degrade to base + in-owner order until cleanup runs.
+    return zIndexAt(0, Math.max(0, order.value), baseVar.value, step.value)
   })
 
   return {
@@ -229,19 +213,9 @@ function registerFloatingLayer(
   }
 }
 
-function unregisterFloatingLayer(id: string) {
-  const index = floatingRecords.findIndex(layer => layer.id === id)
-  if (index !== -1)
-    floatingRecords.splice(index, 1)
-
-  const rootIndex = rootRecords.findIndex(layer => layer.id === id)
-  if (rootIndex !== -1)
-    rootRecords.splice(rootIndex, 1)
-}
-
 export function useTeleportedDepth(options: UseTeleportedDepthOptions) {
   const owner = inject(DEPTH_OWNER_KEY, undefined)
-  const layer = shallowRef<DepthFloatingLayer>()
+  const layer: ShallowRef<DepthFloatingLayer | undefined> = shallowRef()
   const ownerId = computed(() => resolveActiveOwner(owner)?.id)
   const { baseVar, step } = useDepthTokens()
 
@@ -249,7 +223,7 @@ export function useTeleportedDepth(options: UseTeleportedDepthOptions) {
     if (!layer.value)
       return
 
-    unregisterFloatingLayer(layer.value.id)
+    depthStore.unregisterFloating(layer.value.id)
     layer.value = undefined
   }
 
