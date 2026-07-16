@@ -1,6 +1,6 @@
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import type { CraftOverride, Crafts } from '../providers/theme/theme-props'
 import { resolveCraftOverride } from '@raxium/themes/runtime'
-import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import { computed, toValue } from 'vue'
 
 /** Theme properties that get auto-injected into craft calls */

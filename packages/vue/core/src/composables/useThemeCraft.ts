@@ -1,6 +1,6 @@
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import type { CraftOverride, Crafts, ResolvedTheme } from '../providers/theme/theme-props'
 import { patchCraftTable } from '@raxium/themes/runtime'
-import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import { computed, toValue } from 'vue'
 
 /**

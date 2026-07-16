@@ -1,10 +1,10 @@
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import type { ResolvedTheme, ThemeConfig, ThemeProps } from '../providers/theme/theme-props'
 import {
   cleanThemeProps,
   mergeCraftTables,
   mergeThemeRest,
 } from '@raxium/themes/runtime'
-import type { ComputedRef, MaybeRefOrGetter } from 'vue'
 import { computed, getCurrentInstance, toValue, watchEffect } from 'vue'
 import { injectScopeTheme } from '../providers/theme/theme-props'
 import { useConfig } from './useConfig'

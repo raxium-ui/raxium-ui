@@ -21,6 +21,7 @@ const controlEl = computed((): HTMLElement | undefined => {
   return root instanceof HTMLElement ? root : undefined
 })
 
+// theme
 const theme = useTheme(() => propsTheme)
 const themed = useThemeCraft(theme, 'tvSlider', () => craft)
 useProvideComponentTheme(themed, () => propsTheme)

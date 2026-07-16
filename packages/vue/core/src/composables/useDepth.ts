@@ -1,4 +1,5 @@
 import type { DepthFloatingType, DepthOwnerType } from '@raxium/shared/depth'
+import type { ComputedRef, InjectionKey, MaybeRefOrGetter, ShallowRef } from 'vue'
 import {
   addZIndexOffset,
   createDepthStore,
@@ -6,7 +7,6 @@ import {
   DEFAULT_DEPTH_STEP,
   zIndexAt,
 } from '@raxium/shared/depth'
-import type { ComputedRef, InjectionKey, MaybeRefOrGetter, ShallowRef } from 'vue'
 import {
   computed,
   inject,

@@ -69,6 +69,7 @@ watch(
   { once: true },
 )
 
+// theme
 const theme = useInheritedTheme(() => propsTheme)
 useProvideStructuralComponentTheme(theme, () => propsTheme)
 const tooltipTheme = useTheme(() => propsTheme, () => configs.value?.theme)

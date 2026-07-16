@@ -1,8 +1,8 @@
+import type { MaybeRefOrGetter } from 'vue'
 import type { ResolvedTheme, ThemeProps } from '../providers/theme/theme-props'
 import { mergeCraftTables } from '@raxium/themes/runtime'
 import { omitBy } from 'es-toolkit'
 import { isNil } from 'es-toolkit/compat'
-import type { MaybeRefOrGetter } from 'vue'
 import { computed, toValue } from 'vue'
 import { injectComponentTheme } from '../providers/theme/theme-props'
 
