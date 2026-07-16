@@ -1,5 +1,12 @@
 # @raxium/vue-addons-swiper
 
+## 0.1.9
+
+### Patch Changes
+
+- Updated dependencies [79063ed]
+  - @raxium/shared@0.1.2
+
 ## 0.1.8
 
 ### Patch Changes
