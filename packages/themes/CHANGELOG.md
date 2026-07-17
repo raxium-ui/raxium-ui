@@ -1,5 +1,13 @@
 # @raxium/themes
 
+## 0.3.2
+
+### Patch Changes
+
+- d643104: Wire SelectContent through teleport detection and teleported depth ownership (same stacking band as Menu) so portaled overlays pick up a correct `--rui-z-index`. Point the select content craft at `z-(--rui-z-index)` instead of a fixed `z-popover`, and expose `ui.positioner` for styling the Positioner.
+- bd0439f: Tighten Select trigger size variants with gap spacing between label and indicator.
+- ca0101f: Honor `bordered` theme variant on overlay crafts (`dialog` / `menu` / `popover` / `hover-card` / `select` / `date-picker`); fix missing `ThemeProvider` import in Slider tooltip thumbs.
+
 ## 0.3.1
 
 ### Patch Changes
