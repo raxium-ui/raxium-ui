@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable node/prefer-global/process */
 /**
  * Terminal entry for changeset + changelog fill (outside Agent hooks).
  *
@@ -7,8 +8,9 @@
  *   pnpm changeset:fill --only    # only fill existing placeholder .changeset/*.md
  *
  * Fill strategy (no API key required):
- *   Draft 1–2 English sentences from `git status` / `git diff` into the changeset body.
- *   Open the file in Cursor so you can tweak; refine with /changeset-changelog if needed.
+ *   Draft a short multi-clause English note from `git status` / `git diff` into the changeset body.
+ *   Open the file in Cursor so you can tweak; refine with /changeset-changelog if needed
+ *   (agent should expand to ~2–3 clear sentences covering user-visible what/why).
  */
 import { spawnSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
@@ -96,18 +98,20 @@ function draftChangelog(paths) {
       areas.push(`component ${norm.split('/components/')[1]?.split('/')[0] || 'update'}`)
   }
 
-  const uniqueAreas = [...new Set(areas)].slice(0, 3)
+  const uniqueAreas = [...new Set(areas)].slice(0, 4)
+  const pkgHint = pkgs.size ? [...pkgs].join(', ') : ''
   if (uniqueAreas.length === 0) {
     const sample = paths.slice(0, 3).map(p => relative(ROOT, join(ROOT, p)).replace(/\\/g, '/'))
-    return sample.length
-      ? `Update project files (${sample.join(', ')}).`
-      : 'Update package for recent workspace changes.'
+    if (!sample.length)
+      return 'Update package for recent workspace changes. Refine this draft with /changeset-changelog to describe user-visible impact.'
+    return `Update project files (${sample.join(', ')})${pkgHint ? ` affecting ${pkgHint}` : ''}. Refine this draft with /changeset-changelog to describe user-visible what/why.`
   }
 
-  const pkgHint = pkgs.size ? ` (${[...pkgs].join(', ')})` : ''
-  if (uniqueAreas.length === 1)
-    return `${uniqueAreas[0]}${pkgHint}.`
-  return `${uniqueAreas.slice(0, -1).join('; ')}; ${uniqueAreas.at(-1)}${pkgHint}.`
+  const focus = uniqueAreas.length === 1
+    ? uniqueAreas[0]
+    : `${uniqueAreas.slice(0, -1).join(', ')}, and ${uniqueAreas.at(-1)}`
+  const scope = pkgHint ? ` in ${pkgHint}` : ''
+  return `Draft: ${focus}${scope}. Expand with /changeset-changelog into ~2–3 English sentences covering user-visible what/why (avoid a one-line telegraphic note).`
 }
 
 function writeBody(file, sentence) {

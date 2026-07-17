@@ -26,7 +26,7 @@ export const tvSelect = tv(
         'min-w-(--reference-width)',
         'rounded',
         'p-0',
-        'z-popover',
+        'z-(--rui-z-index)',
         ...POPOVER_MOTION,
       ],
       contentInner: '',

@@ -48,12 +48,13 @@ description: >-
    - 忽略无关噪声（lockfile 微调、纯格式化可一笔带过或不写）
 
 4. **撰写正文**
-   - **1～2 句**，英文，祈使/陈述简洁风格（与仓库既有 changeset 一致）
-   - 写「用户可感知的 why/what」，不要罗列文件名
-   - 多包时用分号或一句串起，不要写成 bullet 长文
+   - **约 2～3 句**英文（可一句多子句）；祈使/陈述，清楚但不啰嗦
+   - 写「用户可感知的 why/what」：行为变化、API/样式影响、为何需要；不要只堆文件名或电报式短语
+   - 多包/多点改动时分句写清，可用分号串联；不要写成 bullet 长文或营销文案
+   - 避免过短草稿（如 `Select craft sizing; component select (@raxium/vue).`）
    - 示例风格：
-     - `Honor bordered theme variant on overlay crafts; fix missing ThemeProvider import in Slider tooltip thumbs.`
-     - `Add Ark-based Drawer composite (declarative API, tvDrawer craft, drawer depth owner).`
+     - `Honor the bordered theme variant on overlay crafts (dialog, menu, popover, and related). Fix missing ThemeProvider imports on Slider tooltip thumbs so themed tooltip content resolves correctly.`
+     - `Wire SelectContent through teleport detection and teleported depth ownership so portaled overlays share the Menu stacking band via --rui-z-index. Point the select content craft at z-(--rui-z-index) and expose ui.positioner for Positioner styling.`
 
 5. **写回文件**
    - 只更新正文；保持 frontmatter 格式（包名可用单引号）
@@ -66,7 +67,7 @@ description: >-
 '@raxium/<pkg>': patch|minor|major
 ---
 
-<one or two concise English sentences>
+<two or three clear English sentences covering user-visible what/why>
 ```
 
 ## 禁止
@@ -75,3 +76,4 @@ description: >-
 - 不要新建额外 changeset（只填已有目标文件）
 - 不要把实现细节（内部函数名、重构步骤）写进 changelog
 - 不要使用夸张营销语气
+- 不要输出过于精简的电报式一句（缺 what/why）

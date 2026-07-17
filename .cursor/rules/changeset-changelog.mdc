@@ -10,7 +10,7 @@ alwaysApply: false
 
 当打开、新建或编辑 `.changeset/*.md`（排除配置说明文件）时：
 
-1. 若正文为空、为占位（如 `changelog` / `change log` / `TODO`），或用户要求写 changelog：根据当前 `git status` / `git diff` 生成 **1～2 句英文** 简明说明，写回该文件第二个 `---` 之后。
+1. 若正文为空、为占位（如 `changelog` / `change log` / `TODO`），或用户要求写 changelog：根据当前 `git status` / `git diff` 生成 **约 2～3 句英文**，写清用户可感知的 what/why，写回该文件第二个 `---` 之后。避免电报式一句带过。
 2. **保留** frontmatter 中的包名与 `patch` / `minor` / `major`，除非与改动明显不符且用户同意修改。
 3. 遵循 `.cursor/agents/changeset-changelog.md` 的流程与文风。
 4. 不要为此自动 commit。

@@ -67,9 +67,9 @@ function followupFor(files, cwd) {
     .map(f => relative(cwd, f).replace(/\\/g, '/'))
     .join(', ')
   return [
-    `检测到占位 changeset，请立即按 .cursor/agents/changeset-changelog.md 填写简明英文 changelog（1～2 句）。`,
+    `检测到占位 changeset，请立即按 .cursor/agents/changeset-changelog.md 填写英文 changelog。`,
     `目标文件: ${list}`,
-    `保留 frontmatter 的包名与 bump 级别；用 git status / git diff HEAD 作为依据；不要 commit。`,
+    `保留 frontmatter 的包名与 bump 级别；用 git status / git diff HEAD 作为依据；写清用户可感知的 what/why（约 2～3 句，避免电报式一句带过）；不要 commit。`,
   ].join(' ')
 }
 

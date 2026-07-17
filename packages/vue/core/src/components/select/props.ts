@@ -36,6 +36,7 @@ export interface SelectEmits<T extends CollectionItem> {
 export interface SelectContentProps extends SelectContentBaseProps, ThemeNoCrafts {
   class?: HTMLAttributes['class']
   ui?: {
+    positioner?: HTMLAttributes['class']
     root?: HTMLAttributes['class']
     inner?: HTMLAttributes['class']
   }
