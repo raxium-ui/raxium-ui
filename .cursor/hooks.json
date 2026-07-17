@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "command": "node .cursor/hooks/changeset-changelog.mjs",
+        "matcher": "Write|StrReplace|TabWrite",
+        "timeout": 10
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/changeset-changelog.mjs",
+        "timeout": 10
+      }
+    ],
+    "stop": [
+      {
+        "command": "node .cursor/hooks/changeset-changelog.mjs",
+        "loop_limit": 2,
+        "timeout": 10
+      }
+    ]
+  }
+}

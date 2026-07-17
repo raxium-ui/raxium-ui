@@ -51,25 +51,25 @@ export const tvSelect = tv(
     variants: {
       size: {
         xs: {
-          trigger: 'text-xs px-2 h-6',
+          trigger: 'text-xs px-2 h-6 gap-1.5',
           item: 'text-xs px-1.5 py-1',
           contentInner: 'px-1.5 py-1',
           itemGroupLabel: 'text-sm px-1.5 py-1.5 mb-1.5',
         },
         sm: {
-          trigger: 'text-sm px-2 h-7',
+          trigger: 'text-sm px-2 h-7 gap-2',
           item: 'text-sm px-2 py-1.5',
           contentInner: 'px-2 py-1.5',
           itemGroupLabel: 'text-base px-2 py-2 mb-2',
         },
         base: {
-          trigger: 'text-base px-2 h-8',
+          trigger: 'text-base px-2 h-8 gap-2.5',
           item: 'text-base px-2.5 py-1.5',
           contentInner: 'px-2.5 py-1.5',
           itemGroupLabel: 'text-xl px-2.5 py-2.5 mb-2.5',
         },
         lg: {
-          trigger: 'text-lg px-2 h-10',
+          trigger: 'text-lg px-2 h-10 gap-3',
           item: 'text-lg px-3 py-2',
           contentInner: 'px-3 py-2',
           itemGroupLabel: 'text-xl px-3 py-3 mb-3',

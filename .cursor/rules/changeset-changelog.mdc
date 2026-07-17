@@ -6,9 +6,11 @@ alwaysApply: false
 
 # Changeset changelog
 
-当打开、新建或编辑 `.changeset/*.md`（排除仅配置用途的说明文件）时：
+> **说明**：仅打开文件不会启动 Agent。自动填写依赖 **Agent Chat 会话** + `.cursor/hooks.json`（`stop` / `afterFileEdit` / `postToolUse`）发出 follow-up。也可手动 `/changeset-changelog`。
 
-1. 若正文为空、为占位（如 `change log` / `TODO`），或用户要求写 changelog：根据当前 `git status` / `git diff` 生成 **1～2 句英文** 简明说明，写回该文件第二个 `---` 之后。
+当打开、新建或编辑 `.changeset/*.md`（排除配置说明文件）时：
+
+1. 若正文为空、为占位（如 `changelog` / `change log` / `TODO`），或用户要求写 changelog：根据当前 `git status` / `git diff` 生成 **1～2 句英文** 简明说明，写回该文件第二个 `---` 之后。
 2. **保留** frontmatter 中的包名与 `patch` / `minor` / `major`，除非与改动明显不符且用户同意修改。
-3. 优先委托或遵循 `.cursor/agents/changeset-changelog.md` 的流程与文风。
+3. 遵循 `.cursor/agents/changeset-changelog.md` 的流程与文风。
 4. 不要为此自动 commit。
