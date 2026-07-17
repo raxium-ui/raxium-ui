@@ -80,7 +80,10 @@ export const tvSelect = tv(
           trigger: 'border',
           content: 'border',
         },
-        false: '',
+        false: {
+          trigger: 'border-none',
+          content: 'border-none',
+        },
       },
     },
     defaultVariants: {

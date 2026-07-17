@@ -8,6 +8,7 @@ import { TooltipArrow, TooltipContent, TooltipTrigger } from '@raxium/vue/compon
 import { useCraft, useInheritedTheme, useTheme } from '@raxium/vue/composables'
 import { useConfig } from '@raxium/vue/composables/useConfig'
 import { useProvideStructuralComponentTheme } from '@raxium/vue/composables/useProvideComponentTheme'
+import { ThemeProvider } from '@raxium/vue/providers/theme'
 import { merge } from 'es-toolkit/compat'
 import { computed, watch } from 'vue'
 import { injectSliderBoundaryContext } from './SliderBoundaryProvider.vue'

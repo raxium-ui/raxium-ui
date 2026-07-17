@@ -40,8 +40,12 @@ export const tvPopover = tv(
         },
       },
       bordered: {
-        true: '',
-        false: '',
+        true: {
+          content: 'border',
+        },
+        false: {
+          content: 'border-none',
+        },
       },
     },
     defaultVariants: {

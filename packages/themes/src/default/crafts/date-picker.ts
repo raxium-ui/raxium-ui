@@ -44,7 +44,9 @@ export const tvDatePicker = tv(
         true: {
           content: 'border',
         },
-        false: '',
+        false: {
+          content: 'border-none',
+        },
       },
     },
   },

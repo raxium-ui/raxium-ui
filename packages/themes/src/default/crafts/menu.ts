@@ -42,8 +42,12 @@ export const tvMenu = tv(
         lg: '',
       },
       bordered: {
-        true: '',
-        false: '',
+        true: {
+          content: 'border',
+        },
+        false: {
+          content: 'border-none',
+        },
       },
     },
     compoundVariants: [
@@ -77,12 +81,6 @@ export const tvMenu = tv(
           contentInner: 'px-3 py-2.5',
           item: 'text-lg px-3 py-2.5 gap-3',
           itemGroupLabel: 'text-xl px-3 py-3 mb-2',
-        },
-      },
-      {
-        bordered: true,
-        class: {
-          content: 'border',
         },
       },
     ],

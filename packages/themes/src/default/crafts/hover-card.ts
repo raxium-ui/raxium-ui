@@ -18,8 +18,12 @@ export const tvHoverCard = tv(
         lg: '',
       },
       bordered: {
-        true: '',
-        false: '',
+        true: {
+          content: 'border',
+        },
+        false: {
+          content: 'border-none',
+        },
       },
     },
     defaultVariants: {
@@ -33,14 +37,9 @@ export const tvHoverCard = tv(
         base: { contentInner: 'px-2.5 py-1.5 text-base' },
         lg: { contentInner: 'px-3 py-2 text-lg' },
       }),
-      {
-        bordered: true,
-        class: {
-          content: 'border',
-        },
-      },
     ],
-  }, 'rui-hover-card',
+  },
+  'rui-hover-card',
 )
 
 export type HoverCardVariants = VariantProps<typeof tvHoverCard>

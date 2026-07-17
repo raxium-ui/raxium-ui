@@ -26,7 +26,6 @@ export const tvDialog = tv(
         'relative',
         'max-w-full',
         'md:max-w-[80vw]',
-        'border',
         'rounded',
         ...DIALOG_CONTENT_MOTION,
       ],
@@ -84,9 +83,18 @@ export const tvDialog = tv(
           ],
         },
       },
+      bordered: {
+        true: {
+          content: 'border',
+        },
+        false: {
+          content: 'border-none',
+        },
+      },
     },
     defaultVariants: {
       size: 'base',
+      bordered: true,
     },
   },
   'rui-dialog',
