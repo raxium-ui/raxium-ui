@@ -11,9 +11,10 @@
  */
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { basename, join, relative } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { bodyNeedsChangelog, CHANGESET_SKIP } from '../../scripts/changeset-placeholder.mjs'
 
-const PLACEHOLDER_RE = /^(?:change\s*log|todo|tbd|\.\.\.|…)?\s*$/i
-const SKIP = new Set(['config.json', 'README.md', 'README'])
+const SKIP = CHANGESET_SKIP
 
 function readStdin() {
   return new Promise((resolve) => {
@@ -37,12 +38,7 @@ function isChangesetMd(filePath, cwd) {
 }
 
 function bodyIsPlaceholder(content) {
-  if (!content)
-    return true
-  const parts = content.split(/^---\s*$/m)
-  // frontmatter files: '', yaml, body...
-  const body = parts.length >= 3 ? parts.slice(2).join('---').trim() : content.trim()
-  return PLACEHOLDER_RE.test(body)
+  return bodyNeedsChangelog(content)
 }
 
 function listPlaceholderChangesets(cwd) {

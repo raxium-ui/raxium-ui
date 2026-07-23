@@ -6,7 +6,10 @@ alwaysApply: false
 
 # Changeset changelog
 
-> **说明**：仅打开文件不会启动 Agent。自动填写依赖 **Agent Chat 会话** + `.cursor/hooks.json`（`stop` / `afterFileEdit` / `postToolUse`）发出 follow-up。也可手动 `/changeset-changelog`。
+> **说明**
+> - **终端**：`pnpm changeset:fill` 会优先调用 standalone **`agent` CLI**（`agent -p --force`）自动填写；需先安装 Cursor CLI（Windows: `irm 'https://cursor.com/install?win32=true' | iex`）。未安装时回退为 git draft。
+> - **IDE**：Agent Chat 会话 + `.cursor/hooks.json`（`stop` / `afterFileEdit` / `postToolUse`）对占位/Draft 正文发出 follow-up。
+> - **手动**：`/changeset-changelog` 或 `@` changeset 文件。
 
 当打开、新建或编辑 `.changeset/*.md`（排除配置说明文件）时：
 

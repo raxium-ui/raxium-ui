@@ -35,6 +35,10 @@ const isShowTrigger = computed(() => {
 // theme
 const theme = useTheme(() => propsTheme)
 const crafts = useCraft(theme, 'tvReadMore', undefined, () => craft)
+
+const triggerClassName = computed(() => {
+  return crafts.value.trigger(cxc(ui?.trigger))
+})
 </script>
 
 <template>
@@ -48,11 +52,16 @@ const crafts = useCraft(theme, 'tvReadMore', undefined, () => craft)
         <slot />
       </div>
     </CollapsibleContent>
-    <CollapsibleTrigger
-      v-if="isShowTrigger"
-      :class="crafts.trigger(cxc(ui?.trigger))"
+    <slot
+      name="trigger"
+      v-bind="{ show: isShowTrigger, open, text, className: triggerClassName }"
     >
-      <div>{{ open ? text.less : text.more }}</div>
-    </CollapsibleTrigger>
+      <CollapsibleTrigger
+        v-if="isShowTrigger"
+        :class="triggerClassName"
+      >
+        {{ open ? text.less : text.more }}
+      </CollapsibleTrigger>
+    </slot>
   </Collapsible>
 </template>
