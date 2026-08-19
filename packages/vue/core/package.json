@@ -82,7 +82,7 @@
     "@internationalized/date": "^3.10.1",
     "@raxium/shared": "workspace:*",
     "@raxium/themes": "workspace:*",
-    "@rsbuild/plugin-babel": "^1.0.6",
+    "@rsbuild/plugin-babel": "^1.2.1",
     "@rsbuild/plugin-vue-jsx": "^1.1.2",
     "@rslib/core": "^0.23.2",
     "@zag-js/checkbox": "1.43.1",
