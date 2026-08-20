@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+    "paths": {
+      "@raxium/react/*": ["./src/*"]
+    },
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "outDir": "./dist"
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/__test__/**",
+    "src/**/examples/**"
+  ]
+}

@@ -1,0 +1,6 @@
+export type * from './theme-props'
+export { ComponentThemeContext, ScopeThemeContext } from './theme-props'
+export { ThemeContext } from './ThemeContext'
+export type { ThemeContextProps } from './ThemeContext'
+export { ThemeProvider } from './ThemeProvider'
+export type { ThemeProviderProps } from './ThemeProvider'

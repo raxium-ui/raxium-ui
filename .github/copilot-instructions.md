@@ -1,6 +1,6 @@
 # Raxium UI — Copilot Instructions
 
-Raxium is a Vue 3 UI component library built on [Ark UI](https://ark-ui.com) and [Tailwind CSS](https://tailwindcss.com), using a `tailwind-variants`-based theming system called **crafts**.
+Raxium is a UI component library built on [Ark UI](https://ark-ui.com) and [Tailwind CSS](https://tailwindcss.com), using a `tailwind-variants`-based theming system called **crafts**. Vue is the primary published surface (`@raxium/vue`); React (`@raxium/react`) shares themes/shared and is filling components incrementally.
 
 ## Commands
 
@@ -21,6 +21,8 @@ pnpm --filter @raxium/vue exec vitest run src/utils/__test__/foo.test.ts
 
 # Storybook dev server (component playground)
 pnpm --filter @raxium/vue-storybook dev   # http://localhost:4399
+pnpm --filter @raxium/react-storybook dev # http://localhost:4400
+pnpm --filter @raxium/playground-react dev # http://localhost:4397
 
 # MCP server
 pnpm --filter @raxium/mcp build
@@ -32,13 +34,16 @@ pnpm --filter @raxium/mcp smoke:inspector  # verify all 5 MCP tools
 ```
 packages/
   vue/
-    core/          → @raxium/vue         (published component library)
+    core/          → @raxium/vue         (published Vue component library)
     addons/
       components/  → per-addon packages  (virtual list, swiper, …)
+  react/
+    core/          → @raxium/react       (published React library; framework first)
   themes/          → @raxium/themes      (crafts / tv definitions, CSS)
   shared/          → @raxium/shared      (utilities: css, dom, color, animate)
   mcp/             → @raxium/mcp         (MCP server for AI tooling)
-playground/vue/    → Rsbuild playground app
+playground/vue/    → Rsbuild Vue playground
+playground/react/  → Rsbuild React playground
 website/           → docs site
 ```
 

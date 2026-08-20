@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "tsBuildInfoFile": "node_modules/.cache/.tsbuildinfo",
+    "target": "ES2020",
+    "jsx": "react-jsx",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "moduleDetection": "force",
+    "useDefineForClassFields": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@raxium/react/*": ["./src/*"],
+      "@raxium/shared/*": ["../../shared/src/*"],
+      "@raxium/themes/*": ["../../themes/src/*"]
+    },
+    "allowImportingTsExtensions": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "references": [{ "path": "../../themes" }, { "path": "../../shared" }],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "types.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

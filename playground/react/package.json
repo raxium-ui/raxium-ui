@@ -1,0 +1,40 @@
+{
+  "name": "@raxium/playground-react",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/raxium-ui/raxium-ui"
+  },
+  "license": "MIT",
+  "keywords": [
+    "raxium",
+    "raxium-ui",
+    "react",
+    "playground"
+  ],
+  "scripts": {
+    "build": "rsbuild build",
+    "dev": "rsbuild dev",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "@ark-ui/react": "5.38.1",
+    "@raxium/react": "workspace:*",
+    "@raxium/themes": "workspace:*",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.6.14",
+    "@rsbuild/plugin-react": "^1.4.4",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "postcss-import": "^16.1.1",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}

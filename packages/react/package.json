@@ -1,0 +1,36 @@
+{
+  "name": "@raxium/react-storybook",
+  "type": "module",
+  "private": true,
+  "description": "React stories for Raxium",
+  "author": {
+    "name": "Hwacc",
+    "email": "mshcccck@gmail.com",
+    "url": "https://github.com/Hwacc/raxium"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "storybook dev --port 4400",
+    "build": "storybook build -o .storybook-static",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@raxium/themes": "workspace:*"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.6.15",
+    "@rsbuild/plugin-react": "^1.4.4",
+    "@storybook/addon-a11y": "^10.2.0",
+    "@storybook/addon-docs": "^10.2.0",
+    "@storybook/addon-themes": "^10.2.0",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25.2.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "storybook": "^10.2.8",
+    "storybook-react-rsbuild": "3.2.2",
+    "tailwindcss": "^4.1.18"
+  }
+}

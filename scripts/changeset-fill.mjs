@@ -74,6 +74,8 @@ function draftChangelog(paths) {
       pkgs.add('@raxium/themes')
     else if (norm.startsWith('packages/vue/'))
       pkgs.add('@raxium/vue')
+    else if (norm.startsWith('packages/react/'))
+      pkgs.add('@raxium/react')
     else if (norm.startsWith('packages/shared/'))
       pkgs.add('@raxium/shared')
 

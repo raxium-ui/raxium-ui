@@ -1,0 +1,12 @@
+/*
+ * Storybook-only Tailwind entry: scans react/core (including example demos).
+ * Production theme stays in @raxium/themes.
+ */
+@import 'tailwindcss';
+
+@source "../../themes/src/razer/**/*.{ts}";
+@source "../../themes/src/default/**/*.{ts}";
+@source "../core/src/**/*.{ts,tsx}";
+
+@import '../../themes/src/razer/preset.css';
+@import '../../themes/src/razer/components.css';

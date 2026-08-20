@@ -1,0 +1,9 @@
+@import './razer-storybook.css';
+
+:root {
+  color: var(--color-gray-ff);
+}
+
+.docs-story {
+  background: #222 !important;
+}

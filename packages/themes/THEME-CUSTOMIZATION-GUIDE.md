@@ -1,128 +1,215 @@
 # Raxium UI — Theme Customization Guide
 
-> **Audience**: Developers consuming `@raxium/themes` who want to customize the visual appearance of Raxium UI components.
+> **Default audience**: app developers styling Raxium components.  
+> Skin-pack / design-system authors: see [Advanced](#5-advanced-presets-and-craft).  
+> Component authors (Vue / React internals): see `packages/vue/core/docs/theme-system.md`.  
+> 中文版：[THEME-CUSTOMIZATION-GUIDE.zh-CN.md](./THEME-CUSTOMIZATION-GUIDE.zh-CN.md)
 
 ---
 
 ## Table of Contents
 
-1. [Architecture Overview](#1-architecture-overview)
-2. [Level 1: Token Override (CSS Custom Properties)](#2-level-1-token-override)
-3. [Level 2: Preset Creation (Composable Theme Extension)](#3-level-2-preset-creation)
-4. [Level 3: Component theme, craft, and ui](#4-level-3-component-theme-craft-and-ui)
-5. [Choosing the Right Level](#5-choosing-the-right-level)
+1. [Default path (start here)](#1-default-path-start-here)
+2. [Decision tree](#2-decision-tree)
+3. [Architecture (short)](#3-architecture-short)
+4. [Tokens (CSS custom properties)](#4-tokens-css-custom-properties)
+5. [Advanced: presets and `craft`](#5-advanced-presets-and-craft)
+6. [Appendix: types](#6-appendix-types)
 
 ---
 
-## 1. Architecture Overview
+## 1. Default path (start here)
 
-Raxium UI's theme system has three layers:
+Most apps only need **three knobs**. Do not reach for `craft` or `theme.crafts` until the tree in [§2](#2-decision-tree) says so.
+
+| Scope | Use | Do not use |
+| --- | --- | --- |
+| Whole app | `RUIConfig` **tokens** + CSS variables | Do not put a raw `tv*` table here unless you are shipping a skin pack |
+| A region (page, panel, overlay stack) | `ThemeProvider` (`size` / `surface` / `skin` / `bordered`) | Do not wrap a subtree just to change craft structure |
+| One instance | `class` / `ui` | Do not use `:craft` to append classes |
+
+`ThemeProvider` and component `theme` are **tokens only**. They never accept `crafts`.
+
+### 1.1 App root
+
+```vue
+<script setup lang="ts">
+import { RUIConfig } from '@raxium/vue'
+</script>
+
+<template>
+  <RUIConfig :theme="{ skin: 'razer', surface: 'dark', size: 'base', bordered: true }">
+    <App />
+  </RUIConfig>
+</template>
+```
+
+```tsx
+import { RUIConfig } from '@raxium/react'
+
+export function Root() {
+  return (
+    <RUIConfig theme={{ skin: 'razer', surface: 'dark', size: 'base', bordered: true }}>
+      <App />
+    </RUIConfig>
+  )
+}
+```
+
+Import the skin CSS once (after your Tailwind entry), e.g. `@raxium/themes/razer/index.css`.
+
+To recolor the whole library, override **semantic tokens** — [§4](#4-tokens-css-custom-properties).
+
+### 1.2 A region
+
+Use `ThemeProvider` when a subtree should differ in size or surface (e.g. a light panel inside a dark app):
+
+```vue
+<ThemeProvider :value="{ surface: 'light', size: 'sm' }">
+  <SettingsForm />
+</ThemeProvider>
+```
+
+### 1.3 One instance
+
+Prefer **`class`** (root) and **`ui`** (named slots). They merge on top of crafts via `clsx` / `cxc`; they do not replace the `tv*` definition.
+
+```vue
+<Button class="shadow-lg" :ui="{ loading: 'text-blue-500' }">
+  Styled
+</Button>
+
+<DialogContent class="max-w-4xl" :ui="{ backdrop: 'bg-black/80' }" />
+```
+
+Use the component **`theme`** prop only for token knobs on that instance (`size`, `skin`, `surface`, `bordered`, `unstyled`):
+
+```vue
+<Button :theme="{ size: 'sm' }">Smaller</Button>
+<Input :theme="{ bordered: false, surface: 'light' }" />
+```
+
+---
+
+## 2. Decision tree
+
+```
+Color, spacing, or typography for the whole product?
+├── Yes → CSS tokens (§4)
+└── No
+    ├── Whole app / many components need smaller layout or different default variants?
+    │   └── Skin pack / design system → preset → RUIConfig.theme.crafts (§5)
+    └── One instance or a small subtree?
+        ├── Size / surface / skin for a region → ThemeProvider
+        ├── Size / surface / skin for one component → theme prop
+        ├── Width, shadow, extra slot class → class / ui
+        └── Must change tv* structure, defaultVariants, or compounds
+            └── craft (instance) or preset (app-wide) — §5
+```
+
+| Scenario | Use |
+| --- | --- |
+| Change brand color across the app | `--color-rui-primary-*` tokens |
+| Make all surfaces warmer/cooler | `--color-gray-*` primitives, or remap `--color-rui-*` |
+| Light form inside a dark shell | `ThemeProvider` `{ surface: 'light' }` |
+| One dialog wider | `class` / `ui` on content |
+| One button shadow | `class` / `ui` |
+| App-wide compact sizing | **Advanced**: preset → `RUIConfig.theme.crafts` |
+| One extra `tv*` size branch | **Advanced**: instance `craft` |
+
+`useTheme`, `useInheritedTheme`, Component Theme vs Scope Theme are **library internals**. App code should not call them.
+
+---
+
+## 3. Architecture (short)
+
+Three implementation layers (you usually only touch the first):
 
 ```
 ┌──────────────────────────────────────────────────┐
-│  Tokens (CSS Custom Properties)                  │  ← Lowest level: raw colors, spacing
-│  tokens/primitives.css → tokens/semantic.css     │
+│  Tokens (CSS custom properties)                  │  ← colors, spacing (app default)
+│  primitives.css → semantic.css                   │
 ├──────────────────────────────────────────────────┤
-│  Crafts (tailwind-variants definitions)          │  ← Structural: layout, sizing, states
-│  34 craft files in default/crafts/               │
+│  Crafts (tailwind-variants / tv*)                │  ← structure, sizing, states
+│  default/crafts/*  — skin packs override here    │
 ├──────────────────────────────────────────────────┤
-│  Component CSS (Razer theme)                     │  ← Visual: color, hover, focus styles
-│  34 CSS files via .rui-* + data-* selectors      │
+│  Component CSS (skin)                            │  ← hover/focus via .rui-* + data-*
 └──────────────────────────────────────────────────┘
 ```
 
-**Theme resolution order** (lowest → highest priority):
+**Token merge** (lowest → highest): library defaults → `RUIConfig.theme` tokens → `ThemeProvider` → component `theme`.
 
-**Tokens** (`skin`, `surface`, `size`, `unstyled`, `bordered`):
+**Crafts table merge**: library defaults → **`RUIConfig.theme.crafts` only** → instance `craft` (`CraftOverride`).
 
-1. Library defaults from `@raxium/themes`.
-2. **Global config** (`RUIConfigProvider` `config.theme` token fields).
-3. **Theme context** (`ThemeProvider` `value` — tokens only).
-4. **Component `theme` prop** (tokens only).
+**Render**: `ui` + root `class` on top.
 
-**Crafts table** (`tv*` map):
-
-1. Library defaults from `@raxium/themes/default`.
-2. **`RUIConfig.theme.crafts` only** (presets / skin packs).
-3. **Component `craft` prop** (`CraftOverride`) merged last for that instance.
-
-At render, **`ui`** slot classes and the root **`class`** attach on top (see component docs).
-
-> **Consumers**: Put app-wide craft overrides in **`RUIConfigProvider :config="{ theme: { crafts, … } }"`**. For a single instance, prefer **`class` / `:ui`**; use **`:craft`** only when changing `tv*` structure / variants. **`ThemeProvider`** and component **`:theme`** do **not** accept `crafts`.
-
-**Type shapes** (from `@raxium/themes/runtime`, re-exported via `@raxium/vue/providers`):
-
-| Type | Shape | Used by |
+| Type | Shape | Who uses it |
 | --- | --- | --- |
-| `ThemeProps` | tokens only (`skin` / `surface` / `size` / …) | `ThemeProvider`, Scope Theme, component `:theme` |
-| `ThemeConfig` | `ThemeProps` + optional `crafts?` | `RUIConfig.theme` |
-| `ResolvedTheme` | `ThemeProps` + required `crafts` | `useTheme` / Component Theme inject |
+| `ThemeProps` | tokens only | `ThemeProvider`, component `theme` |
+| `ThemeConfig` | tokens + optional `crafts?` | `RUIConfig.theme` (skin packs) |
+| `ResolvedTheme` | tokens + required `crafts` | internals (`useTheme`) |
+
+Types live in `@raxium/themes/runtime` (re-exported from `@raxium/vue/providers` and `@raxium/react/providers`).
 
 ---
 
-## 2. Level 1: Token Override
+## 4. Tokens (CSS custom properties)
 
-**When to use**: Change colors, spacing, or typography across the entire app without touching component logic.
+**When**: change colors, spacing, or typography across the app without touching component JS.
 
-### 2.1 Semantic Token Override
+Import your overrides **after** Raxium theme CSS.
 
-Semantic tokens are purpose-driven CSS variables that all components reference. Override them to re-theme the entire library.
+### 4.1 Semantic tokens (prefer this)
 
 ```css
-/* my-theme.css — import AFTER raxium's theme CSS */
+/* my-theme.css */
 
 @theme {
-  /* Change brand primary from green to blue */
   --color-rui-primary: oklch(60% 0.25 250);
   --color-rui-primary-hover: oklch(55% 0.25 250);
   --color-rui-primary-active: oklch(50% 0.25 250);
   --color-rui-primary-border: oklch(45% 0.25 250);
   --color-rui-primary-muted: oklch(35% 0.12 250);
 
-  /* Lighter surfaces */
   --color-rui-surface-base: oklch(20% 0.01 250);
   --color-rui-surface-container: oklch(25% 0.01 250);
   --color-rui-surface-elevated: oklch(28% 0.01 250);
 }
 ```
 
-### 2.2 Available Semantic Token Categories
+| Category | Prefix | Tokens |
+| --- | --- | --- |
+| Surface / Background | `--color-rui-surface-*` | `base`, `container`, `elevated`, `sunken`, `inverse`, `disabled`, `hover` |
+| Text / Foreground | `--color-rui-text-*` | `primary`, `secondary`, `disabled`, `inverse`, `placeholder`, `on-primary` |
+| Primary (brand) | `--color-rui-primary-*` | (no suffix), `hover`, `active`, `border`, `muted` |
+| Danger | `--color-rui-danger-*` | (no suffix), `hover`, `active`, `border`, `muted` |
+| Warning | `--color-rui-warning-*` | (no suffix), `hover`, `active`, `border`, `muted` |
+| Info | `--color-rui-info-*` | (no suffix), `hover`, `active`, `border`, `muted` |
+| Border | `--color-rui-border-*` | `default`, `subtle`, `strong`, `focus` |
+| Input | `--color-rui-input-*` | `bg`, `border`, `focus-border`, `placeholder`, `disabled-bg` |
 
-| Category             | Prefix                  | Tokens                                                                     |
-| -------------------- | ----------------------- | -------------------------------------------------------------------------- |
-| Surface / Background | `--color-rui-surface-*` | `base`, `container`, `elevated`, `sunken`, `inverse`, `disabled`, `hover`  |
-| Text / Foreground    | `--color-rui-text-*`    | `primary`, `secondary`, `disabled`, `inverse`, `placeholder`, `on-primary` |
-| Primary (brand)      | `--color-rui-primary-*` | (no suffix), `hover`, `active`, `border`, `muted`                          |
-| Danger               | `--color-rui-danger-*`  | (no suffix), `hover`, `active`, `border`, `muted`                          |
-| Warning              | `--color-rui-warning-*` | (no suffix), `hover`, `active`, `border`, `muted`                          |
-| Info                 | `--color-rui-info-*`    | (no suffix), `hover`, `active`, `border`, `muted`                          |
-| Border               | `--color-rui-border-*`  | `default`, `subtle`, `strong`, `focus`                                     |
-| Input                | `--color-rui-input-*`   | `bg`, `border`, `focus-border`, `placeholder`, `disabled-bg`               |
+### 4.2 Primitive tokens
 
-### 2.3 Primitive Token Override
-
-For more fundamental changes, override primitive tokens. These are the raw values that semantic tokens reference.
+For deeper ramps, override primitives that semantic tokens reference:
 
 ```css
 @theme {
-  /* Override gray primitives for a warmer feel (examples from the Razer ramp) */
   --color-gray-03: oklch(15% 0.02 60);
   --color-gray-16: oklch(20% 0.02 60);
-  --color-gray-1a: oklch(22% 0.02 60);
-  --color-gray-1b: oklch(25% 0.02 60);
-  /* ... */
 }
 ```
 
-> **Tip**: Prefer overriding semantic tokens. Primitive overrides cascade through semantic tokens but may have unexpected effects if the semantic mapping isn't 1:1.
+Prefer semantic tokens. Primitive overrides cascade, but mappings are not always 1:1.
 
 ---
 
-## 3. Level 2: Preset Creation
+## 5. Advanced: presets and `craft`
 
-**When to use**: Modify structural styles (sizing, layout, variant defaults) across multiple components in a reusable way.
+For **skin / design-system authors**. App pages should stay on [§1](#1-default-path-start-here).
 
-### 3.1 Define a Preset
+Use this when you must change `tv*` structure, default variants, or compounds across many components — not to add a shadow on one button.
+
+### 5.1 Define a preset
 
 ```ts
 import { definePreset } from '@raxium/themes/utils'
@@ -145,129 +232,53 @@ export const compactPreset = definePreset({
         },
       },
     },
-    tvDialog: {
-      variants: {
-        size: {
-          base: { content: 'max-w-[500px]' },
-        },
-      },
-    },
   },
 })
 ```
 
-### 3.2 Extend a Preset
-
-Presets support chained extension via the `extend` field:
+### 5.2 Extend and merge
 
 ```ts
 import { definePreset } from '@raxium/themes/utils'
-import { compactPreset } from './compact-preset'
 
 export const enterprisePreset = definePreset({
   name: 'enterprise',
   extend: compactPreset,
   crafts: {
     tvButton: {
-      defaultVariants: {
-        variant: 'outlined',
-      },
+      defaultVariants: { variant: 'outlined' },
     },
   },
 })
 ```
 
-### 3.3 Resolve and Apply
-
 ```ts
 import { crafts } from '@raxium/themes/default'
-import { resolvePreset } from '@raxium/themes/utils'
-import { enterprisePreset } from './enterprise-preset'
+import { mergePresets, resolvePreset } from '@raxium/themes/utils'
 
 const resolvedCrafts = resolvePreset(enterprisePreset, crafts)
+const merged = mergePresets([compactPreset, roundedPreset], crafts)
 ```
+
+Later presets win on the same craft key.
+
+Apply **once** at the app root as a skin pack:
 
 ```vue
-<template>
-  <RUIConfigProvider :config="{ theme: { crafts: resolvedCrafts } }">
-    <App />
-  </RUIConfigProvider>
-</template>
+<RUIConfig :theme="{ skin: 'razer', surface: 'dark', crafts: resolvedCrafts }">
+  <App />
+</RUIConfig>
 ```
 
-### 3.4 Merge Independent Presets
+### 5.3 Instance `craft` (`CraftOverride`)
 
-For presets that don't extend each other (e.g., one for sizing, one for shape), use `mergePresets`:
-
-```ts
-import { crafts } from '@raxium/themes/default'
-import { mergePresets } from '@raxium/themes/utils'
-
-const roundedPreset = definePreset({
-  name: 'rounded',
-  crafts: {
-    tvButton: {
-      slots: { root: 'rounded-full' },
-    },
-    tvInput: {
-      slots: { root: 'rounded-full' },
-    },
-  },
-})
-
-// Merge compact sizing + rounded shape
-const resolved = mergePresets([compactPreset, roundedPreset], crafts)
-```
-
-> **Note**: When presets conflict on the same craft key, later presets take precedence.
-
----
-
-## 4. Level 3: Component theme, craft, and ui
-
-**When to use**: Tune one instance. Prefer **`class` / `:ui`** for layout and slot classes; use **`theme`** for tokens (`size` / `skin` / …); reach for **`:craft`** only when you must change `tv*` structure, `defaultVariants`, or compound rules.
-
-### 4.1 The `theme` Prop (Variants Only)
-
-The `**theme**` prop mirrors `**ThemeCrafts<'tv…'>['theme']**`: `**skin**`, `**surface**`, `**size**`, `**unstyled**`, `**bordered**`. It merges with config and parent context; it **must not** include `**crafts**`.
+Use only when `class` / `ui` cannot express the change (new variant branch, `defaultVariants`, compounds).
 
 ```vue
-<Button :theme="{ size: 'sm', skin: 'razer' }">
-Smaller
-</Button>
-
-<Input :theme="{ bordered: false, surface: 'light' }" />
-```
-
-Use this when you only need semantic / size knobs, not a new variant branch on the underlying `tv*` function.
-
-### 4.2 The `ui` Prop / `class` (Prefer for one-off styling)
-
-For quick per-slot or root class additions without touching craft logic:
-
-```vue
-<Button :ui="{ root: 'shadow-lg', loading: 'text-blue-500' }">
-  Styled Slots
-</Button>
-
-<DialogContent class="max-w-4xl" :ui="{ backdrop: 'bg-black/80' }">
-  Wide Dialog
-</DialogContent>
-```
-
-> **Tip**: Prefer `class` / `:ui` for most single-instance tweaks (width, shadow, spacing). `ui` classes merge at render time via `clsx()`, so they combine with (rather than replace) craft classes.
-
-### 4.3 The `craft` Prop (`CraftOverride`)
-
-Use `**craft**` only when `class` / `:ui` cannot express the change — e.g. new size branches, `defaultVariants`, or compound rules. Runtime resolution extends the resolved craft for **that** component (e.g. `Button` → `tvButton`).
-
-```vue
-<!-- Default variant values for this instance -->
 <Button :craft="{ defaultVariants: { variant: 'outlined', size: 'lg' } }">
   Defaults
 </Button>
 
-<!-- Extra variant branch (advanced) -->
 <Button
   :craft="{
     variants: {
@@ -281,98 +292,36 @@ Use `**craft**` only when `class` / `:ui` cannot express the change — e.g. new
 </Button>
 ```
 
-> **Avoid** using `:craft="{ slots: … }"` or `:craft="{ base: … }"` just to append classes — use `:ui` / `class` instead.
+Do **not** use `craft.slots` / `craft.base` just to append classes — that is `ui` / `class`.
 
-`CraftOverride` fields (implementation: `@raxium/themes/runtime`):
-
-| Field              | Description                                   |
-| ------------------ | --------------------------------------------- |
-| `slots`            | Per-slot classes merged into slot functions   |
-| `defaultVariants`  | Default variant map merged into craft calls   |
-| `base`             | Passed into `tv({ extend: baseCraft, base })` |
-| `variants`         | Extend or replace variant definitions         |
-| `compoundVariants` | Additional compound variant rules             |
-| `compoundSlots`    | Additional compound slot rules                |
-
-### 4.4 Priority (Mental Model)
-
-Merged **theme tokens** (`skin`, `surface`, `size`, …):
-
-`defaults` ← `RUIConfigProvider` ← `ThemeProvider` ← component `**theme**`
-
-Merged **craft functions** (`crafts` map):
-
-`library defaults` ← `RUIConfig.theme.crafts` ← component `**craft**` (`resolveCraftOverride`)
-
-Then each render merges `**ui**` and the root `**class**` via `clsx` / `cxc` (preferred for one-off styling).
-
-`**ThemeProvider**` and component `**:theme**` are tokens-only — structural craft changes use `**craft**` or global `**theme.crafts**`, not `:theme`.
-
+| Field | Description |
+| --- | --- |
+| `slots` | Per-slot classes merged into slot functions |
+| `defaultVariants` | Default variant map for this instance |
+| `base` | Passed into `tv({ extend: baseCraft, base })` |
+| `variants` | Extend or replace variant definitions |
+| `compoundVariants` | Extra compound variant rules |
+| `compoundSlots` | Extra compound slot rules |
 
 ---
 
-## 5. Choosing the Right Level
-
-Prefer the **lowest** level that solves the problem. For a single instance, start with **`class` / `:ui`** — do **not** reach for `:craft` or `theme.crafts` first.
-
-| Scenario                                   | Recommended Level                                                                 |
-| ------------------------------------------ | --------------------------------------------------------------------------------- |
-| Change brand color across the app          | **Level 1**: Override `--color-rui-primary-*` tokens                              |
-| Make all surfaces warmer/cooler            | **Level 1**: Override `--color-gray-*` primitives (or remap `--color-rui-*`)      |
-| Create a "compact" app-wide layout         | **Level 2**: `definePreset` with smaller sizes                                    |
-| Enforce "outlined" as default button style | **Level 2**: Preset with `defaultVariants`                                        |
-| Make one specific dialog wider             | **Level 3**: `<DialogContent class="max-w-4xl">` or `:ui="{ content: 'max-w-4xl' }"` |
-| Add a shadow to one button                 | **Level 3**: `<Button :ui="{ root: 'shadow-lg' }">` or `class`                    |
-| Change `tv*` structure / variants for one instance | **Level 3**: `:craft` only when `class` / `:ui` cannot express it          |
-| App-wide `tv*` structure change            | **Level 2**: preset → `RUIConfig.theme.crafts`                                    |
-| Build a reusable enterprise theme          | **Level 2**: Preset chain + **Level 1**: Token CSS file                           |
-
-### Decision Flowchart
-
-```
-Is it a color/spacing/typography change?
-├── Yes → Level 1 (Token Override)
-└── No → Does it affect many components / the whole app?
-    ├── Yes → Level 2 (Preset → RUIConfig.theme.crafts)
-    └── No → One instance only?
-        ├── Can class / :ui cover it? → Prefer class / :ui
-        └── Needs tv* structure / variants / compounds → :craft
-```
-
----
-
-## Appendix: Type Utilities
-
-### `UIProps<K>` — Auto-derive ui prop type
+## 6. Appendix: types
 
 ```ts
-import type { UIProps } from '@raxium/vue/providers'
+import type { CraftOverride, Crafts, SlotKeysOf, UIProps } from '@raxium/vue/providers'
+// or: import type { … } from '@raxium/react/providers'
 
 interface MyComponentProps {
   ui?: UIProps<'tvButton'>
-  // ↑ Automatically types as { root?: string; loading?: string }
+  // { root?: string; loading?: string }
 }
-```
-
-### `SlotKeysOf<T>` — Extract slot keys from a craft
-
-```ts
-import type { Crafts, SlotKeysOf } from '@raxium/vue/providers'
 
 type ButtonSlots = SlotKeysOf<Crafts['tvButton']>
-// → 'root' | 'loading'
-```
-
-### `CraftOverride<K>` — Type for the `craft` prop
-
-```ts
-import type { CraftOverride } from '@raxium/vue/providers'
+// 'root' | 'loading'
 
 const override: CraftOverride<'tvButton'> = {
-  base: 'shadow-md',
-  slots: { root: 'h-10', loading: 'size-6' },
   defaultVariants: { variant: 'outlined', size: 'lg' },
 }
 ```
 
-Vue component props bundle `**theme**` and `**craft**` via `**ThemeCrafts<'tvButton'>**` (see `@raxium/vue/core` exports).
+Vue (and React) component props still expose `theme` + `craft` via `ThemeCrafts<'tvButton'>`. Treat **`craft` as advanced**; everyday styling is `theme` tokens + `ui` / `class`.

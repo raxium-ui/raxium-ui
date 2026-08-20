@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+@import '@raxium/themes/razer/preset.css';
+
+@config '../tailwind.config.ts';
+
+@theme {
+  
+}
