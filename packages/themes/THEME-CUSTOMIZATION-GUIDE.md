@@ -20,11 +20,11 @@
 
 ## 1. Default path (start here)
 
-Most apps only need **three knobs**. Do not reach for `craft` or `theme.crafts` until the tree in [§2](#2-decision-tree) says so.
+Most apps only need **three knobs**. Do not reach for `craft` or `theme.crafts` until the tree in [§2](#2-decision-tree) says so. Skin packs use `RUIConfig` **`preset`**, not a hand-merged crafts table.
 
 | Scope | Use | Do not use |
 | --- | --- | --- |
-| Whole app | `RUIConfig` **tokens** + CSS variables | Do not put a raw `tv*` table here unless you are shipping a skin pack |
+| Whole app | `RUIConfig` **tokens** + CSS variables | Do not put a raw `tv*` table on `theme.crafts` unless you need the [escape hatch](#52-apply-at-the-app-root) |
 | A region (page, panel, overlay stack) | `ThemeProvider` (`size` / `surface` / `skin` / `bordered`) | Do not wrap a subtree just to change craft structure |
 | One instance | `class` / `ui` | Do not use `:craft` to append classes |
 
@@ -98,7 +98,7 @@ Color, spacing, or typography for the whole product?
 ├── Yes → CSS tokens (§4)
 └── No
     ├── Whole app / many components need smaller layout or different default variants?
-    │   └── Skin pack / design system → preset → RUIConfig.theme.crafts (§5)
+    │   └── Skin pack / design system → `RUIConfig preset` (§5)
     └── One instance or a small subtree?
         ├── Size / surface / skin for a region → ThemeProvider
         ├── Size / surface / skin for one component → theme prop
@@ -114,7 +114,7 @@ Color, spacing, or typography for the whole product?
 | Light form inside a dark shell | `ThemeProvider` `{ surface: 'light' }` |
 | One dialog wider | `class` / `ui` on content |
 | One button shadow | `class` / `ui` |
-| App-wide compact sizing | **Advanced**: preset → `RUIConfig.theme.crafts` |
+| App-wide compact sizing | **Advanced**: `RUIConfig preset` |
 | One extra `tv*` size branch | **Advanced**: instance `craft` |
 
 `useTheme`, `useInheritedTheme`, Component Theme vs Scope Theme are **library internals**. App code should not call them.
@@ -139,14 +139,15 @@ Three implementation layers (you usually only touch the first):
 
 **Token merge** (lowest → highest): library defaults → `RUIConfig.theme` tokens → `ThemeProvider` → component `theme`.
 
-**Crafts table merge**: library defaults → **`RUIConfig.theme.crafts` only** → instance `craft` (`CraftOverride`).
+**Crafts table merge**: library defaults → **`RUIConfig preset`** (unlisted `tv*` keep defaults) → optional `theme.crafts` escape hatch → instance `craft` (`CraftOverride`).
 
 **Render**: `ui` + root `class` on top.
 
 | Type | Shape | Who uses it |
 | --- | --- | --- |
 | `ThemeProps` | tokens only | `ThemeProvider`, component `theme` |
-| `ThemeConfig` | tokens + optional `crafts?` | `RUIConfig.theme` (skin packs) |
+| `ThemeConfig` | tokens + optional `crafts?` | `RUIConfig.theme` (`crafts` is an escape hatch) |
+| `CraftPreset` | named pack of `tv*` **options** | `RUIConfig preset` |
 | `ResolvedTheme` | tokens + required `crafts` | internals (`useTheme`) |
 
 Types live in `@raxium/themes/runtime` (re-exported from `@raxium/vue/providers` and `@raxium/react/providers`).
@@ -236,7 +237,39 @@ export const compactPreset = definePreset({
 })
 ```
 
-### 5.2 Extend and merge
+### 5.2 Apply at the app root
+
+Pass the pack on `RUIConfig`. The provider resolves it against `@raxium/themes/default`. Keys you omit keep the library `tv*` as-is.
+
+```vue
+<script setup lang="ts">
+import { compactPreset } from './compact-preset'
+</script>
+
+<template>
+  <RUIConfig
+    :theme="{ skin: 'razer', surface: 'dark' }"
+    :preset="compactPreset"
+  >
+    <App />
+  </RUIConfig>
+</template>
+```
+
+```tsx
+import { RUIConfig } from '@raxium/react'
+import { compactPreset } from './compact-preset'
+
+export function Root() {
+  return (
+    <RUIConfig theme={{ skin: 'razer', surface: 'dark' }} preset={compactPreset}>
+      <App />
+    </RUIConfig>
+  )
+}
+```
+
+**Lineage** (`extend`): one pack that builds on another.
 
 ```ts
 import { definePreset } from '@raxium/themes/utils'
@@ -252,23 +285,17 @@ export const enterprisePreset = definePreset({
 })
 ```
 
-```ts
-import { crafts } from '@raxium/themes/default'
-import { mergePresets, resolvePreset } from '@raxium/themes/utils'
-
-const resolvedCrafts = resolvePreset(enterprisePreset, crafts)
-const merged = mergePresets([compactPreset, roundedPreset], crafts)
-```
-
-Later presets win on the same craft key.
-
-Apply **once** at the app root as a skin pack:
+**Independent packs**: pass an array. Later entries win on the same `tv*` key.
 
 ```vue
-<RUIConfig :theme="{ skin: 'razer', surface: 'dark', crafts: resolvedCrafts }">
+<RUIConfig :preset="[compactPreset, roundedPreset]">
   <App />
 </RUIConfig>
 ```
+
+Do **not** import `crafts` and call `resolvePreset` in app code — that is what `preset` does.
+
+`theme.crafts` is an **escape hatch** (already-resolved `tv*` functions, tests, migrations). Overlay order: library default ← `preset` ← `theme.crafts`.
 
 ### 5.3 Instance `craft` (`CraftOverride`)
 

@@ -22,8 +22,9 @@ function cleanThemePropsFromRef(
  * Resolve and merge theme props from four token layers:
  * Defaults → Global Config → Component Config → Scope Theme → Props.
  *
- * Crafts table is merged **only** from `RUIConfig.theme.crafts` (plus library
- * defaults). ThemeProvider / component `:theme` never carry crafts.
+ * Crafts table comes from `RUIConfig` (`preset` resolved into `theme.crafts`,
+ * plus optional `theme.crafts` escape hatch) merged over library defaults.
+ * ThemeProvider / component `:theme` never carry crafts.
  *
  * Instance `craft` overrides are **not** handled here — pass them to
  * `useCraft(..., craft)` or bake them via `useThemeCraft`.
@@ -72,7 +73,7 @@ export function useTheme<T>(
     if (themeRest.surface === 'system')
       themeRest.surface = systemSurface.value
 
-    // Crafts: library defaults ← RUIConfig.theme.crafts only
+    // Crafts: library defaults ← RUIConfig preset / theme.crafts escape hatch
     const mergedCrafts = mergeCraftTables(configCrafts)
 
     return {

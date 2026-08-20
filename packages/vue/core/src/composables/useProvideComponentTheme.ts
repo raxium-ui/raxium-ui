@@ -25,7 +25,7 @@ interface ProvideComponentThemeOptions {
  * - **Scope Theme** (conditional, tokens only): consumed by independent
  *   descendant components via `useTheme` (e.g. a Tooltip nested inside a Dialog).
  *   Only provided when the component received an explicit `:theme` prop.
- *   Does not include crafts — crafts come from `RUIConfig.theme.crafts`.
+ *   Does not include crafts — crafts come from `RUIConfig` (`preset` / `theme.crafts`).
  *
  * @param theme   Fully resolved theme from `useTheme()` / `useThemeCraft()`.
  * @param getPropsTheme  Getter that returns the raw `:theme` prop value.

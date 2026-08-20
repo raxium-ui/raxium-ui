@@ -25,7 +25,7 @@ export type UIProps<K extends keyof Crafts> = Partial<
 >
 
 export interface ThemeCrafts<K extends keyof Crafts> {
-  /** Theme tokens (skin, surface, size, …). Crafts live on `RUIConfig.theme.crafts`. */
+  /** Theme tokens (skin, surface, size, …). App-wide packs: `RUIConfig preset`. */
   theme?: ThemeProps
   /** Per-component craft override */
   craft?: CraftOverride<K>
@@ -48,5 +48,6 @@ export const ComponentThemeContext = createContext<ResolvedTheme>(emptyComponent
 /**
  * Scope Theme — user intent channel (tokens only).
  * Provided when the user sets `theme` on a component, or via `<ThemeProvider>`.
+ * Does not carry crafts — crafts come from `RUIConfig` (`preset` / escape-hatch `theme.crafts`).
  */
 export const ScopeThemeContext = createContext<ThemeProps>({})

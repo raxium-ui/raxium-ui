@@ -4,9 +4,7 @@ import { createContext } from 'react'
 
 export interface RUIConfigContext {
   /**
-   * App theme: tokens (`skin` / `surface` / …) plus optional `crafts` table
-   * overrides. Crafts are merged only from this field — not from
-   * ThemeProvider or component `theme`.
+   * App theme tokens. Optional `crafts` is an escape hatch; prefer `RUIConfig preset`.
    */
   'theme'?: ThemeConfig
   'tooltip'?: {

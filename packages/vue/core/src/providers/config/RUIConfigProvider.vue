@@ -1,6 +1,13 @@
 <script lang="ts">
+import type { RuiPresetInput } from '@raxium/themes/utils'
+
 export interface RUIConfigProps {
   theme?: RUIConfigContext['theme']
+  /**
+   * Skin pack(s). Unlisted `tv*` keep library defaults.
+   * Resolved into `theme.crafts` before `useTheme` merge.
+   */
+  preset?: RuiPresetInput
   tooltip?: RUIConfigContext['tooltip']
   dialog?: RUIConfigContext['dialog']
   hoverCard?: RUIConfigContext['hover-card']
@@ -17,6 +24,7 @@ import type { MessagerExpose, MessagerProps } from '@raxium/vue/components/messa
 import type { ToasterManagerExpose, ToasterManagerProps } from '@raxium/vue/components/toast'
 import type { RUIConfigContext } from './rui-config-context'
 import { addAPIProvider, addCollection, addIcon } from '@iconify/vue'
+import { applyRuiCrafts } from '@raxium/themes/utils'
 import { Message, Messager } from '@raxium/vue/components/message'
 import { OverlayProvider } from '@raxium/vue/components/overlay'
 import { SpinProvider } from '@raxium/vue/components/spin'
@@ -124,9 +132,19 @@ watchEffect(() => {
   }
 })
 
+const resolvedTheme = computed(() => {
+  const theme = props.theme ?? {}
+  const { crafts: craftsEscape, ...tokens } = theme
+  return {
+    ...tokens,
+    crafts: applyRuiCrafts(props.preset, craftsEscape),
+  }
+})
+
 provideRUIConfigContext(
   computed(() => ({
-    ...omit(props, ['toasterManager', 'messager']),
+    ...omit(props, ['toasterManager', 'messager', 'preset', 'theme']),
+    theme: resolvedTheme.value,
     toasterManager: toasterManagerExpose.value,
     messager: messagerExpose.value,
   })),

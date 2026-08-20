@@ -1,12 +1,16 @@
+import type { RuiPresetInput } from '@raxium/themes/utils'
 import type { ReactNode } from 'react'
 import type { RUIConfigContext } from './rui-config-context'
 import { addAPIProvider, addCollection, addIcon } from '@iconify/react'
 import { usePreferredColorScheme } from '@raxium/react/hooks/usePreferredColorScheme'
+import { applyRuiCrafts } from '@raxium/themes/utils'
 import { useEffect, useMemo } from 'react'
 import { RUIConfigReactContext } from './rui-config-context'
 
 export interface RUIConfigProps {
   theme?: RUIConfigContext['theme']
+  /** Skin pack(s). Unlisted `tv*` keep library defaults. */
+  preset?: RuiPresetInput
   tooltip?: RUIConfigContext['tooltip']
   dialog?: RUIConfigContext['dialog']
   hoverCard?: RUIConfigContext['hover-card']
@@ -29,6 +33,7 @@ const defaultTheme: NonNullable<RUIConfigContext['theme']> = {
 
 export function RUIConfig({
   theme = defaultTheme,
+  preset,
   tooltip = {
     openDelay: 0,
     closeDelay: 0,
@@ -111,18 +116,24 @@ export function RUIConfig({
       delete el.dataset.themeSurface
   }, [theme, systemSurface])
 
-  const value = useMemo<RUIConfigContext>(() => ({
-    theme,
-    tooltip,
-    dialog,
-    'hover-card': hoverCard,
-    popover,
-    menu,
-    select,
-    'date-picker': datePicker,
-    iconify,
-    depth,
-  }), [theme, tooltip, dialog, hoverCard, popover, menu, select, datePicker, iconify, depth])
+  const value = useMemo<RUIConfigContext>(() => {
+    const { crafts: craftsEscape, ...tokens } = theme ?? {}
+    return {
+      'theme': {
+        ...tokens,
+        crafts: applyRuiCrafts(preset, craftsEscape),
+      },
+      tooltip,
+      dialog,
+      'hover-card': hoverCard,
+      popover,
+      menu,
+      select,
+      'date-picker': datePicker,
+      iconify,
+      depth,
+    }
+  }, [theme, preset, tooltip, dialog, hoverCard, popover, menu, select, datePicker, iconify, depth])
 
   return (
     <RUIConfigReactContext.Provider value={value}>

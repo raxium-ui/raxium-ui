@@ -7,7 +7,7 @@ export type Crafts = typeof crafts
 
 /**
  * Theme tokens only — used by `ThemeProvider`, Scope Theme, and component `:theme`.
- * Does **not** carry the crafts table; put crafts on `ThemeConfig` (`RUIConfig.theme`).
+ * Does **not** carry the crafts table; app-wide packs use `RUIConfig preset`.
  */
 export interface ThemeProps {
   skin?: Skin
@@ -21,7 +21,10 @@ export interface ThemeProps {
  * App-level theme config (`RUIConfig.theme`): tokens + optional crafts table override.
  */
 export interface ThemeConfig extends ThemeProps {
-  /** Partial crafts map merged over library defaults (presets / skin packs). */
+  /**
+   * Escape hatch: already-resolved `tv*` functions.
+   * Prefer `RUIConfig`'s `preset` prop. Overlay order: library default ← preset ← this field.
+   */
   crafts?: Partial<Crafts>
 }
 

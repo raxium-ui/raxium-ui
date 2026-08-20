@@ -20,11 +20,11 @@
 
 ## 1. 默认路径（从这里开始）
 
-绝大多数应用只需要 **三档入口**。在 [§2](#2-决策树) 明确指向之前，不要用 `craft` 或 `theme.crafts`。
+绝大多数应用只需要 **三档入口**。在 [§2](#2-决策树) 明确指向之前，不要用 `craft` 或 `theme.crafts`。皮肤包走 `RUIConfig` 的 **`preset`**，不要手写合并 crafts 表。
 
 | 范围 | 用什么 | 不要用什么 |
 | --- | --- | --- |
-| 整个应用 | `RUIConfig` 的 **tokens** + CSS 变量 | 除非在做皮肤包，否则不要在这里塞裸的 `tv*` 表 |
+| 整个应用 | `RUIConfig` 的 **tokens** + CSS 变量 | 除非需要 [逃逸口](#52-在应用根上挂载)，否则不要把原始 `tv*` 表挂在 `theme.crafts` |
 | 一块区域（页面、面板、一层 overlay） | `ThemeProvider`（`size` / `surface` / `skin` / `bordered`） | 不要只为了改 craft 结构而包一层 |
 | 某一个实例 | `class` / `ui` | 不要用 `:craft` 来拼 class |
 
@@ -98,7 +98,7 @@ export function Root() {
 ├── 是 → CSS token（§4）
 └── 否
     ├── 全应用、多个组件要更紧凑的布局或不同的默认 variant？
-    │   └── 皮肤包 / 设计系统 → preset → RUIConfig.theme.crafts（§5）
+    │   └── 皮肤包 / 设计系统 → `RUIConfig preset`（§5）
     └── 单个实例或一小块子树？
         ├── 区域的 size / surface / skin → ThemeProvider
         ├── 单个组件的 size / surface / skin → theme prop
@@ -114,7 +114,7 @@ export function Root() {
 | 暗色壳里一块浅色表单 | `ThemeProvider` `{ surface: 'light' }` |
 | 某一个对话框更宽 | content 上的 `class` / `ui` |
 | 某一个按钮加阴影 | `class` / `ui` |
-| 全应用紧凑尺寸 | **进阶**：preset → `RUIConfig.theme.crafts` |
+| 全应用紧凑尺寸 | **进阶**：`RUIConfig preset` |
 | 某一个实例多一个 `tv*` 尺寸分支 | **进阶**：实例 `craft` |
 
 `useTheme`、`useInheritedTheme`、Component Theme / Scope Theme 是 **库内部实现**，业务代码不要调用。
@@ -139,14 +139,15 @@ export function Root() {
 
 **Token 合并**（低 → 高）：库默认 → `RUIConfig.theme` 的 token → `ThemeProvider` → 组件 `theme`。
 
-**Crafts 表合并**：库默认 → **仅** `RUIConfig.theme.crafts` → 实例 `craft`（`CraftOverride`）。
+**Crafts 表合并**：库默认 → **`RUIConfig preset`**（未列出的 `tv*` 沿用默认）→ 可选的 `theme.crafts` 逃逸口 → 实例 `craft`（`CraftOverride`）。
 
 **渲染时**：再叠 `ui` + 根节点 `class`。
 
 | 类型 | 形状 | 谁用 |
 | --- | --- | --- |
 | `ThemeProps` | 仅 tokens | `ThemeProvider`、组件 `theme` |
-| `ThemeConfig` | tokens + 可选 `crafts?` | `RUIConfig.theme`（皮肤包） |
+| `ThemeConfig` | tokens + 可选 `crafts?` | `RUIConfig.theme`（`crafts` 是逃逸口） |
+| `CraftPreset` | 具名的 `tv*` **options** 包 | `RUIConfig preset` |
 | `ResolvedTheme` | tokens + 必有 `crafts` | 内部（`useTheme`） |
 
 类型在 `@raxium/themes/runtime`，并由 `@raxium/vue/providers`、`@raxium/react/providers` 再导出。
@@ -236,7 +237,39 @@ export const compactPreset = definePreset({
 })
 ```
 
-### 5.2 扩展与合并
+### 5.2 在应用根上挂载
+
+把皮肤包传给 `RUIConfig`。Provider 会相对 `@raxium/themes/default` 做 resolve。你没写的 key 整份沿用库默认 `tv*`。
+
+```vue
+<script setup lang="ts">
+import { compactPreset } from './compact-preset'
+</script>
+
+<template>
+  <RUIConfig
+    :theme="{ skin: 'razer', surface: 'dark' }"
+    :preset="compactPreset"
+  >
+    <App />
+  </RUIConfig>
+</template>
+```
+
+```tsx
+import { RUIConfig } from '@raxium/react'
+import { compactPreset } from './compact-preset'
+
+export function Root() {
+  return (
+    <RUIConfig theme={{ skin: 'razer', surface: 'dark' }} preset={compactPreset}>
+      <App />
+    </RUIConfig>
+  )
+}
+```
+
+**血缘**（`extend`）：一个包建立在另一个之上。
 
 ```ts
 import { definePreset } from '@raxium/themes/utils'
@@ -252,23 +285,17 @@ export const enterprisePreset = definePreset({
 })
 ```
 
-```ts
-import { crafts } from '@raxium/themes/default'
-import { mergePresets, resolvePreset } from '@raxium/themes/utils'
-
-const resolvedCrafts = resolvePreset(enterprisePreset, crafts)
-const merged = mergePresets([compactPreset, roundedPreset], crafts)
-```
-
-同一 craft key 冲突时，**后定义的 preset 生效**。
-
-在应用根上作为皮肤包 **只挂一次**：
+**彼此独立的包**：传数组。同一 `tv*` key 以后写的为准。
 
 ```vue
-<RUIConfig :theme="{ skin: 'razer', surface: 'dark', crafts: resolvedCrafts }">
+<RUIConfig :preset="[compactPreset, roundedPreset]">
   <App />
 </RUIConfig>
 ```
+
+应用代码 **不要** 自己 `import { crafts }` 再 `resolvePreset` —— 这就是 `preset` 要做的事。
+
+`theme.crafts` 是 **逃逸口**（已经 resolve 好的 `tv*` 函数、测试、迁移）。叠放顺序：库默认 ← `preset` ← `theme.crafts`。
 
 ### 5.3 实例 `craft`（`CraftOverride`）
 

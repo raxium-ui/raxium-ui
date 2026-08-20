@@ -13,8 +13,9 @@ import { usePreferredColorScheme } from './usePreferredColorScheme'
  * Resolve and merge theme props from four token layers:
  * Defaults → Global Config → Component Config → Scope Theme → Props.
  *
- * Crafts table is merged **only** from `RUIConfig.theme.crafts` (plus library
- * defaults). ThemeProvider / component `theme` never carry crafts.
+ * Crafts table comes from `RUIConfig` (`preset` resolved into `theme.crafts`,
+ * plus optional `theme.crafts` escape hatch) merged over library defaults.
+ * ThemeProvider / component `theme` never carry crafts.
  */
 export function useTheme<T = ThemeProps>(
   props?: Partial<T>,

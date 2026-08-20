@@ -12,6 +12,8 @@
 
 同名字段后者覆盖前者，`props` 优先级最高。
 
+Crafts 表不走 Scope / `:theme`。`RUIConfig` 的 `preset` 会 resolve 进 `theme.crafts`；`theme.crafts` 本身只作逃逸口。`useTheme` 再 `mergeCraftTables`（库默认 ← 这份 overlay）。实例级结构改动用 `:craft`。
+
 ---
 
 ## 双通道模型

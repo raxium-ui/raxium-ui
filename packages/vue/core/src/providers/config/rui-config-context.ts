@@ -8,9 +8,9 @@ import { createContext } from '@ark-ui/vue'
 
 export interface RUIConfigContext {
   /**
-   * App theme: tokens (`skin` / `surface` / …) plus optional `crafts` table
-   * overrides (presets). Crafts are merged only from this field — not from
-   * ThemeProvider or component `:theme`.
+   * App theme tokens (`skin` / `surface` / …). Optional `crafts` is an escape hatch;
+   * prefer the `RUIConfig` `preset` prop. ThemeProvider / component `:theme` never
+   * carry crafts.
    */
   'theme'?: ThemeConfig
   'tooltip'?: {
