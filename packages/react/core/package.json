@@ -1,7 +1,7 @@
 {
   "name": "@raxium/react",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.4.3",
   "packageManager": "pnpm@10.13.1",
   "description": "React core components for Raxium, based on Ark UI",
   "author": {

@@ -109,14 +109,14 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeCrafts&lt;'tvAccordion'&gt;</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
     </tr>
 
     <tr>
       <td><code>craft</code></td>
-      <td><code>CraftOverride</code></td>
+      <td><code>CraftOverride&lt;'tvAccordion'&gt;</code></td>
       <td>-</td>
       <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
@@ -181,6 +181,16 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
       <td>-</td>
       <td>单项外层 class 覆盖</td>
     </tr>
+    <tr>
+      <td>
+        <code>theme</code>
+      </td>
+      <td>
+        <code>ThemeProps</code>
+      </td>
+      <td>-</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens（无 <code>craft</code>）</td>
+    </tr>
   </tbody>
 </table>
 
@@ -232,13 +242,23 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
     </tr>
     <tr>
       <td>
+        <code>ui</code>
+      </td>
+      <td>
+        <code>&#123; root?: class; indicator?: class &#125;</code>
+      </td>
+      <td>-</td>
+      <td>触发器根与指示器 class 覆盖</td>
+    </tr>
+    <tr>
+      <td>
         <code>theme</code>
       </td>
       <td>
-        <code>ThemeNoCrafts</code>
+        <code>ThemeProps</code>
       </td>
       <td>-</td>
-      <td>继承主题上下文，也可单独覆盖主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens（无 <code>craft</code>）</td>
     </tr>
   </tbody>
 </table>
@@ -282,10 +302,10 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
         <code>theme</code>
       </td>
       <td>
-        <code>ThemeNoCrafts</code>
+        <code>ThemeProps</code>
       </td>
       <td>-</td>
-      <td>继承主题上下文，也可单独覆盖主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens（无 <code>craft</code>）</td>
     </tr>
   </tbody>
 </table>
@@ -433,17 +453,17 @@ Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components
         <code>skin</code>
       </td>
       <td>
-        <code>'razer' | 'shadcn'</code>
+        <code>'default' | 'razer' | 'shadcn'</code>
       </td>
       <td>-</td>
-      <td>皮肤风格</td>
+      <td>皮肤风格（<code>data-theme-skin</code>）</td>
     </tr>
     <tr>
       <td>
         <code>surface</code>
       </td>
       <td>
-        <code>'light' | 'dark'</code>
+        <code>'light' | 'dark' | 'system'</code>
       </td>
       <td>-</td>
       <td>表面模式</td>

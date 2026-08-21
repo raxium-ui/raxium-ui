@@ -1,0 +1,285 @@
+schemaVersion: 2.0.0
+docId: rark.react.accordion
+component:
+  name: Accordion
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Accordion
+  category: core
+  description: >-
+    将内容分成可独立展开/收起的面板。React 复合组件 Accordion / Accordion.Item /
+    Accordion.Trigger / Accordion.Content（亦可具名导入 AccordionItem 等）。
+    基于 Ark Accordion.Root；根扩展 theme/craft/className，触发器扩展 indicator 与 ui。
+  basePrimitive:
+    library: '@ark-ui/react/accordion'
+    primitive: Accordion.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - aria-*
+      - data-*
+    notes: >-
+      根透传 Ark Root 状态与方向等；Item/Trigger/Content 透传对应子原语。
+      透传边界以 props.ts 中 interface 继承为准。
+  capabilities:
+    - expand-collapse
+    - multiple
+    - collapsible
+    - controlled
+    - uncontrolled
+    - theme
+    - ui-override
+    - compound-components
+    - lazy-mount
+  subComponents:
+    - AccordionItem
+    - AccordionTrigger
+    - AccordionContent
+contracts:
+  props:
+    - name: value
+      typeText: string[]
+      conflictsWith:
+        - defaultValue
+      description: 受控模式下当前展开项的 value 列表。
+    - name: defaultValue
+      typeText: string[]
+      conflictsWith:
+        - value
+      description: 非受控模式下的初始展开项列表。
+    - name: multiple
+      typeText: boolean
+      default: false
+      description: 是否允许多个面板同时展开。
+    - name: collapsible
+      typeText: boolean
+      default: false
+      description: 为 true 时允许全部收起；行为以 Ark 为准。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 是否禁用整个手风琴交互。
+    - name: orientation
+      typeText: '''horizontal'' | ''vertical'''
+      default: vertical
+      description: 排列方向。
+    - name: lazyMount
+      typeText: boolean
+      default: false
+      description: 是否在首次展开时再挂载内容（RenderStrategy）。
+    - name: unmountOnExit
+      typeText: boolean
+      default: false
+      description: 收起时是否卸载内容（RenderStrategy）。
+    - name: id
+      typeText: string
+      description: 根 id；可与 ids 映射配合用于组合场景。
+    - name: asChild
+      typeText: boolean
+      default: false
+      description: 多态原语：将根行为合并到子元素。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvAccordion'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: children
+      typeText: ReactNode
+      description: 通常为若干 Accordion.Item。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+      description: 展开项变化；details.value 为 string[]。
+    - name: onFocusChange
+      payload:
+        typeText: FocusChangeDetails
+      description: 焦点在 item 间移动时触发。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸变体（主要影响触发器与间距）。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+subComponents:
+  AccordionItem:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: string
+        description: 面板唯一标识，需与 value/defaultValue 中项对应。
+      - name: disabled
+        typeText: boolean
+        default: false
+        description: 是否禁用该面板的展开切换。
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将行为合并到子元素（Ark UI 原语能力）。
+      - name: className
+        typeText: string
+        description: 单项外层 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 通常放置 Accordion.Trigger 与 Accordion.Content。
+  AccordionTrigger:
+    props:
+      - name: indicator
+        typeText: boolean | ReactNode
+        default: true
+        description: >-
+          true 渲染默认 chevron；false 隐藏；传入 ReactNode 替换图标（仍包在 ItemIndicator 内）。
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将行为合并到子元素（Ark UI 原语能力）。
+      - name: className
+        typeText: string
+        description: 触发器根 className（与 ui.root 合并）。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: ui
+        typeText: '{ root?: string; indicator?: string }'
+        description: 触发器根与指示器 class 覆盖。
+      - name: children
+        typeText: ReactNode
+        description: 触发器文案。展开态请在 Item 子树使用 useAccordionItemContext()。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: 触发器根 className。
+        - name: ui.indicator
+          typeText: string
+          description: 指示器容器 className。
+  AccordionContent:
+    props:
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: 将行为合并到子元素（Ark UI 原语能力）。
+      - name: className
+        typeText: string
+        description: 内容区 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 折叠内容区域。
+behaviorModel:
+  derived:
+    isControlled: value !== undefined
+    expandedValues: value ?? internalFromDefaultValue
+    itemExpanded: expandedValues.includes(item.value)
+  transitions:
+    - on: trigger-click
+      guard: root.disabled !== true && item.disabled !== true
+      effects:
+        - toggleItemValue(item.value)
+        - emit:onValueChange
+    - on: keyboard-navigation
+      guard: orientation set
+      effects:
+        - emit:onFocusChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Accordion
+examples:
+  - id: basic
+    description: 基础用法：数据列表 map 出多节折叠。
+  - id: states
+    description: 默认展开、多选、单项禁用、collapsible 全关。
+  - id: sizes
+    description: theme.size 尺寸变体。
+  - id: indicator
+    description: 关闭默认 chevron 与自定义 indicator 节点（useAccordionItemContext）。
+  - id: theme
+    exampleId: basic
+    description: Theme 配置示例（accordion.stories.tsx Theme）。
+  - id: class-names
+    exampleId: basic
+    description: Trigger ui 覆盖示例（accordion.stories.tsx ClassNames）。
+generationHints:
+  preferredUsageOrder:
+    - value / defaultValue
+    - multiple
+    - collapsible
+    - Accordion.Item value
+    - theme.size
+    - Accordion.Trigger ui.*
+  a11yChecklist:
+    - 每个 Accordion.Item 需稳定唯一的 value。
+    - Accordion.Trigger 应提供可读文本，不仅依赖图标。
+    - 禁用单项用 Accordion.Item disabled，整组用根 disabled。
+    - 自定义 indicator 时保持展开/收起可感知（可用 useAccordionItemContext）。
+  codegenTemplates:
+    minimal: >-
+      <Accordion><Accordion.Item value="a"><Accordion.Trigger>标题 A</Accordion.Trigger><Accordion.Content>内容
+      A</Accordion.Content></Accordion.Item><Accordion.Item value="b"><Accordion.Trigger>标题
+      B</Accordion.Trigger><Accordion.Content>内容 B</Accordion.Content></Accordion.Item></Accordion>
+    multiple: >-
+      <Accordion multiple defaultValue={['a','b']}><Accordion.Item value="a"><Accordion.Trigger>A</Accordion.Trigger><Accordion.Content>...</Accordion.Content></Accordion.Item><Accordion.Item
+      value="b"><Accordion.Trigger>B</Accordion.Trigger><Accordion.Content>...</Accordion.Content></Accordion.Item></Accordion>
+    controlled: >-
+      <Accordion value={expanded} onValueChange={(d) => setExpanded(d.value)}
+      collapsible><Accordion.Item value="x"><Accordion.Trigger>X</Accordion.Trigger><Accordion.Content>...</Accordion.Content></Accordion.Item></Accordion>
+    triggerWithoutIndicator: >-
+      <Accordion><Accordion.Item value="i"><Accordion.Trigger
+      indicator={false}>无箭头</Accordion.Trigger><Accordion.Content>...</Accordion.Content></Accordion.Item></Accordion>
+  antiPatterns:
+    - <Accordion value={['a']} defaultValue={['b']}> — 同时受控与非受控初始值冲突。
+    - <Accordion.Item><Accordion.Trigger>无 value</Accordion.Trigger>...</Accordion.Item>
+      — 缺少 value。
+    - <Accordion multiple><Accordion.Item value="dup"/>...<Accordion.Item value="dup"/>
+      — value 重复。
+    - Accordion.Trigger children 使用 (ctx) => … 或 indicatorSlot — React 不提供 Vue slot API。
+provenance:
+  sources:
+    - path: ./Accordion.tsx
+      kind: runtime
+    - path: ./AccordionItem.tsx
+      kind: runtime
+    - path: ./AccordionTrigger.tsx
+      kind: runtime
+    - path: ./AccordionContent.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./accordion.doc.mdx
+      kind: doc
+    - path: ./accordion.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc
