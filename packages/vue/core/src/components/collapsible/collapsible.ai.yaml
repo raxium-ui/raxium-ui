@@ -3,8 +3,8 @@ docId: rark.vue.collapsible
 component:
   name: Collapsible
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Collapsible
   category: core
   description: 用于在有限空间中切换内容的展开/收起状态组件组。基于 Ark UI collapsible 原语封装，包含 Collapsible、CollapsibleTrigger、CollapsibleContent
@@ -61,10 +61,10 @@ contracts:
       typeText: string | array | object
       description: 根节点 class 覆盖。
     - name: theme
-      typeText: ThemeCrafts<'tvCollapsible'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）；ReadMore 等同根能力复用该套 theme/craft。
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvCollapsible'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:
@@ -94,10 +94,10 @@ contracts:
         default: base
         description: 折叠组件尺寸变体（主要影响 Trigger 样式节奏）。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
-        description: 皮肤主题。
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
       - name: surface
-        typeText: '''light'' | ''dark'''
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 亮暗表面模式。
       - name: bordered
         typeText: boolean
@@ -198,10 +198,10 @@ subComponents:
         typeText: string | array | object
         description: 根节点 class 覆盖。
       - name: theme
-        typeText: ThemeCrafts<'tvCollapsible'>
-        description: 通用 theme 与组件 craft（见 Theme Configuration）。
+        typeText: ThemeProps
+        description: 实例级 tokens；ReadMore 的 craft 绑 tvReadMore。
       - name: craft
-        typeText: CraftOverride
+        typeText: CraftOverride<'tvReadMore'>
         description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
           Configuration）。
       - name: text.more

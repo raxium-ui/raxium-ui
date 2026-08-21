@@ -1,0 +1,232 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ButtonStories from './button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+`Button` 用于触发操作、提交表单或快捷动作。基于 Ark `ark.button`，由 **`tvButton`** 提供 **variant** 与 **color**、尺寸与加载态，并支持 ripple、`theme` / `craft`、`ui`。
+
+---
+
+## Examples
+
+### 基本用法
+
+<Canvas of={ButtonStories.Basic} />
+
+### 变体与语义色
+
+<Canvas of={ButtonStories.Variants} />
+
+### 尺寸
+
+<Canvas of={ButtonStories.Sizes} />
+
+### Crafts 覆写
+
+<Canvas of={ButtonStories.Crafts} />
+
+---
+
+## ARK UI Link
+
+底层是原生 `<button>`。透传 `type`、`disabled`、`aria-*`、`data-*` 等；`variant`、`color`、`ripple`、`loading`、`theme` / `craft`、`ui` 为 Raxium 扩展。
+
+- 文档：[Ark UI React Factory](https://ark-ui.com/docs/guides/composition)
+
+---
+
+## API
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'solid' | 'outlined' | 'filled' | 'text' | 'link' | 'icon'</code></td>
+      <td><code>'solid'</code></td>
+      <td>形态；<code>icon</code> 为方形图标按钮</td>
+    </tr>
+    <tr>
+      <td><code>color</code></td>
+      <td><code>'primary' | 'default' | 'danger' | 'warning' | 'info'</code></td>
+      <td><code>'primary'</code></td>
+      <td>语义色（<code>data-color</code>），与 <code>theme.surface</code> 不同</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用（同时阻断 ripple）</td>
+    </tr>
+    <tr>
+      <td><code>ripple</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>点击水波纹</td>
+    </tr>
+    <tr>
+      <td><code>loading</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>显示加载指示器</td>
+    </tr>
+    <tr>
+      <td><code>loadingIndicator</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td><code>loading</code> 时替换默认 <code>LoaderCircle</code>（不要做成 Vue slot）</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Ark 多态</td>
+    </tr>
+    <tr>
+      <td><code>tooltip</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>预留字段，当前不渲染</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvButton'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvButton</code> 结构覆写</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>与 <code>ui.root</code> 合并</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; loading?: string &#125;</code></td>
+      <td>-</td>
+      <td>根与加载图标 class</td>
+    </tr>
+    <tr>
+      <td><code>onClick</code></td>
+      <td><code>(event) =&gt; void</code></td>
+      <td>-</td>
+      <td>先 ripple，再调用</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>主内容</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+**`tvButton`** 驱动 `root` / `loading` 槽。根上输出 `data-variant`、`data-color`、`data-size`。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式，勿与 <code>color</code> 混淆</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框相关样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ButtonStories.Theme} />
+
+---
+
+## UI Configuration
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根 class</td>
+    </tr>
+    <tr>
+      <td><code>ui.loading</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>默认加载图标 class</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ButtonStories.UI} />
+
+---
+
+## 最佳实践
+
+- 用 **variant + color** 表达形态与语义，少写死颜色 class。
+- 图标按钮用 **`variant="icon"`**，并给 `aria-label`。
+- 异步用 **`loading`**（必要时再加 `disabled`），避免连点。
+- 尺寸走 **`theme.size`**；局部用 `ui` / `className`；改 `tvButton` 结构再用 `craft` 或 `RUIConfig preset`。
+- **`ripple`** 适合强调反馈；密集表单里慎用。
+- 自定义加载内容用 **`loadingIndicator`**，不要做成 `loadingSlot`。

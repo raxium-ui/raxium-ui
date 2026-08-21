@@ -1,0 +1,287 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as CheckboxStories from './checkbox.stories'
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+`Checkbox` 用于布尔选择与多选集合。支持勾选、混合态（`indeterminate`）和组内多选。基于 Ark Checkbox **`Root`** / **`Group`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `ui` / `label` / `indicator`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={CheckboxStories.Basic} />
+
+### 受控与状态
+
+<Canvas of={CheckboxStories.States} />
+
+### 尺寸
+
+<Canvas of={CheckboxStories.Sizes} />
+
+### 分组
+
+<Canvas of={CheckboxStories.Group} />
+
+### 指示器与 UI
+
+<Canvas of={CheckboxStories.Indicator} />
+
+---
+
+## ARK UI Link
+
+`CheckboxProps` 继承 Ark `CheckboxRootBaseProps`。组值由 `Checkbox.Group`（亦可具名 `CheckboxGroup`）管理。
+
+- 文档：[Ark UI Checkbox (React)](https://ark-ui.com/react/docs/components/checkbox)
+- 展开态用 `useCheckboxContext()`，不要做成 Vue `#indicator` 作用域插槽。
+
+---
+
+## API
+
+### Checkbox
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>label</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>标签；字符串会包一层 <code>span</code></td>
+    </tr>
+    <tr>
+      <td><code>checked</code></td>
+      <td><code>boolean | 'indeterminate'</code></td>
+      <td>-</td>
+      <td>受控</td>
+    </tr>
+    <tr>
+      <td><code>defaultChecked</code></td>
+      <td><code>boolean | 'indeterminate'</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>onCheckedChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td><code>details.checked</code> 为新状态</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code> / <code>readOnly</code> / <code>invalid</code> / <code>required</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>交互与表单语义</td>
+    </tr>
+    <tr>
+      <td><code>name</code> / <code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>表单字段；组内项值</td>
+    </tr>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>替换默认 Check / Minus；状态相关请用 <code>useCheckboxContext()</code></td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvCheckbox'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvCheckbox</code> 覆写</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>与 <code>ui.root</code> 合并</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root / control / indicator / label &#125;</code></td>
+      <td>-</td>
+      <td>分槽 class</td>
+    </tr>
+  </tbody>
+</table>
+
+### Checkbox.Group
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控选中值</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(value: string[]) =&gt; void</code></td>
+      <td>-</td>
+      <td>组值变化</td>
+    </tr>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>组内共享 name</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code> / <code>readOnly</code> / <code>invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>整组语义</td>
+    </tr>
+    <tr>
+      <td><code>maxSelectedValues</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>最多可选数量</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>组容器（Ark Group 为 <code>div</code>）</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+**`tvCheckbox`** 驱动 root / control / indicator / label。`Checkbox.Group` 只提供组值上下文，不提供独立 visual slots。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框相关样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CheckboxStories.Theme} />
+
+---
+
+## UI Configuration
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根容器</td>
+    </tr>
+    <tr>
+      <td><code>ui.control</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>方框</td>
+    </tr>
+    <tr>
+      <td><code>ui.indicator</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>指示器容器</td>
+    </tr>
+    <tr>
+      <td><code>ui.label</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>标签</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CheckboxStories.UI} />
+
+---
+
+## 最佳实践
+
+- 单项用 `checked` + `onCheckedChange`；中间态用 `'indeterminate'`。
+- 多选用 `Checkbox.Group` 的 `value` / `onValueChange`，不要自己拼数组。
+- 表单设 `name` / `value` / `required`。
+- 自定义勾选图标：`indicator=&#123;&lt;Mark /&gt;&#125;`，在 `Mark` 里调 `useCheckboxContext()`。
+- 禁用/只读/错误用语义 props，不要只用 class 灰化。

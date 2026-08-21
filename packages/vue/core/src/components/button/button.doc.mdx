@@ -102,13 +102,13 @@ Button 是用于触发操作、提交表单或承载快捷动作的基础交互�
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeCrafts&lt;'tvButton'&gt;</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
     </tr>
     <tr>
       <td><code>craft</code></td>
-      <td><code>CraftOverride</code></td>
+      <td><code>CraftOverride&lt;'tvButton'&gt;</code></td>
       <td>-</td>
       <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
@@ -197,13 +197,13 @@ Button 是用于触发操作、提交表单或承载快捷动作的基础交互�
     </tr>
     <tr>
       <td><code>skin</code></td>
-      <td><code>'razer' | 'shadcn'</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
       <td>由配置合并，常见为 <code>'razer'</code></td>
       <td>主题皮肤</td>
     </tr>
     <tr>
       <td><code>surface</code></td>
-      <td><code>'light' | 'dark'</code> 等（见 <code>ThemeProps</code>）</td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
       <td>由配置合并，常见为 <code>'dark'</code></td>
       <td>亮色/暗色表面；与 Props 上的 <code>color</code>（语义色）含义不同</td>
     </tr>

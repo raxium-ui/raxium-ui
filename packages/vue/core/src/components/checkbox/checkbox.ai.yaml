@@ -3,8 +3,8 @@ docId: rark.vue.checkbox
 component:
   name: Checkbox
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Checkbox
   category: core
   description: 用于布尔选择与多选集合项的复选框组件。基于 Ark UI checkbox 原语封装，支持 checked/indeterminate
@@ -72,10 +72,10 @@ contracts:
       typeText: string | array | object
       description: 根节点 class 覆盖。
     - name: theme
-      typeText: ThemeCrafts<'tvCheckbox'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvCheckbox'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui
@@ -120,10 +120,10 @@ contracts:
         default: base
         description: 复选框尺寸。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
-        description: 主题皮肤。
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 主题皮肤（data-theme-skin）。
       - name: surface
-        typeText: '''light'' | ''dark'''
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 亮暗表面。
       - name: unstyled
         typeText: boolean

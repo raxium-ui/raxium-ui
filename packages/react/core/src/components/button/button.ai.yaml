@@ -1,0 +1,180 @@
+schemaVersion: 2.0.0
+docId: rark.react.button
+component:
+  name: Button
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Button
+  category: core
+  description: >-
+    触发操作、提交表单或快捷动作。基于 ark.button，tvButton 提供 variant/color、尺寸与加载态，
+    支持 ripple、theme/craft 与 ui。
+  basePrimitive:
+    library: '@ark-ui/react/factory'
+    primitive: ark.button
+    nativeElement: button
+  passThrough:
+    htmlAttributes:
+      - type
+      - disabled
+      - aria-*
+      - data-*
+      - className
+    notes: factory 原语封装，不是 Ark 独立业务组件。
+  capabilities:
+    - click
+    - loading
+    - ripple
+    - theme
+    - ui-override
+    - as-child
+    - variant-color
+contracts:
+  props:
+    - name: variant
+      typeText: '''solid'' | ''outlined'' | ''filled'' | ''text'' | ''link'' | ''icon'''
+      default: solid
+      description: 按钮形态；icon 为方形图标按钮。
+    - name: color
+      typeText: '''primary'' | ''default'' | ''danger'' | ''warning'' | ''info'''
+      default: primary
+      description: 语义色（data-color）；与 theme.surface 不同。
+    - name: disabled
+      typeText: boolean
+      description: 禁用交互并阻断 ripple。
+    - name: ripple
+      typeText: boolean
+      default: false
+      description: 点击水波纹。
+    - name: loading
+      typeText: boolean
+      default: false
+      description: 显示加载指示器。
+    - name: loadingIndicator
+      typeText: ReactNode
+      description: loading 时替换默认 LoaderCircle。
+    - name: asChild
+      typeText: boolean
+      default: false
+      description: Ark 多态。
+    - name: tooltip
+      typeText: string
+      description: 预留字段，当前不渲染。
+    - name: className
+      typeText: string
+      description: 根 className（与 ui.root 合并）。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvButton'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: ui
+      typeText: '{ root?: string; loading?: string }'
+      description: 局部 class 覆盖。
+    - name: children
+      typeText: ReactNode
+      description: 按钮主内容。
+  events:
+    - name: onClick
+      payload:
+        typeText: MouseEvent<HTMLButtonElement>
+      description: 先执行 ripple，再调用。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 按钮尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面；勿与 props.color 混淆。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除默认样式。
+      - name: bordered
+        typeText: boolean
+        description: 是否显示边框。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string
+        description: 根 className。
+      - name: ui.loading
+        typeText: string
+        description: 默认加载图标 className。
+behaviorModel:
+  derived:
+    rippleEnabled: ripple === true && disabled !== true
+    showLoading: loading === true
+    showRippleNode: ripple === true
+    rootDataAttrs: data-variant, data-color, data-size (theme.size)
+  transitions:
+    - on: click
+      guard: disabled !== true
+      effects:
+        - invokeRipple
+        - emit:onClick
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Button
+examples:
+  - id: basic
+    description: 基本用法
+  - id: variants
+    description: 变体与语义色（数据 map）
+  - id: sizes
+    description: 尺寸配置
+  - id: crafts
+    description: Crafts 覆写
+  - id: theme
+    exampleId: basic
+    description: Theme 示例（button.stories.tsx Theme）
+  - id: ui
+    exampleId: basic
+    description: UI 示例（button.stories.tsx UI）
+generationHints:
+  preferredUsageOrder:
+    - variant
+    - color
+    - theme.size
+    - loading
+    - ripple
+  a11yChecklist:
+    - icon-only 需 aria-label。
+    - asChild 时子元素需可聚焦、可交互。
+    - disabled 需可感知。
+  codegenTemplates:
+    minimal: <Button>Submit</Button>
+    semantic: <Button variant="solid" color="primary">OK</Button>
+    iconButton: <Button variant="icon" color="primary" aria-label="Add"><Plus /></Button>
+    asyncAction: <Button loading={pending} disabled={pending}>Save</Button>
+  antiPatterns:
+    - <Button className="bg-red-500">Delete</Button> — 用裸颜色表达语义，应优先 variant + color
+    - <Button onClick={submit}>Save</Button> — 异步未组合 loading，易重复触发
+    - <Button loadingSlot={...} /> — React 用 loadingIndicator，不要搬 Vue slot
+provenance:
+  sources:
+    - path: ./Button.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./button.doc.mdx
+      kind: doc
+    - path: ./button.stories.tsx
+      kind: story
+    - path: ../../../../../themes/src/default/crafts/button.ts
+      kind: type
+  precedence:
+    - runtime
+    - type
+    - doc

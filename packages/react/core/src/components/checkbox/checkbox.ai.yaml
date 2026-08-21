@@ -1,0 +1,232 @@
+schemaVersion: 2.0.0
+docId: rark.react.checkbox
+component:
+  name: Checkbox
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Checkbox
+  category: core
+  description: >-
+    布尔选择与多选集合。基于 Ark Checkbox.Root / Group，支持 checked/indeterminate、
+    label、indicator（配合 useCheckboxContext）、theme/craft/ui。
+  basePrimitive:
+    library: '@ark-ui/react/checkbox'
+    primitive: Checkbox.Root
+    nativeElement: label
+  passThrough:
+    htmlAttributes:
+      - id
+      - name
+      - required
+      - disabled
+      - readOnly
+      - aria-*
+      - data-*
+    notes: 交互与 a11y 由 Ark checkbox machine 提供；Raxium 增加 label、indicator、theme、ui。
+  capabilities:
+    - checked
+    - indeterminate
+    - controlled
+    - uncontrolled
+    - theme
+    - ui-override
+    - form-participation
+    - group-selection
+  subComponents:
+    - CheckboxGroup
+contracts:
+  props:
+    - name: checked
+      typeText: boolean | 'indeterminate'
+      conflictsWith:
+        - defaultChecked
+      description: 受控选中状态。
+    - name: defaultChecked
+      typeText: boolean | 'indeterminate'
+      conflictsWith:
+        - checked
+      description: 非受控初始状态。
+    - name: disabled
+      typeText: boolean
+      description: 是否禁用。
+    - name: readOnly
+      typeText: boolean
+      description: 只读。
+    - name: required
+      typeText: boolean
+      description: 表单必填。
+    - name: invalid
+      typeText: boolean
+      description: 校验错误态。
+    - name: name
+      typeText: string
+      description: 表单字段名。
+    - name: value
+      typeText: string
+      default: on
+      description: 表单提交值或组内项值。
+    - name: label
+      typeText: ReactNode
+      description: 标签内容。
+    - name: indicator
+      typeText: ReactNode
+      description: 替换默认 Check/Minus；状态相关用 useCheckboxContext。
+    - name: className
+      typeText: string
+      description: 根 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvCheckbox'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: ui
+      typeText: '{ root?: string; control?: string; indicator?: string; label?: string }'
+      description: 分槽 class 覆盖。
+  events:
+    - name: onCheckedChange
+      payload:
+        typeText: CheckedChangeDetails
+      description: checked 变化；details.checked 为新状态。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 复选框尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除默认样式。
+      - name: bordered
+        typeText: boolean
+        description: 是否显示边框。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string
+        description: 根容器。
+      - name: ui.control
+        typeText: string
+        description: 控制框。
+      - name: ui.indicator
+        typeText: string
+        description: 指示器容器。
+      - name: ui.label
+        typeText: string
+        description: 标签。
+subComponents:
+  CheckboxGroup:
+    props:
+      - name: value
+        typeText: string[]
+        conflictsWith:
+          - defaultValue
+        description: 受控选中值集合。
+      - name: defaultValue
+        typeText: string[]
+        conflictsWith:
+          - value
+        description: 非受控初始值集合。
+      - name: name
+        typeText: string
+        description: 组内共享字段名。
+      - name: disabled
+        typeText: boolean
+        description: 禁用整组。
+      - name: readOnly
+        typeText: boolean
+        description: 只读整组。
+      - name: invalid
+        typeText: boolean
+        description: 校验错误态。
+      - name: maxSelectedValues
+        typeText: number
+        description: 最多可选数量。
+      - name: className
+        typeText: string
+        description: 组容器 className。
+      - name: children
+        typeText: ReactNode
+        description: 通常为多个 Checkbox。
+    events:
+      - name: onValueChange
+        payload:
+          typeText: string[]
+        description: 组值变化。
+behaviorModel:
+  derived:
+    isInteractive: disabled !== true && readOnly !== true
+    showLabelNode: label != null && label !== ''
+  transitions:
+    - on: toggle-request
+      guard: isInteractive
+      effects:
+        - emit:onCheckedChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Checkbox
+examples:
+  - id: basic
+    description: 基础用法（受控）。
+  - id: states
+    description: 受控与状态展示。
+  - id: sizes
+    description: 尺寸配置。
+  - id: group
+    description: Checkbox.Group 多选。
+  - id: indicator
+    description: 自定义 indicator + useCheckboxContext。
+  - id: theme
+    exampleId: basic
+    description: Theme 示例（checkbox.stories.tsx Theme）。
+  - id: ui
+    exampleId: basic
+    description: UI 示例（checkbox.stories.tsx UI）。
+generationHints:
+  preferredUsageOrder:
+    - checked / defaultChecked
+    - label
+    - theme.size
+    - ui.*
+    - Checkbox.Group
+  a11yChecklist:
+    - 每个 Checkbox 需可见 label 或等效可访问名称。
+    - 禁用用 disabled，不要只用视觉灰化。
+    - 中间态用 'indeterminate'。
+  codegenTemplates:
+    minimal: <Checkbox label="Accept terms" />
+    group: >-
+      <Checkbox.Group value={values} onValueChange={setValues}><Checkbox value="a"
+      label="A" /><Checkbox value="b" label="B" /></Checkbox.Group>
+  antiPatterns:
+    - <Checkbox checked defaultChecked={false} /> — 同时受控与非受控。
+    - <Checkbox className="opacity-50" /> — 用 class 模拟禁用。
+    - <Checkbox indicatorSlot={...} /> — 用 indicator + useCheckboxContext，不要搬 Vue slot。
+provenance:
+  sources:
+    - path: ./Checkbox.tsx
+      kind: runtime
+    - path: ./CheckboxGroup.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./checkbox.doc.mdx
+      kind: doc
+    - path: ./checkbox.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

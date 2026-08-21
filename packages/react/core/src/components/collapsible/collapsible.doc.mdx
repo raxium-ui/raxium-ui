@@ -1,0 +1,315 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as CollapsibleStories from './collapsible.stories'
+
+<Meta of={CollapsibleStories} />
+
+# Collapsible
+
+`Collapsible` 在有限空间里展开/收起内容。React 入口是复合组件：`Collapsible`、`Collapsible.Trigger`、`Collapsible.Content`（亦可具名导入）。长文本场景用独立的 `ReadMore`。基于 Ark Collapsible **`Root`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `className`，触发器扩展 `indicator` 与 `ui`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={CollapsibleStories.Basic} />
+
+### 状态：默认展开与禁用
+
+<Canvas of={CollapsibleStories.States} />
+
+### 尺寸
+
+<Canvas of={CollapsibleStories.Sizes} />
+
+### 指示器
+
+<Canvas of={CollapsibleStories.Indicator} />
+
+### ReadMore
+
+<Canvas of={CollapsibleStories.ReadMore} />
+
+---
+
+## ARK UI Link
+
+- 根透传 `open` / `defaultOpen` / `disabled` / `collapsedHeight` / `onOpenChange` 等，并增加 `theme` / `craft` / `className`。
+- `Trigger` / `Content` 对应 Ark 子原语。
+- `ReadMore` 是业务封装，不是 Ark 一对一子组件。
+- 展开态用 `useCollapsibleContext()`，不要做成 Vue 作用域插槽。
+
+文档：[Ark UI Collapsible (React)](https://ark-ui.com/react/docs/components/collapsible)
+
+---
+
+## API
+
+### Collapsible
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>受控展开</td>
+    </tr>
+    <tr>
+      <td><code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>非受控初始展开</td>
+    </tr>
+    <tr>
+      <td><code>onOpenChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td><code>details.open</code></td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>禁用交互</td>
+    </tr>
+    <tr>
+      <td><code>collapsedHeight</code></td>
+      <td><code>number | string</code></td>
+      <td><code>0</code></td>
+      <td>收起时保留高度</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvCollapsible'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvCollapsible</code> 覆写</td>
+    </tr>
+  </tbody>
+</table>
+
+### Collapsible.Trigger
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>indicator</code></td>
+      <td><code>boolean | ReactNode</code></td>
+      <td><code>true</code></td>
+      <td><code>false</code> 隐藏；节点替换默认 chevron（仍在 Ark Indicator 内）</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; indicator?: string &#125;</code></td>
+      <td>-</td>
+      <td>触发器与指示器 class</td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Ark 多态</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>与 <code>ui.root</code> 合并</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>文案。展开态用 <code>useCollapsibleContext()</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### Collapsible.Content
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Ark 多态</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>内容区 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td><code>ThemeNoCrafts</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### ReadMore
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>text.more</code> / <code>text.less</code></td>
+      <td><code>string</code></td>
+      <td><code>'View More'</code> / <code>'View Less'</code></td>
+      <td>默认触发器文案</td>
+    </tr>
+    <tr>
+      <td><code>trigger</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>自定义触发器；用 <code>useReadMoreContext()</code> 拿 <code>show</code> / <code>text</code></td>
+    </tr>
+    <tr>
+      <td><code>open / defaultOpen / collapsedHeight / disabled / theme / className</code></td>
+      <td>同 Collapsible 根能力；<code>craft</code> 绑 <code>tvReadMore</code></td>
+      <td>-</td>
+      <td>内容超出 <code>collapsedHeight</code> 才显示默认触发器</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`Collapsible` 用 **`tvCollapsible`**；`ReadMore` 用 **`tvReadMore`** 画 root / content / trigger class。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>主要影响 Collapsible 触发器节奏</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框相关样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CollapsibleStories.Theme} />
+
+---
+
+## UI Configuration
+
+根 Collapsible 没有 `ui`。覆盖走 Trigger 与 ReadMore。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Collapsible.Trigger ui.root / ui.indicator</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>触发器 / 指示器</td>
+    </tr>
+    <tr>
+      <td><code>ReadMore.ui.root / content / trigger</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>ReadMore 分槽</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={CollapsibleStories.UI} />
+
+---
+
+## 最佳实践
+
+- 结构：`Collapsible > Trigger + Content`。
+- 受控用 `open` + `onOpenChange`。
+- 自定义图标：`indicator=&#123;&lt;Mark /&gt;&#125;`，在组件里调 `useCollapsibleContext()`。
+- 长文本用 `ReadMore` + `collapsedHeight`，不要自己量高度。
+- 节奏用 `theme.size`，局部用 `ui` / `className`，改结构再用 `craft` 或 `RUIConfig preset`。

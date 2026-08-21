@@ -3,8 +3,8 @@ docId: rark.vue.button
 component:
   name: Button
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Button
   category: core
   description: 用于触发操作、提交表单或承载快捷动作的基础交互组件。基于 Ark UI 的 ark.button 原语封装，通过 tvButton 提供
@@ -61,10 +61,10 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class。
     - name: theme
-      typeText: ThemeCrafts<'tvButton'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvButton'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui
@@ -106,11 +106,11 @@ contracts:
         default: base
         description: 按钮尺寸（与 tvButton size 变体一致；useTheme 合并后常见为 base）。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
-        description: 主题皮肤。
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 主题皮肤（data-theme-skin）。
       - name: surface
-        typeText: '''light'' | ''dark'''
-        description: 全局主题亮/暗表面（data-surface）；勿与 props.color 语义色混淆。
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 全局主题亮/暗表面；勿与 props.color 语义色混淆。
       - name: unstyled
         typeText: boolean
         description: 是否移除默认样式。
@@ -130,8 +130,7 @@ behaviorModel:
     rippleEnabled: ripple === true && disabled !== true
     showLoadingSlot: loading === true
     showRippleNode: ripple === true
-    rootDataAttrs: data-variant, data-color, data-surface (theme.surface), data-size
-      (theme.size)
+    rootDataAttrs: data-variant, data-color, data-size (theme.size)
   transitions:
     - on: click
       guard: disabled !== true

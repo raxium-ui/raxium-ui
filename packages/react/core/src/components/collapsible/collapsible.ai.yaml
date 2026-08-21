@@ -1,0 +1,242 @@
+schemaVersion: 2.0.0
+docId: rark.react.collapsible
+component:
+  name: Collapsible
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Collapsible
+  category: core
+  description: >-
+    展开/收起内容。复合组件 Collapsible / Trigger / Content；长文本用 ReadMore。
+    基于 Ark Collapsible.Root，扩展 theme/craft/className，触发器扩展 indicator 与 ui。
+  basePrimitive:
+    library: '@ark-ui/react/collapsible'
+    primitive: Collapsible.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - aria-*
+      - data-*
+    notes: 根透传 Ark Root 状态；Trigger/Content 透传对应子原语。
+  capabilities:
+    - expand-collapse
+    - controlled
+    - uncontrolled
+    - read-more
+    - theme
+    - ui-override
+    - compound-components
+  subComponents:
+    - CollapsibleTrigger
+    - CollapsibleContent
+    - ReadMore
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控展开状态。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控初始展开状态。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 是否禁用交互。
+    - name: collapsedHeight
+      typeText: number | string
+      default: 0
+      description: 收起时保留高度；ReadMore 用来判断是否显示触发器。
+    - name: asChild
+      typeText: boolean
+      default: false
+      description: Ark 多态。
+    - name: className
+      typeText: string
+      description: 根 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvCollapsible'>
+      description: 实例级 tvCollapsible 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Trigger + Content。
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: '{ open: boolean }'
+      description: 展开状态变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸（主要影响触发器）。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 移除内置样式。
+subComponents:
+  CollapsibleTrigger:
+    props:
+      - name: indicator
+        typeText: boolean | ReactNode
+        default: true
+        description: false 隐藏默认 chevron；节点替换图标。
+      - name: ui
+        typeText: '{ root?: string; indicator?: string }'
+        description: 触发器与指示器 class。
+      - name: className
+        typeText: string
+        description: 与 ui.root 合并。
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: Ark 多态。
+      - name: children
+        typeText: ReactNode
+        description: 触发器文案；展开态用 useCollapsibleContext。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: 触发器根。
+        - name: ui.indicator
+          typeText: string
+          description: 指示器。
+  CollapsibleContent:
+    props:
+      - name: className
+        typeText: string
+        description: 内容区 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: asChild
+        typeText: boolean
+        default: false
+        description: Ark 多态。
+      - name: children
+        typeText: ReactNode
+        description: 折叠内容。
+  ReadMore:
+    props:
+      - name: text
+        typeText: '{ more?: string; less?: string }'
+        description: 默认触发器文案。
+      - name: trigger
+        typeText: ReactNode
+        description: 自定义触发器；配合 useReadMoreContext / useCollapsibleContext。
+      - name: collapsedHeight
+        typeText: number | string
+        description: 超出该高度才显示默认触发器。
+      - name: theme
+        typeText: ThemeProps
+        description: tokens；craft 绑 tvReadMore。
+      - name: craft
+        typeText: CraftOverride<'tvReadMore'>
+        description: tvReadMore 覆写。
+      - name: ui
+        typeText: '{ root?: string; trigger?: string; content?: string }'
+        description: ReadMore 分槽 class。
+      - name: children
+        typeText: ReactNode
+        description: 长内容主体。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: 根。
+        - name: ui.content
+          typeText: string
+          description: 内容区。
+        - name: ui.trigger
+          typeText: string
+          description: 默认触发器。
+behaviorModel:
+  derived:
+    isControlled: open !== undefined
+    showReadMoreTrigger: measuredHeight > collapsedHeightPx
+  transitions:
+    - on: trigger-click
+      guard: disabled !== true
+      effects:
+        - emit:onOpenChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Collapsible
+examples:
+  - id: basic
+    description: 基础用法。
+  - id: states
+    description: 默认展开与禁用。
+  - id: sizes
+    description: theme.size。
+  - id: indicator
+    description: 关闭/自定义 indicator（useCollapsibleContext）。
+  - id: read-more
+    description: ReadMore 长内容。
+  - id: theme
+    exampleId: basic
+    description: Theme 示例。
+  - id: ui
+    exampleId: basic
+    description: UI 示例。
+generationHints:
+  preferredUsageOrder:
+    - open / defaultOpen
+    - Collapsible.Trigger / Content
+    - theme.size
+    - ReadMore collapsedHeight
+  a11yChecklist:
+    - Trigger 需可读文本，不要只靠图标。
+    - disabled 用语义，不要只用视觉。
+  codegenTemplates:
+    minimal: >-
+      <Collapsible><Collapsible.Trigger>More</Collapsible.Trigger><Collapsible.Content>…</Collapsible.Content></Collapsible>
+    readMore: <ReadMore collapsedHeight={60}>Long text…</ReadMore>
+  antiPatterns:
+    - <Collapsible open defaultOpen> — 同时受控与非受控。
+    - Collapsible.Trigger 使用 (ctx) => … slot — 用 useCollapsibleContext。
+provenance:
+  sources:
+    - path: ./Collapsible.tsx
+      kind: runtime
+    - path: ./CollapsibleTrigger.tsx
+      kind: runtime
+    - path: ./CollapsibleContent.tsx
+      kind: runtime
+    - path: ./ReadMore.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./collapsible.doc.mdx
+      kind: doc
+    - path: ./collapsible.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

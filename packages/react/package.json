@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@ark-ui/react": "5.38.1",
+    "@internationalized/date": "^3.10.1",
     "@raxium/react": "workspace:*",
     "@rsbuild/core": "^1.6.15",
     "@rsbuild/plugin-react": "^1.4.4",

@@ -1,0 +1,310 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as DatePickerStories from './date-picker.stories'
+
+<Meta of={DatePickerStories} />
+
+# DatePicker
+
+`DatePicker` 用于单日期与日期范围选择，支持日/月/年多视图、受控状态、禁用日期与事件监听。React 入口是复合组件：`DatePicker`、`DatePicker.Control`、`DatePicker.Content`、`DatePicker.DayView` / `MonthView` / `YearView`（亦可具名导入）。基于 Ark Date Picker **`Root`**（不是 `RootProvider`）。根扩展 `theme` / `craft` / `className`；弹层可用 `prefix` / `suffix`（`ReactNode`）。适用于表单录入、筛选面板与时间范围查询。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={DatePickerStories.Basic} />
+
+### 多视图切换（日 / 月 / 年）
+
+<Canvas of={DatePickerStories.Views} />
+
+### 范围选择
+
+<Canvas of={DatePickerStories.Range} />
+
+### 受控模式与事件监听
+
+<Canvas of={DatePickerStories.Events} />
+
+### 禁用日期规则
+
+<Canvas of={DatePickerStories.DisabledDate} />
+
+### 尺寸与主题变体
+
+<Canvas of={DatePickerStories.Sizes} />
+
+---
+
+## ARK UI Link
+
+- 根透传 Ark `DatePickerRootBaseProps`（`value` / `onValueChange` / `open` / `view` 等），并增加 Raxium **`theme` / `craft`**（作用于 **`tvDatePicker`**）。
+- `Control` / `Content` / `*View` 在 Ark 原语外增加了默认结构与 `tvDatePicker` / `tvDatePickerView` 样式。
+- 触发器、展示文案复用 Ark `DatePicker.Trigger` / `DatePicker.ValueText`。
+- 日历状态用 `useDatePickerContext()`，不要做成 Vue 作用域插槽。
+
+文档：[Ark UI Date Picker (React)](https://ark-ui.com/react/docs/components/date-picker)
+
+---
+
+## API
+
+### DatePicker
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>DateValue[]</code></td>
+      <td>-</td>
+      <td>受控选中值；单选通常 1 个元素，范围通常 2 个</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>DateValue[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td><code>details.value</code> 为 <code>DateValue[]</code></td>
+    </tr>
+    <tr>
+      <td><code>selectionMode</code></td>
+      <td><code>'single' | 'range' | 'multiple'</code></td>
+      <td>-</td>
+      <td>选择模式</td>
+    </tr>
+    <tr>
+      <td><code>open</code> / <code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>面板打开状态</td>
+    </tr>
+    <tr>
+      <td><code>onOpenChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td><code>details.open</code></td>
+    </tr>
+    <tr>
+      <td><code>view</code> / <code>defaultView</code></td>
+      <td><code>'day' | 'month' | 'year'</code></td>
+      <td>-</td>
+      <td>当前视图</td>
+    </tr>
+    <tr>
+      <td><code>onViewChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td>日/月/年切换</td>
+    </tr>
+    <tr>
+      <td><code>isDateUnavailable</code></td>
+      <td><code>(date: DateValue) =&gt; boolean</code></td>
+      <td>-</td>
+      <td>返回 <code>true</code> 的日期不可选</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code> / <code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>Presence；可被 <code>RUIConfig['date-picker']</code> 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根 className</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvDatePicker'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 tvDatePicker 覆写</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>通常为 Control + Content</td>
+    </tr>
+  </tbody>
+</table>
+
+### DatePicker.Control
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>控制区 className</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>通常为 Trigger / ValueText</td>
+    </tr>
+  </tbody>
+</table>
+
+### DatePicker.Content
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>视图主体前后内容（对应 Vue 具名 slot）</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>弹层内容 className</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>放置 DayView / MonthView / YearView</td>
+    </tr>
+  </tbody>
+</table>
+
+### DatePicker.DayView / MonthView / YearView
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>weekDayType</code></td>
+      <td><code>'short' | 'long' | 'narrow'</code></td>
+      <td><code>'short'</code></td>
+      <td>仅 DayView：星期抬头格式</td>
+    </tr>
+    <tr>
+      <td><code>monthType</code></td>
+      <td><code>'short' | 'long'</code></td>
+      <td><code>'short'</code></td>
+      <td>仅 MonthView：月份文案格式</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>视图根 className</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+根通过 **`tvDatePicker`** 驱动控制区与弹层；视图内 **`tvDatePickerView`** 继承尺寸与选中态。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸，联动触发区与网格节奏</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>亮暗表面</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>内容区边框</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>关闭默认样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={DatePickerStories.Theme} />
+
+---
+
+## UI Configuration
+
+根不提供独立 `ui` 对象。用根 `craft`、各节点 `className` 覆盖。
+
+---
+
+## 最佳实践
+
+- 保持 `DatePicker` + `Control` + `Content` + `*View` 组合，避免跳过控制区。
+- 表单优先受控 `value` / `onValueChange`；需要外部驱动弹层时再受控 `open`。
+- 范围选择显式 `selectionMode="range"`，并用 `DatePicker.ValueText` 展示区间。
+- 禁用日期统一走 `isDateUnavailable`。
+- 视图切换按钮是否出现，取决于 Content 里实际挂了哪些 View（通过 `displayName` 识别）。

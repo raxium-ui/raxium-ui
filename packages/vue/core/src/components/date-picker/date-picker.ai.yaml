@@ -3,8 +3,8 @@ docId: rark.vue.date-picker
 component:
   name: DatePicker
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: DatePicker
   category: core
   description: 用于单日期与日期范围选择的复合组件，支持日/月/年多视图切换、受控状态管理、禁用日期规则与事件监听。基于 Ark UI useDatePicker
@@ -78,10 +78,10 @@ contracts:
       typeText: string
       description: 本地化语言与格式设置（BCP 47 语言标签）。
     - name: theme
-      typeText: ThemeCrafts<'tvDatePicker'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvDatePicker'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:
@@ -130,6 +130,12 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 尺寸变体，联动输入触发区和视图网格节奏。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
       - name: bordered
         typeText: boolean
         description: 是否给内容区启用边框样式。

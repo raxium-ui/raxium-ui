@@ -69,6 +69,9 @@ importers:
       '@ark-ui/react':
         specifier: 5.38.1
         version: 5.38.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@internationalized/date':
+        specifier: ^3.10.1
+        version: 3.12.2
       '@raxium/react':
         specifier: workspace:*
         version: link:core
@@ -142,6 +145,9 @@ importers:
       '@ark-ui/react':
         specifier: 5.38.1
         version: 5.38.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@internationalized/date':
+        specifier: ^3.10.1
+        version: 3.12.2
       '@rsbuild/plugin-react':
         specifier: ^1.4.4
         version: 1.4.6(@rsbuild/core@2.1.13(core-js@3.47.0))
@@ -4551,6 +4557,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -5319,6 +5326,7 @@ packages:
 
   lucide-vue-next@1.0.0:
     resolution: {integrity: sha512-V6SPvx1IHTj/UY+FrIYWV5faISsPSb8BnWSFDxAtezWKvWc9ZZ40PDrdu1/Qb5vg4lHWr1hs1BAMGVGm6V1Xdg==}
+    deprecated: Package deprecated. Please use @lucide/vue instead.
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -8417,7 +8425,7 @@ snapshots:
 
   '@internationalized/date@3.11.0':
     dependencies:
-      '@swc/helpers': 0.5.19
+      '@swc/helpers': 0.5.23
 
   '@internationalized/date@3.12.0':
     dependencies:

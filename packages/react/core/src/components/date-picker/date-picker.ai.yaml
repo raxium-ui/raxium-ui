@@ -1,0 +1,275 @@
+schemaVersion: 2.0.0
+docId: rark.react.date-picker
+component:
+  name: DatePicker
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: DatePicker
+  category: core
+  description: >-
+    单日期与日期范围选择。复合组件 DatePicker / Control / Content / DayView / MonthView / YearView。
+    基于 Ark DatePicker.Root，扩展 theme/craft/className；Content 用 prefix/suffix ReactNode。
+  basePrimitive:
+    library: '@ark-ui/react/date-picker'
+    primitive: DatePicker.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - aria-*
+      - data-*
+    notes: 根透传 DatePickerRootBaseProps；Control/Content/*View 透传对应子原语。
+  capabilities:
+    - single-date
+    - range-date
+    - multi-view
+    - controlled
+    - uncontrolled
+    - theme
+    - disabled-date
+    - compound-components
+    - lazy-mount
+  subComponents:
+    - DatePickerControl
+    - DatePickerContent
+    - DatePickerDayView
+    - DatePickerMonthView
+    - DatePickerYearView
+contracts:
+  props:
+    - name: value
+      typeText: DateValue[]
+      conflictsWith:
+        - defaultValue
+      description: 受控选中值；单选通常 1 个元素，范围通常 2 个。
+    - name: defaultValue
+      typeText: DateValue[]
+      conflictsWith:
+        - value
+      description: 非受控初始值。
+    - name: selectionMode
+      typeText: '''single'' | ''range'' | ''multiple'''
+      default: single
+      description: 选择模式。
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 面板是否打开（受控）。
+    - name: view
+      typeText: '''day'' | ''month'' | ''year'''
+      conflictsWith:
+        - defaultView
+      description: 当前视图（受控）。
+    - name: focusedValue
+      typeText: DateValue
+      conflictsWith:
+        - defaultFocusedValue
+      description: 当前聚焦日期（受控）。
+    - name: isDateUnavailable
+      typeText: '(date: DateValue) => boolean'
+      description: 返回 true 的日期不可选。
+    - name: numOfMonths
+      typeText: number
+      description: 同时展示的月份数量。
+    - name: min
+      typeText: DateValue
+      description: 可选日期下限。
+    - name: max
+      typeText: DateValue
+      description: 可选日期上限。
+    - name: locale
+      typeText: string
+      description: BCP 47 语言标签。
+    - name: lazyMount
+      typeText: boolean
+      description: Presence；可被 RUIConfig date-picker 覆盖。
+    - name: unmountOnExit
+      typeText: boolean
+      description: Presence；可被 RUIConfig date-picker 覆盖。
+    - name: className
+      typeText: string
+      description: 根 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvDatePicker'>
+      description: 实例级 tvDatePicker 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Control + Content。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+      description: 选中值变化。
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+      description: 面板开关变化。
+    - name: onViewChange
+      payload:
+        typeText: ViewChangeDetails
+      description: 日/月/年视图切换。
+    - name: onFocusChange
+      payload:
+        typeText: FocusChangeDetails
+      description: 聚焦日期变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸，联动触发区与网格节奏。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: bordered
+        typeText: boolean
+        description: 内容区边框。
+      - name: unstyled
+        typeText: boolean
+        description: 关闭默认样式。
+  uiConfiguration:
+    fields: []
+subComponents:
+  DatePickerControl:
+    props:
+      - name: className
+        typeText: string
+        description: 控制区 className。
+      - name: children
+        typeText: ReactNode
+        description: 通常为 Trigger / ValueText。
+  DatePickerContent:
+    props:
+      - name: prefix
+        typeText: ReactNode
+        description: 视图主体前内容。
+      - name: suffix
+        typeText: ReactNode
+        description: 视图主体后内容。
+      - name: className
+        typeText: string
+        description: 弹层内容 className。
+      - name: children
+        typeText: ReactNode
+        description: DayView / MonthView / YearView。
+  DatePickerDayView:
+    props:
+      - name: weekDayType
+        typeText: '''short'' | ''long'' | ''narrow'''
+        default: short
+        description: 星期抬头格式。
+      - name: className
+        typeText: string
+        description: 日视图根 className。
+  DatePickerMonthView:
+    props:
+      - name: monthType
+        typeText: '''short'' | ''long'''
+        default: short
+        description: 月份文案格式。
+      - name: className
+        typeText: string
+        description: 月视图根 className。
+  DatePickerYearView:
+    props:
+      - name: className
+        typeText: string
+        description: 年视图根 className。
+behaviorModel:
+  derived:
+    isOpen: open === true
+    hasValue: value?.length > 0
+    isRangeMode: selectionMode === 'range'
+  transitions:
+    - on: onValueChange
+      guard: '!disabled'
+      effects:
+        - emit:onValueChange
+    - on: onOpenChange
+      guard: always
+      effects:
+        - emit:onOpenChange
+    - on: onViewChange
+      guard: always
+      effects:
+        - emit:onViewChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: DatePicker
+examples:
+  - id: basic
+    description: 基础用法
+  - id: views
+    description: 多视图切换
+  - id: range
+    description: 范围选择
+  - id: events
+    description: 受控与事件
+  - id: disabled-date
+    description: 禁用日期
+  - id: sizes
+    description: 尺寸
+generationHints:
+  preferredUsageOrder:
+    - value / defaultValue
+    - selectionMode
+    - DatePicker.Control + Content + *View
+    - theme.size
+    - isDateUnavailable
+  a11yChecklist:
+    - 保持 Control + Content + View 组合。
+    - 范围选择显式 selectionMode="range"。
+    - 禁用日期用 isDateUnavailable。
+  codegenTemplates:
+    minimal: >-
+      <DatePicker><DatePicker.Control><DatePicker.Trigger><Button>Select
+      Date</Button></DatePicker.Trigger></DatePicker.Control><DatePicker.Content><DatePicker.DayView
+      /></DatePicker.Content></DatePicker>
+    range: >-
+      <DatePicker selectionMode="range"><DatePicker.Control><DatePicker.Trigger><DatePicker.ValueText
+      placeholder="选择日期范围"
+      /></DatePicker.Trigger></DatePicker.Control><DatePicker.Content><DatePicker.DayView
+      /><DatePicker.MonthView /></DatePicker.Content></DatePicker>
+  antiPatterns:
+    - <DatePicker><DatePicker.Content><DatePicker.DayView /></DatePicker.Content></DatePicker>
+      — 跳过 Control。
+    - DatePicker.Content prefixSlot / renderPrefix — 用 prefix/suffix ReactNode。
+    - 同时传 value 与 defaultValue。
+provenance:
+  sources:
+    - path: ./DatePicker.tsx
+      kind: runtime
+    - path: ./DatePickerControl.tsx
+      kind: runtime
+    - path: ./DatePickerContent.tsx
+      kind: runtime
+    - path: ./DatePickerDayView.tsx
+      kind: runtime
+    - path: ./DatePickerMonthView.tsx
+      kind: runtime
+    - path: ./DatePickerYearView.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./date-picker.doc.mdx
+      kind: doc
+    - path: ./date-picker.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc
