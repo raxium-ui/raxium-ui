@@ -2,7 +2,7 @@
 
 > **Default audience**: app developers styling Raxium components.  
 > Skin-pack / design-system authors: see [Advanced](#5-advanced-presets-and-craft).  
-> Component authors (Vue / React internals): see `packages/vue/core/docs/theme-system.md`.  
+> Component authors (Vue / React internals): see `.cursor/rules/theme-boundary.mdc`.  
 > 中文版：[THEME-CUSTOMIZATION-GUIDE.zh-CN.md](./THEME-CUSTOMIZATION-GUIDE.zh-CN.md)
 
 ---
@@ -26,7 +26,7 @@ Most apps only need **three knobs**. Do not reach for `craft` or `theme.crafts` 
 | --- | --- | --- |
 | Whole app | `RUIConfig` **tokens** + CSS variables | Do not put a raw `tv*` table on `theme.crafts` unless you need the [escape hatch](#52-apply-at-the-app-root) |
 | A region (page, panel, overlay stack) | `ThemeProvider` (`size` / `surface` / `skin` / `bordered`) | Do not wrap a subtree just to change craft structure |
-| One instance | `class` / `ui` | Do not use `:craft` to append classes |
+| One instance | `class` / `className` / `ui` | Do not use `craft` to append classes |
 
 `ThemeProvider` and component `theme` are **tokens only**. They never accept `crafts`.
 
@@ -72,7 +72,7 @@ Use `ThemeProvider` when a subtree should differ in size or surface (e.g. a ligh
 
 ### 1.3 One instance
 
-Prefer **`class`** (root) and **`ui`** (named slots). They merge on top of crafts via `clsx` / `cxc`; they do not replace the `tv*` definition.
+Prefer **`class` / `className`** (root) and **`ui`** (named slots). They merge on top of crafts via `clsx` / `cxc`; they do not replace the `tv*` definition.
 
 ```vue
 <Button class="shadow-lg" :ui="{ loading: 'text-blue-500' }">
@@ -137,11 +137,11 @@ Three implementation layers (you usually only touch the first):
 └──────────────────────────────────────────────────┘
 ```
 
-**Token merge** (lowest → highest): library defaults → `RUIConfig.theme` tokens → `ThemeProvider` → component `theme`.
+**Token merge** (lowest → highest): library defaults → `RUIConfig.theme` tokens → optional `RUIConfig.<component>.theme` → `ThemeProvider` → component `theme`.
 
 **Crafts table merge**: library defaults → **`RUIConfig preset`** (unlisted `tv*` keep defaults) → optional `theme.crafts` escape hatch → instance `craft` (`CraftOverride`).
 
-**Render**: `ui` + root `class` on top.
+**Render**: `ui` + root `class` / `className` on top.
 
 | Type | Shape | Who uses it |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ Use only when `class` / `ui` cannot express the change (new variant branch, `def
 </Button>
 ```
 
-Do **not** use `craft.slots` / `craft.base` just to append classes — that is `ui` / `class`.
+Do **not** use `craft.slots` / `craft.base` just to append classes — that is `ui` / `class` / `className`.
 
 | Field | Description |
 | --- | --- |
@@ -351,4 +351,4 @@ const override: CraftOverride<'tvButton'> = {
 }
 ```
 
-Vue (and React) component props still expose `theme` + `craft` via `ThemeCrafts<'tvButton'>`. Treat **`craft` as advanced**; everyday styling is `theme` tokens + `ui` / `class`.
+Vue (and React) component props still expose `theme` + `craft` via `ThemeCrafts<'tvButton'>`. Treat **`craft` as advanced**; everyday styling is `theme` tokens + `ui` / `class` / `className`.

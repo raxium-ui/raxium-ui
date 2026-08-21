@@ -18,18 +18,22 @@
     "@raxium/themes": "workspace:*"
   },
   "devDependencies": {
+    "@ark-ui/react": "5.38.1",
+    "@raxium/react": "workspace:*",
     "@rsbuild/core": "^1.6.15",
     "@rsbuild/plugin-react": "^1.4.4",
-    "@storybook/addon-a11y": "^10.2.0",
-    "@storybook/addon-docs": "^10.2.0",
-    "@storybook/addon-themes": "^10.2.0",
+    "@storybook/addon-a11y": "10.3.0",
+    "@storybook/addon-docs": "10.3.0",
+    "@storybook/addon-themes": "10.3.0",
+    "@storybook/react": "10.3.0",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.2.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "lucide-react": "^1.33.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "storybook": "^10.2.8",
+    "storybook": "10.3.0",
     "storybook-react-rsbuild": "3.2.2",
     "tailwindcss": "^4.1.18"
   }

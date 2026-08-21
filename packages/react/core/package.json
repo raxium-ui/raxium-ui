@@ -72,7 +72,8 @@
     "@iconify/react": "^6.0.2",
     "@raxium/shared": "workspace:*",
     "@raxium/themes": "workspace:*",
-    "es-toolkit": "^1.44.0"
+    "es-toolkit": "^1.44.0",
+    "lucide-react": "^1.33.0"
   },
   "devDependencies": {
     "@ark-ui/react": "5.38.1",

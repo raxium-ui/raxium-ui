@@ -24,6 +24,7 @@
     "@ark-ui/react": "5.38.1",
     "@raxium/react": "workspace:*",
     "@raxium/themes": "workspace:*",
+    "lucide-react": "^1.33.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },

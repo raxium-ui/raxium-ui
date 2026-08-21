@@ -1,6 +1,7 @@
 import type { CraftOverride, Crafts, ThemeProps } from './types'
 import { crafts as defaultCrafts } from '../default'
-import { clsx, tv } from '../utils'
+import { clsx } from '../utils/cn'
+import { tv } from '../utils/tv'
 
 /** tv() config keys that trigger a craft extend */
 const TV_CONFIG_KEYS = [

@@ -1,0 +1,26 @@
+---
+description: Vue 与 React 各自遵循框架习惯；禁止把另一套 API 原样搬过去
+alwaysApply: true
+---
+
+# 框架原生风格
+
+对照另一框架实现组件时，**只对齐能力与 theme/craft 边界**，不要对齐模板形态。
+
+| | Vue 3（`packages/vue/**`、`playground/vue/**`） | React（`packages/react/**`、`playground/react/**`） |
+| --- | --- | --- |
+| 组合 | 具名导出 + 默认/具名 slot、作用域插槽 | 复合组件 `Accordion.Item`；`children` 为 `ReactNode` |
+| 状态 | `v-model`、`defineExpose` / `$api`、scoped slot 绑 API | props + callback（`value` / `onValueChange`）；子状态用 Context hook |
+| Ark 根 | `useX` + `RootProvider`（expose / slot / emit） | 优先 `Root`；不要为对齐 Vue 而拆 `useX` + `RootProvider` |
+| 主题下发 | `useProvideComponentTheme`（setup 里 provide） | `<ProvideComponentTheme>` 包住子树（Context 必须是组件） |
+| 样式入口 | `class`、`:ui`、`:theme`、`:craft` | `className`、`ui`、`theme`、`craft`（语义同，命名按 React） |
+| 示例 | 模板里写清结构；不必强行 `v-for` | 列表用数据 + `map`；需要 hooks 时拆小组件 |
+
+## 禁止
+
+- 把 Vue slot / `#indicator` 做成 `indicatorSlot`、`renderSlot` 运行时。
+- 给 React 组件加 `AccordionPanel` 等仅因 Vue 有别名。
+- 在 React 里用 `class` 当 DOM class（用 `className`）。
+- 为「和 Vue 文件长得像」而展开重复 JSX、或反过来把 Vue 改成全是 render function。
+
+Theme / craft 分层仍以 `theme-boundary` 为准；本规则只管 **框架 API 形态**。

@@ -1,6 +1,6 @@
 ---
-description: Vue 组件 theme / craft 边界：tokens、crafts 分层，root vs structural 用法
-globs: "packages/vue/**/*.{vue,ts,tsx}"
+description: Theme / craft 边界：tokens、preset、crafts 分层；root vs structural（Vue + React）
+globs: "packages/{vue,react}/**/*.{vue,ts,tsx}"
 alwaysApply: false
 ---
 
@@ -10,45 +10,67 @@ alwaysApply: false
 
 | 类型 | 形状 | 用途 |
 | --- | --- | --- |
-| `ThemeProps` | tokens only（`skin` / `surface` / `size` / …） | `:theme`、Scope Theme、`ThemeProvider` |
-| `ThemeConfig` | `ThemeProps` + optional `crafts?` | **仅** `RUIConfig.theme` |
+| `ThemeProps` | tokens only（`skin` / `surface` / `size` / …） | 组件 `theme`、Scope Theme、`ThemeProvider` |
+| `ThemeConfig` | `ThemeProps` + optional `crafts?` | `RUIConfig.theme`（`crafts` 是逃逸口） |
+| `CraftPreset` | 具名 `tv*` **options** 包 | `RUIConfig preset`（未列出的 key 沿用库默认） |
 | `ResolvedTheme` | `ThemeProps` + required `crafts` | `useTheme` 产出 / Component Theme |
 
-- **不要**在 `ThemeProps` / Scope / 组件 `:theme` 上挂 `crafts`。
+- **不要**在 `ThemeProps` / Scope / 组件 `theme` 上挂 `crafts`。
 - Props mixin：`ThemeCrafts<'tvXxx'>`（`theme` + 单 key `craft`）；结构子件用 `ThemeNoCrafts`（仅 `theme`）。
-- `ThemeCrafts` **只绑一个主 craft key**（禁止 `'tvA' | 'tvB'` union）。内嵌原语（如 Menu 内 checkbox、TagsInput 内 input）改结构走应用级 `RUIConfig.theme.crafts`。
-- **单实例样式**：优先 `class` / `:ui`；只有改 `tv*` 结构 / `defaultVariants` / compound 时才用 `:craft`。
+- `ThemeCrafts` **只绑一个主 craft key**（禁止 `'tvA' | 'tvB'` union）。内嵌原语改结构走应用级 **preset**（或逃逸口 `theme.crafts`）。
+- **单实例样式**：优先 `class` / `className` / `ui`；只有改 `tv*` 结构 / `defaultVariants` / compound 时才用 `craft`。
 
-## Crafts 两层
+## Crafts 叠放（低 → 高）
 
-1. **应用级**：`RUIConfig.theme.crafts`（preset / 全局）← `useTheme` 只从这里 merge crafts。
-2. **实例级**：根组件 `:craft`（`CraftOverride`）
-   - 叶子：`useCraft(theme, 'tvXxx', variants, () => craft)`
-   - 复合根（provide 给子件）：`useThemeCraft(theme, 'tvXxx', () => craft)` 再 `useProvideComponentTheme(themed, …)`
+1. 库默认 `@raxium/themes/default`
+2. **`RUIConfig preset`**（`tv` options；未列出的 `tv*` 沿用默认）
+3. **`RUIConfig.theme.crafts` 逃逸口**（已 resolve 的 `tv*` 函数，整份换掉该 key）
+4. 实例 `craft`（`CraftOverride`）
+5. 渲染：`ui` + 根 `class` / `className`（只追加，不换 `tv*`）
+
+`useTheme` 只 `mergeCraftTables(configCrafts)`。`configCrafts` 由 `RUIConfig` 内部 `applyRuiCrafts(preset, theme.crafts)` 写入，不要在应用里自己 `resolvePreset`。应用侧决策树见 `packages/themes/THEME-CUSTOMIZATION-GUIDE.md`。
+
+实例 `craft`：
+- 叶子：Vue `useCraft(..., () => craft)`；React `useCraft(..., craft)`
+- 复合根（provide 给子件）：先 `useThemeCraft` bake，再 provide（勿把未 bake 的 theme 发出去）
 
 ## Root 组件（独立边界）
 
-- `useTheme(...)` 解析 tokens 全链路（defaults → config → component-config → Scope → props）。
-- 有 `:craft` 时必须 **bake**（`useThemeCraft`），再 `useProvideComponentTheme(themed, () => propsTheme)`；勿把未 bake 的 theme provide 出去。
-- 解构时剥离 `theme` / `craft`，勿 forward 进 Ark / 第三方 props。
-- 典型：`Dialog`、`Tooltip`、`Popover`、`Menu`、`Select`、`DatePicker`、`Messager`、`Toaster`。
+- `useTheme(...)`：tokens 为库默认 → `RUIConfig.theme` → `RUIConfig.<comp>.theme` → Scope（`ThemeProvider` / 祖先显式 `theme`）→ 实例 `theme`。
+- 有 `craft` 时必须 bake，再 provide。
+- 解构时剥离 `theme` / `craft`，勿 forward 进 Ark。
+- Provide：Vue `useProvideComponentTheme(themed, () => propsTheme)`；React `<ProvideComponentTheme theme={themed} propsTheme={propsTheme}>`。
+- 典型：`Dialog`、`Tooltip`、`Popover`、`Menu`、`Select`、`DatePicker`、`Accordion`、`Messager`、`Toaster`。
 
 ## Structural 组件（内部结构）
 
 - `useInheritedTheme(...)` 继承父组件已解析的 `ResolvedTheme`（含 bake 后的 crafts）。
-- 若还承载子节点（`*Content` / Arrow 等），用 `useProvideStructuralComponentTheme(...)` 向下传 Component Theme，**不得**泄漏到 Scope Theme。
-- **不要**在 structural 中使用 `useTheme` 或 `useProvideComponentTheme`。
-- 无根级 `:craft`（`ThemeNoCrafts`）；局部样式用 `ui` / `class`。
+- 若还承载子节点（`*Content` / Arrow 等）：Vue `useProvideStructuralComponentTheme`；React `<ProvideStructuralComponentTheme>`。**不得**泄漏到 Scope Theme。
+- **不要**在 structural 中使用 `useTheme` 或 root provide。
+- 无根级 `craft`（`ThemeNoCrafts`）；局部样式用 `ui` / `class` / `className`。
 
 ## 通道语义
 
-- **Scope Theme**（`ThemeProvider` / 显式 `:theme` provide）：**tokens only**；供独立后代的 `useTheme` 读取。
+- **Scope Theme**（`ThemeProvider` / 显式 `theme` provide）：**tokens only**；供独立后代的 `useTheme`。
 - **Component Theme**：`ResolvedTheme`；供结构子件 `useInheritedTheme`。
 
 ## 快速判断
 
 - 可单独使用、可配 `RUIConfig.xxx.theme`（tokens）→ root。
 - 仅作为某 root 内部部件（`*Content/*Item/*Trigger/*Header/*Footer`）→ structural。
+
+## 落地检查
+
+1. 先判 root vs structural。
+2. root：`useTheme` → 有 `craft` 则 bake → root provide。
+3. structural：`useInheritedTheme`；有深层子节点再 structural provide。
+4. Teleport 出去的节点用 `useThemeAttrs` 保持 `data-theme-*`。
+
+## 常见坑
+
+- structural 误用 `useTheme`：会吃到 Scope，出现 skin/surface 串层。
+- Content 本地 merge 了 `theme` 却不 structural provide：Content 对、Arrow 错。
+- root / structural provide 混用：Scope 泄漏或作用域失效。
 
 ## 例外
 

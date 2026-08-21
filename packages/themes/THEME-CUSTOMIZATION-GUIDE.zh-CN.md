@@ -2,7 +2,7 @@
 
 > **默认读者**：使用 `@raxium/themes` 给组件换外观的业务开发。  
 > 皮肤包 / 设计系统作者：见 [进阶：Preset 与 craft](#5-进阶preset-与-craft)。  
-> 组件作者（Vue / React 内部）：见 `packages/vue/core/docs/theme-system.md`。  
+> 组件作者（Vue / React 内部）：见 `.cursor/rules/theme-boundary.mdc`。  
 > English: [THEME-CUSTOMIZATION-GUIDE.md](./THEME-CUSTOMIZATION-GUIDE.md)
 
 ---
@@ -26,7 +26,7 @@
 | --- | --- | --- |
 | 整个应用 | `RUIConfig` 的 **tokens** + CSS 变量 | 除非需要 [逃逸口](#52-在应用根上挂载)，否则不要把原始 `tv*` 表挂在 `theme.crafts` |
 | 一块区域（页面、面板、一层 overlay） | `ThemeProvider`（`size` / `surface` / `skin` / `bordered`） | 不要只为了改 craft 结构而包一层 |
-| 某一个实例 | `class` / `ui` | 不要用 `:craft` 来拼 class |
+| 某一个实例 | `class` / `className` / `ui` | 不要用 `craft` 来拼 class |
 
 `ThemeProvider` 和组件的 `theme` **只接受 tokens**，不能带 `crafts`。
 
@@ -72,7 +72,7 @@ export function Root() {
 
 ### 1.3 某一个实例
 
-优先 **`class`**（根节点）和 **`ui`**（具名槽位）。它们在 crafts 之上用 `clsx` / `cxc` 合并，**不会**替换 `tv*` 定义。
+优先 **`class` / `className`**（根节点）和 **`ui`**（具名槽位）。它们在 crafts 之上用 `clsx` / `cxc` 合并，**不会**替换 `tv*` 定义。
 
 ```vue
 <Button class="shadow-lg" :ui="{ loading: 'text-blue-500' }">
@@ -137,11 +137,11 @@ export function Root() {
 └──────────────────────────────────────────────────┘
 ```
 
-**Token 合并**（低 → 高）：库默认 → `RUIConfig.theme` 的 token → `ThemeProvider` → 组件 `theme`。
+**Token 合并**（低 → 高）：库默认 → `RUIConfig.theme` 的 token → 可选的 `RUIConfig.<component>.theme` → `ThemeProvider` → 组件 `theme`。
 
 **Crafts 表合并**：库默认 → **`RUIConfig preset`**（未列出的 `tv*` 沿用默认）→ 可选的 `theme.crafts` 逃逸口 → 实例 `craft`（`CraftOverride`）。
 
-**渲染时**：再叠 `ui` + 根节点 `class`。
+**渲染时**：再叠 `ui` + 根节点 `class` / `className`。
 
 | 类型 | 形状 | 谁用 |
 | --- | --- | --- |
@@ -319,7 +319,7 @@ export const enterprisePreset = definePreset({
 </Button>
 ```
 
-不要用 `craft.slots` / `craft.base` 只为了追加 class —— 那是 `ui` / `class` 的事。
+不要用 `craft.slots` / `craft.base` 只为了追加 class —— 那是 `ui` / `class` / `className` 的事。
 
 | 字段 | 说明 |
 | --- | --- |
@@ -351,4 +351,4 @@ const override: CraftOverride<'tvButton'> = {
 }
 ```
 
-Vue / React 组件 props 仍通过 `ThemeCrafts<'tvButton'>` 同时暴露 `theme` 和 `craft`。日常样式用 **token 的 `theme` + `ui` / `class`**；把 **`craft` 当成进阶能力**。
+Vue / React 组件 props 仍通过 `ThemeCrafts<'tvButton'>` 同时暴露 `theme` 和 `craft`。日常样式用 **token 的 `theme` + `ui` / `class` / `className`**；把 **`craft` 当成进阶能力**。

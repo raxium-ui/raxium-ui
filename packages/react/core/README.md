@@ -7,6 +7,6 @@ This package currently ships the **framework** only:
 - `RUIConfig` / `ThemeProvider` / `ThemeContext`
 - theme hooks (`useTheme`, `useCraft`, `useInheritedTheme`, `useThemeCraft`, …)
 - depth / teleport helpers for upcoming overlays
-- empty `components/` barrel — fill one component at a time
+- `Accordion` compound components: `Accordion.Item` / `Accordion.Trigger` / `Accordion.Content`
 
 Vue equivalent: `@raxium/vue`.
