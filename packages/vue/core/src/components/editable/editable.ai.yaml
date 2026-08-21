@@ -3,8 +3,8 @@ docId: rark.vue.editable
 component:
   name: Editable
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Editable
   category: core
   description: 用于将静态文本切换为就地编辑输入，适合昵称、标题、备注等轻量修改场景。基于 Ark UI Editable 构建，支持受控/非受控值、编辑态切换、提交与回退事件，扩展
@@ -84,10 +84,10 @@ contracts:
       typeText: string | array | object
       description: 根节点附加 class。
     - name: theme
-      typeText: ThemeCrafts<'tvEditable'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvEditable'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui

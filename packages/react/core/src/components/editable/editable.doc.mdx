@@ -1,0 +1,193 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as EditableStories from './editable.stories'
+
+<Meta of={EditableStories} />
+
+# Editable
+
+`Editable` 把静态文本切成就地编辑，适合昵称、标题、备注。React 入口是复合组件：`Editable`、`Editable.Input`、`Editable.Preview`（亦可具名导入）。基于 Ark Editable **`Root`**。根扩展 `theme` / `craft` / `className` / `ui`；`Input` 扩展 `clearable`。编辑态用 `useEditableContext()`，不要做成 Vue 作用域插槽。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={EditableStories.Basic} />
+
+### 尺寸与主题参数
+
+<Canvas of={EditableStories.Sizes} />
+
+### 状态：空值、禁用、只读
+
+<Canvas of={EditableStories.States} />
+
+### 自定义控制按钮
+
+<Canvas of={EditableStories.CustomControls} />
+
+---
+
+## ARK UI Link
+
+- 根透传 `value` / `onValueChange` / `edit` / `onEditChange` 等，并增加 `theme` / `craft` / `ui` / `prefix` / `suffix`。
+- `Input` / `Preview` 对应 Ark 子原语；`Input` 额外提供清空。
+- `Control` / `EditTrigger` / `SubmitTrigger` / `CancelTrigger` 复用 Ark 导出。
+
+文档：[Ark UI Editable (React)](https://ark-ui.com/react/docs/components/editable)
+
+---
+
+## API
+
+### Editable
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控文本</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td><code>details.value</code></td>
+    </tr>
+    <tr>
+      <td><code>edit</code> / <code>defaultEdit</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>编辑态</td>
+    </tr>
+    <tr>
+      <td><code>activationMode</code></td>
+      <td><code>'focus' | 'click' | 'dblclick' | 'none'</code></td>
+      <td><code>'focus'</code></td>
+      <td>进入编辑的方式</td>
+    </tr>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string | &#123; edit: string; preview: string &#125;</code></td>
+      <td>-</td>
+      <td>占位文案</td>
+    </tr>
+    <tr>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>区域前后内容；需要 <code>editing</code> 时拆小组件用 <code>useEditableContext()</code></td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; area?: string &#125;</code></td>
+      <td>-</td>
+      <td>根与 Area class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvEditable'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvEditable 覆写</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>通常为 Input + Preview</td>
+    </tr>
+  </tbody>
+</table>
+
+点击清空按钮或输入区不会因 interact-outside 退出编辑。
+
+### Editable.Input
+
+`clearable`：`true` 显示默认图标；传入 `ReactNode` 替换图标。编辑态且非空时显示。
+
+### Editable.Preview
+
+预览区，可透传 Ark Preview 属性。
+
+---
+
+## Theme Configuration
+
+根 **`tvEditable`**；输入区 **`tvEditableInput`** 继承 Input 结构。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>亮暗表面</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>关闭默认样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={EditableStories.Sizes} />
+
+---
+
+## 最佳实践
+
+- 保持 `Editable` + `Input` + `Preview`。
+- 需要提交/取消按钮时用 `activationMode="none"` + `Control` / Trigger，编辑态用 context hook。
+- 清空配置在 `Input.clearable` 上。
+- 持久化优先听 `onValueCommit`，不要只靠 `onValueChange`。

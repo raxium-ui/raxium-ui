@@ -1,0 +1,95 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as IconStories from './icon.stories'
+
+<Meta of={IconStories} />
+
+# Icon
+
+`Icon` 基于 Iconify，用于在按钮、表单、列表和状态里统一渲染图标。不是 Ark 业务组件。叶子组件：`theme` / `craft`（`tvIcon`）与 `className`。尺寸跟行高走（默认 `size-[1lh]`），**不提供 `theme.size`**。
+
+额外 Iconify 参数（`ssr`、`rotate`、`flip`、`inline` 等）按 React `className` 习惯透传到 `@iconify/react`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={IconStories.Basic} />
+
+### 尺寸与排版联动
+
+<Canvas of={IconStories.Sizes} />
+
+### 颜色与样式覆写
+
+<Canvas of={IconStories.ColorAndClass} />
+
+---
+
+## ARK UI Link
+
+不对应 Ark 官方组件。底层是 `@iconify/react` 的 `Icon`。
+
+- Iconify：[Iconify for React](https://iconify.design/docs/icon-components/react/)
+
+---
+
+## API
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>icon</code></td>
+      <td><code>string | IconifyIcon</code></td>
+      <td>-</td>
+      <td>图标名（如 <code>lucide:check</code>）或 Iconify 对象</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>颜色、动画、线宽等</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>Omit&lt;ThemeProps, 'size'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 size / crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvIcon'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvIcon 覆写</td>
+    </tr>
+  </tbody>
+</table>
+
+图标集合可通过 `RUIConfig iconify`（`addIcons` / `addCollections` / `addAPIProviders`）注册。
+
+---
+
+## Theme Configuration
+
+`tvIcon` 默认 `size-[1lh]`。`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`。无 `theme.size`。
+
+<Canvas of={IconStories.Sizes} />
+
+---
+
+## 最佳实践
+
+- 统一 Iconify 命名空间（如 `lucide:*`）。
+- 与文字对齐时改父级字号，不要给 Icon 单独设 `theme.size`。
+- 点击/可访问性由外层 `button` / `a` 承担，不要给 Icon 绑交互。

@@ -1,0 +1,101 @@
+schemaVersion: 2.0.0
+docId: rark.react.icon
+component:
+  name: Icon
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Icon
+  category: core
+  description: >-
+    基于 Iconify 的通用图标。叶子组件，提供 theme/craft（tvIcon）与 className。
+    不提供 theme.size；尺寸跟随 1lh。可通过 RUIConfig.iconify 注册图标。
+  basePrimitive:
+    library: '@iconify/react'
+    primitive: Icon
+    nativeElement: svg
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+      - className
+    notes: 透传 @iconify/react Icon 常用参数（rotate/flip/inline/ssr 等）。不支持 ui。
+  capabilities:
+    - theme
+    - class-override
+    - iconify
+contracts:
+  props:
+    - name: icon
+      required: true
+      requiredSource: type
+      typeText: string | IconifyIcon
+      description: 图标名或 Iconify 对象。
+    - name: className
+      typeText: string
+      description: 颜色、动画、线宽等。
+    - name: theme
+      typeText: Omit<ThemeProps, 'size'>
+      description: 实例 tokens，不含 size / crafts。
+    - name: craft
+      typeText: CraftOverride<'tvIcon'>
+      description: 实例 tvIcon 覆写。
+  events: []
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: bordered
+        typeText: boolean
+        description: 边框语义。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Icon
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸与排版联动
+  - id: color-and-class
+    description: 颜色与样式覆写
+generationHints:
+  preferredUsageOrder:
+    - icon
+    - className
+    - craft
+  a11yChecklist:
+    - 统一 Iconify 命名空间。
+    - 交互由外层按钮/链接承载。
+  codegenTemplates:
+    minimal: <Icon icon="lucide:check" />
+    withClass: <Icon icon="lucide:check" className="text-green-500" />
+  antiPatterns:
+    - 混用不同图标命名空间。
+    - 在 Icon 上绑 onClick，而不是包在 button 里。
+    - 使用 theme.size。
+provenance:
+  sources:
+    - path: ./Icon.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./icon.doc.mdx
+      kind: doc
+    - path: ./icon.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

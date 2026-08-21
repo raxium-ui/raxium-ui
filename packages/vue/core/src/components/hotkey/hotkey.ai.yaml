@@ -3,8 +3,8 @@ docId: rark.vue.hotkey
 component:
   name: Hotkey
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Hotkey
   category: core
   description: 用于在页面中采集和展示快捷键组合（如 Ctrl + Shift + K），适合设置中心、编辑器偏好等场景。基于 Ark UI factory
@@ -47,10 +47,10 @@ contracts:
       typeText: string | array | object
       description: 根节点附加 class。
     - name: theme
-      typeText: ThemeCrafts<'tvHotkey'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvHotkey'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui
@@ -89,10 +89,10 @@ contracts:
         default: base
         description: 尺寸主题变体。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
+        typeText: '''default'' | ''razer'' | ''shadcn'''
         description: 皮肤风格选择。
       - name: surface
-        typeText: '''light'' | ''dark'''
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 表面模式。
       - name: bordered
         typeText: boolean

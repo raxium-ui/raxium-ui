@@ -1,0 +1,143 @@
+schemaVersion: 2.0.0
+docId: rark.react.input
+component:
+  name: Input
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Input
+  category: core
+  description: >-
+    单行文本输入。叶子组件，原生 input + clearable、prefix/suffix、theme/craft/ui。
+    受控用 value + onValueChange。
+  basePrimitive:
+    library: '@ark-ui/react/factory'
+    primitive: ark.div | ark.input
+    nativeElement: input
+  passThrough:
+    htmlAttributes:
+      - id
+      - placeholder
+      - maxLength
+      - minLength
+      - disabled
+      - readOnly
+      - type
+      - autoComplete
+      - name
+      - aria-*
+      - data-*
+    notes: 未在扩展 API 中声明的原生属性透传到内部 input。
+  capabilities:
+    - controlled-value
+    - clearable
+    - theme
+    - ui-override
+    - prefix-suffix
+contracts:
+  props:
+    - name: value
+      typeText: string
+      conflictsWith:
+        - defaultValue
+      description: 受控值。
+    - name: defaultValue
+      typeText: string
+      conflictsWith:
+        - value
+      description: 非受控初值。
+    - name: clearable
+      typeText: boolean
+      default: false
+      description: 聚焦且有值时显示清空按钮。
+    - name: prefix
+      typeText: ReactNode
+      description: 前置内容。
+    - name: suffix
+      typeText: ReactNode
+      description: 后置内容。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvInput'>
+      description: 实例 tvInput 覆写。
+    - name: ui
+      typeText: '{ root?: string; input?: string; clearable?: string }'
+      description: 槽位 className。
+    - name: className
+      typeText: string
+      description: 根容器 className。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: '(value: string | undefined)'
+      description: 值变化；清空为 undefined。
+    - name: onClear
+      payload:
+        typeText: '(event: MouseEvent, value: string | undefined)'
+      description: 点击清空。
+    - name: onChange
+      payload:
+        typeText: '(event: ChangeEvent<HTMLInputElement>)'
+      description: 原生输入（React onChange）。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Input
+examples:
+  - id: basic
+    description: 基础输入
+  - id: states
+    description: 可清空/禁用/只读
+  - id: sizes
+    description: 尺寸
+  - id: prefix-suffix-and-ui
+    description: 前后缀与 UI
+generationHints:
+  preferredUsageOrder:
+    - value / defaultValue
+    - placeholder
+    - clearable
+    - prefix / suffix
+    - theme.size
+  a11yChecklist:
+    - placeholder 不能替代 label。
+    - disabled/readOnly 有可感知反馈。
+  codegenTemplates:
+    minimal: <Input value={value} placeholder="请输入" onValueChange={setValue} />
+    withPrefix: <Input prefix={<Icon icon="lucide:search" />} placeholder="搜索" />
+  antiPatterns:
+    - 仅用 placeholder 当 label。
+    - 同时 disabled 与 readOnly。
+    - #prefix 插槽 / prefixSlot — 用 prefix ReactNode。
+provenance:
+  sources:
+    - path: ./Input.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./input.doc.mdx
+      kind: doc
+    - path: ./input.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

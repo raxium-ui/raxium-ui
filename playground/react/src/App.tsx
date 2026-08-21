@@ -1,4 +1,4 @@
-import { Accordion, Badge, Button, Checkbox, Collapsible, DatePicker, RUIConfig } from '@raxium/react'
+import { Accordion, Badge, Button, Checkbox, Collapsible, DatePicker, Dialog, Editable, FloatingPanel, Hotkey, HoverCard, Icon, Input, RUIConfig } from '@raxium/react'
 
 export function App() {
   return (
@@ -13,6 +13,11 @@ export function App() {
     >
       <div className="content p-4 space-y-4 max-w-xl">
         <h1 className="text-lg">@raxium/react playground</h1>
+        <div className="flex items-center gap-2 text-base">
+          <Icon icon="lucide:check" className="text-rz-green" />
+          <Icon icon="lucide:plus" />
+          <Icon icon="lucide:loader-circle" className="animate-spin" />
+        </div>
         <div className="flex items-center gap-2">
           <Button>Button</Button>
           <Button variant="outlined" color="default">Outlined</Button>
@@ -30,6 +35,42 @@ export function App() {
           <Checkbox defaultChecked label="Checkbox" />
           <Checkbox defaultChecked="indeterminate" label="Mixed" />
         </div>
+        <FloatingPanel minSize={{ width: 360, height: 240 }}>
+          <FloatingPanel.Trigger asChild>
+            <Button>FloatingPanel</Button>
+          </FloatingPanel.Trigger>
+          <FloatingPanel.Content>
+            <FloatingPanel.Header control={<FloatingPanel.CloseTrigger />}>
+              Playground Panel
+            </FloatingPanel.Header>
+            <div className="p-3 text-sm">Compound API: Trigger / Content / Header.</div>
+          </FloatingPanel.Content>
+        </FloatingPanel>
+        <HoverCard positioning={{ placement: 'top' }}>
+          <HoverCard.Trigger asChild>
+            <Button variant="outlined">HoverCard</Button>
+          </HoverCard.Trigger>
+          <HoverCard.Content>
+            <HoverCard.Arrow />
+            Compound API: Trigger / Content / Arrow.
+          </HoverCard.Content>
+        </HoverCard>
+        <Input className="w-60" placeholder="Input" clearable />
+        <Hotkey defaultHotkey="" className="w-80" />
+        <Editable defaultValue="Editable" placeholder="Edit me">
+          <Editable.Input clearable />
+          <Editable.Preview />
+        </Editable>
+        <Dialog>
+          <Dialog.Trigger asChild>
+            <Button>Dialog</Button>
+          </Dialog.Trigger>
+          <Dialog.Content className="w-120">
+            <Dialog.Header>Playground Dialog</Dialog.Header>
+            <Dialog.Body>Compound API: Dialog.Trigger / Content / Header / Body / Footer.</Dialog.Body>
+            <Dialog.Footer />
+          </Dialog.Content>
+        </Dialog>
         <DatePicker lazyMount unmountOnExit>
           <DatePicker.Control className="w-fit">
             <DatePicker.Trigger>

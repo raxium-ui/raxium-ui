@@ -1,0 +1,214 @@
+schemaVersion: 2.0.0
+docId: rark.react.dialog
+component:
+  name: Dialog
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Dialog
+  category: core
+  description: >-
+    复合弹窗。Dialog / Trigger / Content / Header / Body / Footer / CloseTrigger。
+    基于 Ark Dialog.Root；扩展 theme/craft/beforeClose 与 from。函数式 dialog() / useDialog()。
+  basePrimitive:
+    library: '@ark-ui/react/dialog'
+    primitive: Dialog.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+    notes: 根透传 DialogRootBaseProps（onOpenChange 扩展 from）；结构子件为 Raxium 封装。
+  capabilities:
+    - theme
+    - controlled-open
+    - from-tracking
+    - structured-content
+    - functional-api
+    - before-close
+    - compound-components
+  subComponents:
+    - DialogTrigger
+    - DialogCloseTrigger
+    - DialogBackdrop
+    - DialogContent
+    - DialogHeader
+    - DialogBody
+    - DialogFooter
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控初始状态。
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载；可被 RUIConfig.dialog 覆盖。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后卸载；可被 RUIConfig.dialog 覆盖。
+    - name: beforeClose
+      typeText: '({ from, done, resume }) => void'
+      description: 调用 done() 后才关闭；resume() 取消拦截。
+    - name: className
+      typeText: string
+      description: 根 className（Root 为 Provider，通常无 DOM）。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvDialog'>
+      description: 实例级 tvDialog 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Trigger + Content。
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: '{ open: boolean; from: DialogTriggerFrom }'
+      description: 打开状态变化（含触发来源）。
+    - name: onEscapeKeyDown
+      payload:
+        typeText: KeyboardEvent
+      description: 按下 ESC。
+    - name: onInteractOutside
+      payload:
+        typeText: InteractOutsideEvent
+      description: 外部交互。
+    - name: onExitComplete
+      payload:
+        typeText: void
+      description: 关闭动画结束。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: bordered
+        typeText: boolean
+        description: 内容区边框。
+      - name: unstyled
+        typeText: boolean
+        description: 关闭默认样式。
+subComponents:
+  DialogContent:
+    props:
+      - name: showClose
+        typeText: boolean
+        default: true
+        description: 无 Header 时是否显示默认关闭钮。
+      - name: close
+        typeText: ReactNode
+        description: 替换默认关闭控制。
+      - name: className
+        typeText: string
+        description: 内容区 className。
+      - name: children
+        typeText: ReactNode
+        description: Header / Body / Footer。
+  DialogFooter:
+    props:
+      - name: widget
+        typeText: '{ cancel?: ButtonProps & { text?: string }; ok?: ButtonProps & { text?: string } }'
+        description: 默认按钮定制。
+      - name: onOk
+        typeText: '(event) => void'
+        description: 确认点击。
+      - name: onCancel
+        typeText: '(event) => void'
+        description: 取消点击。
+  DialogTrigger:
+    props:
+      - name: from
+        typeText: DialogTriggerFrom
+        default: open_trigger
+        description: 打开来源标记。
+  DialogCloseTrigger:
+    props:
+      - name: from
+        typeText: DialogTriggerFrom
+        default: close_trigger
+        description: 关闭来源标记。
+behaviorModel:
+  derived:
+    isOpen: open === true
+  transitions:
+    - on: onOpenChange
+      guard: '!beforeClosePending'
+      effects:
+        - emit:onOpenChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Dialog
+examples:
+  - id: basic
+    description: 基础用法
+  - id: controlled-and-events
+    description: 受控与事件
+  - id: before-close
+    description: 关闭前拦截
+  - id: variants
+    description: 尺寸
+  - id: scrollable
+    description: 可滚动
+  - id: content-close
+    description: Content 关闭钮
+  - id: footer-widget
+    description: Footer 定制
+  - id: functional
+    description: 函数式
+  - id: stacked
+    description: 多层
+  - id: stacked-functional
+    description: 函数式多层
+generationHints:
+  preferredUsageOrder:
+    - Dialog.Trigger + Dialog.Content
+    - open / onOpenChange
+    - beforeClose
+    - theme.size
+  a11yChecklist:
+    - 保持 Trigger + Content 结构。
+    - Header 标题作为可读名称。
+    - 关闭来源用 from，不要猜测。
+  codegenTemplates:
+    minimal: >-
+      <Dialog><Dialog.Trigger asChild><Button>Open</Button></Dialog.Trigger><Dialog.Content><Dialog.Header>Title</Dialog.Header><Dialog.Body>Body</Dialog.Body><Dialog.Footer
+      /></Dialog.Content></Dialog>
+  antiPatterns:
+    - 跳过 Dialog.Trigger 仅用受控 open 且无焦点恢复目标。
+    - closeSlot / renderClose — 用 close ReactNode。
+provenance:
+  sources:
+    - path: ./Dialog.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./dialog.doc.mdx
+      kind: doc
+    - path: ./dialog.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

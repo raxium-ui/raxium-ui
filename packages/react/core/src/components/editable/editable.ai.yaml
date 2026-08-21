@@ -1,0 +1,198 @@
+schemaVersion: 2.0.0
+docId: rark.react.editable
+component:
+  name: Editable
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Editable
+  category: core
+  description: >-
+    就地编辑文本。复合组件 Editable / Input / Preview；Control 与 Trigger 复用 Ark。
+    基于 Ark Editable.Root，扩展 theme/craft/ui/prefix/suffix；Input 扩展 clearable。
+  basePrimitive:
+    library: '@ark-ui/react/editable'
+    primitive: Editable.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - disabled
+      - readOnly
+      - maxLength
+      - aria-*
+      - data-*
+    notes: 根透传 EditableRootBaseProps；Input/Preview 透传对应子原语。
+  capabilities:
+    - controlled
+    - uncontrolled
+    - theme
+    - ui-override
+    - compound-components
+    - clearable
+  subComponents:
+    - EditableInput
+    - EditablePreview
+contracts:
+  props:
+    - name: value
+      typeText: string
+      conflictsWith:
+        - defaultValue
+      description: 受控文本值。
+    - name: defaultValue
+      typeText: string
+      conflictsWith:
+        - value
+      description: 非受控初始值。
+    - name: edit
+      typeText: boolean
+      conflictsWith:
+        - defaultEdit
+      description: 受控编辑态。
+    - name: defaultEdit
+      typeText: boolean
+      conflictsWith:
+        - edit
+      description: 非受控初始编辑态。
+    - name: activationMode
+      typeText: '''focus'' | ''click'' | ''dblclick'' | ''none'''
+      default: focus
+      description: 进入编辑的方式。
+    - name: submitMode
+      typeText: '''enter'' | ''blur'' | ''none'' | ''both'''
+      default: both
+      description: 提交方式。
+    - name: placeholder
+      typeText: 'string | { edit: string; preview: string }'
+      description: 占位文案。
+    - name: disabled
+      typeText: boolean
+      default: false
+      description: 禁用。
+    - name: readOnly
+      typeText: boolean
+      default: false
+      description: 只读。
+    - name: prefix
+      typeText: ReactNode
+      description: Area 前内容。
+    - name: suffix
+      typeText: ReactNode
+      description: Area 后内容；需要 editing 时用 useEditableContext。
+    - name: className
+      typeText: string
+      description: 根 className。
+    - name: ui
+      typeText: '{ root?: string; area?: string }'
+      description: 根与 Area class 覆盖。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvEditable'>
+      description: 实例 tvEditable 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Input + Preview。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+      description: 值变化。
+    - name: onValueCommit
+      payload:
+        typeText: ValueChangeDetails
+      description: 提交编辑。
+    - name: onValueRevert
+      payload:
+        typeText: ValueChangeDetails
+      description: 回退编辑。
+    - name: onEditChange
+      payload:
+        typeText: EditChangeDetails
+      description: 编辑态变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: bordered
+        typeText: boolean
+        description: 边框。
+      - name: unstyled
+        typeText: boolean
+        description: 关闭默认样式。
+subComponents:
+  EditableInput:
+    props:
+      - name: clearable
+        typeText: boolean | ReactNode
+        default: false
+        description: true 显示默认清空图标；ReactNode 替换图标。
+      - name: className
+        typeText: string
+        description: 输入区容器 className。
+  EditablePreview:
+    props:
+      - name: className
+        typeText: string
+        description: 预览区 className。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Editable
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 空值、禁用、只读
+  - id: custom-controls
+    description: 自定义控制按钮
+generationHints:
+  preferredUsageOrder:
+    - Editable.Input + Editable.Preview
+    - value / onValueChange
+    - Input clearable
+    - theme.size
+  a11yChecklist:
+    - 保持 Input + Preview。
+    - 自定义 suffix 控件用 useEditableContext，不要作用域插槽。
+  codegenTemplates:
+    minimal: >-
+      <Editable defaultValue="Edit me"><Editable.Input clearable /><Editable.Preview
+      /></Editable>
+  antiPatterns:
+    - prefixSlot / suffix 使用 (ctx) => … render prop — 拆小组件用 useEditableContext。
+    - 只放 Input 不放 Preview。
+provenance:
+  sources:
+    - path: ./Editable.tsx
+      kind: runtime
+    - path: ./EditableInput.tsx
+      kind: runtime
+    - path: ./EditablePreview.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./editable.doc.mdx
+      kind: doc
+    - path: ./editable.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

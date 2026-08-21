@@ -3,8 +3,8 @@ docId: rark.vue.input
 component:
   name: Input
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Input
   category: core
   description: 用于采集单行文本或数字输入，适合表单、筛选栏、搜索框等场景。基于 Ark UI Vue factory 原语（ark.div）构建输入容器，在原生输入行为之上补充
@@ -75,10 +75,10 @@ contracts:
       typeText: string | array | object
       description: 根容器附加 class
     - name: theme
-      typeText: ThemeCrafts<'tvInput'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvInput'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui
@@ -158,10 +158,10 @@ contracts:
         default: base
         description: 尺寸主题变体（crafts tvInput defaultVariants）
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
+        typeText: '''default'' | ''razer'' | ''shadcn'''
         description: 皮肤风格
       - name: surface
-        typeText: '''light'' | ''dark'''
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 表面模式
       - name: bordered
         typeText: boolean

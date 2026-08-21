@@ -3,8 +3,8 @@ docId: rark.vue.floating-panel
 component:
   name: FloatingPanel
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: FloatingPanel
   category: core
   description: 可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。基于 Ark UI Floating
@@ -75,10 +75,10 @@ contracts:
       typeText: string | string[] | Record<string, boolean>
       description: 根节点 class 覆盖。
     - name: theme
-      typeText: ThemeCrafts<'tvFloatingPanel'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvFloatingPanel'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:
@@ -134,6 +134,12 @@ contracts:
       - name: size
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         description: 控制头部间距、触发器尺寸、缩放手柄尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
 subComponents:
   FloatingPanelContent:
     props:

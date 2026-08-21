@@ -3,8 +3,8 @@ docId: rark.vue.dialog
 component:
   name: Dialog
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Dialog
   category: core
   description: 复合弹窗组件，用于承载确认、表单编辑、详情展示等临时交互内容。基于 Ark UI Dialog 构建，支持受控/非受控状态、关闭来源追踪（from）、主题配置。
@@ -57,10 +57,10 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class
     - name: theme
-      typeText: ThemeCrafts<'tvDialog'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvDialog'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:

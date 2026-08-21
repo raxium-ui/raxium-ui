@@ -3,8 +3,8 @@ docId: rark.vue.icon
 component:
   name: Icon
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Icon
   category: core
   description: 基于 Iconify 的通用图标组件，用于在按钮、表单、列表和状态提示中统一渲染图标。提供 theme/craft 与 class 样式覆写；不支持
@@ -32,11 +32,10 @@ contracts:
       typeText: HTMLAttributes['class']
       description: 图标节点附加 class，用于颜色、动画、线宽等样式控制
     - name: theme
-      typeText: ThemeNoCrafts['theme']
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。不提供 theme.size（类型为 Omit ThemeCrafts tvIcon 去掉
-        size）。
+      typeText: Omit<ThemeProps, 'size'>
+      description: 实例 tokens，不含 size / crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvIcon'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events: []
@@ -44,10 +43,10 @@ contracts:
   themeConfiguration:
     fields:
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
+        typeText: '''default'' | ''razer'' | ''shadcn'''
         description: 皮肤风格选择
       - name: surface
-        typeText: '''light'' | ''dark'' | (string & {})'
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 表面模式
       - name: bordered
         typeText: boolean

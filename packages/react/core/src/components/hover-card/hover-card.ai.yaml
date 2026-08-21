@@ -1,0 +1,154 @@
+schemaVersion: 2.0.0
+docId: rark.react.hover-card
+component:
+  name: HoverCard
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: HoverCard
+  category: core
+  description: >-
+    可交互的悬停浮层。复合组件 HoverCard / Trigger / Content / Arrow。基于 Ark HoverCard.Root，
+    合并 RUIConfig.hoverCard 的 delay、presence、placement、theme。
+  basePrimitive:
+    library: '@ark-ui/react/hover-card'
+    primitive: HoverCard.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 根透传 Root 常用参数，并扩展 theme/craft。
+  capabilities:
+    - open
+    - positioning
+    - openDelay
+    - closeDelay
+    - theme
+    - ui-override
+    - lazyMount
+    - unmountOnExit
+    - compound-components
+  subComponents:
+    - HoverCardTrigger
+    - HoverCardContent
+    - HoverCardArrow
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态。
+    - name: defaultOpen
+      typeText: boolean
+      default: false
+      conflictsWith:
+        - open
+      description: 非受控初始打开。
+    - name: positioning
+      typeText: PositioningOptions
+      description: 浮层定位。
+    - name: openDelay
+      typeText: number
+      description: 打开延迟（ms）；可被 RUIConfig 覆盖默认。
+    - name: closeDelay
+      typeText: number
+      description: 关闭延迟（ms）。
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载内容。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 关闭后卸载内容。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvHoverCard'>
+      description: 实例 tvHoverCard 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Trigger + Content。
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+      description: 打开状态变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+      - name: bordered
+        typeText: boolean
+        default: true
+        description: 内容与箭头边框。
+subComponents:
+  HoverCardContent:
+    props:
+      - name: className
+        typeText: string
+        description: 内容节点 className。
+      - name: ui
+        typeText: '{ positioner?: string; content?: string; inner?: string }'
+        description: 定位层、内容、内层 class 覆盖。
+      - name: children
+        typeText: ReactNode
+        description: 浮层内容；HoverCard.Arrow 会被抽到 inner 外。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: HoverCard
+examples:
+  - id: basic
+    description: 基础用法
+  - id: delays-and-positioning
+    description: 延迟与定位
+  - id: controlled-and-context
+    description: 受控与上下文
+  - id: themes-and-variants
+    description: 主题变体
+  - id: custom-content
+    description: 自定义 UI
+generationHints:
+  preferredUsageOrder:
+    - HoverCard.Trigger asChild + Content + Arrow
+    - positioning.placement
+    - openDelay / closeDelay
+    - theme.size
+  a11yChecklist:
+    - Trigger 提供可访问名称。
+    - 内容保持短信息，避免复杂交互。
+  codegenTemplates:
+    minimal: >-
+      <HoverCard><HoverCard.Trigger asChild><Button>Hover</Button></HoverCard.Trigger><HoverCard.Content><HoverCard.Arrow
+      />content</HoverCard.Content></HoverCard>
+  antiPatterns:
+    - HoverCardContext 作用域插槽 — 用 useHoverCardContext。
+    - 把 Arrow 做成 arrowSlot。
+provenance:
+  sources:
+    - path: ./HoverCard.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./hover-card.doc.mdx
+      kind: doc
+    - path: ./hover-card.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

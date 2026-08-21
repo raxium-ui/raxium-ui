@@ -3,8 +3,8 @@ docId: rark.vue.hover-card
 component:
   name: HoverCard
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: HoverCard
   category: core
   description: 可交互的悬停浮层组件，常用于展示用户摘要、快捷说明或次级操作入口。基于 Ark UI Hover Card 构建：根组件承接 Ark
@@ -62,10 +62,10 @@ contracts:
       typeText: boolean
       description: 关闭后是否卸载内容。
     - name: theme
-      typeText: ThemeCrafts<'tvHoverCard'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvHoverCard'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:
@@ -91,10 +91,10 @@ contracts:
         default: base
         description: 影响浮层尺寸节奏与箭头尺寸。
       - name: skin
-        typeText: '''razer'' | ''shadcn'''
+        typeText: '''default'' | ''razer'' | ''shadcn'''
         description: 影响组件视觉皮肤标识。
       - name: surface
-        typeText: '''light'' | ''dark'''
+        typeText: '''light'' | ''dark'' | ''system'''
         description: 影响明暗表面样式。
       - name: bordered
         typeText: boolean
@@ -138,7 +138,7 @@ subComponents:
           defaultKind: explicit-doc
           description: 内容尺寸（继承根 theme）。
         - name: skin
-          typeText: '''razer'' | ''shadcn'''
+          typeText: '''default'' | ''razer'' | ''shadcn'''
           typeSchema:
             enum:
               - razer
@@ -147,7 +147,7 @@ subComponents:
           defaultKind: unknown
           description: 皮肤语义（继承根 theme）。
         - name: surface
-          typeText: '''light'' | ''dark'''
+          typeText: '''light'' | ''dark'' | ''system'''
           typeSchema:
             enum:
               - light
@@ -206,7 +206,7 @@ subComponents:
           defaultKind: explicit-doc
           description: 箭头尺寸（继承根 theme）。
         - name: skin
-          typeText: '''razer'' | ''shadcn'''
+          typeText: '''default'' | ''razer'' | ''shadcn'''
           typeSchema:
             enum:
               - razer
@@ -215,7 +215,7 @@ subComponents:
           defaultKind: unknown
           description: 皮肤语义（继承根 theme）。
         - name: surface
-          typeText: '''light'' | ''dark'''
+          typeText: '''light'' | ''dark'' | ''system'''
           typeSchema:
             enum:
               - light

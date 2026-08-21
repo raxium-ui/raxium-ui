@@ -1,0 +1,156 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as HotkeyStories from './hotkey.stories'
+
+<Meta of={HotkeyStories} />
+
+# Hotkey
+
+`Hotkey` 用于采集和展示快捷键组合（如 `Ctrl + Shift + K`）。基于 Ark factory（`ark.div` / `ark.input`），不是 Ark 独立业务组件。扩展热键解析、删除清空、IME 保护，以及 `theme` / `craft` / `ui`。
+
+React 用 `hotkey` + `onHotkeyChange` 代替 Vue 的 `v-model:hotkey`。
+
+---
+
+## Examples
+
+### 基础录入
+
+<Canvas of={HotkeyStories.Basic} />
+
+### 尺寸
+
+<Canvas of={HotkeyStories.Sizes} />
+
+### 普通 / 禁用 / 只读
+
+<Canvas of={HotkeyStories.States} />
+
+### 自定义占位
+
+<Canvas of={HotkeyStories.Placeholder} />
+
+### 事件
+
+<Canvas of={HotkeyStories.Events} />
+
+---
+
+## ARK UI Link
+
+使用 Ark React factory 原语，不对应官方 Hotkey 组件。
+
+参考：[Ark UI React Factory](https://ark-ui.com/react/docs/guides/composition)
+
+---
+
+## API
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>hotkey</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控热键字符串</td>
+    </tr>
+    <tr>
+      <td><code>defaultHotkey</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>非受控初值</td>
+    </tr>
+    <tr>
+      <td><code>placeholder</code></td>
+      <td><code>string | ((focused: boolean) =&gt; string)</code></td>
+      <td><code>''</code></td>
+      <td>占位文案；函数可按焦点状态返回</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用采集</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>只读展示。对应 Vue <code>readonly</code></td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根节点 className</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvHotkey'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvHotkey 覆写</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; input?: string &#125;</code></td>
+      <td>-</td>
+      <td>槽位 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>onHotkeyChange</code></td>
+      <td><code>(hotkey: string) =&gt; void</code></td>
+      <td>-</td>
+      <td>热键字符串变化（对应 <code>update:hotkey</code>）</td>
+    </tr>
+    <tr>
+      <td><code>onChange</code></td>
+      <td><code>(keycodes: string[], hotkey: string) =&gt; void</code></td>
+      <td>-</td>
+      <td>成功录入或清空后的规范化结果</td>
+    </tr>
+    <tr>
+      <td><code>onCancel</code></td>
+      <td><code>(keycodes: string[], hotkey: string) =&gt; void</code></td>
+      <td>-</td>
+      <td>Backspace/Delete 清空（<code>hotkey</code> 为 <code>'ESC'</code>）</td>
+    </tr>
+    <tr>
+      <td><code>onError</code></td>
+      <td><code>(error: Error) =&gt; void</code></td>
+      <td>-</td>
+      <td>IME 等异常</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`tvHotkey` 扩展 `tvInput`。`size`：`xs | sm | base | lg`；`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`。
+
+<Canvas of={HotkeyStories.Sizes} />
+
+---
+
+## 最佳实践
+
+- 用 `hotkey` + `onHotkeyChange` 作为单一事实源。
+- 持久化听 `onChange`，清空听 `onCancel`。
+- 中文输入法场景听 `onError` 并提示关闭 IME。
+- 可查看不可改用 `readOnly`，不可交互用 `disabled`。

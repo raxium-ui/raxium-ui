@@ -5,6 +5,7 @@ import { addAPIProvider, addCollection, addIcon } from '@iconify/react'
 import { usePreferredColorScheme } from '@raxium/react/hooks/usePreferredColorScheme'
 import { applyRuiCrafts } from '@raxium/themes/utils'
 import { useEffect, useMemo } from 'react'
+import { DialogRuntimeProvider } from '../../components/dialog/dialog-functional'
 import { RUIConfigReactContext } from './rui-config-context'
 
 export interface RUIConfigProps {
@@ -137,7 +138,9 @@ export function RUIConfig({
 
   return (
     <RUIConfigReactContext.Provider value={value}>
-      {children}
+      <DialogRuntimeProvider>
+        {children}
+      </DialogRuntimeProvider>
     </RUIConfigReactContext.Provider>
   )
 }

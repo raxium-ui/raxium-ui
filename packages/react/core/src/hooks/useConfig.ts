@@ -12,7 +12,7 @@ export function useConfig<T extends keyof RUIConfigContext>(
     () =>
       defaults(
         props,
-        ruiConfig[camelCase(scope) as keyof RUIConfigContext] ?? {},
+        ruiConfig[scope] ?? ruiConfig[camelCase(scope) as keyof RUIConfigContext] ?? {},
       ) as RUIConfigContext[T],
     [props, ruiConfig, scope],
   )

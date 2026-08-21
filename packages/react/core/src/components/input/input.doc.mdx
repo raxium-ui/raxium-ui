@@ -1,0 +1,120 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as InputStories from './input.stories'
+
+<Meta of={InputStories} />
+
+# Input
+
+`Input` 用于单行文本输入。叶子组件：原生 `<input>` 外包一层容器，并提供 `clearable`、`prefix` / `suffix`、`theme` / `craft` / `ui`。
+
+React 用 `value` + `onValueChange` 代替 Vue 的 `v-model`。Vue `#prefix` / `#suffix` 对应 `prefix` / `suffix` ReactNode。`readOnly` 对应 Vue `readonly`；`maxLength` / `minLength` 对应 `maxlength` / `minlength`。
+
+---
+
+## Examples
+
+### 基础输入
+
+<Canvas of={InputStories.Basic} />
+
+### 可清空 / 禁用 / 只读
+
+<Canvas of={InputStories.States} />
+
+### 尺寸
+
+<Canvas of={InputStories.Sizes} />
+
+### 前后缀与 UI 覆盖
+
+<Canvas of={InputStories.PrefixSuffixAndUi} />
+
+---
+
+## ARK UI Link
+
+不是 Ark 业务组件。容器与输入框用 factory（`ark.div` / `ark.input`）。其余 `autoComplete`、`name`、`aria-*` 等透传到内部 input。
+
+---
+
+## API
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code> / <code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控 / 非受控初值</td>
+    </tr>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(value: string | undefined) =&gt; void</code></td>
+      <td>-</td>
+      <td>值变化（清空时为 <code>undefined</code>）</td>
+    </tr>
+    <tr>
+      <td><code>clearable</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>聚焦且有值时显示清空按钮</td>
+    </tr>
+    <tr>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>前后缀</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code> / <code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>只读 / 禁用</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvInput'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvInput 覆写</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; input?: string; clearable?: string &#125;</code></td>
+      <td>-</td>
+      <td>槽位 className</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`tvInput`。`size`：`xs | sm | base | lg`；`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`。
+
+<Canvas of={InputStories.Sizes} />
+
+---
+
+## 最佳实践
+
+- 外部管值用 `value` + `onValueChange`，只初始化用 `defaultValue`。
+- `placeholder` 不能替代 label，配合 label 或 `aria-label`。
+- 可看不可改用 `readOnly`，不可交互用 `disabled`。
+- 尺寸走 `theme.size`，不要用 `ui.input` 去改 height。

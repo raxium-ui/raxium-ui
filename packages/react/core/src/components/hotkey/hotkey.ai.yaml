@@ -1,0 +1,159 @@
+schemaVersion: 2.0.0
+docId: rark.react.hotkey
+component:
+  name: Hotkey
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Hotkey
+  category: core
+  description: >-
+    采集和展示快捷键组合（如 Ctrl + Shift + K）。基于 Ark factory（ark.div / ark.input），
+    扩展热键解析、删除清空、IME 保护、theme/craft/ui。
+  basePrimitive:
+    library: '@ark-ui/react/factory'
+    primitive: ark.div | ark.input
+    nativeElement: div | input
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+      - disabled
+      - readOnly
+    notes: 不是 Ark 独立业务组件；根与输入框由 factory 渲染。
+  capabilities:
+    - hotkey-capture
+    - controlled-value
+    - theme
+    - ui-override
+    - ime-protection
+contracts:
+  props:
+    - name: hotkey
+      typeText: string
+      conflictsWith:
+        - defaultHotkey
+      description: 受控热键字符串。
+    - name: defaultHotkey
+      typeText: string
+      default: ''
+      conflictsWith:
+        - hotkey
+      description: 非受控初值。
+    - name: placeholder
+      typeText: 'string | ((focused: boolean) => string)'
+      default: ''
+      description: 占位文案；函数可按焦点状态返回。
+    - name: disabled
+      typeText: boolean
+      description: 禁用采集。
+    - name: readOnly
+      typeText: boolean
+      description: 只读展示。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvHotkey'>
+      description: 实例 tvHotkey 覆写。
+    - name: ui
+      typeText: '{ root?: string; input?: string }'
+      description: 槽位 class 覆盖。
+  events:
+    - name: onHotkeyChange
+      payload:
+        typeText: '(hotkey: string)'
+      description: 热键字符串变化。
+    - name: onChange
+      payload:
+        typeText: '(keycodes: string[], hotkey: string)'
+      description: 成功录入或清空后的规范化结果。
+    - name: onCancel
+      payload:
+        typeText: '(keycodes: string[], hotkey: string)'
+      description: Backspace/Delete 清空。
+    - name: onError
+      payload:
+        typeText: '(error: Error)'
+      description: IME 等异常。
+    - name: onFocus
+      payload:
+        typeText: '(event: FocusEvent)'
+      description: 获得焦点。
+    - name: onBlur
+      payload:
+        typeText: '(event: FocusEvent)'
+      description: 失焦。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string
+        description: 根容器 className。
+      - name: ui.input
+        typeText: string
+        description: 输入框 className。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Hotkey
+examples:
+  - id: basic
+    description: 基础录入
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 普通/禁用/只读
+  - id: placeholder
+    description: 自定义占位
+  - id: events
+    description: 事件
+generationHints:
+  preferredUsageOrder:
+    - hotkey + onHotkeyChange
+    - placeholder
+    - theme.size
+    - ui.root
+    - ui.input
+  a11yChecklist:
+    - 输入框具备 aria-label。
+    - 禁用用 disabled，不只靠样式。
+    - IME 场景监听 onError。
+  codegenTemplates:
+    minimal: <Hotkey hotkey={hotkey} onHotkeyChange={setHotkey} />
+    withPlaceholder: <Hotkey hotkey={hotkey} placeholder="Press hotkey" onHotkeyChange={setHotkey} />
+  antiPatterns:
+    - 仅用 className 模拟 disabled。
+    - 在 onFocus/onBlur 里持久化，而不是 onChange。
+provenance:
+  sources:
+    - path: ./Hotkey.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./hotkey.doc.mdx
+      kind: doc
+    - path: ./hotkey.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

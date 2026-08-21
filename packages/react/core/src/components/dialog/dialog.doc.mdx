@@ -1,0 +1,113 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as DialogStories from './dialog.stories'
+
+<Meta of={DialogStories} />
+
+# Dialog
+
+Dialog 用于确认、表单、详情等临时层。React 入口是复合组件：`Dialog`、`Dialog.Trigger`、`Dialog.Content`、`Dialog.Header` / `Body` / `Footer`、`Dialog.CloseTrigger`。基于 Ark Dialog **`Root`**（不是 `RootProvider`）。根扩展 `theme` / `craft` / `beforeClose`；关闭来源在 `onOpenChange.details.from`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={DialogStories.Basic} />
+
+### 受控模式与事件
+
+<Canvas of={DialogStories.ControlledAndEvents} />
+
+### 尺寸与主题变体
+
+<Canvas of={DialogStories.Variants} />
+
+### 可滚动内容
+
+<Canvas of={DialogStories.Scrollable} />
+
+### Content 关闭按钮
+
+<Canvas of={DialogStories.ContentClose} />
+
+### Footer 按钮定制
+
+<Canvas of={DialogStories.FooterWidget} />
+
+### 函数式调用
+
+<Canvas of={DialogStories.Functional} />
+
+`dialog()` 可命令式唤起。应用内有 `RUIConfig` 时会挂到运行时出口，从而继承 theme / depth。组件内推荐 `useDialog()`。
+
+```ts
+const { dialog } = useDialog()
+dialog.open({ title: '…', content: '…' })
+```
+
+### 多层堆叠
+
+<Canvas of={DialogStories.Stacked} />
+
+<Canvas of={DialogStories.StackedFunctional} />
+
+---
+
+## ARK UI Link
+
+- 根透传 Ark `DialogRootBaseProps`（`open` / `onOpenChange` 等），并增加 `theme` / `craft` / `beforeClose`。
+- `Trigger` / `CloseTrigger` 增加 `from`。
+- `Content` / `Header` / `Body` / `Footer` 是 Raxium 结构层（Portal、depth、默认关闭钮与 Footer widget）。
+- 状态用 `useDialogContext()`。
+
+文档：[Ark UI Dialog (React)](https://ark-ui.com/react/docs/components/dialog)
+
+---
+
+## API
+
+### Dialog
+
+<table>
+  <thead>
+    <tr><th>属性</th><th>类型</th><th>默认值</th><th>说明</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>open</code></td><td><code>boolean</code></td><td>-</td><td>受控打开</td></tr>
+    <tr><td><code>defaultOpen</code></td><td><code>boolean</code></td><td><code>false</code></td><td>非受控初始</td></tr>
+    <tr><td><code>onOpenChange</code></td><td><code>(details) =&gt; void</code></td><td>-</td><td><code>details.open</code> 与 <code>details.from</code></td></tr>
+    <tr><td><code>beforeClose</code></td><td><code>({ from, done, resume }) =&gt; void</code></td><td>-</td><td>调用 <code>done()</code> 后才关闭；<code>resume()</code> 取消拦截</td></tr>
+    <tr><td><code>lazyMount</code> / <code>unmountOnExit</code></td><td><code>boolean</code></td><td>配置项</td><td>Presence；可被 <code>RUIConfig.dialog</code> 覆盖</td></tr>
+    <tr><td><code>theme</code></td><td><code>ThemeProps</code></td><td>-</td><td>实例 tokens，不含 crafts</td></tr>
+    <tr><td><code>craft</code></td><td><code>CraftOverride&lt;'tvDialog'&gt;</code></td><td>-</td><td>实例 tvDialog 覆写</td></tr>
+    <tr><td><code>children</code></td><td><code>ReactNode</code></td><td>-</td><td>通常 Trigger + Content</td></tr>
+  </tbody>
+</table>
+
+### Dialog.Content
+
+`ui`（backdrop / positioner / content / close）、`showClose`、`close`（替换默认关闭钮，对应 Vue `#close`）。无 Header 且 `showClose` 时显示默认 X。
+
+### Dialog.Footer
+
+无 `children` 时渲染 Cancel / OK。`widget.cancel` / `widget.ok` 透传 Button props（另有 `text`）。`onOk` / `onCancel`。
+
+### Dialog.Trigger / CloseTrigger
+
+`from` 写入本次开关来源（`TriggerFrom` 或自定义字符串）。
+
+---
+
+## Theme Configuration
+
+根 **`tvDialog`**。`size`：`xs | sm | base | lg`；`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`；`bordered` / `unstyled`。
+
+---
+
+## 最佳实践
+
+- 保持 Trigger + Content + Header/Body/Footer 结构。
+- 关闭来源用 `from`，不要在业务里猜测是 Esc 还是按钮。
+- 异步校验放进 `beforeClose`，不要先关再开。
+- 函数式弹窗在 `RUIConfig` 子树内调用，以便继承主题与 depth。

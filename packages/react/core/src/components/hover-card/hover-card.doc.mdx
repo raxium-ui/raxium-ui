@@ -1,0 +1,125 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as HoverCardStories from './hover-card.stories'
+
+<Meta of={HoverCardStories} />
+
+# HoverCard
+
+`HoverCard` 是可交互的悬停浮层。React 入口是复合组件：`HoverCard`、`Trigger`、`Content`、`Arrow`。根用 Ark **`Root`**，并从 `RUIConfig.hoverCard` 合并 `openDelay` / `closeDelay` / `lazyMount` / `unmountOnExit` / `placement` / `theme`。
+
+`Content` 会把 `HoverCard.Arrow` 抽到内层包裹之外，其余 `children` 放进 `contentInner`。不要用 Vue 的 `HoverCardContext` 插槽；需要 API 时用 `useHoverCardContext()`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={HoverCardStories.Basic} />
+
+### 延迟与定位
+
+<Canvas of={HoverCardStories.DelaysAndPositioning} />
+
+### 受控与上下文
+
+<Canvas of={HoverCardStories.ControlledAndContext} />
+
+### 主题尺寸与外观
+
+<Canvas of={HoverCardStories.ThemesAndVariants} />
+
+### 内容与 UI 自定义
+
+<Canvas of={HoverCardStories.CustomContent} />
+
+---
+
+## ARK UI Link
+
+- 根透传 Root（`open` / `defaultOpen`、`positioning`、delay、presence）。
+- `Trigger` 复用 Ark 导出。
+- `Content` 包 Positioner + Content + inner，并用 teleport depth 管理 z-index。
+- `Arrow` 由内部 `createArrow` 包 Ark Arrow / ArrowTip。
+
+文档：[Ark UI Hover Card (React)](https://ark-ui.com/react/docs/components/hover-card)
+
+---
+
+## API
+
+### HoverCard
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code> / <code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>打开状态；受控时配合 <code>onOpenChange</code></td>
+    </tr>
+    <tr>
+      <td><code>positioning</code></td>
+      <td><code>PositioningOptions</code></td>
+      <td>-</td>
+      <td>浮层定位</td>
+    </tr>
+    <tr>
+      <td><code>openDelay</code> / <code>closeDelay</code></td>
+      <td><code>number</code></td>
+      <td>取 RUIConfig 或 Ark 默认</td>
+      <td>打开 / 关闭延迟（ms）</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code> / <code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>取配置项或 Ark 默认</td>
+      <td>延迟挂载 / 关闭后卸载</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvHoverCard'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvHoverCard 覆写</td>
+    </tr>
+  </tbody>
+</table>
+
+### HoverCard.Content
+
+`className` 盖在 content 槽；`ui.positioner` / `ui.content` / `ui.inner` 分槽覆盖。`children` 里的 `HoverCard.Arrow` 会提到 inner 外。
+
+### HoverCard.Arrow
+
+`theme` 为 `ThemeNoCrafts`；`ui.arrow` / `ui.arrowTip`。
+
+---
+
+## Theme Configuration
+
+根 **`tvHoverCard`**。`size`：`xs | sm | base | lg`；`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`；`bordered` 默认 `true`。
+
+<Canvas of={HoverCardStories.ThemesAndVariants} />
+
+---
+
+## 最佳实践
+
+- 用 `Trigger asChild` + `Content`（内含 `Arrow`）的标准结构。
+- 受控用 `open` + `onOpenChange`。
+- 列表里建议加大 delay，减少误触。
+- 重交互改用 Dialog，不要把复杂流程放进悬停层。

@@ -1,0 +1,135 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as FloatingPanelStories from './floating-panel.stories'
+
+<Meta of={FloatingPanelStories} />
+
+# FloatingPanel
+
+`FloatingPanel` 是可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板。React 入口是复合组件：`FloatingPanel`、`Trigger`、`Content`、`Header` 以及各类 Trigger。基于 Ark Floating Panel **`Root`**。根扩展 `theme` / `craft`、`opacity`、`pinned`、`resizeAxis`。透明度与固定状态用 `useFloatingPanelAppearance()`，不要做成 Vue 作用域插槽。
+
+---
+
+## Examples
+
+### 基础组合
+
+<Canvas of={FloatingPanelStories.Basic} />
+
+### 最小可用结构
+
+<Canvas of={FloatingPanelStories.Minimal} />
+
+### 缩放触发轴
+
+<Canvas of={FloatingPanelStories.ResizeAxis} />
+
+### 最小尺寸
+
+<Canvas of={FloatingPanelStories.MinSize} />
+
+### 初始状态（透明度与固定）
+
+<Canvas of={FloatingPanelStories.InitialState} />
+
+### 多层面板
+
+<Canvas of={FloatingPanelStories.Multiple} />
+
+### 与 Dialog 叠层
+
+<Canvas of={FloatingPanelStories.WithDialog} />
+
+---
+
+## ARK UI Link
+
+- 根透传 Ark Root 状态（open、size、position、拖拽等），并增加 `theme` / `craft` / `opacity` / `pinned` / `resizeAxis`。
+- `Trigger` 复用 Ark 导出。
+- `Content` Portal 到 `document.body`，并用 depth 管理 z-index。
+- `Header` 的 Vue `#control` 对应 `control` ReactNode。
+
+文档：[Ark UI Floating Panel (React)](https://ark-ui.com/react/docs/components/floating-panel)
+
+---
+
+## API
+
+### FloatingPanel
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>open</code> / <code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>打开状态</td>
+    </tr>
+    <tr>
+      <td><code>opacity</code></td>
+      <td><code>number</code></td>
+      <td><code>100</code></td>
+      <td>初始透明度，内部限制在 0–100</td>
+    </tr>
+    <tr>
+      <td><code>pinned</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>初始是否固定；固定时禁用拖拽</td>
+    </tr>
+    <tr>
+      <td><code>resizeAxis</code></td>
+      <td><code>'x' | 'y' | 'xy' | 'xyc' | 'custom'</code></td>
+      <td><code>'xyc'</code></td>
+      <td>默认渲染哪些缩放手柄；<code>custom</code> 不渲染</td>
+    </tr>
+    <tr>
+      <td><code>minSize</code></td>
+      <td><code>&#123; width: number; height: number &#125;</code></td>
+      <td>-</td>
+      <td>最小尺寸</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvFloatingPanel'&gt;</code></td>
+      <td>-</td>
+      <td>实例 tvFloatingPanel 覆写</td>
+    </tr>
+  </tbody>
+</table>
+
+### FloatingPanel.Header
+
+`children` 为标题；`control` 为右侧控制区（对应 Vue `#control`）。
+
+### FloatingPanel.PinTrigger / OpacityTrigger
+
+默认 Pin 图标；自定义内容放 `children`。需要读写 `pinned` / `opacity` 时用 `useFloatingPanelAppearance()`。
+
+---
+
+## Theme Configuration
+
+根 **`tvFloatingPanel`**。`size`：`xs | sm | base | lg`；`skin`：`default | razer | shadcn`；`surface`：`light | dark | system`。
+
+---
+
+## 最佳实践
+
+- 保持 Trigger + Content + Header 结构。
+- 固定面板后不要再指望拖拽。
+- `resizeAxis="custom"` 时自行组合 Ark `ResizeTrigger`。
+- 透明度控件放在 Header `control` 里，用 appearance hook，不要 render prop。

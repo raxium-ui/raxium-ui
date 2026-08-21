@@ -1,0 +1,173 @@
+schemaVersion: 2.0.0
+docId: rark.react.floating-panel
+component:
+  name: FloatingPanel
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: FloatingPanel
+  category: core
+  description: >-
+    可拖拽、可缩放、可分阶段的浮动面板。复合组件 FloatingPanel / Trigger / Content / Header。
+    基于 Ark FloatingPanel.Root；扩展 theme/craft、opacity、pinned、resizeAxis。
+  basePrimitive:
+    library: '@ark-ui/react/floating-panel'
+    primitive: FloatingPanel.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+    notes: 根透传 FloatingPanelRootBaseProps；Content/Header/Trigger 为 Raxium 封装。
+  capabilities:
+    - draggable
+    - resizable
+    - stages
+    - theme
+    - compound-components
+    - pinned
+    - opacity
+  subComponents:
+    - FloatingPanelTrigger
+    - FloatingPanelContent
+    - FloatingPanelHeader
+    - FloatingPanelCloseTrigger
+    - FloatingPanelPinTrigger
+    - FloatingPanelStageTrigger
+    - FloatingPanelOpacityTrigger
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+      conflictsWith:
+        - defaultOpen
+      description: 受控打开状态。
+    - name: defaultOpen
+      typeText: boolean
+      conflictsWith:
+        - open
+      description: 非受控初始打开。
+    - name: opacity
+      typeText: number
+      default: 100
+      description: 初始透明度（0–100）。
+    - name: pinned
+      typeText: boolean
+      default: false
+      description: 初始是否固定；固定时禁用拖拽。
+    - name: resizeAxis
+      typeText: '''x'' | ''y'' | ''xy'' | ''xyc'' | ''custom'''
+      default: xyc
+      description: 默认缩放手柄；custom 不渲染。
+    - name: minSize
+      typeText: '{ width: number; height: number }'
+      description: 最小尺寸。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvFloatingPanel'>
+      description: 实例 tvFloatingPanel 覆写。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Trigger + Content。
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+      description: 打开状态变化。
+    - name: onPositionChange
+      payload:
+        typeText: PositionChangeDetails
+      description: 位置变化。
+    - name: onSizeChange
+      payload:
+        typeText: SizeChangeDetails
+      description: 尺寸变化。
+    - name: onStageChange
+      payload:
+        typeText: StageChangeDetails
+      description: 阶段变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面。
+subComponents:
+  FloatingPanelHeader:
+    props:
+      - name: control
+        typeText: ReactNode
+        description: 标题栏右侧控制区。
+      - name: children
+        typeText: ReactNode
+        description: 标题。
+  FloatingPanelContent:
+    props:
+      - name: ui
+        typeText: '{ positioner?: string; content?: string; resizeVertical?: string; resizeHorizontal?: string; resizeCorner?: string }'
+        description: 弹层与缩放手柄 class 覆盖。
+      - name: className
+        typeText: string
+        description: 内容区 className。
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: FloatingPanel
+examples:
+  - id: basic
+    description: 基础组合
+  - id: minimal
+    description: 最小结构
+  - id: resize-axis
+    description: 缩放轴
+  - id: min-size
+    description: 最小尺寸
+  - id: initial-state
+    description: 初始 pinned/opacity
+  - id: multiple
+    description: 多面板
+  - id: with-dialog
+    description: 与 Dialog 叠层
+generationHints:
+  preferredUsageOrder:
+    - FloatingPanel.Trigger + Content + Header
+    - Header control
+    - resizeAxis
+    - theme.size
+  a11yChecklist:
+    - Header 提供可读标题。
+    - 固定后不要依赖拖拽。
+  codegenTemplates:
+    minimal: >-
+      <FloatingPanel><FloatingPanel.Trigger asChild><Button>Open</Button></FloatingPanel.Trigger><FloatingPanel.Content><FloatingPanel.Header
+      control={<FloatingPanel.CloseTrigger />}>Title</FloatingPanel.Header></FloatingPanel.Content></FloatingPanel>
+  antiPatterns:
+    - Header #control / controlSlot — 用 control ReactNode。
+    - OpacityTrigger 作用域插槽 — 用 useFloatingPanelAppearance。
+provenance:
+  sources:
+    - path: ./FloatingPanel.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./floating-panel.doc.mdx
+      kind: doc
+    - path: ./floating-panel.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc
