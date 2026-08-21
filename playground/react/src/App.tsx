@@ -1,4 +1,4 @@
-import { Accordion, RUIConfig } from '@raxium/react'
+import { Accordion, Badge, RUIConfig } from '@raxium/react'
 
 export function App() {
   return (
@@ -13,6 +13,14 @@ export function App() {
     >
       <div className="content p-4 space-y-4 max-w-xl">
         <h1 className="text-lg">@raxium/react playground</h1>
+        <div className="flex items-center gap-2">
+          <Badge variant="default">Default</Badge>
+          <Badge variant="secondary">Secondary</Badge>
+          <span className="text-sm text-gray-ff relative">
+            Dot
+            <Badge variant="dot" as="sup" />
+          </span>
+        </div>
         <Accordion className="w-full flex flex-col gap-2" collapsible defaultValue={['a']}>
           <Accordion.Item value="a">
             <Accordion.Trigger>

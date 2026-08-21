@@ -1,0 +1,126 @@
+schemaVersion: 2.0.0
+docId: rark.react.badge
+component:
+  name: Badge
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Badge
+  category: core
+  description: >-
+    轻量级状态标识，适合标签、计数与角标。基于 Ark Factory（ark.div / ark.sup），
+    支持 default/secondary/dot、theme/craft 与 as 元素切换。
+  basePrimitive:
+    library: '@ark-ui/react/factory'
+    primitive: ark.div | ark.sup
+    nativeElement: div | sup
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+      - className
+      - native-events
+    notes: 组件消费 variant/theme/craft/as/asChild，其余属性透传给底层 div/sup。
+  capabilities:
+    - status-indicator
+    - variant
+    - theme
+    - as-switch
+    - as-child
+contracts:
+  props:
+    - name: variant
+      typeText: '''default'' | ''secondary'' | ''dot'''
+      default: default
+      description: 徽章变体样式（同步 data-variant）。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvBadge'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: as
+      typeText: '''div'' | ''sup'''
+      default: div
+      description: 渲染元素；角标场景常与 dot 配合使用 sup。
+    - name: asChild
+      typeText: boolean
+      description: 将能力合并到子元素（Ark 多态）。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: children
+      typeText: ReactNode
+      description: 徽章内容；dot 变体可为空。
+  events: []
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 徽章尺寸。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除默认样式。
+      - name: bordered
+        typeText: boolean
+        description: 是否显示边框。
+behaviorModel:
+  derived:
+    rootPrimitive: 'as === ''sup'' ? ''ark.sup'' : ''ark.div'''
+    variantDataAttr: data-variant = variant
+  transitions: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Badge
+examples:
+  - id: basic
+    description: 基础用法（尺寸列表 map）。
+  - id: secondary
+    description: 次要样式。
+  - id: dot
+    description: 圆点角标（as=sup）。
+  - id: theme
+    exampleId: basic
+    description: Theme 配置示例（badge.stories.tsx Theme）。
+generationHints:
+  preferredUsageOrder:
+    - variant
+    - theme.size
+    - craft
+    - as
+  a11yChecklist:
+    - 仅展示状态，不承载关键交互。
+    - dot 角标需结合可读文本或 aria，避免纯视觉信息丢失。
+  codegenTemplates:
+    minimal: <Badge>New</Badge>
+    dotSup: <Badge variant="dot" as="sup" />
+  antiPatterns:
+    - <Badge><button>Click</button></Badge> — 不要在 Badge 内放交互控件。
+    - <Badge className="bg-red-500" /> — 纯颜色无文案时应提供可读文本或 aria。
+provenance:
+  sources:
+    - path: ./Badge.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./badge.doc.mdx
+      kind: doc
+    - path: ./badge.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

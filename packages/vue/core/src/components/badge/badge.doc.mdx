@@ -75,17 +75,17 @@ Badge 是轻量级状态标识组件，适用于标签、计数提示与角标�
         <code>theme</code>
       </td>
       <td>
-        <code>ThemeCrafts&lt;'tvBadge'&gt;['theme']</code>
+        <code>ThemeProps</code>
       </td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
     </tr>
     <tr>
       <td>
         <code>craft</code>
       </td>
       <td>
-        <code>CraftOverride</code>
+        <code>CraftOverride&lt;'tvBadge'&gt;</code>
       </td>
       <td>-</td>
       <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
@@ -214,17 +214,17 @@ Badge 是轻量级状态标识组件，适用于标签、计数提示与角标�
         <code>skin</code>
       </td>
       <td>
-        <code>'razer' | 'shadcn'</code>
+        <code>'default' | 'razer' | 'shadcn'</code>
       </td>
       <td>-</td>
-      <td>主题皮肤</td>
+      <td>主题皮肤（<code>data-theme-skin</code>）</td>
     </tr>
     <tr>
       <td>
         <code>surface</code>
       </td>
       <td>
-        <code>'light' | 'dark'</code>
+        <code>'light' | 'dark' | 'system'</code>
       </td>
       <td>-</td>
       <td>亮色/暗色表面语义</td>

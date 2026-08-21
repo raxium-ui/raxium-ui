@@ -1,0 +1,165 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as BadgeStories from './badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+`Badge` 是轻量级状态标识，适合标签、计数与角标。基于 Ark UI Factory（`ark.div` / `ark.sup`），支持 `default` / `secondary` / `dot`，以及 `theme` / `craft` / `className`。`as` 在 `div` 与 `sup` 之间切换。
+
+---
+
+## Examples
+
+### 基础用法（尺寸）
+
+<Canvas of={BadgeStories.Basic} />
+
+### 次要样式
+
+<Canvas of={BadgeStories.Secondary} />
+
+### 圆点角标
+
+<Canvas of={BadgeStories.Dot} />
+
+### 主题参数
+
+<Canvas of={BadgeStories.Theme} />
+
+---
+
+## ARK UI Link
+
+`Badge` 不是 Ark 的独立组件，而是 Factory 原语封装。会消费 `variant`、`theme`、`craft`、`as`，其余 HTML 属性透传到 `div` / `sup`。
+
+- 文档：[Ark UI React Factory](https://ark-ui.com/docs/guides/composition)
+- 透传：`id`、`data-*`、`aria-*`、原生事件等；没有 Ark「Badge API」。
+
+---
+
+## API
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>variant</code></td>
+      <td><code>'default' | 'secondary' | 'dot'</code></td>
+      <td><code>'default'</code></td>
+      <td>变体（同时写到 <code>data-variant</code>）</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvBadge'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvBadge</code> 结构覆写（进阶）</td>
+    </tr>
+    <tr>
+      <td><code>as</code></td>
+      <td><code>'div' | 'sup'</code></td>
+      <td><code>'div'</code></td>
+      <td>根元素；圆点角标常用 <code>sup</code></td>
+    </tr>
+    <tr>
+      <td><code>asChild</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>Ark 多态：合并到子元素</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根 class</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>文案或自定义节点；<code>dot</code> 可为空</td>
+    </tr>
+  </tbody>
+</table>
+
+展示型组件，无受控回调。
+
+---
+
+## Theme Configuration
+
+根节点由 **`tvBadge`** 驱动（base-only，无 slots）。`theme` 给 tokens，`craft` 改结构。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤（<code>data-theme-skin</code>）</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否显示边框相关样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={BadgeStories.Theme} />
+
+---
+
+## UI Configuration
+
+`Badge` 没有 `ui`。单一根节点，用 `className` / `theme` / `craft`。
+
+---
+
+## 最佳实践
+
+- 纯文本或数字用 `default` / `secondary`，不要在 Badge 里放按钮等交互。
+- 角标用 `variant="dot"` + `as="sup"`，并保证旁边有可读文本或 `aria-*`。
+- 节奏放进 `theme.size`；局部 class 优先；改 `tvBadge` 结构再用 `craft` 或应用 `RUIConfig preset`。
