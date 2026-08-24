@@ -6,7 +6,7 @@ import { ProvideComponentTheme } from '@raxium/react/hooks/useProvideComponentTh
 import { useTheme } from '@raxium/react/hooks/useTheme'
 import { useThemeCraft } from '@raxium/react/hooks/useThemeCraft'
 import { cxc } from '@raxium/themes/utils'
-import { Fragment, forwardRef } from 'react'
+import { forwardRef, Fragment } from 'react'
 
 function gapAt(separator: PinInputProps['separator'], index: number): ReactNode {
   if (separator == null || index <= 0)

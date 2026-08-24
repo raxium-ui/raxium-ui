@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import type { SpinProviderProps, SpinRenderProps } from './props'
 import { ark } from '@ark-ui/react/factory'
-import { LoaderCircle } from 'lucide-react'
 import { clsx } from '@raxium/themes/utils'
+import { LoaderCircle } from 'lucide-react'
 import { createContext, useContext } from 'react'
 
 export interface SpinProviderValue {
