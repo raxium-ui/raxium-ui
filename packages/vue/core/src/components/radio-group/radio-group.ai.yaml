@@ -3,8 +3,8 @@ docId: rark.vue.radio-group
 component:
   name: RadioGroup
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: RadioGroup
   category: core
   description: 用于管理单选集合场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展
@@ -59,10 +59,10 @@ contracts:
       typeText: string | array | object
       description: 根节点附加 class
     - name: theme
-      typeText: ThemeCrafts<'tvRadioGroup'>
+      typeText: ThemeProps
       description: 通用 theme 与组件 craft（见 Theme Configuration）。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvRadioGroup'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui

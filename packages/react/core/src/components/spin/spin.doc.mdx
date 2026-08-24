@@ -1,0 +1,12 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SpinStories from './spin.stories'
+
+<Meta of={SpinStories} />
+
+# Spin
+
+加载遮罩。`SpinProvider` 挂在 `RUIConfig` 内。`icon` 为 `ReactNode` 或 render 函数。
+
+<Canvas of={SpinStories.Basic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvSpin'>`。

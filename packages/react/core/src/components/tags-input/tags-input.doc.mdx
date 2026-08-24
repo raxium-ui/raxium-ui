@@ -1,0 +1,207 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TagsInputStories from './tags-input.stories'
+
+<Meta of={TagsInputStories} />
+
+# TagsInput
+
+`TagsInput` 用于管理字符串标签集合。React 入口是复合组件：`TagsInput`、`TagsInput.Item`、`TagsInput.ItemDeleteTrigger`。基于 Ark UI Tags Input 的 **`Root`**（不是 `RootProvider`）。行内模式组合 `ScrollArea` 做横向滚动。受控：`value` / `onValueChange`。
+
+---
+
+## Examples
+
+### 基础用法（受控）
+
+<Canvas of={TagsInputStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={TagsInputStories.Sizes} />
+
+### 行内滚动与换行布局
+
+<Canvas of={TagsInputStories.Inline} />
+
+### 常见状态（禁用 / 只读 / 无效）
+
+<Canvas of={TagsInputStories.States} />
+
+### 最大标签数与创建校验
+
+<Canvas of={TagsInputStories.MaxAndValidate} />
+
+### 事件监听与删除操作
+
+<Canvas of={TagsInputStories.Events} />
+
+### 编程式调用（focus / add / set / clear）
+
+<Canvas of={TagsInputStories.Programmatic} />
+
+---
+
+## ARK UI Link
+
+- `TagsInput` 透传 `TagsInputRootBaseProps` 到 Ark `Root`，并扩展 `theme`、`inline`、`prefix` / `suffix` 和 `ui`。
+- `TagsInput.Item` 组合 `ItemPreview`、`ItemText`、`ItemInput`。
+- 删除触发器使用 `TagsInput.ItemDeleteTrigger`（Ark `ItemDeleteTrigger`）。
+- 需要机器 API 时用 `useTagsInputContext()`，不要拆 `RootProvider`。
+
+文档：[Ark UI Tags Input (React)](https://ark-ui.com/react/docs/components/tags-input)
+
+---
+
+## API
+
+### TagsInput
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控值</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>max</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>可创建的最大标签数</td>
+    </tr>
+    <tr>
+      <td><code>validate</code></td>
+      <td><code>(details) =&gt; boolean</code></td>
+      <td>-</td>
+      <td>创建前校验</td>
+    </tr>
+    <tr>
+      <td><code>disabled / readOnly / invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用、只读、无效</td>
+    </tr>
+    <tr>
+      <td><code>inline</code></td>
+      <td><code>boolean</code></td>
+      <td><code>true</code></td>
+      <td>行内横向滚动；<code>false</code> 为换行</td>
+    </tr>
+    <tr>
+      <td><code>prefix</code> / <code>suffix</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>控制区前/后内容</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根节点 className</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvTagsInput'&gt;</code></td>
+      <td>-</td>
+      <td>仅改 <code>tvTagsInput</code> 结构；内嵌输入框走 <code>tvInput</code> preset</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?, control?, input? &#125;</code></td>
+      <td>-</td>
+      <td>局部 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(details: &#123; value: string[] &#125;) =&gt; void</code></td>
+      <td>-</td>
+      <td>标签集合变化</td>
+    </tr>
+    <tr>
+      <td><code>onHighlightChange</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td>高亮标签变化</td>
+    </tr>
+    <tr>
+      <td><code>onValueInvalid</code></td>
+      <td><code>(details) =&gt; void</code></td>
+      <td>-</td>
+      <td>创建失败（max / validate）</td>
+    </tr>
+  </tbody>
+</table>
+
+### TagsInput.Item
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>当前标签值</td>
+    </tr>
+    <tr>
+      <td><code>index</code></td>
+      <td><code>number</code></td>
+      <td>-</td>
+      <td>当前标签索引</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>禁用单个标签项</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>结构子件 tokens 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>挂载删除按钮等</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+根 `theme` 为 `ThemeProps`。单实例优先 `ui.*` / `className`；根 `craft` 仅改 **`tvTagsInput`**。内嵌 **`tvInput`** 走应用级 preset。
+
+`size`：`'xs' | 'sm' | 'base' | 'lg'`。`skin`：`'razer' | 'shadcn'`。`surface`：`'light' | 'dark'`。

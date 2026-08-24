@@ -107,13 +107,13 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeCrafts&lt;'tvSelect'&gt;</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
     </tr>
     <tr>
       <td><code>craft</code></td>
-      <td><code>CraftOverride</code></td>
+      <td><code>CraftOverride&lt;'tvSelect'&gt;</code></td>
       <td>-</td>
       <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
@@ -152,7 +152,7 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
       <td>继承或覆盖主题上下文</td>
     </tr>
@@ -185,7 +185,7 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
       <td>继承或覆盖主题上下文</td>
     </tr>
@@ -224,7 +224,7 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
       <td>继承或覆盖主题上下文</td>
     </tr>
@@ -257,7 +257,7 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
       <td>继承或覆盖主题上下文</td>
     </tr>
@@ -296,7 +296,7 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
       <td>继承或覆盖主题上下文</td>
     </tr>
@@ -438,7 +438,7 @@ import * as SelectStories from './select.stories'
 
 ## Theme Configuration
 
-`Select` 根组件通过合并后的 **`tvSelect`**（`theme` 提供通用变体，根 **`craft`** 可覆写）联动 root/trigger/content/item/value 等部位；子组件可通过 `theme`（`ThemeNoCrafts`）继承或微调上下文。
+`Select` 根组件：`theme` 为 **`ThemeProps`**（tokens only），结构覆写用根 **`craft`**（`CraftOverride<'tvSelect'>`）。子组件 `theme` 为 **`ThemeNoCrafts`**。
 
 <table>
   <thead>

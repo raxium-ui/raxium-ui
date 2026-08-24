@@ -1,0 +1,69 @@
+schemaVersion: 2.0.0
+docId: rark.react.pin-input
+component:
+  name: PinInput
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: PinInput
+  category: core
+  description: 验证码/PIN 输入。Ark PinInput.Root。count 与 separator 内部映射格子。
+  basePrimitive:
+    library: '@ark-ui/react/pin-input'
+    primitive: PinInput.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - theme
+    - count
+    - separator
+contracts:
+  props:
+    - name: value
+      typeText: string[]
+    - name: count
+      typeText: number
+      default: 4
+    - name: separator
+      typeText: ReactNode | readonly ReactNode[]
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvPinInput'>
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+    - name: onValueComplete
+      payload:
+        typeText: ValueChangeDetails
+    - name: onValueInvalid
+      payload:
+        typeText: ValueInvalidDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: PinInput
+examples:
+  - id: basic
+    description: 基础
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 状态
+  - id: separator
+    description: 分隔符
+  - id: events
+    description: 事件
+provenance:
+  sources:
+    - path: ./PinInput.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

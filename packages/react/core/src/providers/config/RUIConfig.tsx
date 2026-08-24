@@ -6,6 +6,10 @@ import { usePreferredColorScheme } from '@raxium/react/hooks/usePreferredColorSc
 import { applyRuiCrafts } from '@raxium/themes/utils'
 import { useEffect, useMemo } from 'react'
 import { DialogRuntimeProvider } from '../../components/dialog/dialog-functional'
+import { Messager } from '../../components/message'
+import { OverlayProvider } from '../../components/overlay'
+import { SpinProvider } from '../../components/spin'
+import { ToasterManager } from '../../components/toast'
 import { RUIConfigReactContext } from './rui-config-context'
 
 export interface RUIConfigProps {
@@ -139,7 +143,15 @@ export function RUIConfig({
   return (
     <RUIConfigReactContext.Provider value={value}>
       <DialogRuntimeProvider>
-        {children}
+        <ToasterManager>
+          <Messager>
+            <SpinProvider>
+              <OverlayProvider>
+                {children}
+              </OverlayProvider>
+            </SpinProvider>
+          </Messager>
+        </ToasterManager>
       </DialogRuntimeProvider>
     </RUIConfigReactContext.Provider>
   )

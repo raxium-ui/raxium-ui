@@ -1,0 +1,17 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as RatingGroupStories from './rating-group.stories'
+
+<Meta of={RatingGroupStories} />
+
+# RatingGroup
+
+评分。复合组件：`RatingGroup` + `RatingGroup.Item`。根用 Ark `Root`。受控：`value` + `onValueChange`。子项状态用 `useRatingGroupItemContext`。
+
+<Canvas of={RatingGroupStories.Basic} />
+<Canvas of={RatingGroupStories.Sizes} />
+<Canvas of={RatingGroupStories.States} />
+<Canvas of={RatingGroupStories.AllowHalf} />
+<Canvas of={RatingGroupStories.Events} />
+<Canvas of={RatingGroupStories.Programmatic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvRatingGroup'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

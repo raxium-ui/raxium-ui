@@ -1,0 +1,51 @@
+schemaVersion: 2.0.0
+docId: rark.react.popover
+component:
+  name: Popover
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Popover
+  category: core
+  description: 弹出层。Popover + Trigger / Content / Arrow / Close。Ark Popover.Root。
+  basePrimitive:
+    library: '@ark-ui/react/popover'
+    primitive: Popover.Root
+    nativeElement: div
+  capabilities:
+    - open
+    - theme
+    - compound-components
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvPopover'>
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Popover
+examples:
+  - id: basic
+    description: 基础
+  - id: controlled
+    description: 受控
+provenance:
+  sources:
+    - path: ./Popover.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

@@ -1,0 +1,39 @@
+schemaVersion: 2.0.0
+docId: rark.react.message
+component:
+  name: Message
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Messager
+  category: core
+  description: 顶部消息。Messager + useMessage。Toast 特化。
+  basePrimitive:
+    library: '@ark-ui/react/toast'
+    primitive: createToaster
+    nativeElement: div
+  capabilities:
+    - create
+    - theme
+contracts:
+  props: []
+  events: []
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Message
+examples:
+  - id: basic
+    description: 基础
+provenance:
+  sources:
+    - path: ./Messager.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

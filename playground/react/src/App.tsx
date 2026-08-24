@@ -1,4 +1,13 @@
-import { Accordion, Badge, Button, Checkbox, Collapsible, DatePicker, Dialog, Editable, FloatingPanel, Hotkey, HoverCard, Icon, Input, RUIConfig } from '@raxium/react'
+import { Accordion, Badge, Button, Checkbox, Collapsible, DatePicker, Dialog, Editable, FloatingPanel, Hotkey, HoverCard, Icon, Input, Popover, Progress, RadioGroup, RUIConfig, Skeleton, Spin, Switch, Tabs, Tooltip, useToast } from '@raxium/react'
+
+function PlaygroundToast() {
+  const { toast } = useToast()
+  return (
+    <Button variant="outlined" onClick={() => toast.success({ title: 'Toast', description: 'from playground' })}>
+      Toast
+    </Button>
+  )
+}
 
 export function App() {
   return (
@@ -46,6 +55,24 @@ export function App() {
             <div className="p-3 text-sm">Compound API: Trigger / Content / Header.</div>
           </FloatingPanel.Content>
         </FloatingPanel>
+        <Tooltip>
+          <Tooltip.Trigger asChild>
+            <Button variant="outlined">Tooltip</Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>
+            <Tooltip.Arrow />
+            Tooltip
+          </Tooltip.Content>
+        </Tooltip>
+        <Popover>
+          <Popover.Trigger asChild>
+            <Button variant="outlined">Popover</Button>
+          </Popover.Trigger>
+          <Popover.Content>
+            <Popover.Arrow />
+            Popover
+          </Popover.Content>
+        </Popover>
         <HoverCard positioning={{ placement: 'top' }}>
           <HoverCard.Trigger asChild>
             <Button variant="outlined">HoverCard</Button>
@@ -56,6 +83,33 @@ export function App() {
           </HoverCard.Content>
         </HoverCard>
         <Input className="w-60" placeholder="Input" clearable />
+        <Skeleton className="h-4 w-56" />
+        <Progress className="w-56" value={45}>
+          <Progress.Linear />
+        </Progress>
+        <RadioGroup defaultValue="a">
+          <RadioGroup.Layout layout="inline">
+            <RadioGroup.Item value="a" text="A" />
+            <RadioGroup.Item value="b" text="B" />
+          </RadioGroup.Layout>
+        </RadioGroup>
+        <PlaygroundToast />
+        <Tabs defaultValue="a">
+          <Tabs.List>
+            <Tabs.Trigger value="a">A</Tabs.Trigger>
+            <Tabs.Trigger value="b">B</Tabs.Trigger>
+            <Tabs.Indicator />
+          </Tabs.List>
+          <Tabs.Content value="a">Tab A</Tabs.Content>
+          <Tabs.Content value="b">Tab B</Tabs.Content>
+        </Tabs>
+        <div className="relative h-20 rounded border border-gray-33 p-3">
+          <div className="text-sm">Spin host</div>
+          <Spin show={false} />
+        </div>
+        <Switch defaultChecked>
+          <Switch.Label>Switch</Switch.Label>
+        </Switch>
         <Hotkey defaultHotkey="" className="w-80" />
         <Editable defaultValue="Editable" placeholder="Edit me">
           <Editable.Input clearable />

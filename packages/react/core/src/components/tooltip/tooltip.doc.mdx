@@ -1,0 +1,13 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TooltipStories from './tooltip.stories'
+
+<Meta of={TooltipStories} />
+
+# Tooltip
+
+提示。复合组件：`Tooltip` + `Tooltip.Trigger` / `Content` / `Arrow`。根用 Ark `Root`。`RUIConfig.tooltip` 可配 delay / placement。
+
+<Canvas of={TooltipStories.Basic} />
+<Canvas of={TooltipStories.Disabled} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvTooltip'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

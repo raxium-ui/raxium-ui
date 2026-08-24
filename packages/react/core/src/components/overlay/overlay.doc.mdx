@@ -1,0 +1,10 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as OverlayStories from './overlay.stories'
+
+<Meta of={OverlayStories} />
+
+# Overlay
+
+运行时浮层。`OverlayProvider` + `useOverlay()`。根挂在 `RUIConfig` 内。`create` / `open` / `close` / `patch`。目标组件接收 `open` + `onOpenChange` + `onExitComplete`。
+
+<Canvas of={OverlayStories.Basic} />

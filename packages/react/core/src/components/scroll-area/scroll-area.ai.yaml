@@ -1,0 +1,226 @@
+schemaVersion: 2.0.0
+docId: rark.react.scroll-area
+component:
+  name: ScrollArea
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: ScrollArea
+  category: core
+  description: >-
+    在固定容器内承载可滚动内容。React 复合组件 ScrollArea / ScrollArea.Viewport /
+    ScrollArea.Scrollbar / ScrollArea.Corner。基于 Ark ScrollArea.Root；
+    滚动条显示由 Viewport 尺寸测量决定，不扫描子组件类型名。
+  basePrimitive:
+    library: '@ark-ui/react/scroll-area'
+    primitive: ScrollArea.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+    notes: >-
+      根透传 Ark Root；Viewport/Scrollbar/Corner 透传对应子原语。
+      透传边界以 props.ts 中 interface 继承为准。
+  capabilities:
+    - theme
+    - ui-override
+    - scroll-events
+    - conditional-scrollbar
+    - compound-components
+  subComponents:
+    - ScrollAreaViewport
+    - ScrollAreaScrollbar
+    - ScrollAreaCorner
+contracts:
+  props:
+    - name: id
+      typeText: string
+      description: 根 id；可与 ids 映射配合。
+    - name: asChild
+      typeText: boolean
+      default: false
+      description: 多态原语：将根行为合并到子元素。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: ui
+      typeText: '{ root?: string }'
+      description: 根 class 覆盖。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvScrollArea'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: children
+      typeText: ReactNode
+      description: 组合 Viewport、Scrollbar、Corner。
+  events: []
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 滚动条尺寸变体（影响 scrollbar 与 thumb 厚度）。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string
+        description: 根节点 class 覆盖。
+subComponents:
+  ScrollAreaViewport:
+    props:
+      - name: className
+        typeText: string
+        description: Viewport className（与 ui.root 合并）。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: ui
+        typeText: '{ root?: string; content?: string }'
+        description: Viewport 与内部 Content class 覆盖。
+      - name: children
+        typeText: ReactNode
+        description: 可滚动业务内容。
+    events:
+      - name: onScrollStart
+        payload:
+          typeText: UIEvent
+        description: Viewport 开始滚动。
+      - name: onScroll
+        payload:
+          typeText: UIEvent
+        description: Viewport 滚动中。
+      - name: onScrollEnd
+        payload:
+          typeText: UIEvent
+        description: Viewport 结束滚动。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: Viewport className。
+        - name: ui.content
+          typeText: string
+          description: Content className。
+  ScrollAreaScrollbar:
+    props:
+      - name: orientation
+        typeText: '''horizontal'' | ''vertical'''
+        default: vertical
+        description: 滚动条方向；仅在对应轴溢出时渲染。
+      - name: className
+        typeText: string
+        description: 滚动条 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: ui
+        typeText: '{ root?: string; thumb?: string }'
+        description: Scrollbar 与 Thumb class 覆盖。
+    uiConfiguration:
+      fields:
+        - name: ui.root
+          typeText: string
+          description: Scrollbar 根 className。
+        - name: ui.thumb
+          typeText: string
+          description: Thumb className。
+  ScrollAreaCorner:
+    props:
+      - name: className
+        typeText: string
+        description: Corner className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+behaviorModel:
+  derived:
+    isShowScrollbarsVertical: viewportHeight < contentHeight
+    isShowScrollbarsHorizontal: viewportWidth < contentWidth
+  transitions:
+    - on: scrollstart
+      guard: always
+      effects:
+        - emit:onScrollStart
+    - on: scroll
+      guard: always
+      effects:
+        - emit:onScroll
+    - on: scrollend
+      guard: always
+      effects:
+        - emit:onScrollEnd
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: ScrollArea
+examples:
+  - id: basic
+    description: 基础垂直滚动。
+  - id: both-axes
+    description: 双轴滚动与 Corner。
+  - id: sizes
+    description: theme.size 尺寸变体。
+  - id: custom-ui
+    description: ui 覆盖 Viewport / Scrollbar / Corner。
+generationHints:
+  preferredUsageOrder:
+    - ScrollArea.Viewport
+    - ScrollArea.Scrollbar
+    - theme.size
+    - ui.root
+  a11yChecklist:
+    - 内容放在 ScrollArea.Viewport 内。
+    - 单轴只放一条 Scrollbar；双轴补充 horizontal 与 Corner。
+    - 不要依赖扫描子组件类型名来排滚动条。
+  codegenTemplates:
+    minimal: >-
+      <ScrollArea><ScrollArea.Viewport><div>content</div></ScrollArea.Viewport><ScrollArea.Scrollbar
+      /></ScrollArea>
+    bothAxes: >-
+      <ScrollArea><ScrollArea.Viewport><div>content</div></ScrollArea.Viewport><ScrollArea.Scrollbar
+      /><ScrollArea.Scrollbar orientation="horizontal" /><ScrollArea.Corner
+      /></ScrollArea>
+  antiPatterns:
+    - <ScrollArea><div>content</div></ScrollArea>
+    - <ScrollArea className="overflow-auto"><ScrollArea.Viewport>...</ScrollArea.Viewport></ScrollArea>
+    - 按子组件 displayName 拆 Viewport / Scrollbar 布局。
+provenance:
+  sources:
+    - path: ./ScrollArea.tsx
+      kind: runtime
+    - path: ./ScrollAreaViewport.tsx
+      kind: runtime
+    - path: ./ScrollAreaScrollbar.tsx
+      kind: runtime
+    - path: ./ScrollAreaCorner.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./scroll-area.doc.mdx
+      kind: doc
+    - path: ./scroll-area.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

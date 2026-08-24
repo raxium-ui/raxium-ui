@@ -1,0 +1,12 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as RadioGroupStories from './radio-group.stories'
+
+<Meta of={RadioGroupStories} />
+
+# RadioGroup
+
+单选组。复合组件：`RadioGroup` + `RadioGroup.Item` / `Layout`。根用 Ark `Root`。受控：`value` + `onValueChange`。
+
+<Canvas of={RadioGroupStories.Basic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvRadioGroup'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

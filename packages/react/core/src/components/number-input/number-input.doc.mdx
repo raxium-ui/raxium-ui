@@ -1,0 +1,18 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as NumberInputStories from './number-input.stories'
+
+<Meta of={NumberInputStories} />
+
+# NumberInput
+
+数值输入。根用 Ark `Root`，输入框样式复用 `tvInput`，组件 craft 为 `tvNumberInput`。受控：`value` + `onValueChange`。`showTrigger` 显示增减按钮。
+
+<Canvas of={NumberInputStories.Basic} />
+<Canvas of={NumberInputStories.Triggers} />
+<Canvas of={NumberInputStories.Sizes} />
+<Canvas of={NumberInputStories.States} />
+<Canvas of={NumberInputStories.Format} />
+<Canvas of={NumberInputStories.Events} />
+<Canvas of={NumberInputStories.Programmatic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvNumberInput'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

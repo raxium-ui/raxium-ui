@@ -1,0 +1,12 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ToastStories from './toast.stories'
+
+<Meta of={ToastStories} />
+
+# Toast
+
+命令式提示。`ToasterManager` 挂在 `RUIConfig` 内。`useToast().toast.create / success / error / info / warning / loading`。
+
+<Canvas of={ToastStories.Basic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvToast'>`。

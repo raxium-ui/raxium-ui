@@ -1,0 +1,217 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TabsStories from './tabs.stories'
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+`Tabs` 在同一上下文中切换多个内容面板。React 入口是复合组件：`Tabs`、`Tabs.List`、`Tabs.Trigger`、`Tabs.Content`、`Tabs.Indicator`。基于 Ark UI Tabs 的 **`Root`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `className`。选中索引通过 root ref + `useLayoutEffect` + MutationObserver 观察 DOM（不是 Vue `watch`）。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={TabsStories.Basic} />
+
+### 受控模式
+
+<Canvas of={TabsStories.Controlled} />
+
+### 动态显示 / 隐藏标签
+
+<Canvas of={TabsStories.DynamicTriggers} />
+
+### 可滚动标签列表
+
+<Canvas of={TabsStories.ScrollableList} />
+
+### 尺寸变体
+
+<Canvas of={TabsStories.Sizes} />
+
+### 禁用项与无指示器
+
+<Canvas of={TabsStories.DisabledAndNoIndicator} />
+
+---
+
+## ARK UI Link
+
+透传边界以 `props.ts` 中接口继承为准：
+
+- 根继承 Ark `Root`（`value` / `defaultValue`、`orientation`、`onValueChange`、懒加载等），并增加 `theme`、`craft`、`className`。
+- `Tabs.List` / `Trigger` / `Indicator` / `Content` 对应 Ark List、Trigger、Indicator、Content。
+
+Ark UI 文档：[Ark UI Tabs (React)](https://ark-ui.com/react/docs/components/tabs)
+
+---
+
+## API
+
+Ark 原生完整参数见官方文档。
+
+### Tabs
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>受控当前值</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'horizontal'</code></td>
+      <td>标签方向；影响 Trigger/Indicator 样式</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>延迟挂载面板</td>
+    </tr>
+    <tr>
+      <td><code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>切换后卸载非激活面板</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvTabs'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvTabs</code> 结构覆写</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>通常为 <code>Tabs.List</code> 与若干 <code>Tabs.Content</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### Tabs.List / Trigger / Indicator / Content
+
+子件均为 **`ThemeNoCrafts`**，用 `className` 覆盖样式。`Trigger` / `Content` 需要成对的 `value`。`Indicator` 可选。
+
+### Callbacks
+
+<table>
+  <thead>
+    <tr>
+      <th>回调</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td><code>(details: ValueChangeDetails) =&gt; void</code></td>
+      <td>当前 tab 变化；<code>details.value</code> 为 <code>string</code></td>
+    </tr>
+    <tr>
+      <td><code>onFocusChange</code></td>
+      <td><code>(details: FocusChangeDetails) =&gt; void</code></td>
+      <td>焦点在 trigger 间移动</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+根组件通过 **`tvTabs`** 驱动 `root/list/trigger/indicator/content`。`craft` 只在根上。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸变体</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框相关样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>移除内置样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={TabsStories.Sizes} />
+
+---
+
+## UI Configuration
+
+`Tabs` 组件族不提供 `ui`。用各节点 `className` 覆盖。
+
+---
+
+## 最佳实践
+
+- **结构**：`Tabs > List(Trigger+Indicator) + Content`；Trigger 与 Content 使用同一套 `value`。
+- **受控**：`value` + `onValueChange`；不要同时传 `value` 与 `defaultValue`。
+- 标签很多时给 `Tabs.List` 限制宽度，列表会把当前项滚入视野。
+- 指示器可选；不要做成 Vue slot / render-prop。
+- 样式：节奏用根 `theme.size`；局部用 `className`；改 `tv*` 再用根 `craft`。

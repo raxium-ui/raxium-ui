@@ -98,13 +98,13 @@ import * as TabsStories from './tabs.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeCrafts&lt;'tvTabs'&gt;</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
     </tr>
     <tr>
       <td><code>craft</code></td>
-      <td><code>CraftOverride</code></td>
+      <td><code>CraftOverride&lt;'tvTabs'&gt;</code></td>
       <td>-</td>
       <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
     </tr>
@@ -131,9 +131,9 @@ import * as TabsStories from './tabs.stories'
   <tbody>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆盖通用主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -176,9 +176,9 @@ import * as TabsStories from './tabs.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆盖通用主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -209,9 +209,9 @@ import * as TabsStories from './tabs.stories'
   <tbody>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆盖通用主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -248,9 +248,9 @@ import * as TabsStories from './tabs.stories'
     </tr>
     <tr>
       <td><code>theme</code></td>
-      <td><code>ThemeNoCrafts</code></td>
+      <td><code>ThemeProps</code></td>
       <td>-</td>
-      <td>继承根主题，也可局部覆盖通用主题参数</td>
+      <td><code>ThemeNoCrafts</code>：继承或微调 tokens</td>
     </tr>
     <tr>
       <td><code>class</code></td>
@@ -355,7 +355,7 @@ import * as TabsStories from './tabs.stories'
 
 ## Theme Configuration
 
-`Tabs` 的主题入口在根组件 `theme`，通过 `tvTabs` crafts 统一驱动 `root/list/trigger/indicator/content` 等部位。其余子组件可通过 `theme` 继承或局部覆盖通用主题参数（`ThemeNoCrafts`）。
+`Tabs` 的主题入口在根组件：`theme` 为 **`ThemeProps`**（tokens only），结构覆写用根 **`craft`**（`CraftOverride<'tvTabs'>`）。子组件 `theme` 为 **`ThemeNoCrafts`**。
 
 <table>
   <thead>

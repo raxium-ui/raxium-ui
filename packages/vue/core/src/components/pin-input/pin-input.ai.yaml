@@ -1,0 +1,91 @@
+schemaVersion: 2.0.0
+docId: rark.vue.pin-input
+component:
+  name: PinInput
+  framework: vue
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
+  exportName: PinInput
+  category: core
+  description: 用于验证码、OTP、PIN 等按格输入场景。基于 Ark UI Pin Input 构建，通过 count 在内部渲染格子，无需
+    v-for；separator 可在格子之间插入分隔符。
+  basePrimitive:
+    library: '@ark-ui/vue/pin-input'
+    primitive: PinInput.RootProvider
+    nativeElement: div
+  capabilities:
+    - v-model
+    - theme
+    - count
+    - separator
+contracts:
+  props:
+    - name: modelValue
+      typeText: string[]
+      conflictsWith:
+        - defaultValue
+      description: 受控各格值（配合 v-model）
+    - name: defaultValue
+      typeText: string[]
+      conflictsWith:
+        - modelValue
+      description: 非受控初始各格值
+    - name: count
+      typeText: number
+      default: 4
+      description: 格子数量（内部映射，无需自行循环）
+    - name: separator
+      typeText: string
+      description: 格子之间的分隔文案；也可用 separator 插槽自定义
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvPinInput'>
+  events:
+    - name: update:modelValue
+      payload:
+        typeText: '(value: string[])'
+    - name: valueChange
+      payload:
+        typeText: ValueChangeDetails
+    - name: valueComplete
+      payload:
+        typeText: ValueChangeDetails
+    - name: valueInvalid
+      payload:
+        typeText: ValueInvalidDetails
+  slots:
+    - name: label
+      description: 标签
+    - name: prefix
+      description: 格子前置内容
+    - name: suffix
+      description: 格子后置内容
+    - name: separator
+      description: 自定义分隔符
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: vue
+      componentName: PinInput
+examples:
+  - id: basic
+    description: 基础用法
+  - id: sizes
+    description: 尺寸变体
+  - id: states
+    description: 状态
+  - id: separator
+    description: 分隔符
+  - id: events
+    description: 事件监听
+provenance:
+  sources:
+    - path: ./PinInput.vue
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

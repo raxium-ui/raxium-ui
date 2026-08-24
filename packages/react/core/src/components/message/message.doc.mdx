@@ -1,0 +1,12 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as MessageStories from './message.stories'
+
+<Meta of={MessageStories} />
+
+# Message
+
+顶部消息。Toast 特化（top + icon）。`Messager` 挂在 `RUIConfig` 内。`useMessage().message.create / success / error / info / warning / loading`。
+
+<Canvas of={MessageStories.Basic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvMessage'>`。

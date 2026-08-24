@@ -1,0 +1,332 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ScrollAreaStories from './scroll-area.stories'
+
+<Meta of={ScrollAreaStories} />
+
+# ScrollArea
+
+`ScrollArea` 在固定容器内承载可滚动内容，支持垂直/水平滚动条与角落补位。React 入口是复合组件：`ScrollArea`、`ScrollArea.Viewport`、`ScrollArea.Scrollbar`、`ScrollArea.Corner`。基于 Ark UI Scroll Area 的 **`Root`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `className` / `ui`。
+
+滚动条是否显示由 `Viewport` 对视口与内容尺寸的测量决定，不扫描子组件类型名。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={ScrollAreaStories.Basic} />
+
+### 双轴滚动与 Corner
+
+<Canvas of={ScrollAreaStories.BothAxes} />
+
+### 尺寸变体
+
+<Canvas of={ScrollAreaStories.Sizes} />
+
+### UI 定制
+
+<Canvas of={ScrollAreaStories.CustomUi} />
+
+---
+
+## ARK UI Link
+
+透传边界以 `props.ts` 中接口继承为准：
+
+- 根继承 Ark `Root` 能力，并增加 `theme`、`craft`、`className`、`ui.root`。
+- `ScrollArea.Viewport` 封装 Ark `Viewport` + `Content`；滚动事件挂在 Viewport 上。
+- `ScrollArea.Scrollbar` / `ScrollArea.Corner` 对应 Ark 的 Scrollbar（含 Thumb）与 Corner。
+
+Ark UI 文档：[Ark UI Scroll Area (React)](https://ark-ui.com/react/docs/components/scroll-area)
+
+---
+
+## API
+
+Ark 原生完整参数见官方文档。
+
+### ScrollArea
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>id</code> / <code>ids</code></td>
+      <td><code>string</code> / <code>object</code></td>
+      <td>-</td>
+      <td>根 id 与内部元素 id 映射</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string &#125;</code></td>
+      <td>-</td>
+      <td>根 class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens（<code>size</code> / <code>skin</code> / <code>surface</code> / …），不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvScrollArea'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvScrollArea</code> 结构覆写（进阶）</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>组合 <code>ScrollArea.Viewport</code>、<code>Scrollbar</code>、<code>Corner</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### ScrollArea.Viewport
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>Viewport 节点 class（与 <code>ui.root</code> 合并）</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; content?: string &#125;</code></td>
+      <td>-</td>
+      <td>Viewport 与内部 Content class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td><code>ThemeNoCrafts</code></td>
+    </tr>
+    <tr>
+      <td><code>onScrollStart</code></td>
+      <td><code>(event: UIEvent) =&gt; void</code></td>
+      <td>-</td>
+      <td>开始滚动</td>
+    </tr>
+    <tr>
+      <td><code>onScroll</code></td>
+      <td><code>(event: UIEvent) =&gt; void</code></td>
+      <td>-</td>
+      <td>滚动中（DOM 原生）</td>
+    </tr>
+    <tr>
+      <td><code>onScrollEnd</code></td>
+      <td><code>(event: UIEvent) =&gt; void</code></td>
+      <td>-</td>
+      <td>结束滚动</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>可滚动业务内容</td>
+    </tr>
+  </tbody>
+</table>
+
+### ScrollArea.Scrollbar
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>orientation</code></td>
+      <td><code>'horizontal' | 'vertical'</code></td>
+      <td><code>'vertical'</code></td>
+      <td>滚动条方向；仅在对应轴溢出时渲染</td>
+    </tr>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>滚动条 class</td>
+    </tr>
+    <tr>
+      <td><code>ui</code></td>
+      <td><code>&#123; root?: string; thumb?: string &#125;</code></td>
+      <td>-</td>
+      <td>Scrollbar 与 Thumb class 覆盖</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td><code>ThemeNoCrafts</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### ScrollArea.Corner
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>className</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>角落节点 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td><code>ThemeNoCrafts</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+根组件通过合并后的 **`tvScrollArea`** 驱动 `root/viewport/content/scrollbar/thumb/corner`。`craft` 只在根上；Viewport / Scrollbar / Corner 的 `theme` 为 **`ThemeNoCrafts`**。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>滚动条尺寸变体（影响 scrollbar 与 thumb 厚度）</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤（<code>data-theme-skin</code>）</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面模式</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否启用边框相关样式</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否移除内置样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ScrollAreaStories.Sizes} />
+
+---
+
+## UI Configuration
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ScrollArea ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.Viewport ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>Viewport class</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.Viewport ui.content</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>Content class</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.Scrollbar ui.root</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>Scrollbar class</td>
+    </tr>
+    <tr>
+      <td><code>ScrollArea.Scrollbar ui.thumb</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>Thumb class</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={ScrollAreaStories.CustomUi} />
+
+---
+
+## 最佳实践
+
+- **结构**：`ScrollArea > Viewport + Scrollbar (+ Corner)`；内容放进 `Viewport`，不要按子组件 displayName 拆布局。
+- **单轴**：只放一条 `Scrollbar`；双轴再加 `orientation="horizontal"` 与 `Corner`。
+- **滚动事件**：绑在 `ScrollArea.Viewport` 的 `onScrollStart` / `onScroll` / `onScrollEnd`。
+- **样式**：节奏用根 `theme.size`；局部用 `ui` / `className`；改 `tv*` 结构再用根 `craft` 或应用 `RUIConfig preset`。
+- 限制容器尺寸，把滚动交给 Viewport，不要用页面滚动替代局部滚动区。

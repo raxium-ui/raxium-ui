@@ -1,0 +1,16 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as ProgressStories from './progress.stories'
+
+<Meta of={ProgressStories} />
+
+# Progress
+
+进度。复合组件：`Progress` + `Progress.Linear` / `Circle` / `Arc`。根用 Ark `Root`。受控：`value`。
+
+<Canvas of={ProgressStories.Basic} />
+<Canvas of={ProgressStories.LinearVariants} />
+<Canvas of={ProgressStories.SizesAndOrientation} />
+<Canvas of={ProgressStories.CircleAndArc} />
+<Canvas of={ProgressStories.CustomUi} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvProgress'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

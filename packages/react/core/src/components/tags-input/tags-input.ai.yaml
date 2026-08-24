@@ -1,0 +1,155 @@
+schemaVersion: 2.0.0
+docId: rark.react.tags-input
+component:
+  name: TagsInput
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: TagsInput
+  category: core
+  description: >-
+    字符串标签集合输入。复合组件 TagsInput / Item / ItemDeleteTrigger。Ark TagsInput.Root；
+    inline 时组合 ScrollArea。受控 value / onValueChange。
+  basePrimitive:
+    library: '@ark-ui/react/tags-input'
+    primitive: TagsInput.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - aria-*
+      - data-*
+    notes: 根透传 TagsInputRootBaseProps；Item 透传 ItemBaseProps。
+  capabilities:
+    - value
+    - validate
+    - max
+    - inline
+    - theme
+    - ui-override
+    - compound-components
+  subComponents:
+    - TagsInputItem
+contracts:
+  props:
+    - name: value
+      typeText: string[]
+      conflictsWith:
+        - defaultValue
+      description: 受控值。
+    - name: defaultValue
+      typeText: string[]
+      conflictsWith:
+        - value
+      description: 非受控初始值。
+    - name: max
+      typeText: number
+      description: 可创建的最大标签数。
+    - name: validate
+      typeText: (details) => boolean
+      description: 创建前校验。
+    - name: disabled
+      typeText: boolean
+    - name: readOnly
+      typeText: boolean
+    - name: invalid
+      typeText: boolean
+    - name: inline
+      typeText: boolean
+      default: true
+    - name: prefix
+      typeText: ReactNode
+    - name: suffix
+      typeText: ReactNode
+    - name: className
+      typeText: string
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvTagsInput'>
+    - name: ui
+      typeText: '{ root?: className, control?: className, input?: className }'
+    - name: children
+      typeText: ReactNode
+  events:
+    - name: onValueChange
+      payload:
+        typeText: '{ value: string[] }'
+    - name: onHighlightChange
+      payload:
+        typeText: '{ highlightedValue: string | null }'
+    - name: onValueInvalid
+      payload:
+        typeText: '{ reason: string }'
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+      - name: skin
+        typeText: '''razer'' | ''shadcn'''
+      - name: surface
+        typeText: '''light'' | ''dark'''
+      - name: unstyled
+        typeText: boolean
+  uiConfiguration:
+    fields:
+      - name: ui.root
+        typeText: string
+      - name: ui.control
+        typeText: string
+      - name: ui.input
+        typeText: string
+subComponents:
+  TagsInputItem:
+    props:
+      - name: value
+        required: true
+        typeText: string
+      - name: index
+        required: true
+        typeText: number
+      - name: disabled
+        typeText: boolean
+      - name: className
+        typeText: string
+      - name: theme
+        typeText: ThemeProps
+      - name: ui
+        typeText: '{ root?, preview?, input?, text? }'
+      - name: children
+        typeText: ReactNode
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: TagsInput
+examples:
+  - id: basic
+    description: 基础用法（受控）
+  - id: sizes
+    description: 尺寸变体
+  - id: inline
+    description: 行内滚动与换行
+  - id: states
+    description: 禁用/只读/无效
+  - id: max-and-validate
+    description: 最大数量与校验
+  - id: events
+    description: 事件监听
+  - id: programmatic
+    description: 编程式 API
+provenance:
+  sources:
+    - path: ./TagsInput.tsx
+      kind: runtime
+    - path: ./TagsInputItem.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+  precedence:
+    - runtime
+    - type
+    - doc

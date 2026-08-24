@@ -1,0 +1,79 @@
+schemaVersion: 2.0.0
+docId: rark.react.pagination
+component:
+  name: Pagination
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Pagination
+  category: core
+  description: >-
+    页码导航。复合组件 Pagination / GoTo / GoToTrigger / PageSize。Ark Pagination.Root。
+    GoTo 组合 NumberInput，PageSize 组合 Select。
+  basePrimitive:
+    library: '@ark-ui/react/pagination'
+    primitive: Pagination.Root
+    nativeElement: nav
+  capabilities:
+    - page
+    - pageSize
+    - theme
+    - compound-components
+  subComponents:
+    - PaginationGoTo
+    - PaginationGoToTrigger
+    - PaginationPageSize
+contracts:
+  props:
+    - name: page
+      typeText: number
+    - name: pageSize
+      typeText: number
+    - name: count
+      typeText: number
+    - name: siblingCount
+      typeText: number
+    - name: dynamicPageEnd
+      typeText: number
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvPagination'>
+  events:
+    - name: onPageChange
+      payload:
+        typeText: PageChangeDetails
+    - name: onPageSizeChange
+      payload:
+        typeText: PageSizeChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Pagination
+examples:
+  - id: basic
+    description: 基础
+  - id: minimal
+    description: 仅页码
+  - id: sizes
+    description: 尺寸
+  - id: controlled
+    description: 受控
+  - id: events
+    description: 事件
+  - id: link-type
+    description: link 类型
+  - id: dynamic-end
+    description: 动态末页
+provenance:
+  sources:
+    - path: ./Pagination.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

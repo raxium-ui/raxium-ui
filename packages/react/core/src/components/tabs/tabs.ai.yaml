@@ -1,0 +1,232 @@
+schemaVersion: 2.0.0
+docId: rark.react.tabs
+component:
+  name: Tabs
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Tabs
+  category: core
+  description: >-
+    同一上下文中切换多个内容面板。React 复合组件 Tabs / Tabs.List / Tabs.Trigger /
+    Tabs.Content / Tabs.Indicator。基于 Ark Tabs.Root；选中索引用 ref +
+    layout effect 观察 DOM。
+  basePrimitive:
+    library: '@ark-ui/react/tabs'
+    primitive: Tabs.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+    notes: 根透传 Ark Root；List/Trigger/Indicator/Content 透传对应子原语。透传边界以 props.ts 为准。
+  capabilities:
+    - controlled
+    - uncontrolled
+    - theme
+    - orientation
+    - lazy-mount
+    - compound-components
+  subComponents:
+    - TabsList
+    - TabsTrigger
+    - TabsIndicator
+    - TabsContent
+contracts:
+  props:
+    - name: value
+      typeText: string
+      conflictsWith:
+        - defaultValue
+      description: 受控当前值。
+    - name: defaultValue
+      typeText: string
+      conflictsWith:
+        - value
+      description: 非受控初始值。
+    - name: orientation
+      typeText: '''horizontal'' | ''vertical'''
+      default: horizontal
+      description: 标签方向；影响 Trigger/Indicator 样式。
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载面板内容。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 切换后卸载非激活面板。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvTabs'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: children
+      typeText: ReactNode
+      description: 通常为 Tabs.List 与若干 Tabs.Content。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+      description: 当前 tab 变化；details.value 为 string。
+    - name: onFocusChange
+      payload:
+        typeText: FocusChangeDetails
+      description: 焦点在 trigger 间移动。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸变体。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+subComponents:
+  TabsList:
+    props:
+      - name: className
+        typeText: string
+        description: 标签列表 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 多个 Tabs.Trigger 与可选 Tabs.Indicator。
+  TabsTrigger:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: string
+        description: 触发项标识，需与 Tabs.Content value 对齐。
+      - name: disabled
+        typeText: boolean
+        default: false
+        description: 禁用当前触发项。
+      - name: className
+        typeText: string
+        description: 触发项 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 标签文本。
+  TabsIndicator:
+    props:
+      - name: className
+        typeText: string
+        description: 指示器 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 自定义指示器内容（可选）。
+  TabsContent:
+    props:
+      - name: value
+        required: true
+        requiredSource: doc
+        typeText: string
+        description: 面板标识，需与 Tabs.Trigger value 对齐。
+      - name: className
+        typeText: string
+        description: 内容区 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
+      - name: children
+        typeText: ReactNode
+        description: 面板内容。
+behaviorModel:
+  derived:
+    isControlled: value !== undefined
+    activeTab: Tabs.Content with value === currentValue
+  transitions:
+    - on: trigger-click
+      guard: trigger.disabled !== true
+      effects:
+        - setValue(trigger.value)
+        - emit:onValueChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Tabs
+examples:
+  - id: basic
+    description: 基础用法：数据 map 出 Trigger/Content。
+  - id: controlled
+    description: value + onValueChange 受控。
+  - id: dynamic-triggers
+    description: 动态显示/隐藏标签。
+  - id: scrollable-list
+    description: 可滚动标签列表。
+  - id: sizes
+    description: theme.size 尺寸变体。
+  - id: disabled-and-no-indicator
+    description: 禁用项与无指示器。
+generationHints:
+  preferredUsageOrder:
+    - value / defaultValue
+    - orientation
+    - theme.size
+    - Tabs.Trigger value
+    - Tabs.Content value
+  a11yChecklist:
+    - Tabs.Trigger value 与 Tabs.Content value 必须一一对应。
+    - 禁用项需可感知。
+    - Indicator 可选，但建议保留选中态反馈。
+  codegenTemplates:
+    minimal: >-
+      <Tabs defaultValue="tab-1"><Tabs.List><Tabs.Trigger value="tab-1">Tab
+      1</Tabs.Trigger><Tabs.Trigger value="tab-2">Tab
+      2</Tabs.Trigger></Tabs.List><Tabs.Content value="tab-1">内容
+      1</Tabs.Content><Tabs.Content value="tab-2">内容 2</Tabs.Content></Tabs>
+    controlled: >-
+      <Tabs value={active} onValueChange={(d) => setActive(d.value)}><Tabs.List><Tabs.Trigger
+      value="a">A</Tabs.Trigger></Tabs.List><Tabs.Content value="a">...</Tabs.Content></Tabs>
+  antiPatterns:
+    - <Tabs value="a" defaultValue="b"> — 同时受控与非受控。
+    - Tabs.Trigger / Tabs.Content value 不对齐。
+    - Trigger children 使用 (ctx) => … — React 不提供 Vue slot API。
+provenance:
+  sources:
+    - path: ./Tabs.tsx
+      kind: runtime
+    - path: ./TabsList.tsx
+      kind: runtime
+    - path: ./TabsTrigger.tsx
+      kind: runtime
+    - path: ./TabsIndicator.tsx
+      kind: runtime
+    - path: ./TabsContent.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./tabs.doc.mdx
+      kind: doc
+    - path: ./tabs.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

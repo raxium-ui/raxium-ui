@@ -1,0 +1,45 @@
+schemaVersion: 2.0.0
+docId: rark.react.spin
+component:
+  name: Spin
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Spin
+  category: core
+  description: 加载遮罩。SpinProvider + Spin。
+  basePrimitive:
+    library: null
+    primitive: null
+    nativeElement: div
+  capabilities:
+    - show
+    - theme
+contracts:
+  props:
+    - name: show
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvSpin'>
+  events: []
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Spin
+examples:
+  - id: basic
+    description: 基础
+provenance:
+  sources:
+    - path: ./Spin.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

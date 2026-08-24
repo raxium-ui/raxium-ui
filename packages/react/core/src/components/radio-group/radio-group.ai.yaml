@@ -1,0 +1,49 @@
+schemaVersion: 2.0.0
+docId: rark.react.radio-group
+component:
+  name: RadioGroup
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: RadioGroup
+  category: core
+  description: 单选组。RadioGroup + Item / Layout。Ark RadioGroup.Root。
+  basePrimitive:
+    library: '@ark-ui/react/radio-group'
+    primitive: RadioGroup.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - theme
+    - compound-components
+contracts:
+  props:
+    - name: value
+      typeText: string | null
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvRadioGroup'>
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: RadioGroup
+examples:
+  - id: basic
+    description: 基础
+provenance:
+  sources:
+    - path: ./RadioGroup.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

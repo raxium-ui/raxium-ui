@@ -1,0 +1,34 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as MenuStories from './menu.stories'
+
+<Meta of={MenuStories} />
+
+# Menu
+
+下拉/上下文菜单。React 复合组件：`Menu`、`Trigger`、`ContextTrigger`、`Content`、`Arrow`、`Item`、`ItemText`、`ItemGroup`、`CheckboxItem`、`RadioItem`、`RadioItemGroup`、`TriggerItem`。根用 Ark **`Root`**。`RUIConfig.menu` 提供 `lazyMount` / `unmountOnExit` / `placement` / `theme`。`Content` 走 portal + depth（与 HoverCard 同模式）。受控：`open` / `onOpenChange`。
+
+`CheckboxItem` 复用 `tvCheckbox`；`RadioItem` 复用 `tvRadioGroup`（`variant`）。`Arrow` 由 `createArrow` 封装。
+
+---
+
+## Examples
+
+<Canvas of={MenuStories.Basic} />
+<Canvas of={MenuStories.Submenu} />
+<Canvas of={MenuStories.Checkbox} />
+<Canvas of={MenuStories.Radio} />
+<Canvas of={MenuStories.ContextTrigger} />
+<Canvas of={MenuStories.ControlledOpen} />
+<Canvas of={MenuStories.Sizes} />
+
+---
+
+## ARK UI Link
+
+文档：[Ark UI Menu (React)](https://ark-ui.com/react/docs/components/menu)
+
+---
+
+## API
+
+根 `theme`：`ThemeProps`。`craft`：`CraftOverride<'tvMenu'>`。子件为结构件（`ThemeProps`，无 craft）。`CheckboxItem.indicator` / `RadioItem.indicator` 替换默认指示器，不要用 `indicatorSlot`。

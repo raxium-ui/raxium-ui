@@ -3,8 +3,8 @@ docId: rark.vue.tooltip
 component:
   name: Tooltip
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Tooltip
   category: core
   description: 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略。由
@@ -61,10 +61,10 @@ contracts:
       default: false
       description: 关闭后是否卸载内容。
     - name: theme
-      typeText: ThemeCrafts<'tvTooltip'>
+      typeText: ThemeProps
       description: 通用 theme 与组件 craft（见 Theme Configuration）。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvTooltip'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events:

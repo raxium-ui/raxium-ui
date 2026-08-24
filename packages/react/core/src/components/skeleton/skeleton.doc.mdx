@@ -1,0 +1,25 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SkeletonStories from './skeleton.stories'
+
+<Meta of={SkeletonStories} />
+
+# Skeleton
+
+加载占位。叶子组件，`tvSkeleton` 驱动 `pulse` / `wave` 与 `rect` / `circle`。
+
+---
+
+## Examples
+
+<Canvas of={SkeletonStories.Basic} />
+<Canvas of={SkeletonStories.Variants} />
+<Canvas of={SkeletonStories.Shapes} />
+<Canvas of={SkeletonStories.WithChildren} />
+
+---
+
+## API
+
+`variant`：`pulse | wave`（默认 pulse）。`shape`：`rect | circle`（默认 rect）。`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvSkeleton'>`。`className` 用于尺寸。
+
+`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

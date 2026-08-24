@@ -1,0 +1,92 @@
+schemaVersion: 2.0.0
+docId: rark.react.menu
+component:
+  name: Menu
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Menu
+  category: core
+  description: >-
+    下拉/上下文菜单。复合组件 Menu / Trigger / ContextTrigger / Content / Arrow / Item /
+    ItemGroup / CheckboxItem / RadioItem / RadioItemGroup / TriggerItem。
+    Ark Menu.Root；RUIConfig.menu；Content portal/depth。Checkbox 用 tvCheckbox，Radio 用 tvRadioGroup。
+  basePrimitive:
+    library: '@ark-ui/react/menu'
+    primitive: Menu.Root
+    nativeElement: div
+  capabilities:
+    - open
+    - theme
+    - compound-components
+    - submenu
+    - checkbox
+    - radio
+  subComponents:
+    - MenuTrigger
+    - MenuContextTrigger
+    - MenuContent
+    - MenuArrow
+    - MenuItem
+    - MenuItemGroup
+    - MenuCheckboxItem
+    - MenuRadioItem
+    - MenuRadioItemGroup
+    - MenuTriggerItem
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+    - name: highlightedValue
+      typeText: string
+    - name: lazyMount
+      typeText: boolean
+    - name: unmountOnExit
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvMenu'>
+    - name: children
+      typeText: ReactNode
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: '{ open: boolean }'
+    - name: onSelect
+      payload:
+        typeText: SelectionDetails
+    - name: onHighlightChange
+      payload:
+        typeText: HighlightChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Menu
+examples:
+  - id: basic
+    description: 基础
+  - id: submenu
+    description: 子菜单
+  - id: checkbox
+    description: 多选
+  - id: radio
+    description: 单选
+  - id: context-trigger
+    description: 右键菜单
+  - id: controlled-open
+    description: 受控打开
+  - id: sizes
+    description: 尺寸
+provenance:
+  sources:
+    - path: ./Menu.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

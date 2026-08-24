@@ -1,0 +1,57 @@
+schemaVersion: 2.0.0
+docId: rark.react.switch
+component:
+  name: Switch
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Switch
+  category: core
+  description: 开关。Switch + Label。Ark Switch.Root。
+  basePrimitive:
+    library: '@ark-ui/react/switch'
+    primitive: Switch.Root
+    nativeElement: label
+  capabilities:
+    - checked
+    - theme
+    - compound-components
+contracts:
+  props:
+    - name: checked
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvSwitch'>
+  events:
+    - name: onCheckedChange
+      payload:
+        typeText: CheckedChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Switch
+examples:
+  - id: basic
+    description: 基础
+  - id: with-label
+    description: 标签
+  - id: controlled
+    description: 受控
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 状态
+provenance:
+  sources:
+    - path: ./Switch.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

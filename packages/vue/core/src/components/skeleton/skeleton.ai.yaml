@@ -3,8 +3,8 @@ docId: rark.vue.skeleton
 component:
   name: Skeleton
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Skeleton
   category: core
   description: 用于在内容加载阶段提供结构占位，减少页面跳动并提前建立视觉预期。基于 Raxium UI 主题系统与 Ark UI Factory 原语实现，支持动画变体（pulse/wave）、形状变体（rect/circle），并通过
@@ -41,10 +41,10 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class（通常用于尺寸与布局）。
     - name: theme
-      typeText: ThemeCrafts<'tvSkeleton'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例 tokens，不含 crafts。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvSkeleton'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
   events: []

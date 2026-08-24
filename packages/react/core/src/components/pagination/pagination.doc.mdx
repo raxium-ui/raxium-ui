@@ -1,0 +1,42 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as PaginationStories from './pagination.stories'
+
+<Meta of={PaginationStories} />
+
+# Pagination
+
+页码导航。React 复合组件：`Pagination`、`GoTo`、`GoToTrigger`、`PageSize`；根内建 `Prev` / `Next` / `Item` / `Ellipsis` / 首末页（与 Vue 能力对齐）。根用 Ark **`Root`**。受控：`page` / `onPageChange`，`pageSize` / `onPageSizeChange`。`GoTo` 组合 `NumberInput`，`PageSize` 组合 `Select`。
+
+---
+
+## Examples
+
+<Canvas of={PaginationStories.Basic} />
+<Canvas of={PaginationStories.Minimal} />
+<Canvas of={PaginationStories.Sizes} />
+<Canvas of={PaginationStories.Controlled} />
+<Canvas of={PaginationStories.Events} />
+<Canvas of={PaginationStories.LinkType} />
+<Canvas of={PaginationStories.DynamicEnd} />
+
+---
+
+## ARK UI Link
+
+透传 Ark Pagination Root。文档：[Ark UI Pagination (React)](https://ark-ui.com/react/docs/components/pagination)
+
+---
+
+## API
+
+### Pagination
+
+`page` / `defaultPage`。`pageSize` / `defaultPageSize`。`count`。`siblingCount`。`dynamicPageEnd`。`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvPagination'>`。
+
+### Pagination.GoTo / GoToTrigger
+
+跳转页。`NumberInput` 经 `widget.input` 透传。`GoToTrigger` 提交当前输入。
+
+### Pagination.PageSize
+
+`sizes` 默认 `[10, 20, 30, 50]`。组合已有 `Select`。

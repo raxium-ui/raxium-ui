@@ -1,0 +1,70 @@
+schemaVersion: 2.0.0
+docId: rark.react.rating-group
+component:
+  name: RatingGroup
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: RatingGroup
+  category: core
+  description: 评分。RatingGroup + Item。Ark RatingGroup.Root。
+  basePrimitive:
+    library: '@ark-ui/react/rating-group'
+    primitive: RatingGroup.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - theme
+    - compound-components
+    - allow-half
+  subComponents:
+    - RatingGroup.Item
+contracts:
+  props:
+    - name: value
+      typeText: number
+    - name: count
+      typeText: number
+      default: 5
+    - name: allowHalf
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvRatingGroup'>
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+    - name: onHoverChange
+      payload:
+        typeText: HoverChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: RatingGroup
+examples:
+  - id: basic
+    description: 基础
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 状态
+  - id: allow-half
+    description: 半星
+  - id: events
+    description: 事件
+  - id: programmatic
+    description: 编程式
+provenance:
+  sources:
+    - path: ./RatingGroup.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

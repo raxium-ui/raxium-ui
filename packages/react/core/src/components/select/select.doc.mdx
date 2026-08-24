@@ -1,0 +1,222 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SelectStories from './select.stories'
+
+<Meta of={SelectStories} />
+
+# Select
+
+`Select` 用于单选或多选下拉。React 入口是复合组件：`Select`、`Select.Trigger`、`Select.Value`、`Select.Content`、`Select.Item`、`Select.ItemGroup`。基于 Ark UI Select 的 **`Root`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `className`；浮层 `Content` 走 portal/depth + `useThemeAttrs`（与 HoverCard 同模式）。`RUIConfig.select` 提供默认 `lazyMount` / `unmountOnExit` / `placement` / `theme`。
+
+选项集合用 `createListCollection`（从 `@raxium/react` 的 Select 模块再导出）。受控：`value` / `onValueChange`，`open` / `onOpenChange`。
+
+Ark Select 没有 Arrow 原语，因此未封装 `Select.Arrow`。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={SelectStories.Basic} />
+
+### 分组与禁用项
+
+<Canvas of={SelectStories.GroupsAndDisabled} />
+
+### 多选与清空
+
+<Canvas of={SelectStories.MultipleAndClearable} />
+
+### 尺寸变体
+
+<Canvas of={SelectStories.Sizes} />
+
+### 受控打开与高亮项
+
+<Canvas of={SelectStories.ControlledOpenAndHighlight} />
+
+---
+
+## ARK UI Link
+
+透传边界以 `props.ts` 为准。集合 API 见 [Ark UI Select (React)](https://ark-ui.com/react/docs/components/select)。
+
+---
+
+## API
+
+### Select
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>collection</code></td>
+      <td><code>ListCollection&lt;T&gt;</code></td>
+      <td>-</td>
+      <td>选项集合（<code>createListCollection</code>）</td>
+    </tr>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控选中值</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控初始值</td>
+    </tr>
+    <tr>
+      <td><code>open</code> / <code>defaultOpen</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>面板受控/非受控打开</td>
+    </tr>
+    <tr>
+      <td><code>highlightedValue</code></td>
+      <td><code>string | null</code></td>
+      <td>-</td>
+      <td>受控高亮项</td>
+    </tr>
+    <tr>
+      <td><code>multiple</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>多选</td>
+    </tr>
+    <tr>
+      <td><code>lazyMount</code> / <code>unmountOnExit</code></td>
+      <td><code>boolean</code></td>
+      <td>RUIConfig.select</td>
+      <td>延迟挂载 / 退出卸载</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>实例级 tokens，不含 crafts</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvSelect'&gt;</code></td>
+      <td>-</td>
+      <td>实例级 <code>tvSelect</code> 结构覆写</td>
+    </tr>
+    <tr>
+      <td><code>children</code></td>
+      <td><code>ReactNode</code></td>
+      <td>-</td>
+      <td>Trigger + Content</td>
+    </tr>
+  </tbody>
+</table>
+
+### Select.Trigger
+
+`clearable` 显示清空按钮；`clearIcon` / `indicator` 为 `ReactNode`（不要做成 slot / render-prop）。
+
+### Select.Value
+
+默认渲染 Ark `ValueText`；可用 `placeholder`。`children` 可替换展示。
+
+### Select.Content
+
+浮层：Positioner + Content + inner。`ui.positioner` / `ui.root` / `ui.inner`。传送后挂 `useThemeAttrs` 与 depth z-index。
+
+### Select.Item / ItemGroup
+
+`Item` 的 `item` 对应集合项；`indicator` 可替换默认 Check。`ItemGroup.label` 为分组标题。
+
+### Callbacks
+
+<table>
+  <thead>
+    <tr>
+      <th>回调</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>onValueChange</code></td>
+      <td>选中值变化</td>
+    </tr>
+    <tr>
+      <td><code>onOpenChange</code></td>
+      <td>打开状态变化</td>
+    </tr>
+    <tr>
+      <td><code>onHighlightChange</code></td>
+      <td>高亮项变化</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+根 **`tvSelect`**。`craft` 只在根上。子件 `theme` 为 **`ThemeNoCrafts`**。
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>size</code></td>
+      <td><code>'xs' | 'sm' | 'base' | 'lg'</code></td>
+      <td><code>'base'</code></td>
+      <td>尺寸</td>
+    </tr>
+    <tr>
+      <td><code>skin</code></td>
+      <td><code>'default' | 'razer' | 'shadcn'</code></td>
+      <td>-</td>
+      <td>皮肤</td>
+    </tr>
+    <tr>
+      <td><code>surface</code></td>
+      <td><code>'light' | 'dark' | 'system'</code></td>
+      <td>-</td>
+      <td>表面</td>
+    </tr>
+    <tr>
+      <td><code>bordered</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>边框相关</td>
+    </tr>
+    <tr>
+      <td><code>unstyled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>去内置样式</td>
+    </tr>
+  </tbody>
+</table>
+
+<Canvas of={SelectStories.Sizes} />
+
+---
+
+## 最佳实践
+
+- 用 `createListCollection` + `map` 渲染 Item，不要 faker。
+- 受控：`value` + `onValueChange`；打开：`open` + `onOpenChange`。
+- 清空用 `Select.Trigger clearable`，不要 Vue named slot。
+- 样式：`theme.size` → `className` / `ui` → 根 `craft`。

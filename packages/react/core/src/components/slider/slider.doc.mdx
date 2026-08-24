@@ -1,0 +1,43 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SliderStories from './slider.stories'
+
+<Meta of={SliderStories} />
+
+# Slider
+
+`Slider` 用于区间数值选择，支持单值与多 Thumb、水平/垂直、刻度与 Tooltip。React 入口是复合组件：`Slider`、`Thumb`、`Marker`、`MarkerGroup`、`TooltipThumb`、`TooltipMarker`。根用 Ark **`Root`**。受控：`value` / `onValueChange`。
+
+`TooltipThumb` / `TooltipMarker` 内嵌已有 `Tooltip`（与 Vue 相同：拖动时打开、boundary 为 Control、值变化时 reposition）。不要另造 Tooltip API。
+
+---
+
+## Examples
+
+<Canvas of={SliderStories.Basic} />
+<Canvas of={SliderStories.Range} />
+<Canvas of={SliderStories.MarkersAndTooltips} />
+<Canvas of={SliderStories.Sizes} />
+<Canvas of={SliderStories.VerticalAndDisabled} />
+<Canvas of={SliderStories.Controlled} />
+
+---
+
+## ARK UI Link
+
+根透传 Ark Slider Root。`TooltipThumb` / `TooltipMarker` 是 Raxium 扩展。文档：[Ark UI Slider (React)](https://ark-ui.com/react/docs/components/slider)
+
+---
+
+## API
+
+### Slider
+
+`value` / `defaultValue`：`number[]`。`min` / `max` / `step`。`orientation`：`'horizontal' | 'vertical'`。`prefix` / `suffix`：`ReactNode`（刻度组放 `suffix`）。`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvSlider'>`。`ui`：`root` / `control` / `track` / `range`。
+
+### Slider.Thumb / Slider.Marker
+
+结构子件，`theme` 为 `ThemeProps`（无 craft）。`Marker` 可设 `interactive` 点击设值。
+
+### Slider.TooltipThumb / Slider.TooltipMarker
+
+组合 `Tooltip`。`open` 为 `(sliderApi) => boolean`；Thumb 默认跟随时 `dragging`。`widget.tooltipContent` / `widget.tooltipArrow` 透传到 Tooltip 子件。

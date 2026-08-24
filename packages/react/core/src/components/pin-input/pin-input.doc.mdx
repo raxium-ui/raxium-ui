@@ -1,0 +1,16 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as PinInputStories from './pin-input.stories'
+
+<Meta of={PinInputStories} />
+
+# PinInput
+
+验证码/PIN 输入。根用 Ark `Root`。`count` 与 `separator` 在内部映射为格子，无需自行循环。受控：`value` + `onValueChange`。
+
+<Canvas of={PinInputStories.Basic} />
+<Canvas of={PinInputStories.Sizes} />
+<Canvas of={PinInputStories.States} />
+<Canvas of={PinInputStories.Separator} />
+<Canvas of={PinInputStories.Events} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvPinInput'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

@@ -1,0 +1,58 @@
+schemaVersion: 2.0.0
+docId: rark.react.progress
+component:
+  name: Progress
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Progress
+  category: core
+  description: 进度。Progress + Linear / Circle / Arc。Ark Progress.Root。
+  basePrimitive:
+    library: '@ark-ui/react/progress'
+    primitive: Progress.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - orientation
+    - theme
+    - compound-components
+contracts:
+  props:
+    - name: value
+      typeText: number | null
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvProgress'>
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Progress
+examples:
+  - id: basic
+    description: 基础
+  - id: linear-variants
+    description: 线性变体
+  - id: sizes-and-orientation
+    description: 尺寸与方向
+  - id: circle-and-arc
+    description: 圆形与弧形
+  - id: custom-ui
+    description: UI 覆盖
+provenance:
+  sources:
+    - path: ./Progress.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

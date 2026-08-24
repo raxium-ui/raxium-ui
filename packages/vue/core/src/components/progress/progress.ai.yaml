@@ -3,8 +3,8 @@ docId: rark.vue.progress
 component:
   name: Progress
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Progress
   category: core
   description: 用于展示任务完成度或流程进度，支持线性进度条、圆形进度和弧形进度三种形态。基于 Ark UI Progress 构建，保留 Ark UI
@@ -65,10 +65,10 @@ contracts:
       typeText: IntlTranslations
       description: 无障碍与值文本相关文案。
     - name: theme
-      typeText: ThemeCrafts<'tvProgress'>
+      typeText: ThemeProps
       description: 通用 theme 与组件 craft（见 Theme Configuration）。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvProgress'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: class

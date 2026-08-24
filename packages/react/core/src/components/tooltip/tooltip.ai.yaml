@@ -1,0 +1,51 @@
+schemaVersion: 2.0.0
+docId: rark.react.tooltip
+component:
+  name: Tooltip
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Tooltip
+  category: core
+  description: 提示。Tooltip + Trigger / Content / Arrow。Ark Tooltip.Root。
+  basePrimitive:
+    library: '@ark-ui/react/tooltip'
+    primitive: Tooltip.Root
+    nativeElement: div
+  capabilities:
+    - open
+    - theme
+    - compound-components
+contracts:
+  props:
+    - name: open
+      typeText: boolean
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvTooltip'>
+  events:
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Tooltip
+examples:
+  - id: basic
+    description: 基础
+  - id: disabled
+    description: 禁用
+provenance:
+  sources:
+    - path: ./Tooltip.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

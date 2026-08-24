@@ -1,0 +1,12 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as TreeStories from './tree.stories'
+
+<Meta of={TreeStories} />
+
+# Tree
+
+树。复合组件：`Tree` + `Tree.Node` / `Tree.CheckboxNode`。根用 Ark `Root`。受控：`expandedValue` / `selectedValue` / `checkedValue` / `focusedValue`。
+
+<Canvas of={TreeStories.Basic} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvTree'>`。

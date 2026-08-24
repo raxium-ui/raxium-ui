@@ -1,0 +1,16 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as SwitchStories from './switch.stories'
+
+<Meta of={SwitchStories} />
+
+# Switch
+
+开关。复合组件：`Switch` + `Switch.Label`。根用 Ark `Root`。受控：`checked` + `onCheckedChange`。
+
+<Canvas of={SwitchStories.Basic} />
+<Canvas of={SwitchStories.WithLabel} />
+<Canvas of={SwitchStories.Controlled} />
+<Canvas of={SwitchStories.Sizes} />
+<Canvas of={SwitchStories.States} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvSwitch'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

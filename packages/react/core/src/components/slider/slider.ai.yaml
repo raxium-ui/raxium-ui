@@ -1,0 +1,91 @@
+schemaVersion: 2.0.0
+docId: rark.react.slider
+component:
+  name: Slider
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Slider
+  category: core
+  description: >-
+    区间数值滑动输入。复合组件 Slider / Thumb / Marker / MarkerGroup / TooltipThumb /
+    TooltipMarker。Ark Slider.Root。TooltipThumb/Marker 内嵌 Tooltip。
+  basePrimitive:
+    library: '@ark-ui/react/slider'
+    primitive: Slider.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - theme
+    - craft
+    - ui-override
+    - compound-components
+  subComponents:
+    - SliderThumb
+    - SliderMarker
+    - SliderTooltipThumb
+    - SliderTooltipMarker
+contracts:
+  props:
+    - name: value
+      typeText: number[]
+      conflictsWith:
+        - defaultValue
+    - name: defaultValue
+      typeText: number[]
+      conflictsWith:
+        - value
+    - name: min
+      typeText: number
+    - name: max
+      typeText: number
+    - name: step
+      typeText: number
+    - name: orientation
+      typeText: '''horizontal'' | ''vertical'''
+      default: horizontal
+    - name: prefix
+      typeText: ReactNode
+    - name: suffix
+      typeText: ReactNode
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvSlider'>
+    - name: ui
+      typeText: '{ root?, control?, track?, range? }'
+    - name: children
+      typeText: ReactNode
+  events:
+    - name: onValueChange
+      payload:
+        typeText: '{ value: number[] }'
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Slider
+examples:
+  - id: basic
+    description: 基础
+  - id: range
+    description: 范围
+  - id: markers-and-tooltips
+    description: 刻度与 Tooltip
+  - id: sizes
+    description: 尺寸
+  - id: vertical-and-disabled
+    description: 垂直与禁用
+  - id: controlled
+    description: 受控
+provenance:
+  sources:
+    - path: ./Slider.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

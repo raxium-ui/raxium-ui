@@ -1,0 +1,13 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as PopoverStories from './popover.stories'
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+弹出层。复合组件：`Popover` + `Trigger` / `Content` / `Arrow` / `Close` / `Indicator`。根用 Ark `Root`。受控：`open` + `onOpenChange`。
+
+<Canvas of={PopoverStories.Basic} />
+<Canvas of={PopoverStories.Controlled} />
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvPopover'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

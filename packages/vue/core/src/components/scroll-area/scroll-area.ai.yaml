@@ -3,8 +3,8 @@ docId: rark.vue.scroll-area
 component:
   name: ScrollArea
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: ScrollArea
   category: core
   description: 用于在固定容器内承载可滚动内容，支持垂直/水平滚动条组合与角落补位（Corner）。基于 Ark UI Scroll Area 构建，透传
@@ -32,8 +32,11 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class
     - name: theme
-      typeText: ScrollAreaTheme
-      description: 根样式对象：size 及嵌套的通用 theme/craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvScrollArea'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
     - name: ui
       typeText: '{ root?: HTMLAttributes[''class'']; viewport?: HTMLAttributes[''class''];
         content?: HTMLAttributes[''class''] }'
@@ -64,9 +67,18 @@ contracts:
         typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
         default: base
         description: 滚动条尺寸变体（影响 scrollbar 与 thumb 厚度）
-      - name: craft
-        typeText: CraftOverride
-        description: 根 ScrollAreaTheme 对象中与 size 同级的嵌套字段，用于 tvScrollArea craft 覆写（见 Theme Configuration）。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题（data-theme-skin）。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
   uiConfiguration:
     fields:
       - name: ui.root
@@ -89,8 +101,8 @@ subComponents:
         typeText: string | array | object
         description: 滚动条节点 class 覆盖
       - name: theme
-        typeText: Omit<ScrollAreaTheme, 'crafts'>
-        description: 滚动条局部主题配置（用于覆盖尺寸等主题参数）
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
       - name: ui
         typeText: '{ root?: HTMLAttributes[''class'']; thumb?: HTMLAttributes[''class'']
           }'
@@ -110,8 +122,8 @@ subComponents:
         typeText: string | array | object
         description: Corner 节点 class 覆盖
       - name: theme
-        typeText: Omit<ScrollAreaTheme, 'crafts'>
-        description: 角落节点局部主题配置
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
     slots: []
 behaviorModel:
   derived:

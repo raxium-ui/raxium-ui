@@ -3,8 +3,8 @@ docId: rark.vue.number-input
 component:
   name: NumberInput
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: NumberInput
   category: core
   description: 用于处理数值输入场景，支持键盘输入、步进调整、范围限制与格式化展示。基于 Ark UI Number Input 构建，扩展 showTrigger、theme
@@ -74,10 +74,10 @@ contracts:
       typeText: string | array | object
       description: 根节点自定义 class。
     - name: theme
-      typeText: ThemeCrafts<'tvNumberInput'>
+      typeText: ThemeProps
       description: 通用 theme 与组件 craft（见 Theme Configuration）；根 craft 仅覆写 tvNumberInput。输入框基线样式走全局 theme.crafts.tvInput。
     - name: craft
-      typeText: CraftOverride
+      typeText: CraftOverride<'tvNumberInput'>
       description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
         Configuration）。
     - name: ui

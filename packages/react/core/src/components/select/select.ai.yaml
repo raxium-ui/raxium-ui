@@ -1,0 +1,284 @@
+schemaVersion: 2.0.0
+docId: rark.react.select
+component:
+  name: Select
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Select
+  category: core
+  description: >-
+    单选/多选下拉。复合组件 Select / Trigger / Value / Content / Item / ItemGroup。
+    Ark Select.Root；浮层 Content 使用 portal/depth 与 useThemeAttrs。RUIConfig.select
+    提供默认 lazyMount/unmountOnExit/placement/theme。
+  basePrimitive:
+    library: '@ark-ui/react/select'
+    primitive: Select.Root
+    nativeElement: div
+  passThrough:
+    htmlAttributes:
+      - id
+      - aria-*
+      - data-*
+    notes: 根透传 Ark Root（含 collection）；子件透传对应原语。透传边界以 props.ts 为准。
+  capabilities:
+    - theme
+    - ui-override
+    - single-multiple
+    - highlighted-value
+    - clearable
+    - controlled
+    - compound-components
+  subComponents:
+    - SelectTrigger
+    - SelectValue
+    - SelectContent
+    - SelectItem
+    - SelectItemGroup
+contracts:
+  props:
+    - name: collection
+      typeText: ListCollection<T>
+      description: 选项集合（createListCollection）。
+    - name: value
+      typeText: string[]
+      conflictsWith:
+        - defaultValue
+      description: 受控选中值。
+    - name: defaultValue
+      typeText: string[]
+      conflictsWith:
+        - value
+      description: 非受控初始值。
+    - name: open
+      typeText: boolean
+      description: 受控打开状态。
+    - name: defaultOpen
+      typeText: boolean
+      description: 非受控初始打开状态。
+    - name: highlightedValue
+      typeText: string | null
+      description: 受控高亮项。
+    - name: multiple
+      typeText: boolean
+      description: 是否多选。
+    - name: lazyMount
+      typeText: boolean
+      description: 延迟挂载；默认可来自 RUIConfig.select。
+    - name: unmountOnExit
+      typeText: boolean
+      description: 退出卸载；默认可来自 RUIConfig.select。
+    - name: className
+      typeText: string
+      description: 根节点 className。
+    - name: theme
+      typeText: ThemeProps
+      description: 实例级 tokens，不含 crafts。
+    - name: craft
+      typeText: CraftOverride<'tvSelect'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
+    - name: children
+      typeText: ReactNode
+      description: Trigger + Content。
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails<T>
+      description: 选中值变化。
+    - name: onOpenChange
+      payload:
+        typeText: OpenChangeDetails
+      description: 打开状态变化。
+    - name: onHighlightChange
+      payload:
+        typeText: HighlightChangeDetails<T>
+      description: 高亮项变化。
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: size
+        typeText: '''xs'' | ''sm'' | ''base'' | ''lg'''
+        default: base
+        description: 尺寸变体。
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+        description: 皮肤主题。
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+        description: 亮暗表面模式。
+      - name: bordered
+        typeText: boolean
+        description: 是否启用边框相关样式。
+      - name: unstyled
+        typeText: boolean
+        description: 是否移除内置样式。
+subComponents:
+  SelectTrigger:
+    props:
+      - name: clearable
+        typeText: boolean
+        description: 是否显示清空按钮。
+      - name: clearIcon
+        typeText: ReactNode
+        description: 替换默认清空图标。
+      - name: indicator
+        typeText: ReactNode
+        description: 替换默认下拉 chevron。
+      - name: className
+        typeText: string
+        description: 触发器 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: children
+        typeText: ReactNode
+        description: 通常为 Select.Value。
+  SelectValue:
+    props:
+      - name: placeholder
+        typeText: string
+        description: 无选中值时的占位。
+      - name: className
+        typeText: string
+        description: 值展示 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: children
+        typeText: ReactNode
+        description: 可选；默认渲染 Ark ValueText。
+  SelectContent:
+    props:
+      - name: className
+        typeText: string
+        description: Content className（与 ui.root 合并）。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: ui
+        typeText: '{ positioner?: string; root?: string; inner?: string }'
+        description: Positioner / Content / inner class 覆盖。
+      - name: children
+        typeText: ReactNode
+        description: Item / ItemGroup。
+    uiConfiguration:
+      fields:
+        - name: ui.positioner
+          typeText: string
+          description: Positioner className。
+        - name: ui.root
+          typeText: string
+          description: Content className。
+        - name: ui.inner
+          typeText: string
+          description: 内容内层 className。
+  SelectItem:
+    props:
+      - name: item
+        required: true
+        requiredSource: doc
+        typeText: T
+        description: 集合项。
+      - name: indicator
+        typeText: ReactNode
+        description: 替换默认选中 Check。
+      - name: className
+        typeText: string
+        description: 选项 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: children
+        typeText: ReactNode
+        description: 选项文本。
+  SelectItemGroup:
+    props:
+      - name: label
+        typeText: ReactNode
+        description: 分组标题。
+      - name: className
+        typeText: string
+        description: 分组 className。
+      - name: theme
+        typeText: ThemeProps
+        description: ThemeNoCrafts。
+      - name: ui
+        typeText: '{ root?: string; label?: string }'
+        description: 分组与标题 class 覆盖。
+      - name: children
+        typeText: ReactNode
+        description: 若干 Select.Item。
+behaviorModel:
+  derived:
+    isControlled: value !== undefined
+    isOpenControlled: open !== undefined
+  transitions:
+    - on: trigger-click
+      effects:
+        - emit:onOpenChange
+    - on: item-select
+      effects:
+        - emit:onValueChange
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Select
+examples:
+  - id: basic
+    description: 受控单选。
+  - id: groups-and-disabled
+    description: 分组与禁用项。
+  - id: multiple-and-clearable
+    description: 多选与清空。
+  - id: sizes
+    description: theme.size。
+  - id: controlled-open-and-highlight
+    description: open + highlightedValue 受控。
+generationHints:
+  preferredUsageOrder:
+    - collection
+    - value / onValueChange
+    - open / onOpenChange
+    - Select.Trigger
+    - Select.Content
+    - theme.size
+  a11yChecklist:
+    - 每个 Item 对应 collection 项。
+    - Trigger 应有可读 Value / placeholder。
+    - 禁用项用 item.disabled。
+  codegenTemplates:
+    minimal: >-
+      <Select collection={collection}><Select.Trigger><Select.Value
+      placeholder="Select" /></Select.Trigger><Select.Content>{items.map(item
+      => <Select.Item key={item.value} item={item}>{item.label}</Select.Item>)}</Select.Content></Select>
+  antiPatterns:
+    - 使用 faker 生成选项。
+    - indicatorSlot / named slot。
+    - value 与 defaultValue 同时传。
+provenance:
+  sources:
+    - path: ./Select.tsx
+      kind: runtime
+    - path: ./SelectTrigger.tsx
+      kind: runtime
+    - path: ./SelectContent.tsx
+      kind: runtime
+    - path: ./SelectItem.tsx
+      kind: runtime
+    - path: ./SelectItemGroup.tsx
+      kind: runtime
+    - path: ./SelectValue.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+    - path: ./select.doc.mdx
+      kind: doc
+    - path: ./select.stories.tsx
+      kind: story
+  precedence:
+    - runtime
+    - type
+    - doc

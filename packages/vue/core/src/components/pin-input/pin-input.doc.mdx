@@ -1,0 +1,171 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks'
+import * as PinInputStories from './pin-input.stories'
+
+<Meta of={PinInputStories} />
+
+# PinInput
+
+`PinInput` 用于验证码、OTP、PIN 等按格输入场景。组件基于 Ark UI Pin Input 构建，通过 `count` 在内部渲染格子，无需 `v-for`；`separator` 可在格子之间插入分隔符。支持受控/非受控值，并扩展 `theme` 与 `ui` 样式入口。
+
+---
+
+## Examples
+
+### 基础用法
+
+<Canvas of={PinInputStories.Basic} />
+
+### 尺寸变体
+
+<Canvas of={PinInputStories.Sizes} />
+
+### 状态
+
+<Canvas of={PinInputStories.States} />
+
+### 分隔符
+
+<Canvas of={PinInputStories.Separator} />
+
+### 事件监听
+
+<Canvas of={PinInputStories.Events} />
+
+---
+
+## ARK UI Link
+
+Ark UI 文档： [Ark UI Pin Input (Vue)](https://ark-ui.com/vue/docs/components/pin-input)
+
+---
+
+## API
+
+### Props
+
+#### PinInput
+
+<table>
+  <thead>
+    <tr>
+      <th>属性</th>
+      <th>类型</th>
+      <th>默认值</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>modelValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>受控各格值（配合 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>defaultValue</code></td>
+      <td><code>string[]</code></td>
+      <td>-</td>
+      <td>非受控初始各格值</td>
+    </tr>
+    <tr>
+      <td><code>count</code></td>
+      <td><code>number</code></td>
+      <td><code>4</code></td>
+      <td>格子数量（内部映射，无需自行循环）</td>
+    </tr>
+    <tr>
+      <td><code>separator</code></td>
+      <td><code>string</code></td>
+      <td>-</td>
+      <td>格子之间的分隔文案；也可用 <code>separator</code> 插槽自定义</td>
+    </tr>
+    <tr>
+      <td><code>otp</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>按 OTP 语义启用自动完成</td>
+    </tr>
+    <tr>
+      <td><code>mask</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否掩码显示</td>
+    </tr>
+    <tr>
+      <td><code>disabled</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否禁用</td>
+    </tr>
+    <tr>
+      <td><code>readOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否只读</td>
+    </tr>
+    <tr>
+      <td><code>invalid</code></td>
+      <td><code>boolean</code></td>
+      <td>-</td>
+      <td>是否为错误态</td>
+    </tr>
+    <tr>
+      <td><code>class</code></td>
+      <td><code>string | array | object</code></td>
+      <td>-</td>
+      <td>根节点 class</td>
+    </tr>
+    <tr>
+      <td><code>theme</code></td>
+      <td><code>ThemeProps</code></td>
+      <td>-</td>
+      <td>通用 <code>theme</code> 与组件 <code>craft</code>（见 Theme Configuration）</td>
+    </tr>
+    <tr>
+      <td><code>craft</code></td>
+      <td><code>CraftOverride&lt;'tvPinInput'&gt;</code></td>
+      <td>-</td>
+      <td>可选: <code>slots</code>、<code>defaultVariants</code>、<code>base</code>、<code>variants</code>、<code>compoundVariants</code>、<code>compoundSlots</code></td>
+    </tr>
+  </tbody>
+</table>
+
+### Events
+
+<table>
+  <thead>
+    <tr>
+      <th>事件</th>
+      <th>参数类型</th>
+      <th>说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>update:modelValue</code></td>
+      <td><code>(value: string[])</code></td>
+      <td>受控值同步（对应 <code>v-model</code>）</td>
+    </tr>
+    <tr>
+      <td><code>valueChange</code></td>
+      <td><code>(details: &#123; value: string[]; valueAsString: string &#125;)</code></td>
+      <td>值变化时触发</td>
+    </tr>
+    <tr>
+      <td><code>valueComplete</code></td>
+      <td><code>(details: &#123; value: string[]; valueAsString: string &#125;)</code></td>
+      <td>全部格子填完时触发</td>
+    </tr>
+    <tr>
+      <td><code>valueInvalid</code></td>
+      <td><code>(details: unknown)</code></td>
+      <td>输入无效时触发</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Theme Configuration
+
+`theme`：`ThemeProps`。`craft`：`CraftOverride<'tvPinInput'>`。

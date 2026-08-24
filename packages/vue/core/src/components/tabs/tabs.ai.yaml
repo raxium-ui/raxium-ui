@@ -3,8 +3,8 @@ docId: rark.vue.tabs
 component:
   name: Tabs
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: Tabs
   category: core
   description: 用于在同一上下文中切换多个内容面板，适合设置页分组、信息分区与多视图切换。基于 Ark UI Tabs 构建，支持受控/非受控值、可滚动标签列表、方向切换等
@@ -52,12 +52,11 @@ contracts:
       typeText: string | array | object
       description: 根节点附加 class
     - name: theme
-      typeText: ThemeCrafts<'tvTabs'>
-      description: 通用 theme 与组件 craft（见 Theme Configuration）。
+      typeText: ThemeProps
+      description: 实例级 tokens（size/skin/surface/…），不含 crafts。
     - name: craft
-      typeText: CraftOverride
-      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots（见 Theme
-        Configuration）。
+      typeText: CraftOverride<'tvTabs'>
+      description: 可选 slots、defaultVariants、base、variants、compoundVariants、compoundSlots。
   events:
     - name: update:modelValue
       payload:
@@ -92,8 +91,8 @@ subComponents:
   TabsList:
     props:
       - name: theme
-        typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆盖通用主题参数
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
       - name: class
         typeText: string | array | object
         description: 标签列表容器 class
@@ -116,8 +115,8 @@ subComponents:
         default: false
         description: 禁用当前触发项
       - name: theme
-        typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆盖通用主题参数
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
       - name: class
         typeText: string | array | object
         description: 标签触发项 class
@@ -131,8 +130,8 @@ subComponents:
   TabsIndicator:
     props:
       - name: theme
-        typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆盖通用主题参数
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
       - name: class
         typeText: string | array | object
         description: 指示器 class
@@ -151,8 +150,8 @@ subComponents:
         typeText: string
         description: 面板标识，需与对应 TabsTrigger.value 对齐
       - name: theme
-        typeText: ThemeNoCrafts
-        description: 继承根主题，也可局部覆盖通用主题参数
+        typeText: ThemeProps
+        description: ThemeNoCrafts，继承或微调 tokens。
       - name: class
         typeText: string | array | object
         description: 内容区 class

@@ -1,0 +1,68 @@
+schemaVersion: 2.0.0
+docId: rark.react.skeleton
+component:
+  name: Skeleton
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: Skeleton
+  category: core
+  description: 加载占位。叶子组件，支持 pulse/wave 与 rect/circle。
+  basePrimitive:
+    library: '@ark-ui/react/factory'
+    primitive: ark.div
+    nativeElement: div
+  capabilities:
+    - variant
+    - shape
+    - theme
+contracts:
+  props:
+    - name: variant
+      typeText: '''pulse'' | ''wave'''
+      default: pulse
+    - name: shape
+      typeText: '''rect'' | ''circle'''
+      default: rect
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvSkeleton'>
+    - name: className
+      typeText: string
+    - name: children
+      typeText: ReactNode
+  events: []
+  slots: []
+  themeConfiguration:
+    fields:
+      - name: skin
+        typeText: '''default'' | ''razer'' | ''shadcn'''
+      - name: surface
+        typeText: '''light'' | ''dark'' | ''system'''
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: Skeleton
+examples:
+  - id: basic
+    description: 基础占位
+  - id: variants
+    description: 动画变体
+  - id: shapes
+    description: 形状
+  - id: with-children
+    description: 包裹子内容
+provenance:
+  sources:
+    - path: ./Skeleton.tsx
+      kind: runtime
+    - path: ./props.ts
+      kind: type
+  precedence:
+    - runtime
+    - type
+    - doc

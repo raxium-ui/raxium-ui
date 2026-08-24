@@ -1,0 +1,70 @@
+schemaVersion: 2.0.0
+docId: rark.react.number-input
+component:
+  name: NumberInput
+  framework: react
+  package: '@raxium/react'
+  importPath: '@raxium/react'
+  exportName: NumberInput
+  category: core
+  description: 数值输入。Ark NumberInput.Root。复用 tvInput。showTrigger 显示增减按钮。
+  basePrimitive:
+    library: '@ark-ui/react/number-input'
+    primitive: NumberInput.Root
+    nativeElement: div
+  capabilities:
+    - value
+    - theme
+    - show-trigger
+contracts:
+  props:
+    - name: value
+      typeText: string
+    - name: showTrigger
+      typeText: boolean
+      default: false
+    - name: theme
+      typeText: ThemeProps
+    - name: craft
+      typeText: CraftOverride<'tvNumberInput'>
+  events:
+    - name: onValueChange
+      payload:
+        typeText: ValueChangeDetails
+    - name: onFocusChange
+      payload:
+        typeText: FocusChangeDetails
+    - name: onValueInvalid
+      payload:
+        typeText: ValueInvalidDetails
+  slots: []
+exampleDefaults:
+  mcp:
+    server: raxium
+    tool: get-example
+    args:
+      framework: react
+      componentName: NumberInput
+examples:
+  - id: basic
+    description: 基础
+  - id: triggers
+    description: 步进按钮
+  - id: sizes
+    description: 尺寸
+  - id: states
+    description: 状态
+  - id: format
+    description: 格式化
+  - id: events
+    description: 事件
+  - id: programmatic
+    description: 编程式
+provenance:
+  sources:
+    - path: ./NumberInput.tsx
+      kind: runtime
+  precedence:
+    - runtime
+    - type
+    - doc

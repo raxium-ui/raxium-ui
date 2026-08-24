@@ -3,8 +3,8 @@ docId: rark.vue.overlay
 component:
   name: Overlay
   framework: vue
-  package: '@raxium/vue/core'
-  importPath: '@raxium/vue/core'
+  package: '@raxium/vue'
+  importPath: '@raxium/vue'
   exportName: OverlayProvider
   category: core
   description: 用于统一管理运行时创建的浮层实例（如通过函数式方式打开的 Dialog）。由 OverlayProvider 与 useOverlay()
