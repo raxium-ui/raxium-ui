@@ -1,4 +1,4 @@
-export const SUPPORTED_FRAMEWORKS = ['vue'] as const
+export const SUPPORTED_FRAMEWORKS = ['vue', 'react'] as const
 
 export type Framework = (typeof SUPPORTED_FRAMEWORKS)[number]
 

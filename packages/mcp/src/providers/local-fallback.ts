@@ -11,6 +11,18 @@ import { readdir, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { McpToolError } from '../errors.js'
 
+interface FrameworkLayout {
+  /** Package directory under `packages/` that holds the component sources. */
+  packageDir: string
+  /** File extension used for example files. */
+  exampleExt: string
+}
+
+const FRAMEWORK_LAYOUTS: Record<Framework, FrameworkLayout> = {
+  vue: { packageDir: 'vue', exampleExt: '.vue' },
+  react: { packageDir: 'react', exampleExt: '.tsx' },
+}
+
 async function safeReadDir(targetPath: string) {
   try {
     return await readdir(targetPath, { withFileTypes: true })
@@ -31,22 +43,23 @@ export class LocalFallbackProvider implements ComponentDataProvider {
 
   async listComponents(framework: Framework): Promise<string[]> {
     this.assertFramework(framework)
-    const componentsDir = this.getVueComponentsDir()
+    const componentsDir = this.getComponentsDir(framework)
     const entries = await safeReadDir(componentsDir)
     return entries.filter(entry => entry.isDirectory()).map(entry => entry.name).sort()
   }
 
   async listExamples(framework: Framework): Promise<ExampleSummary[]> {
     this.assertFramework(framework)
+    const { exampleExt } = this.getLayout(framework)
     const components = await this.listComponents(framework)
     const result: ExampleSummary[] = []
 
     for (const componentName of components) {
-      const examplesDir = path.join(this.getVueComponentsDir(), componentName, 'examples')
+      const examplesDir = path.join(this.getComponentsDir(framework), componentName, 'examples')
       const entries = await safeReadDir(examplesDir)
       const exampleIds = entries
-        .filter(entry => entry.isFile() && entry.name.endsWith('.vue'))
-        .map(entry => entry.name.replace(/\.vue$/i, ''))
+        .filter(entry => entry.isFile() && entry.name.endsWith(exampleExt))
+        .map(entry => stripExtension(entry.name, exampleExt))
         .sort()
 
       if (exampleIds.length > 0) {
@@ -59,9 +72,10 @@ export class LocalFallbackProvider implements ComponentDataProvider {
 
   async getExample(framework: Framework, componentName: string): Promise<ExampleDetail> {
     this.assertFramework(framework)
-    const examplesDir = path.join(this.getVueComponentsDir(), componentName, 'examples')
+    const { exampleExt } = this.getLayout(framework)
+    const examplesDir = path.join(this.getComponentsDir(framework), componentName, 'examples')
     const entries = await safeReadDir(examplesDir)
-    const files = entries.filter(entry => entry.isFile() && entry.name.endsWith('.vue')).sort((a, b) => {
+    const files = entries.filter(entry => entry.isFile() && entry.name.endsWith(exampleExt)).sort((a, b) => {
       return a.name.localeCompare(b.name)
     })
 
@@ -74,7 +88,7 @@ export class LocalFallbackProvider implements ComponentDataProvider {
       const fullPath = path.join(examplesDir, file.name)
       const content = await readFile(fullPath, 'utf-8')
       examples.push({
-        id: file.name.replace(/\.vue$/i, ''),
+        id: stripExtension(file.name, exampleExt),
         title: file.name,
         code: content,
       })
@@ -93,12 +107,12 @@ export class LocalFallbackProvider implements ComponentDataProvider {
 
     for (const componentName of components) {
       const fileName = `${componentName}.doc.mdx`
-      const documentPath = path.join(this.getVueComponentsDir(), componentName, fileName)
+      const documentPath = path.join(this.getComponentsDir(framework), componentName, fileName)
       try {
         await readFile(documentPath, 'utf-8')
         result.push({
           componentName,
-          title: `${componentName}.doc.mdx`,
+          title: fileName,
         })
       }
       catch {
@@ -112,7 +126,7 @@ export class LocalFallbackProvider implements ComponentDataProvider {
   async getDocument(framework: Framework, componentName: string): Promise<DocumentDetail> {
     this.assertFramework(framework)
     const fileName = `${componentName}.doc.mdx`
-    const documentPath = path.join(this.getVueComponentsDir(), componentName, fileName)
+    const documentPath = path.join(this.getComponentsDir(framework), componentName, fileName)
 
     try {
       const content = await readFile(documentPath, 'utf-8')
@@ -127,21 +141,24 @@ export class LocalFallbackProvider implements ComponentDataProvider {
     }
   }
 
-  private getVueComponentsDir(): string {
-    return path.join(this.repoRoot, 'packages', 'vue', 'core', 'src', 'components')
+  private getLayout(framework: Framework): FrameworkLayout {
+    return FRAMEWORK_LAYOUTS[framework]
+  }
+
+  private getComponentsDir(framework: Framework): string {
+    return path.join(this.repoRoot, 'packages', this.getLayout(framework).packageDir, 'core', 'src', 'components')
   }
 
   private assertFramework(framework: Framework): void {
-    switch (framework) {
-      case 'vue':
-        return
-      default: {
-        const neverFramework: never = framework
-        throw new McpToolError(
-          'FRAMEWORK_NOT_SUPPORTED',
-          `Framework is not supported in local fallback: ${String(neverFramework)}`,
-        )
-      }
+    if (!(framework in FRAMEWORK_LAYOUTS)) {
+      throw new McpToolError(
+        'FRAMEWORK_NOT_SUPPORTED',
+        `Framework is not supported in local fallback: ${String(framework)}`,
+      )
     }
   }
+}
+
+function stripExtension(fileName: string, ext: string): string {
+  return fileName.slice(0, -ext.length)
 }

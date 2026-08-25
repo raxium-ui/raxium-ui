@@ -1,4 +1,5 @@
 import type { DataFacade } from '../data-facade.js'
+import type { Framework } from '../types.js'
 import { frameworkWithComponentInputSchema, toToolContent } from './shared.js'
 
 export const getDocumentTool = {
@@ -8,7 +9,7 @@ export const getDocumentTool = {
 }
 
 export function createGetDocumentHandler(facade: DataFacade) {
-  return async ({ framework, componentName }: { framework: 'vue', componentName: string }) => {
+  return async ({ framework, componentName }: { framework: Framework, componentName: string }) => {
     const result = await facade.getDocument(framework, componentName)
     return {
       content: toToolContent(result),

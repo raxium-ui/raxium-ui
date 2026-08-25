@@ -21,6 +21,20 @@ interface AddonItem {
   srcDir: string
 }
 
+interface FrameworkLayout {
+  /** Package directory under `packages/` that holds the component sources. */
+  packageDir: string
+  /** File extension used for example files. */
+  exampleExt: string
+  /** Whether the framework ships addon packages under `packages/<dir>/addons`. */
+  addons: boolean
+}
+
+const FRAMEWORK_LAYOUTS: Record<Framework, FrameworkLayout> = {
+  vue: { packageDir: 'vue', exampleExt: '.vue', addons: true },
+  react: { packageDir: 'react', exampleExt: '.tsx', addons: false },
+}
+
 async function safeReadDir(targetPath: string) {
   try {
     return await readdir(targetPath, { withFileTypes: true })
@@ -46,11 +60,15 @@ function sanitizeDocumentContent(rawContent: string): string {
     .trim()
 }
 
+function stripExtension(fileName: string, ext: string): string {
+  return fileName.slice(0, -ext.length)
+}
+
 function isAddonQualifiedName(name: string): boolean {
   return name.startsWith('addons/') && name.split('/').length === 3
 }
 
-function parseAddonQualifiedName(qualifiedName: string): AddonItem | null {
+function parseAddonQualifiedName(qualifiedName: string, packageDir: string): AddonItem | null {
   if (!isAddonQualifiedName(qualifiedName))
     return null
   const [, category, name] = qualifiedName.split('/')
@@ -58,7 +76,7 @@ function parseAddonQualifiedName(qualifiedName: string): AddonItem | null {
     return null
   const srcDir = path.join(
     'packages',
-    'vue',
+    packageDir,
     'addons',
     category,
     name,
@@ -81,28 +99,29 @@ export class LocalDataSource {
 
   async listComponents(framework: Framework): Promise<string[]> {
     this.assertFramework(framework)
-    const coreEntries = await safeReadDir(this.getVueComponentsDir())
+    const coreEntries = await safeReadDir(this.getComponentsDir(framework))
     const coreNames = coreEntries
       .filter(entry => entry.isDirectory())
       .map(entry => entry.name)
       .sort()
-    const addonNames = await this.listAddonQualifiedNames()
+    const addonNames = await this.listAddonQualifiedNames(framework)
     return [...coreNames, ...addonNames].sort()
   }
 
   async listExamples(framework: Framework): Promise<ExampleSummary[]> {
     this.assertFramework(framework)
+    const { exampleExt } = this.getLayout(framework)
     const components = await this.listComponents(framework)
     const result: ExampleSummary[] = []
 
     for (const componentName of components) {
-      const examplesDir = this.getExamplesDir(componentName)
+      const examplesDir = this.getExamplesDir(framework, componentName)
       if (!examplesDir)
         continue
       const entries = await safeReadDir(examplesDir)
       const exampleIds = entries
-        .filter(entry => entry.isFile() && entry.name.endsWith('.vue'))
-        .map(entry => entry.name.replace(/\.vue$/i, ''))
+        .filter(entry => entry.isFile() && entry.name.endsWith(exampleExt))
+        .map(entry => stripExtension(entry.name, exampleExt))
         .sort()
 
       if (exampleIds.length > 0) {
@@ -115,7 +134,8 @@ export class LocalDataSource {
 
   async getExample(framework: Framework, componentName: string): Promise<ExampleDetail> {
     this.assertFramework(framework)
-    const examplesDir = this.getExamplesDir(componentName)
+    const { exampleExt } = this.getLayout(framework)
+    const examplesDir = this.getExamplesDir(framework, componentName)
     if (!examplesDir) {
       throw new ApiError(
         'EXAMPLE_NOT_FOUND',
@@ -127,7 +147,7 @@ export class LocalDataSource {
 
     const entries = await safeReadDir(examplesDir)
     const files = entries
-      .filter(entry => entry.isFile() && entry.name.endsWith('.vue'))
+      .filter(entry => entry.isFile() && entry.name.endsWith(exampleExt))
       .sort((a, b) => a.name.localeCompare(b.name))
 
     if (files.length === 0) {
@@ -144,7 +164,7 @@ export class LocalDataSource {
       const fullPath = path.join(examplesDir, file.name)
       const content = await readFile(fullPath, 'utf-8')
       examples.push({
-        id: file.name.replace(/\.vue$/i, ''),
+        id: stripExtension(file.name, exampleExt),
         title: file.name,
         code: content,
       })
@@ -162,7 +182,7 @@ export class LocalDataSource {
     const result: DocumentSummary[] = []
 
     for (const componentName of components) {
-      const { docPath, fileName } = this.getDocumentPaths(componentName)
+      const { docPath, fileName } = this.getDocumentPaths(framework, componentName)
       if (!docPath)
         continue
       try {
@@ -182,7 +202,7 @@ export class LocalDataSource {
 
   async getDocument(framework: Framework, componentName: string): Promise<DocumentDetail> {
     this.assertFramework(framework)
-    const { docPath, aiPath, fileName } = this.getDocumentPaths(componentName)
+    const { docPath, aiPath, fileName } = this.getDocumentPaths(framework, componentName)
     if (!docPath) {
       throw new ApiError(
         'DOCUMENT_NOT_FOUND',
@@ -223,9 +243,13 @@ export class LocalDataSource {
     }
   }
 
-  private async listAddonQualifiedNames(): Promise<string[]> {
+  private async listAddonQualifiedNames(framework: Framework): Promise<string[]> {
+    const { packageDir, addons } = this.getLayout(framework)
+    if (!addons)
+      return []
+
     const result: string[] = []
-    const addonsBase = path.join(this.repoRoot, 'packages', 'vue', 'addons')
+    const addonsBase = path.join(this.repoRoot, 'packages', packageDir, 'addons')
 
     for (const category of ADDON_CATEGORIES) {
       const categoryDir = path.join(addonsBase, category)
@@ -240,19 +264,19 @@ export class LocalDataSource {
     return result.sort()
   }
 
-  private getExamplesDir(componentName: string): string | null {
-    const addon = parseAddonQualifiedName(componentName)
+  private getExamplesDir(framework: Framework, componentName: string): string | null {
+    const addon = this.parseAddon(framework, componentName)
     if (addon) {
-      const examplesDir = path.join(this.repoRoot, addon.srcDir, 'examples')
-      return examplesDir
+      return path.join(this.repoRoot, addon.srcDir, 'examples')
     }
-    return path.join(this.getVueComponentsDir(), componentName, 'examples')
+    return path.join(this.getComponentsDir(framework), componentName, 'examples')
   }
 
   private getDocumentPaths(
+    framework: Framework,
     componentName: string,
   ): { docPath: string | null, aiPath: string | null, fileName: string } {
-    const addon = parseAddonQualifiedName(componentName)
+    const addon = this.parseAddon(framework, componentName)
     const fileName = `${addon ? addon.name : componentName}.doc.mdx`
     const aiFileName = `${addon ? addon.name : componentName}.ai.yaml`
 
@@ -265,7 +289,7 @@ export class LocalDataSource {
       }
     }
 
-    const baseDir = path.join(this.getVueComponentsDir(), componentName)
+    const baseDir = path.join(this.getComponentsDir(framework), componentName)
     return {
       docPath: path.join(baseDir, fileName),
       aiPath: path.join(baseDir, aiFileName),
@@ -273,22 +297,28 @@ export class LocalDataSource {
     }
   }
 
-  private getVueComponentsDir(): string {
-    return path.join(this.repoRoot, 'packages', 'vue', 'core', 'src', 'components')
+  private parseAddon(framework: Framework, componentName: string): AddonItem | null {
+    const { packageDir, addons } = this.getLayout(framework)
+    if (!addons)
+      return null
+    return parseAddonQualifiedName(componentName, packageDir)
+  }
+
+  private getLayout(framework: Framework): FrameworkLayout {
+    return FRAMEWORK_LAYOUTS[framework]
+  }
+
+  private getComponentsDir(framework: Framework): string {
+    return path.join(this.repoRoot, 'packages', this.getLayout(framework).packageDir, 'core', 'src', 'components')
   }
 
   private assertFramework(framework: Framework): void {
-    switch (framework) {
-      case 'vue':
-        return
-      default: {
-        const neverFramework: never = framework
-        throw new ApiError(
-          'FRAMEWORK_NOT_SUPPORTED',
-          `Framework is not supported: ${String(neverFramework)}`,
-          400,
-        )
-      }
+    if (!(framework in FRAMEWORK_LAYOUTS)) {
+      throw new ApiError(
+        'FRAMEWORK_NOT_SUPPORTED',
+        `Framework is not supported: ${String(framework)}`,
+        400,
+      )
     }
   }
 }

@@ -1,4 +1,5 @@
 import type { DataFacade } from '../data-facade.js'
+import type { Framework } from '../types.js'
 import { frameworkWithComponentInputSchema, toToolContent } from './shared.js'
 
 export const getExampleTool = {
@@ -8,7 +9,7 @@ export const getExampleTool = {
 }
 
 export function createGetExampleHandler(facade: DataFacade) {
-  return async ({ framework, componentName }: { framework: 'vue', componentName: string }) => {
+  return async ({ framework, componentName }: { framework: Framework, componentName: string }) => {
     const result = await facade.getExample(framework, componentName)
     return {
       content: toToolContent(result),

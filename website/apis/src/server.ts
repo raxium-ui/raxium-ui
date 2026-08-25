@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 import Fastify from 'fastify'
 import { LocalDataSource } from './data-source'
 import { ApiError, toApiError } from './errors'
+import { SUPPORTED_FRAMEWORKS } from './types'
 
 interface FrameworkOnlyQuery {
   framework?: string
@@ -23,8 +24,8 @@ function resolveRepoRoot(): string {
 }
 
 function parseFramework(rawFramework: string | undefined): Framework {
-  if (rawFramework === 'vue') {
-    return rawFramework
+  if (rawFramework !== undefined && (SUPPORTED_FRAMEWORKS as readonly string[]).includes(rawFramework)) {
+    return rawFramework as Framework
   }
 
   throw new ApiError(

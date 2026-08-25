@@ -1,4 +1,5 @@
 import type { DataFacade } from '../data-facade.js'
+import type { Framework } from '../types.js'
 import { frameworkOnlyInputSchema, toToolContent } from './shared.js'
 
 export const listDocumentsTool = {
@@ -8,7 +9,7 @@ export const listDocumentsTool = {
 }
 
 export function createListDocumentsHandler(facade: DataFacade) {
-  return async ({ framework }: { framework: 'vue' }) => {
+  return async ({ framework }: { framework: Framework }) => {
     const result = await facade.listDocuments(framework)
     return {
       content: toToolContent(result),
