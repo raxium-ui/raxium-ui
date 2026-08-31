@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { overlayMotionVariants } from './motion'
 /**
  * @color razer/components/tooltip.css
  */
@@ -8,8 +8,8 @@ export const tvTooltip = tv(
   {
     slots: {
       positioner: '',
-      content: [...POPOVER_CONTENT_BASE],
-      contentInner: [...POPOVER_CONTENT_INNER_BASE],
+      content: ['z-(--rui-z-index)', 'rounded-(--border-radius)'],
+      contentInner: ['relative', 'rounded-(--border-radius)', 'z-base'],
     },
     variants: {
       size: {
@@ -34,10 +34,12 @@ export const tvTooltip = tv(
           content: 'border-none',
         },
       },
+      motion: overlayMotionVariants,
     },
     defaultVariants: {
       size: 'base',
       bordered: true,
+      motion: 'default',
     },
   },
   'rui-tooltip',

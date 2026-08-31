@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { POPOVER_MOTION } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { overlayMotionVariants } from './motion'
 
 const prefix = 'rui-date-picker'
 
@@ -20,7 +20,6 @@ export const tvDatePicker = tv(
         'rounded',
         'p-0',
         'z-(--rui-z-index)',
-        ...POPOVER_MOTION,
       ],
       contentInner: '',
     },
@@ -48,6 +47,12 @@ export const tvDatePicker = tv(
           content: 'border-none',
         },
       },
+      motion: overlayMotionVariants,
+    },
+    defaultVariants: {
+      size: 'base',
+      bordered: true,
+      motion: 'default',
     },
   },
   prefix,

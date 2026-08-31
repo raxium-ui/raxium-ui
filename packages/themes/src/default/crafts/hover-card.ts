@@ -1,14 +1,15 @@
-import type { VariantProps } from '../../utils'
-import { mapVariant, tv } from '../../utils'
-import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { mapVariant } from '../../utils/variant-helpers'
+import { overlayMotionVariants } from './motion'
 /**
  * @color razer/components/hover-card.css
  */
 export const tvHoverCard = tv(
   {
     slots: {
-      content: [...POPOVER_CONTENT_BASE],
-      contentInner: [...POPOVER_CONTENT_INNER_BASE],
+      content: ['z-(--rui-z-index)', 'rounded-(--border-radius)'],
+      contentInner: ['relative', 'rounded-(--border-radius)', 'z-base'],
     },
     variants: {
       size: {
@@ -25,10 +26,12 @@ export const tvHoverCard = tv(
           content: 'border-none',
         },
       },
+      motion: overlayMotionVariants,
     },
     defaultVariants: {
       size: 'base',
       bordered: true,
+      motion: 'default',
     },
     compoundVariants: [
       ...mapVariant('size', {

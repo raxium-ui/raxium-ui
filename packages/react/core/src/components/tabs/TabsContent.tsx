@@ -10,7 +10,7 @@ import { useTabsContextEx } from './tabs-context-ex'
 export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   ({ className, theme: propsTheme, children, ...props }, ref) => {
     const theme = useInheritedTheme(propsTheme)
-    const { index } = useTabsContextEx()
+    const { index, orientation } = useTabsContextEx()
     const prevIndex = useRef(index)
     const [direction, setDirection] = useState(0)
 
@@ -19,10 +19,8 @@ export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
       prevIndex.current = index
     }, [index])
 
-    const crafts = useCraft(theme, 'tvTabs', {
-      prev: direction < 0,
-      next: direction > 0,
-    })
+    const crafts = useCraft(theme, 'tvTabs')
+    const dataDirection = direction < 0 ? 'prev' : direction > 0 ? 'next' : undefined
 
     return (
       <ProvideStructuralComponentTheme theme={theme}>
@@ -30,6 +28,8 @@ export const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
           ref={ref}
           className={crafts.content(cxc(className))}
           {...props}
+          data-direction={dataDirection}
+          data-orientation={orientation}
         >
           {children}
         </ArkTabs.Content>

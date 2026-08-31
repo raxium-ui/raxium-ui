@@ -1,5 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { mapVariant, tv } from '../../utils'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { mapVariant } from '../../utils/variant-helpers'
 import { tvInput } from './input'
 
 const prefix = 'rui-editable'

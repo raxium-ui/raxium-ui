@@ -32,7 +32,7 @@ const modelValue = ref<string[]>([])
       v-model:highlighted-value="highlightedValue"
       :collection="collection"
     >
-      <SelectTrigger class="w-70" clearable>
+      <SelectTrigger clearable>
         <SelectValue placeholder="Controlled open + highlightedValue" />
       </SelectTrigger>
       <SelectContent>

@@ -1,5 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { radioMotionVariants } from './motion'
 /**
  * @color razer/components/radio-group.css
  */
@@ -44,12 +45,13 @@ export const tvRadioGroup = tv(
       },
       variant: {
         default: {
-          itemIndicator: 'size-[61.8%] motion-scale-in-0',
+          itemIndicator: 'size-[61.8%]',
         },
         checkbox: {
-          itemIndicator: 'size-[87.5%] stroke-[.125rem] [&>path]:animate-check-dash',
+          itemIndicator: 'size-[87.5%] stroke-[.125rem]',
         },
       },
+      motion: radioMotionVariants,
       layout: {
         stack: {
           layout: 'flex-col',
@@ -59,9 +61,9 @@ export const tvRadioGroup = tv(
         },
       },
     },
-
     defaultVariants: {
       size: 'base',
+      motion: 'default',
     },
   },
   'rui-radio-group',

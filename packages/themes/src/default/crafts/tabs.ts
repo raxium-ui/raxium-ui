@@ -1,5 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { tabsMotionVariants } from './motion'
 /**
  * @color razer/components/tabs.css
  */
@@ -47,14 +48,7 @@ export const tvTabs = tv({
         indicator: 'h-(--height)',
       },
     },
-    prev: {
-      true: '',
-      false: '',
-    },
-    next: {
-      true: '',
-      false: '',
-    },
+    motion: tabsMotionVariants,
   },
   compoundVariants: [
     // horizontal
@@ -90,26 +84,11 @@ export const tvTabs = tv({
         indicator: 'h-1.25',
       },
     },
-    {
-      orientation: 'horizontal',
-      prev: true,
-      class: {
-        content: 'data-[state=open]:-motion-translate-x-in data-[state=open]:motion-opacity-in',
-      },
-    },
-    {
-      orientation: 'horizontal',
-      next: true,
-      class: {
-        content: 'data-[state=open]:motion-translate-x-in data-[state=open]:motion-opacity-in',
-      },
-    },
   ],
   defaultVariants: {
     size: 'base',
     orientation: 'horizontal',
-    prev: false,
-    next: false,
+    motion: 'default',
   },
 }, 'rui-tabs')
 

@@ -1,5 +1,5 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
 /**
  * @color razer/components/switch.css
  */

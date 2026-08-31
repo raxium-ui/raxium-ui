@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { POPOVER_MOTION } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { overlayMotionVariants } from './motion'
 /**
  * @color razer/components/select.css
  */
@@ -27,7 +27,6 @@ export const tvSelect = tv(
         'rounded',
         'p-0',
         'z-(--rui-z-index)',
-        ...POPOVER_MOTION,
       ],
       contentInner: '',
       item: [
@@ -85,10 +84,12 @@ export const tvSelect = tv(
           content: 'border-none',
         },
       },
+      motion: overlayMotionVariants,
     },
     defaultVariants: {
       size: 'base',
       bordered: true,
+      motion: 'default',
     },
   },
   'rui-select',

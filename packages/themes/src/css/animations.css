@@ -218,17 +218,21 @@
 
   @keyframes backdrop-blur-in {
     from {
+      opacity: 0;
       backdrop-filter: blur(0);
     }
     to {
+      opacity: 1;
       backdrop-filter: blur(.3125rem);
     }
   }
   @keyframes backdrop-blur-out {
     from {
+      opacity: 1;
       backdrop-filter: blur(.3125rem);
     }
     to {
+      opacity: 0;
       backdrop-filter: blur(0);
     }
   }

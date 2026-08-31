@@ -1,4 +1,5 @@
 import type { crafts as defaultCrafts } from '../default'
+import type { MotionMode } from '../default/crafts/motion'
 import { crafts as libraryCrafts } from '../default'
 import { tv } from './tv'
 
@@ -23,6 +24,36 @@ export type RuiPresetInput = CraftPreset | CraftPreset[]
 /** Identity helper for typed preset objects. */
 export function definePreset(config: CraftPreset): CraftPreset {
   return config
+}
+
+const MOTION_CRAFT_KEYS = [
+  'tvPopover',
+  'tvTooltip',
+  'tvHoverCard',
+  'tvMenu',
+  'tvSelect',
+  'tvDatePicker',
+  'tvDialog',
+  'tvAccordion',
+  'tvCollapsible',
+  'tvTreeBranch',
+  'tvTabs',
+  'tvRadioGroup',
+] as const satisfies ReadonlyArray<keyof Crafts>
+
+/**
+ * App-wide overlay / dialog / collapse animation mode.
+ * Compose with other packs: `preset={[defineMotionPreset('fade'), compactPreset]}`.
+ */
+export function defineMotionPreset(mode: MotionMode): CraftPreset {
+  const crafts = Object.fromEntries(
+    MOTION_CRAFT_KEYS.map(key => [key, { defaultVariants: { motion: mode } }]),
+  ) as CraftPreset['crafts']
+
+  return definePreset({
+    name: `motion-${mode}`,
+    crafts,
+  })
 }
 
 /**

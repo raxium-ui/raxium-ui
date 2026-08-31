@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { overlayMotionVariants } from './motion'
 /**
  * @color razer/components/menu.css
  */
@@ -8,9 +8,11 @@ export const tvMenu = tv(
   {
     slots: {
       root: '',
-      content: [...POPOVER_CONTENT_BASE],
+      content: ['z-(--rui-z-index)', 'rounded-(--border-radius)'],
       contentInner: [
-        ...POPOVER_CONTENT_INNER_BASE,
+        'relative',
+        'rounded-(--border-radius)',
+        'z-base',
         'min-w-(--reference-width)',
       ],
       item: [
@@ -49,6 +51,7 @@ export const tvMenu = tv(
           content: 'border-none',
         },
       },
+      motion: overlayMotionVariants,
     },
     compoundVariants: [
       {
@@ -84,7 +87,7 @@ export const tvMenu = tv(
         },
       },
     ],
-    defaultVariants: { size: 'base', bordered: true },
+    defaultVariants: { size: 'base', bordered: true, motion: 'default' },
   },
   'rui-menu',
 )

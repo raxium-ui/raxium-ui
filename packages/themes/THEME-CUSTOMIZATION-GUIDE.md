@@ -94,10 +94,10 @@ Use the component **`theme`** prop only for token knobs on that instance (`size`
 ## 2. Decision tree
 
 ```
-Color, spacing, or typography for the whole product?
-├── Yes → CSS tokens (§4)
+Color, spacing, typography, or animation **speed** for the whole product?
+├── Yes → CSS tokens (§4; motion: §4.3)
 └── No
-    ├── Whole app / many components need smaller layout or different default variants?
+    ├── Whole app / many components need smaller layout, different default variants, or a different motion recipe?
     │   └── Skin pack / design system → `RUIConfig preset` (§5)
     └── One instance or a small subtree?
         ├── Size / surface / skin for a region → ThemeProvider
@@ -110,6 +110,9 @@ Color, spacing, or typography for the whole product?
 | Scenario | Use |
 | --- | --- |
 | Change brand color across the app | `--color-rui-primary-*` tokens |
+| Make overlays faster/slower | `--rui-motion-duration` (§4.3) |
+| Fade-only or no overlay animation app-wide | **Advanced**: `defineMotionPreset` (§5.4) |
+| One popover without motion | **Advanced**: instance `craft.defaultVariants.motion` |
 | Make all surfaces warmer/cooler | `--color-gray-*` primitives, or remap `--color-rui-*` |
 | Light form inside a dark shell | `ThemeProvider` `{ surface: 'light' }` |
 | One dialog wider | `class` / `ui` on content |
@@ -201,6 +204,28 @@ For deeper ramps, override primitives that semantic tokens reference:
 ```
 
 Prefer semantic tokens. Primitive overrides cascade, but mappings are not always 1:1.
+
+### 4.3 Motion tokens
+
+Duration, easing, overlay/dialog offset, and scale are CSS variables (not `ThemeProvider` fields). Override them after Raxium theme CSS to change speed globally:
+
+```css
+@theme {
+  --rui-motion-duration: 320ms;
+  --rui-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --rui-motion-offset: 0.5rem;
+  --rui-motion-scale: 0.98;
+}
+```
+
+| Token | Role |
+| --- | --- |
+| `--rui-motion-duration` | Shared duration. Applied to `--motion-duration` (on `*`, because the plugin registers that name as `@property inherits: false`) and `--tw-duration`. |
+| `--rui-motion-ease` | Shared easing. Same pattern for `--motion-timing` / `--tw-timing`. |
+| `--rui-motion-offset` | Overlay and Dialog enter-exit translate distance |
+| `--rui-motion-scale` | Popover / overlay enter-exit scale |
+
+`@media (prefers-reduced-motion: reduce)` sets duration to `0s`. Swap enter/exit **recipes** (slide vs fade vs none) with `defineMotionPreset` or instance `craft` — [§5.4](#54-motion-recipes).
 
 ---
 
@@ -329,6 +354,40 @@ Do **not** use `craft.slots` / `craft.base` just to append classes — that is `
 | `variants` | Extend or replace variant definitions |
 | `compoundVariants` | Extra compound variant rules |
 | `compoundSlots` | Extra compound slot rules |
+
+### 5.4 Motion recipes
+
+`tv.extend` **appends** classes, so you cannot swap a slide for a fade by spreading more motion utilities onto slot `base`. Overlay, dialog, and collapse crafts expose a **`motion` variant** (`default` | `fade` | `none`) that **replaces** the recipe.
+
+App-wide:
+
+```ts
+import { defineMotionPreset } from '@raxium/themes/utils'
+
+// With other packs: preset={[defineMotionPreset('fade'), compactPreset]}
+```
+
+```vue
+<RUIConfig :preset="defineMotionPreset('fade')">
+  <App />
+</RUIConfig>
+```
+
+One instance:
+
+```vue
+<Popover :craft="{ defaultVariants: { motion: 'none' } }">
+  …
+</Popover>
+```
+
+Change **speed / easing / offset** with CSS tokens ([§4.3](#43-motion-tokens)). Add a shadow with `ui` / `class`. Do not put `motion` on `ThemeProvider` or the `theme` prop.
+
+Named recipes (`popoverMotion`, `fadeMotion`, `tabsPanelMotion`, `radioScaleMotion`, …) are exported from `@raxium/themes/default` and `@raxium/themes/utils`. A skin pack adds a third dance the same way on every craft: `variants.motion.<name>` as a **slot map** (not `compoundVariants`).
+
+Tabs extra axes are `data-direction` (`prev` | `next`) and `data-orientation` on the panel. Radio extra axis is existing `data-variant` on the indicator. Extra `zoom` recipes should use those selectors, matching `data-[placement]` on popovers.
+
+`defineMotionPreset` sets `motion` on overlay, dialog, collapse, Tabs, RadioGroup, and Popover’s trigger chevron (`none` stops the rotate). Tooltip / Menu overlays still use content-only recipes.
 
 ---
 

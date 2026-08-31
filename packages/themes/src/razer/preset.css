@@ -169,35 +169,35 @@
 
 @utility webkit-scrollbar {
   ::-webkit-scrollbar {
-    @apply size-[6px];
+    @apply size-1.5;
   }
 
   ::-webkit-scrollbar-track-piece {
-    @apply bg-transparent rounded-[6px];
+    @apply bg-transparent rounded-lg;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-gray-58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-7.5 bg-gray-58/40 rounded-lg hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
 @utility webkit-scrollbar-self {
   &::-webkit-scrollbar {
-    @apply size-[6px];
+    @apply size-1.5;
   }
 
   &::-webkit-scrollbar-track-piece {
-    @apply bg-transparent rounded-[6px];
+    @apply bg-transparent rounded-lg;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[30px] bg-gray-58/40 rounded-[6px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-7.5 bg-gray-58/40 rounded-lg hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
 @utility webkit-small-scrollbar {
   ::-webkit-scrollbar {
-    @apply size-[3px];
+    @apply size-0.75;
   }
 
   ::-webkit-scrollbar-track-piece {
@@ -205,20 +205,20 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-gray-58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-1.25 bg-gray-58/40 rounded hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }
 
 @utility webkit-small-scrollbar-self {
   &::-webkit-scrollbar {
-    @apply size-[3px];
+    @apply size-0.75;
   }
 
   &::-webkit-scrollbar-track-piece {
-    @apply bg-transparent rounded-[1px];
+    @apply bg-transparent rounded;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply h-[5px] bg-gray-58/40 rounded-[1px] hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
+    @apply h-1.25 bg-gray-58/40 rounded hover:bg-rz-green active:bg-rz-green/70 focus:bg-rz-green/70;
   }
 }

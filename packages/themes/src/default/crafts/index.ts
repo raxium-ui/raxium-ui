@@ -28,6 +28,29 @@ export { type IconVariants, tvIcon } from './icon'
 export { type InputVariants, tvInput } from './input'
 export { type MenuVariants, tvMenu } from './menu'
 export { type MessageVariants, tvMessage } from './message'
+export {
+  collapsibleContentMotion,
+  collapsibleIndicator,
+  collapsibleMotionVariants,
+  dialogBackdropMotion,
+  dialogContentMotion,
+  dialogMotionVariants,
+  fadeMotion,
+  type MotionMode,
+  overlayMotionVariants,
+  popoverIndicatorMotion,
+  popoverMotion,
+  popoverMotionVariants,
+  radioCheckboxMotion,
+  radioFadeMotion,
+  radioMotionVariants,
+  radioScaleMotion,
+  tabsMotionVariants,
+  tabsPanelFadeMotion,
+  tabsPanelMotion,
+  treeBranchIndicator,
+  treeBranchMotionVariants,
+} from './motion'
 export { type NumberInputVariants, tvNumberInput } from './number-input'
 export {
   type PaginationGotoVariants,

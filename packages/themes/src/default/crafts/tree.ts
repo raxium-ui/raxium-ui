@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { COLLAPSIBLE_CONTENT_MOTION } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { treeBranchMotionVariants } from './motion'
 
 const prefix = 'rui-tree'
 
@@ -27,13 +27,8 @@ export const tvTreeBranch = tv(
       title: 'flex items-center',
       text: '',
       icon: 'size-[1lh]',
-      indicator: [
-        'data-[state=open]:rotate-90',
-        'data-[state=closed]:rotate-0',
-        'transition-transform',
-        '[&_svg]:size-[0.75lh]',
-      ],
-      content: [...COLLAPSIBLE_CONTENT_MOTION],
+      indicator: ['[&_svg]:size-[0.75lh]'],
+      content: ['overflow-hidden'],
       indentGuide: '',
       checkbox: '',
       checkboxIndicator: '',
@@ -74,9 +69,11 @@ export const tvTreeBranch = tv(
           title: 'gap-3.5',
         },
       },
+      motion: treeBranchMotionVariants,
     },
     defaultVariants: {
       size: 'base',
+      motion: 'default',
     },
   },
   `${prefix}-branch`,

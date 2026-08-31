@@ -1,20 +1,16 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { POPOVER_CONTENT_BASE, POPOVER_CONTENT_INNER_BASE } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { popoverMotionVariants } from './motion'
 /**
  * @color razer/components/popover.css
  */
 export const tvPopover = tv(
   {
     slots: {
-      content: [...POPOVER_CONTENT_BASE],
-      contentInner: [...POPOVER_CONTENT_INNER_BASE],
+      content: ['z-(--rui-z-index)', 'rounded-(--border-radius)'],
+      contentInner: ['relative', 'rounded-(--border-radius)', 'z-base'],
       close: 'inline-flex w-fit items-center justify-center [&_svg]:size-[1lh]',
-      indicator: [
-        'data-[state=open]:motion-rotate-out-180',
-        'data-[state=closed]:motion-rotate-in-180',
-        '[&_svg]:size-[0.75lh]',
-      ],
+      indicator: ['[&_svg]:size-[0.75lh]'],
     },
     variants: {
       size: {
@@ -47,10 +43,12 @@ export const tvPopover = tv(
           content: 'border-none',
         },
       },
+      motion: popoverMotionVariants,
     },
     defaultVariants: {
       size: 'base',
       bordered: true,
+      motion: 'default',
     },
   },
   'rui-popover',

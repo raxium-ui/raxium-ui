@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { DIALOG_BACKDROP_MOTION, DIALOG_CONTENT_MOTION } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { dialogMotionVariants } from './motion'
 /**
  * @color razer/components/dialog.css
  */
@@ -12,7 +12,6 @@ export const tvDialog = tv(
         'inset-0',
         'z-(--rui-z-index)',
         'pointer-events-auto', // see: https://github.com/chakra-ui/zag/issues/3203
-        ...DIALOG_BACKDROP_MOTION,
       ],
       positioner: [
         'fixed',
@@ -27,7 +26,6 @@ export const tvDialog = tv(
         'max-w-full',
         'md:max-w-[80vw]',
         'rounded',
-        ...DIALOG_CONTENT_MOTION,
       ],
       close: '[&_svg]:size-[1lh]',
       header: ['flex', 'items-center', 'justify-between'],
@@ -91,10 +89,12 @@ export const tvDialog = tv(
           content: 'border-none',
         },
       },
+      motion: dialogMotionVariants,
     },
     defaultVariants: {
       size: 'base',
       bordered: true,
+      motion: 'default',
     },
   },
   'rui-dialog',

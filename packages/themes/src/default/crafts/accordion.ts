@@ -1,6 +1,6 @@
-import type { VariantProps } from '../../utils'
-import { tv } from '../../utils'
-import { COLLAPSIBLE_CONTENT_MOTION, COLLAPSIBLE_INDICATOR } from './_shared'
+import type { VariantProps } from '../../utils/tv'
+import { tv } from '../../utils/tv'
+import { collapsibleMotionVariants } from './motion'
 
 const prefix = 'rui-accordion'
 
@@ -14,13 +14,11 @@ export const tvAccordion = tv(
       root: [],
       item: [],
       trigger: ['w-fit flex items-center'],
-      indicator: [
-        ...COLLAPSIBLE_INDICATOR,
-        '[&_svg]:size-[0.75lh]',
-      ],
-      content: [...COLLAPSIBLE_CONTENT_MOTION],
+      indicator: ['[&_svg]:size-[0.75lh]'],
+      content: ['overflow-hidden'],
     },
     variants: {
+      motion: collapsibleMotionVariants,
       size: {
         xs: {
           trigger: ['text-xs gap-3'],
@@ -35,6 +33,9 @@ export const tvAccordion = tv(
           trigger: ['text-lg gap-5'],
         },
       },
+    },
+    defaultVariants: {
+      motion: 'default',
     },
   },
   { prefix, slots: { indicator: `${prefix}-trigger-indicator` } },

@@ -94,10 +94,10 @@ export function Root() {
 ## 2. 决策树
 
 ```
-整站改颜色 / 间距 / 字体？
-├── 是 → CSS token（§4）
+整站改颜色 / 间距 / 字体，或只改动画**快慢**？
+├── 是 → CSS token（§4；动画时长见 §4.3）
 └── 否
-    ├── 全应用、多个组件要更紧凑的布局或不同的默认 variant？
+    ├── 全应用、多个组件要更紧凑的布局、不同的默认 variant，或另一套动画 recipe？
     │   └── 皮肤包 / 设计系统 → `RUIConfig preset`（§5）
     └── 单个实例或一小块子树？
         ├── 区域的 size / surface / skin → ThemeProvider
@@ -110,6 +110,9 @@ export function Root() {
 | 场景 | 用什么 |
 | --- | --- |
 | 全应用换品牌色 | `--color-rui-primary-*` |
+| 弹出层整体更快/更慢 | `--rui-motion-duration`（§4.3） |
+| 全应用只要淡入淡出或关掉 overlay 动画 | **进阶**：`defineMotionPreset`（§5.4） |
+| 某一个 Popover 不要动画 | **进阶**：实例 `craft.defaultVariants.motion` |
 | 让所有表面更暖/更冷 | `--color-gray-*` 或重映射 `--color-rui-*` |
 | 暗色壳里一块浅色表单 | `ThemeProvider` `{ surface: 'light' }` |
 | 某一个对话框更宽 | content 上的 `class` / `ui` |
@@ -201,6 +204,28 @@ export function Root() {
 ```
 
 优先改语义 token。原始 token 会往下 cascade，但映射不一定是 1:1。
+
+### 4.3 Motion token
+
+时长、缓动、Overlay/Dialog 位移和缩放是 CSS 变量（不是 `ThemeProvider` 字段）。写在 Raxium 主题 CSS **之后**即可全局改快慢：
+
+```css
+@theme {
+  --rui-motion-duration: 320ms;
+  --rui-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --rui-motion-offset: 0.5rem;
+  --rui-motion-scale: 0.98;
+}
+```
+
+| Token | 作用 |
+| --- | --- |
+| `--rui-motion-duration` | 共用时长。会写到每个元素的 `--motion-duration`（插件把该名注册成 `@property inherits: false`）以及 `--tw-duration`。 |
+| `--rui-motion-ease` | 共用缓动。`--motion-timing` / `--tw-timing` 同样处理。 |
+| `--rui-motion-offset` | Overlay 与 Dialog 进出位移距离 |
+| `--rui-motion-scale` | Popover / overlay 进出缩放 |
+
+`@media (prefers-reduced-motion: reduce)` 会把时长设为 `0s`。要换进出 **recipe**（滑入 / 淡入 / 无）用 `defineMotionPreset` 或实例 `craft` —— [§5.4](#54-动画-recipe)。
 
 ---
 
@@ -329,6 +354,40 @@ export const enterprisePreset = definePreset({
 | `variants` | 扩展或替换 variant 定义 |
 | `compoundVariants` | 额外的 compound variant |
 | `compoundSlots` | 额外的 compound slot |
+
+### 5.4 动画 recipe
+
+`tv.extend` 是 **追加** class，不能靠往 slot `base` 再 spread 一套 motion 来换掉旧的滑入。Overlay、Dialog、Collapse 的 craft 提供 **`motion` variant**（`default` | `fade` | `none`），用来 **整份替换** recipe。
+
+全应用：
+
+```ts
+import { defineMotionPreset } from '@raxium/themes/utils'
+
+// 可与其它包组合：preset={[defineMotionPreset('fade'), compactPreset]}
+```
+
+```vue
+<RUIConfig :preset="defineMotionPreset('fade')">
+  <App />
+</RUIConfig>
+```
+
+单个实例：
+
+```vue
+<Popover :craft="{ defaultVariants: { motion: 'none' } }">
+  …
+</Popover>
+```
+
+改 **快慢 / 缓动 / 位移** 用 CSS token（[§4.3](#43-motion-token)）。加阴影用 `ui` / `class`。不要把 `motion` 写进 `ThemeProvider` 或 `theme` prop。
+
+具名 recipe（`popoverMotion`、`fadeMotion`、`tabsPanelMotion`、`radioScaleMotion` 等）从 `@raxium/themes/default` 和 `@raxium/themes/utils` 导出。皮肤包加第三套舞步时，所有组件都是往 `variants.motion.<name>` 写 **slot 表**（不要写 `compoundVariants`）。
+
+Tabs 的额外轴是面板上的 `data-direction`（`prev` | `next`）和 `data-orientation`。Radio 的额外轴是 indicator 上已有的 `data-variant`。自定义 `zoom` recipe 应写这些选择器，和 Popover 的 `data-[placement]` 同一模式。
+
+`defineMotionPreset` 会拨 overlay、dialog、collapse、Tabs、RadioGroup，以及 Popover 触发器箭头（`none` 时箭头也不转）。Tooltip / Menu 等 overlay 仍只动 content。
 
 ---
 

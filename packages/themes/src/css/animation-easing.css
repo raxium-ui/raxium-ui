@@ -1,21 +1,37 @@
 @theme {
-  /* tw default duration */
-  --tw-duration: var(--motion-duration);
-  --default-transition-duration: var(--motion-duration);
-  --transition-duration: var(--motion-duration);
-  --tw-timing: var(--motion-timing);
-  --default-transition-timing-function: var(--motion-timing);
-  --transition-timing-function: var(--motion-timing);
+  --rui-motion-duration: 220ms;
+  --rui-motion-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --rui-motion-offset: .5rem;
+  --rui-motion-scale: .95;
+
+  /* Point duration/easing aliases at --rui-*, not --motion-* (plugin @property is non-inheriting). */
+  --tw-duration: var(--rui-motion-duration);
+  --default-transition-duration: var(--rui-motion-duration);
+  --transition-duration: var(--rui-motion-duration);
+  --tw-timing: var(--rui-motion-ease);
+  --default-transition-timing-function: var(--rui-motion-ease);
+  --transition-timing-function: var(--rui-motion-ease);
 }
 
-@property --motion-duration {
-  syntax: '<time>';
-  inherits: false;
-  initial-value: 200ms;
+/*
+ * tailwindcss-motion registers --motion-duration / --motion-timing as:
+ *   @property { syntax: "*"; inherits: false; initial-value: 700ms / plugin easing }
+ * inherits:false means :root { --motion-duration: var(--rui-motion-duration) } never
+ * reaches the animated node — var() resolves to the @property initial-value (.7s).
+ * Specify the properties on every element so motion utilities pick up --rui-*.
+ */
+@layer base {
+  *,
+  ::before,
+  ::after,
+  ::backdrop {
+    --motion-duration: var(--rui-motion-duration);
+    --motion-timing: var(--rui-motion-ease);
+  }
 }
 
-@property --motion-timing {
-  syntax: '*';
-  inherits: false;
-  initial-value: cubic-bezier(0, 0, 0.2, 1);
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --rui-motion-duration: 0s;
+  }
 }
