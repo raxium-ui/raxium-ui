@@ -48,6 +48,7 @@
   ],
   "scripts": {
     "build": "bun run build.ts",
+    "typecheck": "tsc -p tsconfig.json --pretty false",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
