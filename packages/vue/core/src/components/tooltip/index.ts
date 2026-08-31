@@ -1,12 +1,20 @@
 import {
   TooltipArrow as ArkTooltipArrow,
   TooltipArrowTip as ArkTooltipArrowTip,
+  TooltipTrigger,
 } from '@ark-ui/vue/tooltip'
 import { createArrow } from '@raxium/vue/components/arrow/createArrow'
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import TooltipRoot from './Tooltip.vue'
+import TooltipContent from './TooltipContent.vue'
 
-export * from './props'
-export { default as Tooltip } from './Tooltip.vue'
-export { default as TooltipContent } from './TooltipContent.vue'
 const TooltipArrow = createArrow(ArkTooltipArrow, ArkTooltipArrowTip)
-export { TooltipArrow }
-export { TooltipTrigger } from '@ark-ui/vue/tooltip'
+
+export const Tooltip = withCompoundParts(TooltipRoot, {
+  Trigger: TooltipTrigger,
+  Content: TooltipContent,
+  Arrow: TooltipArrow,
+})
+
+export { TooltipArrow, TooltipContent, TooltipTrigger }
+export * from './props'

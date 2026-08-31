@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于管理字符串标签集合输入，适合关键词录入、技能标注、邮件地址批量输入等场景。基于 Ark UI Tags Input 构建，支持受控/非受控值管理、最大数量与校验策略、横向滚动与换行模式，并扩展
     theme 与 ui 配置能力。由 TagsInput（根）与 TagsInputItem（子组件）组成；TagsInputItem 承载单个标签项，支持内联编辑与删除触发器挂载。
+    具名导出与复合导出（如 TagsInput.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/tags-input'
     primitive: TagsInput.RootProvider

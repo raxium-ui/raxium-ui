@@ -8,6 +8,7 @@ component:
   exportName: Dialog
   category: core
   description: 复合弹窗组件，用于承载确认、表单编辑、详情展示等临时交互内容。基于 Ark UI Dialog 构建，支持受控/非受控状态、关闭来源追踪（from）、主题配置。
+    具名导出与复合导出（如 Dialog.Trigger）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/dialog'
     primitive: Dialog.RootProvider

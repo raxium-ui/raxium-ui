@@ -1,5 +1,13 @@
-export { default as Collapsible } from './Collapsible.vue'
-export { default as CollapsibleContent } from './CollapsibleContent.vue'
-export { default as CollapsibleTrigger } from './CollapsibleTrigger.vue'
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import CollapsibleRoot from './Collapsible.vue'
+import CollapsibleContent from './CollapsibleContent.vue'
+import CollapsibleTrigger from './CollapsibleTrigger.vue'
+import ReadMore from './ReadMore.vue'
+
+export const Collapsible = withCompoundParts(CollapsibleRoot, {
+  Trigger: CollapsibleTrigger,
+  Content: CollapsibleContent,
+})
+
+export { CollapsibleContent, CollapsibleTrigger, ReadMore }
 export * from './props'
-export { default as ReadMore } from './ReadMore.vue'

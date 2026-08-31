@@ -9,6 +9,7 @@ component:
   category: core
   description: 可交互的悬停浮层组件，常用于展示用户摘要、快捷说明或次级操作入口。基于 Ark UI Hover Card 构建：根组件承接 Ark
     UI Root 状态机能力，HoverCardContent 负责内容结构与样式扩展，支持 theme 与局部 ui 覆盖。
+    具名导出与复合导出（如 HoverCard.Content）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/hover-card'
     primitive: HoverCard.RootProvider

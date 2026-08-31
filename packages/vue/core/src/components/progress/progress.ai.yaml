@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于展示任务完成度或流程进度，支持线性进度条、圆形进度和弧形进度三种形态。基于 Ark UI Progress 构建，保留 Ark UI
     的进度状态与可访问性语义，扩展 theme、局部 ui 覆盖与 transfer 视觉变体能力。
+    具名导出与复合导出（如 Progress.Linear）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/progress'
     primitive: Progress.RootProvider

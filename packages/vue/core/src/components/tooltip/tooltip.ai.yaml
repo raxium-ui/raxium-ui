@@ -10,6 +10,7 @@ component:
   description: 用于在悬停或聚焦时展示简短提示信息，适合图标按钮释义、字段补充说明和状态提示等轻量场景。基于 Ark UI Tooltip 原语构建，支持受控/非受控打开状态、延迟配置、定位策略。由
     Tooltip（根）、TooltipTrigger、TooltipContent、TooltipArrow 组合而成；TooltipTrigger 包裹触发元素，TooltipContent
     承载提示内容，TooltipArrow 可选用于箭头指示。
+    具名导出与复合导出（如 Tooltip.Content）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/tooltip'
     primitive: Tooltip.RootProvider

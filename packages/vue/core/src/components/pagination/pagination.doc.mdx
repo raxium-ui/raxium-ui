@@ -7,6 +7,8 @@ import * as PaginationStories from './pagination.stories'
 
 `Pagination` 用于列表、表格等长数据场景的页码导航，支持上一页/下一页、首尾页、省略页码展示以及受控分页状态管理。根组件支持 **`dynamicPageEnd`**：在总页数较多时，将末位页码替换为「当前页 + N」形式的动态锚点，便于快速向后跳转。组件基于 Ark UI Pagination 构建，在 Ark UI 根能力上扩展了 `theme` 与 `ui` 配置，并提供 `PaginationGoTo`、`PaginationPageSize` 等组合能力。
 
+具名导出与复合导出等价：`Pagination.GoTo` 与 `PaginationGoTo` 为同一组件（其余子件同理）。
+
 ---
 
 ## Examples

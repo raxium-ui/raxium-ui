@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于将静态文本切换为就地编辑输入，适合昵称、标题、备注等轻量修改场景。基于 Ark UI Editable 构建，支持受控/非受控值、编辑态切换、提交与回退事件，扩展
     theme、ui 和组合插槽能力。
+    具名导出与复合导出（如 Editable.Input）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/editable'
     primitive: EditableRootProvider

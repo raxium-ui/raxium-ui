@@ -1,20 +1,39 @@
 import {
   PopoverArrow as ArkPopoverArrow,
   PopoverArrowTip as ArkPopoverArrowTip,
-} from '@ark-ui/vue/popover'
-import { createArrow } from '@raxium/vue/components/arrow/createArrow'
-
-export { default as Popover } from './Popover.vue'
-export { default as PopoverClose } from './PopoverClose.vue'
-export { default as PopoverContent } from './PopoverContent.vue'
-export { default as PopoverIndicator } from './PopoverIndicator.vue'
-
-export * from './props'
-export {
   PopoverCloseTrigger,
   PopoverDescription,
   PopoverTitle,
   PopoverTrigger,
 } from '@ark-ui/vue/popover'
+import { createArrow } from '@raxium/vue/components/arrow/createArrow'
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import PopoverRoot from './Popover.vue'
+import PopoverClose from './PopoverClose.vue'
+import PopoverContent from './PopoverContent.vue'
+import PopoverIndicator from './PopoverIndicator.vue'
+
 const PopoverArrow = createArrow(ArkPopoverArrow, ArkPopoverArrowTip)
-export { PopoverArrow }
+
+export const Popover = withCompoundParts(PopoverRoot, {
+  Trigger: PopoverTrigger,
+  Content: PopoverContent,
+  Arrow: PopoverArrow,
+  Close: PopoverClose,
+  CloseTrigger: PopoverCloseTrigger,
+  Indicator: PopoverIndicator,
+  Title: PopoverTitle,
+  Description: PopoverDescription,
+})
+
+export {
+  PopoverArrow,
+  PopoverClose,
+  PopoverCloseTrigger,
+  PopoverContent,
+  PopoverDescription,
+  PopoverIndicator,
+  PopoverTitle,
+  PopoverTrigger,
+}
+export * from './props'

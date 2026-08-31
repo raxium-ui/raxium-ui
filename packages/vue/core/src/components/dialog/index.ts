@@ -1,24 +1,41 @@
-// components
+import type { DialogFunctionalHandle, DialogOptions } from './dialog-functional'
+import type { DialogTriggerFrom, OpenChangeDetails } from './dialog-intercept-context'
+import { DialogContext } from '@ark-ui/vue/dialog'
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import { dialog, useDialog } from './dialog-functional'
+import { TriggerFrom } from './dialog-intercept-context'
+import DialogRoot from './Dialog.vue'
+import DialogBackdrop from './DialogBackdrop.vue'
+import DialogBody from './DialogBody.vue'
+import DialogCloseTrigger from './DialogCloseTrigger.vue'
+import DialogContent from './DialogContent.vue'
+import DialogFooter from './DialogFooter.vue'
+import DialogHeader from './DialogHeader.vue'
+import DialogTrigger from './DialogTrigger.vue'
+
+export const Dialog = withCompoundParts(DialogRoot, {
+  Trigger: DialogTrigger,
+  Backdrop: DialogBackdrop,
+  Content: DialogContent,
+  Header: DialogHeader,
+  Body: DialogBody,
+  Footer: DialogFooter,
+  CloseTrigger: DialogCloseTrigger,
+})
+
 export {
   dialog,
-  type DialogFunctionalHandle,
-  type DialogOptions,
-  useDialog,
-} from './dialog-functional'
-export {
-  type DialogTriggerFrom,
-  type OpenChangeDetails,
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogContext,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
   TriggerFrom,
-} from './dialog-intercept-context'
-export { default as Dialog } from './Dialog.vue'
-export { default as DialogBackdrop } from './DialogBackdrop.vue'
-export { default as DialogBody } from './DialogBody.vue'
-export { default as DialogCloseTrigger } from './DialogCloseTrigger.vue'
-export { default as DialogContent } from './DialogContent.vue'
-export { default as DialogFooter } from './DialogFooter.vue'
-export { default as DialogHeader } from './DialogHeader.vue'
-export { default as DialogTrigger } from './DialogTrigger.vue'
-
-// props
+  useDialog,
+}
+export type { DialogFunctionalHandle, DialogOptions }
+export type { DialogTriggerFrom, OpenChangeDetails }
 export * from './props'
-export { DialogContext } from '@ark-ui/vue/dialog'

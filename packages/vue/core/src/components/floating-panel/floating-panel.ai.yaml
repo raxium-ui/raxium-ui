@@ -9,6 +9,7 @@ component:
   category: core
   description: 可拖拽、可缩放、可分阶段（最小化/最大化/默认）的浮动面板组件，适用于工具窗、悬浮配置面板、辅助调试面板等场景。基于 Ark UI Floating
     Panel 封装，根组件透传 Ark UI Root 状态机能力，FloatingPanelTrigger 直接导出自 @ark-ui/vue。
+    具名导出与复合导出（如 FloatingPanel.Content）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue'
     primitive: FloatingPanel.RootProvider

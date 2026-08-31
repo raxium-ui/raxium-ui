@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于单日期与日期范围选择的复合组件，支持日/月/年多视图切换、受控状态管理、禁用日期规则与事件监听。基于 Ark UI useDatePicker
     与 DatePicker.RootProvider 封装，在 Raxium UI 中扩展通用 theme/craft（见 Theme Configuration），适用于表单录入、筛选面板与时间范围查询场景。
+    具名导出与复合导出（如 DatePicker.Content）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue'
     primitive: DatePicker.RootProvider

@@ -8,6 +8,7 @@ component:
   exportName: Menu
   category: core
   description: 复合菜单组件，用于承载命令选择、上下文菜单、单选/多选项等轻量操作入口。基于 Ark UI Menu 构建，支持受控与非受控状态、分组与子菜单。
+    具名导出与复合导出（如 Menu.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/menu'
     primitive: ark.menu

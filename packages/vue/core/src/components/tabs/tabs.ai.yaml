@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于在同一上下文中切换多个内容面板，适合设置页分组、信息分区与多视图切换。基于 Ark UI Tabs 构建，支持受控/非受控值、可滚动标签列表、方向切换等
     Root 能力，并扩展 theme 主题配置与统一样式输出。
+    具名导出与复合导出（如 Tabs.Trigger）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/tabs'
     primitive: Tabs.RootProvider

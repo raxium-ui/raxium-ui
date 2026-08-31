@@ -10,6 +10,7 @@ component:
   description: 用于展示层级结构数据，适合目录浏览、权限节点选择、配置树编辑等场景。基于 Ark UI Tree View 原语构建，支持展开/折叠、单选/多选、复选框勾选、焦点管理以及懒挂载策略。由
     Tree、TreeNode、TreeCheckboxNode 组合而成；TreeNode 用于普通选中树，TreeCheckboxNode 用于复选框勾选树；default
     插槽内通常递归放置 TreeNode 或 TreeCheckboxNode。
+    具名导出与复合导出（如 Tree.Node）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/tree-view'
     primitive: TreeView.RootProvider

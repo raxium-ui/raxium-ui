@@ -10,6 +10,7 @@ component:
   description: 用于管理一组可切换按钮，适合文本样式工具栏、视图模式切换、筛选条件等场景。基于 Ark UI Toggle Group 原语构建，支持单选/多选模式、受控/非受控值管理，并扩展
     Raxium UI 的 theme 样式能力。由 ToggleGroup（根）与 ToggleGroupItem（子组件）组成；ToggleGroupItem
     承载单项内容，继承组上下文状态。
+    具名导出与复合导出（如 ToggleGroup.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/toggle-group'
     primitive: ToggleGroup.RootProvider

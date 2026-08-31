@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于在有限空间中切换内容的展开/收起状态组件组。基于 Ark UI collapsible 原语封装，包含 Collapsible、CollapsibleTrigger、CollapsibleContent
     和 ReadMore，并扩展 theme 与部分 ui 配置能力。
+    具名导出与复合导出（如 Collapsible.Trigger）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/collapsible'
     primitive: Collapsible.RootProvider

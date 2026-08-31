@@ -9,7 +9,8 @@ component:
   category: core
   description: 用于将内容分成多个可独立展开/收起的面板，适合 FAQ、设置分组与长内容分节。基于 Ark UI Accordion 原语封装，包含
     Accordion、AccordionItem（别名 AccordionPanel）、AccordionTrigger、AccordionContent；根组件扩展
-    theme/class/craft，触发器扩展 indicator 与 ui。
+    theme/class/craft，触发器扩展 indicator 与 ui。子件也可写作 Accordion.Item / Accordion.Trigger /
+    Accordion.Content（Accordion.Panel 等同 AccordionItem），与具名导出为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/accordion'
     primitive: Accordion.RootProvider

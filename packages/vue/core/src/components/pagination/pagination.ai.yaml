@@ -10,6 +10,7 @@ component:
   description: 用于列表、表格等长数据场景的页码导航，支持上一页/下一页、首尾页、省略页码展示以及受控分页状态管理。基于 Ark UI Pagination
     构建，扩展 theme 与 ui 配置。由 Pagination（根）、PaginationGoTo、PaginationGoToTrigger、PaginationPageSize
     组成。
+    具名导出与复合导出（如 Pagination.GoTo）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/pagination'
     primitive: Pagination.RootProvider

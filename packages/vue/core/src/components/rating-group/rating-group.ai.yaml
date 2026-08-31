@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于评分场景（如满意度、服务质量、内容打分），支持受控/非受控值管理、悬浮预览、半星评分和禁用/只读状态。基于 Ark UI Rating
     Group 构建，扩展 theme 与 ui 样式入口，暴露 $api 便于编程式设置与清空评分。由 RatingGroup（根）与 RatingGroupItem（子组件）组成。
+    具名导出与复合导出（如 RatingGroup.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/rating-group'
     primitive: RatingGroup.RootProvider

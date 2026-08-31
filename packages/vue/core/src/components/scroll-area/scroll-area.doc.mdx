@@ -7,6 +7,8 @@ import * as ScrollAreaStories from './scroll-area.stories'
 
 `ScrollArea` 用于在固定容器内承载可滚动内容，支持垂直/水平滚动条组合与角落补位（`Corner`）。组件基于 Ark UI Scroll Area 构建，根组件透传 Ark UI Root 能力，并扩展 `theme` 与 `ui` 配置用于样式定制。
 
+具名导出与复合导出等价：`ScrollArea.Scrollbar` 与 `ScrollAreaScrollbar` 为同一组件（`ScrollArea.Corner` 同理；Viewport 由根组件内置，无独立导出）。
+
 ---
 
 ## Examples

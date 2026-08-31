@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于表达单一布尔开关状态（开/关），适合用于功能启停、偏好配置等场景。基于 Ark UI Switch 构建，支持受控/非受控状态、表单语义透传，并扩展
     theme 与 ui 样式入口。由 Switch（根）与 SwitchLabel（子组件）组成。
+    具名导出与复合导出（如 Switch.Label）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue'
     primitive: Switch.RootProvider

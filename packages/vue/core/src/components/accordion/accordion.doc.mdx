@@ -7,6 +7,8 @@ import * as AccordionStories from './accordion.stories'
 
 `Accordion` 用于将内容分成多个可独立展开/收起的区块，适合 FAQ、设置分组、长表单分节等场景。组件组包含 `Accordion`、`AccordionItem`（别名 `AccordionPanel`）、`AccordionTrigger`、`AccordionContent`；在 Ark UI Accordion 能力基础上，根组件扩展了 `theme`/`class`，触发器扩展了 `indicator` 与 `ui` 样式入口。
 
+具名导出与复合导出等价：`Accordion.Item` 与 `AccordionItem` 为同一组件（`Accordion.Panel` 即 `AccordionPanel`，其余子件同理）。
+
 ---
 
 ## Examples
@@ -36,6 +38,7 @@ import * as AccordionStories from './accordion.stories'
 - `Accordion` 根组件继承 Ark Root 能力（如 `modelValue` / `defaultValue`、`multiple`、`collapsible`、`disabled`、`orientation` 等），并增加 `theme`、`class`。
 - `AccordionItem`、`AccordionTrigger`、`AccordionContent` 分别对应 Ark 的 Item、ItemTrigger、ItemContent 原语；`AccordionTrigger` 额外提供 `indicator` 与 `ui`（Raxium 扩展）。
 - `AccordionPanel` 与 `AccordionItem` 为同一组件的别名导出，便于与文档或其它设计系统命名对齐。
+- 根导出 `Accordion` 同时挂有 `Item` / `Panel` / `Trigger` / `Content`，与具名导出指向同一组件实例。
 
 Ark UI 文档： [Ark UI Accordion (Vue)](https://ark-ui.com/vue/docs/components/accordion)
 

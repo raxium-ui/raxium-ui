@@ -8,6 +8,7 @@ component:
   exportName: Select
   category: core
   description: 用于单选或多选场景的下拉选择组件，适用于表单输入、筛选器和配置项选择。基于 Ark UI Select 构建，支持受控/非受控状态、高亮项控制、分组选项、可清空触发器。
+    具名导出与复合导出（如 Select.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/select'
     primitive: ark.select

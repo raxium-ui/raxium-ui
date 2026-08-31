@@ -10,6 +10,7 @@ component:
   description: 用于管理单选集合场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展
     theme、variant 以及 ui 样式入口。由 RadioGroup（根）、RadioGroupLayout（布局）与 RadioGroupItem（子项）组成；根组件提供组级
     label 与 theme/craft，布局组件控制 stack/inline 排列，子项承载 text、variant 与 ui 样式入口。
+    具名导出与复合导出（如 RadioGroup.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/radio-group'
     primitive: RadioGroup.RootProvider

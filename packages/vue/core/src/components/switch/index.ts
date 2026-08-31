@@ -1,3 +1,10 @@
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import SwitchRoot from './Switch.vue'
+import SwitchLabel from './SwitchLabel.vue'
+
+export const Switch = withCompoundParts(SwitchRoot, {
+  Label: SwitchLabel,
+})
+
+export { SwitchLabel }
 export * from './props'
-export { default as Switch } from './Switch.vue'
-export { default as SwitchLabel } from './SwitchLabel.vue'

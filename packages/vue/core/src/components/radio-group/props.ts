@@ -4,7 +4,7 @@ import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
 
 export type RadioGroupValueType = string | number | symbol | bigint | null
-interface ValueChangeDetails {
+export interface ValueChangeDetails {
   value: RadioGroupValueType
 }
 export interface RadioGroupProps

@@ -1,7 +1,24 @@
+import { withCompoundParts } from '../../utils/withCompoundParts'
+import SelectRoot from './Select.vue'
+import SelectContent from './SelectContent.vue'
+import SelectItem from './SelectItem.vue'
+import SelectItemGroup from './SelectItemGroup.vue'
+import SelectTrigger from './SelectTrigger.vue'
+import SelectValue from './SelectValue.vue'
+
+export const Select: typeof SelectRoot & {
+  Trigger: typeof SelectTrigger
+  Value: typeof SelectValue
+  Content: typeof SelectContent
+  Item: typeof SelectItem
+  ItemGroup: typeof SelectItemGroup
+} = withCompoundParts(SelectRoot, {
+  Trigger: SelectTrigger,
+  Value: SelectValue,
+  Content: SelectContent,
+  Item: SelectItem,
+  ItemGroup: SelectItemGroup,
+})
+
+export { SelectContent, SelectItem, SelectItemGroup, SelectTrigger, SelectValue }
 export * from './props'
-export { default as Select } from './Select.vue'
-export { default as SelectContent } from './SelectContent.vue'
-export { default as SelectItem } from './SelectItem.vue'
-export { default as SelectItemGroup } from './SelectItemGroup.vue'
-export { default as SelectTrigger } from './SelectTrigger.vue'
-export { default as SelectValue } from './SelectValue.vue'

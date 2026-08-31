@@ -9,6 +9,7 @@ component:
   category: core
   description: 用于在固定容器内承载可滚动内容，支持垂直/水平滚动条组合与角落补位（Corner）。基于 Ark UI Scroll Area 构建，透传
     Ark UI Root 能力，并扩展 theme 与 ui 配置。
+    具名导出与复合导出（如 ScrollArea.Scrollbar）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/scroll-area'
     primitive: ark.scroll-area

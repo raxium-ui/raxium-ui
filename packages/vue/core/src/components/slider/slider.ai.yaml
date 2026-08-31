@@ -10,6 +10,7 @@ component:
   description: 用于区间数值选择的滑动输入组件，支持单值与多 Thumb（范围）模式、水平/垂直方向、刻度标记与 Tooltip 展示。基于
     Ark UI Slider 构建；根组件扩展 theme、craft（仅根）与 ui，子组件为 ThemeNoCrafts（仅有 variant 式 theme），SliderMarker /
     SliderTooltipMarker 另有分槽 ui。
+    具名导出与复合导出（如 Slider.Thumb）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/slider'
     primitive: Slider.RootProvider
