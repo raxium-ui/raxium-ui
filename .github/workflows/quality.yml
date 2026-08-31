@@ -9,9 +9,17 @@ on:
       - main
       - changeset-release/main
 
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -35,14 +43,20 @@ jobs:
         shell: bash
         run: pnpm install --frozen-lockfile
 
-      # - name: Lint
-      #    shell: bash
-      #    run: pnpm lint
-      #
-      #  - name: Typecheck
-      #    shell: bash
-      #    run: pnpm typecheck
-      #
-      - name: Build
+      # Library packages only. Storybook / playground inherit ^build locally
+      # but are too slow and noisy to gate merges.
+      - name: Build packages
         shell: bash
-        run: pnpm turbo run build
+        run: >
+          pnpm turbo run build
+          --filter="./packages/**"
+          --filter="!@raxium/vue-storybook"
+          --filter="!@raxium/react-storybook"
+
+      - name: Typecheck
+        shell: bash
+        run: >
+          pnpm turbo run typecheck
+          --filter="./packages/**"
+          --filter="!@raxium/vue-storybook"
+          --filter="!@raxium/react-storybook"

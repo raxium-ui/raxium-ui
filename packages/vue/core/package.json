@@ -61,6 +61,7 @@
   "scripts": {
     "build": "rslib build --tsconfig ./tsconfig.build.json && vue-tsc --project tsconfig.build.json && tsc-alias --project tsconfig.build.json",
     "test": "vitest run",
+    "typecheck": "vue-tsc --project tsconfig.build.json --noEmit",
     "lint": "eslint src --fix"
   },
   "peerDependencies": {

@@ -19,6 +19,7 @@
     "dev": "turbo run dev --parallel",
     "preview": "turbo run preview --parallel",
     "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "changeset:fill": "node scripts/changeset-fill.mjs",
     "changeset:fill-only": "node scripts/changeset-fill.mjs --only"
