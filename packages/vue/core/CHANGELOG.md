@@ -1,5 +1,22 @@
 # @raxium/vue
 
+## 0.5.0
+
+### Minor Changes
+
+- 8f0138c: Add the React component library (`@raxium/react`), the first published release of the React port. It ships 35 Ark UI-based components — Accordion, Badge, Button, Checkbox, Collapsible, DatePicker, Dialog, Editable, FloatingPanel, HoverCard, Icon, Input, Menu, Message, NumberInput, Overlay, Pagination, PinInput, Popover, Progress, RadioGroup, RatingGroup, ScrollArea, Select, Skeleton, Slider, Spin, Switch, Tabs, TagsInput, Toast, Tooltip, Tree and more — together with hooks, providers, and utilities, fully typed and consumable via granular `./components/*`, `./hooks/*`, `./providers/*`, and `./utils/*` entry points.
+
+  Enhance `@raxium/themes` with an improved runtime theming system: refined preset/skin-pack resolution and craft merging so themes compose predictably across both the React and Vue libraries.
+
+  Align `@raxium/vue` theming composables and config providers (`useTheme`, `useProvideComponentTheme`, `RUIConfigProvider`) with the shared theming model for consistent behavior across frameworks.
+
+- 545572e: Expose compound component accessors on Vue roots so `Accordion.Item`, `Dialog.Content`, `Menu.Trigger`, and the same pattern on other composites match the React API. Named exports such as `AccordionItem` remain unchanged and point at the same component instances, so existing templates keep working while the dotted form is now available.
+
+### Patch Changes
+
+- Updated dependencies [8f0138c]
+  - @raxium/themes@0.4.0
+
 ## 0.4.3
 
 ### Patch Changes
