@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { AccordionRootEmits } from '@ark-ui/vue/accordion'
+import type { AccordionRootEmits, UseAccordionReturn } from '@ark-ui/vue/accordion'
+import type { UnwrapRef } from 'vue'
 import type { AccordionProps } from '.'
 import { Accordion, useAccordion } from '@ark-ui/vue/accordion'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
@@ -9,8 +10,11 @@ import { useProvideComponentTheme } from '@raxium/vue/composables/useProvideComp
 
 const { class: propsClass, theme: propsTheme, craft, ...props } = defineProps<AccordionProps>()
 const emit = defineEmits<AccordionRootEmits>()
+defineSlots<{
+  default: (props: UnwrapRef<UseAccordionReturn>) => unknown
+}>()
 const forwarded = useForwardProps(props)
-const accordion = useAccordion(forwarded, emit)
+const accordion = useAccordion(forwarded, emit) as UseAccordionReturn
 
 const theme = useTheme(() => propsTheme)
 const themed = useThemeCraft(theme, 'tvAccordion', () => craft)

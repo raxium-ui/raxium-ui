@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { PinInputRootEmits } from '@ark-ui/vue/pin-input'
+import type { PinInputRootEmits, UsePinInputReturn } from '@ark-ui/vue/pin-input'
 import type { PinInputProps } from '.'
-
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue'
 import { PinInput, usePinInput } from '@ark-ui/vue/pin-input'
 import { cxc } from '@raxium/themes/utils'
@@ -18,9 +17,16 @@ const {
   ...props
 } = defineProps<PinInputProps>()
 const emits = defineEmits<PinInputRootEmits>()
+defineSlots<{
+  default: (props: { count: number }) => unknown
+  label: () => unknown
+  prefix: () => unknown
+  suffix: () => unknown
+  separator: (props: { number: number, index: number }) => unknown
+}>()
 
 const forwarded = useForwardProps(computed(() => ({ ...props, count })))
-const pinInput = usePinInput(forwarded, emits)
+const pinInput = usePinInput(forwarded, emits) as UsePinInputReturn
 
 // theme
 const theme = useTheme(() => propsTheme)
