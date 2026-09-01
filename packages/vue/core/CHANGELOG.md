@@ -1,5 +1,13 @@
 # @raxium/vue
 
+## 0.5.2
+
+### Patch Changes
+
+- 8ec7d56: Annotate Accordion and PinInput `$api` / default-slot types with Ark `Use*Return` aliases so vue-tsc declaration emit does not leak non-portable `@zag-js/*` pnpm paths (TS2742).
+- 5ec6e96: Align Input value events to `string`. Clear now commits `''` instead of `undefined`, so `v-model` / `onValueChange` match `ref<string>` and `useState('')` without `| undefined`.
+- 6fff60a: Make RadioGroup, CheckboxGroup, Select, and Tree generic over option/id value. Vue infers that type from `v-model` (and Tree `selectedValue` / `expandedValue` / `checkedValue`) so `update:*` matches the bound type instead of the full union. React RadioGroup / CheckboxGroup do the same for `value` / `onValueChange`, with a generic `forwardRef` assertion so the type parameter is not erased.
+
 ## 0.5.1
 
 ### Patch Changes
