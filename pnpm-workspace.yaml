@@ -14,8 +14,8 @@ packages:
   - website/**
 
 overrides:
-  lightningcss: ^1.31.0
   '@storybook/react': 10.3.0
+  lightningcss: ^1.31.0
 
 ignoredBuiltDependencies:
   - core-js
