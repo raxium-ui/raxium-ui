@@ -1,6 +1,6 @@
-<script setup lang="ts" generic="T extends CollectionItem">
+<script setup lang="ts" generic="T extends CollectionItem, V extends SelectValueType = SelectValueType">
 import type { CollectionItem, UseSelectProps } from '@ark-ui/vue/select'
-import type { SelectEmits, SelectProps } from '.'
+import type { SelectEmits, SelectProps, SelectValueType } from '.'
 import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
@@ -17,8 +17,8 @@ const {
   lazyMount = undefined,
   unmountOnExit = undefined,
   ...props
-} = defineProps<SelectProps<T>>()
-const emits = defineEmits<SelectEmits<T>>()
+} = defineProps<SelectProps<T, V>>()
+const emits = defineEmits<SelectEmits<T, V>>()
 const selectConfig = useConfig('select', () => ({ lazyMount, unmountOnExit }))
 const forwarded = useForwardProps(props)
 const selectRoot = useSelect<T>(

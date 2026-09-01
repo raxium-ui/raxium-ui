@@ -8,9 +8,8 @@ component:
   exportName: Tree
   category: core
   description: 用于展示层级结构数据，适合目录浏览、权限节点选择、配置树编辑等场景。基于 Ark UI Tree View 原语构建，支持展开/折叠、单选/多选、复选框勾选、焦点管理以及懒挂载策略。由
-    Tree、TreeNode、TreeCheckboxNode 组合而成；TreeNode 用于普通选中树，TreeCheckboxNode 用于复选框勾选树；default
-    插槽内通常递归放置 TreeNode 或 TreeCheckboxNode。
-    具名导出与复合导出（如 Tree.Node）为同一实例。
+    Tree、TreeNode、TreeCheckboxNode 组合而成。根组件双泛型 T extends TreeNode 与 V extends TreeValueType，selectedValue
+    等会推断 V，使 update:selectedValue 为 V[]。具名导出与复合导出（如 Tree.Node）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/tree-view'
     primitive: TreeView.RootProvider
@@ -40,28 +39,28 @@ contracts:
       typeText: '''single'' | ''multiple'''
       description: 选中模式，影响 selectedValue 语义。
     - name: expandedValue
-      typeText: TreeValueType[]
-      description: 受控展开值。
+      typeText: V[]
+      description: 受控展开值。V 由选中/展开/勾选绑定推断。
     - name: defaultExpandedValue
-      typeText: TreeValueType[]
+      typeText: V[]
       description: 非受控初始展开值。
     - name: selectedValue
-      typeText: TreeValueType[]
+      typeText: V[]
       description: 受控选中值。
     - name: defaultSelectedValue
-      typeText: TreeValueType[]
+      typeText: V[]
       description: 非受控初始选中值。
     - name: checkedValue
-      typeText: TreeValueType[]
+      typeText: V[]
       description: 复选框树受控勾选值。
     - name: defaultCheckedValue
-      typeText: TreeValueType[]
+      typeText: V[]
       description: 非受控初始勾选值。
     - name: focusedValue
-      typeText: TreeValueType
+      typeText: V | null
       description: 当前焦点节点值。
     - name: defaultFocusedValue
-      typeText: TreeValueType
+      typeText: V | null
       description: 非受控初始焦点值。
     - name: lazyMount
       typeText: boolean
@@ -85,19 +84,19 @@ contracts:
   events:
     - name: update:expandedValue
       payload:
-        typeText: '(value: TreeValueType[])'
+        typeText: '(value: V[])'
       description: 展开值受控同步。
     - name: update:selectedValue
       payload:
-        typeText: '(value: TreeValueType[])'
-      description: 选中值受控同步。
+        typeText: '(value: V[])'
+      description: 选中值受控同步。参数类型与 selectedValue 的 V[] 相同。
     - name: update:checkedValue
       payload:
-        typeText: '(value: TreeValueType[])'
+        typeText: '(value: V[])'
       description: 勾选值受控同步。
     - name: update:focusedValue
       payload:
-        typeText: '(value: TreeValueType)'
+        typeText: '(value: V | null)'
       description: 焦点值受控同步。
     - name: expandedChange
       payload:

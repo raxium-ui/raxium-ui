@@ -1,6 +1,6 @@
-<script setup lang="ts" generic="T = TreeNode">
+<script setup lang="ts" generic="T extends TreeNode = TreeNode, V extends TreeValueType = TreeValueType">
 import type { TreeNode } from '@ark-ui/vue/tree-view'
-import type { TreeProps, TreeViewRootEmits } from '.'
+import type { TreeProps, TreeValueType, TreeViewRootEmits } from '.'
 import { useForwardProps } from '@ark-ui/vue'
 import { TreeView, useTreeView } from '@ark-ui/vue/tree-view'
 import { cxc } from '@raxium/themes/utils'
@@ -14,9 +14,9 @@ const {
   craft,
   ui,
   ...props
-} = defineProps<TreeProps<T>>()
-const emits = defineEmits<TreeViewRootEmits<T>>()
-const forwarded = useForwardProps<TreeProps<T>, any>(props)
+} = defineProps<TreeProps<T, V>>()
+const emits = defineEmits<TreeViewRootEmits<T, V>>()
+const forwarded = useForwardProps<TreeProps<T, V>, any>(props)
 const treeView = useTreeView<T>(forwarded, emits)
 
 // theme（根节点统一 provide，供 TreeNode/TreeCheckboxNode inject，避免每节点 useTheme）

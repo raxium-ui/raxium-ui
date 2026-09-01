@@ -8,6 +8,7 @@ component:
   exportName: Select
   category: core
   description: 用于单选或多选场景的下拉选择组件，适用于表单输入、筛选器和配置项选择。基于 Ark UI Select 构建，支持受控/非受控状态、高亮项控制、分组选项、可清空触发器。
+    根组件双泛型 T extends CollectionItem 与 V extends SelectValueType，v-model 推断 V 使 update:modelValue 为 V[]。
     具名导出与复合导出（如 Select.Item）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/select'
@@ -30,11 +31,11 @@ contracts:
       typeText: ListCollection<T>
       description: 选项集合（通常由 createListCollection 创建）
     - name: modelValue
-      typeText: SelectValueType[]
-      description: 受控选中值（配合 v-model）
+      typeText: V[]
+      description: 受控选中值（配合 v-model）。V 由 modelValue / v-model 推断
     - name: defaultValue
-      typeText: SelectValueType[]
-      description: 非受控初始值
+      typeText: V[]
+      description: 非受控初始值，与 modelValue 同一 V
     - name: open
       typeText: boolean
       description: 下拉面板受控打开状态
@@ -65,8 +66,8 @@ contracts:
   events:
     - name: update:modelValue
       payload:
-        typeText: '(value: SelectValueType[])'
-      description: 受控值同步（v-model）
+        typeText: '(value: V[])'
+      description: 受控值同步（v-model）。参数类型与 modelValue 的 V[] 相同
     - name: update:open
       payload:
         typeText: '(open: boolean)'

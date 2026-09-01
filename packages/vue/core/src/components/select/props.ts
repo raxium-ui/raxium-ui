@@ -11,16 +11,22 @@ import type * as ZagSelect from '@zag-js/select'
 import type { HTMLAttributes } from 'vue'
 
 export type SelectValueType = string | number | boolean | null | symbol | bigint
-export interface SelectProps<T extends CollectionItem>
+export interface SelectProps<
+  T extends CollectionItem,
+  V extends SelectValueType = SelectValueType,
+>
   extends Omit<SelectRootBaseProps<T>, 'modelValue' | 'defaultValue'>,
   ThemeCrafts<'tvSelect'> {
   class?: HTMLAttributes['class']
-  modelValue?: SelectValueType[]
-  defaultValue?: SelectValueType[]
+  modelValue?: V[]
+  defaultValue?: V[]
 }
 
 // ts-plugin(2742)
-export interface SelectEmits<T extends CollectionItem> {
+export interface SelectEmits<
+  T extends CollectionItem,
+  V extends SelectValueType = SelectValueType,
+> {
   'focusOutside': [event: ZagSelect.FocusOutsideEvent]
   'highlightChange': [details: ZagSelect.HighlightChangeDetails<T>]
   'interactOutside': [event: ZagSelect.InteractOutsideEvent]
@@ -28,7 +34,7 @@ export interface SelectEmits<T extends CollectionItem> {
   'pointerDownOutside': [event: ZagSelect.PointerDownOutsideEvent]
   'select': [details: ZagSelect.SelectionDetails]
   'valueChange': [details: ZagSelect.ValueChangeDetails<T>]
-  'update:modelValue': [value: SelectValueType[]]
+  'update:modelValue': [value: V[]]
   'update:open': [open: boolean]
   'update:highlightedValue': [value: SelectValueType]
 }

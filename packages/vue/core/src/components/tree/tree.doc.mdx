@@ -7,6 +7,8 @@ import * as TreeStories from './tree.stories'
 
 `Tree` 用于展示层级结构数据，适合目录浏览、权限节点选择、配置树编辑等场景。组件基于 Ark UI Tree View 原语构建，支持展开/折叠、单选/多选、复选框勾选、焦点管理以及懒挂载策略，并扩展了 Raxium UI 的 `theme` 与 `ui` 样式配置能力。
 
+根组件为双泛型：`T extends TreeNode`（节点数据）与 `V extends TreeValueType`（节点 id，`string | number | boolean | null | symbol | bigint`）。`selectedValue` / `expandedValue` / `checkedValue` 会推断 `V`，对应 `update:*` 为 `V[]`（焦点为 `V | null`），不必再把业务 handler 写成完整联合。
+
 具名导出与复合导出等价：`Tree.Node` 与 `TreeNode` 为同一组件（`Tree.CheckboxNode` 即 `TreeCheckboxNode`）。
 
 ---
@@ -91,25 +93,25 @@ Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components
     </tr>
     <tr>
       <td><code>expandedValue / defaultExpandedValue</code></td>
-      <td><code>TreeValueType[]</code></td>
+      <td><code>V[]</code>（<code>V extends TreeValueType</code>，默认整段联合）</td>
       <td>-</td>
-      <td>受控/非受控展开值</td>
+      <td>受控/非受控展开值。<code>V</code> 由选中/展开/勾选绑定推断</td>
     </tr>
     <tr>
       <td><code>selectedValue / defaultSelectedValue</code></td>
-      <td><code>TreeValueType[]</code></td>
+      <td><code>V[]</code></td>
       <td>-</td>
       <td>受控/非受控选中值</td>
     </tr>
     <tr>
       <td><code>checkedValue / defaultCheckedValue</code></td>
-      <td><code>TreeValueType[]</code></td>
+      <td><code>V[]</code></td>
       <td>-</td>
       <td>复选框树受控/非受控勾选值</td>
     </tr>
     <tr>
       <td><code>focusedValue / defaultFocusedValue</code></td>
-      <td><code>TreeValueType</code></td>
+      <td><code>V | null</code></td>
       <td>-</td>
       <td>当前焦点节点值</td>
     </tr>
@@ -251,22 +253,22 @@ Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components
   <tbody>
     <tr>
       <td><code>update:expandedValue</code></td>
-      <td><code>(value: TreeValueType[])</code></td>
+      <td><code>(value: V[])</code></td>
       <td>展开值受控同步</td>
     </tr>
     <tr>
       <td><code>update:selectedValue</code></td>
-      <td><code>(value: TreeValueType[])</code></td>
-      <td>选中值受控同步</td>
+      <td><code>(value: V[])</code></td>
+      <td>选中值受控同步。参数类型与 <code>selectedValue</code> 的 <code>V[]</code> 相同</td>
     </tr>
     <tr>
       <td><code>update:checkedValue</code></td>
-      <td><code>(value: TreeValueType[])</code></td>
+      <td><code>(value: V[])</code></td>
       <td>勾选值受控同步</td>
     </tr>
     <tr>
       <td><code>update:focusedValue</code></td>
-      <td><code>(value: TreeValueType)</code></td>
+      <td><code>(value: V | null)</code></td>
       <td>焦点值受控同步</td>
     </tr>
     <tr>
@@ -425,7 +427,7 @@ Ark UI 文档： [Ark UI Tree View (Vue)](https://ark-ui.com/vue/docs/components
 ## 最佳实践
 
 - 数据建模优先统一：用 `createTreeCollection` 收敛 `nodeToValue/nodeToString/nodeToChildren`，不要在视图层重复解析结构。
-- 选中模型先定清楚：单选场景用 `selectionMode="single"` + `selectedValue`，批量选择场景优先 `TreeCheckboxNode` + `checkedValue`。
+- 选中模型先定清楚：单选场景用 `selectionMode="single"` + `selectedValue`，批量选择场景优先 `TreeCheckboxNode` + `checkedValue`。`selectedValue` 为 `string[]` 时，handler 可直接写成 `(value: string[]) => void`。
 - 自定义数据结构时统一配置 `keyMap`，避免在每个节点组件里手写字段兼容逻辑。
 - 状态追踪建议在根组件集中监听 `expandedChange/selectionChange/checkedChange`，减少节点级重复埋点。
 - 大树性能优先策略是“懒挂载 + 局部展开”，并限制容器高度配合滚动区域。

@@ -16,7 +16,10 @@ export interface TreeKeyMap {
 export type TreeNodeData = Record<string, unknown>
 
 export type TreeValueType = string | number | boolean | null | symbol | bigint
-export interface TreeProps<T>
+export interface TreeProps<
+  T extends TreeNode = TreeNode,
+  V extends TreeValueType = TreeValueType,
+>
   extends Omit<
     TreeViewRootBaseProps<T>,
     | 'checkedValue'
@@ -34,25 +37,28 @@ export interface TreeProps<T>
     root?: HTMLAttributes['class']
     tree?: HTMLAttributes['class']
   }
-  modelValue?: TreeValueType[]
-  defaultValue?: TreeValueType[]
-  checkedValue?: TreeValueType[]
-  defaultCheckedValue?: TreeValueType[]
-  defaultExpandedValue?: TreeValueType[]
-  defaultSelectedValue?: TreeValueType[]
-  defaultFocusedValue?: TreeValueType
-  expandedValue?: TreeValueType[]
-  selectedValue?: TreeValueType[]
-  focusedValue?: TreeValueType
+  modelValue?: V[]
+  defaultValue?: V[]
+  checkedValue?: V[]
+  defaultCheckedValue?: V[]
+  defaultExpandedValue?: V[]
+  defaultSelectedValue?: V[]
+  defaultFocusedValue?: V | null
+  expandedValue?: V[]
+  selectedValue?: V[]
+  focusedValue?: V | null
 }
 
-export interface TreeViewRootEmits<T extends TreeNode>
+export interface TreeViewRootEmits<
+  T extends TreeNode = TreeNode,
+  V extends TreeValueType = TreeValueType,
+>
   extends Omit<
     RootEmits<T>,
     'update:expandedValue' | 'update:focusedValue' | 'update:selectedValue' | 'update:checkedValue'
   > {
-  'update:expandedValue': [value: TreeValueType[]]
-  'update:focusedValue': [value: TreeValueType]
-  'update:selectedValue': [value: TreeValueType[]]
-  'update:checkedValue': [value: TreeValueType[]]
+  'update:expandedValue': [value: V[]]
+  'update:focusedValue': [value: V | null]
+  'update:selectedValue': [value: V[]]
+  'update:checkedValue': [value: V[]]
 }

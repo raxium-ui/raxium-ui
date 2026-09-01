@@ -3,4 +3,4 @@
 "@raxium/react": patch
 ---
 
-Make RadioGroup and CheckboxGroup generic over option value (`T`). Vue infers `T` from `v-model` so `update:modelValue` matches the bound type instead of the full union. React does the same for `value` / `onValueChange`, with a generic `forwardRef` assertion so `T` is not erased.
+Make RadioGroup, CheckboxGroup, Select, and Tree generic over option/id value. Vue infers that type from `v-model` (and Tree `selectedValue` / `expandedValue` / `checkedValue`) so `update:*` matches the bound type instead of the full union. React RadioGroup / CheckboxGroup do the same for `value` / `onValueChange`, with a generic `forwardRef` assertion so the type parameter is not erased.

@@ -7,6 +7,8 @@ import * as SelectStories from './select.stories'
 
 `Select` 是用于单选或多选场景的下拉选择组件，适用于表单输入、筛选器和配置项选择。组件基于 Ark UI Select 能力构建，支持受控/非受控状态、高亮项控制、分组选项、可清空触发器，并扩展了 Raxium UI 的 `theme` 与局部 `ui` 配置能力。
 
+根组件为双泛型：`T extends CollectionItem`（选项）与 `V extends SelectValueType`（选中值，`string | number | boolean | null | symbol | bigint`）。`v-model` / `modelValue` 会推断 `V`，因此 `@update:model-value` 为 `V[]`，不必再把业务 handler 写成完整联合。`collection` 仍负责推断 `T`。
+
 具名导出与复合导出等价：`Select.Item` 与 `SelectItem` 为同一组件（其余子件同理）。
 
 ---
@@ -73,15 +75,15 @@ import * as SelectStories from './select.stories'
     </tr>
     <tr>
       <td><code>modelValue</code></td>
-      <td><code>SelectValueType[]</code></td>
+      <td><code>V[]</code>（<code>V extends SelectValueType</code>，默认整段联合）</td>
       <td>-</td>
-      <td>受控选中值（配合 <code>v-model</code>）</td>
+      <td>受控选中值（配合 <code>v-model</code>）。<code>V</code> 由 <code>modelValue</code> / <code>v-model</code> 推断</td>
     </tr>
     <tr>
       <td><code>defaultValue</code></td>
-      <td><code>SelectValueType[]</code></td>
+      <td><code>V[]</code></td>
       <td>-</td>
-      <td>非受控初始值</td>
+      <td>非受控初始值，与 <code>modelValue</code> 同一 <code>V</code></td>
     </tr>
     <tr>
       <td><code>open / defaultOpen</code></td>
@@ -326,8 +328,8 @@ import * as SelectStories from './select.stories'
   <tbody>
     <tr>
       <td><code>update:modelValue</code></td>
-      <td><code>(value: SelectValueType[])</code></td>
-      <td>受控值同步（<code>v-model</code>）</td>
+      <td><code>(value: V[])</code></td>
+      <td>受控值同步（<code>v-model</code>）。参数类型与 <code>modelValue</code> 的 <code>V[]</code> 相同</td>
     </tr>
     <tr>
       <td><code>update:open</code></td>
@@ -535,7 +537,7 @@ import * as SelectStories from './select.stories'
 ## 最佳实践
 
 - 选项数据优先统一使用 `createListCollection` 生成 `collection`，避免手写数组导致分组与禁用逻辑分散。
-- 普通表单场景优先使用非受控（`defaultValue`），仅在需要和外部状态同步时再切换受控（`v-model`、`v-model:open`）。
+- 普通表单场景优先使用非受控（`defaultValue`），仅在需要和外部状态同步时再切换受控（`v-model`、`v-model:open`）。`v-model` 为 `number[]` 时，handler 可直接写成 `(value: number[]) => void`。
 - 多选场景建议配合 `SelectTrigger.clearable`，为用户提供显式清空入口，降低重复点击成本。
 - 需要追踪键盘导航或高亮行为时，监听 `highlightChange` 并按需使用 `v-model:highlighted-value` 做受控联动。
 - 分组列表优先使用 `SelectItemGroup`，不要在选项文本中混合“组名 + 选项名”来模拟分组，避免可访问性与样式维护问题。
