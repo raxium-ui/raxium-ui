@@ -1,0 +1,7 @@
+node_modules
+mcp-docs.tar.gz
+.mcp-docs-staging
+deploy
+*.md
+ecosystem.config.cjs
+tsconfig.json

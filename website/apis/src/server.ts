@@ -76,6 +76,8 @@ export function createServer() {
   })
   const dataSource = new LocalDataSource(resolveDataRoot())
 
+  app.get('/health', async () => ({ ok: true }))
+
   app.get<{ Querystring: FrameworkOnlyQuery }>('/mcp/components', async (request, reply) => {
     try {
       const framework = parseFramework(request.query.framework)

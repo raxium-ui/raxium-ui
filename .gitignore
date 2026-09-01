@@ -26,3 +26,4 @@ packages/issues/
 website/apis/mcp-docs.tar.gz
 website/apis/.mcp-docs-staging
 website/apis/.mcp-docs-staging/**
+website/apis/.env

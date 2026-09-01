@@ -9,10 +9,10 @@ on:
       - 'packages/vue/core/src/components/**'
       - 'packages/vue/addons/**'
       - 'packages/react/core/src/components/**'
-      - 'website/apis/scripts/pack-docs.ts'
-      - 'website/apis/src/layout.ts'
+      - website/apis/scripts/pack-docs.ts
+      - website/apis/src/layout.ts
       - 'website/apis/deploy/**'
-      - '.github/workflows/mcp-docs.yml'
+      - .github/workflows/mcp-docs.yml
 
 concurrency:
   group: mcp-docs-snapshot

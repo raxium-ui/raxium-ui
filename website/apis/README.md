@@ -14,7 +14,41 @@ bun install
 bun run dev
 ```
 
-## 生产部署
+## 生产部署（推荐 Docker）
+
+镜像里只有 API 进程。文档仍从 GitHub Release `mcp-docs-latest` 拉取，默认写到容器内 `/data`（`MCP_DATA_ROOT`）。
+
+在 `website/apis` 目录：
+
+```bash
+export MCP_DOCS_REPO=raxium-ui/raxium-ui   # 按实际 owner/repo
+export GITHUB_TOKEN=...                     # 私有仓必填；公开仓可省略
+docker compose up -d --build
+```
+
+启动时会先 `sync:docs` 再听 `4398`。文档更新后任选其一：
+
+```bash
+docker compose restart          # 再次同步后启动
+docker compose exec mcp-apis bun run sync:docs   # 不重启，下次请求即读新文件
+```
+
+健康检查：`GET /health`。
+
+只构建镜像：
+
+```bash
+docker build -t raxium-mcp-apis:local .
+docker run --rm -p 4398:4398 \
+  -e MCP_DOCS_REPO=raxium-ui/raxium-ui \
+  -e GITHUB_TOKEN \
+  -v raxium-mcp-data:/data \
+  raxium-mcp-apis:local
+```
+
+不想在启动时拉文档（例如已挂载准备好的数据卷）时，设 `MCP_DOCS_SYNC_ON_START=0`。
+
+## 生产部署（sparse clone + PM2）
 
 ### 1. Sparse clone（只拉 API）
 
@@ -62,8 +96,9 @@ bun run start:pm2
 
 | 变量 | 说明 |
 |------|------|
-| `MCP_DATA_ROOT` | 文档快照根目录。未设置时回退为仓库根（本地开发）。 |
+| `MCP_DATA_ROOT` | 文档快照根目录。未设置时回退为仓库根（本地开发）。镜像内默认 `/data`。 |
 | `MCP_DOCS_REPO` | `owner/repo`，给 `sync:docs` 用。 |
 | `MCP_DOCS_TAG` | Release tag，默认 `mcp-docs-latest`。 |
+| `MCP_DOCS_SYNC_ON_START` | Docker 入口是否先同步文档，默认 `1`。 |
 | `GITHUB_TOKEN` / `GH_TOKEN` | 拉私有 Release 资产。 |
 | `PORT` / `HOST` | 默认 `4398` / `0.0.0.0`。 |

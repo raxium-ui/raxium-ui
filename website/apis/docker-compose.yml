@@ -1,0 +1,31 @@
+services:
+  mcp-apis:
+    build: .
+    image: raxium-mcp-apis:local
+    ports:
+      - "4398:4398"
+    environment:
+      MCP_DATA_ROOT: /data
+      MCP_DOCS_REPO: ${MCP_DOCS_REPO:-raxium-ui/raxium-ui}
+      MCP_DOCS_TAG: ${MCP_DOCS_TAG:-mcp-docs-latest}
+      MCP_DOCS_SYNC_ON_START: ${MCP_DOCS_SYNC_ON_START:-1}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GH_TOKEN: ${GH_TOKEN:-}
+    volumes:
+      - mcp-docs-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "fetch('http://127.0.0.1:4398/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mcp-docs-data:
