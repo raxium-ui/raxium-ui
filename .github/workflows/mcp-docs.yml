@@ -1,0 +1,67 @@
+name: MCP docs snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/vue/core/src/components/**'
+      - 'packages/vue/addons/**'
+      - 'packages/react/core/src/components/**'
+      - 'website/apis/scripts/pack-docs.ts'
+      - 'website/apis/src/layout.ts'
+      - 'website/apis/deploy/**'
+      - '.github/workflows/mcp-docs.yml'
+
+concurrency:
+  group: mcp-docs-snapshot
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  pack-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            website/apis
+            packages/vue/core/src/components
+            packages/vue/addons
+            packages/react/core/src/components
+          sparse-checkout-cone-mode: true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Pack MCP docs
+        working-directory: website/apis
+        shell: bash
+        run: bun scripts/pack-docs.ts
+
+      - name: Publish mcp-docs-latest release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ARCHIVE="website/apis/mcp-docs.tar.gz"
+          NOTES="MCP docs snapshot from ${GITHUB_SHA}"
+
+          if gh release view mcp-docs-latest >/dev/null 2>&1; then
+            gh release upload mcp-docs-latest "$ARCHIVE" --clobber
+            gh release edit mcp-docs-latest --notes "$NOTES"
+          else
+            gh release create mcp-docs-latest "$ARCHIVE" \
+              --title "MCP docs snapshot" \
+              --notes "$NOTES" \
+              --target "$GITHUB_SHA" \
+              --latest=false
+          fi

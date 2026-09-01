@@ -9,31 +9,15 @@ import { readdir, readFile } from 'node:fs/promises'
 
 import path from 'node:path'
 import { ApiError } from './errors'
-
-const ADDON_CATEGORIES = ['components', 'composables', 'directives'] as const
-
-type AddonCategory = (typeof ADDON_CATEGORIES)[number]
-
-interface AddonItem {
-  qualifiedName: string
-  category: AddonCategory
-  name: string
-  srcDir: string
-}
-
-interface FrameworkLayout {
-  /** Package directory under `packages/` that holds the component sources. */
-  packageDir: string
-  /** File extension used for example files. */
-  exampleExt: string
-  /** Whether the framework ships addon packages under `packages/<dir>/addons`. */
-  addons: boolean
-}
-
-const FRAMEWORK_LAYOUTS: Record<Framework, FrameworkLayout> = {
-  vue: { packageDir: 'vue', exampleExt: '.vue', addons: true },
-  react: { packageDir: 'react', exampleExt: '.tsx', addons: false },
-}
+import {
+  ADDON_CATEGORIES,
+  FRAMEWORK_LAYOUTS,
+  getAddonsBase,
+  getComponentsDir,
+  getDocumentPaths,
+  getExamplesDir,
+  getLayout,
+} from './layout'
 
 async function safeReadDir(targetPath: string) {
   try {
@@ -64,32 +48,6 @@ function stripExtension(fileName: string, ext: string): string {
   return fileName.slice(0, -ext.length)
 }
 
-function isAddonQualifiedName(name: string): boolean {
-  return name.startsWith('addons/') && name.split('/').length === 3
-}
-
-function parseAddonQualifiedName(qualifiedName: string, packageDir: string): AddonItem | null {
-  if (!isAddonQualifiedName(qualifiedName))
-    return null
-  const [, category, name] = qualifiedName.split('/')
-  if (!ADDON_CATEGORIES.includes(category as AddonCategory))
-    return null
-  const srcDir = path.join(
-    'packages',
-    packageDir,
-    'addons',
-    category,
-    name,
-    'src',
-  )
-  return {
-    qualifiedName,
-    category: category as AddonCategory,
-    name,
-    srcDir,
-  }
-}
-
 export class LocalDataSource {
   private readonly repoRoot: string
 
@@ -99,7 +57,7 @@ export class LocalDataSource {
 
   async listComponents(framework: Framework): Promise<string[]> {
     this.assertFramework(framework)
-    const coreEntries = await safeReadDir(this.getComponentsDir(framework))
+    const coreEntries = await safeReadDir(getComponentsDir(this.repoRoot, framework))
     const coreNames = coreEntries
       .filter(entry => entry.isDirectory())
       .map(entry => entry.name)
@@ -110,12 +68,12 @@ export class LocalDataSource {
 
   async listExamples(framework: Framework): Promise<ExampleSummary[]> {
     this.assertFramework(framework)
-    const { exampleExt } = this.getLayout(framework)
+    const { exampleExt } = getLayout(framework)
     const components = await this.listComponents(framework)
     const result: ExampleSummary[] = []
 
     for (const componentName of components) {
-      const examplesDir = this.getExamplesDir(framework, componentName)
+      const examplesDir = getExamplesDir(this.repoRoot, framework, componentName)
       if (!examplesDir)
         continue
       const entries = await safeReadDir(examplesDir)
@@ -134,8 +92,8 @@ export class LocalDataSource {
 
   async getExample(framework: Framework, componentName: string): Promise<ExampleDetail> {
     this.assertFramework(framework)
-    const { exampleExt } = this.getLayout(framework)
-    const examplesDir = this.getExamplesDir(framework, componentName)
+    const { exampleExt } = getLayout(framework)
+    const examplesDir = getExamplesDir(this.repoRoot, framework, componentName)
     if (!examplesDir) {
       throw new ApiError(
         'EXAMPLE_NOT_FOUND',
@@ -182,7 +140,7 @@ export class LocalDataSource {
     const result: DocumentSummary[] = []
 
     for (const componentName of components) {
-      const { docPath, fileName } = this.getDocumentPaths(framework, componentName)
+      const { docPath, fileName } = getDocumentPaths(this.repoRoot, framework, componentName)
       if (!docPath)
         continue
       try {
@@ -202,7 +160,7 @@ export class LocalDataSource {
 
   async getDocument(framework: Framework, componentName: string): Promise<DocumentDetail> {
     this.assertFramework(framework)
-    const { docPath, aiPath, fileName } = this.getDocumentPaths(framework, componentName)
+    const { docPath, aiPath, fileName } = getDocumentPaths(this.repoRoot, framework, componentName)
     if (!docPath) {
       throw new ApiError(
         'DOCUMENT_NOT_FOUND',
@@ -244,12 +202,12 @@ export class LocalDataSource {
   }
 
   private async listAddonQualifiedNames(framework: Framework): Promise<string[]> {
-    const { packageDir, addons } = this.getLayout(framework)
+    const { addons } = getLayout(framework)
     if (!addons)
       return []
 
     const result: string[] = []
-    const addonsBase = path.join(this.repoRoot, 'packages', packageDir, 'addons')
+    const addonsBase = getAddonsBase(this.repoRoot, framework)
 
     for (const category of ADDON_CATEGORIES) {
       const categoryDir = path.join(addonsBase, category)
@@ -262,54 +220,6 @@ export class LocalDataSource {
     }
 
     return result.sort()
-  }
-
-  private getExamplesDir(framework: Framework, componentName: string): string | null {
-    const addon = this.parseAddon(framework, componentName)
-    if (addon) {
-      return path.join(this.repoRoot, addon.srcDir, 'examples')
-    }
-    return path.join(this.getComponentsDir(framework), componentName, 'examples')
-  }
-
-  private getDocumentPaths(
-    framework: Framework,
-    componentName: string,
-  ): { docPath: string | null, aiPath: string | null, fileName: string } {
-    const addon = this.parseAddon(framework, componentName)
-    const fileName = `${addon ? addon.name : componentName}.doc.mdx`
-    const aiFileName = `${addon ? addon.name : componentName}.ai.yaml`
-
-    if (addon) {
-      const srcDir = path.join(this.repoRoot, addon.srcDir)
-      return {
-        docPath: path.join(srcDir, fileName),
-        aiPath: path.join(srcDir, aiFileName),
-        fileName,
-      }
-    }
-
-    const baseDir = path.join(this.getComponentsDir(framework), componentName)
-    return {
-      docPath: path.join(baseDir, fileName),
-      aiPath: path.join(baseDir, aiFileName),
-      fileName,
-    }
-  }
-
-  private parseAddon(framework: Framework, componentName: string): AddonItem | null {
-    const { packageDir, addons } = this.getLayout(framework)
-    if (!addons)
-      return null
-    return parseAddonQualifiedName(componentName, packageDir)
-  }
-
-  private getLayout(framework: Framework): FrameworkLayout {
-    return FRAMEWORK_LAYOUTS[framework]
-  }
-
-  private getComponentsDir(framework: Framework): string {
-    return path.join(this.repoRoot, 'packages', this.getLayout(framework).packageDir, 'core', 'src', 'components')
   }
 
   private assertFramework(framework: Framework): void {

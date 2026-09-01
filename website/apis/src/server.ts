@@ -17,7 +17,11 @@ interface FrameworkWithComponentQuery extends FrameworkOnlyQuery {
   componentName?: string
 }
 
-function resolveRepoRoot(): string {
+function resolveDataRoot(): string {
+  const fromEnv = process.env.MCP_DATA_ROOT?.trim()
+  if (fromEnv)
+    return path.resolve(fromEnv)
+
   const currentFilePath = fileURLToPath(import.meta.url)
   const currentDir = path.dirname(currentFilePath)
   return path.resolve(currentDir, '../../..')
@@ -70,7 +74,7 @@ export function createServer() {
   const app = Fastify({
     logger: true,
   })
-  const dataSource = new LocalDataSource(resolveRepoRoot())
+  const dataSource = new LocalDataSource(resolveDataRoot())
 
   app.get<{ Querystring: FrameworkOnlyQuery }>('/mcp/components', async (request, reply) => {
     try {

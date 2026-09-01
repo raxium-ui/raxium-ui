@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "bun --watch src/server.ts",
     "start": "bun src/server.ts",
+    "pack:docs": "bun scripts/pack-docs.ts",
+    "sync:docs": "bun scripts/sync-docs.ts",
     "start:pm2": "pm2 start ecosystem.config.cjs",
     "stop:pm2": "pm2 stop raxium-mcp-apis",
     "restart:pm2": "pm2 restart raxium-mcp-apis",

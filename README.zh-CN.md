@@ -110,7 +110,7 @@ import { Button } from '@raxium/vue/components/button'
 npx -y @raxium/mcp
 ```
 
-客户端配置与环境变量见 [packages/mcp/README.md](./packages/mcp/README.md)。
+客户端配置与环境变量见 [packages/mcp/README.md](./packages/mcp/README.md)。远程 HTTP 数据源的部署（文档快照 + sparse clone）见 [website/apis/README.md](./website/apis/README.md)。
 
 ## 仓库结构
 

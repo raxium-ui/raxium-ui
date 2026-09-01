@@ -1,0 +1,4 @@
+# Optional git fallback if MCP_DATA_ROOT is unset. Prefer the docs tarball in production.
+packages/vue/core/src/components
+packages/vue/addons
+packages/react/core/src/components

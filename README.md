@@ -112,7 +112,7 @@ Do not reach for `craft` / `theme.crafts` until the [guide](./packages/themes/TH
 npx -y @raxium/mcp
 ```
 
-Client config and env vars: [packages/mcp/README.md](./packages/mcp/README.md).
+Client config and env vars: [packages/mcp/README.md](./packages/mcp/README.md). Deploying the remote HTTP data API (docs snapshot + sparse clone): [website/apis/README.md](./website/apis/README.md).
 
 ## Repository
 
