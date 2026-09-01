@@ -11,7 +11,7 @@ import type { HTMLAttributes, ReactNode } from 'react'
 
 type ClassName = HTMLAttributes<HTMLElement>['className']
 
-export interface SelectProps<T extends CollectionItem = CollectionItem>
+export interface SelectProps<T extends CollectionItem>
   extends SelectRootBaseProps<T>, ThemeCrafts<'tvSelect'> {
   className?: ClassName
   children?: ReactNode

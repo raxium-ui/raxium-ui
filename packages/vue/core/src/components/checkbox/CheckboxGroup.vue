@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends CheckboxValueType = CheckboxValueType">
+<script setup lang="ts" generic="T extends CheckboxValueType">
 import type { UseCheckboxGroupProps } from '@ark-ui/vue/checkbox'
 import type { CheckboxGroupProps, CheckboxGroupRootEmits, CheckboxValueType } from './props'
 import { Checkbox, useCheckboxGroup } from '@ark-ui/vue/checkbox'

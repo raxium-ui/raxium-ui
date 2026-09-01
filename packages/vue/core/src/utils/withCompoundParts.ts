@@ -1,5 +1,6 @@
 /**
- * Attach subcomponents onto a root for `Root.Item` usage without dropping named exports.
+ * Attach subcomponents onto a root for `Root.Item` usage.
+ * Keep `Root` as the return call signature so Vue SFC generics are not widened.
  */
 export function withCompoundParts<Root extends object, Parts extends Record<string, unknown>>(
   root: Root,

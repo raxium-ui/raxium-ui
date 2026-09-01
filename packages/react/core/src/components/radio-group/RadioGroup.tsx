@@ -37,7 +37,7 @@ function RadioGroupRootInner<T extends RadioGroupValueType>(
 }
 
 export const RadioGroupRoot = forwardRef(RadioGroupRootInner) as <
-  T extends RadioGroupValueType = RadioGroupValueType,
+  T extends RadioGroupValueType,
 >(
   props: RadioGroupProps<T> & { ref?: ForwardedRef<HTMLDivElement> },
 ) => ReactElement | null

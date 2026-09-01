@@ -11,5 +11,5 @@ export const RadioGroup: typeof RadioGroupRoot & {
   Layout: RadioGroupLayout,
 })
 
-export { RadioGroupItem, RadioGroupLayout }
+export { RadioGroupItem, RadioGroupLayout, RadioGroupRoot }
 export * from './props'

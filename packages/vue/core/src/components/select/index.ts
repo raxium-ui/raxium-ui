@@ -20,5 +20,5 @@ export const Select: typeof SelectRoot & {
   ItemGroup: SelectItemGroup,
 })
 
-export { SelectContent, SelectItem, SelectItemGroup, SelectTrigger, SelectValue }
+export { SelectContent, SelectItem, SelectItemGroup, SelectRoot, SelectTrigger, SelectValue }
 export * from './props'

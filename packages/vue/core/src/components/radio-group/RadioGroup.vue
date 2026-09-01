@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends RadioGroupValueType = RadioGroupValueType">
+<script setup lang="ts" generic="T extends RadioGroupValueType">
 import type { UseRadioGroupProps } from '@ark-ui/vue/radio-group'
 import type { RadioGroupProps, RadioGroupRootEmits, RadioGroupValueType } from '.'
 import { RadioGroup, useRadioGroup } from '@ark-ui/vue/radio-group'

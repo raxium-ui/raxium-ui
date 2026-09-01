@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/.type-tests.tsbuildinfo"
+  },
+  "references": [
+    { "path": "../../themes" },
+    { "path": "../../shared" }
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.stories.ts",
+    "src/**/examples/**"
+  ]
+}

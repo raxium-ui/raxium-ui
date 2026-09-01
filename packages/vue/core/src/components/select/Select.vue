@@ -1,6 +1,6 @@
-<script setup lang="ts" generic="T extends CollectionItem, V extends SelectValueType = SelectValueType">
+<script setup lang="ts" generic="T extends CollectionItem, V extends SelectModelValueType">
 import type { CollectionItem, UseSelectProps } from '@ark-ui/vue/select'
-import type { SelectEmits, SelectProps, SelectValueType } from '.'
+import type { SelectEmits, SelectModelValueType, SelectProps } from '.'
 import { Select, useSelect } from '@ark-ui/vue/select'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'

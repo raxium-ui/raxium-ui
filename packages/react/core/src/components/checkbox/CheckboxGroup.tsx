@@ -20,7 +20,7 @@ function CheckboxGroupInner<T extends CheckboxValueType>(
 }
 
 export const CheckboxGroup = forwardRef(CheckboxGroupInner) as <
-  T extends CheckboxValueType = CheckboxValueType,
+  T extends CheckboxValueType,
 >(
   props: CheckboxGroupProps<T> & { ref?: ForwardedRef<HTMLDivElement> },
 ) => ReactElement | null

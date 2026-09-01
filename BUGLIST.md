@@ -18,3 +18,7 @@
 [x] *.ai.json 应该转为 yaml 形式更适合AI阅读, 并且更新 agents
 [x] dialog 要重新确定/计算堆叠情况下的z-index排布, 避免退出动画被遮住 (zagjs patch)
 [x] dialog / tooltip 等一系列组件的 z-index 竞争问题
+[x] Vue RadioGroup / CheckboxGroup / Select / Tree 值泛型可在消费方模板里推断窄 T
+    - 根组件泛型不再使用完整值联合的默认类型，复合导出保留 `typeof Root` 调用签名
+    - Select 的 `highlightedValue` 与 model value 泛型分离，同时保留原有 `SelectValueType` 支持范围
+    - 类型验收覆盖具名导入、复合导出和全局注册的 `R*` 组件，并纳入 `typecheck`

@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends TreeNode = TreeNode, V extends TreeValueType = TreeValueType">
+<script setup lang="ts" generic="T extends TreeNode, V extends TreeValueType">
 import type { TreeNode } from '@ark-ui/vue/tree-view'
 import type { TreeProps, TreeValueType, TreeViewRootEmits } from '.'
 import { useForwardProps } from '@ark-ui/vue'

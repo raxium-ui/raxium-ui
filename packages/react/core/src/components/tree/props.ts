@@ -37,7 +37,7 @@ export interface RenderNameProps {
   state: TreeNodeState
 }
 
-export interface TreeProps<T extends TreeNode = TreeNode>
+export interface TreeProps<T extends TreeNode>
   extends TreeViewRootBaseProps<T>, ThemeCrafts<'tvTree'> {
   className?: ClassName
   prefix?: ReactNode
