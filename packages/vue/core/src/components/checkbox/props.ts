@@ -19,18 +19,18 @@ export interface CheckboxProps
   value?: CheckboxValueType
 }
 
-export interface CheckboxGroupProps
+export interface CheckboxGroupProps<T extends CheckboxValueType = CheckboxValueType>
   extends Omit<CheckboxGroupBaseProps, 'modelValue' | 'defaultValue'>,
   ThemeNoCrafts {
   class?: HTMLAttributes['class']
-  modelValue?: CheckboxValueType[]
-  defaultValue?: CheckboxValueType[]
+  modelValue?: T[]
+  defaultValue?: T[]
 }
 
-export interface CheckboxGroupRootEmits {
+export interface CheckboxGroupRootEmits<T extends CheckboxValueType = CheckboxValueType> {
   /**
    * Functional called when the value changes.
    */
-  'valueChange': [value: CheckboxValueType[]]
-  'update:modelValue': [value: CheckboxValueType[]]
+  'valueChange': [value: T[]]
+  'update:modelValue': [value: T[]]
 }

@@ -7,6 +7,8 @@ import * as CheckboxStories from './checkbox.stories'
 
 `Checkbox` 用于布尔选择与多选集合。支持勾选、混合态（`indeterminate`）和组内多选。基于 Ark Checkbox **`Root`** / **`Group`**（不是 `RootProvider`）。根上扩展 `theme` / `craft` / `ui` / `label` / `indicator`。
 
+`Checkbox.Group` 为泛型：`T extends CheckboxValueType`。`value` 会推断 `T`，因此 `onValueChange` 为 `(value: T[]) => void`。`forwardRef` 已做泛型断言。单项 `Checkbox.value` 为 `CheckboxValueType`（非泛型）。
+
 ---
 
 ## Examples
@@ -87,10 +89,16 @@ import * as CheckboxStories from './checkbox.stories'
       <td>交互与表单语义</td>
     </tr>
     <tr>
-      <td><code>name</code> / <code>value</code></td>
+      <td><code>name</code></td>
       <td><code>string</code></td>
       <td>-</td>
-      <td>表单字段；组内项值</td>
+      <td>表单字段名</td>
+    </tr>
+    <tr>
+      <td><code>value</code></td>
+      <td><code>CheckboxValueType</code></td>
+      <td>-</td>
+      <td>表单提交值或组内项值</td>
     </tr>
     <tr>
       <td><code>indicator</code></td>
@@ -139,21 +147,21 @@ import * as CheckboxStories from './checkbox.stories'
   <tbody>
     <tr>
       <td><code>value</code></td>
-      <td><code>string[]</code></td>
+      <td><code>T[]</code>（<code>T extends CheckboxValueType</code>）</td>
       <td>-</td>
-      <td>受控选中值</td>
+      <td>受控选中值；<code>T</code> 由 <code>value</code> 推断</td>
     </tr>
     <tr>
       <td><code>defaultValue</code></td>
-      <td><code>string[]</code></td>
+      <td><code>T[]</code></td>
       <td>-</td>
       <td>非受控初始值</td>
     </tr>
     <tr>
       <td><code>onValueChange</code></td>
-      <td><code>(value: string[]) =&gt; void</code></td>
+      <td><code>(value: T[]) =&gt; void</code></td>
       <td>-</td>
-      <td>组值变化</td>
+      <td>组值变化，与 <code>value</code> 同型</td>
     </tr>
     <tr>
       <td><code>name</code></td>

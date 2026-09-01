@@ -7,7 +7,8 @@ component:
   importPath: '@raxium/react'
   exportName: RadioGroup
   category: core
-  description: 单选组。RadioGroup + Item / Layout。Ark RadioGroup.Root。
+  description: 单选组。RadioGroup + Item / Layout。Ark RadioGroup.Root。根组件泛型 T extends
+    RadioGroupValueType，value 推断 T，onValueChange 的 details.value 与之同型。
   basePrimitive:
     library: '@ark-ui/react/radio-group'
     primitive: RadioGroup.Root
@@ -19,7 +20,7 @@ component:
 contracts:
   props:
     - name: value
-      typeText: string | null
+      typeText: T extends RadioGroupValueType
     - name: theme
       typeText: ThemeProps
     - name: craft
@@ -27,7 +28,7 @@ contracts:
   events:
     - name: onValueChange
       payload:
-        typeText: ValueChangeDetails
+        typeText: '(details: { value: T })'
   slots: []
 exampleDefaults:
   mcp:

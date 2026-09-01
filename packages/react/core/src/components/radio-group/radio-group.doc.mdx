@@ -7,6 +7,8 @@ import * as RadioGroupStories from './radio-group.stories'
 
 单选组。复合组件：`RadioGroup` + `RadioGroup.Item` / `Layout`。根用 Ark `Root`。受控：`value` + `onValueChange`。
 
+根组件为泛型：`T extends RadioGroupValueType`。`value` 会推断 `T`，因此 `onValueChange` 的 `details.value` 与绑定值同型（例如 `useState<string | null>` 的 setter 可直接传入）。`forwardRef` 已做泛型断言，避免丢失 `T`。
+
 <Canvas of={RadioGroupStories.Basic} />
 
 `theme`：`ThemeProps`。`craft`：`CraftOverride<'tvRadioGroup'>`。`skin`：`default | razer | shadcn`。`surface`：`light | dark | system`。

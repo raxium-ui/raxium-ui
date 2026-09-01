@@ -8,7 +8,8 @@ component:
   exportName: RadioGroup
   category: core
   description: 用于管理单选集合场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展
-    theme、variant 以及 ui 样式入口。由 RadioGroup（根）、RadioGroupLayout（布局）与 RadioGroupItem（子项）组成；根组件提供组级
+    theme、variant 以及 ui 样式入口。根组件为泛型 T extends RadioGroupValueType，v-model 会推断 T，使
+    update:modelValue 与绑定值类型一致。由 RadioGroup（根）、RadioGroupLayout（布局）与 RadioGroupItem（子项）组成；根组件提供组级
     label 与 theme/craft，布局组件控制 stack/inline 排列，子项承载 text、variant 与 ui 样式入口。
     具名导出与复合导出（如 RadioGroup.Item）为同一实例。
   basePrimitive:
@@ -34,15 +35,15 @@ component:
 contracts:
   props:
     - name: modelValue
-      typeText: string | number | symbol | bigint | null
+      typeText: T extends RadioGroupValueType
       conflictsWith:
         - defaultValue
-      description: 受控模式下的当前值（配合 v-model）
+      description: 受控模式下的当前值（配合 v-model）。T 由 modelValue / v-model 推断，update:modelValue 与之同型
     - name: defaultValue
-      typeText: string | number | symbol | bigint | null
+      typeText: T extends RadioGroupValueType
       conflictsWith:
         - modelValue
-      description: 非受控模式下的初始值
+      description: 非受控模式下的初始值，与 modelValue 同一 T
     - name: label
       typeText: string
       description: 组级标题文案；也可用 label 插槽完全自定义
@@ -72,11 +73,11 @@ contracts:
   events:
     - name: update:modelValue
       payload:
-        typeText: '(value: string | number | symbol | bigint | null)'
-      description: 组值变化时触发，用于 v-model 同步
+        typeText: '(value: T)'
+      description: 组值变化时触发，用于 v-model 同步。参数类型与 modelValue 的 T 相同
     - name: valueChange
       payload:
-        typeText: '(details: { value: string | number | symbol | bigint | null })'
+        typeText: '(details: { value: T })'
       description: 单选值变化详情事件
   slots:
     - name: default
@@ -128,7 +129,7 @@ subComponents:
         required: true
         requiredSource: doc
         typeText: string | number | symbol | bigint | null
-        description: 单选项值（必填）
+        description: 单选项值（必填）。请与组的 v-model 使用同一值类型
       - name: text
         typeText: string
         description: 默认文本标签；也可用默认插槽完全自定义

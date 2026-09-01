@@ -7,4 +7,9 @@ export const Checkbox = Object.assign(CheckboxRoot, {
 })
 
 export { CheckboxGroup, useCheckboxContext }
-export type { CheckboxGroupProps, CheckboxProps, CheckedState } from './props'
+export type {
+  CheckboxGroupProps,
+  CheckboxProps,
+  CheckboxValueType,
+  CheckedState,
+} from './props'

@@ -8,8 +8,11 @@ import type { HTMLAttributes, ReactNode } from 'react'
 type ClassName = HTMLAttributes<HTMLElement>['className']
 
 export type CheckedState = boolean | 'indeterminate'
+export type CheckboxValueType = string | number | symbol | bigint | null
 
-export interface CheckboxProps extends CheckboxRootBaseProps, ThemeCrafts<'tvCheckbox'> {
+export interface CheckboxProps
+  extends Omit<CheckboxRootBaseProps, 'value'>, ThemeCrafts<'tvCheckbox'> {
+  value?: CheckboxValueType
   label?: ReactNode
   className?: ClassName
   /**
@@ -25,7 +28,12 @@ export interface CheckboxProps extends CheckboxRootBaseProps, ThemeCrafts<'tvChe
   }
 }
 
-export interface CheckboxGroupProps extends CheckboxGroupBaseProps, ThemeNoCrafts {
+export interface CheckboxGroupProps<T extends CheckboxValueType = CheckboxValueType>
+  extends Omit<CheckboxGroupBaseProps, 'value' | 'defaultValue' | 'onValueChange'>,
+  ThemeNoCrafts {
   className?: ClassName
+  value?: T[]
+  defaultValue?: T[]
+  onValueChange?: (value: T[]) => void
   children?: ReactNode
 }

@@ -7,6 +7,8 @@ import * as RadioGroupStories from './radio-group.stories'
 
 `RadioGroup` 用于管理“单选集合”场景，适合筛选条件、配置项切换、设置面板等只允许选择一个值的交互。组件基于 Ark UI Radio Group 原语构建，支持受控/非受控值管理，并扩展了 `theme`、`variant` 以及 `ui` 样式入口。
 
+根组件为泛型：`T extends RadioGroupValueType`（`string | number | symbol | bigint | null`）。`v-model` / `modelValue` 会推断 `T`，因此 `@update:model-value` 的回调参数与绑定值类型一致，不必再把业务 handler 写成完整联合。同一组内请保持 `RadioGroupItem.value` 与 `v-model` 类型一致。
+
 推荐组合为 **`RadioGroup` → `RadioGroupLayout` → `RadioGroupItem`**：根组件负责组值与组级标签，布局组件控制选项排列方向，子项承载单个选项内容与指示器变体。具名导出与复合导出等价：`RadioGroup.Item` 与 `RadioGroupItem` 为同一组件（`RadioGroup.Layout` 同理）。
 
 ---
@@ -68,15 +70,15 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
   <tbody>
     <tr>
       <td><code>modelValue</code></td>
-      <td><code>string | number | symbol | bigint | null</code></td>
+      <td><code>T extends RadioGroupValueType</code>（默认整段联合）</td>
       <td>-</td>
-      <td>受控模式下的当前值（配合 <code>v-model</code>）</td>
+      <td>受控模式下的当前值（配合 <code>v-model</code>）。<code>T</code> 由 <code>modelValue</code> / <code>v-model</code> 推断，因此 <code>update:modelValue</code> 与选项值类型一致</td>
     </tr>
     <tr>
       <td><code>defaultValue</code></td>
-      <td><code>string | number | symbol | bigint | null</code></td>
+      <td><code>T extends RadioGroupValueType</code></td>
       <td>-</td>
-      <td>非受控模式下的初始值</td>
+      <td>非受控模式下的初始值，与 <code>modelValue</code> 同一 <code>T</code></td>
     </tr>
     <tr>
       <td><code>label</code></td>
@@ -172,7 +174,7 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
       <td><code>value</code></td>
       <td><code>string | number | symbol | bigint | null</code></td>
       <td>-</td>
-      <td>单选项值（必填）</td>
+      <td>单选项值（必填）。请与组的 <code>v-model</code> 使用同一值类型</td>
     </tr>
     <tr>
       <td><code>text</code></td>
@@ -228,12 +230,12 @@ Ark UI 文档： [Ark UI Radio Group (Vue)](https://ark-ui.com/vue/docs/componen
   <tbody>
     <tr>
       <td><code>update:modelValue</code></td>
-      <td><code>(value: string | number | symbol | bigint | null)</code></td>
-      <td>组值变化时触发，用于 <code>v-model</code> 同步</td>
+      <td><code>(value: T)</code></td>
+      <td>组值变化时触发，用于 <code>v-model</code> 同步。参数类型与 <code>modelValue</code> 的 <code>T</code> 相同</td>
     </tr>
     <tr>
       <td><code>valueChange</code></td>
-      <td><code>(details: &#123; value: string | number | symbol | bigint | null &#125;)</code></td>
+      <td><code>(details: &#123; value: T &#125;)</code></td>
       <td>单选值变化详情事件</td>
     </tr>
   </tbody>

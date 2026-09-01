@@ -8,8 +8,19 @@ import type { HTMLAttributes, ReactNode } from 'react'
 
 type ClassName = HTMLAttributes<HTMLElement>['className']
 
-export interface RadioGroupProps extends RadioGroupRootBaseProps, ThemeCrafts<'tvRadioGroup'> {
+export type RadioGroupValueType = string | number | symbol | bigint | null
+
+export interface ValueChangeDetails<T extends RadioGroupValueType = RadioGroupValueType> {
+  value: T
+}
+
+export interface RadioGroupProps<T extends RadioGroupValueType = RadioGroupValueType>
+  extends Omit<RadioGroupRootBaseProps, 'value' | 'defaultValue' | 'onValueChange'>,
+  ThemeCrafts<'tvRadioGroup'> {
   className?: ClassName
+  value?: T
+  defaultValue?: T
+  onValueChange?: (details: ValueChangeDetails<T>) => void
   label?: ReactNode
   children?: ReactNode
   ui?: {
@@ -18,7 +29,8 @@ export interface RadioGroupProps extends RadioGroupRootBaseProps, ThemeCrafts<'t
   }
 }
 
-export interface RadioGroupItemProps extends RadioGroupItemBaseProps, ThemeNoCrafts {
+export interface RadioGroupItemProps extends Omit<RadioGroupItemBaseProps, 'value'>, ThemeNoCrafts {
+  value: RadioGroupValueType
   className?: ClassName
   text?: ReactNode
   variant?: RadioGroupVariants['variant']

@@ -9,4 +9,10 @@ export const RadioGroup = Object.assign(RadioGroupRoot, {
 })
 
 export { RadioGroupItem, RadioGroupLayout, useRadioGroupContext, useRadioGroupItemContext }
-export type { RadioGroupItemProps, RadioGroupLayoutProps, RadioGroupProps } from './props'
+export type {
+  RadioGroupItemProps,
+  RadioGroupLayoutProps,
+  RadioGroupProps,
+  RadioGroupValueType,
+  ValueChangeDetails,
+} from './props'

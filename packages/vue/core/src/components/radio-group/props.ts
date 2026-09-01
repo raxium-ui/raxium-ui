@@ -4,15 +4,17 @@ import type { ThemeCrafts, ThemeNoCrafts } from '@raxium/vue/providers'
 import type { HTMLAttributes } from 'vue'
 
 export type RadioGroupValueType = string | number | symbol | bigint | null
-export interface ValueChangeDetails {
-  value: RadioGroupValueType
+
+export interface ValueChangeDetails<T extends RadioGroupValueType = RadioGroupValueType> {
+  value: T
 }
-export interface RadioGroupProps
+
+export interface RadioGroupProps<T extends RadioGroupValueType = RadioGroupValueType>
   extends Omit<RadioGroupRootBaseProps, 'modelValue' | 'defaultValue'>,
   ThemeCrafts<'tvRadioGroup'> {
   class?: HTMLAttributes['class']
-  modelValue?: RadioGroupValueType
-  defaultValue?: RadioGroupValueType
+  modelValue?: T
+  defaultValue?: T
   label?: string
   ui?: {
     root?: HTMLAttributes['class']
@@ -20,15 +22,15 @@ export interface RadioGroupProps
   }
 }
 
-export interface RadioGroupRootEmits {
+export interface RadioGroupRootEmits<T extends RadioGroupValueType = RadioGroupValueType> {
   /**
    * Function called once a radio is checked
    */
-  'valueChange': [details: ValueChangeDetails]
+  'valueChange': [details: ValueChangeDetails<T>]
   /**
    * The callback fired when the model value changes.
    */
-  'update:modelValue': [value: ValueChangeDetails['value']]
+  'update:modelValue': [value: T]
 }
 
 export interface RadioGroupItemProps extends Omit<RadioGroupItemBaseProps, 'value'>, ThemeNoCrafts {

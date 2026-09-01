@@ -8,8 +8,8 @@ component:
   exportName: Checkbox
   category: core
   description: 用于布尔选择与多选集合项的复选框组件。基于 Ark UI checkbox 原语封装，支持 checked/indeterminate
-    状态、label 与 indicator 插槽，以及 theme/ui 样式扩展；可与 CheckboxGroup 组合管理值集合。
-    具名导出与复合导出（如 Checkbox.Group）为同一实例。
+    状态、label 与 indicator 插槽，以及 theme/ui 样式扩展。CheckboxGroup 为泛型 T extends CheckboxValueType，v-model
+    会推断 T，使 update:modelValue 为 T[]。具名导出与复合导出（如 Checkbox.Group）为同一实例。
   basePrimitive:
     library: '@ark-ui/vue/checkbox'
     primitive: Checkbox.RootProvider
@@ -152,7 +152,7 @@ parentComponents:
       - name: modelValue
         required: false
         requiredSource: type
-        typeText: CheckboxValueType[]
+        typeText: T[]
         typeSchema:
           type: array
           items:
@@ -168,11 +168,11 @@ parentComponents:
         dependsOn: []
         conflictsWith:
           - defaultValue
-        description: 受控模式下的选中值集合，配合 v-model。
+        description: 受控模式下的选中值集合，配合 v-model。T 由 modelValue / v-model 推断。
       - name: defaultValue
         required: false
         requiredSource: type
-        typeText: CheckboxValueType[]
+        typeText: T[]
         typeSchema:
           type: array
           items:
@@ -188,7 +188,7 @@ parentComponents:
         dependsOn: []
         conflictsWith:
           - modelValue
-        description: 非受控初始值集合。
+        description: 非受控初始值集合，与 modelValue 同一 T。
       - name: name
         required: false
         requiredSource: type
@@ -279,7 +279,7 @@ parentComponents:
     events:
       - name: update:modelValue
         payload:
-          typeText: CheckboxValueType[]
+          typeText: T[]
           typeSchema:
             type: array
             items:
@@ -294,10 +294,10 @@ parentComponents:
         order:
           - internalStateUpdate
           - emit:update:modelValue
-        description: 组内值集合变化时触发，用于 v-model。
+        description: 组内值集合变化时触发，用于 v-model。参数类型与 modelValue 的 T[] 相同。
       - name: valueChange
         payload:
-          typeText: CheckboxValueType[]
+          typeText: T[]
           typeSchema:
             type: array
             items:

@@ -1,3 +1,4 @@
+import type { CheckboxRootBaseProps } from '@ark-ui/react/checkbox'
 import type { ReactNode } from 'react'
 import type { CheckboxProps } from './props'
 import { Checkbox as ArkCheckbox } from '@ark-ui/react/checkbox'
@@ -39,7 +40,7 @@ export const CheckboxRoot = forwardRef<HTMLLabelElement, CheckboxProps>(
         ref={ref}
         className={crafts.root(cxc(ui?.root, className))}
         disabled={disabled}
-        {...props}
+        {...(props as CheckboxRootBaseProps)}
       >
         <ArkCheckbox.Control className={crafts.control(cxc(ui?.control))}>
           <ArkCheckbox.Indicator className={crafts.indicator(cxc(ui?.indicator))}>

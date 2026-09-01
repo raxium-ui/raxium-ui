@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends RadioGroupValueType = RadioGroupValueType">
 import type { UseRadioGroupProps } from '@ark-ui/vue/radio-group'
-import type { RadioGroupProps, RadioGroupRootEmits } from '.'
+import type { RadioGroupProps, RadioGroupRootEmits, RadioGroupValueType } from '.'
 import { RadioGroup, useRadioGroup } from '@ark-ui/vue/radio-group'
 import { useForwardExpose, useForwardProps } from '@ark-ui/vue/utils'
 import { cxc } from '@raxium/themes/utils'
@@ -14,8 +14,8 @@ const {
   ui,
   label,
   ...props
-} = defineProps<RadioGroupProps>()
-const emit = defineEmits<RadioGroupRootEmits>()
+} = defineProps<RadioGroupProps<T>>()
+const emit = defineEmits<RadioGroupRootEmits<T>>()
 const radioGroup = useRadioGroup(useForwardProps(props) as unknown as UseRadioGroupProps, emit)
 
 // theme

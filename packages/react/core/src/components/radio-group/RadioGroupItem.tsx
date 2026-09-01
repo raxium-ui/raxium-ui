@@ -1,3 +1,4 @@
+import type { RadioGroupItemBaseProps } from '@ark-ui/react/radio-group'
 import type { RadioGroupItemProps } from './props'
 import { RadioGroup as ArkRadioGroup, useRadioGroupItemContext } from '@ark-ui/react/radio-group'
 import { useCraft } from '@raxium/react/hooks/useCraft'
@@ -56,7 +57,7 @@ export const RadioGroupItem = forwardRef<HTMLLabelElement, RadioGroupItemProps>(
       <ArkRadioGroup.Item
         ref={ref}
         className={crafts.item(cxc(ui?.root, className))}
-        {...props}
+        {...(props as RadioGroupItemBaseProps)}
       >
         <ArkRadioGroup.ItemControl
           className={crafts.itemControl(cxc(ui?.control))}
