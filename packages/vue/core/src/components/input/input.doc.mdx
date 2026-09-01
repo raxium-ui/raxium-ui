@@ -153,8 +153,8 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
   <tbody>
     <tr>
       <td><code>update:modelValue</code></td>
-      <td><code>(value: string | undefined)</code></td>
-      <td>输入值变化时触发，用于 <code>v-model</code> 同步</td>
+      <td><code>(value: string)</code></td>
+      <td>输入值变化时触发，用于 <code>v-model</code> 同步。清空时为 <code>''</code></td>
     </tr>
     <tr>
       <td><code>focus</code> / <code>focusin</code></td>
@@ -168,22 +168,22 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
     </tr>
     <tr>
       <td><code>input</code></td>
-      <td><code>(event: InputEvent, value: string | undefined)</code></td>
+      <td><code>(event: InputEvent, value: string)</code></td>
       <td>原生输入事件回调，并返回当前值</td>
     </tr>
     <tr>
       <td><code>change</code></td>
-      <td><code>(event: Event, value: string | undefined)</code></td>
+      <td><code>(event: Event, value: string)</code></td>
       <td>原生 change 事件回调，并返回当前值</td>
     </tr>
     <tr>
       <td><code>clear</code></td>
-      <td><code>(event: Event, value: string | undefined)</code></td>
-      <td>点击清空按钮后触发（<code>clearable</code> 生效时）</td>
+      <td><code>(event: Event, value: string)</code></td>
+      <td>点击清空按钮后触发（<code>clearable</code> 生效时）。清空后值为 <code>''</code></td>
     </tr>
     <tr>
       <td><code>beforeInput</code></td>
-      <td><code>(event: InputEvent, value: string | undefined)</code></td>
+      <td><code>(event: InputEvent, value: string)</code></td>
       <td>原生 <code>beforeinput</code> 事件，可用于拦截或校验</td>
     </tr>
     <tr>
@@ -319,7 +319,7 @@ Ark UI 参考： [Ark UI Vue Factory](https://ark-ui.com/vue/factory)
 
 - 优先确定受控策略：需要外部统一管理值时使用 `v-model`（`modelValue` + `update:modelValue`），仅初始化值时使用 `defaultValue`。
 - 区分 `readonly` 与 `disabled`：可查看不可编辑用 `readonly`，完全不可交互且弱化样式反馈用 `disabled`。
-- 清空能力配合输入反馈：启用 `clearable` 时建议同时监听 `input` 或 `update:modelValue`，保证清空后的业务状态同步。
+- 清空能力配合输入反馈：启用 `clearable` 时建议同时监听 `input` 或 `update:modelValue`，清空后值为空字符串 `''`，保证业务状态同步。
 - 插槽与样式分层：结构扩展优先使用 `prefix/suffix` 插槽，样式细化通过 `ui.root/ui.input/ui.clearable` 覆盖，避免直接改内部结构。
 - 主题定制优先 `theme`：尺寸、皮肤与全局风格差异优先走 `theme`，局部临时差异再走 `ui`，便于后续主题升级。
 - 原生 `<input>` 属性可通过 `$attrs` 透传（如 `autocomplete`、`inputmode`、`name`、`aria-*`、`data-*`），无需在组件上显式声明。

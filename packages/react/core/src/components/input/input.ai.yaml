@@ -71,11 +71,11 @@ contracts:
   events:
     - name: onValueChange
       payload:
-        typeText: '(value: string | undefined)'
-      description: 值变化；清空为 undefined。
+        typeText: '(value: string)'
+      description: 值变化；清空为 ''。
     - name: onClear
       payload:
-        typeText: '(event: MouseEvent, value: string | undefined)'
+        typeText: '(event: MouseEvent, value: string)'
       description: 点击清空。
     - name: onChange
       payload:

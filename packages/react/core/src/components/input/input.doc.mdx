@@ -59,9 +59,9 @@ React 用 `value` + `onValueChange` 代替 Vue 的 `v-model`。Vue `#prefix` / `
     </tr>
     <tr>
       <td><code>onValueChange</code></td>
-      <td><code>(value: string | undefined) =&gt; void</code></td>
+      <td><code>(value: string) =&gt; void</code></td>
       <td>-</td>
-      <td>值变化（清空时为 <code>undefined</code>）</td>
+      <td>值变化（清空时为 <code>''</code>）</td>
     </tr>
     <tr>
       <td><code>clearable</code></td>
@@ -114,7 +114,7 @@ React 用 `value` + `onValueChange` 代替 Vue 的 `v-model`。Vue `#prefix` / `
 
 ## 最佳实践
 
-- 外部管值用 `value` + `onValueChange`，只初始化用 `defaultValue`。
+- 外部管值用 `value` + `onValueChange`，只初始化用 `defaultValue`。清空时 `onValueChange` / `onClear` 收到 `''`。
 - `placeholder` 不能替代 label，配合 label 或 `aria-label`。
 - 可看不可改用 `readOnly`，不可交互用 `disabled`。
 - 尺寸走 `theme.size`，不要用 `ui.input` 去改 height。

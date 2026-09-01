@@ -25,8 +25,8 @@ export interface InputProps extends
     input?: ClassName
     clearable?: ClassName
   }
-  onValueChange?: (value: string | undefined) => void
-  onClear?: (event: MouseEvent<HTMLElement>, value: string | undefined) => void
+  onValueChange?: (value: string) => void
+  onClear?: (event: MouseEvent<HTMLElement>, value: string) => void
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onFocus?: (event: FocusEvent<HTMLInputElement>) => void
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void

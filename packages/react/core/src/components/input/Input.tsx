@@ -53,9 +53,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           : 'blur'
     const showClear = inputState === 'focused' && clearable && Boolean(value)
 
-    function commit(next: string | undefined) {
+    function commit(next: string) {
       if (!isControlled)
-        setUncontrolled(next ?? '')
+        setUncontrolled(next)
       onValueChange?.(next)
     }
 
@@ -98,8 +98,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={crafts.clearable(cxc(ui?.clearable))}
             onMouseDown={(event) => {
               event.stopPropagation()
-              commit(undefined)
-              onClear?.(event, undefined)
+              commit('')
+              onClear?.(event, '')
             }}
           >
             <CircleX />

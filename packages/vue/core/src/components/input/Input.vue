@@ -22,15 +22,15 @@ const {
   type,
 } = defineProps<InputProps>()
 const emits = defineEmits<{
-  'update:modelValue': [value: string | undefined]
+  'update:modelValue': [value: string]
   'focus': [e: FocusEvent]
   'blur': [e: FocusEvent]
   'focusin': [e: FocusEvent]
   'focusout': [e: FocusEvent]
-  'input': [e: InputEvent, value: string | undefined]
-  'change': [e: Event, value: string | undefined]
-  'clear': [e: Event, value: string | undefined]
-  'beforeInput': [e: InputEvent, value: string | undefined]
+  'input': [e: InputEvent, value: string]
+  'change': [e: Event, value: string]
+  'clear': [e: Event, value: string]
+  'beforeInput': [e: InputEvent, value: string]
   'compositionStart': [e: CompositionEvent]
   'compositionEnd': [e: CompositionEvent]
   'keydown': [e: KeyboardEvent]
@@ -38,7 +38,7 @@ const emits = defineEmits<{
 }>()
 
 const inputId = useId()
-const innerValue = ref<string | undefined>(modelValue ?? defaultValue ?? '')
+const innerValue = ref(modelValue ?? defaultValue ?? '')
 watch(() => modelValue, (newVal?: string) => {
   innerValue.value = newVal ?? ''
 })
@@ -81,7 +81,7 @@ function onFocusout(event: FocusEvent) {
 }
 
 function onClear() {
-  innerValue.value = undefined
+  innerValue.value = ''
   emits('clear', new CustomEvent('clear'), innerValue.value)
 }
 

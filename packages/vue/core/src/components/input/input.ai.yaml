@@ -88,8 +88,8 @@ contracts:
   events:
     - name: update:modelValue
       payload:
-        typeText: '(value: string | undefined)'
-      description: 输入值变化时触发，用于 v-model 同步
+        typeText: '(value: string)'
+      description: 输入值变化时触发，用于 v-model 同步。清空时为 ''
     - name: focus
       payload:
         typeText: '(event: FocusEvent)'
@@ -108,19 +108,19 @@ contracts:
       description: 原生 focusout 事件
     - name: input
       payload:
-        typeText: '(event: InputEvent, value: string | undefined)'
+        typeText: '(event: InputEvent, value: string)'
       description: 原生输入事件回调，并返回当前值
     - name: change
       payload:
-        typeText: '(event: Event, value: string | undefined)'
+        typeText: '(event: Event, value: string)'
       description: 原生 change 事件回调，并返回当前值
     - name: clear
       payload:
-        typeText: '(event: Event, value: string | undefined)'
-      description: 点击清空按钮后触发（clearable 生效时）
+        typeText: '(event: Event, value: string)'
+      description: 点击清空按钮后触发（clearable 生效时）。清空后值为 ''
     - name: beforeInput
       payload:
-        typeText: '(event: InputEvent, value: string | undefined)'
+        typeText: '(event: InputEvent, value: string)'
       description: 原生 beforeinput 事件，可用于拦截或校验
     - name: compositionStart
       payload:

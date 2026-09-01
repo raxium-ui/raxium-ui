@@ -14,7 +14,7 @@ export function InputBasicExample() {
           className="w-60"
           placeholder="value + onValueChange"
           value={text}
-          onValueChange={value => setText(value ?? '')}
+          onValueChange={setText}
         />
         <span className="text-sm text-gray-ff">
           value:
