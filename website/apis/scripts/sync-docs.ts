@@ -1,13 +1,15 @@
 /* eslint-disable node/prefer-global/process */
 import { Buffer } from 'node:buffer'
 import { spawnSync } from 'node:child_process'
-import { mkdir, mkdtemp, rename, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 const DEFAULT_REPO = 'raxium-ui/raxium-ui'
 const DEFAULT_TAG = 'mcp-docs-latest'
 const ASSET_NAME = 'mcp-docs.tar.gz'
+const STAGING_NEXT = '.mcp-docs-next'
+const STAGING_PREV = '.mcp-docs-prev'
 
 interface ReleaseAsset {
   name: string
@@ -69,17 +71,31 @@ async function extractArchive(archiveFile: string, destDir: string) {
     throw new Error(`tar extract failed with status ${tar.status ?? 'null'}`)
 }
 
-async function swapDirectory(nextDir: string, destDir: string) {
-  await mkdir(path.dirname(destDir), { recursive: true })
-  const prevDir = `${destDir}.prev`
-  await rm(prevDir, { recursive: true, force: true })
+async function listLiveEntries(destDir: string): Promise<string[]> {
   try {
-    await rename(destDir, prevDir)
+    const entries = await readdir(destDir)
+    return entries.filter(name => name !== STAGING_NEXT && name !== STAGING_PREV)
   }
   catch {
-    // first sync: dest did not exist
+    return []
   }
-  await rename(nextDir, destDir)
+}
+
+async function replaceLiveTree(nextDir: string, destDir: string) {
+  await mkdir(destDir, { recursive: true })
+  const prevDir = path.join(destDir, STAGING_PREV)
+  await rm(prevDir, { recursive: true, force: true })
+  await mkdir(prevDir, { recursive: true })
+
+  for (const name of await listLiveEntries(destDir)) {
+    await rename(path.join(destDir, name), path.join(prevDir, name))
+  }
+
+  for (const name of await readdir(nextDir)) {
+    await rename(path.join(nextDir, name), path.join(destDir, name))
+  }
+
+  await rm(nextDir, { recursive: true, force: true })
   await rm(prevDir, { recursive: true, force: true })
 }
 
@@ -99,13 +115,14 @@ async function main() {
 
   const workDir = await mkdtemp(path.join(tmpdir(), 'raxium-mcp-docs-'))
   const archiveFile = path.join(workDir, ASSET_NAME)
-  const nextDir = `${destDir}.next`
+  const nextDir = path.join(destDir, STAGING_NEXT)
 
   try {
+    await mkdir(destDir, { recursive: true })
     await downloadAsset(asset.url, token, archiveFile)
     await rm(nextDir, { recursive: true, force: true })
     await extractArchive(archiveFile, nextDir)
-    await swapDirectory(nextDir, destDir)
+    await replaceLiveTree(nextDir, destDir)
   }
   finally {
     await rm(workDir, { recursive: true, force: true })
