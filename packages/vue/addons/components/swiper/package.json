@@ -10,6 +10,11 @@
     "url": "https://github.com/raxium-ui/raxium-ui"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raxium-ui/raxium-ui.git",
+    "directory": "packages/vue/addons/components/swiper"
+  },
   "keywords": [
     "raxium",
     "raxium-ui",

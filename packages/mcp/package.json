@@ -6,6 +6,11 @@
   "description": "Maxium UI MCP server with stdio transport",
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raxium-ui/raxium-ui.git",
+    "directory": "packages/mcp"
+  },
   "url": "https://github.com/raxium-ui/raxium-ui",
   "keywords": [
     "raxium",

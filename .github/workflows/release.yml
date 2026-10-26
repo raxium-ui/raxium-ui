@@ -5,8 +5,69 @@ on:
     types: [closed]
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
+  # Publishes every public package as a throwaway snapshot under the `oidc` dist-tag,
+  # e.g. to validate a newly registered npm trusted publisher. `latest` is untouched
+  # and nothing is committed back to the repo.
+  snapshot:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: https://registry.npmjs.org
+
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create snapshot versions
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'EOF'
+          const { execSync } = require('node:child_process')
+          const fs = require('node:fs')
+          const names = JSON.parse(execSync('pnpm -r ls --depth -1 --json', { encoding: 'utf8' }))
+            .map(p => JSON.parse(fs.readFileSync(`${p.path}/package.json`, 'utf8')))
+            .filter(p => !p.private && p.name?.startsWith('@raxium/'))
+            .map(p => p.name)
+          const frontmatter = names.map(n => `"${n}": patch`).join('\n')
+          fs.writeFileSync('.changeset/snapshot.md', `---\n${frontmatter}\n---\n\nsnapshot\n`)
+          fs.writeFileSync(process.env.GITHUB_ENV, `SNAPSHOT_FILTERS=${names.map(n => `--filter=${n}`).join(' ')}\n`, { flag: 'a' })
+          console.log(`Snapshot packages (${names.length}): ${names.join(' ')}`)
+          EOF
+          pnpm changeset version --snapshot oidc
+
+      - name: Build
+        shell: bash
+        run: pnpm turbo run build $SNAPSHOT_FILTERS
+
+      - name: Publish snapshot
+        run: pnpm changeset publish --tag oidc --no-git-tag
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
   release:
     if: ${{ github.event.pull_request.merged == true && github.event.pull_request.head.ref == 'changeset-release/main' }}
     runs-on: ubuntu-latest
@@ -14,6 +75,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
 
     steps:
       - name: Checkout
@@ -27,6 +89,10 @@ jobs:
         with:
           node-version: '22'
           registry-url: https://registry.npmjs.org
+
+      # Trusted Publishing needs npm >= 11.5.1; the one bundled with Node 22 is older.
+      - name: Upgrade npm
+        run: npm install -g npm@latest
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -90,4 +156,4 @@ jobs:
       - name: Publish Packages
         run: pnpm changeset publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true

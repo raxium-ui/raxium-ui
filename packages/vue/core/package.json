@@ -10,6 +10,11 @@
     "url": "https://github.com/hwacc/raxium-ui"
   },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raxium-ui/raxium-ui.git",
+    "directory": "packages/vue/core"
+  },
   "keywords": [
     "raxium",
     "raxium-ui",
